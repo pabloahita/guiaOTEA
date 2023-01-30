@@ -5,10 +5,12 @@ import java.util.List;
 public class Indicator {
     private String description;
     private List<Evidence> evidences;
+    private float priority;
 
-    public Indicator(String description,List<Evidence> evidences) {
+    public Indicator(String description,List<Evidence> evidences, float priority) {
         setDescription(description);
         setEvidences(evidences);
+        setPriority(priority);
     }
 
     public void setEvidences(List<Evidence> evidences) {
@@ -36,4 +38,11 @@ public class Indicator {
         this.evidences.add(evidence);
     }
 
+    public float getPriority() {
+        return priority;
+    }
+
+    public void setPriority(float priority) {
+        this.priority = priority;
+    }
 }

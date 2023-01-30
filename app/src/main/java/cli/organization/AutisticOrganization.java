@@ -27,10 +27,10 @@ public class AutisticOrganization extends AbstractEvaluatedOrganization {
             while(line != null) {
                 String[] aux=line.split(";"); // The first element is the indicator's description, the rest are its four evidences.
                 List<Evidence> evidences=new LinkedList<Evidence>();
-                for(int i=1;i<aux.length;i++){
-                    evidences.add(new Evidence(aux[i],(float) 1));
+                for(int i=0;i<4;i++){
+                    evidences.add(new Evidence(aux[i+4],Float.parseFloat(aux[i])));
                 }
-                indicators.add(new Indicator(aux[0],evidences));
+                indicators.add(new Indicator(aux[8],evidences,Float.parseFloat(aux[9])));
                 line = br.readLine();
             }
         }
