@@ -1,4 +1,4 @@
-package com.example.tfg2223;
+package gui;
 
 import org.junit.Test;
 

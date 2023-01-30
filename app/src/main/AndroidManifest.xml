@@ -12,7 +12,7 @@
         android:theme="@style/Theme.TFG2223"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name="gui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.example.tfg2223;
+package gui;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -20,6 +20,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.tfg2223", appContext.getPackageName());
+        assertEquals("gui", appContext.getPackageName());
     }
 }
