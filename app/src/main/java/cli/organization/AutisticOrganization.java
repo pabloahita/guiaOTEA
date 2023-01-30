@@ -18,19 +18,18 @@ public class AutisticOrganization extends AbstractEvaluatedOrganization {
     public AutisticOrganization(String name, Address address, int telephone, String email, String information, RegisteredUser organization_principal, RegisteredUser organization_representant, List<IndicatorsEvaluation> evaluations) {
         super(name, address, telephone, email, information,organization_principal,organization_representant,evaluations);
         indicators=new LinkedList<Indicator>();
-        //Obtain indicators
         String nameFile = "AutisticOrganization.csv";
         BufferedReader br = null;
         try{
             br = new BufferedReader(new FileReader(nameFile));
             String line = br.readLine();
             while(line != null) {
-                String[] aux=line.split(";"); // The first element is the indicator's description, the rest are its four evidences.
+                String[] aux=line.split(";");
                 List<Evidence> evidences=new LinkedList<Evidence>();
                 for(int i=0;i<4;i++){
-                    evidences.add(new Evidence(aux[i+4],Float.parseFloat(aux[i])));
+                    evidences.add(new Evidence(aux[i+4],Float.parseFloat(aux[i]))); //The first 4 elements of aux are the values of every incidence, the next 8 elements of aux are the description of every incidence
                 }
-                indicators.add(new Indicator(aux[8],evidences,Float.parseFloat(aux[9])));
+                indicators.add(new Indicator(aux[8],evidences,Float.parseFloat(aux[9]))); // The penultimate element of aux is the indicator's description and the last element of aux is the indicator's priority
                 line = br.readLine();
             }
         }
