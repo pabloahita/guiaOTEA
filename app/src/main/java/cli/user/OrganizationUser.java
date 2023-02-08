@@ -2,15 +2,18 @@ package cli.user;
 
 import cli.organization.Organization;
 
-public class RegisteredUser extends AbstractUser{
+public class OrganizationUser extends AbstractUser{
 
     private Organization organization;
 
-    public RegisteredUser(String first_name, String last_name, String email, String password, int telephone, Organization organization) {
+    public OrganizationUser(String first_name, String last_name, String email, String password, int telephone, Organization organization) {
         super(first_name, last_name, email, password, telephone);
         setOrganization(organization);
     }
 
+    public OrganizationUser(String first_name, String last_name, String email, String password, int telephone) {
+        super(first_name, last_name, email, password, telephone);
+    }
     public void setOrganization(Organization organization){
         this.organization=organization;
     }

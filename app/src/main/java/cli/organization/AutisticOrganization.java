@@ -9,16 +9,25 @@ import java.util.List;
 import cli.indicators.Evidence;
 import cli.indicators.Indicator;
 import cli.organization.data.Address;
-import cli.user.RegisteredUser;
+import cli.user.EvaluatedOrganizationUser;
+import cli.user.OrganizationUser;
 
-public class AutisticOrganization extends AbstractEvaluatedOrganization {
+public class AutisticOrganization extends AbstractEvaluatedOrganization{
 
-    private final List<Indicator> indicators;
 
-    public AutisticOrganization(String name, Address address, int telephone, String email, String information, RegisteredUser organization_principal, RegisteredUser organization_representant, List<IndicatorsEvaluation> evaluations) {
+    public AutisticOrganization(String name, Address address, int telephone, String email, String information, EvaluatedOrganizationUser organization_principal, EvaluatedOrganizationUser organization_representant, List<IndicatorsEvaluation> evaluations) {
         super(name, address, telephone, email, information,organization_principal,organization_representant,evaluations);
+        setIndicators();
+    }
+
+    public AutisticOrganization(String name, Address address, int telephone, String email, String information){
+        super(name,address,telephone,email,information);
+        setIndicators();
+    }
+    @Override
+    public void setIndicators(){
         indicators=new LinkedList<Indicator>();
-        String nameFile = "AutisticOrganization.csv";
+        String nameFile = "./organization/AutisticOrganization.csv";
         BufferedReader br = null;
         try{
             br = new BufferedReader(new FileReader(nameFile));
@@ -34,7 +43,7 @@ public class AutisticOrganization extends AbstractEvaluatedOrganization {
             }
         }
         catch (FileNotFoundException ex){
-            System.out.println("Error: Fichero no encontrado");
+            System.out.println("ERROR. FILE NOT FOUND");
             ex.printStackTrace();
         }
         catch(Exception ex){
@@ -54,8 +63,4 @@ public class AutisticOrganization extends AbstractEvaluatedOrganization {
         }
     }
 
-    @Override
-    public List<Indicator> getIndicators() {
-        return indicators;
-    }
 }

@@ -3,22 +3,26 @@ package cli.organization.data;
 import java.sql.Date;
 import java.util.List;
 
-import cli.organization.AbstractEvaluatedOrganization;
-import cli.organization.AbstractEvaluatorOrganization;
-import cli.user.RegisteredUser;
+import cli.organization.EvaluatorOrganization;
+import cli.user.EvaluatorOrganizationUser;
 
 public class EvaluatorTeam {
 
     private Date creation_date;
 
-    private RegisteredUser external_consultant;
-    private List<RegisteredUser> evaluator_team;
-    private AbstractEvaluatorOrganization organization;
-    public EvaluatorTeam(Date creation_date, RegisteredUser external_consultant, List<RegisteredUser> evaluator_team, AbstractEvaluatorOrganization organization){
+    private EvaluatorOrganizationUser external_consultant;
+    private List<EvaluatorOrganizationUser> members;
+    private EvaluatorOrganization organization;
+    public EvaluatorTeam(Date creation_date, EvaluatorOrganizationUser external_consultant, List<EvaluatorOrganizationUser> members, EvaluatorOrganization organization){
         setCreationDate(creation_date);
         setExternalConsultant(external_consultant);
-        setEvaluatorTeam(evaluator_team);
+        setMembers(members);
         setOrganization(organization);
+    }
+
+    public EvaluatorTeam(Date creation_date, EvaluatorOrganizationUser external_consultant){
+        setCreationDate(creation_date);
+        setExternalConsultant(external_consultant);
     }
 
     public Date getCreationDate() {
@@ -29,27 +33,27 @@ public class EvaluatorTeam {
         this.creation_date = creation_date;
     }
 
-    public RegisteredUser getExternalConsultant() {
+    public EvaluatorOrganizationUser getExternalConsultant() {
         return external_consultant;
     }
 
-    public void setExternalConsultant(RegisteredUser external_consultant) {
+    public void setExternalConsultant(EvaluatorOrganizationUser external_consultant) {
         this.external_consultant = external_consultant;
     }
 
-    public List<RegisteredUser> getEvaluatorTeam() {
-        return evaluator_team;
+    public List<EvaluatorOrganizationUser> getMembers() {
+        return members;
     }
 
-    public void setEvaluatorTeam(List<RegisteredUser> evaluator_team) {
-        this.evaluator_team = evaluator_team;
+    public void setMembers(List<EvaluatorOrganizationUser> members) {
+        this.members = members;
     }
 
-    public AbstractEvaluatorOrganization getOrganization() {
+    public EvaluatorOrganization getOrganization() {
         return organization;
     }
 
-    public void setOrganization(AbstractEvaluatorOrganization organization) {
+    public void setOrganization(EvaluatorOrganization organization) {
         this.organization = organization;
     }
 }

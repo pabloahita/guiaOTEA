@@ -52,6 +52,11 @@ public class Indicator {
         }
     }
 
+    /***/
+    public List<Evidence> getEvidences() {
+        return evidences;
+    }
+
     /**
      * <p>EN: Method that changes the indicator's description to the one passed by parameter.</p>
      * <p>ES: Metodo que cambia la descripcion del indicador por otro la cual es pasada por parametro</p>
@@ -60,6 +65,11 @@ public class Indicator {
      */
     public void setDescription(String description) {
         this.description=description;
+    }
+
+    /***/
+    public String getDescription() {
+        return description;
     }
 
     /**
