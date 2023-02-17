@@ -1,5 +1,7 @@
 package cli.organization;
 
+import android.content.res.AssetManager;
+
 import cli.indicators.Indicator;
 import cli.organization.data.Address;
 import cli.user.EvaluatedOrganizationUser;
@@ -13,6 +15,7 @@ public abstract class AbstractEvaluatedOrganization extends AbstractOrganization
     private EvaluatedOrganizationUser organization_representant;
     private List<IndicatorsEvaluation> evaluations;
     protected List<Indicator> indicators;
+    private AssetManager assets;
     public AbstractEvaluatedOrganization(String name, Address address, int telephone, String email, String information, EvaluatedOrganizationUser organization_principal, EvaluatedOrganizationUser organization_representant, List<IndicatorsEvaluation> evaluations){
         super(name,address,telephone,email,information);
         setOrganizationPrincipal(organization_principal);
@@ -58,10 +61,18 @@ public abstract class AbstractEvaluatedOrganization extends AbstractOrganization
         }
     }
 
-    private void addEvaluation(IndicatorsEvaluation evaluation){
+    public void addEvaluation(IndicatorsEvaluation evaluation){
         this.evaluations.add(evaluation);
     }
 
+    @Override
+    public void setAssets(AssetManager assets) {
+        this.assets=assets;
+    }
+
+    public AssetManager getAssets(){
+        return assets;
+    }
     @Override
     public List<Indicator> getIndicators(){
         return indicators;

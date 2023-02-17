@@ -1,8 +1,12 @@
 package cli;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.util.LinkedList;
+import java.util.List;
 
+import cli.indicators.Indicator;
 import cli.organization.AutisticOrganization;
 import cli.organization.CEvaluatorOrganization;
 import cli.organization.EvaluatedOrganization;
@@ -21,6 +25,7 @@ public class Main {
         java.util.Date aux=new java.util.Date();
         EvaluatedOrganizationUser organization_principal=new EvaluatedOrganizationUser("MJ","LJ","mjlj@google.com","123456",655447788);
         EvaluatedOrganization evaluatedOrganization=new AutisticOrganization("Autismo Majadahonda", new Address(RoadType.CARRETERA,"de Boadilla del Monte",5,0,'/',28220,"Majadahonda (Madrid)","España"), 916390390, "cita@autismo.es", "");
+        evaluatedOrganization.setIndicators();
         evaluatedOrganization.setOrganizationPrincipal(organization_principal);
         evaluatedOrganization.setOrganizationRepresentant(organization_principal);
         evaluatedOrganization.getOrganizationPrincipal().setOrganization(evaluatedOrganization);
@@ -39,5 +44,8 @@ public class Main {
         evaluatorTeam.getMembers().add(new EvaluatorOrganizationUser("T", "GR", "tgr@ymail.com", "6121824", 698765432,(Organization) evaluatorOrganization));
         IndicatorsEvaluation evaluation=new IndicatorsEvaluation(new Date(aux.getTime()),evaluatedOrganization,evaluatorTeam);
         evaluation.doEvaluationCli();
+        evaluatedOrganization.addEvaluation(evaluation);
+
+
     }
 }

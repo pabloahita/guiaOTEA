@@ -1,4 +1,22 @@
 <resources>
     <string name="app_name">TFG. Pablo Ahíta del Barrio</string>
     <string name="under_construction">APP UNDER CONSTRUCTION</string>
+    <string name="title_activity_test">Test</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="start_evaluation">Start indicators evaluation</string>
+    <string name="title_activity_indicators_evaluation">IndicatorsEvaluation</string>
+    <string name="indicator_caption">Indicator Caption</string>
+    <string name="evidence1">Evidence 1</string>
+    <string name="evidence2">Evidence 2</string>
+    <string name="evidence3">Evidence 3</string>
+    <string name="evidence4">Evidence 4</string>
+    <string name="previous_indicator">Previous Indicator</string>
+    <string name="next_indicator">Next Indicator</string>
 </resources>

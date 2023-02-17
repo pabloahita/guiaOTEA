@@ -115,4 +115,21 @@ public class Indicator {
     public void setPriority(float priority) {
         this.priority = priority;
     }
+
+    public int getMultiplicator(int num_evidences_filled){
+        if(num_evidences_filled==0||num_evidences_filled==1){return 0;}
+        else if (num_evidences_filled==2||num_evidences_filled==3){
+            if (this.priority==1){return 1;}
+            else if (this.priority==2){return 2;}
+            else if (this.priority==3){return 3;}
+            else{return 4;}
+        }
+        else{
+            if (this.priority==1){return 2;}
+            else if (this.priority==2){return 3;}
+            else if (this.priority==3){return 4;}
+            else{return 5;}
+        }
+    }
+
 }

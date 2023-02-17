@@ -1,12 +1,13 @@
 package cli.organization;
 
+import android.content.res.AssetManager;
+
+
 import java.util.List;
 
 import cli.indicators.Indicator;
-import cli.organization.data.EvaluatorTeam;
 import cli.user.EvaluatedOrganizationUser;
 import cli.user.OrganizationUser;
-import cli.user.User;
 
 public interface EvaluatedOrganization extends Organization {
     // Common methods for every evaluator organization
@@ -20,4 +21,10 @@ public interface EvaluatedOrganization extends Organization {
     EvaluatedOrganizationUser getOrganizationPrincipal();
 
     OrganizationUser getOrganizationRepresentant();
+
+    void addEvaluation(IndicatorsEvaluation evaluation);
+
+    void setAssets(AssetManager assets);
+
+    AssetManager getAssets();
 }
