@@ -8,12 +8,14 @@ import cli.user.EvaluatorOrganizationUser;
 
 public class EvaluatorTeam {
 
+    private int id;
     private Date creation_date;
 
     private EvaluatorOrganizationUser external_consultant;
     private List<EvaluatorOrganizationUser> members;
     private EvaluatorOrganization organization;
-    public EvaluatorTeam(Date creation_date, EvaluatorOrganizationUser external_consultant, List<EvaluatorOrganizationUser> members, EvaluatorOrganization organization){
+    public EvaluatorTeam(int id, Date creation_date, EvaluatorOrganizationUser external_consultant, List<EvaluatorOrganizationUser> members, EvaluatorOrganization organization){
+        setId(id);
         setCreationDate(creation_date);
         setExternalConsultant(external_consultant);
         setMembers(members);
@@ -55,5 +57,13 @@ public class EvaluatorTeam {
 
     public void setOrganization(EvaluatorOrganization organization) {
         this.organization = organization;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

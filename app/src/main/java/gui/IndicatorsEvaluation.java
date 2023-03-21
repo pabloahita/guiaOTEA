@@ -13,25 +13,12 @@ import android.widget.Toast;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import cli.indicators.Evidence;
 import cli.indicators.Indicator;
-import cli.organization.AutisticOrganization;
-import cli.organization.CEvaluatorOrganization;
-import cli.organization.EvaluatedOrganization;
-import cli.organization.EvaluatorOrganization;
-import cli.organization.Organization;
-import cli.organization.data.Address;
-import cli.organization.data.EvaluatorTeam;
-import cli.organization.data.RoadType;
-import cli.user.EvaluatedOrganizationUser;
-import cli.user.EvaluatorOrganizationUser;
 
 public class IndicatorsEvaluation extends AppCompatActivity implements View.OnClickListener{
 
@@ -49,7 +36,7 @@ public class IndicatorsEvaluation extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_indicators_evaluation);
-        current_evaluation=startEvaluation();
+        //current_evaluation=startEvaluation();
         num_evidences_reached_per_indicator=new HashMap<Indicator,Integer>();
         List<Indicator> indicators=current_evaluation.getIndicators();
         num_indicators=indicators.size();
@@ -215,7 +202,7 @@ public class IndicatorsEvaluation extends AppCompatActivity implements View.OnCl
         Log.d("NEWIND","Current indicator has "+num_evidences_reached+" reached evidences");
     }
 
-    public cli.organization.IndicatorsEvaluation startEvaluation(){
+    /*public cli.organization.IndicatorsEvaluation startEvaluation(){
         java.util.Date aux=new java.util.Date();
         EvaluatedOrganizationUser organization_principal=new EvaluatedOrganizationUser("MJ","LJ","mjlj@google.com","123456",655447788);
         EvaluatedOrganization evaluatedOrganization=new AutisticOrganization("Autismo Majadahonda", new Address(RoadType.CARRETERA,"de Boadilla del Monte",5,0,'/',28220,"Majadahonda (Madrid)","España"), 916390390, "cita@autismo.es", "");
@@ -236,10 +223,10 @@ public class IndicatorsEvaluation extends AppCompatActivity implements View.OnCl
         evaluatorTeam.getMembers().add(new EvaluatorOrganizationUser("S", "dBR", "sdbr@ymail.com", "5101520", 698765432,(Organization) evaluatorOrganization));
         evaluatorTeam.getMembers().add(new EvaluatorOrganizationUser("T", "GR", "tgr@ymail.com", "6121824", 698765432,(Organization) evaluatorOrganization));
         cli.organization.IndicatorsEvaluation evaluation=new cli.organization.IndicatorsEvaluation(new Date(aux.getTime()),evaluatedOrganization,evaluatorTeam);
-        evaluation.getEvaluatedOrganization().setAssets(getAssets());
+        //evaluation.getEvaluatedOrganization().setAssets(getAssets());
         evaluation.getEvaluatedOrganization().setIndicators();
         return evaluation;
-    }
+    }*/
 
 
 }

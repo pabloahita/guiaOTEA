@@ -1,21 +1,47 @@
 package cli.organization;
 
 import cli.organization.data.Address;
+import connection.ConnectionToLocalDatabase;
 
 public class AbstractOrganization implements Organization{
+    private int idOrganization;
+
+    private String orgType;
+
+    private String illness;
     private String name;
     private Address address;
     private int telephone;
     private String email;
     private String information;
 
-    public AbstractOrganization(String name, Address address, int telephone, String email, String information){
+    private static ConnectionToLocalDatabase con;
+
+    public AbstractOrganization(int idOrganization, String orgType, String illness, String name, Address address, int telephone, String email, String information){
+        setIdOrganization(idOrganization);
+        setOrgType(orgType);
+        setIllness(illness);
         setName(name);
         setAddress(address);
         setTelephone(telephone);
         setEmail(email);
         setInformation(information);
+    }
 
+    public int getIdOrganization() {
+        return idOrganization;
+    }
+
+    public void setIdOrganization(int idOrganization) {
+        this.idOrganization = idOrganization;
+    }
+
+    public String getOrgType() {
+        return orgType;
+    }
+
+    public void setOrgType(String orgType) {
+        this.orgType = orgType;
     }
 
     @Override
@@ -63,4 +89,15 @@ public class AbstractOrganization implements Organization{
     public void setInformation(String information) {
         this.information=information;
     }
+
+    public String getIllness() {
+        return illness;
+    }
+
+    public void setIllness(String illness) {
+        this.illness = illness;
+    }
+
+    public ConnectionToLocalDatabase getConnection(){return con;}
+    public void setConnection(ConnectionToLocalDatabase con){AbstractOrganization.con=con;}
 }

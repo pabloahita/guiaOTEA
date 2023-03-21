@@ -1,13 +1,12 @@
 package cli.organization;
 
+//import android.util.Log;
+
 import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,29 +15,36 @@ import cli.indicators.Indicator;
 import cli.organization.data.Address;
 import cli.user.EvaluatedOrganizationUser;
 
-public class AutisticOrganization extends AbstractEvaluatedOrganization {
+public class AutisticEvaluatedOrganization extends AbstractEvaluatedOrganization {
 
 
-    public AutisticOrganization(String name, Address address, int telephone, String email, String information, EvaluatedOrganizationUser organization_principal, EvaluatedOrganizationUser organization_representant, List<IndicatorsEvaluation> evaluations) {
-        super(name, address, telephone, email, information, organization_principal, organization_representant, evaluations);
-    }
-
-    public AutisticOrganization(String name, Address address, int telephone, String email, String information) {
-        super(name, address, telephone, email, information);
+    public AutisticEvaluatedOrganization(int idOrganization, String orgType, String illness, String name, Address address, int telephone, String email, String information) {
+        super(idOrganization, orgType, illness, name, address, telephone, email, information);
+        setIndicators();
     }
 
     @Override
     public void setIndicators() {
-        indicators = new LinkedList<Indicator>();
-        BufferedReader br = null;
-        if (getAssets() != null) {
-            setIndicatorsGui();
-        } else {
-            setIndicatorsCli();
+        ResultSet rs=null;
+        PreparedStatement ps = null;
+        if(super.indicators==null){
+            super.indicators=new LinkedList<>();
+        }
+        try{
+            ps=super.getConnection().getConnection().prepareStatement("SELECT * FROM INDICATORS WHERE indicatorType=\"AUTISTIC\"");
+            rs=ps.executeQuery();
+            while(rs.next()){
+                int idIndicator=rs.getInt("indicatorId");
+                String indicatorDescription=rs.getString("indicatorDescription");
+                int indicatorPriority=rs.getInt("indicatorPriority");
+                super.indicators.add(new Indicator(idIndicator,"AUTISTIC",indicatorDescription,indicatorPriority));
+            }
+        }catch(SQLException e){
+            Log.d("SQLException",e.toString());
         }
     }
 
-    public void setIndicatorsGui(){
+    /*public void setIndicatorsGui(){
         InputStream file=null;
         BufferedReader br=null;
         try {
@@ -104,5 +110,5 @@ public class AutisticOrganization extends AbstractEvaluatedOrganization {
                 ex.printStackTrace();
             }
         }
-    }
+    }*/
 }

@@ -17,6 +17,8 @@ public class IndicatorsEvaluation {
     private EvaluatedOrganization evaluated_organization;
     private EvaluatorTeam evaluator_team;
 
+    private String illness;
+
     private Map<Indicator,Integer> evaluation;
 
     public IndicatorsEvaluation(Date evaluation_date, EvaluatedOrganization evaluated_organization, EvaluatorTeam evaluator_team) {
@@ -170,4 +172,7 @@ public class IndicatorsEvaluation {
         return total_score;
     }
 
+    public Map<Indicator, Integer> getEvaluation() {
+        return evaluation;
+    }
 }

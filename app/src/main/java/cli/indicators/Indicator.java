@@ -1,83 +1,81 @@
 package cli.indicators;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * <p>EN: Class that represents an indicator that is used to evaluate an organization. Every indicator is composed by a description, a list of four evidences and a priority represented by a float value.</p>
- * <p>ES: Clase que representa un indicador que es utilizado para evaluar una organizacion. Cada indicador se compone de una descripción, una lista de cuatro evidencias y una prioridad representada mediante un valor en coma flotante.</p>
- *
- * @author Pablo Ahita del Barrio
- * @version 1.0
- */
+import connection.ConnectionToLocalDatabase;
+
 public class Indicator {
-    /**<p>EN: Indicator's description</p>
-     * <p>ES: Descripcion del indicador</p>*/
+    private int idIndicator;
+    private String indicatorType;
     private String description;
-
-    /**<p>EN: Indicator's list of evidences</p>
-     * <p>ES: Lista de evidencias del indicador</p>*/
     private List<Evidence> evidences;
-
-    /**<p>EN: Indicator's priority</p>
-     * <p>ES: Descripcion de la evidencia</p>*/
     private float priority;
 
-    /**
-     * <p>EN: Class Indicator's constructor</p>
-     * <p>ES: Constructor de la clase Indicators</p>
-     *
-     * @param description <p>EN: Indicator's description</p> <p>ES: Descripcion del indicador</p>
-     * @param evidences   <p>EN: Indicator's list of evidences</p> <p>ES: Lista de evidencias del indicador</p>
-     * @param priority    <p>EN: Indicator's priority</p> <p>ES: Prioridad del indicador</p>
-     */
-    public Indicator(String description,List<Evidence> evidences, float priority) {
+    private static ConnectionToLocalDatabase con;
+
+    public Indicator(int idIndicator, String indicatorType, String description, float priority) {
+        setIdIndicator(idIndicator);
+        setIndicatorType(indicatorType);
         setDescription(description);
-        setEvidences(evidences);
         setPriority(priority);
+        setEvidences();
     }
 
-    /**
-     * <p>EN: Method that changes the indicator's list of evidences to the one passed by parameter.</p>
-     * <p>ES: Metodo que cambia la lista de evidencias del indicador por otro el cual es pasado por parametro</p>
-     *
-     * @param evidences <p>EN: The new list of evidences</p> <p>ES: La nueva lista de evidencias</p>
-     */
-    public void setEvidences(List<Evidence> evidences) {
-        if(evidences==null){
-            this.evidences=new LinkedList<Evidence>();
+    public int getIdIndicator() {
+        return idIndicator;
+    }
+
+    public void setIdIndicator(int idIndicator) {
+        this.idIndicator = idIndicator;
+    }
+
+    public String getIndicatorType() {
+        return indicatorType;
+    }
+
+    public void setIndicatorType(String indicatorType) {
+        this.indicatorType = indicatorType;
+    }
+
+    public void setEvidences() {
+        ResultSet rs=null;
+        PreparedStatement ps = null;
+        if(this.evidences==null){
+            this.evidences=new LinkedList<>();
         }
-        else{
-            this.evidences=evidences;
+        try{
+            ps=con.getConnection().prepareStatement("SELECT * FROM EVIDENCES WHERE idIndicator=? AND indicatorType=?");
+            ps.setInt(1,getIdIndicator());
+            ps.setString(2,getIndicatorType());
+            rs=ps.executeQuery();
+            while(rs.next()){
+                int idEvidence=rs.getInt("idEvidence");
+                String evidenceDescription=rs.getString("evidenceDescription");
+                int evidenceValue=rs.getInt("evidenceValue");
+                evidences.add(new Evidence(idEvidence,getIdIndicator(),getIndicatorType(),evidenceDescription,evidenceValue,false));
+            }
+        }catch(SQLException e){
+
         }
     }
 
-    /***/
     public List<Evidence> getEvidences() {
         return evidences;
     }
 
-    /**
-     * <p>EN: Method that changes the indicator's description to the one passed by parameter.</p>
-     * <p>ES: Metodo que cambia la descripcion del indicador por otro la cual es pasada por parametro</p>
-     *
-     * @param description <p>EN: The new indicator's description</p> <p>ES: La nueva descripcion del indicador</p>
-     */
     public void setDescription(String description) {
         this.description=description;
     }
-
-    /***/
     public String getDescription() {
         return description;
     }
 
-    /**
-     * <p>EN: Method that obtains the indicator's value using the sum of every evidence's value</p>
-     * <p>ES: Metodo que obtiene el valor del indicador a partir de la suma de los valores de sus evidencias</p>
-     *
-     * @return <p>EN: Indicator's value</p><p>ES: Valor del indicador</p>
-     */
+
     public int getIndicatorValue(){
         int value=0;
         for(Evidence e : evidences){
@@ -86,32 +84,16 @@ public class Indicator {
         return value;
     }
 
-    /**
-     * <p>EN: Method that adds an evidence to the list of evidences</p>
-     * <p>ES: Metodo que anade una evidencia a la lista de evidencias</p>
-     *
-     * @param evidence <p>EN: Evidence that is added to the list of evidences</p><p>ES: Evidencia que es añadida a la lista de evidencias</p>
-     */
+
     public void addEvidence(Evidence evidence){
         this.evidences.add(evidence);
     }
 
-    /**
-     * <p>EN: Method that obtains the indicator's priority</p>
-     * <p>ES: Metodo que obtiene la prioridad del indicador</p>
-     *
-     * @return <p>EN: Indicator's priority</p><p>ES: Prioridad del indicador</p>
-     */
+
     public float getPriority() {
         return priority;
     }
 
-    /**
-     * <p>EN: Method that changes the indicator's priority</p>
-     * <p>ES: Metodo que obtiene la prioridad del indicador</p>
-     *
-     * @param priority the priority
-     */
     public void setPriority(float priority) {
         this.priority = priority;
     }
@@ -131,5 +113,14 @@ public class Indicator {
             else{return 5;}
         }
     }
+
+    public ConnectionToLocalDatabase getConnection() {
+        return con;
+    }
+
+    public static void setConnection(ConnectionToLocalDatabase con) {
+        Indicator.con = con;
+    }
+
 
 }

@@ -1,6 +1,6 @@
 package cli.organization;
 
-import android.content.res.AssetManager;
+//import android.content.res.AssetManager;
 
 
 import java.util.List;
@@ -24,7 +24,8 @@ public interface EvaluatedOrganization extends Organization {
 
     void addEvaluation(IndicatorsEvaluation evaluation);
 
-    void setAssets(AssetManager assets);
 
-    AssetManager getAssets();
+    /*void setAssets(AssetManager assets);
+
+    AssetManager getAssets();*/
 }
