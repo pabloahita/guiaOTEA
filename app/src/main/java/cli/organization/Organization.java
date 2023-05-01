@@ -1,8 +1,10 @@
 package cli.organization;
 
+import java.sql.Connection;
 import java.util.List;
 import cli.indicators.Indicator;
 import cli.organization.data.Address;
+import cli.organization.data.Center;
 import connection.ConnectionToLocalDatabase;
 
 public interface Organization {
@@ -12,14 +14,20 @@ public interface Organization {
 
     String getEmail();
     String getInformation();
-    ConnectionToLocalDatabase getConnection();
-
+    Connection getConnection();
     int getIdOrganization();
 
     void setIdOrganization(int id);
 
-    void setConnection(ConnectionToLocalDatabase con);
 
     String getIllness();
     //Common methods for every organization
+
+    List<Center> getCenterList();
+
+    void setCenterList(List<Center> centerList);
+
+    void addCenter(Center center);
+
+    void removeCenter(Center center);
 }

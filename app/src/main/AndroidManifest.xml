@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" android:isFeatureSplit="true" android:isolatedSplits="true" android:installLocation="auto">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,9 +14,27 @@
         android:theme="@style/Theme.TFG2223"
         tools:targetApi="31">
         <activity
+            android:name="gui.AdminMainMenu"
+            android:exported="false"
+            android:label="@string/title_activity_admin_main_menu" />
+        <activity
+            android:name="gui.EvaluatorUserMainMenu"
+            android:exported="false"
+            android:label="@string/title_activity_evaluator_user_main_menu" />
+        <activity
+            android:name="gui.EvaluatedUserMainMenu"
+            android:exported="false"
+            android:label="@string/title_activity_evaluated_user_main_menu" />
+        <activity
+            android:name="gui.ui.login.SignIn"
+            android:exported="false"
+            android:label="@string/title_activity_sign_in" />
+        <activity
+            android:name="gui.SignUp"
+            android:exported="false" />
+        <activity
             android:name="gui.IndicatorsEvaluation"
             android:exported="false"
-            android:label="@string/title_activity_indicators_evaluation"
             android:theme="@style/Theme.TFG2223.NoActionBar" />
         <activity
             android:name="gui.MainActivity"
@@ -25,5 +46,5 @@
             </intent-filter>
         </activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET"/>
+
 </manifest>

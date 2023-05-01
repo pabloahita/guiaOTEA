@@ -1,5 +1,6 @@
 package cli.organization.data;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class EvaluatorTeam {
     private EvaluatorOrganizationUser external_consultant;
     private List<EvaluatorOrganizationUser> members;
     private EvaluatorOrganization organization;
+    private static Connection con;
     public EvaluatorTeam(int id, Date creation_date, EvaluatorOrganizationUser external_consultant, List<EvaluatorOrganizationUser> members, EvaluatorOrganization organization){
         setId(id);
         setCreationDate(creation_date);
@@ -66,4 +68,6 @@ public class EvaluatorTeam {
     public void setId(int id) {
         this.id = id;
     }
+
+    public static void setConnection(Connection con){EvaluatorTeam.con=con;}
 }

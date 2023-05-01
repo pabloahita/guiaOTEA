@@ -1,5 +1,6 @@
 package cli.indicators;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,7 +17,7 @@ public class Indicator {
     private List<Evidence> evidences;
     private float priority;
 
-    private static ConnectionToLocalDatabase con;
+    private static Connection con;
 
     public Indicator(int idIndicator, String indicatorType, String description, float priority) {
         setIdIndicator(idIndicator);
@@ -49,7 +50,7 @@ public class Indicator {
             this.evidences=new LinkedList<>();
         }
         try{
-            ps=con.getConnection().prepareStatement("SELECT * FROM EVIDENCES WHERE idIndicator=? AND indicatorType=?");
+            ps=con.prepareStatement("SELECT * FROM EVIDENCES WHERE idIndicator=? AND indicatorType=?");
             ps.setInt(1,getIdIndicator());
             ps.setString(2,getIndicatorType());
             rs=ps.executeQuery();
@@ -114,11 +115,11 @@ public class Indicator {
         }
     }
 
-    public ConnectionToLocalDatabase getConnection() {
+    public Connection getConnection() {
         return con;
     }
 
-    public static void setConnection(ConnectionToLocalDatabase con) {
+    public static void setConnection(Connection con) {
         Indicator.con = con;
     }
 

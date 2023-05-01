@@ -31,7 +31,7 @@ public class AutisticEvaluatedOrganization extends AbstractEvaluatedOrganization
             super.indicators=new LinkedList<>();
         }
         try{
-            ps=super.getConnection().getConnection().prepareStatement("SELECT * FROM INDICATORS WHERE indicatorType=\"AUTISTIC\"");
+            ps=super.getConnection().prepareStatement("SELECT * FROM INDICATORS WHERE indicatorType=\"AUTISTIC\"");
             rs=ps.executeQuery();
             while(rs.next()){
                 int idIndicator=rs.getInt("indicatorId");

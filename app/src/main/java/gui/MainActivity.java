@@ -30,18 +30,20 @@ import connection.ConnectionToLocalDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
-    Connection connection;
+    //Connection connection;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button start_evaluation = findViewById(R.id.button);
-        ConnectionToLocalDatabase con=new ConnectionToLocalDatabase();
-        Indicator.setConnection(con);
-
-        start_evaluation.setOnClickListener(v -> {
-            /*Intent intent = new Intent(this, gui.IndicatorsEvaluation.class);
-            startActivity(intent);*/
+        Button sign_in = findViewById(R.id.sign_in);
+        Button sign_up = findViewById(R.id.sign_up);
+        sign_in.setOnClickListener(v -> {
+            Intent intent = new Intent(this, gui.ui.login.SignIn.class);
+            startActivity(intent);
+        });
+        sign_up.setOnClickListener(v -> {
+            Intent intent = new Intent(this, gui.SignUp.class);
+            startActivity(intent);
         });
     }
 

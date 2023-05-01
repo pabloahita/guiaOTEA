@@ -1,5 +1,4 @@
 package cli.organization.data;
-import cli.organization.data.RoadType;
 
 /**
  * <p>EN: Class that represents an address that belongs to an organization. Every organization is composed by a road type, a name, a main entry's number, a floor level, an apartment letter, a zip-code, a city an a country.</p>
@@ -9,35 +8,41 @@ import cli.organization.data.RoadType;
  */
 public class Address {
 
-    private RoadType road;
+    private String roadType;
     private String name;
     private int number;
     private int floor=-1;
     private char apt='/';
     private int zipCode;
     private String city;
+    private String province;
+    private String region;
     private String country;
 
     /**
      * <p>EN: Address class constructor</p>
      * <p>ES: Constructor de la clase Address</p>
-     * @param road    <p>EN: Address' road type</p><p>ES: Tipo de calle de la direccion</p>
+     * @param roadType    <p>EN: Address' road type</p><p>ES: Tipo de calle de la direccion</p>
      * @param name    <p>EN: Road's name</p><p>ES: Nombre de la calle</p>
      * @param number  <p>EN: Main entry's number</p><p>ES: Numero del portal</p>
      * @param floor   <p>EN: Floor's number</p><p>ES: Numero de piso</p>
      * @param apt     <p>EN: Apartment's letter</p><p>ES: Letra del apartamento</p>
      * @param zipCode <p>EN: Address' zip-code</p><p>ES: Codigo postal de la direccion</p>
      * @param city    <p>EN: Address' city</p><p>ES: Ciudad de la direccion</p>
+     * @param province <p>EN:Address' province</p><p>ES: Provincia de la direccion</p>
+     * @param region <p>EN: Address' region </p><p>ES: Provincia de la direccion</p>
      * @param country <p>EN: Address' country</p><p>ES: Pais de la direccion</p>
      */
-    public Address(RoadType road, String name, int number, int floor, char apt, int zipCode, String city, String country){
-        setRoadType(road);
+    public Address(String roadType, String name, int number, int floor, char apt, int zipCode, String city, String province, String region, String country){
+        setRoadType(roadType);
         setName(name);
         setNumber(number);
         setFloor(floor);
         setApartment(apt);
         setZipCode(zipCode);
         setCity(city);
+        setProvince(province);
+        setRegion(region);
         setContry(country);
     }
     //Getters and setters of every field
@@ -47,15 +52,15 @@ public class Address {
      *
      * @return the road type
      */
-    public RoadType getRoadType(){return road;}
+    public String getRoadType(){return roadType;}
 
     /**
      * <p>EN: Method that changes the address' road type</p>
      * <p>ES: Metodo que cambia el tipo de calle de la direccion</p>
      *
-     * @param road <p>EN: The new road type</p><p>ES: El nuevo tipo de calle de la direccion</p>
+     * @param roadType <p>EN: The new road type</p><p>ES: El nuevo tipo de calle de la direccion</p>
      */
-    public void setRoadType(RoadType road){this.road=road;}
+    public void setRoadType(String roadType){this.roadType=roadType;}
 
     /**
      * <p>EN: Method that obtains the road's name</p>
@@ -160,4 +165,19 @@ public class Address {
      */
     public void setContry(String country){this.country=country;}
 
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
 }

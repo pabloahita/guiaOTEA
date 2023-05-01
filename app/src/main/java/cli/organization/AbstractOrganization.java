@@ -1,7 +1,11 @@
 package cli.organization;
 
+import java.sql.Connection;
+import java.util.LinkedList;
+import java.util.List;
+
 import cli.organization.data.Address;
-import connection.ConnectionToLocalDatabase;
+import cli.organization.data.Center;
 
 public class AbstractOrganization implements Organization{
     private int idOrganization;
@@ -10,12 +14,13 @@ public class AbstractOrganization implements Organization{
 
     private String illness;
     private String name;
+    private List<Center> centerList;
     private Address address;
     private int telephone;
     private String email;
     private String information;
 
-    private static ConnectionToLocalDatabase con;
+    private static Connection con;
 
     public AbstractOrganization(int idOrganization, String orgType, String illness, String name, Address address, int telephone, String email, String information){
         setIdOrganization(idOrganization);
@@ -26,6 +31,7 @@ public class AbstractOrganization implements Organization{
         setTelephone(telephone);
         setEmail(email);
         setInformation(information);
+        setCenterList(new LinkedList<>());
     }
 
     public int getIdOrganization() {
@@ -98,6 +104,18 @@ public class AbstractOrganization implements Organization{
         this.illness = illness;
     }
 
-    public ConnectionToLocalDatabase getConnection(){return con;}
-    public void setConnection(ConnectionToLocalDatabase con){AbstractOrganization.con=con;}
+    @Override
+    public Connection getConnection(){return con;}
+    public static void setConnection(Connection con){AbstractOrganization.con=con;}
+
+    @Override
+    public List<Center> getCenterList(){return centerList;}
+
+    @Override
+    public void setCenterList(List<Center> centerList){this.centerList=centerList;}
+
+    @Override
+    public void addCenter(Center center){centerList.add(center);}
+    @Override
+    public void removeCenter(Center center){centerList.remove(center);}
 }

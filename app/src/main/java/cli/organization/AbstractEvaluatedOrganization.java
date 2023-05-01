@@ -62,7 +62,7 @@ public abstract class AbstractEvaluatedOrganization extends AbstractOrganization
         PreparedStatement ps = null;
         this.evaluations=new LinkedList<IndicatorsEvaluation>();
         try{
-            ps=super.getConnection().getConnection().prepareStatement("SELECT * FROM INDICATORSEVALUATIONS WHERE evaluatedOrganizationId=? AND illness=\"?\"");
+            ps=super.getConnection().prepareStatement("SELECT * FROM INDICATORSEVALUATIONS WHERE evaluatedOrganizationId=? AND illness=\"?\"");
             ps.setInt(1,super.getIdOrganization());
             ps.setString(2,getIllness());
             rs=ps.executeQuery();
@@ -84,7 +84,7 @@ public abstract class AbstractEvaluatedOrganization extends AbstractOrganization
         PreparedStatement ps1 = null;
         PreparedStatement ps2 = null;
         try{
-            ps1=super.getConnection().getConnection().prepareStatement("INSERT INTO indicatorsEvaluations VALUES(?,?,?,?,?)");
+            ps1=super.getConnection().prepareStatement("INSERT INTO indicatorsEvaluations VALUES(?,?,?,?,?)");
             ps1.setDate(1,evaluation.getEvaluationDate());
             ps1.setInt(2,evaluation.getEvaluatedOrganization().getIdOrganization());
             ps1.setInt(3,evaluation.getEvaluatorTeam().getId());
@@ -95,7 +95,7 @@ public abstract class AbstractEvaluatedOrganization extends AbstractOrganization
             Map<Indicator,Integer> evaluationFilled=evaluation.getEvaluation();
             for(Indicator i:evaluationFilled.keySet()){
                 for(Evidence e:i.getEvidences()) {
-                    ps2 = super.getConnection().getConnection().prepareStatement("INSERT INTO indicatorsEvaluationsRegs VALUES(?,?,?,?,?)");
+                    ps2 = super.getConnection().prepareStatement("INSERT INTO indicatorsEvaluationsRegs VALUES(?,?,?,?,?)");
                     ps2.setDate(1, evaluation.getEvaluationDate());
                     ps2.setInt(2, evaluation.getEvaluatedOrganization().getIdOrganization());
                     ps2.setString(3, evaluation.getEvaluatedOrganization().getIllness());
@@ -109,15 +109,6 @@ public abstract class AbstractEvaluatedOrganization extends AbstractOrganization
             Log.d("SQLException",e.toString());
         }
     }
-
-    /*@Override
-    public void setAssets(AssetManager assets) {
-        this.assets=assets;
-    }
-
-    public AssetManager getAssets(){
-        return assets;
-    }*/
     @Override
     public List<Indicator> getIndicators(){
         return indicators;
