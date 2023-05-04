@@ -8,17 +8,15 @@ import android.util.Patterns;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
-import cli.user.User;
 import gui.data.LoginRepository;
 import gui.data.Result;
+import gui.data.model.LoggedInUser;
 
 public class LoginViewModel extends ViewModel {
 
-    private final LoginRepository loginRepository;
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
-
-    User user;
+    private LoginRepository loginRepository;
 
     LoginViewModel(LoginRepository loginRepository) {
         this.loginRepository = loginRepository;
@@ -34,12 +32,11 @@ public class LoginViewModel extends ViewModel {
 
     public void login(String username, String password) {
         // can be launched in a separate asynchronous job
-        Result<User> result = loginRepository.login(username, password);
+        Result<LoggedInUser> result = loginRepository.login(username, password);
 
         if (result instanceof Result.Success) {
-            User data = ((Result.Success<User>) result).getData();
-            setUser(data);
-            loginResult.setValue(new LoginResult(new LoggedInUserView(username)));
+            LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
+            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
         } else {
             loginResult.setValue(new LoginResult(R.string.login_failed));
         }
@@ -70,13 +67,5 @@ public class LoginViewModel extends ViewModel {
     // A placeholder password validation check
     private boolean isPasswordValid(String password) {
         return password != null && password.trim().length() > 5;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public User getUser() {
-        return user;
     }
 }

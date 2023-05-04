@@ -5,7 +5,6 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -24,25 +23,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
-import com.fundacionmiradas.indicatorsevaluation.databinding.ActivitySignInBinding;
+import com.fundacionmiradas.indicatorsevaluation.databinding.ActivityStartSessionBinding;
 
-import cli.organization.AutisticEvaluatedOrganization;
-import cli.organization.AutisticEvaluatorOrganization;
-import cli.user.Administrator;
-import cli.user.EvaluatedOrganizationUser;
-import cli.user.EvaluatorOrganizationUser;
-import cli.user.User;
 
-public class SignIn extends AppCompatActivity {
+public class StartSession extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
-    private ActivitySignInBinding binding;
+    private ActivityStartSessionBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivitySignInBinding.inflate(getLayoutInflater());
+        binding = ActivityStartSessionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
@@ -126,20 +119,6 @@ public class SignIn extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
-                User user=loginViewModel.getUser();
-                if(user instanceof EvaluatedOrganizationUser){
-                    Intent intent = new Intent(getApplicationContext(), gui.EvaluatedUserMainMenu.class);
-                    startActivity(intent);
-                }
-                else if(user instanceof EvaluatorOrganizationUser){
-                    Intent intent = new Intent(getApplicationContext(), gui.EvaluatorUserMainMenu.class);
-                    startActivity(intent);
-                }
-                else if(user instanceof Administrator) {
-                    Intent intent = new Intent(getApplicationContext(), gui.AdminMainMenu.class);
-                    startActivity(intent);
-                }
-
             }
         });
     }

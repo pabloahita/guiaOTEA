@@ -1,6 +1,6 @@
 package gui.data;
 
-import cli.user.User;
+import gui.data.model.LoggedInUser;
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -14,7 +14,7 @@ public class LoginRepository {
 
     // If user credentials will be cached in local storage, it is recommended it be encrypted
     // @see https://developer.android.com/training/articles/keystore
-    private User user = null;
+    private LoggedInUser user = null;
 
     // private constructor : singleton access
     private LoginRepository(LoginDataSource dataSource) {
@@ -37,19 +37,18 @@ public class LoginRepository {
         dataSource.logout();
     }
 
-    private void setLoggedInUser(User user) {
+    private void setLoggedInUser(LoggedInUser user) {
         this.user = user;
         // If user credentials will be cached in local storage, it is recommended it be encrypted
         // @see https://developer.android.com/training/articles/keystore
     }
 
-    public Result<User> login(String username, String password) {
+    public Result<LoggedInUser> login(String username, String password) {
         // handle login
-        Result<User> result = dataSource.login(username, password);
+        Result<LoggedInUser> result = dataSource.login(username, password);
         if (result instanceof Result.Success) {
-            setLoggedInUser(((Result.Success<User>) result).getData());
+            setLoggedInUser(((Result.Success<LoggedInUser>) result).getData());
         }
         return result;
     }
-
 }

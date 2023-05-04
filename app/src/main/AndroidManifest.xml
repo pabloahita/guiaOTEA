@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:isFeatureSplit="true" android:isolatedSplits="true" android:installLocation="auto">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:installLocation="auto"
+    android:isFeatureSplit="true"
+    android:isolatedSplits="true">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,8 +14,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TFG2223"
+        android:theme="@style/Theme.TFG2223.NoActionBar"
         tools:targetApi="31">
+        <activity
+            android:name="gui.ui.login.StartSession"
+            android:exported="false"
+            android:label="@string/title_activity_start_session" />
         <activity
             android:name="gui.AdminMainMenu"
             android:exported="false"
@@ -26,16 +33,11 @@
             android:exported="false"
             android:label="@string/title_activity_evaluated_user_main_menu" />
         <activity
-            android:name="gui.ui.login.SignIn"
-            android:exported="false"
-            android:label="@string/title_activity_sign_in" />
-        <activity
             android:name="gui.SignUp"
             android:exported="false" />
         <activity
             android:name="gui.IndicatorsEvaluation"
-            android:exported="false"
-            android:theme="@style/Theme.TFG2223.NoActionBar" />
+            android:exported="false" />
         <activity
             android:name="gui.MainActivity"
             android:exported="true">

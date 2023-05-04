@@ -17,7 +17,13 @@
     <string name="sign_up">Sign up</string>
     <string name="users_email">User\'s email</string>
     <string name="users_password">User\'s password</string>
-    <string name="title_activity_sign_in">SignIn</string>
+    <string name="title_activity_evaluated_user_main_menu">EvaluatedUserMainMenu</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_evaluator_user_main_menu">EvaluatorUserMainMenu</string>
+    <string name="title_activity_admin_main_menu">AdminMainMenu</string>
+    <string name="title_activity_start_session">StartSession</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
@@ -25,11 +31,5 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
-    <string name="title_activity_evaluated_user_main_menu">EvaluatedUserMainMenu</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="title_activity_evaluator_user_main_menu">EvaluatorUserMainMenu</string>
-    <string name="title_activity_admin_main_menu">AdminMainMenu</string>
 
 </resources>
