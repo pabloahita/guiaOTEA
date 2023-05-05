@@ -38,6 +38,7 @@
         <activity
             android:name="gui.IndicatorsEvaluation"
             android:exported="false" />
+
         <activity
             android:name="gui.MainActivity"
             android:exported="true">

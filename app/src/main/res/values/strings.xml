@@ -24,8 +24,6 @@
     <string name="title_activity_evaluator_user_main_menu">EvaluatorUserMainMenu</string>
     <string name="title_activity_admin_main_menu">AdminMainMenu</string>
     <string name="title_activity_start_session">StartSession</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="invalid_username">Not a valid username</string>
