@@ -2,10 +2,9 @@ package cli.organization;
 
 import java.sql.Connection;
 import java.util.List;
-import cli.indicators.Indicator;
+
 import cli.organization.data.Address;
 import cli.organization.data.Center;
-import connection.ConnectionToLocalDatabase;
 
 public interface Organization {
     String getName();

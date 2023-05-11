@@ -28,4 +28,14 @@
     <string name="invalid_password">La contraseña debe contener más de 5 caracteres</string>
     <string name="login_failed">Inicio de sesión fallido</string>
     <string name="title_activity_start_session">Iniciar seión</string>
+    <string name="welcome_to_trial_version">Bienvenido a la versión de prueba de OTEA. Por favor, seleccione un tipo de usuario para continuar</string>
+    <string name="admin_user">Administrador</string>
+    <string name="EvaluatedOrgUser">Usuario de organización evaluada</string>
+    <string name="EvaluatorOrgUser">Usuario de la Fundación Miradas</string>
+    <string name="title_activity_admin_menu">Menú del administrador</string>
+    <string name="nav_button_description">Acceder a menú lateral</string>
+    <string name="add_new_evaluated_org">Añadir nueva organización evaluada</string>
+    <string name="add_new_complete_evaluation">Añadir nueva evaluación completa</string>
+    <string name="add_new_simple_evaluation">Añadir nueva evaluación simple</string>
+    <string name="action_settings">Configuración</string>
 </resources>

@@ -13,7 +13,7 @@ public abstract class AbstractEvaluatorOrganization extends AbstractOrganization
 
     public AbstractEvaluatorOrganization(int idOrganization, String orgType, String illness, String name, Address address, int telephone, String email, String information){
         super(idOrganization, orgType, illness, name, address, telephone, email,information);
-        setEvaluatorTeams(evaluator_teams);
+        setEvaluatorTeams(new LinkedList<EvaluatorTeam>());
     }
 
     public void setEvaluatorTeams(List<EvaluatorTeam> evaluator_teams){

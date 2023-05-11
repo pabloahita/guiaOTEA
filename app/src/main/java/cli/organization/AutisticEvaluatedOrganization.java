@@ -18,9 +18,13 @@ import cli.user.EvaluatedOrganizationUser;
 public class AutisticEvaluatedOrganization extends AbstractEvaluatedOrganization {
 
 
+    public AutisticEvaluatedOrganization(int idOrganization, String orgType, String illness, String name, Address address, int telephone, String email, String information, EvaluatedOrganizationUser organization_principal, EvaluatedOrganizationUser organization_representant) {
+        super(idOrganization, orgType, illness, name, address, telephone, email, information, organization_principal, organization_representant);
+        //setIndicators();
+    }
+
     public AutisticEvaluatedOrganization(int idOrganization, String orgType, String illness, String name, Address address, int telephone, String email, String information) {
         super(idOrganization, orgType, illness, name, address, telephone, email, information);
-        setIndicators();
     }
 
     @Override

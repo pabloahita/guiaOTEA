@@ -17,28 +17,22 @@
         android:theme="@style/Theme.TFG2223.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name="gui.mainMenu.admin.LeftMenu"
+            android:exported="false"
+            android:label="" />
+        <activity
+            android:name="gui.SignInPrueba"
+            android:exported="false" />
+        <activity
             android:name="gui.ui.login.StartSession"
             android:exported="false"
             android:label="@string/title_activity_start_session" />
-        <activity
-            android:name="gui.AdminMainMenu"
-            android:exported="false"
-            android:label="@string/title_activity_admin_main_menu" />
-        <activity
-            android:name="gui.EvaluatorUserMainMenu"
-            android:exported="false"
-            android:label="@string/title_activity_evaluator_user_main_menu" />
-        <activity
-            android:name="gui.EvaluatedUserMainMenu"
-            android:exported="false"
-            android:label="@string/title_activity_evaluated_user_main_menu" />
         <activity
             android:name="gui.SignUp"
             android:exported="false" />
         <activity
             android:name="gui.IndicatorsEvaluation"
             android:exported="false" />
-
         <activity
             android:name="gui.MainActivity"
             android:exported="true">
