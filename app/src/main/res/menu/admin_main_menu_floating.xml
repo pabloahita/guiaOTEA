@@ -2,7 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/add_new_evaluated_org"
-        android:title="@string/add_new_evaluated_org" />
+        android:orderInCategory="100"
+        android:title="@string/add_new_evaluated_org"/>
     <item
         android:id="@+id/add_new_complete_evaluation"
         android:title="@string/add_new_complete_evaluation" />
