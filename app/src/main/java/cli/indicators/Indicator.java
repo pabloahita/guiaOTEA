@@ -41,25 +41,7 @@ public class Indicator {
     }
 
     public void setEvidences() {
-        ResultSet rs=null;
-        PreparedStatement ps = null;
-        if(this.evidences==null){
-            this.evidences=new LinkedList<>();
-        }
-        try{
-            ps=con.prepareStatement("SELECT * FROM EVIDENCES WHERE idIndicator=? AND indicatorType=?");
-            ps.setInt(1,getIdIndicator());
-            ps.setString(2,getIndicatorType());
-            rs=ps.executeQuery();
-            while(rs.next()){
-                int idEvidence=rs.getInt("idEvidence");
-                String evidenceDescription=rs.getString("evidenceDescription");
-                int evidenceValue=rs.getInt("evidenceValue");
-                evidences.add(new Evidence(idEvidence,getIdIndicator(),getIndicatorType(),evidenceDescription,evidenceValue,false));
-            }
-        }catch(SQLException e){
-
-        }
+        //TODO: Llamar a las evidencias por id de indicador
     }
 
     public List<Evidence> getEvidences() {

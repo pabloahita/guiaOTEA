@@ -24,9 +24,9 @@ public class SignInPrueba extends AppCompatActivity {
        /* evaluated.setOnClickListener(v -> {
             Intent intent = new Intent(this, gui.mainMenu.evaluatedUser.MainMenu.class);
             startActivity(intent);
-        });*//*
-        evaluator.setOnClickListener(v -> {
-            Intent intent = new Intent(this, gui.EvaluatorUserMainMenu.class);
+        });*/
+        /*evaluator.setOnClickListener(v -> {
+            Intent intent = new Intent(this, gui.mainMenu.evaluator.MainMenu.class);
             startActivity(intent);
         });*/
     }

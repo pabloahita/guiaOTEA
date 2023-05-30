@@ -4,6 +4,7 @@ package cli.organization;
 
 import android.util.Log;
 
+import cli.ConnectionClient;
 import cli.indicators.Evidence;
 import cli.indicators.Indicator;
 import cli.organization.data.Address;
@@ -26,14 +27,14 @@ public abstract class AbstractEvaluatedOrganization extends AbstractOrganization
     protected List<Indicator> indicators;
     //private AssetManager assets;
 
-    public AbstractEvaluatedOrganization(int idOrganization, String orgType, String illness, String name, Address address, int telephone, String email, String information, EvaluatedOrganizationUser organization_principal, EvaluatedOrganizationUser organization_representant){
-        super(idOrganization,orgType,illness,name,address,telephone,email,information);
-        setOrganizationPrincipal(organization_principal);
-        setOrganizationRepresentant(organization_representant);
+    public AbstractEvaluatedOrganization(int idOrganization, String orgType, String illness, String name, int idAddress, int telephone, String email, String information, String emailOrgPrincipal, String emailOrgConsultant) {
+        super(idOrganization,orgType,illness,name,idAddress,telephone,email,information);
+        organization_principal=obtainUser(emailOrgPrincipal);
+        organization_representant=obtainUser(emailOrgConsultant);
     }
 
-    public AbstractEvaluatedOrganization(int idOrganization, String orgType, String illness, String name, Address address, int telephone, String email, String information) {
-        super(idOrganization,orgType,illness,name,address,telephone,email,information);
+    private EvaluatedOrganizationUser obtainUser(String email) {
+        return ConnectionClient.obtainEvaluatedOrgUser(email,this);
     }
 
     @Override

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_recent_activity_evaluated"
+        android:name="gui.mainMenu.evaluated.ui.recentactivity.RecentActivity"
+        android:label="@string/recent_activity"
+        tools:layout="@layout/fragment_recent_evaluated" />
+
+   <!-- <fragment
+        android:id="@+id/nav_see_evaluations"
+        android:name="gui.mainMenu.evaluated.ui.seeevaluations.SeeEvaluations"
+        android:label="@string/aa"
+        tools:layout="@layout/fragment_see_evaluations_evaluated" />
+
+    <fragment
+        android:id="@+id/nav_help_evaluated"
+        android:name="gui.mainMenu.evaluated.ui.slideshow.SlideshowFragment"
+        android:label="@string/maa"
+        tools:layout="@layout/fragment_slideshow" /> -->
+</navigation>

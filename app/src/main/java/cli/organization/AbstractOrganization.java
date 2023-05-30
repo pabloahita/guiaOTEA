@@ -7,7 +7,7 @@ import java.util.List;
 import cli.organization.data.Address;
 import cli.organization.data.Center;
 
-public class AbstractOrganization implements Organization{
+public abstract class AbstractOrganization implements Organization{
     private int idOrganization;
 
     private String orgType;
@@ -22,12 +22,12 @@ public class AbstractOrganization implements Organization{
 
     private static Connection con;
 
-    public AbstractOrganization(int idOrganization, String orgType, String illness, String name, Address address, int telephone, String email, String information){
+    public AbstractOrganization(int idOrganization, String orgType, String illness, String name, int idAddress, int telephone, String email, String information){
         setIdOrganization(idOrganization);
         setOrgType(orgType);
         setIllness(illness);
         setName(name);
-        setAddress(address);
+        setAddress(idAddress);
         setTelephone(telephone);
         setEmail(email);
         setInformation(information);
@@ -80,8 +80,8 @@ public class AbstractOrganization implements Organization{
         this.name=name;
     }
 
-    public void setAddress(Address address) {
-        this.address=address;
+    public void setAddress(int idAddress) {
+
     }
 
     public void setTelephone(int telephone) {

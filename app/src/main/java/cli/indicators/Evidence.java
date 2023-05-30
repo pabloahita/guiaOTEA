@@ -11,13 +11,13 @@ public class Evidence {
     private float value;
 
     private boolean isMarked;
-    public Evidence(int idEvidence, int idIndicator, String indicatorType, String description, float value, boolean isMarked){
+    public Evidence(int idEvidence, int idIndicator, String indicatorType, String description, float value){
         setIdEvidence(idEvidence);
         setIdIndicator(idIndicator);
         setIndicatorType(indicatorType);
         setDescription(description);
         setValue(value);
-        setMarked(isMarked);
+        setMarked(false);
     }
 
     public int getIdEvidence() {

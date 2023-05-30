@@ -48,24 +48,31 @@
     <string name="add_new_evaluated_org">Add new evaluated organization</string>
     <string name="add_new_complete_evaluation">Add new complete evaluation</string>
     <string name="add_new_simple_evaluation">Add new simple evaluation</string>
-    <string name="navigation_drawer_open">Open navig drawer</string>
-    <string name="navigation_drawer_close">Close navig drawer</string>
-    <string name="title_activity_main_menu">MainMenu</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="navigation_drawer_close" translatable="false">Close navig drawer</string>
+    <string name="title_activity_main_menu">Main Menu</string>
+    <string name="title_activity_settings">Settings</string>
 
     <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
+    <string name="messages_header" translatable="false">Messages</string>
+    <string name="sync_header" translatable="false">Sync</string>
 
     <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
+    <string name="signature_title" translatable="false">Your signature</string>
+    <string name="reply_title" translatable="false">Default reply action</string>
 
     <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    <string name="sync_title" translatable="false">Sync email periodically</string>
+    <string name="attachment_title" translatable="false">Download incoming attachments</string>
+    <string name="attachment_summary_on" translatable="false">Automatically download attachments for incoming emails
     </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="attachment_summary_off" translatable="false">Only download attachments when manually requested</string>
+    <!-- Strings used for fragments for navigation -->
+
+    <string name="add_new_evaluated_org_center">Add new evaluated organization center</string>
+    <string name="modify_database">Modify database</string>
+    <string name="modify_indicators">Modify indicators</string>
+    <string name="recent_activity">Recent activity</string>
+    <string name="help">Help</string>
+    <string name="view_indicators_evolution">View realized tests</string>
 
 </resources>

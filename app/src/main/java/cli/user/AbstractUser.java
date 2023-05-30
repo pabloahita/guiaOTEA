@@ -1,6 +1,8 @@
 package cli.user;
 
-public abstract class AbstractUser implements User{
+import gui.data.model.LoggedInUser;
+
+public abstract class AbstractUser extends LoggedInUser implements User{
 
     private String first_name;
     private String last_name;
@@ -12,6 +14,7 @@ public abstract class AbstractUser implements User{
     private String password; //Pending to change to a password datatype
 
     public AbstractUser(String first_name, String last_name, String email, String password, int telephone){
+        super(email,password);
         setFirstName(first_name);
         setLastName(last_name);
         setEmail(email);

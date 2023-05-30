@@ -25,7 +25,4 @@ public interface EvaluatedOrganization extends Organization {
     void addEvaluation(IndicatorsEvaluation evaluation);
 
 
-    /*void setAssets(AssetManager assets);
-
-    AssetManager getAssets();*/
 }

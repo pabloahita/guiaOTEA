@@ -11,13 +11,13 @@ public abstract class AbstractEvaluatorOrganization extends AbstractOrganization
 
     private List<EvaluatorTeam> evaluator_teams;
 
-    public AbstractEvaluatorOrganization(int idOrganization, String orgType, String illness, String name, Address address, int telephone, String email, String information){
-        super(idOrganization, orgType, illness, name, address, telephone, email,information);
-        setEvaluatorTeams(new LinkedList<EvaluatorTeam>());
+    public AbstractEvaluatorOrganization(int idOrganization, String orgType, String illness, String name, int idAddress, int telephone, String email, String information){
+        super(idOrganization, orgType, illness, name, idAddress, telephone, email,information);
     }
 
     public void setEvaluatorTeams(List<EvaluatorTeam> evaluator_teams){
-        this.evaluator_teams=evaluator_teams;
+        this.evaluator_teams=new LinkedList<EvaluatorTeam>();
+
     }
 
 

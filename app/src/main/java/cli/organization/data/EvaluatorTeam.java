@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.util.List;
 
+import cli.ConnectionClient;
 import cli.organization.EvaluatorOrganization;
 import cli.user.EvaluatorOrganizationUser;
 
@@ -15,12 +16,16 @@ public class EvaluatorTeam {
     private EvaluatorOrganizationUser external_consultant;
     private List<EvaluatorOrganizationUser> members;
     private EvaluatorOrganization organization;
+
+    private String pacient_name="";
+
+    private String relative_name="";
     private static Connection con;
-    public EvaluatorTeam(int id, Date creation_date, EvaluatorOrganizationUser external_consultant, List<EvaluatorOrganizationUser> members, EvaluatorOrganization organization){
+    public EvaluatorTeam(int id, Date creation_date, String emailExternalConsultant, int idOrganization, String illness, String pacient_name, String relative_name){
         setId(id);
         setCreationDate(creation_date);
-        setExternalConsultant(external_consultant);
-        setMembers(members);
+        obtainExternalConsultant(emailExternalConsultant,idOrganization,illness);
+        obtainEvalTeamMembers(id,idOrganization,illness);
         setOrganization(organization);
     }
 
@@ -70,4 +75,12 @@ public class EvaluatorTeam {
     }
 
     public static void setConnection(Connection con){EvaluatorTeam.con=con;}
+
+    public void obtainExternalConsultant(String email, int id, String illness){
+        external_consultant=ConnectionClient.obtainEvaluatorOrganizationUser(email,id,illness);
+    }
+
+    public void obtainEvalTeamMembers(int id, int idOrg, String illness){
+        members=ConnectionClient.obtainEvalTeamMembers(id,idOrg,illness);
+    }
 }

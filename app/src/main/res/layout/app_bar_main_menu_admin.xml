@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,31 +8,28 @@
     tools:context="gui.mainMenu.admin.MainMenu">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/ic_launcher_background"
+        android:layout_width="match_parent"
         android:theme="@style/Theme.TFG2223.NoActionBar.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/miradas_color"
-            app:popupTheme="@style/Theme.TFG2223.NoActionBar.PopupOverlay" />
+            android:layout_width = "match_parent"
+            android:background="?attr/colorPrimary"
+              app:popupTheme="@style/Theme.TFG2223.NoActionBar.PopupOverlay"
+            android:layout_height = "?attr/actionBarSize" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+  </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_main_menu_admin" />
+  <include layout="@layout/content_main_menu_admin"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="@dimen/fab_margin"
-        android:layout_marginBottom="16dp"
-        app:backgroundTint="#445B69"
-        app:srcCompat="@drawable/baseline_add_24"
-        app:menu="@menu/admin_main_menu_floating"/>
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+  android:id="@+id/fab"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:layout_gravity="bottom|end"
+  android:layout_marginEnd="@dimen/fab_margin"
+  android:layout_marginBottom="16dp"
+  app:srcCompat="@android:drawable/ic_dialog_email" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+  </androidx.coordinatorlayout.widget.CoordinatorLayout>

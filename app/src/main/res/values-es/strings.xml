@@ -38,4 +38,12 @@
     <string name="add_new_complete_evaluation">Añadir nueva evaluación completa</string>
     <string name="add_new_simple_evaluation">Añadir nueva evaluación simple</string>
     <string name="action_settings">Configuración</string>
+    <string name="title_activity_main_menu">Menú principal</string>
+    <string name="title_activity_settings">Configuración</string>
+    <string name="add_new_evaluated_org_center">Añadir nuevo centro de organización evaluadora</string>
+    <string name="modify_database">Modificar base de datos</string>
+    <string name="modify_indicators">Modificar indicadores</string>
+    <string name="recent_activity">Actividad reciente</string>
+    <string name="help">Ayuda</string>
+    <string name="view_indicators_evolution">"Ver pruebas realizadas "</string>
 </resources>
