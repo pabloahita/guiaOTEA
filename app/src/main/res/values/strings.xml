@@ -74,5 +74,6 @@
     <string name="recent_activity">Recent activity</string>
     <string name="help">Help</string>
     <string name="view_indicators_evolution">View realized tests</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
 
 </resources>

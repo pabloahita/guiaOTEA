@@ -8,7 +8,6 @@ import android.util.Patterns;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
-import cli.user.User;
 import gui.data.LoginRepository;
 import gui.data.Result;
 import gui.data.model.LoggedInUser;
@@ -33,7 +32,7 @@ public class LoginViewModel extends ViewModel {
 
     public void login(String username, String password) {
         // can be launched in a separate asynchronous job
-        Result<User> result = loginRepository.login(username, password);
+        Result<LoggedInUser> result = loginRepository.login(username, password);
 
         if (result instanceof Result.Success) {
             LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();

@@ -1,6 +1,6 @@
 package gui.data;
 
-import cli.user.User;
+
 import gui.data.model.LoggedInUser;
 
 import java.io.IOException;
@@ -15,7 +15,7 @@ public class LoginDataSource {
 
     /**HTTP Connection*/
 
-    public Result<User> login(String username, String password) {
+    public Result<LoggedInUser> login(String username, String password) {
 
         try {
             LoggedInUser user=new LoggedInUser(username,password);

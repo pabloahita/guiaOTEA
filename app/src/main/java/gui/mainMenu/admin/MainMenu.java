@@ -5,7 +5,8 @@ import android.view.View;
 import android.view.Menu;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
-import com.fundacionmiradas.indicatorsevaluation.databinding.ActivityMainMenuEvaluatedBinding;
+
+import com.fundacionmiradas.indicatorsevaluation.databinding.ActivityMainMenuAdminBinding;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import androidx.navigation.NavController;
@@ -18,13 +19,13 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainMenu extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-private ActivityMainMenuEvaluatedBinding binding;
+private ActivityMainMenuAdminBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-     binding = ActivityMainMenuEvaluatedBinding.inflate(getLayoutInflater());
+     binding = ActivityMainMenuAdminBinding.inflate(getLayoutInflater());
      setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMainMenu.toolbar);
@@ -43,7 +44,7 @@ private ActivityMainMenuEvaluatedBinding binding;
                 R.id.nav_recent_activity)
                 .setDrawerLayout(drawer)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_menu);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_menu_admin);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
     }
@@ -57,7 +58,7 @@ private ActivityMainMenuEvaluatedBinding binding;
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_menu);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_menu_admin);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }

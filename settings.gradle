@@ -14,4 +14,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "TFG2223"
 include ':app'
-include ':server'
+include ':connection'

@@ -45,7 +45,7 @@ public class MainMenu extends AppCompatActivity {
                 R.id.nav_recent_activity_evaluated)
                 .setDrawerLayout(drawer)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_menu);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_menu_evaluated);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
     }
@@ -59,7 +59,7 @@ public class MainMenu extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_menu);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_menu_evaluated);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }

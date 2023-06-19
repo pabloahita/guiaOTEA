@@ -17,6 +17,11 @@
         android:theme="@style/Theme.TFG2223.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".MainMenu"
+            android:exported="false"
+            android:label="@string/title_activity_main_menu"
+            android:theme="@style/Theme.TFG2223.NoActionBar.NoActionBar" />
+        <activity
             android:name="gui.mainMenu.evaluated.MainMenu"
             android:exported="false"
             android:label="@string/title_activity_main_menu"
@@ -41,7 +46,7 @@
             android:name="gui.SignUp"
             android:exported="false" />
         <activity
-            android:name="gui.IndicatorsEvaluation"
+            android:name="gui.DoIndicatorsEvaluation"
             android:exported="false" />
         <activity
             android:name="gui.MainActivity"

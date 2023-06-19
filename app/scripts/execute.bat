@@ -1,3 +1,3 @@
 cd ../src/main/java/cli
-java -cp ../../../../class cli.ConnectionClient
+java -cp ../../../../class connection.ConnectionClient
 cd ../../../../scripts

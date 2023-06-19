@@ -1,0 +1,32 @@
+package otea.connection;
+
+import java.util.List;
+
+import cli.organization.data.Address;
+import retrofit2.Call;
+import retrofit2.http.*;
+
+public interface AddressesApi {
+
+    // GET all action
+    @GET("Addresses")
+    Call<List<Address>> GetAll();
+
+    // GET by ID AND ORGTYPE action
+
+    @GET("Addresses/{id}")
+    Call<Address> Get(@Path("id") int id);
+
+    // POST action
+    @POST("Addresses")
+    Call<Address> Create(int idAddress, String nameStreet, int numberStreet, int floorApartment, char apartmentLetter, int zipCode, String city, String province, String region, String country);
+
+    // PUT action
+    @PUT("Addresses/{id}")
+    Call<Address> Update(@Path("id") int id, Address address);
+
+    // DELETE action
+    @DELETE("Addresses/{id}")
+    Call<Address> Delete(int id);
+
+}
