@@ -32,7 +32,7 @@ namespace OTEAServer.Services
                     {
                         while (reader.Read())
                         {
-                            usersList.Add(new User(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), (int) reader.GetInt64(5), reader.GetInt32(6), reader.GetString(7), reader.GetString(8)));
+                            usersList.Add(new User(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetInt64(5), reader.GetInt32(6), reader.GetString(7), reader.GetString(8)));
                         }
                     }
                 }
@@ -58,7 +58,7 @@ namespace OTEAServer.Services
                     {
                         while (reader.Read())
                         {
-                            usersList.Add(new User(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), (int) reader.GetInt64(5), reader.GetInt32(6), reader.GetString(7), reader.GetString(8)));
+                            usersList.Add(new User(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetInt64(5), reader.GetInt32(6), reader.GetString(7), reader.GetString(8)));
                         }
                     }
                 }
@@ -87,7 +87,7 @@ namespace OTEAServer.Services
                     {
                         while (reader.Read())
                         {
-                            usersList.Add(new User(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), (int) reader.GetInt64(5), reader.GetInt32(6), reader.GetString(7), reader.GetString(8)));
+                            usersList.Add(new User(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetInt64(5), reader.GetInt32(6), reader.GetString(7), reader.GetString(8)));
                         }
                     }
                 }
@@ -114,7 +114,7 @@ namespace OTEAServer.Services
                     {
                         if (reader.Read())
                         {
-                            return new User(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), (int) reader.GetInt64(5), reader.GetInt32(6), reader.GetString(7), reader.GetString(8));
+                            return new User(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetInt64(5), reader.GetInt32(6), reader.GetString(7), reader.GetString(8));
                         }
                     }
                 }
@@ -138,7 +138,7 @@ namespace OTEAServer.Services
                     {
                         if (reader.Read())
                         {
-                            return new User(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), (int) reader.GetInt64(5), reader.GetInt32(6), reader.GetString(7), reader.GetString(8));
+                            return new User(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetInt64(5), reader.GetInt32(6), reader.GetString(7), reader.GetString(8));
                         }
                     }
                 }
@@ -166,7 +166,7 @@ namespace OTEAServer.Services
                     {
                         if (reader.Read())
                         {
-                            return new User(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), (int) reader.GetInt64(5), reader.GetInt32(6), reader.GetString(7), reader.GetString(8));
+                            return new User(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetInt64(5), reader.GetInt32(6), reader.GetString(7), reader.GetString(8));
                         }
                     }
                 }
@@ -176,7 +176,7 @@ namespace OTEAServer.Services
 
 
         //Operación POST
-        public void Add(string email, string first_Name, string last_Name, string password, string userType, int telephone, int? idOrganization, string? organizationType, string? illness)
+        public void Add(string email, string first_Name, string last_Name, string password, string userType, long telephone, int? idOrganization, string? organizationType, string? illness)
         {
 
             string connectionString = _configuration.GetConnectionString("DefaultConnection");

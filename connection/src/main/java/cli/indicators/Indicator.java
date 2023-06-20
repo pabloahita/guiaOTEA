@@ -160,13 +160,5 @@ public class Indicator {
         }
     }
 
-    public Connection getConnection() {
-        return con;
-    }
-
-    public static void setConnection(Connection con) {
-        Indicator.con = con;
-    }
-
 
 }

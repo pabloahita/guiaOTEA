@@ -73,7 +73,7 @@ namespace OTEAServer.Controllers
 
             _evidencesService.Update(evidence);
 
-            return NoContent();
+            return Ok(evidence);
         }
 
         // DELETE action

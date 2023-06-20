@@ -9,7 +9,7 @@ public interface User {
 
     String getPassword();
 
-    int getTelephone();
+    long getTelephone();
 
     void setFirstName(String first_name);
 
@@ -19,7 +19,19 @@ public interface User {
 
     void setPassword(String password);
 
-    void setTelephone(int telephone);
+    void setTelephone(long telephone);
+
+    int getIdOrganization();
+
+    void setIdOrganization(int idOrganization);
+
+    String getOrgType();
+
+    void setOrgType(String orgType);
+
+    String getIllness();
+
+    void setIllness(String illness);
 
     void connect();
 

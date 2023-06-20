@@ -86,7 +86,7 @@ namespace OTEAServer.Controllers
 
         // POST action
         [HttpPost]
-        public IActionResult Create(int id, string orgType, string illness, string name, int idAddress, string email, int telephone, string information, string emailOrgPrincipal, string emailOrgConsultant)
+        public IActionResult Create(int id, string orgType, string illness, string name, int idAddress, string email, long telephone, string information, string emailOrgPrincipal, string emailOrgConsultant)
         {
             _organizationsService.Add(id, orgType, illness, name, idAddress, email, telephone, information, emailOrgPrincipal, emailOrgConsultant);
             Organization organization = new Organization(id, orgType, illness, name, idAddress, email, telephone, information, emailOrgPrincipal, emailOrgConsultant);
@@ -107,7 +107,7 @@ namespace OTEAServer.Controllers
 
             _organizationsService.Update(organization);
 
-            return NoContent();
+            return Ok(organization);
         }
 
         // DELETE action

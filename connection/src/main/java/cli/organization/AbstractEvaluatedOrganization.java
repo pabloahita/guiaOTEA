@@ -36,7 +36,7 @@ public abstract class AbstractEvaluatedOrganization extends AbstractOrganization
     protected List<Indicator> indicators;
 
     private List<Center> centerList;
-    public AbstractEvaluatedOrganization(int idOrganization, String orgType, String illness, String name, int idAddress, int telephone, String email, String information, String emailOrgPrincipal, String emailOrgConsultant) {
+    public AbstractEvaluatedOrganization(int idOrganization, String orgType, String illness, String name, int idAddress, long telephone, String email, String information, String emailOrgPrincipal, String emailOrgConsultant) {
         super(idOrganization,orgType,illness,name,idAddress,telephone,email,information,emailOrgPrincipal,emailOrgConsultant);
         try {
             organization_principal = obtainUser(emailOrgPrincipal);
@@ -52,14 +52,14 @@ public abstract class AbstractEvaluatedOrganization extends AbstractOrganization
         Retrofit retrofit = cli.getRetrofit();
         UsersApi api = retrofit.create(UsersApi.class);
         Call<User> call = api.Get(email);
-        EvaluatedOrganizationUser[] user=new EvaluatedOrganizationUser[1];
+        EvaluatedOrganizationUser[] evalUser=new EvaluatedOrganizationUser[1];
          Disposable disposable = Observable.fromCallable(() -> {
                     try {
                         Response<User> response = call.execute();
                         if (response.isSuccessful()) {
                             User aux=response.body();
-                            user[0]=new EvaluatedOrganizationUser(aux.getFirstName(),aux.getLastName(),aux.getEmail(),aux.getPassword(),aux.getTelephone(),this);
-                            return user[0];
+                            evalUser[0]=new EvaluatedOrganizationUser(aux.getFirstName(),aux.getLastName(),aux.getEmail(),aux.getPassword(),aux.getTelephone(),this);
+                            return evalUser[0];
                         } else {
                             throw new IOException("Error: " + response.code() + " " + response.message());
                         }
@@ -69,12 +69,12 @@ public abstract class AbstractEvaluatedOrganization extends AbstractOrganization
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(address-> {
+                .subscribe(user-> {
                     System.out.println("Evaluated user correctly obtained");
                 }, error -> {
                     System.out.println(error.toString());
                 });
-        return user[0];
+        return evalUser[0];
     }
 
     public List<IndicatorsEvaluation> getEvaluations() {

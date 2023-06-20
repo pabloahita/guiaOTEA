@@ -3,9 +3,7 @@ package cli.organization;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
-import java.sql.Connection;
 
-import cli.indicators.Evidence;
 import cli.organization.data.Address;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
@@ -34,7 +32,7 @@ public abstract class AbstractOrganization implements Organization {
     private Address address;
 
     @SerializedName("telephone")
-    private int telephone;
+    private long telephone;
 
     @SerializedName("email")
     private String email;
@@ -49,7 +47,7 @@ public abstract class AbstractOrganization implements Organization {
     private String emailOrgConsultant;
 
 
-    public AbstractOrganization(int idOrganization, String orgType, String illness, String name, int idAddress, int telephone, String email, String information, String emailOrgPrincipal, String emailOrgConsultant){
+    public AbstractOrganization(int idOrganization, String orgType, String illness, String name, int idAddress, long telephone, String email, String information, String emailOrgPrincipal, String emailOrgConsultant){
         setIdOrganization(idOrganization);
         setOrgType(orgType);
         setIllness(illness);
@@ -65,14 +63,19 @@ public abstract class AbstractOrganization implements Organization {
         }catch(IOException e){}
     }
 
-    private void setEmailOrgConsultant(String emailOrgPrincipal) {this.emailOrgPrincipal=emailOrgPrincipal;}
 
-    private void setEmailOrgPrincipal(String emailOrgPrincipal) {this.emailOrgConsultant=emailOrgConsultant;}
+    @Override
+    public void setEmailOrgConsultant(String emailOrgPrincipal) {this.emailOrgPrincipal=emailOrgPrincipal;}
 
+    @Override
+    public void setEmailOrgPrincipal(String emailOrgPrincipal) {this.emailOrgConsultant=emailOrgConsultant;}
+
+    @Override
     public int getIdOrganization() {
         return idOrganization;
     }
 
+    @Override
     public void setIdOrganization(int idOrganization) {
         this.idOrganization = idOrganization;
     }
@@ -82,6 +85,7 @@ public abstract class AbstractOrganization implements Organization {
         return orgType;
     }
 
+    @Override
     public void setOrgType(String orgType) {
         this.orgType = orgType;
     }
@@ -97,7 +101,7 @@ public abstract class AbstractOrganization implements Organization {
     }
 
     @Override
-    public int getTelephone() {
+    public long getTelephone() {
         return telephone;
     }
 
@@ -112,11 +116,13 @@ public abstract class AbstractOrganization implements Organization {
     }
 
 
+    @Override
     public void setName(String name) {
         this.name=name;
     }
 
-    public Address obtainAddress() throws IOException {
+    @Override
+    public void obtainAddress() throws IOException {
         ConnectionClient cli=new ConnectionClient();
         Retrofit retrofit=cli.getRetrofit();
         AddressesApi api=retrofit.create(AddressesApi.class);
@@ -142,30 +148,37 @@ public abstract class AbstractOrganization implements Organization {
                 }, error -> {
                     System.out.println(error.toString());
                 });
-        return aux[0];
+        setAddress(aux[0]);
     }
 
     public void setAddress(Address address) {this.address=address;}
 
+    @Override
     public int getIdAddress(){return idAddress;}
+    @Override
     public void setIdAddress(int idAddress) {this.idAddress=idAddress;}
 
-    public void setTelephone(int telephone) {
+    @Override
+    public void setTelephone(long telephone) {
         this.telephone=telephone;
     }
 
+    @Override
     public void setEmail(String email) {
         this.email=email;
     }
 
+    @Override
     public void setInformation(String information) {
         this.information=information;
     }
 
+    @Override
     public String getIllness() {
         return illness;
     }
 
+    @Override
     public void setIllness(String illness) {
         this.illness = illness;
     }

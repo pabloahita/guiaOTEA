@@ -36,7 +36,7 @@ namespace OTEAServer.Services
                         while (reader.Read())
                         {
                             addressesList.Add(new Address(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(3),
-                   reader.GetString(4)[0], reader.GetInt32(5), reader.GetString(6), reader.GetString(7), reader.GetString(8), reader.GetString(9)));
+                   reader.GetString(4)[0], reader.GetInt32(5), reader.GetInt32(6), reader.GetInt32(7), reader.GetInt32(8), reader.GetString(9)));
                         }
                     }
                 }
@@ -62,7 +62,7 @@ namespace OTEAServer.Services
                         if (reader.Read())
                         {
                             return new Address(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(3),
-                   reader.GetString(4)[0], reader.GetInt32(5), reader.GetString(6), reader.GetString(7), reader.GetString(8), reader.GetString(9));
+                   reader.GetString(4)[0], reader.GetInt32(5), reader.GetInt32(6), reader.GetInt32(7), reader.GetInt32(8), reader.GetString(9));
                         }
                     }
                 }
@@ -70,7 +70,7 @@ namespace OTEAServer.Services
             return null;
         }
 
-        public void Add(int idAddress, string nameStreet, int numberStreet, int floorApartment, char apartmentLetter, int zipCode, string city, string province, string region, string country)
+        public void Add(int idAddress, string nameStreet, int numberStreet, int floorApartment, char apartmentLetter, int zipCode, int idCity, int idProvince, int idRegion, string idCountry)
         {
 
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -81,7 +81,7 @@ namespace OTEAServer.Services
                 connection.Open();
 
                 // Crea el comando SQL
-                string sql = "INSERT INTO ADDRESSES (IDADDRESS,NAMESTREET,NUMBERSTREET,FLOORAPARTMENT,APARTMENTLETTER,ZIPCODE,CITY,PROVINCE,REGION,COUNTRY) VALUES (@IDADDRESS,@NAMESTREET,@NUMBERSTREET,@FLOORAPARTMENT,@APARTMENTLETTER,@ZIPCODE,@CITY,@PROVINCE,@REGION,@COUNTRY)";
+                string sql = "INSERT INTO ADDRESSES (IDADDRESS,NAMESTREET,NUMBERSTREET,FLOORAPARTMENT,APARTMENTLETTER,ZIPCODE,IDCITY,IDPROVINCE,IDREGION,IDCOUNTRY) VALUES (@IDADDRESS,@NAMESTREET,@NUMBERSTREET,@FLOORAPARTMENT,@APARTMENTLETTER,@ZIPCODE,@IDCITY,@IDPROVINCE,@IDREGION,@IDCOUNTRY)";
                 using (SqlCommand comando = new SqlCommand(sql, connection))
                 {
                     // Añade parámetros para evitar la inyección de SQL
@@ -91,10 +91,10 @@ namespace OTEAServer.Services
                     comando.Parameters.AddWithValue("@FLOORAPARTMENT", floorApartment);
                     comando.Parameters.AddWithValue("@APARTMENTLETTER", apartmentLetter);
                     comando.Parameters.AddWithValue("@ZIPCODE", zipCode);
-                    comando.Parameters.AddWithValue("@CITY", city);
-                    comando.Parameters.AddWithValue("@PROVINCE", province);
-                    comando.Parameters.AddWithValue("@REGION", region);
-                    comando.Parameters.AddWithValue("@COUNTRY", country);
+                    comando.Parameters.AddWithValue("@IDCITY", idCity);
+                    comando.Parameters.AddWithValue("@IDPROVINCE", idProvince);
+                    comando.Parameters.AddWithValue("@IDREGION", idRegion);
+                    comando.Parameters.AddWithValue("@IDCOUNTRY", idCountry);
                     // Ejecuta el comando
                     comando.ExecuteNonQuery();
                 }
@@ -146,7 +146,7 @@ namespace OTEAServer.Services
                     connection.Open();
 
                     // Crea el comando SQL
-                    string sql = "UPDATE ADDRESS SET NAMESTREET=@NAMESTREET,NUMBERSTREET=@NUMBERSTREET,FLOORAPARTMENT=@FLOORAPARTMENT,APARTMENTLETTER=@APARTMENTLETTER,ZIPCODE=@ZIPCODE,CITY=@CITY,PROVINCE=@PROVINCE,REGION=@REGION,COUNTRY=@COUNTRY WHERE IDADDRESS=@IDADDRESS";
+                    string sql = "UPDATE ADDRESS SET NAMESTREET=@NAMESTREET,NUMBERSTREET=@NUMBERSTREET,FLOORAPARTMENT=@FLOORAPARTMENT,APARTMENTLETTER=@APARTMENTLETTER,ZIPCODE=@ZIPCODE,IDCITY=@IDCITY,IDPROVINCE=@IDPROVINCE,IDREGION=@IDREGION,IDCOUNTRY=@IDCOUNTRY WHERE IDADDRESS=@IDADDRESS";
                     using (SqlCommand comando = new SqlCommand(sql, connection))
                     {
                         // Añade parámetros para evitar la inyección de SQL
@@ -156,10 +156,10 @@ namespace OTEAServer.Services
                         comando.Parameters.AddWithValue("@FLOORAPARTMENT", address.FloorApartment);
                         comando.Parameters.AddWithValue("@APARTMENTLETTER", address.ApartmentLetter);
                         comando.Parameters.AddWithValue("@ZIPCODE", address.ZipCode);
-                        comando.Parameters.AddWithValue("@CITY", address.City);
-                        comando.Parameters.AddWithValue("@PROVINCE", address.Province);
-                        comando.Parameters.AddWithValue("@REGION", address.Region);
-                        comando.Parameters.AddWithValue("@COUNTRY", address.Country);
+                        comando.Parameters.AddWithValue("@IDCITY", address.IdCity);
+                        comando.Parameters.AddWithValue("@IDPROVINCE", address.IdProvince);
+                        comando.Parameters.AddWithValue("@IDREGION", address.IdRegion);
+                        comando.Parameters.AddWithValue("@IDCOUNTRY", address.IdCountry);
 
                         // Ejecuta el comando
                         comando.ExecuteNonQuery();

@@ -12,7 +12,7 @@ import cli.indicators.Indicator;
 public class AutisticEvaluatedOrganization extends AbstractEvaluatedOrganization {
 
 
-    public AutisticEvaluatedOrganization(int idOrganization, String orgType, String illness, String name, int idAddress, int telephone, String email, String information, String emailOrgPrincipal, String emailOrgConsultant) {
+    public AutisticEvaluatedOrganization(int idOrganization, String orgType, String illness, String name, int idAddress, long telephone, String email, String information, String emailOrgPrincipal, String emailOrgConsultant) {
         super(idOrganization, orgType, illness, name, idAddress, telephone, email, information, emailOrgPrincipal, emailOrgConsultant);
     }
 

@@ -3,7 +3,7 @@ package cli.organization;
 import cli.organization.data.EvaluatorTeam;
 
 public class AutisticEvaluatorOrganization extends AbstractEvaluatorOrganization {
-    public AutisticEvaluatorOrganization(int idOrganization, String orgType, String illness, String name, int idAddress, int telephone, String email, String information) {
+    public AutisticEvaluatorOrganization(int idOrganization, String orgType, String illness, String name, int idAddress, long telephone, String email, String information) {
         super(idOrganization, orgType, illness, name, idAddress, telephone, email, information);
     }
 

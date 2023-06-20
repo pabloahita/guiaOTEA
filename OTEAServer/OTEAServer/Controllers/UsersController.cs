@@ -84,7 +84,7 @@ namespace OTEAServer.Controllers
 
         // POST action
         [HttpPost]
-        public IActionResult Create(string email, string first_Name, string last_Name, string password, string userType, int telephone, int? idOrganization, string? organizationType, string? illness)
+        public IActionResult Create(string email, string first_Name, string last_Name, string password, string userType, long telephone, int? idOrganization, string? organizationType, string? illness)
         {
             _usersService.Add(email,first_Name,last_Name,password,userType,telephone,idOrganization,organizationType,illness);
             User user = new User(email, first_Name, last_Name, password, userType,telephone, idOrganization, organizationType, illness);
@@ -105,7 +105,7 @@ namespace OTEAServer.Controllers
 
             _usersService.Update(user);
 
-            return NoContent();
+            return Ok(user);
         }
 
         // DELETE action

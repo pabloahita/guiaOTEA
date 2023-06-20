@@ -1,4 +1,6 @@
-﻿namespace OTEAServer.Models
+﻿using Newtonsoft.Json;
+
+namespace OTEAServer.Models
 {
     public class Evidence
     {
@@ -10,10 +12,20 @@
             this.EvidenceValue = evidenceValue;
         }
 
+
+        [JsonProperty("idEvidence")]
         public int IdEvidence { get; set; }
+
+        [JsonProperty("idIndicator")]
         public int IdIndicator { get; set; }
+
+        [JsonProperty("indicatorType")]
         public string IndicatorType { get; set; }
+
+        [JsonProperty("evidenceDescription")]
         public string EvidenceDescription { get; set; }
+
+        [JsonProperty("evidenceValue")]
         public int EvidenceValue{ get; set; }
     }
 }

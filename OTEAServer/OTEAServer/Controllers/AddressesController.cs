@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Models;
 using OTEAServer.Services;
+using System.Data;
 
 namespace OTEAServer.Controllers
 {
@@ -40,10 +41,10 @@ namespace OTEAServer.Controllers
 
         // POST action
         [HttpPost]
-        public IActionResult Create(int idAddress, string nameStreet, int numberStreet, int floorApartment, char apartmentLetter, int zipCode, string city, string province, string region, string country)
+        public IActionResult Create(int idAddress, string nameStreet, int numberStreet, int floorApartment, char apartmentLetter, int zipCode, int idCity, int idProvince, int idRegion, string idCountry)
         {
-            _addressesService.Add(idAddress,nameStreet,numberStreet,floorApartment,apartmentLetter,zipCode,city,province,region,country);
-            Address address = new Address(idAddress, nameStreet, numberStreet, floorApartment, apartmentLetter, zipCode, city, province, region, country);
+            _addressesService.Add(idAddress,nameStreet,numberStreet,floorApartment,apartmentLetter,zipCode,idCity,idProvince,idRegion,idCountry);
+            Address address = new Address(idAddress, nameStreet, numberStreet, floorApartment, apartmentLetter, zipCode, idCity, idProvince, idRegion, idCountry);
             return CreatedAtAction(nameof(Get), new { idAddress = address.IdAddress }, address);
         }
 
@@ -61,7 +62,7 @@ namespace OTEAServer.Controllers
 
             _addressesService.Update(address);
 
-            return NoContent();
+            return Ok(address);
         }
 
         // DELETE action

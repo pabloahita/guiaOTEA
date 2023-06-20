@@ -15,7 +15,7 @@ public abstract class AbstractUser implements User{
     private String email;
 
     @SerializedName("telephone")
-    private int telephone;
+    private long telephone;
 
     private boolean connected;
 
@@ -31,7 +31,7 @@ public abstract class AbstractUser implements User{
     @SerializedName("illness")
     private String illness;
 
-    public AbstractUser(String first_name, String last_name, String email, String password, int telephone, int idOrganization, String orgType, String illness){
+    public AbstractUser(String first_name, String last_name, String email, String password, long telephone, int idOrganization, String orgType, String illness){
         setFirstName(first_name);
         setLastName(last_name);
         setEmail(email);
@@ -63,7 +63,7 @@ public abstract class AbstractUser implements User{
     }
 
     @Override
-    public int getTelephone(){
+    public long getTelephone(){
         return telephone;
     }
     @Override
@@ -87,30 +87,36 @@ public abstract class AbstractUser implements User{
     }
 
     @Override
-    public void setTelephone(int telephone){
+    public void setTelephone(long telephone){
         this.telephone=telephone;
     }
 
+    @Override
     public int getIdOrganization() {
         return idOrganization;
     }
 
+    @Override
     public void setIdOrganization(int idOrganization) {
         this.idOrganization = idOrganization;
     }
 
+    @Override
     public String getOrgType() {
         return orgType;
     }
 
+    @Override
     public void setOrgType(String orgType) {
         this.orgType = orgType;
     }
 
+    @Override
     public String getIllness() {
         return illness;
     }
 
+    @Override
     public void setIllness(String illness) {
         this.illness = illness;
     }

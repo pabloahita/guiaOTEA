@@ -36,7 +36,7 @@ public interface UsersApi {
 
     // POST action
     @POST("Users")
-    Call<User> Create(String email, String first_Name, String last_Name, String password, String userType, int telephone, int idOrganization, String organizationType, String illness);
+    Call<User> Create(String email, String first_Name, String last_Name, String password, String userType, long telephone, int idOrganization, String organizationType, String illness);
 
     // PUT action
     @PUT("Users/{email}")

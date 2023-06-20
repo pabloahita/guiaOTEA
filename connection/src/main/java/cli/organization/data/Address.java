@@ -2,6 +2,23 @@ package cli.organization.data;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.IOException;
+
+import cli.organization.data.geo.City;
+import cli.organization.data.geo.Country;
+import cli.organization.data.geo.Province;
+import cli.organization.data.geo.Region;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import otea.connection.CitiesApi;
+import otea.connection.ConnectionClient;
+import otea.connection.ProvincesApi;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
 /**
  * <p>EN: Class that represents an address that belongs to an organization. Every organization is composed by a road type, a name, a main entry's number, a floor level, an apartment letter, a zip-code, a city an a country.</p>
  * <p>ES: Clase que representa una direccion la cual pertenece a una organizacion. Cada organizacion se compone por un tipo de calle, un nombre, un numero de portal, un numero de piso, una letra de apartamento, un codigo postal, una ciudad y un pais</p>
@@ -28,17 +45,22 @@ public class Address {
     @SerializedName("zipCode")
     private int zipCode;
 
-    @SerializedName("city")
-    private String city;
+    @SerializedName("idCity")
+    private int idCity;
 
-    @SerializedName("province")
-    private String province;
+    @SerializedName("idProvince")
+    private int idProvince;
 
-    @SerializedName("region")
-    private String region;
+    @SerializedName("idRegion")
+    private int idRegion;
 
-    @SerializedName("country")
-    private String country;
+    @SerializedName("idCountry")
+    private String idCountry;
+
+    private City city;
+    private Province province;
+    private Region region;
+    private Country country;
 
     /**
      * <p>EN: Address class constructor</p>
@@ -49,22 +71,24 @@ public class Address {
      * @param floor   <p>EN: Floor's number</p><p>ES: Numero de piso</p>
      * @param apt     <p>EN: Apartment's letter</p><p>ES: Letra del apartamento</p>
      * @param zipCode <p>EN: Address' zip-code</p><p>ES: Codigo postal de la direccion</p>
-     * @param city    <p>EN: Address' city</p><p>ES: Ciudad de la direccion</p>
-     * @param province <p>EN:Address' province</p><p>ES: Provincia de la direccion</p>
-     * @param region <p>EN: Address' region </p><p>ES: Provincia de la direccion</p>
-     * @param country <p>EN: Address' country</p><p>ES: Pais de la direccion</p>
+     * @param idCity    <p>EN: Address' city id</p><p>ES: Id de la ciudad de la direccion</p>
+     * @param idProvince <p>EN:Address' province id</p><p>ES: Id de la provincia de la direccion</p>
+     * @param idRegion <p>EN: Address' region id</p><p>ES: Id de la region de la direccion</p>
+     * @param idCountry <p>EN: Address' country id</p><p>ES: Id del pais de la direccion</p>
      */
-    public Address(int idAddress, String name, int number, int floor, char apt, int zipCode, String city, String province, String region, String country){
+    public Address(int idAddress, String name, int number, int floor, char apt, int zipCode, int idCity, int idProvince, int idRegion, String idCountry){
         setIdAddress(idAddress);
         setName(name);
         setNumber(number);
         setFloor(floor);
         setApartment(apt);
         setZipCode(zipCode);
-        setCity(city);
-        setProvince(province);
-        setRegion(region);
-        setContry(country);
+        setIdCity(idCity);
+        setIdProvince(idProvince);
+        setIdRegion(idRegion);
+        setIdCountry(idCountry);
+        obtainCity(idCity,idProvince,idRegion,idCountry);
+
     }
     //Getters and setters of every field
 
@@ -158,47 +182,115 @@ public class Address {
      */
     public void setZipCode(int zipCode){this.zipCode=zipCode;}
 
-    /**
-     * Get city string.
-     *
-     * @return the string
-     */
-    public String getCity(){return city;}
+    public City getCity() {
+        return city;
+    }
 
-    /**
-     * Set city.
-     *
-     * @param city the city
-     */
-    public void setCity(String city){this.city=city;}
+    public void setCity(City city) {
+        this.city = city;
+    }
 
-    /**
-     * Get country string.
-     *
-     * @return the string
-     */
-    public String getCountry(){return country;}
-
-    /**
-     * Set contry.
-     *
-     * @param country the country
-     */
-    public void setContry(String country){this.country=country;}
-
-    public String getProvince() {
+    public Province getProvince() {
         return province;
     }
 
-    public void setProvince(String province) {
+    public void setProvince(Province province) {
         this.province = province;
     }
 
-    public String getRegion() {
+    public Region getRegion() {
         return region;
     }
 
-    public void setRegion(String region) {
+    public void setRegion(Region region) {
         this.region = region;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
+    public int getIdCity() {
+        return idCity;
+    }
+
+    public void setIdCity(int idCity) {
+        this.idCity = idCity;
+    }
+
+    public int getIdProvince() {
+        return idProvince;
+    }
+
+    public void setIdProvince(int idProvince) {
+        this.idProvince = idProvince;
+    }
+
+    public int getIdRegion() {
+        return idRegion;
+    }
+
+    public void setIdRegion(int idRegion) {
+        this.idRegion = idRegion;
+    }
+
+    public String getIdCountry() {
+        return idCountry;
+    }
+
+    public void setIdCountry(String idCountry) {
+        this.idCountry = idCountry;
+    }
+
+    public void obtainCity(int idCity, int idProvince, int idRegion, String idCountry){
+        ConnectionClient con=new ConnectionClient();
+        Retrofit retrofit=con.getRetrofit();
+        CitiesApi api=retrofit.create(CitiesApi.class);
+        Call<City> call=api.GetCity(idCity,idProvince,idRegion,idCountry);
+        City[] aux=new City[1];
+        Disposable disposable = Observable.fromCallable(() -> {
+                    try {
+                        Response<City> response = call.execute();
+                        if (response.isSuccessful()) {
+                            aux[0]=response.body();
+                            return aux[0];
+                        } else {
+                            throw new IOException("Error: " + response.code() + " " + response.message());
+                        }
+                    } catch (IOException e) {
+                        throw e;
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(province-> {
+                    System.out.println("Province correctly obtained");
+                }, error -> {
+                    System.out.println(error.toString());
+                });
+        setCity(aux[0]);
+        city.obtainProvince(idProvince,idRegion,idCountry);
+        setProvince(city.getProvince());
+        setRegion(province.getRegion());
+        setCountry(region.getCountry());
+    }
+
+    public String getCityName(){
+       return city.getCityName();
+    }
+    public String getProvinceName(){
+        return province.getNameProvince();
+    }
+    public String getRegionName(){
+        return region.getNameRegion();
+    }
+    public String getCountryName(String language){
+        if(language=="ESP"){return country.getNameSpanish();}
+        if(language=="FRA"){return country.getNameFrench();}
+        return country.getNameEnglish();//En inglés es por defectp
     }
 }

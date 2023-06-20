@@ -30,7 +30,7 @@ namespace OTEAServer.Services
                     {
                         while (reader.Read())
                         {
-                            orgsList.Add(new Organization(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetString(5), (int)reader.GetInt64(6), reader.GetString(7), reader.GetString(8), reader.GetString(9)));
+                            orgsList.Add(new Organization(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetString(5), reader.GetInt64(6), reader.GetString(7), reader.GetString(8), reader.GetString(9)));
                         }
                     }
                 }
@@ -56,7 +56,7 @@ namespace OTEAServer.Services
                     {
                         while (reader.Read())
                         {
-                            orgsList.Add(new Organization(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetString(5), (int)reader.GetInt64(6), reader.GetString(7), reader.GetString(8), reader.GetString(9)));
+                            orgsList.Add(new Organization(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetString(5), reader.GetInt64(6), reader.GetString(7), reader.GetString(8), reader.GetString(9)));
                         }
                     }
                 }
@@ -87,7 +87,7 @@ namespace OTEAServer.Services
                     {
                         if (reader.Read())
                         {
-                            return new Organization(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetString(5), (int)reader.GetInt64(6), reader.GetString(7), reader.GetString(8), reader.GetString(9));
+                            return new Organization(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetString(5), reader.GetInt64(6), reader.GetString(7), reader.GetString(8), reader.GetString(9));
                         }
                     }
                 }
@@ -101,7 +101,7 @@ namespace OTEAServer.Services
         public Organization GetEvaluatorOrganizationById(int id, string illness) => Get(id, "EVALUATOR", illness);
 
 
-        public void Add(int id, string orgType, string illness, string name, int idAddress, string email, int telephone, string information, string emailOrgPrincipal, string emailOrgConsultant)
+        public void Add(int id, string orgType, string illness, string name, int idAddress, string email, long telephone, string information, string emailOrgPrincipal, string emailOrgConsultant)
         {
 
             string connectionString = _configuration.GetConnectionString("DefaultConnection");

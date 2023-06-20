@@ -19,7 +19,7 @@ public interface AddressesApi {
 
     // POST action
     @POST("Addresses")
-    Call<Address> Create(int idAddress, String nameStreet, int numberStreet, int floorApartment, char apartmentLetter, int zipCode, String city, String province, String region, String country);
+    Call<Address> Create(int idAddress, String nameStreet, int numberStreet, int floorApartment, char apartmentLetter, int zipCode, int idCity, int idProvince, int idRegion, String idCountry);
 
     // PUT action
     @PUT("Addresses/{id}")
@@ -27,6 +27,7 @@ public interface AddressesApi {
 
     // DELETE action
     @DELETE("Addresses/{id}")
-    Call<Address> Delete(int id);
+    Call<Address> Delete(@Path("id") int id);
+
 
 }

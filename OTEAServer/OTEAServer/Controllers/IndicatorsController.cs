@@ -73,7 +73,7 @@ namespace OTEAServer.Controllers
 
             _indicatorsService.Update(indicator);
 
-            return NoContent();
+            return Ok(indicator);
         }
 
         // DELETE action
