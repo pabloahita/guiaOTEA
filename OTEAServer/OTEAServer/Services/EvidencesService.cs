@@ -29,7 +29,7 @@ namespace OTEAServer.Services
                     {
                         while (reader.Read())
                         {
-                            evidenceList.Add(new Models.Evidence(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4)));
+                            evidenceList.Add(new Models.Evidence(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetInt32(6)));
                         }
                     }
                 }
@@ -57,7 +57,7 @@ namespace OTEAServer.Services
                     {
                         while (reader.Read())
                         {
-                            evidenceList.Add(new Models.Evidence(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4)));
+                            evidenceList.Add(new Models.Evidence(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetInt32(6)));
                         }
                     }
                 }
@@ -84,7 +84,7 @@ namespace OTEAServer.Services
                     {
                         if (reader.Read())
                         {
-                            return new Models.Evidence(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4));
+                            return new Models.Evidence(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetInt32(6));
                         }
                     }
                 }
@@ -92,7 +92,7 @@ namespace OTEAServer.Services
             return null;
         }
 
-        public void Add(int idEvidence, int idIndicator, string indicatorType, string evidenceDescription, int evidenceValue)
+        public void Add(int idEvidence, int idIndicator, string indicatorType, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, int evidenceValue)
         {
 
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -103,14 +103,16 @@ namespace OTEAServer.Services
                 connection.Open();
 
                 // Crea el command SQL
-                string sql = "INSERT INTO EVIDENCES (IDEVIDENCE,IDINDICATOR,INDICATORTYPE,EVIDENCEDESCRIPTION,EVIDENCEVALUE) VALUES (@IDEVIDENCE,@IDINDICATOR,@INDICATORTYPE,@EVIDENCEDESCRIPTION,@EVIDENCEVALUE)";
+                string sql = "INSERT INTO EVIDENCES (IDEVIDENCE,IDINDICATOR,INDICATORTYPE,DESCRIPTIONENGLISH,DESCRIPTIONSPANISH,DESCRIPTIONFRENCH,EVIDENCEVALUE) VALUES (@IDEVIDENCE,@IDINDICATOR,@INDICATORTYPE,@DESCRIPTIONENGLISH,@DESCRIPTIONSPANISH,@DESCRIPTIONFRENCH,@EVIDENCEVALUE)";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     // Añade parámetros para evitar la inyección de SQL
                     command.Parameters.AddWithValue("@IDEVIDENCE", idEvidence);
                     command.Parameters.AddWithValue("@IDINDICATOR", idIndicator);
                     command.Parameters.AddWithValue("@INDICATORTYPE", indicatorType);
-                    command.Parameters.AddWithValue("@EVIDENCEDESCRIPTION", evidenceDescription);
+                    command.Parameters.AddWithValue("@DESCRIPTIONENGLISH", descriptionEnglish);
+                    command.Parameters.AddWithValue("@DESCRIPTIONSPANISH", descriptionSpanish);
+                    command.Parameters.AddWithValue("@DESCRIPTIONFRENCH", descriptionFrench);
                     command.Parameters.AddWithValue("@EVIDENCEVALUE", evidenceValue);
                     // Ejecuta el command
                     command.ExecuteNonQuery();
@@ -152,7 +154,7 @@ namespace OTEAServer.Services
 
         public void Update(Models.Evidence evidence)
         {
-            if (evidence != null && Get(evidence.IdEvidence,evidence.IdIndicator,evidence.IndicatorType) == evidence)
+            if (evidence != null && Get(evidence.idEvidence,evidence.idIndicator,evidence.indicatorType) == evidence)
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
@@ -162,15 +164,17 @@ namespace OTEAServer.Services
                     connection.Open();
 
                     // Crea el command SQL
-                    string sql = "UPDATE EVIDENCES SET EVIDENCEDESCRIPTION=@EVIDENCEDESCRIPTION, EVIDENCEVALUE=@EVIDENCEVALUE WHERE IDEVIDENCE=@IDEVIDENCE AND IDINDICATOR=@IDINDICATOR AND INDICATORTYPE=@INDICATORTYPE";
+                    string sql = "UPDATE EVIDENCES SET DESCRIPTIONENGLISH=@DESCRIPTIONENGLISH, DESCRIPTIONENGLISH=@DESCRIPTIONSPANISH, DESCRIPTIONFRENCH=@DESCRIPTIONFRENCH, EVIDENCEVALUE=@EVIDENCEVALUE WHERE IDEVIDENCE=@IDEVIDENCE AND IDINDICATOR=@IDINDICATOR AND INDICATORTYPE=@INDICATORTYPE";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         // Añade parámetros para evitar la inyección de SQL
-                        command.Parameters.AddWithValue("@IDEVIDENCE", evidence.IdEvidence);
-                        command.Parameters.AddWithValue("@IDINDICATOR", evidence.IdIndicator);
-                        command.Parameters.AddWithValue("@INDICATORTYPE", evidence.IndicatorType);
-                        command.Parameters.AddWithValue("@EVIDENCEDESCRIPTION", evidence.EvidenceDescription);
-                        command.Parameters.AddWithValue("@EVIDENCEVALUE", evidence.EvidenceValue);
+                        command.Parameters.AddWithValue("@IDEVIDENCE", evidence.idEvidence);
+                        command.Parameters.AddWithValue("@IDINDICATOR", evidence.idIndicator);
+                        command.Parameters.AddWithValue("@INDICATORTYPE", evidence.indicatorType);
+                        command.Parameters.AddWithValue("@DESCRIPTIONENGLISH", evidence.descriptionEnglish);
+                        command.Parameters.AddWithValue("@DESCRIPTIONSPANISH", evidence.descriptionSpanish);
+                        command.Parameters.AddWithValue("@DESCRIPTIONFRENCH", evidence.descriptionFrench);
+                        command.Parameters.AddWithValue("@EVIDENCEVALUE", evidence.evidenceValue);
 
                         // Ejecuta el command
                         command.ExecuteNonQuery();

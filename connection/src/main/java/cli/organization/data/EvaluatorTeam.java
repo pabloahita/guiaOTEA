@@ -2,146 +2,65 @@ package cli.organization.data;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.IOException;
-import java.sql.Connection;
 import java.sql.Date;
+import java.util.LinkedList;
 import java.util.List;
 
-import cli.organization.AutisticEvaluatedOrganization;
-import cli.organization.AutisticEvaluatorOrganization;
-import cli.organization.EvaluatedOrganization;
 import cli.organization.EvaluatorOrganization;
-import cli.organization.Organization;
 import cli.user.EvaluatedOrganizationUser;
 import cli.user.EvaluatorOrganizationUser;
-import cli.user.User;
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
-import otea.connection.ConnectionClient;
-import otea.connection.OrganizationsApi;
-import otea.connection.UsersApi;
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.Retrofit;
+import otea.connection.caller.Caller;
 
 
 public class EvaluatorTeam {
 
     @SerializedName("idEvaluatorTeam")
-    private int id;
+    public int id;
     @SerializedName("creationDate")
-    private Date creation_date;
+    public Date creation_date;
 
     @SerializedName("idOrganization")
-    private int idOrganization;
+    public int idOrganization;
     @SerializedName("orgType")
-    private String orgType;
+    public String orgType;
     @SerializedName("illness")
-    private String illness;
+    public String illness;
     @SerializedName("patientName")
-    private String patient_name="";
+    public String patient_name="";
     @SerializedName("relativeName")
-    private String relative_name="";
+    public String relative_name="";
     @SerializedName("emailConsultant")
-    private String emailConsultant;
+    public String emailConsultant;
     @SerializedName("emailResponsible")
-    private String emailResponsible;
+    public String emailResponsible;
     @SerializedName("emailProfessional")
-    private String emailProfessional;
-    private EvaluatorOrganizationUser external_consultant;
-    private EvaluatedOrganizationUser professional;
-    private EvaluatedOrganizationUser direct_attendance_responsible;
-    private List<EvaluatorOrganizationUser> members;
-    private EvaluatorOrganization organization;
+    public String emailProfessional;
+    public EvaluatorOrganizationUser external_consultant;
+    public EvaluatedOrganizationUser professional;
+    public EvaluatedOrganizationUser direct_attendance_responsible;
+    public List<EvaluatorTeamMember> members;
+    public EvaluatorOrganization organization;
+
+    public Caller caller;
 
 
-    public EvaluatorTeam(int id, Date creation_date, int idOrganization, String orgType, String illness, String emailConsultant, String emailProfessional, String emailResponsible, String pacient_name, String relative_name){
+    public EvaluatorTeam(int id, Date creation_date, int idOrganization, String orgType, String illness, String emailConsultant, String emailProfessional, String emailResponsible, String patient_name, String relative_name){
         setId(id);
         setCreationDate(creation_date);
         setIdOrganization(idOrganization);
         setEmailConsultant(emailConsultant);
         setEmailProfessional(emailProfessional);
         setEmailResponsible(emailResponsible);
-        try{
-            obtainOrganization(idOrganization,orgType,illness);
-            external_consultant= (EvaluatorOrganizationUser) obtainUser(emailConsultant);
-            professional= (EvaluatedOrganizationUser) obtainUser(emailProfessional);
-            direct_attendance_responsible= (EvaluatedOrganizationUser) obtainUser(emailResponsible);
-            obtainMembers();
-        }catch(IOException e){}
-        //obtainExternalConsultant(emailExternalConsultant,idOrganization,illness);
-        //obtainEvalTeamMembers(id,idOrganization,illness);
-
+        setPatient_name(patient_name);
+        setRelative_name(relative_name);
+        setCaller(new Caller());
+        setOrganization((EvaluatorOrganization) caller.obtainOrganization(idOrganization,orgType,illness));
+        setExternalConsultant((EvaluatorOrganizationUser) caller.obtainOrgUser(emailConsultant,organization));
+        setProfessional((EvaluatedOrganizationUser) caller.obtainUser(emailProfessional));
+        setDirect_attendance_responsible((EvaluatedOrganizationUser) caller.obtainUser(emailResponsible));
+        setMembers(new LinkedList<>());
     }
 
-
-
-    public void obtainOrganization(int idOrganization, String orgType, String illness) throws IOException{
-        ConnectionClient cli=new ConnectionClient();
-        Retrofit retrofit=cli.getRetrofit();
-        OrganizationsApi api=retrofit.create(OrganizationsApi.class);
-        Call<Organization> call=api.Get(idOrganization,orgType,illness);
-        Disposable disposable = Observable.fromCallable(() -> {
-                    try {
-                        Response<Organization> response=call.execute();
-                        if(response.isSuccessful()){
-                            Organization aux=response.body();
-                            organization=new AutisticEvaluatorOrganization(aux.getIdOrganization(),orgType,aux.getIllness(),aux.getName(),aux.getIdAddress(),aux.getTelephone(),aux.getEmail(),aux.getInformation());
-                            return organization;
-                        } else {
-                            throw new IOException("Error: " + response.code() + " " + response.message());
-                        }
-                    } catch (IOException e) {
-                        throw e;
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(user-> {
-                    System.out.println("Evaluated user correctly obtained");
-                }, error -> {
-                    System.out.println(error.toString());
-                });
-    }
-
-    public User obtainUser(String email){
-        ConnectionClient cli=new ConnectionClient();
-        Retrofit retrofit=cli.getRetrofit();
-        UsersApi api=retrofit.create(UsersApi.class);
-        Call<User> call=api.Get(email);
-        User[] userObtained=new User[1];
-        Disposable disposable = Observable.fromCallable(() -> {
-                    try {
-                        Response<User> response=call.execute();
-                        if(response.isSuccessful()){
-                            User aux=response.body();
-                            if(aux.getOrgType()=="EVALUATED"){
-                                userObtained[0]=new EvaluatedOrganizationUser(aux.getFirstName(),aux.getLastName(),aux.getEmail(),aux.getPassword(),aux.getTelephone(),aux.getIdOrganization(),aux.getOrgType(),aux.getIllness());
-                            }
-                            if(aux.getOrgType()=="EVALUATOR"){
-                                userObtained[0]=new EvaluatorOrganizationUser(aux.getFirstName(),aux.getLastName(),aux.getEmail(),aux.getPassword(),aux.getTelephone(),aux.getIdOrganization(),aux.getOrgType(),aux.getIllness());
-                            }
-                            return userObtained[0];
-                        } else {
-                            throw new IOException("Error: " + response.code() + " " + response.message());
-                        }
-                    } catch (IOException e) {
-                        throw e;
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(user-> {
-                    System.out.println("User correctly obtained");
-                }, error -> {
-                    System.out.println(error.toString());
-                });
-        return userObtained[0];
-    }
-
-    public void obtainMembers(){}
     public Date getCreationDate() {
         return creation_date;
     }
@@ -158,11 +77,11 @@ public class EvaluatorTeam {
         this.external_consultant = external_consultant;
     }
 
-    public List<EvaluatorOrganizationUser> getMembers() {
+    public List<EvaluatorTeamMember> getMembers() {
         return members;
     }
 
-    public void setMembers(List<EvaluatorOrganizationUser> members) {
+    public void setMembers(List<EvaluatorTeamMember> members) {
         this.members = members;
     }
 
@@ -245,5 +164,37 @@ public class EvaluatorTeam {
 
     public void setIllness(String illness) {
         this.illness = illness;
+    }
+
+    public Caller getCaller() {
+        return caller;
+    }
+
+    public void setCaller(Caller caller) {
+        this.caller = caller;
+    }
+
+    public EvaluatorOrganizationUser getExternal_consultant() {
+        return external_consultant;
+    }
+
+    public void setExternal_consultant(EvaluatorOrganizationUser external_consultant) {
+        this.external_consultant = external_consultant;
+    }
+
+    public EvaluatedOrganizationUser getProfessional() {
+        return professional;
+    }
+
+    public void setProfessional(EvaluatedOrganizationUser professional) {
+        this.professional = professional;
+    }
+
+    public EvaluatedOrganizationUser getDirect_attendance_responsible() {
+        return direct_attendance_responsible;
+    }
+
+    public void setDirect_attendance_responsible(EvaluatedOrganizationUser direct_attendance_responsible) {
+        this.direct_attendance_responsible = direct_attendance_responsible;
     }
 }

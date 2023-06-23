@@ -5,6 +5,7 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -24,6 +25,9 @@ import android.widget.Toast;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 import com.fundacionmiradas.indicatorsevaluation.databinding.ActivityStartSessionBinding;
+
+import cli.user.User;
+import gui.data.Result;
 
 
 public class StartSession extends AppCompatActivity {
@@ -124,9 +128,22 @@ public class StartSession extends AppCompatActivity {
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // TODO : initiate successful logged in experience
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+        User user=model.getUser();
+        if(user.getUserType().equals("ADMIN")){
+            //GO TO ADMIN MAIN MENU
+            Intent intent = new Intent(this, gui.mainMenu.admin.MainMenu.class);
+            startActivity(intent);
+        } else if(user.getUserType().equals("ORGANIZATION")){
+            if(user.getOrgType().equals("EVALUATED")){
+                //GO TO EVALUATED MAIN MENU
+                Intent intent = new Intent(this, gui.mainMenu.evaluated.MainMenu.class);
+                startActivity(intent);
+            }else if(user.getOrgType().equals("EVALUATOR")){
+                //GO TO EVALUATOR MAIN MENU
+                Intent intent = new Intent(this, gui.mainMenu.evaluator.MainMenu.class);
+                startActivity(intent);
+            }
+        }
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {

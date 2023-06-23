@@ -7,48 +7,48 @@ namespace OTEAServer.Models
     public class Organization
     {
         public Organization(int id, string orgType, string illness, string name, int idAddress, string email, long telephone, string information, string? emailOrgPrincipal, string? emailOrgConsultant) {
-            this.Id = id;
-            this.OrgType = orgType;
-            this.Illness = illness;
-            this.Name = name;
-            this.IdAddress = idAddress;
-            this.Email = email;
-            this.Telephone = telephone;
-            this.Information = information;
-            this.EmailOrgPrincipal = emailOrgPrincipal;
-            this.EmailOrgConsultant = emailOrgConsultant;
+            this.IdOrganization = id;
+            this.orgType = orgType;
+            this.illness = illness;
+            this.nameOrg = name;
+            this.idAddress = idAddress;
+            this.email = email;
+            this.telephone = telephone;
+            this.information = information;
+            this.emailOrgPrincipal = emailOrgPrincipal;
+            this.emailOrgConsultant = emailOrgConsultant;
 
         }
 
-        [JsonProperty("idOrganization")]
-        public int Id { get; set; }
+        [JsonProperty("IdOrganization")]
+        public int IdOrganization { get; set; }
 
         [JsonProperty("orgType")]
-        public string OrgType { get; set; }
+        public string orgType { get; set; }
 
         [JsonProperty("illness")]
-        public string Illness { get; set; }
+        public string illness { get; set; }
 
         [JsonProperty("nameOrg")]
-        public string Name { get; set; }
+        public string nameOrg { get; set; }
 
         [JsonProperty("idAddress")]
-        public int IdAddress { get; set; }
+        public int idAddress { get; set; }
 
         [JsonProperty("email")]
-        public string Email { get; set; }
+        public string email { get; set; }
 
         [JsonProperty("telephone")]
-        public long Telephone { get; set; }
+        public long telephone { get; set; }
 
         [JsonProperty("information")]
-        public string Information { get; set; }
+        public string information { get; set; }
 
         [JsonProperty("emailOrgPrincipal")]
-        public string? EmailOrgPrincipal { get; set; }
+        public string? emailOrgPrincipal { get; set; }
 
         [JsonProperty("emailOrgConsultant")]
-        public string? EmailOrgConsultant {  get; set; }
+        public string? emailOrgConsultant {  get; set; }
 
 
     }

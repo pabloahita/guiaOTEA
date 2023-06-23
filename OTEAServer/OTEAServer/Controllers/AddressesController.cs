@@ -22,13 +22,13 @@ namespace OTEAServer.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var organizations = _addressesService.GetAll();
-            return Ok(organizations);
+            var addresses = _addressesService.GetAll();
+            return Ok(addresses);
         }
 
         // GET by ID AND ORGTYPE action
 
-        [HttpGet("{id}")]
+        [HttpGet("get::{id}")]
         public ActionResult<Address> Get(int id)
         {
             var address = _addressesService.Get(id);
@@ -45,15 +45,15 @@ namespace OTEAServer.Controllers
         {
             _addressesService.Add(idAddress,nameStreet,numberStreet,floorApartment,apartmentLetter,zipCode,idCity,idProvince,idRegion,idCountry);
             Address address = new Address(idAddress, nameStreet, numberStreet, floorApartment, apartmentLetter, zipCode, idCity, idProvince, idRegion, idCountry);
-            return CreatedAtAction(nameof(Get), new { idAddress = address.IdAddress }, address);
+            return CreatedAtAction(nameof(Get), new { idAddress = address.idAddress }, address);
         }
 
         // PUT action
-        [HttpPut("{id}")]
+        [HttpPut("upd::{id}")]
         public IActionResult Update(int id, Address address)
         {
             // This code will update the mesa and return a result
-            if (id != address.IdAddress)
+            if (id != address.idAddress)
                 return BadRequest();
 
             var existingAddress = _addressesService.Get(id);
@@ -66,7 +66,7 @@ namespace OTEAServer.Controllers
         }
 
         // DELETE action
-        [HttpDelete("{id}")]
+        [HttpDelete("del::{id}")]
         public IActionResult Delete(int id)
         {
             // This code will delete the mesa and return a result

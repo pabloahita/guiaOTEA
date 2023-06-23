@@ -5,23 +5,28 @@ namespace OTEAServer.Models
 {
     public class City
     {
-        public City(int idCity, int idProvince, int idRegion, string idCountry) {
-            this.IdCity = idCity;
-            this.IdProvince = idProvince;
-            this.IdRegion = idRegion;
-            this.IdCountry = idCountry;
+        public City(int idCity, int idProvince, int idRegion, string idCountry, string cityName) {
+            this.idCity = idCity;
+            this.idProvince = idProvince;
+            this.idRegion = idRegion;
+            this.idCountry = idCountry;
+            this.cityName = cityName;
         }
 
         [JsonProperty("idCity")]
-        public int IdCity { get; set; }
+        public int idCity { get; set; }
 
         [JsonProperty("idProvince")]
-        public int IdProvince { get; set; }
+        public int idProvince { get; set; }
 
         [JsonProperty("idRegion")]
-        public int IdRegion { get; set; }
+        public int idRegion { get; set; }
 
         [JsonProperty("idCountry")]
-        public string IdCountry { get; set; }
+        public string idCountry { get; set; }
+
+        [JsonProperty("cityName")]
+        public string cityName { get; set; }
+
     }
 }

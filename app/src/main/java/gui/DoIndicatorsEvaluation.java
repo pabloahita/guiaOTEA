@@ -15,11 +15,12 @@ import com.fundacionmiradas.indicatorsevaluation.R;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import cli.indicators.Evidence;
 import cli.indicators.Indicator;
-import cli.organization.IndicatorsEvaluation;
+import cli.indicators.IndicatorsEvaluation;
 
 public class DoIndicatorsEvaluation extends AppCompatActivity implements View.OnClickListener{
 
@@ -51,12 +52,30 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
         Button previous_indicator=(Button) findViewById(R.id.previous_indicator);
         Button next_indicator=(Button) findViewById(R.id.next_indicator);
         Map<Indicator,Integer> num_evidences_reached_per_indicator=new HashMap<Indicator, Integer>();
-        indicatorCaption.setText(indicators.get(current_indicator).getDescription());
+        if(Locale.getDefault().getLanguage().equals("es")) {
+            indicatorCaption.setText(indicators.get(current_indicator).getDescriptionSpanish());
+        } else if(Locale.getDefault().getLanguage().equals("fr")) {
+            indicatorCaption.setText(indicators.get(current_indicator).getDescriptionFrench());
+        } else {//Default
+            indicatorCaption.setText(indicators.get(current_indicator).getDescriptionEnglish());
+        }
         List<Evidence> evidences=indicators.get(current_indicator).getEvidences();
-        evidence1.setText(evidences.get(0).getDescription());
-        evidence2.setText(evidences.get(1).getDescription());
-        evidence3.setText(evidences.get(2).getDescription());
-        evidence4.setText(evidences.get(3).getDescription());
+        if(Locale.getDefault().getLanguage().equals("es")) {
+            evidence1.setText(evidences.get(0).getDescriptionSpanish());
+            evidence2.setText(evidences.get(1).getDescriptionSpanish());
+            evidence3.setText(evidences.get(2).getDescriptionSpanish());
+            evidence4.setText(evidences.get(3).getDescriptionSpanish());
+        }else if(Locale.getDefault().getLanguage().equals("fr")) {
+            evidence1.setText(evidences.get(0).getDescriptionFrench());
+            evidence2.setText(evidences.get(1).getDescriptionFrench());
+            evidence3.setText(evidences.get(2).getDescriptionFrench());
+            evidence4.setText(evidences.get(3).getDescriptionFrench());
+        }else{
+            evidence1.setText(evidences.get(0).getDescriptionEnglish());
+            evidence2.setText(evidences.get(1).getDescriptionEnglish());
+            evidence3.setText(evidences.get(2).getDescriptionEnglish());
+            evidence4.setText(evidences.get(3).getDescriptionEnglish());
+        }
         evidence1.setOnClickListener(this);
         evidence2.setOnClickListener(this);
         evidence3.setOnClickListener(this);
@@ -167,11 +186,12 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
                     }
                     current_indicator++;changeIndicator();}
                 else{
-                    current_evaluation.setEvaluation(num_evidences_reached_per_indicator);
+                    current_evaluation.setResults(num_evidences_reached_per_indicator);
                     //current_evaluation.getEvaluatedOrganization().addEvaluation(current_evaluation);
                     Intent intent=new Intent(this, gui.MainActivity.class);
                     startActivity(intent);
-                    Toast.makeText(getApplicationContext(),"Total score: "+current_evaluation.getResults()+" points",Toast.LENGTH_LONG);
+                    current_evaluation.getResults();
+                    Toast.makeText(getApplicationContext(),"Total score: "+current_evaluation.getTotalScore()+" points",Toast.LENGTH_LONG);
                 }
                 break;
             }
@@ -194,16 +214,34 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
         evidence2.setChecked(switches_values[current_indicator][1]);
         evidence3.setChecked(switches_values[current_indicator][2]);
         evidence4.setChecked(switches_values[current_indicator][3]);
-        indicatorCaption.setText(current_evaluation.getIndicators().get(current_indicator).getDescription());
+        if(Locale.getDefault().getLanguage().equals("es")) {
+            indicatorCaption.setText(current_evaluation.getIndicators().get(current_indicator).getDescriptionSpanish());
+        } else if(Locale.getDefault().getLanguage().equals("fr")) {
+            indicatorCaption.setText(current_evaluation.getIndicators().get(current_indicator).getDescriptionFrench());
+        } else {//Default
+            indicatorCaption.setText(current_evaluation.getIndicators().get(current_indicator).getDescriptionEnglish());
+        }
         List<Evidence> evidences=current_evaluation.getIndicators().get(current_indicator).getEvidences();
-        evidence1.setText(evidences.get(0).getDescription());
-        evidence2.setText(evidences.get(1).getDescription());
-        evidence3.setText(evidences.get(2).getDescription());
-        evidence4.setText(evidences.get(3).getDescription());
+        if(Locale.getDefault().getLanguage().equals("es")) {
+            evidence1.setText(evidences.get(0).getDescriptionSpanish());
+            evidence2.setText(evidences.get(1).getDescriptionSpanish());
+            evidence3.setText(evidences.get(2).getDescriptionSpanish());
+            evidence4.setText(evidences.get(3).getDescriptionSpanish());
+        }else if(Locale.getDefault().getLanguage().equals("fr")) {
+            evidence1.setText(evidences.get(0).getDescriptionFrench());
+            evidence2.setText(evidences.get(1).getDescriptionFrench());
+            evidence3.setText(evidences.get(2).getDescriptionFrench());
+            evidence4.setText(evidences.get(3).getDescriptionFrench());
+        }else{
+            evidence1.setText(evidences.get(0).getDescriptionEnglish());
+            evidence2.setText(evidences.get(1).getDescriptionEnglish());
+            evidence3.setText(evidences.get(2).getDescriptionEnglish());
+            evidence4.setText(evidences.get(3).getDescriptionEnglish());
+        }
         Log.d("NEWIND","Current indicator has "+num_evidences_reached+" reached evidences");
     }
 
-    /*public cli.organization.IndicatorsEvaluation startEvaluation(){
+    /*public cli.indicators.IndicatorsEvaluation startEvaluation(){
         java.util.Date aux=new java.util.Date();
         EvaluatedOrganizationUser organization_principal=new EvaluatedOrganizationUser("MJ","LJ","mjlj@google.com","123456",655447788);
         EvaluatedOrganization evaluatedOrganization=new AutisticOrganization("Autismo Majadahonda", new Address(RoadType.CARRETERA,"de Boadilla del Monte",5,0,'/',28220,"Majadahonda (Madrid)","España"), 916390390, "cita@autismo.es", "");
@@ -223,7 +261,7 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
         evaluatorTeam.getMembers().add(new EvaluatorOrganizationUser("MP", "MR", "mpmr@ymail.com", "481216", 696352125,(Organization) evaluatorOrganization));
         evaluatorTeam.getMembers().add(new EvaluatorOrganizationUser("S", "dBR", "sdbr@ymail.com", "5101520", 698765432,(Organization) evaluatorOrganization));
         evaluatorTeam.getMembers().add(new EvaluatorOrganizationUser("T", "GR", "tgr@ymail.com", "6121824", 698765432,(Organization) evaluatorOrganization));
-        cli.organization.IndicatorsEvaluation evaluation=new cli.organization.IndicatorsEvaluation(new Date(aux.getTime()),evaluatedOrganization,evaluatorTeam);
+        cli.indicators.IndicatorsEvaluation evaluation=new cli.indicators.IndicatorsEvaluation(new Date(aux.getTime()),evaluatedOrganization,evaluatorTeam);
         //evaluation.getEvaluatedOrganization().setAssets(getAssets());
         evaluation.getEvaluatedOrganization().setIndicators();
         return evaluation;

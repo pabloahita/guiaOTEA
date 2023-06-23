@@ -136,7 +136,7 @@ namespace OTEAServer.Services
 
         public void Update(Address address)
         {
-            if (address != null && Get(address.IdAddress) == address)
+            if (address != null && Get(address.idAddress) == address)
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
@@ -150,16 +150,16 @@ namespace OTEAServer.Services
                     using (SqlCommand comando = new SqlCommand(sql, connection))
                     {
                         // Añade parámetros para evitar la inyección de SQL
-                        comando.Parameters.AddWithValue("@IDADDRESS", address.IdAddress);
-                        comando.Parameters.AddWithValue("@NAMESTREET", address.NameStreet);
-                        comando.Parameters.AddWithValue("@NUMBERSTREET", address.NumberStreet);
-                        comando.Parameters.AddWithValue("@FLOORAPARTMENT", address.FloorApartment);
-                        comando.Parameters.AddWithValue("@APARTMENTLETTER", address.ApartmentLetter);
-                        comando.Parameters.AddWithValue("@ZIPCODE", address.ZipCode);
-                        comando.Parameters.AddWithValue("@IDCITY", address.IdCity);
-                        comando.Parameters.AddWithValue("@IDPROVINCE", address.IdProvince);
-                        comando.Parameters.AddWithValue("@IDREGION", address.IdRegion);
-                        comando.Parameters.AddWithValue("@IDCOUNTRY", address.IdCountry);
+                        comando.Parameters.AddWithValue("@IDADDRESS", address.idAddress);
+                        comando.Parameters.AddWithValue("@NAMESTREET", address.nameStreet);
+                        comando.Parameters.AddWithValue("@NUMBERSTREET", address.numberSt);
+                        comando.Parameters.AddWithValue("@FLOORAPARTMENT", address.floorApartment);
+                        comando.Parameters.AddWithValue("@APARTMENTLETTER", address.apartmentLetter);
+                        comando.Parameters.AddWithValue("@ZIPCODE", address.zipCode);
+                        comando.Parameters.AddWithValue("@IDCITY", address.idCity);
+                        comando.Parameters.AddWithValue("@IDPROVINCE", address.idProvince);
+                        comando.Parameters.AddWithValue("@IDREGION", address.idRegion);
+                        comando.Parameters.AddWithValue("@IDCOUNTRY", address.idCountry);
 
                         // Ejecuta el comando
                         comando.ExecuteNonQuery();

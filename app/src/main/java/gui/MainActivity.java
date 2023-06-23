@@ -21,8 +21,7 @@ public class MainActivity extends AppCompatActivity {
         Button sign_up = findViewById(R.id.sign_up);
 
         sign_in.setOnClickListener(v -> {
-            //Intent intent = new Intent(this, gui.ui.login.StartSession.class);
-            Intent intent = new Intent(this, gui.SignInPrueba.class);
+            Intent intent = new Intent(this, gui.ui.login.StartSession.class);
             startActivity(intent);
         });
         /*sign_up.setOnClickListener(v -> {

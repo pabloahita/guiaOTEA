@@ -10,6 +10,11 @@ builder.Services.AddScoped<OrganizationsService>();
 builder.Services.AddScoped<AddressesService>();
 builder.Services.AddScoped<IndicatorsService>();
 builder.Services.AddScoped<EvidencesService>();
+builder.Services.AddScoped<CitiesService>();
+builder.Services.AddScoped<ProvincesService>();
+builder.Services.AddScoped<RegionsService>();
+builder.Services.AddScoped<CountriesService>();
+builder.Services.AddScoped<IndicatorsEvaluationsService>();
 
 var app = builder.Build();
 

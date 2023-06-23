@@ -1,17 +1,19 @@
 package gui.ui.login;
 
+import cli.user.User;
+
 /**
  * Class exposing authenticated user details to the UI.
  */
 class LoggedInUserView {
-    private String displayName;
+    private User user;
     //... other data fields that may be accessible to the UI
 
-    LoggedInUserView(String displayName) {
-        this.displayName = displayName;
+    LoggedInUserView(User user) {
+        this.user = user;
     }
 
-    String getDisplayName() {
-        return displayName;
+    User getUser() {
+        return user;
     }
 }

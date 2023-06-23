@@ -5,23 +5,27 @@ import com.google.gson.annotations.SerializedName;
 public class Evidence {
 
     @SerializedName("idEvidence")
-    private int idEvidence;
+    public int idEvidence;
     @SerializedName("idIndicator")
-    private int idIndicator;
+    public int idIndicator;
     @SerializedName("indicatorType")
-    private String indicatorType;
-    @SerializedName("evidenceDescription")
-    private String description;
+    public String indicatorType;
+    @SerializedName("descriptionEnglish")
+    public String descriptionEnglish;
+    @SerializedName("descriptionSpanish")
+    public String descriptionSpanish;
+    @SerializedName("descriptionFrench")
+    public String descriptionFrench;
     @SerializedName("evidenceValue")
-    private int value;
-    private boolean isMarked;
-    public Evidence(int idEvidence, int idIndicator, String indicatorType, String description, int value){
+    public int value;
+    public Evidence(int idEvidence, int idIndicator, String indicatorType, String descriptionEnglish,String descriptionSpanish,String descriptionFrench, int value){
         setIdEvidence(idEvidence);
         setIdIndicator(idIndicator);
         setIndicatorType(indicatorType);
-        setDescription(description);
+        setDescriptionEnglish(descriptionEnglish);
+        setDescriptionSpanish(descriptionSpanish);
+        setDescriptionFrench(descriptionFrench);
         setValue(value);
-        setMarked(false);
     }
 
     public int getIdEvidence() {
@@ -52,19 +56,32 @@ public class Evidence {
         this.value=value;
     }
 
-    public void setDescription(String description) {
-        this.description=description;
+    public String getDescriptionEnglish() {
+        return descriptionEnglish;
     }
 
-    public String getDescription() {
-        return description;
+    public void setDescriptionEnglish(String descriptionEnglish) {
+        this.descriptionEnglish = descriptionEnglish;
+    }
+
+    public String getDescriptionSpanish() {
+        return descriptionSpanish;
+    }
+
+    public void setDescriptionSpanish(String descriptionSpanish) {
+        this.descriptionSpanish = descriptionSpanish;
+    }
+
+    public String getDescriptionFrench() {
+        return descriptionFrench;
+    }
+
+    public void setDescriptionFrench(String descriptionFrench) {
+        this.descriptionFrench = descriptionFrench;
     }
 
     public int getValue(){
         return value;
     }
 
-    public void setMarked(boolean isMarked){this.isMarked=isMarked;}
-
-    public boolean getStatus(){return isMarked;}
 }

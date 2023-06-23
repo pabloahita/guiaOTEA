@@ -46,7 +46,7 @@ namespace OTEAServer.Controllers
 
         // GET by ID AND ORGTYPE action
 
-        [HttpGet("id={id}:orgType={orgType}:illness={illness}")]
+        [HttpGet("get::id={id}:orgType={orgType}:illness={illness}")]
         public ActionResult<Organization> Get(int id,string orgType,string illness)
         {
             var organization = _organizationsService.Get(id,orgType,illness);
@@ -90,15 +90,15 @@ namespace OTEAServer.Controllers
         {
             _organizationsService.Add(id, orgType, illness, name, idAddress, email, telephone, information, emailOrgPrincipal, emailOrgConsultant);
             Organization organization = new Organization(id, orgType, illness, name, idAddress, email, telephone, information, emailOrgPrincipal, emailOrgConsultant);
-            return CreatedAtAction(nameof(Get), new { id = organization.Id, type=organization.OrgType }, organization);
+            return CreatedAtAction(nameof(Get), new { id = organization.IdOrganization, type=organization.orgType }, organization);
         }
 
         // PUT action
-        [HttpPut("id={id}:orgType={orgType}:illness={illness}")]
+        [HttpPut("upd::id={id}:orgType={orgType}:illness={illness}")]
         public IActionResult Update(int id,string orgType,string illness, Organization organization)
         {
             // This code will update the mesa and return a result
-            if (id != organization.Id || orgType!=organization.OrgType || illness!=organization.Illness)
+            if (id != organization.IdOrganization || orgType!=organization.orgType || illness!=organization.illness)
                 return BadRequest();
 
             var existingOrganization = _organizationsService.Get(id, orgType, illness);
@@ -111,7 +111,7 @@ namespace OTEAServer.Controllers
         }
 
         // DELETE action
-        [HttpDelete("id={id}:orgType={orgType}:illness={illness}")]
+        [HttpDelete("del::id={id}:orgType={orgType}:illness={illness}")]
         public IActionResult Delete(int id, string orgType, string illness)
         {
             // This code will delete the mesa and return a result

@@ -28,7 +28,7 @@ namespace OTEAServer.Controllers
         }
 
         // GET all by INDICATORTYPE action
-        [HttpGet("indicatorType={indicatorType}")]
+        [HttpGet("all::indicatorType={indicatorType}")]
         public IActionResult GetAllByType(string indicatorType)
         {
             var indicators = _indicatorsService.GetAllByType(indicatorType);
@@ -37,7 +37,7 @@ namespace OTEAServer.Controllers
 
         // GET by ID AND INDICATOR TYPE action
 
-        [HttpGet("idIndicator={idIndicator}:indicatorType={indicatorType}")]
+        [HttpGet("get::idIndicator={idIndicator}:indicatorType={indicatorType}")]
         public ActionResult<Indicator> Get(int idIndicator, string indicatorType)
         {
             var indicator = _indicatorsService.Get(idIndicator,indicatorType);
@@ -52,19 +52,19 @@ namespace OTEAServer.Controllers
 
         // POST action
         [HttpPost]
-        public IActionResult Create(int idIndicator, string indicatorType, string indicatorDescription, int indicatorPriority)
+        public IActionResult Create(int idIndicator, string indicatorType, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, int indicatorPriority)
         {
-            _indicatorsService.Add(idIndicator,indicatorType,indicatorDescription,indicatorPriority);
-            Indicator indicator = new Indicator(idIndicator, indicatorType, indicatorDescription, indicatorPriority);
-            return CreatedAtAction(nameof(Get), new { id = indicator.IdIndicator, type=indicator.IndicatorType }, indicator);
+            _indicatorsService.Add(idIndicator,indicatorType,descriptionEnglish,descriptionSpanish,descriptionFrench,indicatorPriority);
+            Indicator indicator = new Indicator(idIndicator, indicatorType, descriptionEnglish, descriptionSpanish, descriptionFrench, indicatorPriority);
+            return CreatedAtAction(nameof(Get), new { id = indicator.indicatorId, type=indicator.indicatorType }, indicator);
         }
 
         // PUT action
-        [HttpPut("idIndicator={idIndicator}:indicatorType={indicatorType}")]
+        [HttpPut("upd::idIndicator={idIndicator}:indicatorType={indicatorType}")]
         public IActionResult Update(int idIndicator, string indicatorType, Indicator indicator)
         {
             // This code will update the mesa and return a result
-            if (idIndicator != indicator.IdIndicator || indicatorType != indicator.IndicatorType)
+            if (idIndicator != indicator.indicatorId || indicatorType != indicator.indicatorType)
                 return BadRequest();
 
             var existingIndicator = _indicatorsService.Get(idIndicator, indicatorType);
@@ -77,7 +77,7 @@ namespace OTEAServer.Controllers
         }
 
         // DELETE action
-        [HttpDelete("idIndicator={idIndicator}:indicatorType={indicatorType}")]
+        [HttpDelete("del::idIndicator={idIndicator}:indicatorType={indicatorType}")]
         public IActionResult Delete(int idIndicator, string indicatorType)
         {
             // This code will delete the mesa and return a result

@@ -37,7 +37,6 @@ android {
         resources.excludes.add("META-INF/*")
     }
 
-
 }
 
 dependencies {

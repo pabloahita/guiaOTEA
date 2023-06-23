@@ -169,7 +169,7 @@ namespace OTEAServer.Services
 
         public void Update(Organization organization)
         {
-            if (organization != null && Get(organization.Id, organization.OrgType, organization.Illness) == organization)
+            if (organization != null && Get(organization.IdOrganization, organization.orgType, organization.illness) == organization)
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
@@ -183,16 +183,16 @@ namespace OTEAServer.Services
                     using (SqlCommand comando = new SqlCommand(sql, connection))
                     {
                         // Añade parámetros para evitar la inyección de SQL
-                        comando.Parameters.AddWithValue("@ID", organization.Id);
-                        comando.Parameters.AddWithValue("@ORGTYPE", organization.OrgType);
-                        comando.Parameters.AddWithValue("@ILLNESS", organization.Illness);
-                        comando.Parameters.AddWithValue("@NAME", organization.Name);
-                        comando.Parameters.AddWithValue("@IDADRESS", organization.IdAddress);
-                        comando.Parameters.AddWithValue("@EMAIL", organization.Email);
-                        comando.Parameters.AddWithValue("@TELEPHONE", organization.Telephone);
-                        comando.Parameters.AddWithValue("@INFORMATION", organization.Information);
-                        comando.Parameters.AddWithValue("@EMAILORGPRINCIPAL", organization.EmailOrgPrincipal);
-                        comando.Parameters.AddWithValue("@EMAILORGCONSULTANT", organization.EmailOrgConsultant);
+                        comando.Parameters.AddWithValue("@ID", organization.IdOrganization);
+                        comando.Parameters.AddWithValue("@ORGTYPE", organization.orgType);
+                        comando.Parameters.AddWithValue("@ILLNESS", organization.illness);
+                        comando.Parameters.AddWithValue("@NAME", organization.nameOrg);
+                        comando.Parameters.AddWithValue("@IDADRESS", organization.idAddress);
+                        comando.Parameters.AddWithValue("@EMAIL", organization.email);
+                        comando.Parameters.AddWithValue("@TELEPHONE", organization.telephone);
+                        comando.Parameters.AddWithValue("@INFORMATION", organization.information);
+                        comando.Parameters.AddWithValue("@EMAILORGPRINCIPAL", organization.emailOrgPrincipal);
+                        comando.Parameters.AddWithValue("@EMAILORGCONSULTANT", organization.emailOrgConsultant);
 
                         // Ejecuta el comando
                         comando.ExecuteNonQuery();

@@ -28,7 +28,7 @@ namespace OTEAServer.Controllers
 
 
         //GET all by user type
-        [HttpGet("userType={userType}")]
+        [HttpGet("getAllByType::userType={userType}")]
         public IActionResult GetAllByType(string userType)
         {
             var users = _usersService.GetAllByType(userType);
@@ -36,7 +36,7 @@ namespace OTEAServer.Controllers
         }
 
         //GET all organization users by organization type
-        [HttpGet("idOrganization={idOrganization}:orgType={orgType}")]
+        [HttpGet("getAllByOrg::idOrganization={idOrganization}:orgType={orgType}")]
         public IActionResult GetAllOrgUsersByOrganization(int idOrganization, string orgType)
         {
             var users = _usersService.GetAllOrgUsersByOrganization(idOrganization,orgType);
@@ -45,7 +45,7 @@ namespace OTEAServer.Controllers
 
         // GET by EMAIL action
 
-        [HttpGet("email={email}")]
+        [HttpGet("get::email={email}")]
         public ActionResult<User> Get(string email)
         {
             var user = _usersService.Get(email);
@@ -56,9 +56,21 @@ namespace OTEAServer.Controllers
             return user;
         }
 
+        //GET for LOGIN
+        [HttpGet("login::email={email}:password={password}")]
+        public ActionResult<User> GetForLogin(string email,string password)
+        {
+            var user = _usersService.GetForLogin(email,password);
+
+            if (user == null)
+                return NotFound();
+
+            return user;
+        }
+
         // GET by EMAIL and USER TYPE action
 
-        [HttpGet("email={email}:userType={userType}")]
+        [HttpGet("getByType::email={email}:userType={userType}")]
         public ActionResult<User> GetByType(string email, string userType)
         {
             var user = _usersService.GetByType(email,userType);
@@ -71,7 +83,7 @@ namespace OTEAServer.Controllers
 
         // GET by EMAIL and ORGANIZATION action
 
-        [HttpGet("email={email}:idOrganization={idOrganization}:orgType={orgType}")]
+        [HttpGet("getByOrg::email={email}:idOrganization={idOrganization}:orgType={orgType}")]
         public ActionResult<User> GetOrgUserByOrganization(string email, int idOrganization, string orgType)
         {
             var user = _usersService.GetOrgUserByOrganization(email,idOrganization,orgType);
@@ -88,15 +100,15 @@ namespace OTEAServer.Controllers
         {
             _usersService.Add(email,first_Name,last_Name,password,userType,telephone,idOrganization,organizationType,illness);
             User user = new User(email, first_Name, last_Name, password, userType,telephone, idOrganization, organizationType, illness);
-            return CreatedAtAction(nameof(Get), new { email = user.Email}, user);
+            return CreatedAtAction(nameof(Get), new { email = user.emailUser}, user);
         }
 
         // PUT action
-        [HttpPut("{email}")]
+        [HttpPut("upd::email={email}")]
         public IActionResult Update(string email, User user)
         {
             // This code will update the mesa and return a result
-            if (email != user.Email)
+            if (email != user.emailUser)
                 return BadRequest();
 
             var existingUser = _usersService.Get(email);
@@ -109,7 +121,7 @@ namespace OTEAServer.Controllers
         }
 
         // DELETE action
-        [HttpDelete("{email}")]
+        [HttpDelete("del::email={email}")]
         public IActionResult Delete(String email)
         {
             // This code will delete the mesa and return a result

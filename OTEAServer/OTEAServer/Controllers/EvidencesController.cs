@@ -28,7 +28,7 @@ namespace OTEAServer.Controllers
         }
 
         // GET all by INDICATORTYPE action
-        [HttpGet("idIndicator={idIndicator}")]
+        [HttpGet("ind::idIndicator={idIndicator}")]
         public IActionResult GetAllByIndicator(int idIndicator, string indicatorType)
         {
             var evidences = _evidencesService.GetAllByIndicator(idIndicator, indicatorType);
@@ -37,7 +37,7 @@ namespace OTEAServer.Controllers
 
         // GET by ID AND INDICATOR TYPE action
 
-        [HttpGet("idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}")]
+        [HttpGet("get::idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}")]
         public ActionResult<Evidence> Get(int idEvidence, int idIndicator, string indicatorType)
         {
             var evidence = _evidencesService.Get(idEvidence,idIndicator, indicatorType);
@@ -52,19 +52,19 @@ namespace OTEAServer.Controllers
 
         // POST action
         [HttpPost]
-        public IActionResult Create(int idEvidence, int idIndicator, string indicatorType, string evidenceDescription, int evidenceValue)
+        public IActionResult Create(int idEvidence, int idIndicator, string indicatorType, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, int evidenceValue)
         {
-            _evidencesService.Add(idEvidence,idIndicator,indicatorType,evidenceDescription, evidenceValue);
-            Evidence evidence = new Evidence(idEvidence, idIndicator, indicatorType, evidenceDescription, evidenceValue);
-            return CreatedAtAction(nameof(Get), new { id = evidence.IdEvidence, idIndicator=evidence.IdIndicator, type = evidence.IndicatorType }, evidence);
+            _evidencesService.Add(idEvidence,idIndicator,indicatorType, descriptionEnglish, descriptionSpanish, descriptionFrench, evidenceValue);
+            Evidence evidence = new Evidence(idEvidence, idIndicator, indicatorType, descriptionEnglish, descriptionSpanish, descriptionFrench, evidenceValue);
+            return CreatedAtAction(nameof(Get), new { id = evidence.idEvidence, idIndicator=evidence.idIndicator, type = evidence.indicatorType }, evidence);
         }
 
         // PUT action
-        [HttpPut("idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}")]
+        [HttpPut("put::idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}")]
         public IActionResult Update(int idEvidence, int idIndicator, string indicatorType, Evidence evidence)
         {
             // This code will update the mesa and return a result
-            if (idEvidence != evidence.IdEvidence || idIndicator != evidence.IdIndicator || indicatorType != evidence.IndicatorType)
+            if (idEvidence != evidence.idEvidence || idIndicator != evidence.idIndicator || indicatorType != evidence.indicatorType)
                 return BadRequest();
 
             var existingEvidence = _evidencesService.Get(idEvidence, idIndicator, indicatorType);
@@ -77,7 +77,7 @@ namespace OTEAServer.Controllers
         }
 
         // DELETE action
-        [HttpDelete("idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}")]
+        [HttpDelete("del::idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}")]
         public IActionResult Delete(int idEvidence, int idIndicator, string indicatorType)
         {
             // This code will delete the mesa and return a result

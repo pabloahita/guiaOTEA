@@ -5,34 +5,34 @@ namespace OTEAServer.Models
     public class User
     {
         public User(string email, string userType, string first_Name, string last_Name, string password, long telephone, int? idOrganization, string? organizationType, string? illness) { 
-            this.Email = email;
-            this.UserType = userType;
-            this.First_Name = first_Name;
-            this.Last_Name = last_Name;
-            this.Password = password;
-            this.Telephone = telephone;
+            this.emailUser = email;
+            this.userType = userType;
+            this.first_name = first_Name;
+            this.last_name = last_Name;
+            this.passwordUser = password;
+            this.telephone = telephone;
             this.idOrganization = idOrganization;
             this.organizationType = organizationType;
             this.illness = illness;
         }
 
         [JsonProperty("emailUser")]
-        public string Email { get; set; }
+        public string emailUser { get; set; }
 
         [JsonProperty("first_name")]
-        public string First_Name { get; set; }
+        public string first_name { get; set; }
 
         [JsonProperty("last_name")]
-        public string Last_Name { get; set; }
+        public string last_name { get; set; }
 
         [JsonProperty("passwordUser")]
-        public string Password { get; set; }
+        public string passwordUser { get; set; }
 
         [JsonProperty("telephone")]
-        public long Telephone { get; set; }
+        public long telephone { get; set; }
 
         [JsonProperty("userType")]
-        public string UserType { get; set; }
+        public string userType { get; set; }
 
         [JsonProperty("idOrganization")]
         public int? idOrganization { get; set; }

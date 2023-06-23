@@ -2,22 +2,11 @@ package cli.organization.data;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.IOException;
-
 import cli.organization.data.geo.City;
 import cli.organization.data.geo.Country;
 import cli.organization.data.geo.Province;
 import cli.organization.data.geo.Region;
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
-import otea.connection.CitiesApi;
-import otea.connection.ConnectionClient;
-import otea.connection.ProvincesApi;
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.Retrofit;
+import otea.connection.caller.Caller;
 
 /**
  * <p>EN: Class that represents an address that belongs to an organization. Every organization is composed by a road type, a name, a main entry's number, a floor level, an apartment letter, a zip-code, a city an a country.</p>
@@ -28,28 +17,28 @@ import retrofit2.Retrofit;
 public class Address {
 
     @SerializedName("idAddress")
-    private int idAddress;
+    public int idAddress;
 
     @SerializedName("nameStreet")
-    private String name;
+    public String nameStreet;
 
-    @SerializedName("numberStreet")
-    private int number;
+    @SerializedName("numberSt")
+    public int numberSt;
 
     @SerializedName("floorApartment")
-    private int floor=-1;
+    public int floorApartment=-1;
 
     @SerializedName("apartmentLetter")
-    private char apt='/';
+    public char apartmentLetter='/';
 
     @SerializedName("zipCode")
-    private int zipCode;
+    public int zipCode;
 
     @SerializedName("idCity")
-    private int idCity;
+    public int idCity;
 
     @SerializedName("idProvince")
-    private int idProvince;
+    public int idProvince;
 
     @SerializedName("idRegion")
     private int idRegion;
@@ -61,6 +50,8 @@ public class Address {
     private Province province;
     private Region region;
     private Country country;
+
+    private Caller caller;
 
     /**
      * <p>EN: Address class constructor</p>
@@ -87,7 +78,10 @@ public class Address {
         setIdProvince(idProvince);
         setIdRegion(idRegion);
         setIdCountry(idCountry);
-        obtainCity(idCity,idProvince,idRegion,idCountry);
+        setCity(caller.obtainCity(idCity,idProvince,idRegion,idCountry));
+        setProvince(city.getProvince());
+        setRegion(province.getRegion());
+        setCountry(region.getCountry());
 
     }
     //Getters and setters of every field
@@ -112,7 +106,7 @@ public class Address {
      * <p>ES: Metodo que obtiene el nombre de la calle</p>
      * @return <p>EN: Road's name</p><p>ES: Nombre de la calle</p>
      */
-    public String getName(){return name;}
+    public String getName(){return nameStreet;}
 
     /**
      * <p>EN: Method that changes the road's name</p>
@@ -120,14 +114,14 @@ public class Address {
      *
      * @param name <p>EN: The new road's name</p><p>ES: El nuevo nombre de la calle</p>
      */
-    public void setName(String name){this.name=name;}
+    public void setName(String name){this.nameStreet=name;}
 
     /**
      * <p>EN: Method that obtains the address' main door's number</p>
      * <p>ES: Metodo que obtiene el numero de portal de la direccion</p>
      * @return <p>EN: Main door's number</p><p>ES: Numero de portal</p>
      */
-    public int getNumber(){return number;}
+    public int getNumber(){return numberSt;}
 
     /**
      * <p>EN: Method that changes the main door's number</p>
@@ -135,7 +129,7 @@ public class Address {
      *
      * @param number <p>EN: The new main door's number</p><p>ES: El nuevo numero de portal</p>
      */
-    public void setNumber(int number){this.number=number;}
+    public void setNumber(int number){this.numberSt=number;}
 
     /**
      * <p>EN: Method that obtains the address' floor number</p>
@@ -143,7 +137,7 @@ public class Address {
      *
      * @return the int
      */
-    public int getFloor(){return floor;}
+    public int getFloor(){return floorApartment;}
 
     /**
      * <p>EN: Method that changes the address' floor's number</p>
@@ -151,7 +145,7 @@ public class Address {
      *
      * @param floor <p>EN: The new floor's number</p><p>ES: El nuevo numero de piso</p>
      */
-    public void setFloor(int floor){this.floor=floor;}
+    public void setFloor(int floor){this.floorApartment=floor;}
 
     /**
      * <p>EN: Method that obtains the apartment's letter</p>
@@ -159,14 +153,14 @@ public class Address {
      *
      * @return <p>EN: Apartment's letter</p><p>ES: Letra del apartamento</p>
      */
-    public char getApartment(){return apt;}
+    public char getApartment(){return apartmentLetter;}
 
     /**
      * Set apartment.
      *
      * @param apt the apt
      */
-    public void setApartment(char apt){this.apt=apt;}
+    public void setApartment(char apt){this.apartmentLetter=apt;}
 
     /**
      * Get zip code int.
@@ -246,38 +240,7 @@ public class Address {
         this.idCountry = idCountry;
     }
 
-    public void obtainCity(int idCity, int idProvince, int idRegion, String idCountry){
-        ConnectionClient con=new ConnectionClient();
-        Retrofit retrofit=con.getRetrofit();
-        CitiesApi api=retrofit.create(CitiesApi.class);
-        Call<City> call=api.GetCity(idCity,idProvince,idRegion,idCountry);
-        City[] aux=new City[1];
-        Disposable disposable = Observable.fromCallable(() -> {
-                    try {
-                        Response<City> response = call.execute();
-                        if (response.isSuccessful()) {
-                            aux[0]=response.body();
-                            return aux[0];
-                        } else {
-                            throw new IOException("Error: " + response.code() + " " + response.message());
-                        }
-                    } catch (IOException e) {
-                        throw e;
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(province-> {
-                    System.out.println("Province correctly obtained");
-                }, error -> {
-                    System.out.println(error.toString());
-                });
-        setCity(aux[0]);
-        city.obtainProvince(idProvince,idRegion,idCountry);
-        setProvince(city.getProvince());
-        setRegion(province.getRegion());
-        setCountry(region.getCountry());
-    }
+
 
     public String getCityName(){
        return city.getCityName();
@@ -292,5 +255,13 @@ public class Address {
         if(language=="ESP"){return country.getNameSpanish();}
         if(language=="FRA"){return country.getNameFrench();}
         return country.getNameEnglish();//En inglés es por defectp
+    }
+
+    public Caller getCaller() {
+        return caller;
+    }
+
+    public void setCaller(Caller caller) {
+        this.caller = caller;
     }
 }

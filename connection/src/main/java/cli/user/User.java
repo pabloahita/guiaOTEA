@@ -1,39 +1,155 @@
 package cli.user;
 
-public interface User {
-    String getFirstName();
 
-    String getLastName();
+import com.google.gson.annotations.SerializedName;
 
-    String getEmail();
+import otea.connection.caller.Caller;
 
-    String getPassword();
+public class User implements IUser {
 
-    long getTelephone();
+    @SerializedName("first_name")
+    public String first_name;
+    @SerializedName("userType")
+    public String userType;
 
-    void setFirstName(String first_name);
+    @SerializedName("last_name")
+    public String last_name;
 
-    void setLastName(String last_name);
+    @SerializedName("emailUser")
+    public String emailUser;
 
-    void setEmail(String email);
+    @SerializedName("telephone")
+    public long telephone;
 
-    void setPassword(String password);
+    public boolean connected;
 
-    void setTelephone(long telephone);
+    @SerializedName("passwordUser")
+    public String passwordUser;
 
-    int getIdOrganization();
+    @SerializedName("idOrganization")
+    public int idOrganization;
 
-    void setIdOrganization(int idOrganization);
+    @SerializedName("organizationType")
+    public String orgType;
 
-    String getOrgType();
+    @SerializedName("illness")
+    public String illness;
 
-    void setOrgType(String orgType);
+    public Caller caller;
 
-    String getIllness();
+    public User(String first_name, String last_name, String userType, String emailUser, String passwordUser, long telephone, int idOrganization, String orgType, String illness){
+        setFirst_name(first_name);
+        setLast_name(last_name);
+        setUserType(userType);
+        setEmailUser(emailUser);
+        setPasswordUser(passwordUser);
+        setTelephone(telephone);
+        setIdOrganization(idOrganization);
+        setOrgType(orgType);
+        setIllness(illness);
+        setCaller(new Caller());
+    }
 
-    void setIllness(String illness);
+    @Override
+    public Caller getCaller(){return caller;}
 
-    void connect();
 
-    void disconnect();
+    @Override
+    public void setCaller(Caller caller) {
+        this.caller = caller;
+    }
+
+    @Override
+    public String getFirst_name(){
+        return first_name;
+    }
+
+    @Override
+    public String getLast_name(){
+        return last_name;
+    }
+
+    @Override
+    public String getEmailUser(){
+        return emailUser;
+    }
+
+    @Override
+    public String getPasswordUser(){
+        return passwordUser;
+    }
+
+    @Override
+    public long getTelephone(){
+        return telephone;
+    }
+    @Override
+    public void setFirst_name(String first_name){
+        this.first_name=first_name;
+    }
+
+    @Override
+    public void setLast_name(String last_name){
+        this.last_name=last_name;
+    }
+
+    @Override
+    public void setEmailUser(String emailUser){
+        this.emailUser=emailUser;
+    }
+
+    @Override
+    public void setPasswordUser(String passwordUser) {
+        this.passwordUser = passwordUser;
+    }
+
+    @Override
+    public void setTelephone(long telephone){
+        this.telephone=telephone;
+    }
+
+    @Override
+    public int getIdOrganization() {
+        return idOrganization;
+    }
+
+    @Override
+    public void setIdOrganization(int idOrganization) {
+        this.idOrganization = idOrganization;
+    }
+
+    @Override
+    public String getOrgType() {
+        return orgType;
+    }
+
+    @Override
+    public void setOrgType(String orgType) {
+        this.orgType = orgType;
+    }
+
+    @Override
+    public String getIllness() {
+        return illness;
+    }
+
+    @Override
+    public void setIllness(String illness) {
+        this.illness = illness;
+    }
+
+    @Override
+    public void connect(){this.connected=true;}
+
+    @Override
+    public void disconnect(){this.connected=false;}
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
 }

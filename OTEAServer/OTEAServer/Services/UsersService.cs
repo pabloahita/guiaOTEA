@@ -32,7 +32,11 @@ namespace OTEAServer.Services
                     {
                         while (reader.Read())
                         {
-                            usersList.Add(new User(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetInt64(5), reader.GetInt32(6), reader.GetString(7), reader.GetString(8)));
+                            int idOrganization = reader.IsDBNull(6) ? -1 : reader.GetInt32(6);
+                            string organizationType = reader.IsDBNull(7) ? "" : reader.GetString(7);
+                            string illness = reader.IsDBNull(8) ? "" : reader.GetString(8);
+                            if (illness != null) { illness = ""; }
+                            usersList.Add(new User(reader.GetString(0), reader.GetString(1), reader.GetString(3), reader.GetString(4), reader.GetString(2), reader.GetInt64(5), idOrganization,organizationType,illness));
                         }
                     }
                 }
@@ -58,7 +62,10 @@ namespace OTEAServer.Services
                     {
                         while (reader.Read())
                         {
-                            usersList.Add(new User(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetInt64(5), reader.GetInt32(6), reader.GetString(7), reader.GetString(8)));
+                            int idOrganization = reader.IsDBNull(6) ? -1 : reader.GetInt32(6);
+                            string organizationType = reader.IsDBNull(7) ? "" : reader.GetString(7);
+                            string illness = reader.IsDBNull(8) ? "" : reader.GetString(8);
+                            usersList.Add(new User(reader.GetString(0), reader.GetString(1), reader.GetString(3), reader.GetString(4), reader.GetString(2), reader.GetInt64(5), idOrganization, organizationType, illness));
                         }
                     }
                 }
@@ -87,7 +94,7 @@ namespace OTEAServer.Services
                     {
                         while (reader.Read())
                         {
-                            usersList.Add(new User(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetInt64(5), reader.GetInt32(6), reader.GetString(7), reader.GetString(8)));
+                            usersList.Add(new User(reader.GetString(0), reader.GetString(1), reader.GetString(3), reader.GetString(4), reader.GetString(2), reader.GetInt64(5), reader.GetInt32(6), reader.GetString(7), reader.GetString(8)));
                         }
                     }
                 }
@@ -114,7 +121,38 @@ namespace OTEAServer.Services
                     {
                         if (reader.Read())
                         {
-                            return new User(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetInt64(5), reader.GetInt32(6), reader.GetString(7), reader.GetString(8));
+                            int idOrganization = reader.IsDBNull(6) ? -1 : reader.GetInt32(6);
+                            string organizationType = reader.IsDBNull(7) ? "" : reader.GetString(7);
+                            string illness = reader.IsDBNull(8) ? "" : reader.GetString(8);
+                            return new User(reader.GetString(0), reader.GetString(1), reader.GetString(3), reader.GetString(4), reader.GetString(2), reader.GetInt64(5), idOrganization, organizationType, illness);
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        public User? GetForLogin(string email, string password)
+        {
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            string query = "SELECT * FROM USERS WHERE emailUser=@EMAIL AND passwordUser=@PASSWORD";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@EMAIL", email);
+                    command.Parameters.AddWithValue("@PASSWORD", password);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            int idOrganization = reader.IsDBNull(6) ? -1 : reader.GetInt32(6);
+                            string organizationType = reader.IsDBNull(7) ? "" : reader.GetString(7);
+                            string illness = reader.IsDBNull(8) ? "" : reader.GetString(8);
+                            return new User(reader.GetString(0), reader.GetString(1), reader.GetString(3), reader.GetString(4), reader.GetString(2), reader.GetInt64(5), idOrganization, organizationType, illness);
                         }
                     }
                 }
@@ -138,7 +176,10 @@ namespace OTEAServer.Services
                     {
                         if (reader.Read())
                         {
-                            return new User(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetInt64(5), reader.GetInt32(6), reader.GetString(7), reader.GetString(8));
+                            int idOrganization = reader.IsDBNull(6) ? -1 : reader.GetInt32(6);
+                            string organizationType = reader.IsDBNull(7) ? "" : reader.GetString(7);
+                            string illness = reader.IsDBNull(8) ? "" : reader.GetString(8);
+                            return new User(reader.GetString(0), reader.GetString(1), reader.GetString(3), reader.GetString(4), reader.GetString(2), reader.GetInt64(5), idOrganization, organizationType, illness);
                         }
                     }
                 }
@@ -166,7 +207,7 @@ namespace OTEAServer.Services
                     {
                         if (reader.Read())
                         {
-                            return new User(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetInt64(5), reader.GetInt32(6), reader.GetString(7), reader.GetString(8));
+                            return new User(reader.GetString(0), reader.GetString(1), reader.GetString(3), reader.GetString(4), reader.GetString(2), reader.GetInt64(5), reader.GetInt32(6), reader.GetString(7), reader.GetString(8));
                         }
                     }
                 }
@@ -178,7 +219,10 @@ namespace OTEAServer.Services
         //Operación POST
         public void Add(string email, string first_Name, string last_Name, string password, string userType, long telephone, int? idOrganization, string? organizationType, string? illness)
         {
-
+            if (idOrganization == -1){ idOrganization = null; }
+            if (organizationType == "")  { organizationType = null; }
+            if (illness == "") { illness = null; }
+            
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -242,7 +286,7 @@ namespace OTEAServer.Services
 
         public void Update(User user)
         {
-            if (user !=null && Get(user.Email) == user)
+            if (user !=null && Get(user.emailUser) == user)
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
@@ -256,12 +300,12 @@ namespace OTEAServer.Services
                     using (SqlCommand comando = new SqlCommand(sql, connection))
                     {
                         // Añade parámetros para evitar la inyección de SQL
-                        comando.Parameters.AddWithValue("@EMAIL", user.Email);
-                        comando.Parameters.AddWithValue("@FIRSTNAME", user.First_Name);
-                        comando.Parameters.AddWithValue("@LASTNAME", user.Last_Name);
-                        comando.Parameters.AddWithValue("@PASSWORD", user.Password);
-                        comando.Parameters.AddWithValue("@TELEPHONE", user.Password);
-                        comando.Parameters.AddWithValue("@USERTYPE", user.UserType);
+                        comando.Parameters.AddWithValue("@EMAIL", user.emailUser);
+                        comando.Parameters.AddWithValue("@FIRSTNAME", user.first_name);
+                        comando.Parameters.AddWithValue("@LASTNAME", user.last_name);
+                        comando.Parameters.AddWithValue("@PASSWORD", user.passwordUser);
+                        comando.Parameters.AddWithValue("@TELEPHONE", user.telephone);
+                        comando.Parameters.AddWithValue("@USERTYPE", user.userType);
                         comando.Parameters.AddWithValue("@IDORGANIZATION", user.idOrganization);
                         comando.Parameters.AddWithValue("@ORGANIZATIONTYPE", user.organizationType);
                         comando.Parameters.AddWithValue("@ILLNESS", user.illness);
