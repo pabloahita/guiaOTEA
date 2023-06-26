@@ -4,7 +4,7 @@ namespace OTEAServer.Models
 {
     public class Evidence
     {
-        public Evidence(int idEvidence, int idIndicator, string indicatorType, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, int evidenceValue) {
+        public Evidence(int idEvidence, int idIndicator, string indicatorType, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, int evidenceValue, int indicatorVersion) {
             this.idEvidence = idEvidence;
             this.idIndicator = idIndicator;
             this.indicatorType = indicatorType;
@@ -12,6 +12,7 @@ namespace OTEAServer.Models
             this.descriptionSpanish = descriptionSpanish;
             this.descriptionFrench = descriptionFrench;
             this.evidenceValue = evidenceValue;
+            this.indicatorVersion = indicatorVersion;
         }
 
 
@@ -35,5 +36,8 @@ namespace OTEAServer.Models
 
         [JsonProperty("evidenceValue")]
         public int evidenceValue{ get; set; }
+
+        [JsonProperty("indicatorVersion")]
+        public int indicatorVersion { get; set; }
     }
 }

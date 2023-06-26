@@ -2,26 +2,30 @@ package cli.indicators;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class IndicatorsEvaluationReg {
 
     @SerializedName("evaluationDate")
-    public Date evaluationDate;
+    public Timestamp evaluationDate;
     @SerializedName("idEvaluatedOrganization")
     public int idEvaluatedOrganization;
     @SerializedName("orgTypeEvaluated")
     public String orgTypeEvaluated;
+
     @SerializedName("illness")
     public String illness;
-    @SerializedName("evaluationDate")
+    @SerializedName("indicatorId")
     public int indicatorId;
-    @SerializedName("evaluationDate")
+    @SerializedName("idEvidence")
     public int idEvidence;
-    @SerializedName("evaluationDate")
+    @SerializedName("isMarked")
     public int isMarked;
 
-    public IndicatorsEvaluationReg(Date evaluationDate, int idEvaluatedOrganization, String orgTypeEvaluated, String illness, int indicatorId, int idEvidence, int isMarked) {
+    @SerializedName("indicatorVersion")
+    public int indicatorVersion;
+
+    public IndicatorsEvaluationReg(Timestamp evaluationDate, int idEvaluatedOrganization, String orgTypeEvaluated, String illness, int indicatorId, int idEvidence, int isMarked, int indicatorVersion) {
         setEvaluationDate(evaluationDate);
         setIdEvaluatedOrganization(idEvaluatedOrganization);
         setOrgTypeEvaluated(orgTypeEvaluated);
@@ -29,13 +33,14 @@ public class IndicatorsEvaluationReg {
         setIndicatorId(indicatorId);
         setIdEvidence(idEvidence);
         setIsMarked(isMarked);
+        setIndicatorVersion(indicatorVersion);
     }
 
-    public Date getEvaluationDate() {
+    public Timestamp getEvaluationDate() {
         return evaluationDate;
     }
 
-    public void setEvaluationDate(Date evaluationDate) {
+    public void setEvaluationDate(Timestamp evaluationDate) {
         this.evaluationDate = evaluationDate;
     }
 
@@ -85,5 +90,13 @@ public class IndicatorsEvaluationReg {
 
     public void setIsMarked(int isMarked) {
         this.isMarked = isMarked;
+    }
+
+    public int getIndicatorVersion() {
+        return indicatorVersion;
+    }
+
+    public void setIndicatorVersion(int indicatorVersion) {
+        this.indicatorVersion = indicatorVersion;
     }
 }

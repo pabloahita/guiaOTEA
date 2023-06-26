@@ -37,3 +37,4 @@ C:\Users\Pablo\StudioProjects\tfg2223\OTEAServer\OTEAServer\bin\Release\net6.0\r
 C:\Users\Pablo\StudioProjects\tfg2223\OTEAServer\OTEAServer\bin\Release\net6.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\Pablo\StudioProjects\tfg2223\OTEAServer\OTEAServer\obj\Release\net6.0\OTEAServer.csproj.CopyComplete
 C:\Users\Pablo\StudioProjects\tfg2223\OTEAServer\OTEAServer\bin\Release\net6.0\Newtonsoft.Json.dll
+C:\Users\Pablo\StudioProjects\tfg2223\OTEAServer\OTEAServer\bin\Release\net6.0\Vse.Web.Serialization.dll

@@ -35,8 +35,15 @@ namespace OTEAServer.Services
                     {
                         while (reader.Read())
                         {
-                            addressesList.Add(new Address(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(3),
-                   reader.GetString(4)[0], reader.GetInt32(5), reader.GetInt32(6), reader.GetInt32(7), reader.GetInt32(8), reader.GetString(9)));
+                            if (reader.GetString(9) == "ESP") {
+                                addressesList.Add(new Address(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(3),
+                   reader.GetString(4), reader.GetInt32(5), reader.GetInt32(6), reader.GetInt32(7), reader.GetInt32(8), reader.GetString(9)));
+                            }
+                            else {
+                                addressesList.Add(new Address(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(3),
+                   reader.GetString(4), reader.GetInt32(5), reader.GetString(10), reader.GetString(11), reader.GetString(12), reader.GetString(9)));
+                            }
+                            
                         }
                     }
                 }
@@ -61,8 +68,16 @@ namespace OTEAServer.Services
                     {
                         if (reader.Read())
                         {
-                            return new Address(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(3),
-                   reader.GetString(4)[0], reader.GetInt32(5), reader.GetInt32(6), reader.GetInt32(7), reader.GetInt32(8), reader.GetString(9));
+                            if (reader.GetString(9) == "ESP")
+                            {
+                                return new Address(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(3),
+                       reader.GetString(4), reader.GetInt32(5), reader.GetInt32(6), reader.GetInt32(7), reader.GetInt32(8), reader.GetString(9));
+                            }
+                            else
+                            {
+                                return new Address(reader.GetInt32(0), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(3),
+                       reader.GetString(4), reader.GetInt32(5), reader.GetString(10), reader.GetString(11), reader.GetString(12), reader.GetString(9));
+                            }
                         }
                     }
                 }
@@ -70,7 +85,7 @@ namespace OTEAServer.Services
             return null;
         }
 
-        public void Add(int idAddress, string nameStreet, int numberStreet, int floorApartment, char apartmentLetter, int zipCode, int idCity, int idProvince, int idRegion, string idCountry)
+        public void Add(int idAddress, string nameStreet, int numberStreet, int floorApartment, string apartmentLetter, int zipCode, int idCity, int idProvince, int idRegion, string idCountry)
         {
 
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -81,7 +96,7 @@ namespace OTEAServer.Services
                 connection.Open();
 
                 // Crea el comando SQL
-                string sql = "INSERT INTO ADDRESSES (IDADDRESS,NAMESTREET,NUMBERSTREET,FLOORAPARTMENT,APARTMENTLETTER,ZIPCODE,IDCITY,IDPROVINCE,IDREGION,IDCOUNTRY) VALUES (@IDADDRESS,@NAMESTREET,@NUMBERSTREET,@FLOORAPARTMENT,@APARTMENTLETTER,@ZIPCODE,@IDCITY,@IDPROVINCE,@IDREGION,@IDCOUNTRY)";
+                string sql = "INSERT INTO ADDRESSES (IDADDRESS,NAMESTREET,NUMBERST,FLOORAPARTMENT,APARTMENTLETTER,ZIPCODE,IDCITY,IDPROVINCE,IDREGION,IDCOUNTRY) VALUES (@IDADDRESS,@NAMESTREET,@NUMBERSTREET,@FLOORAPARTMENT,@APARTMENTLETTER,@ZIPCODE,@IDCITY,@IDPROVINCE,@IDREGION,@IDCOUNTRY)";
                 using (SqlCommand comando = new SqlCommand(sql, connection))
                 {
                     // Añade parámetros para evitar la inyección de SQL
@@ -94,6 +109,40 @@ namespace OTEAServer.Services
                     comando.Parameters.AddWithValue("@IDCITY", idCity);
                     comando.Parameters.AddWithValue("@IDPROVINCE", idProvince);
                     comando.Parameters.AddWithValue("@IDREGION", idRegion);
+                    comando.Parameters.AddWithValue("@IDCOUNTRY", idCountry);
+                    // Ejecuta el comando
+                    comando.ExecuteNonQuery();
+                }
+
+                // Cierra la conexión a la base de datos
+                connection.Close();
+            }
+        }
+
+        public void Add(int idAddress, string nameStreet, int numberStreet, int floorApartment, string apartmentLetter, int zipCode, string nameCity, string nameProvince, string nameRegion, string idCountry)
+        {
+
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                // Abre la conexión a la base de datos
+                connection.Open();
+
+                // Crea el comando SQL
+                string sql = "INSERT INTO ADDRESSES (IDADDRESS,NAMESTREET,NUMBERST,FLOORAPARTMENT,APARTMENTLETTER,ZIPCODE,NAMECITY,NAMEPROVINCE,NAMEREGION,IDCOUNTRY) VALUES (@IDADDRESS,@NAMESTREET,@NUMBERSTREET,@FLOORAPARTMENT,@APARTMENTLETTER,@ZIPCODE,@NAMECITY,@NAMEPROVINCE,@NAMEREGION,@IDCOUNTRY)";
+                using (SqlCommand comando = new SqlCommand(sql, connection))
+                {
+                    // Añade parámetros para evitar la inyección de SQL
+                    comando.Parameters.AddWithValue("@IDADDRESS", idAddress);
+                    comando.Parameters.AddWithValue("@NAMESTREET", nameStreet);
+                    comando.Parameters.AddWithValue("@NUMBERSTREET", numberStreet);
+                    comando.Parameters.AddWithValue("@FLOORAPARTMENT", floorApartment);
+                    comando.Parameters.AddWithValue("@APARTMENTLETTER", apartmentLetter);
+                    comando.Parameters.AddWithValue("@ZIPCODE", zipCode);
+                    comando.Parameters.AddWithValue("@NAMECITY", nameCity);
+                    comando.Parameters.AddWithValue("@NAMEPROVINCE", nameProvince);
+                    comando.Parameters.AddWithValue("@NAMEREGION", nameRegion);
                     comando.Parameters.AddWithValue("@IDCOUNTRY", idCountry);
                     // Ejecuta el comando
                     comando.ExecuteNonQuery();
@@ -146,7 +195,7 @@ namespace OTEAServer.Services
                     connection.Open();
 
                     // Crea el comando SQL
-                    string sql = "UPDATE ADDRESS SET NAMESTREET=@NAMESTREET,NUMBERSTREET=@NUMBERSTREET,FLOORAPARTMENT=@FLOORAPARTMENT,APARTMENTLETTER=@APARTMENTLETTER,ZIPCODE=@ZIPCODE,IDCITY=@IDCITY,IDPROVINCE=@IDPROVINCE,IDREGION=@IDREGION,IDCOUNTRY=@IDCOUNTRY WHERE IDADDRESS=@IDADDRESS";
+                    string sql = "UPDATE ADDRESS SET NAMESTREET=@NAMESTREET,NUMBERSTREET=@NUMBERSTREET,FLOORAPARTMENT=@FLOORAPARTMENT,APARTMENTLETTER=@APARTMENTLETTER,ZIPCODE=@ZIPCODE,IDCITY=@IDCITY,IDPROVINCE=@IDPROVINCE,IDREGION=@IDREGION,IDCOUNTRY=@IDCOUNTRY, NAMECITY=@NAMECITY,NAMEPROVINCE=@NAMEPROVINCE,NAMEREGION=@NAMEREGION WHERE IDADDRESS=@IDADDRESS";
                     using (SqlCommand comando = new SqlCommand(sql, connection))
                     {
                         // Añade parámetros para evitar la inyección de SQL
@@ -160,6 +209,9 @@ namespace OTEAServer.Services
                         comando.Parameters.AddWithValue("@IDPROVINCE", address.idProvince);
                         comando.Parameters.AddWithValue("@IDREGION", address.idRegion);
                         comando.Parameters.AddWithValue("@IDCOUNTRY", address.idCountry);
+                        comando.Parameters.AddWithValue("@NAMECITY", address.nameCity);
+                        comando.Parameters.AddWithValue("@NAMEPROVINCE", address.nameProvince);
+                        comando.Parameters.AddWithValue("@NAMEREGION", address.nameRegion);
 
                         // Ejecuta el comando
                         comando.ExecuteNonQuery();

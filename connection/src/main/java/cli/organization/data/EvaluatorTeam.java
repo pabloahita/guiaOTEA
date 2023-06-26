@@ -2,14 +2,15 @@ package cli.organization.data;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
 
 import cli.organization.EvaluatorOrganization;
 import cli.user.EvaluatedOrganizationUser;
 import cli.user.EvaluatorOrganizationUser;
-import otea.connection.caller.Caller;
+import otea.connection.caller.OrganizationsCaller;
+import otea.connection.caller.UsersCaller;
 
 
 public class EvaluatorTeam {
@@ -17,7 +18,7 @@ public class EvaluatorTeam {
     @SerializedName("idEvaluatorTeam")
     public int id;
     @SerializedName("creationDate")
-    public Date creation_date;
+    public Timestamp creation_date;
 
     @SerializedName("idOrganization")
     public int idOrganization;
@@ -41,10 +42,8 @@ public class EvaluatorTeam {
     public List<EvaluatorTeamMember> members;
     public EvaluatorOrganization organization;
 
-    public Caller caller;
 
-
-    public EvaluatorTeam(int id, Date creation_date, int idOrganization, String orgType, String illness, String emailConsultant, String emailProfessional, String emailResponsible, String patient_name, String relative_name){
+    public EvaluatorTeam(int id, Timestamp creation_date, int idOrganization, String orgType, String illness, String emailConsultant, String emailProfessional, String emailResponsible, String patient_name, String relative_name){
         setId(id);
         setCreationDate(creation_date);
         setIdOrganization(idOrganization);
@@ -53,19 +52,18 @@ public class EvaluatorTeam {
         setEmailResponsible(emailResponsible);
         setPatient_name(patient_name);
         setRelative_name(relative_name);
-        setCaller(new Caller());
-        setOrganization((EvaluatorOrganization) caller.obtainOrganization(idOrganization,orgType,illness));
-        setExternalConsultant((EvaluatorOrganizationUser) caller.obtainOrgUser(emailConsultant,organization));
-        setProfessional((EvaluatedOrganizationUser) caller.obtainUser(emailProfessional));
-        setDirect_attendance_responsible((EvaluatedOrganizationUser) caller.obtainUser(emailResponsible));
+        setOrganization((EvaluatorOrganization) OrganizationsCaller.getInstance().obtainOrganization(idOrganization,orgType,illness));
+        setExternalConsultant((EvaluatorOrganizationUser) UsersCaller.getInstance().obtainOrgUser(emailConsultant,organization));
+        setProfessional((EvaluatedOrganizationUser) UsersCaller.getInstance().obtainUser(emailProfessional));
+        setDirect_attendance_responsible((EvaluatedOrganizationUser) UsersCaller.getInstance().obtainUser(emailResponsible));
         setMembers(new LinkedList<>());
     }
 
-    public Date getCreationDate() {
+    public Timestamp getCreationTimestamp() {
         return creation_date;
     }
 
-    public void setCreationDate(Date creation_date) {
+    public void setCreationDate(Timestamp creation_date) {
         this.creation_date = creation_date;
     }
 
@@ -164,14 +162,6 @@ public class EvaluatorTeam {
 
     public void setIllness(String illness) {
         this.illness = illness;
-    }
-
-    public Caller getCaller() {
-        return caller;
-    }
-
-    public void setCaller(Caller caller) {
-        this.caller = caller;
     }
 
     public EvaluatorOrganizationUser getExternal_consultant() {

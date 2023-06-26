@@ -9,7 +9,8 @@
       "OTEAServer/1.0.0": {
         "dependencies": {
           "Newtonsoft.Json": "13.0.3",
-          "System.Data.SqlClient": "4.8.5"
+          "System.Data.SqlClient": "4.8.5",
+          "Vse.Web.Serialization.ControlledSerializationJsonConverter": "1.0.4"
         },
         "runtime": {
           "OTEAServer.dll": {}
@@ -97,7 +98,15 @@
           "System.Security.Principal.Windows": "4.7.0"
         }
       },
-      "System.Security.Principal.Windows/4.7.0": {}
+      "System.Security.Principal.Windows/4.7.0": {},
+      "Vse.Web.Serialization.ControlledSerializationJsonConverter/1.0.4": {
+        "runtime": {
+          "lib/net45/Vse.Web.Serialization.dll": {
+            "assemblyVersion": "1.0.4.0",
+            "fileVersion": "1.0.4.0"
+          }
+        }
+      }
     }
   },
   "libraries": {
@@ -175,6 +184,13 @@
       "sha512": "sha512-ojD0PX0XhneCsUbAZVKdb7h/70vyYMDYs85lwEI+LngEONe/17A0cFaRFqZU+sOEidcVswYWikYOQ9PPfjlbtQ==",
       "path": "system.security.principal.windows/4.7.0",
       "hashPath": "system.security.principal.windows.4.7.0.nupkg.sha512"
+    },
+    "Vse.Web.Serialization.ControlledSerializationJsonConverter/1.0.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-d1ZGds/VSN028I9xA8illzAH60ra08Rfxk9e4vuJZX+etAvQjyCY9z2iEdN4J9UD6nSdmaI9FNN+nJ1UNKI8Uw==",
+      "path": "vse.web.serialization.controlledserializationjsonconverter/1.0.4",
+      "hashPath": "vse.web.serialization.controlledserializationjsonconverter.1.0.4.nupkg.sha512"
     }
   }
 }

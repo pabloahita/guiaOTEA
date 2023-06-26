@@ -41,10 +41,18 @@ namespace OTEAServer.Controllers
 
         // POST action
         [HttpPost]
-        public IActionResult Create(int idAddress, string nameStreet, int numberStreet, int floorApartment, char apartmentLetter, int zipCode, int idCity, int idProvince, int idRegion, string idCountry)
+        public IActionResult Create(int idAddress, string nameStreet, int numberStreet, int floorApartment, string apartmentLetter, int zipCode, int idCity, int idProvince, int idRegion, string idCountry, string nameCity, string nameProvince, string nameRegion)
         {
-            _addressesService.Add(idAddress,nameStreet,numberStreet,floorApartment,apartmentLetter,zipCode,idCity,idProvince,idRegion,idCountry);
-            Address address = new Address(idAddress, nameStreet, numberStreet, floorApartment, apartmentLetter, zipCode, idCity, idProvince, idRegion, idCountry);
+            Address address = null;
+            if (idCountry == "ESP")
+            {
+                _addressesService.Add(idAddress, nameStreet, numberStreet, floorApartment, apartmentLetter, zipCode, idCity, idProvince, idRegion, idCountry);
+                address = new Address(idAddress, nameStreet, numberStreet, floorApartment, apartmentLetter, zipCode, idCity, idProvince, idRegion, idCountry);
+            }
+            else {
+                _addressesService.Add(idAddress, nameStreet, numberStreet, floorApartment, apartmentLetter, zipCode, nameCity, nameProvince, nameRegion, idCountry);
+                address = new Address(idAddress, nameStreet, numberStreet, floorApartment, apartmentLetter, zipCode, nameCity, nameProvince, nameRegion, idCountry);
+            }
             return CreatedAtAction(nameof(Get), new { idAddress = address.idAddress }, address);
         }
 

@@ -1,4 +1,4 @@
-package gui.ui.login;
+package gui.ui.startSession;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -11,7 +11,6 @@ import com.fundacionmiradas.indicatorsevaluation.R;
 import cli.user.User;
 import gui.data.LoginRepository;
 import gui.data.Result;
-import gui.data.model.LoggedInUser;
 
 public class LoginViewModel extends ViewModel {
 

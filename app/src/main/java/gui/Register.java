@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
-public class SignUp extends AppCompatActivity {
+public class Register extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

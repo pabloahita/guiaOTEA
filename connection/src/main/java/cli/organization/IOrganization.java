@@ -1,7 +1,6 @@
 package cli.organization;
 
 import cli.organization.data.Address;
-import otea.connection.caller.Caller;
 
 
 public interface IOrganization {
@@ -50,11 +49,7 @@ public interface IOrganization {
     String getEmailOrgConsultant();
 
 
-    void setAddress(Address obtainAddress);
-
-    Caller getCaller();
-
-    void setCaller(Caller caller);
+    void setAddress(Address address);
 
     String getOrgType();
 

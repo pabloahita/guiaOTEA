@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace OTEAServer.Models
 {
@@ -26,7 +27,7 @@ namespace OTEAServer.Models
         public string last_name { get; set; }
 
         [JsonProperty("passwordUser")]
-        public string passwordUser { get; set; }
+        internal string passwordUser { get; set; } //Es internal y no public debido a que aunque se guarde la contraseña en el JSON, ésta no se muestra y por tanto no se envía al cliente
 
         [JsonProperty("telephone")]
         public long telephone { get; set; }

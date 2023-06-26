@@ -3,7 +3,7 @@ package cli.organization;
 import com.google.gson.annotations.SerializedName;
 
 import cli.organization.data.Address;
-import otea.connection.caller.Caller;
+import otea.connection.caller.AddressesCaller;
 
 public class Organization implements IOrganization {
 
@@ -36,7 +36,6 @@ public class Organization implements IOrganization {
     @SerializedName("emailOrgConsultant")
     private String emailOrgConsultant;
 
-    private Caller caller;
 
 
     public Organization(int idOrganization, String orgType, String illness, String name, int idAddress, long telephone, String email, String information, String emailOrgPrincipal, String emailOrgConsultant){
@@ -50,8 +49,7 @@ public class Organization implements IOrganization {
         setInformation(information);
         setEmailOrgPrincipal(emailOrgPrincipal);
         setEmailOrgConsultant(emailOrgConsultant);
-        setCaller(new Caller());
-        setAddress(caller.obtainAddress(idAddress));
+        setAddress(AddressesCaller.getInstance().obtainAddress(idAddress));
     }
 
 
@@ -61,14 +59,6 @@ public class Organization implements IOrganization {
     @Override
     public void setEmailOrgPrincipal(String emailOrgConsultant) {this.emailOrgConsultant=emailOrgConsultant;}
 
-    @Override
-    public Caller getCaller() {
-        return caller;
-    }
-    @Override
-    public void setCaller(Caller caller) {
-        this.caller = caller;
-    }
 
     @Override
     public int getIdOrganization() {

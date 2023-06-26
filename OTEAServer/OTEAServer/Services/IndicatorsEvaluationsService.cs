@@ -106,7 +106,7 @@ namespace OTEAServer.Services
                 connection.Open();
 
                 // Crea el command SQL
-                string sql = "INSERT INTO INDICATORSEVALUATIONS (EVALUATIONDATE,IDEVALUATEDORGANIZATION,ORGTYPEEVALUATED,IDEVALUATORTEAM,IDEVALUATORORGANIZATION,ORGTYPEEVALUATOR,ILLNESS) VALUES (@EVALUATIONDATE,@IDEVALUATEDORGANIZATION,@ORGTYPEEVALUATED,@IDEVALUATORTEAM,@IDEVALUATORORGANIZATION,@ORGTYPEEVALUATOR,@ILLNESS)";
+                string sql = "INSERT INTO INDICATORSEVALUATIONS (EVALUATIONDATE,IDEVALUATEDORGANIZATION,ORGTYPEEVALUATED,IDEVALUATORTEAM,IDEVALUATORORGANIZATION,ORGTYPEEVALUATOR,ILLNESS,TOTALSCORE) VALUES (@EVALUATIONDATE,@IDEVALUATEDORGANIZATION,@ORGTYPEEVALUATED,@IDEVALUATORTEAM,@IDEVALUATORORGANIZATION,@ORGTYPEEVALUATOR,@ILLNESS,@TOTALSCORE)";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     // Añade parámetros para evitar la inyección de SQL
@@ -117,6 +117,7 @@ namespace OTEAServer.Services
                     command.Parameters.AddWithValue("@IDEVALUATORORGANIZATION", idEvaluatorOrganization);
                     command.Parameters.AddWithValue("@ORGTYPEEVALUATOR", orgTypeEvaluator);
                     command.Parameters.AddWithValue("@ILLNESS", illness);
+                    command.Parameters.AddWithValue("@TOTALSCORE", totalScore);
                     // Ejecuta el command
                     command.ExecuteNonQuery();
                 }
@@ -169,7 +170,7 @@ namespace OTEAServer.Services
                     connection.Open();
 
                     // Crea el command SQL
-                    string sql = "UPDATE INDICATORSEVALUATIONS SET IDEVALUATORTEAM=@IDEVALUATORTEAM, IDEVALUATORTEAM=@IDEVALUATORORGANIZATION, ORGTYPEEVALUATOR=@ORGTYPEEVALUATORWHERE EVALUATIONDATE=@EVALUATIONDATE AND IDEVALUATEDORGANIZATION=@IDEVALUATEDORGANIZATION AND ORGTYPEEVALUATED=@ORGTYPEEVALUATED AND  ILLNESS=@ILLNESS ";
+                    string sql = "UPDATE INDICATORSEVALUATIONS SET IDEVALUATORTEAM=@IDEVALUATORTEAM, IDEVALUATORTEAM=@IDEVALUATORORGANIZATION, ORGTYPEEVALUATOR=@ORGTYPEEVALUATOR, TOTALSCORE=@TOTALSCORE WHERE EVALUATIONDATE=@EVALUATIONDATE AND IDEVALUATEDORGANIZATION=@IDEVALUATEDORGANIZATION AND ORGTYPEEVALUATED=@ORGTYPEEVALUATED AND ILLNESS=@ILLNESS";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         // Añade parámetros para evitar la inyección de SQL
@@ -180,6 +181,7 @@ namespace OTEAServer.Services
                         command.Parameters.AddWithValue("@IDEVALUATORORGANIZATION", indicatorsEvaluation.idEvaluatorOrganization);
                         command.Parameters.AddWithValue("@ORGTYPEEVALUATOR", indicatorsEvaluation.orgTypeEvaluator);
                         command.Parameters.AddWithValue("@ILLNESS", indicatorsEvaluation.illness);
+                        command.Parameters.AddWithValue("@TOTALSCORE", indicatorsEvaluation.totalScore);
 
                         // Ejecuta el command
                         command.ExecuteNonQuery();

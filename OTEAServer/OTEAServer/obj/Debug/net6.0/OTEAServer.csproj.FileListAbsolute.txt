@@ -37,3 +37,4 @@ C:\Users\Pablo\StudioProjects\tfg2223\OTEAServer\OTEAServer\obj\Debug\net6.0\OTE
 C:\Users\Pablo\StudioProjects\tfg2223\OTEAServer\OTEAServer\obj\Debug\net6.0\OTEAServer.genruntimeconfig.cache
 C:\Users\Pablo\StudioProjects\tfg2223\OTEAServer\OTEAServer\obj\Debug\net6.0\ref\OTEAServer.dll
 C:\Users\Pablo\StudioProjects\tfg2223\OTEAServer\OTEAServer\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\Pablo\StudioProjects\tfg2223\OTEAServer\OTEAServer\bin\Debug\net6.0\Vse.Web.Serialization.dll

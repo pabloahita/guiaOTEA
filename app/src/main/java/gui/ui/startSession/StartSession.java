@@ -1,4 +1,4 @@
-package gui.ui.login;
+package gui.ui.startSession;
 
 import android.app.Activity;
 
@@ -23,11 +23,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fundacionmiradas.indicatorsevaluation.R;
 import com.fundacionmiradas.indicatorsevaluation.databinding.ActivityStartSessionBinding;
 
 import cli.user.User;
-import gui.data.Result;
 
 
 public class StartSession extends AppCompatActivity {
@@ -132,15 +130,24 @@ public class StartSession extends AppCompatActivity {
         if(user.getUserType().equals("ADMIN")){
             //GO TO ADMIN MAIN MENU
             Intent intent = new Intent(this, gui.mainMenu.admin.MainMenu.class);
+            intent.putExtra("first_name",user.getFirst_name());
+            intent.putExtra("last_name",user.getLast_name());
+            intent.putExtra("emailUser",user.getEmailUser());
             startActivity(intent);
         } else if(user.getUserType().equals("ORGANIZATION")){
             if(user.getOrgType().equals("EVALUATED")){
                 //GO TO EVALUATED MAIN MENU
                 Intent intent = new Intent(this, gui.mainMenu.evaluated.MainMenu.class);
+                intent.putExtra("first_name",user.getFirst_name());
+                intent.putExtra("last_name",user.getLast_name());
+                intent.putExtra("emailUser",user.getEmailUser());
                 startActivity(intent);
             }else if(user.getOrgType().equals("EVALUATOR")){
                 //GO TO EVALUATOR MAIN MENU
                 Intent intent = new Intent(this, gui.mainMenu.evaluator.MainMenu.class);
+                intent.putExtra("first_name",user.getFirst_name());
+                intent.putExtra("last_name",user.getLast_name());
+                intent.putExtra("emailUser",user.getEmailUser());
                 startActivity(intent);
             }
         }

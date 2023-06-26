@@ -4,7 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 import cli.organization.EvaluatedOrganization;
 
-import otea.connection.caller.Caller;
+import otea.connection.caller.AddressesCaller;
+import otea.connection.caller.OrganizationsCaller;
 
 public class Center {
 
@@ -32,8 +33,6 @@ public class Center {
     @SerializedName("telephone")
     private long telephone;
 
-    private Caller caller;
-
     public Center(EvaluatedOrganization organization,int idCenter, String centerDescription, Address address){
         setOrganization(organization);
         setIdCenter(idCenter);
@@ -49,9 +48,8 @@ public class Center {
         setCenterDescription(centerDescription);
         setIdAddress(idAddress);
         setTelephone(telephone);
-        setCaller(new Caller());
-        setOrganization((EvaluatedOrganization) caller.obtainOrganization(idOrganization,orgType,illness));
-        setAddress(caller.obtainAddress(idAddress));
+        setOrganization((EvaluatedOrganization) OrganizationsCaller.getInstance().obtainOrganization(idOrganization,orgType,illness));
+        setAddress(AddressesCaller.getInstance().obtainAddress(idAddress));
     }
 
     public EvaluatedOrganization getOrganization() {
@@ -126,11 +124,4 @@ public class Center {
         this.telephone = telephone;
     }
 
-    public Caller getCaller() {
-        return caller;
-    }
-
-    public void setCaller(Caller caller) {
-        this.caller = caller;
-    }
 }

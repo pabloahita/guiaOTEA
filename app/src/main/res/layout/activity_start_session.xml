@@ -9,12 +9,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="gui.ui.login.StartSession">
+    tools:context="gui.ui.startSession.StartSession">
 
     <EditText
         android:id="@+id/username"
-        android:layout_width="380dp"
-        android:layout_height="56dp"
+        android:layout_width="348dp"
+        android:layout_height="43dp"
         android:layout_marginTop="96dp"
         android:autofillHints=""
         android:hint="@string/users_email"
@@ -26,16 +26,17 @@
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="377dp"
-        android:layout_height="57dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="348dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="60dp"
         android:autofillHints=""
         android:hint="@string/users_password"
-        android:imeActionLabel="@string/action_sign_in_short"
+        android:imeActionLabel="@string/sign_in"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username" />
 
@@ -50,9 +51,10 @@
         android:text="@string/sign_in"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.394" />
 
     <ProgressBar
         android:id="@+id/loading"

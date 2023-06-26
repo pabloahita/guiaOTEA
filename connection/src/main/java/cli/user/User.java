@@ -3,9 +3,10 @@ package cli.user;
 
 import com.google.gson.annotations.SerializedName;
 
-import otea.connection.caller.Caller;
+import java.io.Serializable;
 
-public class User implements IUser {
+
+public class User implements IUser{
 
     @SerializedName("first_name")
     public String first_name;
@@ -23,9 +24,6 @@ public class User implements IUser {
 
     public boolean connected;
 
-    @SerializedName("passwordUser")
-    public String passwordUser;
-
     @SerializedName("idOrganization")
     public int idOrganization;
 
@@ -35,28 +33,16 @@ public class User implements IUser {
     @SerializedName("illness")
     public String illness;
 
-    public Caller caller;
 
-    public User(String first_name, String last_name, String userType, String emailUser, String passwordUser, long telephone, int idOrganization, String orgType, String illness){
+    public User(String first_name, String last_name, String userType, String emailUser, long telephone, int idOrganization, String orgType, String illness){
         setFirst_name(first_name);
         setLast_name(last_name);
         setUserType(userType);
         setEmailUser(emailUser);
-        setPasswordUser(passwordUser);
         setTelephone(telephone);
         setIdOrganization(idOrganization);
         setOrgType(orgType);
         setIllness(illness);
-        setCaller(new Caller());
-    }
-
-    @Override
-    public Caller getCaller(){return caller;}
-
-
-    @Override
-    public void setCaller(Caller caller) {
-        this.caller = caller;
     }
 
     @Override
@@ -72,11 +58,6 @@ public class User implements IUser {
     @Override
     public String getEmailUser(){
         return emailUser;
-    }
-
-    @Override
-    public String getPasswordUser(){
-        return passwordUser;
     }
 
     @Override
@@ -96,11 +77,6 @@ public class User implements IUser {
     @Override
     public void setEmailUser(String emailUser){
         this.emailUser=emailUser;
-    }
-
-    @Override
-    public void setPasswordUser(String passwordUser) {
-        this.passwordUser = passwordUser;
     }
 
     @Override

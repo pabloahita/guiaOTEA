@@ -1,6 +1,6 @@
 package otea.connection.api;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import cli.organization.data.EvaluatorTeam;
@@ -25,7 +25,7 @@ public interface EvaluatorTeamsApi {
 
     // POST action
     @POST("EvaluatorTeams")
-    Call<EvaluatorTeam> Create(int id, Date creation_date, int idOrganization, String orgType, String illness, String emailConsultant, String emailProfessional, String emailResponsible, String patient_name, String relative_name);
+    Call<EvaluatorTeam> Create(int id, Timestamp creation_date, int idOrganization, String orgType, String illness, String emailConsultant, String emailProfessional, String emailResponsible, String patient_name, String relative_name);
 
     // PUT action
     @PUT("EvaluatorTeams/upd::id={id}:idEvaluatorOrg={idEvaluatorOrg}:orgType={orgType}:illness={illness}")

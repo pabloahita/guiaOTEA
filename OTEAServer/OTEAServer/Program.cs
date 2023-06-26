@@ -15,6 +15,8 @@ builder.Services.AddScoped<ProvincesService>();
 builder.Services.AddScoped<RegionsService>();
 builder.Services.AddScoped<CountriesService>();
 builder.Services.AddScoped<IndicatorsEvaluationsService>();
+builder.Services.AddScoped<CentersService>();
+builder.Services.AddScoped<IndicatorsEvaluationRegsService>();
 
 var app = builder.Build();
 

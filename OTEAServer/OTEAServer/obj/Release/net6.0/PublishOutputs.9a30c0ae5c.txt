@@ -7,6 +7,7 @@ C:\Users\Pablo\StudioProjects\tfg2223\OTEAServer\OTEAServer\obj\Release\net6.0\P
 C:\Users\Pablo\StudioProjects\tfg2223\OTEAServer\OTEAServer\obj\Release\net6.0\PubTmp\Out\OTEAServer.pdb
 C:\Users\Pablo\StudioProjects\tfg2223\OTEAServer\OTEAServer\obj\Release\net6.0\PubTmp\Out\Newtonsoft.Json.dll
 C:\Users\Pablo\StudioProjects\tfg2223\OTEAServer\OTEAServer\obj\Release\net6.0\PubTmp\Out\System.Data.SqlClient.dll
+C:\Users\Pablo\StudioProjects\tfg2223\OTEAServer\OTEAServer\obj\Release\net6.0\PubTmp\Out\Vse.Web.Serialization.dll
 C:\Users\Pablo\StudioProjects\tfg2223\OTEAServer\OTEAServer\obj\Release\net6.0\PubTmp\Out\runtimes\win-arm64\native\sni.dll
 C:\Users\Pablo\StudioProjects\tfg2223\OTEAServer\OTEAServer\obj\Release\net6.0\PubTmp\Out\runtimes\win-x64\native\sni.dll
 C:\Users\Pablo\StudioProjects\tfg2223\OTEAServer\OTEAServer\obj\Release\net6.0\PubTmp\Out\runtimes\win-x86\native\sni.dll

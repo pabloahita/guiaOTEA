@@ -17,22 +17,22 @@ public interface EvidencesApi {
     Call<List<Evidence>> GetAll();
 
     // GET all by INDICATOR action
-    @GET("Evidences/ind::idIndicator={idIndicator}")
-    Call<List<Evidence>> GetAllByIndicator(@Path("idIndicator") int idIndicator, @Path("idIndicator") String indicatorType);
+    @GET("Evidences/ind::idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")
+    Call<List<Evidence>> GetAllByIndicator(@Path("idIndicator") int idIndicator, @Path("indicatorType") String indicatorType, @Path("indicatorVersion") int indicatorVersion);
 
     // GET by ID AND INDICATOR action
-    @GET("Evidences/get::idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}")
-    Call<List<Evidence>> Get(int idEvidence, int idIndicator, String indicatorType);
+    @GET("Evidences/get::idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")
+    Call<List<Evidence>> Get(@Path("idEvidence") int idEvidence, @Path("idIndicator") int idIndicator, @Path("indicatorType") String indicatorType, @Path("indicatorVersion") int indicatorVersion);
 
     // POST action
     @POST("Evidences")
     Call<Evidence> Create(int idEvidence, int idIndicator, String indicatorType, String descriptionEnglish,String descriptionSpanish,String descriptionFrench, int evidenceValue);
 
     // PUT action
-    @PUT("Evidences/put::idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}")
-    Call<Evidence> Update(@Path("idEvidence") int idEvidence, @Path("idIndicator") int idIndicator, @Path("indicatorType") String indicatorType, @Body Evidence evidence);
+    @PUT("Evidences/put::idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")
+    Call<Evidence> Update(@Path("idEvidence") int idEvidence, @Path("idIndicator") int idIndicator, @Path("indicatorType") String indicatorType, @Path("indicatorVersion") int indicatorVersion, @Body Evidence evidence);
 
     // DELETE action
-    @DELETE("Evidences/del::idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}")
-    Call<Evidence> Delete(@Path("idEvidence") int idEvidence,@Path("idIndicator") int idIndicator,@Path("indicatorType") String indicatorType);
+    @DELETE("Evidences/del::idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")
+    Call<Evidence> Delete(@Path("idEvidence") int idEvidence,@Path("idIndicator") int idIndicator,@Path("indicatorType") String indicatorType, @Path("indicatorVersion") int indicatorVersion);
 }

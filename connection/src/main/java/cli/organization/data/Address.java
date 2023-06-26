@@ -6,7 +6,8 @@ import cli.organization.data.geo.City;
 import cli.organization.data.geo.Country;
 import cli.organization.data.geo.Province;
 import cli.organization.data.geo.Region;
-import otea.connection.caller.Caller;
+import otea.connection.caller.CitiesCaller;
+import otea.connection.caller.CountriesCaller;
 
 /**
  * <p>EN: Class that represents an address that belongs to an organization. Every organization is composed by a road type, a name, a main entry's number, a floor level, an apartment letter, a zip-code, a city an a country.</p>
@@ -44,14 +45,22 @@ public class Address {
     private int idRegion;
 
     @SerializedName("idCountry")
-    private String idCountry;
+    public String idCountry;
+
+    @SerializedName("nameCity")
+    public String nameCity;
+
+    @SerializedName("nameProvince")
+    public String nameProvince;
+
+    @SerializedName("nameRegion")
+    public String nameRegion;
 
     private City city;
     private Province province;
     private Region region;
     private Country country;
 
-    private Caller caller;
 
     /**
      * <p>EN: Address class constructor</p>
@@ -67,6 +76,8 @@ public class Address {
      * @param idRegion <p>EN: Address' region id</p><p>ES: Id de la region de la direccion</p>
      * @param idCountry <p>EN: Address' country id</p><p>ES: Id del pais de la direccion</p>
      */
+
+    //Constructores para direcciones en España
     public Address(int idAddress, String name, int number, int floor, char apt, int zipCode, int idCity, int idProvince, int idRegion, String idCountry){
         setIdAddress(idAddress);
         setName(name);
@@ -78,10 +89,29 @@ public class Address {
         setIdProvince(idProvince);
         setIdRegion(idRegion);
         setIdCountry(idCountry);
-        setCity(caller.obtainCity(idCity,idProvince,idRegion,idCountry));
+        setCity(CitiesCaller.getInstance().obtainCity(idCity,idProvince,idRegion,idCountry));
         setProvince(city.getProvince());
         setRegion(province.getRegion());
         setCountry(region.getCountry());
+        setNameCity(city.getCityName());
+        setNameProvince(province.getNameProvince());
+        setNameRegion(region.getNameRegion());
+
+    }
+
+    //Constructor para direcciones de fuera de España
+    public Address(int idAddress, String name, int number, int floor, char apt, int zipCode, String nameCity, String nameProvince, String nameRegion, String idCountry){
+        setIdAddress(idAddress);
+        setName(name);
+        setNumber(number);
+        setFloor(floor);
+        setApartment(apt);
+        setZipCode(zipCode);
+        setIdCountry(idCountry);
+        setCountry(CountriesCaller.getInstance().obtainCountry(idCountry));
+        setNameCity(nameCity);
+        setNameProvince(nameProvince);
+        setNameRegion(nameRegion);
 
     }
     //Getters and setters of every field
@@ -242,14 +272,14 @@ public class Address {
 
 
 
-    public String getCityName(){
-       return city.getCityName();
+    public String getNameCity(){
+       return nameCity;
     }
-    public String getProvinceName(){
-        return province.getNameProvince();
+    public String getNameProvince(){
+        return nameProvince;
     }
-    public String getRegionName(){
-        return region.getNameRegion();
+    public String getNameRegion(){
+        return nameRegion;
     }
     public String getCountryName(String language){
         if(language=="ESP"){return country.getNameSpanish();}
@@ -257,11 +287,17 @@ public class Address {
         return country.getNameEnglish();//En inglés es por defectp
     }
 
-    public Caller getCaller() {
-        return caller;
+    public void setNameCity(String nameCity) {
+        this.nameCity = nameCity;
     }
 
-    public void setCaller(Caller caller) {
-        this.caller = caller;
+    public void setNameProvince(String nameProvince) {
+        this.nameProvince = nameProvince;
     }
+
+    public void setNameRegion(String nameRegion) {
+        this.nameRegion = nameRegion;
+    }
+
+
 }

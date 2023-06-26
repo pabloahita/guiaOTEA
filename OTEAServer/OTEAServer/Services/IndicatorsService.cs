@@ -15,7 +15,7 @@ namespace OTEAServer.Services
             List<Indicator> indicatorsList = new List<Indicator>();
 
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            string query = "SELECT * FROM INDICATORS";
+            string query = "SELECT * FROM INDICATORS WHERE ISACTIVE=1 ORDER BY INDICATORID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -27,7 +27,7 @@ namespace OTEAServer.Services
                     {
                         while (reader.Read())
                         {
-                            indicatorsList.Add(new Indicator(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetInt32(5)));
+                            indicatorsList.Add(new Indicator(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetInt32(5), reader.GetInt32(6)));
                         }
                     }
                 }
@@ -40,7 +40,7 @@ namespace OTEAServer.Services
             List<Indicator> indicatorsList = new List<Indicator>();
 
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            string query = "SELECT * FROM INDICATORS WHERE INDICATORTYPE=@INDICATORTYPE";
+            string query = "SELECT * FROM INDICATORS WHERE INDICATORTYPE=@INDICATORTYPE AND ISACTIVE=1 ORDER BY INDICATORID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -53,7 +53,7 @@ namespace OTEAServer.Services
                     {
                         while (reader.Read())
                         {
-                            indicatorsList.Add(new Indicator(reader.GetInt32(0), indicatorType, reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetInt32(5)));
+                            indicatorsList.Add(new Indicator(reader.GetInt32(0), indicatorType, reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetInt32(5), reader.GetInt32(6)));
                         }
                     }
                 }
@@ -61,10 +61,10 @@ namespace OTEAServer.Services
             return indicatorsList;
         }
 
-        public Indicator? Get(int idIndicator, string indicatorType)
+        public Indicator? Get(int idIndicator, string indicatorType, int indicatorVersion)
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            string query = "SELECT * FROM INDICATORS WHERE idIndicator=@IDINDICATOR AND indicatorType=@INDICATORTYPE";
+            string query = "SELECT * FROM INDICATORS WHERE indicatorId=@IDINDICATOR AND indicatorType=@INDICATORTYPE AND indicatorVersion=@INDICATORVERSION ORDER BY INDICATORID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -74,11 +74,12 @@ namespace OTEAServer.Services
                 {
                     command.Parameters.AddWithValue("@IDINDICATOR", idIndicator);
                     command.Parameters.AddWithValue("@INDICATORTYPE", indicatorType);
+                    command.Parameters.AddWithValue("@INDICATORVERSION", indicatorVersion);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.Read())
                         {
-                            return new Indicator(idIndicator, indicatorType, reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetInt32(5));
+                            return new Indicator(idIndicator, indicatorType, reader.GetString(2), reader.GetString(3), reader.GetString(4), indicatorVersion, reader.GetInt32(6));
                         }
                     }
                 }
@@ -86,7 +87,7 @@ namespace OTEAServer.Services
             return null;
         }
 
-        public void Add(int idIndicator, string indicatorType, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, int indicatorPriority) 
+        public void Add(int idIndicator, string indicatorType, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, int indicatorPriority, int indicatorVersion) 
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
@@ -96,7 +97,7 @@ namespace OTEAServer.Services
                 connection.Open();
 
                 // Crea el command SQL
-                string sql = "INSERT INTO INDICATORS (IDINDICATOR,INDICATORTYPE,DESCRIPTIONENGLISH,DESCRIPTIONSPANISH,DESCRIPTIONFRENCH,INDICATORPRIORITY) VALUES (@IDINDICATOR,@INDICATORTYPE,@DESCRIPTIONENGLISH,@DESCRIPTIONSPANISH,@DESCRIPTIONFRENCH,@INDICATORPRIORITY)";
+                string sql = "INSERT INTO INDICATORS (INDICATORID,INDICATORTYPE,DESCRIPTIONENGLISH,DESCRIPTIONSPANISH,DESCRIPTIONFRENCH,INDICATORPRIORITY,INDICATORVERSION,ISACTIVE) VALUES (@IDINDICATOR,@INDICATORTYPE,@DESCRIPTIONENGLISH,@DESCRIPTIONSPANISH,@DESCRIPTIONFRENCH,@INDICATORPRIORITY,@INDICATORVERSION,1)";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     // Añade parámetros para evitar la inyección de SQL
@@ -106,6 +107,7 @@ namespace OTEAServer.Services
                     command.Parameters.AddWithValue("@DESCRIPTIONSPANISH", descriptionSpanish);
                     command.Parameters.AddWithValue("@DESCRIPTIONFRENCH", descriptionFrench);
                     command.Parameters.AddWithValue("@INDICATORPRIORITY", indicatorPriority);
+                    command.Parameters.AddWithValue("@INDICATORVERSION", indicatorVersion);
 
                     // Ejecuta el command
                     command.ExecuteNonQuery();
@@ -118,9 +120,9 @@ namespace OTEAServer.Services
 
         //Operación delete
 
-        public void Delete(int idIndicator, string indicatorType)
+        public void Delete(int idIndicator, string indicatorType, int indicatorVersion)
         {
-            if (Get(idIndicator,indicatorType) != null)
+            if (Get(idIndicator,indicatorType,indicatorVersion) != null)
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
@@ -130,12 +132,13 @@ namespace OTEAServer.Services
                     connection.Open();
 
                     // Crea el command SQL
-                    string sql = "DELETE FROM INDICATORS WHERE idIndicator=@IDINDICATOR AND indicatorType=@INDICATORTYPE";
+                    string sql = "DELETE FROM INDICATORS WHERE indicatorId=@IDINDICATOR AND indicatorType=@INDICATORTYPE AND indicatorVersion=@INDICATORVERSION";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         // Añade parámetros para evitar la inyección de SQL
                         command.Parameters.AddWithValue("@IDINDICATOR", idIndicator);
                         command.Parameters.AddWithValue("@INDICATORTYPE", indicatorType);
+                        command.Parameters.AddWithValue("@INDICATORVERSION", indicatorVersion);
                         // Ejecuta el command
                         command.ExecuteNonQuery();
                     }
@@ -148,8 +151,13 @@ namespace OTEAServer.Services
 
         public void Update(Indicator indicator)
         {
-            if (indicator != null && Get(indicator.indicatorId,indicator.indicatorType) == indicator)
+            if (indicator != null && Get(indicator.indicatorId,indicator.indicatorType,indicator.indicatorVersion-1) != null) //Hay que buscar la versión anterior del indicador
             {
+
+                //Añadir la nueva versión del indicador
+                Add(indicator.indicatorId, indicator.indicatorType, indicator.descriptionEnglish, indicator.descriptionSpanish, indicator.descriptionFrench, indicator.indicatorPriority, indicator.indicatorVersion);
+                
+                //Desactivar versión anterior del indicador
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
@@ -158,18 +166,14 @@ namespace OTEAServer.Services
                     connection.Open();
 
                     // Crea el command SQL
-                    string sql = "UPDATE USERS SET DESCRIPTIONENGLISH=@DESCRIPTIONENGLISH, DESCRIPTIONENGLISH=@DESCRIPTIONSPANISH, DESCRIPTIONFRENCH=@DESCRIPTIONFRENCH, INDICATORPRIORITY=@INDICATORPRIORITY WHERE IDINDICATOR=@IDINDICATOR AND INDICATORTYPE=@INDICATORTYPE";
+                    string sql = "UPDATE USERS SET ISACTIVE=0 WHERE INDICATORID=@IDINDICATOR AND INDICATORTYPE=@INDICATORTYPE AND INDICATORVERSION=@INDICATORVERSION"; //Se desactiva la versión anterior del indicador
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         // Añade parámetros para evitar la inyección de SQL
 
                         command.Parameters.AddWithValue("@IDINDICATOR", indicator.indicatorId);
                         command.Parameters.AddWithValue("@INDICATORTYPE", indicator.indicatorType);
-                        command.Parameters.AddWithValue("@DESCRIPTIONENGLISH", indicator.descriptionEnglish);
-                        command.Parameters.AddWithValue("@DESCRIPTIONSPANISH", indicator.descriptionSpanish);
-                        command.Parameters.AddWithValue("@DESCRIPTIONFRENCH", indicator.descriptionFrench);
-                        command.Parameters.AddWithValue("@INDICATORPRIORITY", indicator.indicatorPriority);
-
+                        command.Parameters.AddWithValue("@INDICATORVERSION", indicator.indicatorVersion-1);
                         // Ejecuta el command
                         command.ExecuteNonQuery();
                     }

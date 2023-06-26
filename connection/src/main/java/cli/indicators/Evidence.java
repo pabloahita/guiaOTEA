@@ -17,15 +17,18 @@ public class Evidence {
     @SerializedName("descriptionFrench")
     public String descriptionFrench;
     @SerializedName("evidenceValue")
-    public int value;
-    public Evidence(int idEvidence, int idIndicator, String indicatorType, String descriptionEnglish,String descriptionSpanish,String descriptionFrench, int value){
+    public int evidenceValue;
+    @SerializedName("indicatorVersion")
+    public int indicatorVersion;
+    public Evidence(int idEvidence, int idIndicator, String indicatorType, String descriptionEnglish,String descriptionSpanish,String descriptionFrench, int evidenceValue, int indicatorVersion){
         setIdEvidence(idEvidence);
         setIdIndicator(idIndicator);
         setIndicatorType(indicatorType);
         setDescriptionEnglish(descriptionEnglish);
         setDescriptionSpanish(descriptionSpanish);
         setDescriptionFrench(descriptionFrench);
-        setValue(value);
+        setEvidenceValue(evidenceValue);
+        setIndicatorVersion(indicatorVersion);
     }
 
     public int getIdEvidence() {
@@ -52,8 +55,8 @@ public class Evidence {
         this.indicatorType = indicatorType;
     }
 
-    public void setValue(int value) {
-        this.value=value;
+    public void setValue(int evidenceValue) {
+        this.evidenceValue=evidenceValue;
     }
 
     public String getDescriptionEnglish() {
@@ -81,7 +84,22 @@ public class Evidence {
     }
 
     public int getValue(){
-        return value;
+        return evidenceValue;
     }
 
+    public int getEvidenceValue() {
+        return evidenceValue;
+    }
+
+    public void setEvidenceValue(int evidenceValue) {
+        this.evidenceValue = evidenceValue;
+    }
+
+    public int getIndicatorVersion() {
+        return indicatorVersion;
+    }
+
+    public void setIndicatorVersion(int indicatorVersion) {
+        this.indicatorVersion = indicatorVersion;
+    }
 }

@@ -30,7 +30,9 @@ namespace OTEAServer.Services
                     {
                         while (reader.Read())
                         {
-                            orgsList.Add(new Organization(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetString(5), reader.GetInt64(6), reader.GetString(7), reader.GetString(8), reader.GetString(9)));
+                            string emailOrgPrincipal = reader.IsDBNull(8) ? "" : reader.GetString(8);
+                            string emailOrgConsultant = reader.IsDBNull(9) ? "" : reader.GetString(9);
+                            orgsList.Add(new Organization(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetString(5), reader.GetInt64(6), reader.GetString(7), emailOrgPrincipal, emailOrgConsultant));
                         }
                     }
                 }
@@ -56,7 +58,9 @@ namespace OTEAServer.Services
                     {
                         while (reader.Read())
                         {
-                            orgsList.Add(new Organization(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetString(5), reader.GetInt64(6), reader.GetString(7), reader.GetString(8), reader.GetString(9)));
+                            string emailOrgPrincipal = reader.IsDBNull(8) ? "" : reader.GetString(8);
+                            string emailOrgConsultant = reader.IsDBNull(9) ? "" : reader.GetString(9);
+                            orgsList.Add(new Organization(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetString(5), reader.GetInt64(6), reader.GetString(7), emailOrgPrincipal, emailOrgConsultant));
                         }
                     }
                 }
@@ -87,7 +91,9 @@ namespace OTEAServer.Services
                     {
                         if (reader.Read())
                         {
-                            return new Organization(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetString(5), reader.GetInt64(6), reader.GetString(7), reader.GetString(8), reader.GetString(9));
+                            string emailOrgPrincipal = reader.IsDBNull(8) ? "" : reader.GetString(8);
+                            string emailOrgConsultant = reader.IsDBNull(9) ? "" : reader.GetString(9);
+                            return new Organization(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetString(5), reader.GetInt64(6), reader.GetString(7), emailOrgPrincipal, emailOrgConsultant);
                         }
                     }
                 }
@@ -112,7 +118,7 @@ namespace OTEAServer.Services
                 connection.Open();
 
                 // Crea el comando SQL
-                string sql = "INSERT INTO ORGANIZATIONS (ID,ORGTYPE,ILLNESS,NAME,IDADDRESS,EMAIL,TELEPHONE,INFORMATION,EMAILORGPRINCIPAL,EMAILORGCONSULTANT) VALUES (@ID,@ORGTYPE,@ILLNESS,@NAME,@IDADDRESS,@EMAIL,@TELEPHONE,@INFORMATION,@EMAILORGPRINCIPAL,@EMAILORGCONSULTANT)";
+                string sql = "INSERT INTO ORGANIZATIONS (IDORGANIZATION,ORGTYPE,ILLNESS,NAMEORG,IDADDRESS,EMAIL,TELEPHONE,INFORMATION,EMAILORGPRINCIPAL,EMAILORGCONSULTANT) VALUES (@ID,@ORGTYPE,@ILLNESS,@NAME,@IDADDRESS,@EMAIL,@TELEPHONE,@INFORMATION,@EMAILORGPRINCIPAL,@EMAILORGCONSULTANT)";
                 using (SqlCommand comando = new SqlCommand(sql, connection))
                 {
                     // Añade parámetros para evitar la inyección de SQL
@@ -179,7 +185,7 @@ namespace OTEAServer.Services
                     connection.Open();
 
                     // Crea el comando SQL
-                    string sql = "UPDATE ORGANIZATIONS SET NAME=@NAME,IDADDRESS=@IDADDRESS,EMAIL=@EMAIL,TELEPHONE=@TELEPHONE,INFORMATION=@INFORMATION,EMAILORGPRINCIPAL=@EMAILORGPRINCIPAL,EMAILORGCONSULTANT=@EMAILORGCONSULTANT WHERE ID=@ID AND ORGTYPE=@ORGTYPE AND ILLNESS=@ILLNESS";
+                    string sql = "UPDATE ORGANIZATIONS SET NAME=@NAME,IDADDRESS=@IDADDRESS,EMAIL=@EMAIL,TELEPHONE=@TELEPHONE,INFORMATION=@INFORMATION,EMAILORGPRINCIPAL=@EMAILORGPRINCIPAL,EMAILORGCONSULTANT=@EMAILORGCONSULTANT WHERE IDORGANIZATION=@ID AND ORGTYPE=@ORGTYPE AND ILLNESS=@ILLNESS";
                     using (SqlCommand comando = new SqlCommand(sql, connection))
                     {
                         // Añade parámetros para evitar la inyección de SQL

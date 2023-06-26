@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="gui.ui.login.StartSession">
+    tools:context="gui.ui.startSession.StartSession">
 
     <EditText
         android:id="@+id/username"
@@ -29,16 +29,16 @@
         android:id="@+id/password"
         android:layout_width="1601dp"
         android:layout_height="80dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="64dp"
+        android:autofillHints=""
         android:hint="@string/users_password"
-        android:imeActionLabel="@string/action_sign_in_short"
+        android:imeActionLabel="@string/sign_in"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username"
-        android:autofillHints=""
         tools:ignore="VisualLintTextFieldSize,VisualLintBounds" />
 
     <Button
@@ -52,9 +52,10 @@
         android:text="@string/sign_in"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintVertical_bias="0.339"
         tools:ignore="VisualLintButtonSize" />
 
     <ProgressBar

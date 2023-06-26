@@ -1,4 +1,4 @@
-package gui.ui.login;
+package gui.ui.startSession;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;

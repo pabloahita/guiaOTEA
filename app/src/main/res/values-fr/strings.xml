@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OTEA</string>
+    <string name="next">Suivant</string>
+    <string name="previous">Précédent</string>
+    <string name="welcome">Bienvenue sur la app de OTEA</string>
+    <string name="start_evaluation">Commencer l\'évaluation des indicateurs</string>
+    <string name="indicator_caption">Description de l\'indicateur</string>
+    <string name="evidence1">Preuve 1</string>
+    <string name="evidence2">Preuve 2</string>
+    <string name="evidence3">Preuve 3</string>
+    <string name="evidence4">Preuve 4</string>
+    <string name="previous_indicator">Indicateur précédent</string>
+    <string name="next_indicator">Indicateur suivant</string>
+    <string name="sign_in">Commencer le session</string>
+    <string name="sign_up">Enregistrement</string>
+    <string name="users_email">Email de l\'utilisateur</string>
+    <string name="users_password">Mot de passe de l\'utilisateur</string>
+    <string name="invalid_username">Mauvaise adresse mail</string>
+    <string name="invalid_password">Le mot de passe doit comporter plus de 5 caractères</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="add_new_evaluated_org">Ajouter une nouvelle organisation évaluée</string>
+    <string name="add_new_complete_evaluation">Ajouter une nouvelle évaluation complète</string>
+    <string name="add_new_simple_evaluation">Ajouter une nouvelle évaluation simple</string>
+    <string name="title_activity_main_menu">Menu principal</string>
+    <string name="title_activity_settings">Paramètres</string>
+    <string name="add_new_evaluated_org_center">Ajouter un nouveau centre d\'organisation évaluée</string>
+    <string name="modify_database">Modifier la base de données</string>
+    <string name="modify_indicators">Modifier indicateurs</string>
+    <string name="recent_activity">Activité récente</string>
+    <string name="help">Aide</string>
+    <string name="view_indicators_evolution">Voir les tests effectués</string>
+    <string name="login_failed">Échec de la connexion. Veuillez vérifier l\'e-mail et le mot de passe ou vous inscrire dans l\'application</string>
+    <string name="first_name_user">Prénom</string>
+    <string name="last_name_user">Nom</string>
+</resources>

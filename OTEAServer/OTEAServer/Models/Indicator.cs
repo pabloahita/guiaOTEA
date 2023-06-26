@@ -4,13 +4,14 @@ namespace OTEAServer.Models
 {
     public class Indicator
     {
-        public Indicator(int idIndicator, string indicatorType, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, int indicatorPriority) {
+        public Indicator(int idIndicator, string indicatorType, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, int indicatorPriority, int indicatorVersion) {
             this.indicatorId = idIndicator;
             this.indicatorType = indicatorType;
             this.descriptionEnglish = descriptionEnglish;
             this.descriptionSpanish = descriptionSpanish;
             this.descriptionFrench = descriptionFrench;
             this.indicatorPriority = indicatorPriority;
+            this.indicatorVersion = indicatorVersion;
         }
 
 
@@ -31,5 +32,8 @@ namespace OTEAServer.Models
 
         [JsonProperty("indicatorPriority")]
         public int indicatorPriority { get; set; }
+
+        [JsonProperty("indicatorVersion")]
+        public int indicatorVersion { get; set; }
     }
 }

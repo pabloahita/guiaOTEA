@@ -3,7 +3,8 @@ package cli.organization.data;
 import com.google.gson.annotations.SerializedName;
 
 import cli.user.OrganizationUser;
-import otea.connection.caller.Caller;
+import otea.connection.caller.OrganizationsCaller;
+import otea.connection.caller.UsersCaller;
 
 public class EvaluatorTeamMember {
 
@@ -21,8 +22,6 @@ public class EvaluatorTeamMember {
     @SerializedName("illness")
     private String illness;
 
-    private Caller caller;
-
     private OrganizationUser user;
 
     public EvaluatorTeamMember(String emailUser, int idEvaluatorTeam, int idEvaluatorOrganization, String orgType, String illness) {
@@ -31,8 +30,7 @@ public class EvaluatorTeamMember {
         setIdEvaluatorOrganization(idEvaluatorOrganization);
         setOrgType(orgType);
         setIllness(illness);
-        setCaller(new Caller());
-        setUser(caller.obtainOrgUser(emailUser,caller.obtainOrganization(idEvaluatorOrganization,orgType,illness)));
+        setUser(UsersCaller.getInstance().obtainOrgUser(emailUser, OrganizationsCaller.getInstance().obtainOrganization(idEvaluatorOrganization,orgType,illness)));
     }
 
     public String getEmailUser() {
@@ -83,5 +81,4 @@ public class EvaluatorTeamMember {
         this.user = user;
     }
 
-    public void setCaller(Caller caller){this.caller=caller;}
 }

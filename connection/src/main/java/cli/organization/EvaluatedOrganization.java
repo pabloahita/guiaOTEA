@@ -9,6 +9,7 @@ import cli.indicators.IndicatorsEvaluation;
 import cli.organization.data.Center;
 import cli.user.EvaluatedOrganizationUser;
 import cli.user.User;
+import otea.connection.caller.UsersCaller;
 
 public abstract class EvaluatedOrganization extends Organization implements IEvaluatedOrganization{
 
@@ -20,10 +21,10 @@ public abstract class EvaluatedOrganization extends Organization implements IEva
     public EvaluatedOrganization(int idOrganization, String orgType, String illness, String name, int idAddress, long telephone, String email, String information, String emailOrgPrincipal, String emailOrgConsultant) {
         super(idOrganization,orgType,illness,name,idAddress,telephone,email,information,emailOrgPrincipal,emailOrgConsultant);
         setCenterList(new LinkedList<Center>());
-        User auxPrincipal=getCaller().obtainOrgUser(emailOrgPrincipal,this);
-        setOrganization_principal(new EvaluatedOrganizationUser(auxPrincipal.getFirst_name(), auxPrincipal.getLast_name(), auxPrincipal.getUserType(), auxPrincipal.getEmailUser(), auxPrincipal.getPasswordUser(), auxPrincipal.getTelephone(), this));
-        User auxConsultant=getCaller().obtainOrgUser(emailOrgConsultant,this);
-        setOrganization_consultant(new EvaluatedOrganizationUser(auxConsultant.getFirst_name(), auxConsultant.getLast_name(), auxConsultant.getUserType(), auxConsultant.getEmailUser(), auxConsultant.getPasswordUser(), auxConsultant.getTelephone(), this));
+        User auxPrincipal= UsersCaller.getInstance().obtainOrgUser(emailOrgPrincipal,this);
+        setOrganization_principal(new EvaluatedOrganizationUser(auxPrincipal.getFirst_name(), auxPrincipal.getLast_name(), auxPrincipal.getUserType(), auxPrincipal.getEmailUser(), auxPrincipal.getTelephone(), this));
+        User auxConsultant=UsersCaller.getInstance().obtainOrgUser(emailOrgConsultant,this);
+        setOrganization_consultant(new EvaluatedOrganizationUser(auxConsultant.getFirst_name(), auxConsultant.getLast_name(), auxConsultant.getUserType(), auxConsultant.getEmailUser(), auxConsultant.getTelephone(), this));
     }
 
 

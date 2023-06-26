@@ -19,11 +19,11 @@ public interface AddressesApi {
 
     // POST action
     @POST("Addresses")
-    Call<Address> Create(int idAddress, String nameStreet, int numberStreet, int floorApartment, char apartmentLetter, int zipCode, int idCity, int idProvince, int idRegion, String idCountry);
+    Call<Address> Create(int idAddress, String nameStreet, int numberStreet, int floorApartment, char apartmentLetter, int zipCode, int idCity, int idProvince, int idRegion, String idCountry, String nameCity, String nameProvince, String nameRegion);
 
     // PUT action
     @PUT("Addresses/upd::{id}")
-    Call<Address> Update(@Path("id") int id, Address address);
+    Call<Address> Update(@Path("id") int id, @Body Address address);
 
     // DELETE action
     @DELETE("Addresses/del::{id}")

@@ -28,19 +28,19 @@ namespace OTEAServer.Controllers
         }
 
         // GET all by INDICATORTYPE action
-        [HttpGet("ind::idIndicator={idIndicator}")]
-        public IActionResult GetAllByIndicator(int idIndicator, string indicatorType)
+        [HttpGet("ind::idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")]
+        public IActionResult GetAllByIndicator(int idIndicator, string indicatorType, int indicatorVersion)
         {
-            var evidences = _evidencesService.GetAllByIndicator(idIndicator, indicatorType);
+            var evidences = _evidencesService.GetAllByIndicator(idIndicator, indicatorType, indicatorVersion);
             return Ok(evidences);
         }
 
         // GET by ID AND INDICATOR TYPE action
 
-        [HttpGet("get::idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}")]
-        public ActionResult<Evidence> Get(int idEvidence, int idIndicator, string indicatorType)
+        [HttpGet("get::idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")]
+        public ActionResult<Evidence> Get(int idEvidence, int idIndicator, string indicatorType, int indicatorVersion)
         {
-            var evidence = _evidencesService.Get(idEvidence,idIndicator, indicatorType);
+            var evidence = _evidencesService.Get(idEvidence,idIndicator, indicatorType, indicatorVersion);
 
             if (evidence == null)
                 return NotFound();
@@ -52,22 +52,22 @@ namespace OTEAServer.Controllers
 
         // POST action
         [HttpPost]
-        public IActionResult Create(int idEvidence, int idIndicator, string indicatorType, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, int evidenceValue)
+        public IActionResult Create(int idEvidence, int idIndicator, string indicatorType, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, int evidenceValue, int indicatorVersion)
         {
-            _evidencesService.Add(idEvidence,idIndicator,indicatorType, descriptionEnglish, descriptionSpanish, descriptionFrench, evidenceValue);
-            Evidence evidence = new Evidence(idEvidence, idIndicator, indicatorType, descriptionEnglish, descriptionSpanish, descriptionFrench, evidenceValue);
-            return CreatedAtAction(nameof(Get), new { id = evidence.idEvidence, idIndicator=evidence.idIndicator, type = evidence.indicatorType }, evidence);
+            _evidencesService.Add(idEvidence,idIndicator,indicatorType, descriptionEnglish, descriptionSpanish, descriptionFrench, evidenceValue, indicatorVersion);
+            Evidence evidence = new Evidence(idEvidence, idIndicator, indicatorType, descriptionEnglish, descriptionSpanish, descriptionFrench, evidenceValue,indicatorVersion);
+            return CreatedAtAction(nameof(Get), new { id = evidence.idEvidence, idIndicator=evidence.idIndicator, type = evidence.indicatorType, version=evidence.indicatorVersion }, evidence);
         }
 
         // PUT action
-        [HttpPut("put::idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}")]
-        public IActionResult Update(int idEvidence, int idIndicator, string indicatorType, Evidence evidence)
+        [HttpPut("put::idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")]
+        public IActionResult Update(int idEvidence, int idIndicator, string indicatorType, int indicatorVersion, Evidence evidence)
         {
             // This code will update the mesa and return a result
             if (idEvidence != evidence.idEvidence || idIndicator != evidence.idIndicator || indicatorType != evidence.indicatorType)
                 return BadRequest();
 
-            var existingEvidence = _evidencesService.Get(idEvidence, idIndicator, indicatorType);
+            var existingEvidence = _evidencesService.Get(idEvidence, idIndicator, indicatorType, indicatorVersion);
             if (existingEvidence is null)
                 return NotFound();
 
@@ -77,16 +77,16 @@ namespace OTEAServer.Controllers
         }
 
         // DELETE action
-        [HttpDelete("del::idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}")]
-        public IActionResult Delete(int idEvidence, int idIndicator, string indicatorType)
+        [HttpDelete("del::idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")]
+        public IActionResult Delete(int idEvidence, int idIndicator, string indicatorType, int indicatorVersion)
         {
             // This code will delete the mesa and return a result
-            var evidence = _evidencesService.Get(idEvidence, idIndicator, indicatorType);
+            var evidence = _evidencesService.Get(idEvidence, idIndicator, indicatorType, indicatorVersion);
 
             if (evidence is null)
                 return NotFound();
 
-            _evidencesService.Delete(idEvidence, idIndicator, indicatorType);
+            _evidencesService.Delete(idEvidence, idIndicator, indicatorType, indicatorVersion);
 
             return NoContent();
         }

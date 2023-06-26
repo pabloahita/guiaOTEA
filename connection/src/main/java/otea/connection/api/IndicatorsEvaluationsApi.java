@@ -1,6 +1,6 @@
 package otea.connection.api;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import cli.indicators.IndicatorsEvaluation;
@@ -21,16 +21,16 @@ public interface IndicatorsEvaluationsApi {
     Call<List<IndicatorsEvaluation>> GetAllByEvaluatorTeam(@Path("idEvaluatorTeam") int idEvaluatorTeam, @Path("idEvaluatorOrganization") int idEvaluatorOrganization, @Path("orgType") String orgType, @Path("illness") String illness);
 
     @GET("IndicatorsEvaluations/get::evaluation_date={evaluation_date}:idEvaluatedOrganization:orgTypeEvaluated={orgTypeEvaluated}:illness={illness}")
-    Call<IndicatorsEvaluation> Get(@Path("evaluation_date") Date evaluation_date,@Path("idEvaluatedOrganization") int idEvaluatedOrganization,@Path("orgTypeEvaluated") String orgTypeEvaluated, @Path("illness") String illness);
+    Call<IndicatorsEvaluation> Get(@Path("evaluation_date") Timestamp evaluation_date,@Path("idEvaluatedOrganization") int idEvaluatedOrganization,@Path("orgTypeEvaluated") String orgTypeEvaluated, @Path("illness") String illness);
 
     @POST("IndicatorsEvaluations")
-    Call<IndicatorsEvaluation> Create(Date evaluation_date, int idEvaluatedOrganization,String orgTypeEvaluated, int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator,String illness);
+    Call<IndicatorsEvaluation> Create(Timestamp evaluation_date, int idEvaluatedOrganization,String orgTypeEvaluated, int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator,String illness);
 
     @PUT("IndicatorsEvaluations/upd::evaluation_date={evaluation_date}:idEvaluatedOrganization:orgTypeEvaluated={orgTypeEvaluated}:illness={illness}")
-    Call<IndicatorsEvaluation> Update(@Path("evaluation_date") Date evaluation_date,@Path("idEvaluatedOrganization") int idEvaluatedOrganization,@Path("orgTypeEvaluated") String orgTypeEvaluated, @Path("illness") String illness, @Body IndicatorsEvaluation evaluatorTeamMember);
+    Call<IndicatorsEvaluation> Update(@Path("evaluation_date") Timestamp evaluation_date,@Path("idEvaluatedOrganization") int idEvaluatedOrganization,@Path("orgTypeEvaluated") String orgTypeEvaluated, @Path("illness") String illness, @Body IndicatorsEvaluation evaluatorTeamMember);
 
     @DELETE("IndicatorsEvaluations/del::evaluation_date={evaluation_date}:idEvaluatedOrganization:orgTypeEvaluated={orgTypeEvaluated}:illness={illness}")
-    Call<IndicatorsEvaluation> Delete(@Path("evaluation_date") Date evaluation_date,@Path("idEvaluatedOrganization") int idEvaluatedOrganization,@Path("orgTypeEvaluated") String orgTypeEvaluated, @Path("illness") String illness);
+    Call<IndicatorsEvaluation> Delete(@Path("evaluation_date") Timestamp evaluation_date,@Path("idEvaluatedOrganization") int idEvaluatedOrganization,@Path("orgTypeEvaluated") String orgTypeEvaluated, @Path("illness") String illness);
 
 
 }

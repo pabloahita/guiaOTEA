@@ -2,7 +2,7 @@ package cli.organization.data.geo;
 
 import com.google.gson.annotations.SerializedName;
 
-import otea.connection.caller.Caller;
+import otea.connection.caller.CountriesCaller;
 
 public class Region {
 
@@ -17,14 +17,11 @@ public class Region {
 
     public Country country;
 
-    public Caller caller;
-
     public Region(int idRegion, String idCountry, String nameRegion){
         setIdRegion(idRegion);
         setIdCountry(idCountry);
         setNameRegion(nameRegion);
-        setCaller(new Caller());
-        setCountry(caller.obtainCountry(idCountry));
+        setCountry(CountriesCaller.getInstance().obtainCountry(idCountry));
     }
 
     public int getIdRegion() {
@@ -59,13 +56,5 @@ public class Region {
 
     public void setCountry(Country country) {
         this.country = country;
-    }
-
-    public Caller getCaller() {
-        return caller;
-    }
-
-    public void setCaller(Caller caller) {
-        this.caller = caller;
     }
 }

@@ -5,7 +5,7 @@ namespace OTEAServer.Models
     public class Address
     {
         public Address(int idAddress, string nameStreet, int numberStreet, int floorApartment,
-                   char apartmentLetter, int zipCode, int idCity, int idProvince, int idRegion, string idCountry)
+                   string apartmentLetter, int zipCode, int idCity, int idProvince, int idRegion, string idCountry)
         {
             this.idAddress = idAddress;
             this.nameStreet = nameStreet;
@@ -17,6 +17,27 @@ namespace OTEAServer.Models
             this.idProvince = idProvince;
             this.idRegion = idRegion;
             this.idCountry = idCountry;
+            this.nameCity = "";
+            this.nameProvince = "";
+            this.nameRegion = "";
+        }
+
+        public Address(int idAddress, string nameStreet, int numberStreet, int floorApartment,
+                   string apartmentLetter, int zipCode, string nameCity, string nameProvince, string nameRegion, string idCountry)
+        {
+            this.idAddress = idAddress;
+            this.nameStreet = nameStreet;
+            this.numberSt = numberStreet;
+            this.floorApartment = floorApartment;
+            this.apartmentLetter = apartmentLetter;
+            this.zipCode = zipCode;
+            this.nameCity = nameCity;
+            this.nameProvince = nameProvince;
+            this.nameRegion = nameRegion;
+            this.idCountry = idCountry;
+            this.idCity = -1;
+            this.idProvince = -1;
+            this.idRegion = -1;
         }
 
         [JsonProperty("idAddress")]
@@ -32,7 +53,7 @@ namespace OTEAServer.Models
         public int floorApartment { get; set; }
 
         [JsonProperty("apartmentLetter")]
-        public char apartmentLetter { get; set; }
+        public string apartmentLetter { get; set; }
 
         [JsonProperty("zipCode")]
         public int zipCode { get; set; }
@@ -48,5 +69,14 @@ namespace OTEAServer.Models
 
         [JsonProperty("idCountry")]
         public string idCountry { get; set; }
+        
+        [JsonProperty("nameCity")]
+        public string nameCity { get; set; }
+
+        [JsonProperty("nameProvince")]
+        public string nameProvince { get; set; }
+
+        [JsonProperty("nameRegion")]
+        public string nameRegion { get; set; }
     }
 }

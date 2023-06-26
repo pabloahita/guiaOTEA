@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import otea.connection.caller.Caller;
+import otea.connection.caller.EvidencesCaller;
 
 
 public class Indicator {
@@ -25,20 +25,22 @@ public class Indicator {
     public List<Evidence> evidences;
 
     @SerializedName("indicatorPriority")
-    public int priority;
+    public int indicatorPriority;
+
+    @SerializedName("indicatorVersion")
+    public int indicatorVersion;
 
     public int numFilledEvidences=0;
 
-    public Caller caller;
-    public Indicator(int idIndicator, String indicatorType, String descriptionEnglish,String descriptionSpanish,String descriptionFrench, int priority) {
+    public Indicator(int idIndicator, String indicatorType, String descriptionEnglish,String descriptionSpanish,String descriptionFrench, int indicatorPriority, int indicatorVersion) {
         setIdIndicator(idIndicator);
         setIndicatorType(indicatorType);
         setDescriptionEnglish(descriptionEnglish);
         setDescriptionSpanish(descriptionSpanish);
         setDescriptionFrench(descriptionFrench);
-        setPriority(priority);
-        setCaller(new Caller());
-        setEvidences(caller.obtainEvidences(idIndicator,indicatorType));
+        setPriority(indicatorPriority);
+        setIndicatorVersion(indicatorVersion);
+        setEvidences(EvidencesCaller.getInstance().obtainEvidences(idIndicator,indicatorType,indicatorVersion));
     }
 
     public int getIdIndicator() {
@@ -93,7 +95,7 @@ public class Indicator {
     public int getIndicatorValue(){
         int value=0;
         for(Evidence e : evidences){
-            value+=e.getValue();
+            value+=e.getEvidenceValue();
         }
         return value;
     }
@@ -101,17 +103,17 @@ public class Indicator {
 
     public void addEvidence(Evidence evidence){
         this.evidences.add(evidence);
-        caller.addEvidence(evidence);
+        EvidencesCaller.getInstance().addEvidence(evidence);
     }
 
     public void updateEvidence(Evidence evidence){
         this.evidences.add(evidence);
-        caller.updateEvidence(evidence.getIdEvidence(),idIndicator,indicatorType,evidence);
+        EvidencesCaller.getInstance().updateEvidence(evidence.getIdEvidence(),evidence.getIdIndicator(),evidence.getIndicatorType(),evidence.getIndicatorVersion(),evidence);
     }
 
     public void deleteEvidence(Evidence evidence){
         this.evidences.add(evidence);
-        caller.deleteEvidence(evidence.getIdEvidence(),evidence.getIdIndicator(),evidence.getIndicatorType());
+        EvidencesCaller.getInstance().deleteEvidence(evidence.getIdEvidence(),evidence.getIdIndicator(),evidence.getIndicatorType(),evidence.getIndicatorVersion());
     }
 
     public Evidence getEvidenceById(int i){
@@ -126,25 +128,25 @@ public class Indicator {
 
 
     public int getPriority() {
-        return priority;
+        return indicatorPriority;
     }
 
-    public void setPriority(int priority) {
-        this.priority = priority;
+    public void setPriority(int indicatorPriority) {
+        this.indicatorPriority = indicatorPriority;
     }
 
     public int getMultiplicator(){
         if(numFilledEvidences==0||numFilledEvidences==1){return 0;}
         else if (numFilledEvidences==2||numFilledEvidences==3){
-            if (this.priority==1){return 1;}
-            else if (this.priority==2){return 2;}
-            else if (this.priority==3){return 3;}
+            if (this.indicatorPriority==1){return 1;}
+            else if (this.indicatorPriority==2){return 2;}
+            else if (this.indicatorPriority==3){return 3;}
             else{return 4;}
         }
         else{
-            if (this.priority==1){return 2;}
-            else if (this.priority==2){return 3;}
-            else if (this.priority==3){return 4;}
+            if (this.indicatorPriority==1){return 2;}
+            else if (this.indicatorPriority==2){return 3;}
+            else if (this.indicatorPriority==3){return 4;}
             else{return 5;}
         }
     }
@@ -153,11 +155,11 @@ public class Indicator {
 
     public int getNumFilledEvidences(){return numFilledEvidences;}
 
-    public Caller getCaller() {
-        return caller;
+    public int getIndicatorVersion() {
+        return indicatorVersion;
     }
 
-    public void setCaller(Caller caller) {
-        this.caller = caller;
+    public void setIndicatorVersion(int indicatorVersion) {
+        this.indicatorVersion = indicatorVersion;
     }
 }

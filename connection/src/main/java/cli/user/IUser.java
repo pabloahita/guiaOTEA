@@ -1,19 +1,12 @@
 package cli.user;
 
-import otea.connection.caller.Caller;
-
 public interface IUser {
-    Caller getCaller();
-
-    void setCaller(Caller caller);
 
     String getFirst_name();
 
     String getLast_name();
 
     String getEmailUser();
-
-    String getPasswordUser();
 
     long getTelephone();
 
@@ -23,7 +16,6 @@ public interface IUser {
 
     void setEmailUser(String email);
 
-    void setPasswordUser(String password);
 
     void setTelephone(long telephone);
 

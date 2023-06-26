@@ -1,4 +1,4 @@
-package gui.ui.login;
+package gui.ui.startSession;
 
 import cli.user.User;
 

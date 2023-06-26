@@ -37,10 +37,10 @@ namespace OTEAServer.Controllers
 
         // GET by ID AND INDICATOR TYPE action
 
-        [HttpGet("get::idIndicator={idIndicator}:indicatorType={indicatorType}")]
-        public ActionResult<Indicator> Get(int idIndicator, string indicatorType)
+        [HttpGet("get::idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")]
+        public ActionResult<Indicator> Get(int idIndicator, string indicatorType, int indicatorVersion)
         {
-            var indicator = _indicatorsService.Get(idIndicator,indicatorType);
+            var indicator = _indicatorsService.Get(idIndicator,indicatorType,indicatorVersion);
 
             if (indicator == null)
                 return NotFound();
@@ -52,22 +52,22 @@ namespace OTEAServer.Controllers
 
         // POST action
         [HttpPost]
-        public IActionResult Create(int idIndicator, string indicatorType, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, int indicatorPriority)
+        public IActionResult Create(int idIndicator, string indicatorType, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, int indicatorPriority, int indicatorVersion)
         {
-            _indicatorsService.Add(idIndicator,indicatorType,descriptionEnglish,descriptionSpanish,descriptionFrench,indicatorPriority);
-            Indicator indicator = new Indicator(idIndicator, indicatorType, descriptionEnglish, descriptionSpanish, descriptionFrench, indicatorPriority);
+            _indicatorsService.Add(idIndicator,indicatorType,descriptionEnglish,descriptionSpanish,descriptionFrench,indicatorPriority,indicatorVersion);
+            Indicator indicator = new Indicator(idIndicator, indicatorType, descriptionEnglish, descriptionSpanish, descriptionFrench, indicatorPriority,indicatorVersion);
             return CreatedAtAction(nameof(Get), new { id = indicator.indicatorId, type=indicator.indicatorType }, indicator);
         }
 
         // PUT action
-        [HttpPut("upd::idIndicator={idIndicator}:indicatorType={indicatorType}")]
-        public IActionResult Update(int idIndicator, string indicatorType, Indicator indicator)
+        [HttpPut("upd::idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")]
+        public IActionResult Update(int idIndicator, string indicatorType, int indicatorVersion, Indicator indicator)
         {
             // This code will update the mesa and return a result
-            if (idIndicator != indicator.indicatorId || indicatorType != indicator.indicatorType)
+            if (idIndicator != indicator.indicatorId || indicatorType != indicator.indicatorType || indicatorVersion != indicator.indicatorVersion)
                 return BadRequest();
 
-            var existingIndicator = _indicatorsService.Get(idIndicator, indicatorType);
+            var existingIndicator = _indicatorsService.Get(idIndicator, indicatorType, indicatorVersion-1);
             if (existingIndicator is null)
                 return NotFound();
 
@@ -77,16 +77,16 @@ namespace OTEAServer.Controllers
         }
 
         // DELETE action
-        [HttpDelete("del::idIndicator={idIndicator}:indicatorType={indicatorType}")]
-        public IActionResult Delete(int idIndicator, string indicatorType)
+        [HttpDelete("del::idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")]
+        public IActionResult Delete(int idIndicator, string indicatorType, int indicatorVersion)
         {
             // This code will delete the mesa and return a result
-            var indicator = _indicatorsService.Get(idIndicator, indicatorType);
+            var indicator = _indicatorsService.Get(idIndicator, indicatorType, indicatorVersion);
 
             if (indicator is null)
                 return NotFound();
 
-            _indicatorsService.Delete(idIndicator, indicatorType);
+            _indicatorsService.Delete(idIndicator, indicatorType, indicatorVersion);
 
             return NoContent();
         }

@@ -4,30 +4,30 @@ package gui.data;
 import cli.user.User;
 import gui.data.model.PasswordIncorrectException;
 import gui.data.model.UnknownUserException;
-import otea.connection.caller.Caller;
+import otea.connection.caller.UsersCaller;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.
  */
 public class LoginDataSource {
 
-
-    Caller caller;
     public Result<User> login(String username, String password) {
 
-        caller=new Caller();
         try {
             //LoggedInUser user=new LoggedInUser(username,password);
             //Codificar contraseña
-            User user=caller.obtainUserForLogin(username,password);
+            String nuevaPassword=codificar(password);
+            User user= UsersCaller.getInstance().obtainUserForLogin(username,nuevaPassword);
             if(user==null){
-                User aux=caller.obtainUser(username);
-                if(aux!=null && password.equals(aux.getPasswordUser())){
+                User aux=UsersCaller.getInstance().obtainUser(username);
+                if(aux!=null){
                     return new Result.Error(new PasswordIncorrectException("The password is wrong, please put the correct one"));
                 }
-                else if(aux==null){
+                else{
                     return new Result.Error(new UnknownUserException("The user doesn't exists in our database. Please, sign up and try to login again"));
                 }
             }
@@ -39,5 +39,25 @@ public class LoginDataSource {
 
     public void logout() {
         // TODO: revoke authentication
+    }
+
+    public String codificar(String password) {
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("SHA-256");
+        }
+        catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        byte[] hash = md.digest(password.getBytes());
+        StringBuffer sb = new StringBuffer();
+
+        for(byte b : hash) {
+            sb.append(String.format("%02x", b));
+        }
+
+        return sb.toString();
     }
 }

@@ -9,46 +9,48 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="gui.ui.login.StartSession">
+    tools:context="gui.ui.startSession.StartSession">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="840dp"
-        android:layout_height="match_parent"
+        android:layout_width="940dp"
+        android:layout_height="1694dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <EditText
             android:id="@+id/username"
-            android:layout_width="842dp"
-            android:layout_height="65dp"
+            android:layout_width="821dp"
+            android:layout_height="77dp"
             android:layout_marginTop="96dp"
+            android:autofillHints=""
             android:hint="@string/users_email"
             android:inputType="textEmailAddress"
             android:selectAllOnFocus="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:autofillHints="" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/password"
-            android:layout_width="842dp"
-            android:layout_height="65dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="806dp"
+            android:layout_height="71dp"
+            android:layout_marginTop="168dp"
+            android:autofillHints=""
             android:hint="@string/users_password"
-            android:imeActionLabel="@string/action_sign_in_short"
+            android:imeActionLabel="@string/sign_in"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:selectAllOnFocus="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/username"
-            android:autofillHints="" />
+            app:layout_constraintTop_toBottomOf="@+id/username" />
 
         <Button
             android:id="@+id/login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="231dp"
+            android:layout_height="61dp"
             android:layout_gravity="start"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="64dp"
@@ -58,7 +60,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/password"
-            app:layout_constraintVertical_bias="0.2" />
+            app:layout_constraintVertical_bias="0.309" />
 
         <ProgressBar
             android:id="@+id/loading"
