@@ -2,27 +2,24 @@ package cli.organization.data;
 
 import com.google.gson.annotations.SerializedName;
 
-import cli.user.OrganizationUser;
-import otea.connection.caller.OrganizationsCaller;
-import otea.connection.caller.UsersCaller;
+import java.io.Serializable;
 
-public class EvaluatorTeamMember {
+public class EvaluatorTeamMember implements Serializable {
 
     @SerializedName("emailUser")
-    private String emailUser;
+    public String emailUser;
 
     @SerializedName("idEvaluatorTeam")
-    private int idEvaluatorTeam;
+    public int idEvaluatorTeam;
 
     @SerializedName("idEvaluatorOrganization")
-    private int idEvaluatorOrganization;
+    public int idEvaluatorOrganization;
 
     @SerializedName("orgType")
-    private String orgType;
+    public String orgType;
     @SerializedName("illness")
-    private String illness;
+    public String illness;
 
-    private OrganizationUser user;
 
     public EvaluatorTeamMember(String emailUser, int idEvaluatorTeam, int idEvaluatorOrganization, String orgType, String illness) {
         setEmailUser(emailUser);
@@ -30,7 +27,7 @@ public class EvaluatorTeamMember {
         setIdEvaluatorOrganization(idEvaluatorOrganization);
         setOrgType(orgType);
         setIllness(illness);
-        setUser(UsersCaller.getInstance().obtainOrgUser(emailUser, OrganizationsCaller.getInstance().obtainOrganization(idEvaluatorOrganization,orgType,illness)));
+        //setUser(UsersCaller.getInstance().obtainOrgUser(emailUser, OrganizationsCaller.getInstance().obtainOrganization(idEvaluatorOrganization,orgType,illness)));
     }
 
     public String getEmailUser() {
@@ -73,12 +70,6 @@ public class EvaluatorTeamMember {
         this.illness = illness;
     }
 
-    public OrganizationUser getUser() {
-        return user;
-    }
 
-    public void setUser(OrganizationUser user) {
-        this.user = user;
-    }
 
 }

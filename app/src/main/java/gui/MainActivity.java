@@ -4,10 +4,16 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
+import cli.organization.Organization;
+import cli.organization.data.Address;
+import cli.user.User;
+import misc.PasswordCodifier;
 import otea.connection.caller.*;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,9 +24,10 @@ public class MainActivity extends AppCompatActivity {
         startCallers();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Button sign_in = findViewById(R.id.sign_in);
         Button sign_up = findViewById(R.id.sign_up);
-        sign_in.setOnClickListener(v -> {
+           sign_in.setOnClickListener(v -> {
             Intent intent = new Intent(this, gui.ui.startSession.StartSession.class);
             startActivity(intent);
         });

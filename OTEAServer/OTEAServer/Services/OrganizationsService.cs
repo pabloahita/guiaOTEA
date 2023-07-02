@@ -1,14 +1,13 @@
-﻿using OTEAServer.Models;
+﻿
+using Microsoft.AspNetCore.Mvc;
+using OTEAServer.Models;
 using System.Data.SqlClient;
-using System.Net;
-using System.Xml.Linq;
-
 namespace OTEAServer.Services
 {
     public class OrganizationsService
     {
         private static IConfiguration _configuration;
-        public OrganizationsService(IConfiguration configuration)
+        public OrganizationsService([FromServices] IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -42,6 +41,7 @@ namespace OTEAServer.Services
         }
 
         public List<Organization> GetAllByType(string orgType) {
+
             List<Organization> orgsList = new List<Organization>();
 
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -65,6 +65,7 @@ namespace OTEAServer.Services
                     }
                 }
             }
+
             return orgsList;
         }
 
@@ -76,7 +77,7 @@ namespace OTEAServer.Services
         public Organization Get(int id, string orgType, string illness)
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            string query = "SELECT * FROM ORGANIZATIONS WHERE orgType=@ORGTYPE AND idOrganization=@ID AND illness=@ILLNESS";
+            string query = "SELECT * FROM ORGANIZATIONS WHERE orgType=@ORGTYPE AND IdOrganization=@ID AND illness=@ILLNESS";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -117,24 +118,41 @@ namespace OTEAServer.Services
                 // Abre la conexión a la base de datos
                 connection.Open();
 
-                // Crea el comando SQL
+                // Crea el command SQL
                 string sql = "INSERT INTO ORGANIZATIONS (IDORGANIZATION,ORGTYPE,ILLNESS,NAMEORG,IDADDRESS,EMAIL,TELEPHONE,INFORMATION,EMAILORGPRINCIPAL,EMAILORGCONSULTANT) VALUES (@ID,@ORGTYPE,@ILLNESS,@NAME,@IDADDRESS,@EMAIL,@TELEPHONE,@INFORMATION,@EMAILORGPRINCIPAL,@EMAILORGCONSULTANT)";
-                using (SqlCommand comando = new SqlCommand(sql, connection))
+                using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     // Añade parámetros para evitar la inyección de SQL
-                    comando.Parameters.AddWithValue("@ID", id);
-                    comando.Parameters.AddWithValue("@ORGTYPE", orgType);
-                    comando.Parameters.AddWithValue("@ILLNESS", illness);
-                    comando.Parameters.AddWithValue("@NAME", name);
-                    comando.Parameters.AddWithValue("@IDADRESS", idAddress);
-                    comando.Parameters.AddWithValue("@EMAIL", email);
-                    comando.Parameters.AddWithValue("@TELEPHONE", telephone);
-                    comando.Parameters.AddWithValue("@INFORMATION", information);
-                    comando.Parameters.AddWithValue("@EMAILORGPRINCIPAL", emailOrgPrincipal);
-                    comando.Parameters.AddWithValue("@EMAILORGCONSULTANT", emailOrgConsultant);
+                    command.Parameters.AddWithValue("@ID", id);
+                    command.Parameters.AddWithValue("@ORGTYPE", orgType);
+                    command.Parameters.AddWithValue("@ILLNESS", illness);
+                    command.Parameters.AddWithValue("@NAME", name);
+                    command.Parameters.AddWithValue("@IDADDRESS", idAddress);
+                    command.Parameters.AddWithValue("@EMAIL", email);
+                    command.Parameters.AddWithValue("@TELEPHONE", telephone);
+                    command.Parameters.AddWithValue("@INFORMATION", information);
+                    if (string.IsNullOrEmpty(emailOrgPrincipal))
+                    {
+                        command.Parameters.AddWithValue("@EMAILORGPRINCIPAL", DBNull.Value);
+                    }
+                    else
+                    {
+                        command.Parameters.AddWithValue("@EMAILORGPRINCIPAL", emailOrgPrincipal);
+                    }
 
-                    // Ejecuta el comando
-                    comando.ExecuteNonQuery();
+                    // Verifica si emailOrgConsultant es una cadena vacía y agrega el valor correspondiente
+                    if (string.IsNullOrEmpty(emailOrgConsultant))
+                    {
+                        command.Parameters.AddWithValue("@EMAILORGCONSULTANT", DBNull.Value);
+                    }
+                    else
+                    {
+                        command.Parameters.AddWithValue("@EMAILORGCONSULTANT", emailOrgConsultant);
+                    }
+
+
+                    // Ejecuta el command
+                    command.ExecuteNonQuery();
                 }
 
                 // Cierra la conexión a la base de datos
@@ -155,16 +173,16 @@ namespace OTEAServer.Services
                     // Abre la conexión a la base de datos
                     connection.Open();
 
-                    // Crea el comando SQL
-                    string sql = "DELETE FROM ORGANIZATIONS WHERE idOrganization=@ID AND orgType=@ORGTYPE AND illness=@ILLNESS";
-                    using (SqlCommand comando = new SqlCommand(sql, connection))
+                    // Crea el command SQL
+                    string sql = "DELETE FROM ORGANIZATIONS WHERE IdOrganization=@ID AND orgType=@ORGTYPE AND illness=@ILLNESS";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         // Añade parámetros para evitar la inyección de SQL
-                        comando.Parameters.AddWithValue("@ID", id);
-                        comando.Parameters.AddWithValue("@ORGTYPE", orgType);
-                        comando.Parameters.AddWithValue("@ILLNESS", illness);
-                        // Ejecuta el comando
-                        comando.ExecuteNonQuery();
+                        command.Parameters.AddWithValue("@ID", id);
+                        command.Parameters.AddWithValue("@ORGTYPE", orgType);
+                        command.Parameters.AddWithValue("@ILLNESS", illness);
+                        // Ejecuta el command
+                        command.ExecuteNonQuery();
                     }
 
                     // Cierra la conexión a la base de datos
@@ -173,9 +191,10 @@ namespace OTEAServer.Services
             }
         }
 
-        public void Update(Organization organization)
+        public void Update(int id, string orgType, string illness, Organization organization)
         {
-            if (organization != null && Get(organization.IdOrganization, organization.orgType, organization.illness) == organization)
+      
+            if (organization != null && id==organization.IdOrganization && orgType==organization.orgType && illness==organization.illness)
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
@@ -184,24 +203,41 @@ namespace OTEAServer.Services
                     // Abre la conexión a la base de datos
                     connection.Open();
 
-                    // Crea el comando SQL
-                    string sql = "UPDATE ORGANIZATIONS SET NAME=@NAME,IDADDRESS=@IDADDRESS,EMAIL=@EMAIL,TELEPHONE=@TELEPHONE,INFORMATION=@INFORMATION,EMAILORGPRINCIPAL=@EMAILORGPRINCIPAL,EMAILORGCONSULTANT=@EMAILORGCONSULTANT WHERE IDORGANIZATION=@ID AND ORGTYPE=@ORGTYPE AND ILLNESS=@ILLNESS";
-                    using (SqlCommand comando = new SqlCommand(sql, connection))
+                    // Crea el command SQL
+                    string sql = "UPDATE ORGANIZATIONS SET NAMEORG=@NAME,IDADDRESS=@IDADDRESS,EMAIL=@EMAIL,TELEPHONE=@TELEPHONE,INFORMATION=@INFORMATION,EMAILORGPRINCIPAL=@EMAILORGPRINCIPAL,EMAILORGCONSULTANT=@EMAILORGCONSULTANT WHERE IDORGANIZATION=@ID AND ORGTYPE=@ORGTYPE AND ILLNESS=@ILLNESS";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         // Añade parámetros para evitar la inyección de SQL
-                        comando.Parameters.AddWithValue("@ID", organization.IdOrganization);
-                        comando.Parameters.AddWithValue("@ORGTYPE", organization.orgType);
-                        comando.Parameters.AddWithValue("@ILLNESS", organization.illness);
-                        comando.Parameters.AddWithValue("@NAME", organization.nameOrg);
-                        comando.Parameters.AddWithValue("@IDADRESS", organization.idAddress);
-                        comando.Parameters.AddWithValue("@EMAIL", organization.email);
-                        comando.Parameters.AddWithValue("@TELEPHONE", organization.telephone);
-                        comando.Parameters.AddWithValue("@INFORMATION", organization.information);
-                        comando.Parameters.AddWithValue("@EMAILORGPRINCIPAL", organization.emailOrgPrincipal);
-                        comando.Parameters.AddWithValue("@EMAILORGCONSULTANT", organization.emailOrgConsultant);
+                        command.Parameters.AddWithValue("@ID", organization.IdOrganization);
+                        command.Parameters.AddWithValue("@ORGTYPE", organization.orgType);
+                        command.Parameters.AddWithValue("@ILLNESS", organization.illness);
+                        command.Parameters.AddWithValue("@NAME", organization.nameOrg);
+                        command.Parameters.AddWithValue("@IDADDRESS", organization.idAddress);
+                        command.Parameters.AddWithValue("@EMAIL", organization.email);
+                        command.Parameters.AddWithValue("@TELEPHONE", organization.telephone);
+                        command.Parameters.AddWithValue("@INFORMATION", organization.information);
+                        if (string.IsNullOrEmpty(organization.emailOrgPrincipal))
+                        {
+                            command.Parameters.AddWithValue("@EMAILORGPRINCIPAL", DBNull.Value);
+                        }
+                        else
+                        {
+                            command.Parameters.AddWithValue("@EMAILORGPRINCIPAL", organization.emailOrgPrincipal);
+                        }
 
-                        // Ejecuta el comando
-                        comando.ExecuteNonQuery();
+                        // Verifica si emailOrgConsultant es una cadena vacía y agrega el valor correspondiente
+                        if (string.IsNullOrEmpty(organization.emailOrgConsultant))
+                        {
+                            command.Parameters.AddWithValue("@EMAILORGCONSULTANT", DBNull.Value);
+                        }
+                        else
+                        {
+                            command.Parameters.AddWithValue("@EMAILORGCONSULTANT", organization.emailOrgConsultant);
+                        }
+
+
+                        // Ejecuta el command
+                        command.ExecuteNonQuery();
                     }
 
                     // Cierra la conexión a la base de datos

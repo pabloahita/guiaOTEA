@@ -86,16 +86,16 @@ namespace OTEAServer.Controllers
 
         // POST action
         [HttpPost]
-        public IActionResult Create(int id, string orgType, string illness, string name, int idAddress, string email, long telephone, string information, string emailOrgPrincipal, string emailOrgConsultant)
+        public IActionResult Create([FromBody] Organization organization)
         {
-            _organizationsService.Add(id, orgType, illness, name, idAddress, email, telephone, information, emailOrgPrincipal, emailOrgConsultant);
-            Organization organization = new Organization(id, orgType, illness, name, idAddress, email, telephone, information, emailOrgPrincipal, emailOrgConsultant);
-            return CreatedAtAction(nameof(Get), new { id = organization.IdOrganization, type=organization.orgType }, organization);
+            _organizationsService.Add(organization.IdOrganization, organization.orgType, organization.illness, organization.nameOrg, organization.idAddress, organization.email, organization.telephone, organization.information, organization.emailOrgPrincipal, organization.emailOrgConsultant);
+            //Organization organization = new Organization(id, orgType, illness, name, idAddress, email, telephone, information, emailOrgPrincipal, emailOrgConsultant);
+            return CreatedAtAction(nameof(Get), new { id = organization.IdOrganization, organizationType=organization.orgType, illness=organization.illness }, organization);
         }
 
         // PUT action
         [HttpPut("upd::id={id}:orgType={orgType}:illness={illness}")]
-        public IActionResult Update(int id,string orgType,string illness, Organization organization)
+        public IActionResult Update(int id,string orgType,string illness, [FromBody] Organization organization)
         {
             // This code will update the mesa and return a result
             if (id != organization.IdOrganization || orgType!=organization.orgType || illness!=organization.illness)
@@ -105,7 +105,7 @@ namespace OTEAServer.Controllers
             if (existingOrganization is null)
                 return NotFound();
 
-            _organizationsService.Update(organization);
+            _organizationsService.Update(id,orgType,illness,organization);
 
             return Ok(organization);
         }

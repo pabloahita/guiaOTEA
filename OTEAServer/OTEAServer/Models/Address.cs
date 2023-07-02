@@ -1,59 +1,30 @@
 ﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace OTEAServer.Models
 {
     public class Address
     {
-        public Address(int idAddress, string nameStreet, int numberStreet, int floorApartment,
-                   string apartmentLetter, int zipCode, int idCity, int idProvince, int idRegion, string idCountry)
+        public Address(int idAddress, string addressName, int zipCode, int idCity, int idProvince, int idRegion, string idCountry, string nameCity, string nameProvince, string nameRegion)
         {
             this.idAddress = idAddress;
-            this.nameStreet = nameStreet;
-            this.numberSt = numberStreet;
-            this.floorApartment = floorApartment;
-            this.apartmentLetter = apartmentLetter;
+            this.addressName= addressName;
             this.zipCode = zipCode;
             this.idCity = idCity;
             this.idProvince = idProvince;
             this.idRegion = idRegion;
             this.idCountry = idCountry;
-            this.nameCity = "";
-            this.nameProvince = "";
-            this.nameRegion = "";
-        }
-
-        public Address(int idAddress, string nameStreet, int numberStreet, int floorApartment,
-                   string apartmentLetter, int zipCode, string nameCity, string nameProvince, string nameRegion, string idCountry)
-        {
-            this.idAddress = idAddress;
-            this.nameStreet = nameStreet;
-            this.numberSt = numberStreet;
-            this.floorApartment = floorApartment;
-            this.apartmentLetter = apartmentLetter;
-            this.zipCode = zipCode;
             this.nameCity = nameCity;
             this.nameProvince = nameProvince;
             this.nameRegion = nameRegion;
-            this.idCountry = idCountry;
-            this.idCity = -1;
-            this.idProvince = -1;
-            this.idRegion = -1;
         }
 
+        [Key]
         [JsonProperty("idAddress")]
         public int idAddress { get; set; }
 
-        [JsonProperty("nameStreet")]
-        public string nameStreet { get; set; }
-
-        [JsonProperty("numberSt")]
-        public int numberSt { get; set; }
-
-        [JsonProperty("floorApartment")]
-        public int floorApartment { get; set; }
-
-        [JsonProperty("apartmentLetter")]
-        public string apartmentLetter { get; set; }
+        [JsonProperty("addressName")]
+        public string addressName { get; set; }
 
         [JsonProperty("zipCode")]
         public int zipCode { get; set; }

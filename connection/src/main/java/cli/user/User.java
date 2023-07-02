@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 
-public class User implements IUser{
+public class User implements IUser, Serializable{
 
     @SerializedName("first_name")
     public String first_name;
@@ -18,6 +18,9 @@ public class User implements IUser{
 
     @SerializedName("emailUser")
     public String emailUser;
+
+    @SerializedName("passwordUser")
+    public String passwordUser;
 
     @SerializedName("telephone")
     public long telephone;
@@ -34,11 +37,12 @@ public class User implements IUser{
     public String illness;
 
 
-    public User(String first_name, String last_name, String userType, String emailUser, long telephone, int idOrganization, String orgType, String illness){
+    public User(String emailUser, String userType, String first_name, String last_name, String passwordUser, long telephone, int idOrganization, String orgType, String illness){
+        setEmailUser(emailUser);
+        setUserType(userType);
         setFirst_name(first_name);
         setLast_name(last_name);
-        setUserType(userType);
-        setEmailUser(emailUser);
+        setPassword(passwordUser);
         setTelephone(telephone);
         setIdOrganization(idOrganization);
         setOrgType(orgType);
@@ -120,6 +124,16 @@ public class User implements IUser{
     @Override
     public void disconnect(){this.connected=false;}
 
+    @Override
+    public String getPassword() {
+        return passwordUser;
+    }
+
+    @Override
+    public void setPassword(String passwordUser) {
+        this.passwordUser=passwordUser;
+    }
+
     public String getUserType() {
         return userType;
     }
@@ -127,5 +141,7 @@ public class User implements IUser{
     public void setUserType(String userType) {
         this.userType = userType;
     }
+
+
 
 }

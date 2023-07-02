@@ -16,6 +16,10 @@ import android.widget.TextView;
 
 import com.fundacionmiradas.indicatorsevaluation.databinding.FragmentRecentActivityAdminBinding;
 
+import java.util.Locale;
+
+import cli.user.User;
+
 
 public class RecentActivity extends Fragment {
 
@@ -31,10 +35,18 @@ public class RecentActivity extends Fragment {
         binding = FragmentRecentActivityAdminBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        User user= (User) getActivity().getIntent().getSerializableExtra("user");
 
-        final TextView textView = binding.textRecentActivityAdmin;
-        recentViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-
+        final TextView textView = binding.textHiAdmin;
+        String text="";
+        if(Locale.getDefault().getLanguage().equals("es")){
+            text="¡Hola "+user.getFirst_name()+"!";
+        }else if(Locale.getDefault().getLanguage().equals("fr")) {
+            text="Salut "+user.getFirst_name()+"!";
+        }else{ //Por defecto en inglés
+            text="Hi "+user.getFirst_name()+"!";
+        }
+        textView.setText(text);
         return root;
     }
 

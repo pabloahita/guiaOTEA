@@ -2,15 +2,16 @@ package cli.indicators;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 import otea.connection.caller.EvidencesCaller;
 
 
-public class Indicator {
+public class Indicator implements Serializable {
 
-    @SerializedName("idIndicator")
-    public int idIndicator;
+    @SerializedName("indicatorId")
+    public int indicatorId;
 
     @SerializedName("indicatorType")
     public String indicatorType;
@@ -32,23 +33,22 @@ public class Indicator {
 
     public int numFilledEvidences=0;
 
-    public Indicator(int idIndicator, String indicatorType, String descriptionEnglish,String descriptionSpanish,String descriptionFrench, int indicatorPriority, int indicatorVersion) {
-        setIdIndicator(idIndicator);
+    public Indicator(int indicatorId, String indicatorType, String descriptionEnglish,String descriptionSpanish,String descriptionFrench, int indicatorPriority, int indicatorVersion) {
+        setIdIndicator(indicatorId);
         setIndicatorType(indicatorType);
         setDescriptionEnglish(descriptionEnglish);
         setDescriptionSpanish(descriptionSpanish);
         setDescriptionFrench(descriptionFrench);
         setPriority(indicatorPriority);
         setIndicatorVersion(indicatorVersion);
-        setEvidences(EvidencesCaller.getInstance().obtainEvidences(idIndicator,indicatorType,indicatorVersion));
     }
 
     public int getIdIndicator() {
-        return idIndicator;
+        return indicatorId;
     }
 
-    public void setIdIndicator(int idIndicator) {
-        this.idIndicator = idIndicator;
+    public void setIdIndicator(int indicatorId) {
+        this.indicatorId = indicatorId;
     }
 
     public String getIndicatorType() {

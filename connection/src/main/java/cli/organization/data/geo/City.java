@@ -2,24 +2,26 @@ package cli.organization.data.geo;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import otea.connection.caller.ProvincesCaller;
 
-public class City {
+public class City implements Serializable {
 
     @SerializedName("idCity")
-    private int idCity;
+    public int idCity;
 
     @SerializedName("idProvince")
-    private int idProvince;
+    public int idProvince;
 
     @SerializedName("idRegion")
-    private int idRegion;
+    public int idRegion;
 
     @SerializedName("idCountry")
-    private String idCountry;
+    public String idCountry;
 
     @SerializedName("cityName")
-    private String cityName;
+    public String cityName;
 
     private Province province;
     private Region region;
@@ -32,9 +34,6 @@ public class City {
         setIdRegion(idRegion);
         setIdCountry(idCountry);
         setCityName(cityName);
-        setProvince(ProvincesCaller.getInstance().obtainProvince(idProvince,idRegion,idCountry));
-        setRegion(province.getRegion());
-        setCountry(region.getCountry());
     }
 
     public int getIdCity() {

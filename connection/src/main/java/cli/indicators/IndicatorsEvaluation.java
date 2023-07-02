@@ -1,45 +1,44 @@
 package cli.indicators;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import cli.organization.EvaluatedOrganization;
 import cli.organization.data.EvaluatorTeam;
 import otea.connection.caller.EvaluatorTeamsCaller;
 import otea.connection.caller.IndicatorsCaller;
+import otea.connection.caller.IndicatorsEvaluationRegsCaller;
 import otea.connection.caller.OrganizationsCaller;
 
-public class IndicatorsEvaluation {
+public class IndicatorsEvaluation implements Serializable {
 
     @SerializedName("evaluationDate")
-    private Timestamp evaluationDate;
+    public Timestamp evaluationDate;
 
     @SerializedName("idEvaluatedOrganization")
-    private int idEvaluatedOrganization;
+    public int idEvaluatedOrganization;
     
     @SerializedName("orgTypeEvaluated")
-    private String orgTypeEvaluated;
+    public String orgTypeEvaluated;
     
     @SerializedName("idEvaluatorTeam")
-    private int idEvaluatorTeam;
+    public int idEvaluatorTeam;
     
     @SerializedName("idEvaluatorOrganization")
-    private int idEvaluatorOrganization;
+    public int idEvaluatorOrganization;
     
     @SerializedName("orgTypeEvaluator")
-    private String orgTypeEvaluator;
+    public String orgTypeEvaluator;
     
     @SerializedName("illness")
-    private String illness;
+    public String illness;
 
     @SerializedName("totalScore")
-    private int totalScore=0;
+    public int totalScore=0;
 
-    private EvaluatedOrganization evaluated_organization;
     private EvaluatorTeam evaluator_team;
 
     private List<IndicatorsEvaluationReg> evaluation;
@@ -56,19 +55,9 @@ public class IndicatorsEvaluation {
         setOrgTypeEvaluator(orgTypeEvaluator);
         setIllness(illness);
         setTotalScore(totalScore);
-        setEvaluation(new LinkedList<IndicatorsEvaluationReg>());
-        setIndicators(IndicatorsCaller.getInstance().obtainIndicators(illness));
-        setEvaluatorTeam(EvaluatorTeamsCaller.getInstance().obtainEvaluatorTeam(idEvaluatorTeam,idEvaluatorOrganization,orgTypeEvaluator,illness));
-        setEvaluatedOrganization((EvaluatedOrganization) OrganizationsCaller.getInstance().obtainOrganization(idEvaluatedOrganization,orgTypeEvaluated,illness));
     }
 
-    
-    
-    /*public IndicatorsEvaluation(Date evaluationDate, EvaluatedOrganization evaluated_organization, EvaluatorTeam evaluator_team) {
-        setEvaluationDate(evaluationDate);
-        setEvaluatedOrganization(evaluated_organization);
-        setEvaluatorTeam(evaluator_team);
-    }^*/
+
 
     public Timestamp getEvaluationDate() {
         return evaluationDate;
@@ -76,22 +65,6 @@ public class IndicatorsEvaluation {
 
     public void setEvaluationDate(Timestamp evaluationDate) {
         this.evaluationDate = evaluationDate;
-    }
-
-    public EvaluatedOrganization getEvaluatedOrganization() {
-        return evaluated_organization;
-    }
-
-    public void setEvaluatedOrganization(EvaluatedOrganization evaluated_organization) {
-        this.evaluated_organization = evaluated_organization;
-    }
-
-    public EvaluatorTeam getEvaluatorTeam() {
-        return evaluator_team;
-    }
-
-    public void setEvaluatorTeam(EvaluatorTeam evaluator_team) {
-        this.evaluator_team = evaluator_team;
     }
 
     public List<Indicator> getIndicators(){
@@ -203,14 +176,6 @@ public class IndicatorsEvaluation {
 
     public void setTotalScore(int totalScore) {
         this.totalScore = totalScore;
-    }
-
-    public EvaluatedOrganization getEvaluated_organization() {
-        return evaluated_organization;
-    }
-
-    public void setEvaluated_organization(EvaluatedOrganization evaluated_organization) {
-        this.evaluated_organization = evaluated_organization;
     }
 
     public EvaluatorTeam getEvaluator_team() {

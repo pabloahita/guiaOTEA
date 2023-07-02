@@ -2,7 +2,9 @@ package cli.indicators;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Evidence {
+import java.io.Serializable;
+
+public class Evidence implements Serializable {
 
     @SerializedName("idEvidence")
     public int idEvidence;

@@ -5,12 +5,13 @@ namespace OTEAServer.Models
 {
     public class User
     {
-        public User(string email, string userType, string first_Name, string last_Name, string password, long telephone, int? idOrganization, string? organizationType, string? illness) { 
-            this.emailUser = email;
+        public User(string emailUser, string userType, string first_name, string last_name, string passwordUser, long telephone, int idOrganization, string organizationType, string illness)
+        {
+            this.emailUser = emailUser;
             this.userType = userType;
-            this.first_name = first_Name;
-            this.last_name = last_Name;
-            this.passwordUser = password;
+            this.first_name = first_name;
+            this.last_name = last_name;
+            this.passwordUser = passwordUser;
             this.telephone = telephone;
             this.idOrganization = idOrganization;
             this.organizationType = organizationType;
@@ -27,7 +28,7 @@ namespace OTEAServer.Models
         public string last_name { get; set; }
 
         [JsonProperty("passwordUser")]
-        internal string passwordUser { get; set; } //Es internal y no public debido a que aunque se guarde la contraseña en el JSON, ésta no se muestra y por tanto no se envía al cliente
+        public string passwordUser { get; set; }
 
         [JsonProperty("telephone")]
         public long telephone { get; set; }
@@ -36,13 +37,13 @@ namespace OTEAServer.Models
         public string userType { get; set; }
 
         [JsonProperty("idOrganization")]
-        public int? idOrganization { get; set; }
+        public int idOrganization { get; set; }
 
         [JsonProperty("organizationType")]
-        public string? organizationType { get; set; }
+        public string organizationType { get; set; }
 
         [JsonProperty("illness")]
-        public string? illness { get; set; }
+        public string illness { get; set; }
 
     }
 }

@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import cli.organization.EvaluatedOrganization;
 import cli.organization.Organization;
 import cli.organization.data.Center;
 import otea.connection.ConnectionClient;
@@ -62,19 +61,15 @@ public class CentersCaller {
         asyncTask.execute();
         try {
             List<Center> list=asyncTask.get();
-            List<Center> result=new LinkedList<Center>();
-            for(Center center:list){
-                result.add(new Center(center.getIdOrganization(),center.getOrgType(),center.getIllness(),center.getIdCenter(),center.getCenterDescription(),center.getIdAddress(),center.getTelephone()));
-            }
-            return result;
+            return list;
         } catch (Exception e) {
             Log.d("ERROR", e.toString());
         }
         return null;
     }
 
-    public static List<Center> GetAllByOrganization(int idOrganization, String orgType,String illness){
-        Call<List<Center>> call=api.GetAllByOrganization(idOrganization, orgType, illness);
+    public static List<Center> GetAllByOrganization(Organization organization){
+        Call<List<Center>> call=api.GetAllByOrganization(organization.getIdOrganization(), organization.getOrgType(), organization.getIllness());
         AsyncTask<Void, Void, List<Center>> asyncTask = new AsyncTask<Void, Void, List<Center>>() {
             List<Center> resultList = null;
             @Override
@@ -100,9 +95,6 @@ public class CentersCaller {
         try {
             List<Center> list=asyncTask.get();
             List<Center> result=new LinkedList<Center>();
-            for(Center center:list){
-                result.add(new Center(center.getIdOrganization(),center.getOrgType(),center.getIllness(),center.getIdCenter(),center.getCenterDescription(),center.getIdAddress(),center.getTelephone()));
-            }
             return result;
         } catch (Exception e) {
             Log.d("ERROR", e.toString());
@@ -136,15 +128,15 @@ public class CentersCaller {
         asyncTask.execute();
         try {
             Center aux=asyncTask.get();
-            return new Center((EvaluatedOrganization) organization,idCenter,aux.getCenterDescription(),AddressesCaller.obtainAddress(aux.getIdAddress()));
+            return aux;
         } catch (Exception e) {
             Log.d("ERROR", e.toString());
         }
         return null;
     }
 
-    public static Center Create(int idOrganization,String orgType,String illness,int idCenter,String centerDescription,int idAddress,long telephone) {
-        Call<Center> call=api.Create(idOrganization,orgType,illness,idCenter,centerDescription,idAddress,telephone);
+    public static Center Create(Center center) {
+        Call<Center> call=api.Create(center);
         AsyncTask<Void, Void, Center> asyncTask = new AsyncTask<Void, Void, Center>() {
             Center result = null;
             @Override

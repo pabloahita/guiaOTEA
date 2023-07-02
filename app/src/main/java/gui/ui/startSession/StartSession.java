@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -47,6 +48,10 @@ public class StartSession extends AppCompatActivity {
         final EditText passwordEditText = binding.password;
         final Button loginButton = binding.login;
         final ProgressBar loadingProgressBar = binding.loading;
+        final TextView textLoading=binding.pleaseWait;
+
+        loadingProgressBar.setVisibility(View.GONE);
+        textLoading.setVisibility(View.GONE);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -116,11 +121,21 @@ public class StartSession extends AppCompatActivity {
         });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+                usernameEditText.setEnabled(false);
+                passwordEditText.setEnabled(false);
+                loginButton.setEnabled(false);
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                textLoading.setVisibility(View.VISIBLE);
+                v.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loginViewModel.login(usernameEditText.getText().toString(),
+                                passwordEditText.getText().toString());
+                    }
+                }, 100);
             }
         });
     }
@@ -130,24 +145,18 @@ public class StartSession extends AppCompatActivity {
         if(user.getUserType().equals("ADMIN")){
             //GO TO ADMIN MAIN MENU
             Intent intent = new Intent(this, gui.mainMenu.admin.MainMenu.class);
-            intent.putExtra("first_name",user.getFirst_name());
-            intent.putExtra("last_name",user.getLast_name());
-            intent.putExtra("emailUser",user.getEmailUser());
+            intent.putExtra("user",user);
             startActivity(intent);
         } else if(user.getUserType().equals("ORGANIZATION")){
             if(user.getOrgType().equals("EVALUATED")){
                 //GO TO EVALUATED MAIN MENU
                 Intent intent = new Intent(this, gui.mainMenu.evaluated.MainMenu.class);
-                intent.putExtra("first_name",user.getFirst_name());
-                intent.putExtra("last_name",user.getLast_name());
-                intent.putExtra("emailUser",user.getEmailUser());
+                intent.putExtra("user",user);
                 startActivity(intent);
             }else if(user.getOrgType().equals("EVALUATOR")){
                 //GO TO EVALUATOR MAIN MENU
                 Intent intent = new Intent(this, gui.mainMenu.evaluator.MainMenu.class);
-                intent.putExtra("first_name",user.getFirst_name());
-                intent.putExtra("last_name",user.getLast_name());
-                intent.putExtra("emailUser",user.getEmailUser());
+                intent.putExtra("user",user);
                 startActivity(intent);
             }
         }

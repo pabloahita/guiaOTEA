@@ -2,42 +2,44 @@ package cli.organization;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import cli.organization.data.Address;
 import otea.connection.caller.AddressesCaller;
 
-public class Organization implements IOrganization {
+public class Organization implements IOrganization, Serializable {
 
     @SerializedName("IdOrganization")
-    private int IdOrganization;
+    public int idOrganization;
+
     @SerializedName("orgType")
-    private String orgType;
+    public String orgType;
+
     @SerializedName("illness")
-    private String illness;
+    public String illness;
 
     @SerializedName("nameOrg")
-    private String nameOrg;
+    public String nameOrg;
 
     @SerializedName("idAddress")
-    private int idAddress;
-    private Address address;
+    public int idAddress;
 
     @SerializedName("telephone")
-    private long telephone;
+    public long telephone;
 
     @SerializedName("email")
-    private String email;
+    public String email;
 
     @SerializedName("information")
-    private String information;
+    public String information;
 
     @SerializedName("emailOrgPrincipal")
-    private String emailOrgPrincipal;
+    public String emailOrgPrincipal;
 
     @SerializedName("emailOrgConsultant")
-    private String emailOrgConsultant;
+    public String emailOrgConsultant;
 
-
-
+    private Address address;
     public Organization(int idOrganization, String orgType, String illness, String name, int idAddress, long telephone, String email, String information, String emailOrgPrincipal, String emailOrgConsultant){
         setIdOrganization(idOrganization);
         setOrgType(orgType);
@@ -49,7 +51,7 @@ public class Organization implements IOrganization {
         setInformation(information);
         setEmailOrgPrincipal(emailOrgPrincipal);
         setEmailOrgConsultant(emailOrgConsultant);
-        setAddress(AddressesCaller.getInstance().obtainAddress(idAddress));
+        //setAddress(AddressesCaller.getInstance().obtainAddress(idAddress));
     }
 
 
@@ -62,12 +64,12 @@ public class Organization implements IOrganization {
 
     @Override
     public int getIdOrganization() {
-        return IdOrganization;
+        return idOrganization;
     }
 
     @Override
     public void setIdOrganization(int idOrganization) {
-        this.IdOrganization = idOrganization;
+        this.idOrganization = idOrganization;
     }
 
     @Override
@@ -168,4 +170,6 @@ public class Organization implements IOrganization {
     public void setNameOrg(String nameOrg) {
         this.nameOrg = nameOrg;
     }
+
+
 }

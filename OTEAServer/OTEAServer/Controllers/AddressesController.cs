@@ -41,34 +41,27 @@ namespace OTEAServer.Controllers
 
         // POST action
         [HttpPost]
-        public IActionResult Create(int idAddress, string nameStreet, int numberStreet, int floorApartment, string apartmentLetter, int zipCode, int idCity, int idProvince, int idRegion, string idCountry, string nameCity, string nameProvince, string nameRegion)
+        public IActionResult Create([FromBody] Address address)
         {
-            Address address = null;
-            if (idCountry == "ESP")
-            {
-                _addressesService.Add(idAddress, nameStreet, numberStreet, floorApartment, apartmentLetter, zipCode, idCity, idProvince, idRegion, idCountry);
-                address = new Address(idAddress, nameStreet, numberStreet, floorApartment, apartmentLetter, zipCode, idCity, idProvince, idRegion, idCountry);
-            }
-            else {
-                _addressesService.Add(idAddress, nameStreet, numberStreet, floorApartment, apartmentLetter, zipCode, nameCity, nameProvince, nameRegion, idCountry);
-                address = new Address(idAddress, nameStreet, numberStreet, floorApartment, apartmentLetter, zipCode, nameCity, nameProvince, nameRegion, idCountry);
-            }
+            _addressesService.Add(address.idAddress, address.addressName, address.zipCode, address.idCity, address.idProvince, address.idRegion, address.nameCity, address.nameProvince, address.nameRegion, address.idCountry);
+
             return CreatedAtAction(nameof(Get), new { idAddress = address.idAddress }, address);
         }
 
+
         // PUT action
         [HttpPut("upd::{id}")]
-        public IActionResult Update(int id, Address address)
+        public IActionResult Update(int idAddress, Address address)
         {
             // This code will update the mesa and return a result
-            if (id != address.idAddress)
+            if (idAddress != address.idAddress)
                 return BadRequest();
 
-            var existingAddress = _addressesService.Get(id);
+            var existingAddress = _addressesService.Get(idAddress);
             if (existingAddress is null)
                 return NotFound();
 
-            _addressesService.Update(address);
+            _addressesService.Update(idAddress,address);
 
             return Ok(address);
         }

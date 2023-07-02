@@ -3,6 +3,7 @@ package gui.mainMenu.admin;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
@@ -16,6 +17,8 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import cli.user.User;
+
 public class MainMenu extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -28,8 +31,8 @@ private ActivityMainMenuAdminBinding binding;
      binding = ActivityMainMenuAdminBinding.inflate(getLayoutInflater());
      setContentView(binding.getRoot());
 
-        setSupportActionBar(binding.appBarMainMenu.toolbar);
-        binding.appBarMainMenu.fab.setOnClickListener(new View.OnClickListener() {
+        setSupportActionBar(binding.appBarMainMenu.toolbarAdmin);
+        binding.appBarMainMenu.fabAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -37,9 +40,14 @@ private ActivityMainMenuAdminBinding binding;
             }
         });
         DrawerLayout drawer = binding.drawerLayout;
+
+        User user= (User) getIntent().getSerializableExtra("user");
         NavigationView navigationView = binding.navView;
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        View header=navigationView.getHeaderView(0);
+        TextView userName=header.findViewById(R.id.user_complete_name_admin);
+        TextView email=header.findViewById(R.id.user_email_admin);
+        userName.setText(user.getFirst_name()+" "+user.getLast_name());
+        email.setText(user.getEmailUser());
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_recent_activity)
                 .setDrawerLayout(drawer)

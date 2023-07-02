@@ -15,7 +15,7 @@ namespace OTEAServer.Services
             List<Country> CountriesList = new List<Country>();
 
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            string query = "SELECT * FROM COUNTRIES ORDER BY nameEnglish";
+            string query = "SELECT * FROM COUNTRIES ORDER BY CASE WHEN idCountry = 'ESP' THEN 0 ELSE 1 END, idCountry ASC"; //Muestra primero España y luego el resto de países ordenados por identificador de país
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {

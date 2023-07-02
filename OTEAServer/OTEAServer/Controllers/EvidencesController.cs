@@ -52,16 +52,15 @@ namespace OTEAServer.Controllers
 
         // POST action
         [HttpPost]
-        public IActionResult Create(int idEvidence, int idIndicator, string indicatorType, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, int evidenceValue, int indicatorVersion)
+        public IActionResult Create([FromBody] Evidence evidence)
         {
-            _evidencesService.Add(idEvidence,idIndicator,indicatorType, descriptionEnglish, descriptionSpanish, descriptionFrench, evidenceValue, indicatorVersion);
-            Evidence evidence = new Evidence(idEvidence, idIndicator, indicatorType, descriptionEnglish, descriptionSpanish, descriptionFrench, evidenceValue,indicatorVersion);
+            _evidencesService.Add(evidence.idEvidence, evidence.idIndicator, evidence.indicatorType, evidence.descriptionEnglish, evidence.descriptionSpanish, evidence.descriptionFrench, evidence.evidenceValue, evidence.indicatorVersion);
             return CreatedAtAction(nameof(Get), new { id = evidence.idEvidence, idIndicator=evidence.idIndicator, type = evidence.indicatorType, version=evidence.indicatorVersion }, evidence);
         }
 
         // PUT action
         [HttpPut("put::idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")]
-        public IActionResult Update(int idEvidence, int idIndicator, string indicatorType, int indicatorVersion, Evidence evidence)
+        public IActionResult Update(int idEvidence, int idIndicator, string indicatorType, int indicatorVersion, [FromBody] Evidence evidence)
         {
             // This code will update the mesa and return a result
             if (idEvidence != evidence.idEvidence || idIndicator != evidence.idIndicator || indicatorType != evidence.indicatorType)

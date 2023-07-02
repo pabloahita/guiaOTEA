@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/miradas_color" /> <!-- Cambia el color de fondo según tus necesidades -->
+    <corners android:radius="50dp" /> <!-- Ajusta el radio según el grado de redondez deseado -->
+</shape>

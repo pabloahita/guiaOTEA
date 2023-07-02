@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
@@ -21,6 +22,8 @@ import java.util.Map;
 import cli.indicators.Evidence;
 import cli.indicators.Indicator;
 import cli.indicators.IndicatorsEvaluation;
+import otea.connection.caller.EvidencesCaller;
+import otea.connection.caller.IndicatorsCaller;
 
 public class DoIndicatorsEvaluation extends AppCompatActivity implements View.OnClickListener{
 
@@ -33,6 +36,8 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
     
     boolean[][] switches_values;
 
+    List<Indicator> indicators;
+
     IndicatorsEvaluation current_evaluation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +45,15 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_indicators_evaluation);
         //current_evaluation=startEvaluation();
         num_evidences_reached_per_indicator=new HashMap<Indicator,Integer>();
-        List<Indicator> indicators=current_evaluation.getIndicators();
+        //List<Indicator> indicators=indicators;
+        indicators= IndicatorsCaller.obtainIndicators("AUTISM");
+        int c=0;
         num_indicators=indicators.size();
-        int evidences_per_indicator=indicators.get(0).getEvidences().size();
+        Indicator i=indicators.get(current_indicator);
+        if(i.getEvidences()==null){//En caso de que no se hayan descargado las evidencias del indicador actual
+            i.setEvidences(EvidencesCaller.obtainEvidences(i.getIdIndicator(),i.getIndicatorType(),i.getIndicatorVersion()));
+        }
+        int evidences_per_indicator=i.getEvidences().size();
         switches_values=new boolean[num_indicators][evidences_per_indicator];
         TextView indicatorCaption = (TextView) findViewById(R.id.indicator_caption);
         Switch evidence1=(Switch) findViewById(R.id.evidence1);
@@ -53,28 +64,29 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
         Button next_indicator=(Button) findViewById(R.id.next_indicator);
         Map<Indicator,Integer> num_evidences_reached_per_indicator=new HashMap<Indicator, Integer>();
         if(Locale.getDefault().getLanguage().equals("es")) {
-            indicatorCaption.setText(indicators.get(current_indicator).getDescriptionSpanish());
+            indicatorCaption.setText("Indicador "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionSpanish());
         } else if(Locale.getDefault().getLanguage().equals("fr")) {
-            indicatorCaption.setText(indicators.get(current_indicator).getDescriptionFrench());
+            indicatorCaption.setText("Indicateur "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionFrench());
         } else {//Default
-            indicatorCaption.setText(indicators.get(current_indicator).getDescriptionEnglish());
+            indicatorCaption.setText("Indicator "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionEnglish());
         }
-        List<Evidence> evidences=indicators.get(current_indicator).getEvidences();
+
+        List<Evidence> evidences=i.getEvidences();
         if(Locale.getDefault().getLanguage().equals("es")) {
-            evidence1.setText(evidences.get(0).getDescriptionSpanish());
-            evidence2.setText(evidences.get(1).getDescriptionSpanish());
-            evidence3.setText(evidences.get(2).getDescriptionSpanish());
-            evidence4.setText(evidences.get(3).getDescriptionSpanish());
+            evidence1.setText("Evidencia 1: "+evidences.get(0).getDescriptionSpanish());
+            evidence2.setText("Evidencia 2: "+evidences.get(1).getDescriptionSpanish());
+            evidence3.setText("Evidencia 3: "+evidences.get(2).getDescriptionSpanish());
+            evidence4.setText("Evidencia 4: "+evidences.get(3).getDescriptionSpanish());
         }else if(Locale.getDefault().getLanguage().equals("fr")) {
-            evidence1.setText(evidences.get(0).getDescriptionFrench());
-            evidence2.setText(evidences.get(1).getDescriptionFrench());
-            evidence3.setText(evidences.get(2).getDescriptionFrench());
-            evidence4.setText(evidences.get(3).getDescriptionFrench());
+            evidence1.setText("Preuve 1: "+evidences.get(0).getDescriptionFrench());
+            evidence2.setText("Preuve 2: "+evidences.get(1).getDescriptionFrench());
+            evidence3.setText("Preuve 3: "+evidences.get(2).getDescriptionFrench());
+            evidence4.setText("Preuve 4: "+evidences.get(3).getDescriptionFrench());
         }else{
-            evidence1.setText(evidences.get(0).getDescriptionEnglish());
-            evidence2.setText(evidences.get(1).getDescriptionEnglish());
-            evidence3.setText(evidences.get(2).getDescriptionEnglish());
-            evidence4.setText(evidences.get(3).getDescriptionEnglish());
+            evidence1.setText("Evidence 1: "+evidences.get(0).getDescriptionEnglish());
+            evidence2.setText("Evidence 2: "+evidences.get(1).getDescriptionEnglish());
+            evidence3.setText("Evidence 3: "+evidences.get(2).getDescriptionEnglish());
+            evidence4.setText("Evidence 4: "+evidences.get(3).getDescriptionEnglish());
         }
         evidence1.setOnClickListener(this);
         evidence2.setOnClickListener(this);
@@ -162,14 +174,16 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
             }
             case R.id.previous_indicator:{
                 Log.d("PI","Previous Indicator Pressed");
-                if(current_indicator==0){Intent intent=new Intent(this, gui.MainActivity.class);
+                if(current_indicator==0){
+                    Intent intent=new Intent(this, gui.MainActivity.class);
+                    intent.putExtra("user",getIntent().getSerializableExtra("user"));
                     startActivity(intent);}
                 else{
-                    if(num_evidences_reached_per_indicator.containsKey(current_evaluation.getIndicators().get(current_indicator))) {
-                        num_evidences_reached_per_indicator.replace(current_evaluation.getIndicators().get(current_indicator),num_evidences_reached);
+                    if(num_evidences_reached_per_indicator.containsKey(indicators.get(current_indicator))) {
+                        num_evidences_reached_per_indicator.replace(indicators.get(current_indicator),num_evidences_reached);
                     }
                     else{
-                        num_evidences_reached_per_indicator.put(current_evaluation.getIndicators().get(current_indicator),num_evidences_reached);
+                        num_evidences_reached_per_indicator.put(indicators.get(current_indicator),num_evidences_reached);
                     }
                     current_indicator--;
                     changeIndicator();}
@@ -178,17 +192,17 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
             case R.id.next_indicator:{
                 Log.d("NI","Next Indicator Pressed");
                 if(current_indicator<num_indicators-1){
-                    if(num_evidences_reached_per_indicator.containsKey(current_evaluation.getIndicators().get(current_indicator))) {
-                        num_evidences_reached_per_indicator.replace(current_evaluation.getIndicators().get(current_indicator),num_evidences_reached);
+                    if(num_evidences_reached_per_indicator.containsKey(indicators.get(current_indicator))) {
+                        num_evidences_reached_per_indicator.replace(indicators.get(current_indicator),num_evidences_reached);
                     }
                     else{
-                        num_evidences_reached_per_indicator.put(current_evaluation.getIndicators().get(current_indicator),num_evidences_reached);
+                        num_evidences_reached_per_indicator.put(indicators.get(current_indicator),num_evidences_reached);
                     }
                     current_indicator++;changeIndicator();}
                 else{
                     current_evaluation.setResults(num_evidences_reached_per_indicator);
                     //current_evaluation.getEvaluatedOrganization().addEvaluation(current_evaluation);
-                    Intent intent=new Intent(this, gui.MainActivity.class);
+                    Intent intent=new Intent(this, gui.mainMenu.evaluator.MainMenu.class);
                     startActivity(intent);
                     current_evaluation.getResults();
                     Toast.makeText(getApplicationContext(),"Total score: "+current_evaluation.getTotalScore()+" points",Toast.LENGTH_LONG);
@@ -201,8 +215,8 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
 
 
     public void changeIndicator(){
-        if(num_evidences_reached_per_indicator.containsKey(current_evaluation.getIndicators().get(current_indicator))){
-            num_evidences_reached=num_evidences_reached_per_indicator.get(current_evaluation.getIndicators().get(current_indicator));
+        if(num_evidences_reached_per_indicator.containsKey(indicators.get(current_indicator))){
+            num_evidences_reached=num_evidences_reached_per_indicator.get(indicators.get(current_indicator));
         }
         else{num_evidences_reached=0;}
         TextView indicatorCaption = (TextView) findViewById(R.id.indicator_caption);
@@ -215,28 +229,32 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
         evidence3.setChecked(switches_values[current_indicator][2]);
         evidence4.setChecked(switches_values[current_indicator][3]);
         if(Locale.getDefault().getLanguage().equals("es")) {
-            indicatorCaption.setText(current_evaluation.getIndicators().get(current_indicator).getDescriptionSpanish());
+            indicatorCaption.setText("Indicador "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionSpanish());
         } else if(Locale.getDefault().getLanguage().equals("fr")) {
-            indicatorCaption.setText(current_evaluation.getIndicators().get(current_indicator).getDescriptionFrench());
+            indicatorCaption.setText("Indicateur "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionFrench());
         } else {//Default
-            indicatorCaption.setText(current_evaluation.getIndicators().get(current_indicator).getDescriptionEnglish());
+            indicatorCaption.setText("Indicator "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionEnglish());
         }
-        List<Evidence> evidences=current_evaluation.getIndicators().get(current_indicator).getEvidences();
+        Indicator i=indicators.get(current_indicator);
+        if(i.getEvidences()==null){//En caso de que no se hayan descargado las evidencias del indicador actual
+            i.setEvidences(EvidencesCaller.obtainEvidences(i.getIdIndicator(),i.getIndicatorType(),i.getIndicatorVersion()));
+        }
+        List<Evidence> evidences=i.getEvidences();
         if(Locale.getDefault().getLanguage().equals("es")) {
-            evidence1.setText(evidences.get(0).getDescriptionSpanish());
-            evidence2.setText(evidences.get(1).getDescriptionSpanish());
-            evidence3.setText(evidences.get(2).getDescriptionSpanish());
-            evidence4.setText(evidences.get(3).getDescriptionSpanish());
+            evidence1.setText("Evidencia 1: "+evidences.get(0).getDescriptionSpanish());
+            evidence2.setText("Evidencia 2: "+evidences.get(1).getDescriptionSpanish());
+            evidence3.setText("Evidencia 3: "+evidences.get(2).getDescriptionSpanish());
+            evidence4.setText("Evidencia 4: "+evidences.get(3).getDescriptionSpanish());
         }else if(Locale.getDefault().getLanguage().equals("fr")) {
-            evidence1.setText(evidences.get(0).getDescriptionFrench());
-            evidence2.setText(evidences.get(1).getDescriptionFrench());
-            evidence3.setText(evidences.get(2).getDescriptionFrench());
-            evidence4.setText(evidences.get(3).getDescriptionFrench());
+            evidence1.setText("Preuve 1: "+evidences.get(0).getDescriptionFrench());
+            evidence2.setText("Preuve 2: "+evidences.get(1).getDescriptionFrench());
+            evidence3.setText("Preuve 3: "+evidences.get(2).getDescriptionFrench());
+            evidence4.setText("Preuve 4: "+evidences.get(3).getDescriptionFrench());
         }else{
-            evidence1.setText(evidences.get(0).getDescriptionEnglish());
-            evidence2.setText(evidences.get(1).getDescriptionEnglish());
-            evidence3.setText(evidences.get(2).getDescriptionEnglish());
-            evidence4.setText(evidences.get(3).getDescriptionEnglish());
+            evidence1.setText("Evidence 1: "+evidences.get(0).getDescriptionEnglish());
+            evidence2.setText("Evidence 2: "+evidences.get(1).getDescriptionEnglish());
+            evidence3.setText("Evidence 3: "+evidences.get(2).getDescriptionEnglish());
+            evidence4.setText("Evidence 4: "+evidences.get(3).getDescriptionEnglish());
         }
         Log.d("NEWIND","Current indicator has "+num_evidences_reached+" reached evidences");
     }
@@ -267,5 +285,15 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
         return evaluation;
     }*/
 
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+        if(keyCode==event.KEYCODE_BACK){
+            Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
+            intent.putExtra("user",getIntent().getSerializableExtra("user"));
+            startActivity(intent);
+        }
+        return super.onKeyDown(keyCode,event);
+    }
 
 }

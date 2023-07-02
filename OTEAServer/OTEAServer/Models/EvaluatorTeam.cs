@@ -5,15 +5,17 @@ namespace OTEAServer.Models
     public class EvaluatorTeam
     {
 
-        public EvaluatorTeam(int id, DateTime creation_date, int idOrganization, string orgType, string illness, string emailConsultant, string emailProfessional, string emailResponsible, string patient_name, string relative_name) {
-            this.idOrganization = id;
-            this.creationDate = creation_date;
+        public EvaluatorTeam(int idEvaluatorTeam, DateTime creationDate, int idOrganization, string orgType, string illness, string emailConsultant, string emailProfessional, string emailResponsible, string patientName, string relativeName) {
+            this.idEvaluatorTeam = idEvaluatorTeam;
+            this.creationDate = creationDate;
             this.idOrganization = idOrganization;
             this.orgType = orgType;
             this.illness = illness;
             this.emailConsultant = emailConsultant;
             this.emailProfessional = emailProfessional;
             this.emailResponsible = emailResponsible;
+            this.patientName = patientName;
+            this.relativeName = relativeName;
         }
 
         [JsonProperty("idEvaluatorTeam")]

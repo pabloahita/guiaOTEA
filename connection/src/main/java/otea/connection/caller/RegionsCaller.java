@@ -61,15 +61,14 @@ public class RegionsCaller {
         asyncTask.execute();
         try {
             Region region=asyncTask.get();
-            //Se devuelve el constructor porque este llama a la obtención del objeto Country
-            return new Region(region.getIdRegion(),region.getIdCountry(),region.getNameRegion());
+            return region;
         } catch (Exception e) {
             Log.d("ERROR", e.toString());
         }
         return null;
     }
 
-    public static List<Region> GetRegionsByCountry(int idRegion, String idCountry){
+    public static List<Region> GetRegionsByCountry(String idCountry){
         Call<List<Region>> call=api.GetRegionsByCountry(idCountry);
         AsyncTask<Void, Void, List<Region>> asyncTask = new AsyncTask<Void, Void, List<Region>>() {
             List<Region> resultList = null;
@@ -95,11 +94,7 @@ public class RegionsCaller {
         asyncTask.execute();
         try {
             List<Region> list=asyncTask.get();
-            List<Region> result=new LinkedList<Region>();
-            for(Region province:list){
-                result.add(new Region(province.getIdRegion(),province.getIdCountry(),province.getNameRegion()));
-            }
-            return result;
+            return list;
         } catch (Exception e) {
             Log.d("ERROR", e.toString());
         }

@@ -3,7 +3,6 @@ package otea.connection.api;
 import java.util.List;
 
 import cli.user.User;
-import cli.user.OrganizationUser;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -18,7 +17,7 @@ public interface UsersApi {
 
     //GET all organization users by organization type
     @GET("Users/getAllByOrg::idOrganization={idOrganization}:orgType={orgType}")
-    Call<List<OrganizationUser>> GetAllOrgUsersByOrganization(@Path("idOrganization") int idOrganization, @Path("orgType") String orgType);
+    Call<List<User>> GetAllOrgUsersByOrganization(@Path("idOrganization") int idOrganization, @Path("orgType") String orgType);
     
     // GET by EMAIL action
     @GET("Users/get::email={email}")
@@ -32,11 +31,11 @@ public interface UsersApi {
     // GET by EMAIL and ORGANIZATION action
 
     @GET("Users/getByOrg::email={email}:idOrganization={idOrganization}:orgType={orgType}")
-    Call<OrganizationUser> GetOrgUserByOrganization(@Path("email") String email,@Path("idOrganization") int idOrganization,@Path("orgType") String orgType);
+    Call<User> GetOrgUserByOrganization(@Path("email") String email,@Path("idOrganization") int idOrganization,@Path("orgType") String orgType);
 
     // POST action
     @POST("Users")
-    Call<User> Create(String email, String first_Name, String last_Name, String password, String userType, long telephone, int idOrganization, String organizationType, String illness);
+    Call<User> Create(@Body User user);
 
     // PUT action
     @PUT("Users/upd::email={email}")

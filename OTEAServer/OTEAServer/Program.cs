@@ -17,6 +17,7 @@ builder.Services.AddScoped<CountriesService>();
 builder.Services.AddScoped<IndicatorsEvaluationsService>();
 builder.Services.AddScoped<CentersService>();
 builder.Services.AddScoped<IndicatorsEvaluationRegsService>();
+builder.Services.AddScoped<EvaluatorTeamMembersService>();
 
 var app = builder.Build();
 

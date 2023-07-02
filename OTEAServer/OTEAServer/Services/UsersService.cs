@@ -35,7 +35,6 @@ namespace OTEAServer.Services
                             int idOrganization = reader.IsDBNull(6) ? -1 : reader.GetInt32(6);
                             string organizationType = reader.IsDBNull(7) ? "" : reader.GetString(7);
                             string illness = reader.IsDBNull(8) ? "" : reader.GetString(8);
-                            if (illness != null) { illness = ""; }
                             usersList.Add(new User(reader.GetString(0), reader.GetString(1), reader.GetString(3), reader.GetString(4), reader.GetString(2), reader.GetInt64(5), idOrganization,organizationType,illness));
                         }
                     }
@@ -217,11 +216,8 @@ namespace OTEAServer.Services
 
 
         //Operación POST
-        public void Add(string email, string first_Name, string last_Name, string password, string userType, long telephone, int? idOrganization, string? organizationType, string? illness)
+        public void Add(string emailUser, string first_name, string last_name, string passwordUser, string userType, long telephone, int idOrganization, string organizationType, string illness)
         {
-            if (idOrganization == -1){ idOrganization = null; }
-            if (organizationType == "")  { organizationType = null; }
-            if (illness == "") { illness = null; }
             
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
@@ -230,23 +226,49 @@ namespace OTEAServer.Services
                 // Abre la conexión a la base de datos
                 connection.Open();
 
-                // Crea el comando SQL
-                string sql = "INSERT INTO USERS (EMAIL,FIRSTNAME,LASTNAME,PASSWORD,TELEPHONE,USERTYPE,IDORGANIZATION,ORGANIZATIONTYPE,ILLNESS) VALUES (@EMAIL,@FIRSTNAME,@LASTNAME,@PASSWORD,@TELEPHONE,@USERTYPE,@IDORGANIZATION,@ORGANIZATIONTYPE,@ILLNESS)";
-                using (SqlCommand comando = new SqlCommand(sql, connection))
+                // Crea el command SQL
+                string sql = "INSERT INTO USERS (emailUser, userType, passwordUser, first_name, last_name, telephone, idOrganization, organizationType, illness) VALUES (@EMAIL,@USERTYPE,@PASSWORD,@FIRSTNAME,@LASTNAME,@TELEPHONE,@IDORGANIZATION,@ORGANIZATIONTYPE,@ILLNESS)";
+                using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     // Añade parámetros para evitar la inyección de SQL
-                    comando.Parameters.AddWithValue("@EMAIL", email);
-                    comando.Parameters.AddWithValue("@FIRSTNAME", first_Name);
-                    comando.Parameters.AddWithValue("@LASTNAME", last_Name);
-                    comando.Parameters.AddWithValue("@PASSWORD", password);
-                    comando.Parameters.AddWithValue("@TELEPHONE", telephone);
-                    comando.Parameters.AddWithValue("@USERTYPE", userType);
-                    comando.Parameters.AddWithValue("@IDORGANIZATION", idOrganization);
-                    comando.Parameters.AddWithValue("@ORGANIZATIONTYPE", organizationType);
-                    comando.Parameters.AddWithValue("@ILLNESS", illness);
+                    command.Parameters.AddWithValue("@EMAIL", emailUser);
+                    command.Parameters.AddWithValue("@FIRSTNAME", first_name);
+                    command.Parameters.AddWithValue("@LASTNAME", last_name);
+                    command.Parameters.AddWithValue("@PASSWORD", passwordUser);
+                    command.Parameters.AddWithValue("@TELEPHONE", telephone);
+                    command.Parameters.AddWithValue("@USERTYPE", userType);
+                    if (idOrganization!=-1)
+                    {
+                        command.Parameters.AddWithValue("@IDORGANIZATION", idOrganization);
+                    }
+                    else
+                    {
+                        command.Parameters.AddWithValue("@IDORGANIZATION", DBNull.Value);
+                    }
 
-                    // Ejecuta el comando
-                    comando.ExecuteNonQuery();
+                    // Establecer valor nulo para organizationType si es null o cadena vacía
+                    if (organizationType!="-")
+                    {
+                        command.Parameters.AddWithValue("@ORGANIZATIONTYPE", organizationType);
+                    }
+                    else
+                    {
+                        command.Parameters.AddWithValue("@ORGANIZATIONTYPE", DBNull.Value);
+                    }
+
+                    // Establecer valor nulo para illness si es null o cadena vacía
+                    if (illness!="-")
+                    {
+                        command.Parameters.AddWithValue("@ILLNESS", illness);
+                    }
+                    else
+                    {
+                        command.Parameters.AddWithValue("@ILLNESS", DBNull.Value);
+                    }
+
+
+                    // Ejecuta el command
+                    command.ExecuteNonQuery();
                 }
 
                 // Cierra la conexión a la base de datos
@@ -267,15 +289,15 @@ namespace OTEAServer.Services
                     // Abre la conexión a la base de datos
                     connection.Open();
 
-                    // Crea el comando SQL
+                    // Crea el command SQL
                     string sql = "DELETE FROM USERS WHERE emailUser=@EMAIL";
-                    using (SqlCommand comando = new SqlCommand(sql, connection))
+                    using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         // Añade parámetros para evitar la inyección de SQL
-                        comando.Parameters.AddWithValue("@EMAIL", email);
+                        command.Parameters.AddWithValue("@EMAIL", email);
 
-                        // Ejecuta el comando
-                        comando.ExecuteNonQuery();
+                        // Ejecuta el command
+                        command.ExecuteNonQuery();
                     }
 
                     // Cierra la conexión a la base de datos
@@ -284,9 +306,9 @@ namespace OTEAServer.Services
             }
         }
 
-        public void Update(User user)
+        public void Update(string email,User user)
         {
-            if (user !=null && Get(user.emailUser) == user)
+            if (user !=null && email == user.emailUser)
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
@@ -295,23 +317,23 @@ namespace OTEAServer.Services
                     // Abre la conexión a la base de datos
                     connection.Open();
 
-                    // Crea el comando SQL
-                    string sql = "UPDATE USERS SET FIRSTNAME=@FIRSTNAME, LASTNAME=@LASTNAME, PASSWORD=@PASSWORD, TELEPHONE=@TELEPHONE, USERTYPE=@USERTYPE, IDORGANIZATION=@IDORGANIZATION, ORGANIZATIONTYPE=@ORGANIZATIONTYPE,ILLNESS=@ILLNESS WHERE EMAIL=@EMAIL";
-                    using (SqlCommand comando = new SqlCommand(sql, connection))
+                    // Crea el command SQL
+                    string sql = "UPDATE USERS SET FIRSTNAME=@FIRSTNAME, LASTNAME=@LASTNAME, PASSWORDUSER=@PASSWORD, TELEPHONE=@TELEPHONE, USERTYPE=@USERTYPE, IDORGANIZATION=@IDORGANIZATION, ORGANIZATIONTYPE=@ORGANIZATIONTYPE,ILLNESS=@ILLNESS WHERE EMAILUSER=@EMAIL";
+                    using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         // Añade parámetros para evitar la inyección de SQL
-                        comando.Parameters.AddWithValue("@EMAIL", user.emailUser);
-                        comando.Parameters.AddWithValue("@FIRSTNAME", user.first_name);
-                        comando.Parameters.AddWithValue("@LASTNAME", user.last_name);
-                        comando.Parameters.AddWithValue("@PASSWORD", user.passwordUser);
-                        comando.Parameters.AddWithValue("@TELEPHONE", user.telephone);
-                        comando.Parameters.AddWithValue("@USERTYPE", user.userType);
-                        comando.Parameters.AddWithValue("@IDORGANIZATION", user.idOrganization);
-                        comando.Parameters.AddWithValue("@ORGANIZATIONTYPE", user.organizationType);
-                        comando.Parameters.AddWithValue("@ILLNESS", user.illness);
+                        command.Parameters.AddWithValue("@EMAIL", user.emailUser);
+                        command.Parameters.AddWithValue("@FIRSTNAME", user.first_name);
+                        command.Parameters.AddWithValue("@LASTNAME", user.last_name);
+                        command.Parameters.AddWithValue("@PASSWORD", user.passwordUser);
+                        command.Parameters.AddWithValue("@TELEPHONE", user.telephone);
+                        command.Parameters.AddWithValue("@USERTYPE", user.userType);
+                        command.Parameters.AddWithValue("@IDORGANIZATION", user.idOrganization);
+                        command.Parameters.AddWithValue("@ORGANIZATIONTYPE", user.organizationType);
+                        command.Parameters.AddWithValue("@ILLNESS", user.illness);
 
-                        // Ejecuta el comando
-                        comando.ExecuteNonQuery();
+                        // Ejecuta el command
+                        command.ExecuteNonQuery();
                     }
 
                     // Cierra la conexión a la base de datos

@@ -62,5 +62,83 @@
     <string name="title_activity_register">Register</string>
     <string name="first_name_user">First name</string>
     <string name="last_name_user">Last name</string>
+    <string name="email_reg">Email</string>
+    <string name="password_reg">Password</string>
+    <string name="telephone_reg">Phone number</string>
+
+
+    <string name="user_type_reg">User type</string>
+    <string name="evaluated_org_user_reg">Evaluated organization user</string>
+    <string name="fMiradas_user_reg">Fundación Miradas user</string>
+    <string name="select_user_type">Select user type</string>
+
+    <string-array name="menu_user_type">
+        <item>@string/evaluated_org_user_reg</item>
+        <item>@string/fMiradas_user_reg</item>
+    </string-array>
+
+    <string-array name="menu_org_evaluated">
+        <item>@string/select_evaluated_org</item>
+    </string-array>
+    <string name="LOPD_user_reg">"I allow that Fundación Miradas keeps records of my data keep records of my data in accordance with the law equivalent to the Spanish law LOPD on data protection "</string>
+    <string name="wrong_phone">Incorrect phone.</string>
+    <string name="contry_phone_config">Enter 00 and your country code before your phone number (except Spain)</string>
+    <string name="mandatory_first_name">Please enter your first name</string>
+    <string name="mandatory_last_name">Please enter your last name</string>
+    <string name="mandatory_email">Please enter your email</string>
+    <string name="wrong_email">The email provided is not correct, please enter a real email</string>
+    <string name="mandatory_phone">Phone numbers in Spain must begin with 6, 7, 8 or 9. Foreign phone numbers must begin with 00 followed by the country code</string>
+    <string name="wrong_telephone">Incorrect phone number</string>
+    <string name="mandatory_password">The password must meet the following requirements:
+    - Contain at least 6 characters.
+    - Include at least one capital letter.
+    - Include at least one lowercase letter.
+    - Include at least one number.
+    - Include at least one of the following symbols: "$&amp;%#.!"^*¨_:;/*-+&gt;&lt;()=¿?¡!"</string>
+    <string name="select_evaluated_org">Select evaluated organization</string>
+    <string name="wrong_password">Incorrect password</string>
+    <string name="hey_user">Hi user!</string>
+    <string name="add_new_evaluator_team">Add new evaluator team</string>
+    <string name="add_new_center">Add new center of evaluated organization</string>
+    <string name="add_new_indicators_evaluation">Add new indicators evaluation</string>
+    <string name="add_new_evaluated_organization">Add new evaluated organization</string>
+    <string name="org_name">Organization name</string>
+    <string name="org_address">Address</string>
+    <string name="org_zipcode">Zip code</string>
+    <string name="org_city">City</string>
+    <string name="org_province">Province</string>
+    <string name="org_region">Region</string>
+    <string name="org_country">Country</string>
+    <string name="please_org_name">Please enter an organization name</string>
+    <string name="please_address">Please enter the address</string>
+    <string name="please_city">Please enter the city name</string>
+    <string name="please_province">Please enter the province name</string>
+    <string name="please_region">Please enter the region name</string>
+    <string name="please_zipcode">Please enter the zip code</string>
+    <string name="more_info">More information</string>
+    <string name="add_director">Add organization director</string>
+    <string name="edit_director">Edit organization director</string>
+    <string name="add_professional">Add direct care professional</string>
+    <string name="edit_professional">Edit direct care professional</string>
+    <string name="add_center">Add new center</string>
+    <string name="title_activity_register_org_user">RegisterOrgUser</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="description_center">Center description</string>
+    <string name="please_description_center">Please enter description center</string>
+    <string name="please_director">Please enter a organization director</string>
+    <string name="please_professional">Please enter a direct care professional</string>
+    <string name="please_wait_login">Connecting to database to login. Please wait a few seconds...</string>
+    <string name="please_wait_register_user">Connecting to database to register the user. Please wait a few seconds...</string>
+    <string name="please_wait_reg_orgs">Connecting to database to register the organization. Please wait a few seconds....</string>
+    <string name="please_wait">Connecting to database... Please wait a few seconds...</string>
+    <string name="do_you_want_to_exit_otea">Do you want to exit from OTEA?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
 
 </resources>

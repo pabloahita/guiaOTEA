@@ -89,7 +89,7 @@ namespace OTEAServer.Services
                     {
                         if (reader.Read())
                         {
-                            new EvaluatorTeam(reader.GetInt32(0), reader.GetDateTime(1), reader.GetInt32(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetString(6), reader.GetString(7), reader.GetString(8), reader.GetString(9));
+                            return new EvaluatorTeam(reader.GetInt32(0), reader.GetDateTime(1), reader.GetInt32(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetString(6), reader.GetString(7), reader.GetString(8), reader.GetString(9));
                         }
                     }
                 }
@@ -163,9 +163,9 @@ namespace OTEAServer.Services
             }
         }
 
-        public void Update(EvaluatorTeam evaluatorTeam)
+        public void Update(int idEvaluatorTeam, int idOrganization, string orgType, string illness, EvaluatorTeam evaluatorTeam)
         {
-            if (evaluatorTeam != null && Get(evaluatorTeam.idEvaluatorTeam,evaluatorTeam.idOrganization,evaluatorTeam.orgType,evaluatorTeam.illness) == evaluatorTeam)
+            if (evaluatorTeam != null && Get(idEvaluatorTeam,idOrganization,orgType,illness) != null && idEvaluatorTeam==evaluatorTeam.idEvaluatorTeam && idOrganization==evaluatorTeam.idOrganization && orgType==evaluatorTeam.orgType && illness==evaluatorTeam.illness)
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
 

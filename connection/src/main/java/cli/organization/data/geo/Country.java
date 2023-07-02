@@ -2,7 +2,9 @@ package cli.organization.data.geo;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Country {
+import java.io.Serializable;
+
+public class Country implements Serializable {
 
     @SerializedName("nameSpanish")
     public String nameSpanish;

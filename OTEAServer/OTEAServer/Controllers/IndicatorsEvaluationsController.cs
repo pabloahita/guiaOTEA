@@ -35,6 +35,14 @@ namespace OTEAServer.Controllers
             return Ok(indicatorsEvaluations);
         }
 
+        //GET all by EVALUATED ORGANIZATION
+        [HttpGet("evaluatedOrg::idEvaluatedOrganization={idEvaluatedOrganization}:orgType={orgType}:illness={illness}")]
+        public IActionResult GetAllByEvaluatedOrganization(int idEvaluatedOrganization, string orgType, string illness)
+        {
+            var indicatorsEvaluationRegs = _indicatorsEvaluationsService.GetAllByEvaluatedOrganization(idEvaluatedOrganization, orgType, illness);
+            return Ok(indicatorsEvaluationRegs);
+        }
+
         // GET by PK action
 
         [HttpGet("get::evaluation_date={evaluation_date}:idEvaluatedOrganization:orgTypeEvaluated={orgTypeEvaluated}:illness={illness}")]
@@ -52,10 +60,9 @@ namespace OTEAServer.Controllers
 
         // POST action
         [HttpPost]
-        public IActionResult Create(DateTime evaluationDate, int idEvaluatedOrganization, string orgTypeEvaluated, int idEvaluatorTeam, int idEvaluatorOrganization, string orgTypeEvaluator, string illness, int totalScore)
+        public IActionResult Create([FromBody] IndicatorsEvaluation indicatorsEvaluation)
         {
-            _indicatorsEvaluationsService.Add(evaluationDate, idEvaluatedOrganization, orgTypeEvaluated, idEvaluatorTeam, idEvaluatorOrganization, orgTypeEvaluator, illness, totalScore);
-            IndicatorsEvaluation indicatorsEvaluation = new IndicatorsEvaluation(evaluationDate, idEvaluatedOrganization, orgTypeEvaluated, idEvaluatorTeam, idEvaluatorOrganization, orgTypeEvaluator, illness, totalScore);
+            _indicatorsEvaluationsService.Add(indicatorsEvaluation.evaluationDate, indicatorsEvaluation.idEvaluatedOrganization, indicatorsEvaluation.orgTypeEvaluated, indicatorsEvaluation.idEvaluatorTeam, indicatorsEvaluation.idEvaluatorOrganization, indicatorsEvaluation.orgTypeEvaluator, indicatorsEvaluation.illness, indicatorsEvaluation.totalScore);
             return CreatedAtAction(nameof(Get), new { evaluationDate = indicatorsEvaluation.evaluationDate, idEvaluatedOrganization=indicatorsEvaluation.idEvaluatedOrganization, orgTypeEvaluated=indicatorsEvaluation.orgTypeEvaluated, illness=indicatorsEvaluation.illness }, indicatorsEvaluation);
         }
 
@@ -71,7 +78,7 @@ namespace OTEAServer.Controllers
             if (existingIndicatorsEvaluation is null)
                 return NotFound();
 
-            _indicatorsEvaluationsService.Update(indicatorsEvaluation);
+            _indicatorsEvaluationsService.Update(evaluationDate,idEvaluatedOrganization,orgTypeEvaluated,illness,indicatorsEvaluation);
 
             return Ok(indicatorsEvaluation);
         }

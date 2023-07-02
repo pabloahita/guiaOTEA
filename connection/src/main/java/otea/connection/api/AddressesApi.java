@@ -19,7 +19,7 @@ public interface AddressesApi {
 
     // POST action
     @POST("Addresses")
-    Call<Address> Create(int idAddress, String nameStreet, int numberStreet, int floorApartment, char apartmentLetter, int zipCode, int idCity, int idProvince, int idRegion, String idCountry, String nameCity, String nameProvince, String nameRegion);
+    Call<Address> Create(@Body Address address);
 
     // PUT action
     @PUT("Addresses/upd::{id}")

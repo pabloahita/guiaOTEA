@@ -4,14 +4,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.List;
 
-import cli.organization.EvaluatedOrganization;
-import cli.organization.EvaluatorOrganization;
 import cli.organization.Organization;
-import cli.user.Administrator;
-import cli.user.EvaluatedOrganizationUser;
-import cli.user.EvaluatorOrganizationUser;
-import cli.user.OrganizationUser;
 import cli.user.User;
 import otea.connection.ConnectionClient;
 import otea.connection.api.UsersApi;
@@ -40,9 +35,8 @@ public class UsersCaller {
     }
 
 
-    public static OrganizationUser obtainOrgUser(String email, Organization organization){
+    public static User obtainOrgUser(String email, Organization organization){
         Call<User> call = api.Get(email);
-        User[] aux=new User[1];
         AsyncTask<Void, Void, User> asyncTask = new AsyncTask<Void, Void, User>() {
             User resultUser = null;
             @Override
@@ -67,13 +61,7 @@ public class UsersCaller {
         asyncTask.execute();
         try {
             User user=asyncTask.get();
-            if(organization.getIdOrganization()==user.getIdOrganization() && organization.getOrganizationType().equals(user.getOrgType()) && organization.getIllness().equals(user.getIllness())){
-                if (user.getOrgType().equals("EVALUATED")) {
-                    return new EvaluatedOrganizationUser(user.getFirst_name(), user.getLast_name(), user.getUserType(), user.getEmailUser(), user.getTelephone(), (EvaluatedOrganization) organization);
-                } else if (user.getOrgType().equals("EVALUATOR")) {
-                    return new EvaluatorOrganizationUser(user.getFirst_name(), user.getLast_name(), user.getUserType(), user.getEmailUser(), user.getTelephone(), (EvaluatorOrganization) organization);
-                }
-            }
+            return user;
         } catch (Exception e) {
             Log.d("ERROR", e.toString());
         }
@@ -111,17 +99,7 @@ public class UsersCaller {
         asyncTask.execute();
         try {
             User user=asyncTask.get();
-            if (user != null) {
-                if(user.getUserType().equals("ORGANIZATION")){
-                    if (user.getOrgType().equals("EVALUATED")) {
-                        return new EvaluatedOrganizationUser(user.getFirst_name(), user.getLast_name(), user.getUserType(), user.getEmailUser(), user.getTelephone(), user.getIdOrganization(), user.getOrgType(), user.getIllness());
-                    } else if (user.getOrgType().equals("EVALUATOR")) {
-                        return new EvaluatorOrganizationUser(user.getFirst_name(), user.getLast_name(), user.getUserType(), user.getEmailUser(), user.getTelephone(), user.getIdOrganization(), user.getOrgType(), user.getIllness());
-                    }
-                } else if (user.getUserType().equals("ADMIN")) {
-                    return new Administrator(user.getFirst_name(), user.getLast_name(), user.getUserType(), user.getEmailUser(), user.getTelephone());
-                }
-            }else{return null;}
+            return user;
         } catch (Exception e) {
             Log.d("ERROR", e.toString());
         }
@@ -155,17 +133,283 @@ public class UsersCaller {
         asyncTask.execute();
         try {
             User user=asyncTask.get();
-            if (user != null) {
-                if(user.getUserType().equals("ORGANIZATION")){
-                    if (user.getOrgType().equals("EVALUATED")) {
-                        return new EvaluatedOrganizationUser(user.getFirst_name(), user.getLast_name(), user.getUserType(), user.getEmailUser(), user.getTelephone(), user.getIdOrganization(), user.getOrgType(), user.getIllness());
-                    } else if (user.getOrgType().equals("EVALUATOR")) {
-                        return new EvaluatorOrganizationUser(user.getFirst_name(), user.getLast_name(), user.getUserType(), user.getEmailUser(), user.getTelephone(), user.getIdOrganization(), user.getOrgType(), user.getIllness());
-                    }
-                } else if (user.getUserType().equals("ADMIN")) {
-                    return new Administrator(user.getFirst_name(), user.getLast_name(), user.getOrgType(), user.getEmailUser(), user.getTelephone());
+            return user;
+        } catch (Exception e) {
+            Log.d("ERROR", e.toString());
+        }
+
+        return null;
+    }
+
+    public static List<User> GetAll(){
+        Call<List<User>> call = api.GetAll();
+        AsyncTask<Void, Void, List<User>> asyncTask = new AsyncTask<Void, Void, List<User>>() {
+            List<User> resultList = null;
+            @Override
+            protected List<User> doInBackground(Void... voids) {
+                try {
+                    Response<List<User>> response = call.execute();
+                    if (response.isSuccessful()) {
+                        return response.body();
+                    } /*else {
+                        throw new IOException("Error: " + response.code() + " " + response.message());
+                    }*/return null;
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
             }
+            @Override
+            protected void onPostExecute(List<User> list) {
+                resultList=list;
+            }
+
+        };
+        asyncTask.execute();
+        try {
+            List<User> list=asyncTask.get();
+            return list;
+        } catch (Exception e) {
+            Log.d("ERROR", e.toString());
+        }
+
+        return null;
+    }
+    //GET all by user type
+    public static List<User> GetAllByType(String userType){
+        Call<List<User>> call = api.GetAllByType(userType);
+        AsyncTask<Void, Void, List<User>> asyncTask = new AsyncTask<Void, Void, List<User>>() {
+            List<User> resultList = null;
+            @Override
+            protected List<User> doInBackground(Void... voids) {
+                try {
+                    Response<List<User>> response = call.execute();
+                    if (response.isSuccessful()) {
+                        return response.body();
+                    } /*else {
+                        throw new IOException("Error: " + response.code() + " " + response.message());
+                    }*/return null;
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            @Override
+            protected void onPostExecute(List<User> list) {
+                resultList=list;
+            }
+
+        };
+        asyncTask.execute();
+        try {
+            List<User> list=asyncTask.get();
+            return list;
+        } catch (Exception e) {
+            Log.d("ERROR", e.toString());
+        }
+
+        return null;
+    }
+
+    //GET all organization users by organization type
+    public static List<User> GetAllOrgUsersByOrganization(int idOrganization,String orgType){
+        Call<List<User>> call = api.GetAllOrgUsersByOrganization(idOrganization,orgType);
+        AsyncTask<Void, Void, List<User>> asyncTask = new AsyncTask<Void, Void, List<User>>() {
+            List<User> resultList = null;
+            @Override
+            protected List<User> doInBackground(Void... voids) {
+                try {
+                    Response<List<User>> response = call.execute();
+                    if (response.isSuccessful()) {
+                        return response.body();
+                    } /*else {
+                        throw new IOException("Error: " + response.code() + " " + response.message());
+                    }*/return null;
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            @Override
+            protected void onPostExecute(List<User> list) {
+                resultList=list;
+            }
+
+        };
+        asyncTask.execute();
+        try {
+            List<User> list=asyncTask.get();
+            return list;
+        } catch (Exception e) {
+            Log.d("ERROR", e.toString());
+        }
+
+        return null;
+    }
+
+    public static User GetByType(String email, String userType) {
+        Call<User> call = api.GetByType(email,userType);
+        AsyncTask<Void, Void, User> asyncTask = new AsyncTask<Void, Void, User>() {
+            User resultUser = null;
+            @Override
+            protected User doInBackground(Void... voids) {
+                try {
+                    Response<User> response = call.execute();
+                    if (response.isSuccessful()) {
+                        return response.body();
+                    } /*else {
+                        throw new IOException("Error: " + response.code() + " " + response.message());
+                    }*/return null;
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            @Override
+            protected void onPostExecute(User user) {
+                resultUser=user;
+            }
+
+        };
+        asyncTask.execute();
+        try {
+            User user=asyncTask.get();
+            return user;
+        } catch (Exception e) {
+            Log.d("ERROR", e.toString());
+        }
+
+        return null;
+    }
+
+    // GET by EMAIL and ORGANIZATION action
+
+    public static User GetOrgUserByOrganization(String email,int idOrganization,String orgType){
+        Call<User> call = api.GetOrgUserByOrganization(email,idOrganization,orgType);
+        AsyncTask<Void, Void, User> asyncTask = new AsyncTask<Void, Void, User>() {
+            User resultUser = null;
+            @Override
+            protected User doInBackground(Void... voids) {
+                try {
+                    Response<User> response = call.execute();
+                    if (response.isSuccessful()) {
+                        return response.body();
+                    } /*else {
+                        throw new IOException("Error: " + response.code() + " " + response.message());
+                    }*/return null;
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            @Override
+            protected void onPostExecute(User user) {
+                resultUser=user;
+            }
+
+        };
+        asyncTask.execute();
+        try {
+            return asyncTask.get();
+        } catch (Exception e) {
+            Log.d("ERROR", e.toString());
+        }
+
+        return null;
+    }
+
+    // POST action
+
+    public static User Create(User user){
+        Call<User> call = api.Create(user);
+        AsyncTask<Void, Void, User> asyncTask = new AsyncTask<Void, Void, User>() {
+            User resultUser = null;
+            @Override
+            protected User doInBackground(Void... voids) {
+                try {
+                    Response<User> response = call.execute();
+                    if (response.isSuccessful()) {
+                        return response.body();
+                    } else {
+                        throw new IOException("Error: " + response.code() + " " + response.message());
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            @Override
+            protected void onPostExecute(User user) {
+                resultUser=user;
+            }
+
+        };
+        asyncTask.execute();
+        try {
+            return asyncTask.get();
+        } catch (Exception e) {
+            Log.d("ERROR", e.toString());
+        }
+
+        return null;
+    }
+
+    // PUT action
+    public static User Update(String email, User user){
+        Call<User> call = api.Update(email,user);
+        AsyncTask<Void, Void, User> asyncTask = new AsyncTask<Void, Void, User>() {
+            User resultUser = null;
+            @Override
+            protected User doInBackground(Void... voids) {
+                try {
+                    Response<User> response = call.execute();
+                    if (response.isSuccessful()) {
+                        return response.body();
+                    } /*else {
+                        throw new IOException("Error: " + response.code() + " " + response.message());
+                    }*/return null;
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            @Override
+            protected void onPostExecute(User user) {
+                resultUser=user;
+            }
+
+        };
+        asyncTask.execute();
+        try {
+            return asyncTask.get();
+        } catch (Exception e) {
+            Log.d("ERROR", e.toString());
+        }
+
+        return null;
+    }
+
+    // DELETE action
+    public static User Delete(String email){
+        Call<User> call = api.Delete(email);
+        AsyncTask<Void, Void, User> asyncTask = new AsyncTask<Void, Void, User>() {
+            User resultUser = null;
+            @Override
+            protected User doInBackground(Void... voids) {
+                try {
+                    Response<User> response = call.execute();
+                    if (response.isSuccessful()) {
+                        return response.body();
+                    } /*else {
+                        throw new IOException("Error: " + response.code() + " " + response.message());
+                    }*/return null;
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            @Override
+            protected void onPostExecute(User user) {
+                resultUser=user;
+            }
+
+        };
+        asyncTask.execute();
+        try {
+            User user=asyncTask.get();
+            return user;
         } catch (Exception e) {
             Log.d("ERROR", e.toString());
         }

@@ -2,14 +2,10 @@ package cli.organization.data;
 
 import com.google.gson.annotations.SerializedName;
 
-import cli.organization.EvaluatedOrganization;
+import java.io.Serializable;
 
-import otea.connection.caller.AddressesCaller;
-import otea.connection.caller.OrganizationsCaller;
+public class Center implements Serializable {
 
-public class Center {
-
-    EvaluatedOrganization organization;
 
     Address address;
 
@@ -22,23 +18,17 @@ public class Center {
     @SerializedName("illness")
     public String illness;
     @SerializedName("idCenter")
-    private int idCenter;
+    public int idCenter;
 
     @SerializedName("centerDescription")
-    private String centerDescription;
+    public String centerDescription;
 
     @SerializedName("idAddress")
-    private int idAddress;
+    public int idAddress;
 
     @SerializedName("telephone")
-    private long telephone;
+    public long telephone;
 
-    public Center(EvaluatedOrganization organization,int idCenter, String centerDescription, Address address){
-        setOrganization(organization);
-        setIdCenter(idCenter);
-        setCenterDescription(centerDescription);
-        setAddress(address);
-    }
 
     public Center(int idOrganization, String orgType, String illness,int idCenter, String centerDescription, int idAddress, long telephone){
         setIdOrganization(idOrganization);
@@ -48,16 +38,6 @@ public class Center {
         setCenterDescription(centerDescription);
         setIdAddress(idAddress);
         setTelephone(telephone);
-        setOrganization((EvaluatedOrganization) OrganizationsCaller.getInstance().obtainOrganization(idOrganization,orgType,illness));
-        setAddress(AddressesCaller.getInstance().obtainAddress(idAddress));
-    }
-
-    public EvaluatedOrganization getOrganization() {
-        return organization;
-    }
-
-    public void setOrganization(EvaluatedOrganization organization) {
-        this.organization = organization;
     }
 
     public int getIdCenter() {

@@ -143,8 +143,8 @@ public class IndicatorsEvaluationRegsCaller {
         return null;
     }
 
-    public static IndicatorsEvaluationReg Create(Timestamp evaluationDate, int idEvaluatedOrganization,String orgType,String illness,int indicatorId,int idEvidence,int isMarked, int indicatorVersion){
-        Call<IndicatorsEvaluationReg> call=api.Create(evaluationDate,idEvaluatedOrganization,orgType,illness,indicatorId,idEvidence,isMarked,indicatorVersion);
+    public static IndicatorsEvaluationReg Create(IndicatorsEvaluationReg indicatorsEvaluationReg){
+        Call<IndicatorsEvaluationReg> call=api.Create(indicatorsEvaluationReg);
         AsyncTask<Void, Void, IndicatorsEvaluationReg> asyncTask = new AsyncTask<Void, Void, IndicatorsEvaluationReg>() {
             IndicatorsEvaluationReg result= null;
             @Override

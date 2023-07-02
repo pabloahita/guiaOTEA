@@ -33,4 +33,76 @@
     <string name="login_failed">Inicio de sesión fallido. Por favor compruebe el email y la contraseña o regístrese en la aplicación</string>
     <string name="first_name_user">Nombre</string>
     <string name="last_name_user">Apellidos</string>
+    <string name="email_reg">Email</string>
+    <string name="password_reg">Contraseña (al menos 6 caracteres)</string>
+    <string name="telephone_reg">Número de teléfono</string>
+    <string name="user_type_reg">Tipo de usuario</string>
+
+
+
+    <string name="evaluated_org_user_reg">Usuario de organización evaluada</string>
+    <string name="fMiradas_user_reg">Usuario de la Fundación Miradas</string>
+
+    <string name="select_user_type">Seleccionar tipo de usuario</string>
+
+    <string-array name="menu_user_type">
+        <item>@string/evaluated_org_user_reg</item>
+        <item>@string/fMiradas_user_reg</item>
+    </string-array>
+    <string-array name="menu_org_evaluated">
+        <item>@string/select_evaluated_org</item>
+    </string-array>
+    <string name="LOPD_user_reg">Acepto que la Fundación Miradas guarde registro sobre mis datos de acuerdo con la Ley Orgánica de Protección de Datos</string>
+    <string name="wrong_phone">"Teléfono incorrecto. "</string>
+    <string name="contry_phone_config">Por favor, introduzca 00 y el prefijo de su país antes de su número de teléfono (excepto España)</string>
+    <string name="mandatory_first_name">Por favor introduzca su nombre</string>
+    <string name="mandatory_last_name">Por favor introduzca su apellido</string>
+    <string name="mandatory_email">Por favor introduzca su email</string>
+    <string name="wrong_email">El email proporcionado no es correcto, por favor introduzca un email real</string>
+    <string name="mandatory_phone">Los números telefónicos de España deben empezar por 6, 7, 8 o 9. Los números teléfonicos extranjeros deben empezar por 00 seguido del prefijo del país</string>
+    <string name="wrong_telephone">Número de teléfono incorrecto</string>
+    <string name="mandatory_password">La contraseña debe cumplir los siguientes requisitos:
+    - Contener al menos 6 caracteres.
+    - Incluir al menos una letra mayúscula.
+    - Incluir al menos una letra minúscula.
+    - Incluir al menos un número.
+    - Incluir al menos uno de los siguientes símbolos: "$&amp;%#.!"^*¨_:;/*-+&gt;&lt;()=¿?¡!"</string>
+    <string name="select_evaluated_org">Seleccione organización evaluada</string>
+    <string name="wrong_password">Contraseña incorrecta</string>
+    <string name="hey_user">¡Hola usuario!</string>
+    <string name="add_new_evaluator_team">Añadir nuevo equipo evaluador</string>
+    <string name="add_new_center">Añadir nuevo centro de organización evaluada</string>
+    <string name="add_new_indicators_evaluation">Añadir nueva evaluación de indicadores</string>
+    <string name="add_new_evaluated_organization">Añadir nueva organización evaluada</string>
+    <string name="org_name">Nombre de la organización</string>
+    <string name="org_address">Dirección</string>
+    <string name="org_zipcode">Código postal</string>
+    <string name="org_city">Ciudad</string>
+    <string name="org_province">Provincia</string>
+    <string name="org_region">Región</string>
+    <string name="org_country">País</string>
+    <string name="please_org_name">Por favor introduzca el nombre de la organización</string>
+    <string name="please_address">Por favor introduzca la dirección</string>
+    <string name="please_city">Por favor introduzca el nombre de la ciudad</string>
+    <string name="please_province">Por favor introduzca el nombre de la provincia</string>
+    <string name="please_region">Por favor introduzca el nombre de la región</string>
+    <string name="please_zipcode">Por favor introduzca el código postal</string>
+    <string name="more_info">Más información</string>
+    <string name="add_director">Añadir director de la organización</string>
+    <string name="edit_director">Editar director de la organización</string>
+    <string name="add_professional">Añadir profesional de atención directa</string>
+    <string name="edit_professional">Editar profesional de atención directa</string>
+    <string name="add_center">Añadir nuevo centro</string>
+    <string name="description_center">Descripción del centro</string>
+    <string name="please_description_center">Por favor introduzca la descripción del centro</string>
+    <string name="please_director">Por favor introduzca un director de la organización</string>
+    <string name="please_professional">Por favor introduzca un profesional de atención directa</string>
+    <string name="please_wait_login">Conectando a la base de datos para iniciar sesión. Por favor espere unos segundos...</string>
+    <string name="please_wait_register_user">"Conectando a la base de datos para registrar el usuario. Por favor, espere unos segundos... "</string>
+    <string name="please_wait_reg_orgs">Conectando a la base de datos para registrar la organización. Por favor, espere unos segundos...</string>
+    <string name="please_wait">Conectando a la base de datos... Por favor espere unos segundos</string>
+    <string name="do_you_want_to_exit_otea">¿Quiere salir de OTEA?</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+
 </resources>

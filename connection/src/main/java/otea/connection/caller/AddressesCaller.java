@@ -2,7 +2,10 @@ package otea.connection.caller;
 
 import android.os.AsyncTask;
 
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import cli.organization.data.Address;
@@ -37,6 +40,41 @@ public class AddressesCaller {
         }
         return instance;
     }
+
+    public static List<Address> GetAll(){
+        Call<List<Address>> call = api.GetAll();
+        AsyncTask<Void, Void, List<Address>> asyncTask = new AsyncTask<Void, Void, List<Address>>() {
+            List<Address> resultList = null;
+
+            @Override
+            protected List<Address> doInBackground(Void... voids) {
+                try {
+                    Response<List<Address>> response = call.execute();
+                    if (response.isSuccessful()) {
+                        return response.body();
+                    } else {
+                        throw new IOException("Error: " + response.code() + " " + response.message());
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            @Override
+            protected void onPostExecute (List<Address> list){
+                resultList=list;
+            }
+
+        };
+        asyncTask.execute();
+        try {
+            List<Address> list=asyncTask.get();
+            return list;
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public static Address obtainAddress(int idAddress) {
         Call<Address> call = api.Get(idAddress);
         AsyncTask<Void, Void, Address> asyncTask = new AsyncTask<Void, Void, Address>() {
@@ -64,64 +102,49 @@ public class AddressesCaller {
         asyncTask.execute();
         try {
             Address address=asyncTask.get();
-            if(address!=null) {
-                if (address.getIdCountry().equals("ESP")) {
-                    //Se devuelve el constructor porque este llama a la obtención de los objetos City, Province, Region y Country
-                    return new Address(address.getIdAddress(), address.getName(), address.getNumber(), address.getFloor(), address.getApartment(), address.getZipCode(), address.getIdCity(), address.getIdProvince(), address.getIdRegion(), address.getIdCountry());
-                }else{
-                    return new Address(address.getIdAddress(), address.getName(), address.getNumber(), address.getFloor(), address.getApartment(), address.getZipCode(), address.getNameCity(), address.getNameProvince(), address.getNameRegion(), address.getIdCountry());
-                }
-            }
+            return address;
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } catch (ExecutionException e) {
             throw new RuntimeException(e);
         }
-        return null;
     }
 
     // POST action
-    public static Address Create(int idAddress, String nameStreet, int numberStreet, int floorApartment, char apartmentLetter, int zipCode, int idCity, int idProvince, int idRegion, String idCountry, String nameCity, String nameProvince, String nameRegion){
-        Call<Address> call = api.Create(idAddress,nameStreet,numberStreet,floorApartment,apartmentLetter,zipCode,idCity,idProvince,idRegion,idCountry,nameCity,nameProvince,nameRegion);
+    public static Address Create(Address address) {
         AsyncTask<Void, Void, Address> asyncTask = new AsyncTask<Void, Void, Address>() {
-            Address resultAddress = null;
-
             @Override
             protected Address doInBackground(Void... voids) {
                 try {
-                    Response<Address> response = call.execute();
+                    Response<Address> response = api.Create(address).execute();
                     if (response.isSuccessful()) {
                         return response.body();
                     } else {
-                        throw new IOException("Error: " + response.code() + " " + response.message());
+                        // Maneja los errores de manera adecuada
+                        String errorBody = response.errorBody() != null ? response.errorBody().string() : "";
+                        throw new IOException("Error: " + response.code() + " " + response.message() + " " + errorBody);
                     }
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    // Maneja la excepción adecuadamente, por ejemplo, mostrando un mensaje de error
+                    e.printStackTrace();
                 }
-            }
-            @Override
-            protected void onPostExecute (Address address){
-                resultAddress=address;
+                return null;
             }
 
+            @Override
+            protected void onPostExecute(Address address) {
+                // Haz algo con la dirección obtenida, por ejemplo, mostrarla en la interfaz de usuario
+            }
         };
+
         asyncTask.execute();
         try {
-            Address address=asyncTask.get();
-            if(address!=null) {
-                if (address.getIdCountry().equals("ESP")) {
-                    //Se devuelve el constructor porque este llama a la obtención de los objetos City, Province, Region y Country
-                    return new Address(address.getIdAddress(), address.getName(), address.getNumber(), address.getFloor(), address.getApartment(), address.getZipCode(), address.getIdCity(), address.getIdProvince(), address.getIdRegion(), address.getIdCountry());
-                }else{
-                    return new Address(address.getIdAddress(), address.getName(), address.getNumber(), address.getFloor(), address.getApartment(), address.getZipCode(), address.getNameCity(), address.getNameProvince(), address.getNameRegion(), address.getIdCountry());
-                }
-            }
+            return asyncTask.get();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } catch (ExecutionException e) {
             throw new RuntimeException(e);
         }
-        return null;
     }
 
     // PUT action
@@ -152,20 +175,12 @@ public class AddressesCaller {
         asyncTask.execute();
         try {
             Address aux=asyncTask.get();
-            if(address!=null) {
-                if (aux.getIdCountry().equals("ESP")) {
-                    //Se devuelve el constructor porque este llama a la obtención de los objetos City, Province, Region y Country
-                    return new Address(aux.getIdAddress(), aux.getName(), aux.getNumber(), aux.getFloor(), aux.getApartment(), aux.getZipCode(), aux.getIdCity(), aux.getIdProvince(), aux.getIdRegion(), aux.getIdCountry());
-                }else{
-                    return new Address(aux.getIdAddress(), aux.getName(), aux.getNumber(), aux.getFloor(), aux.getApartment(), aux.getZipCode(), aux.getNameCity(), aux.getNameProvince(), aux.getNameRegion(), aux.getIdCountry());
-                }
-            }
+            return aux;
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } catch (ExecutionException e) {
             throw new RuntimeException(e);
         }
-        return null;
     }
 
     // DELETE action

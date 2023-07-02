@@ -96,11 +96,7 @@ public class CitiesCaller {
         asyncTask.execute();
         try {
             List<City> list=asyncTask.get();
-            List<City> result=new LinkedList<City>();
-            for(City city:list){
-                result.add(new City(city.getIdCity(),city.getIdProvince(),city.getIdRegion(),city.getIdCountry(),city.getCityName()));
-            }
-            return result;
+            return list;
         } catch (Exception e) {
             Log.d("ERROR", e.toString());
         }

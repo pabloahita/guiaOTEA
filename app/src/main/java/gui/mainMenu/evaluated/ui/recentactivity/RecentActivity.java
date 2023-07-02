@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 import com.fundacionmiradas.indicatorsevaluation.databinding.FragmentRecentEvaluatedBinding;
@@ -24,7 +25,7 @@ import java.util.List;
 import cli.user.User;
 import gui.mainMenu.admin.ui.recentactivity.RecentViewModel;
 import otea.connection.ConnectionClient;
-
+import java.util.Locale;
 public class RecentActivity extends Fragment {
 
     private FragmentRecentEvaluatedBinding binding;
@@ -39,6 +40,18 @@ public class RecentActivity extends Fragment {
         binding = FragmentRecentEvaluatedBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        User user= (User) getActivity().getIntent().getSerializableExtra("user");
+
+        TextView textView=binding.textHiEvaluated;
+        String text="";
+        if(Locale.getDefault().getLanguage().equals("es")){
+            text="¡Hola "+user.getFirst_name()+"!";
+        }else if(Locale.getDefault().getLanguage().equals("fr")) {
+            text="Salut "+user.getFirst_name()+"!";
+        }else{ //Por defecto en inglés
+            text="Hi "+user.getFirst_name()+"!";
+        }
+        textView.setText(text);
         return root;
 
     }

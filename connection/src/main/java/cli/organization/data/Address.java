@@ -2,6 +2,8 @@ package cli.organization.data;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import cli.organization.data.geo.City;
 import cli.organization.data.geo.Country;
 import cli.organization.data.geo.Province;
@@ -15,22 +17,14 @@ import otea.connection.caller.CountriesCaller;
  * @author Pablo Ahita del Barrio
  * @version 1.0
  */
-public class Address {
+public class Address implements Serializable {
 
     @SerializedName("idAddress")
     public int idAddress;
 
-    @SerializedName("nameStreet")
-    public String nameStreet;
+    @SerializedName("addressName")
+    public String addressName;
 
-    @SerializedName("numberSt")
-    public int numberSt;
-
-    @SerializedName("floorApartment")
-    public int floorApartment=-1;
-
-    @SerializedName("apartmentLetter")
-    public char apartmentLetter='/';
 
     @SerializedName("zipCode")
     public int zipCode;
@@ -66,10 +60,7 @@ public class Address {
      * <p>EN: Address class constructor</p>
      * <p>ES: Constructor de la clase Address</p>
      * @param idAddress    <p>EN: Address identifier </p><p>ES: Identificador de la direccion</p>
-     * @param name    <p>EN: Road's name</p><p>ES: Nombre de la calle</p>
-     * @param number  <p>EN: Main entry's number</p><p>ES: Numero del portal</p>
-     * @param floor   <p>EN: Floor's number</p><p>ES: Numero de piso</p>
-     * @param apt     <p>EN: Apartment's letter</p><p>ES: Letra del apartamento</p>
+     * @param addressName    <p>EN: Address's name</p><p>ES: Nombre de la direccion</p>
      * @param zipCode <p>EN: Address' zip-code</p><p>ES: Codigo postal de la direccion</p>
      * @param idCity    <p>EN: Address' city id</p><p>ES: Id de la ciudad de la direccion</p>
      * @param idProvince <p>EN:Address' province id</p><p>ES: Id de la provincia de la direccion</p>
@@ -77,43 +68,20 @@ public class Address {
      * @param idCountry <p>EN: Address' country id</p><p>ES: Id del pais de la direccion</p>
      */
 
-    //Constructores para direcciones en España
-    public Address(int idAddress, String name, int number, int floor, char apt, int zipCode, int idCity, int idProvince, int idRegion, String idCountry){
+    public Address(int idAddress, String addressName, int zipCode, int idCity, int idProvince, int idRegion, String idCountry, String nameCity, String nameProvince, String nameRegion){
         setIdAddress(idAddress);
-        setName(name);
-        setNumber(number);
-        setFloor(floor);
-        setApartment(apt);
+        setName(addressName);
         setZipCode(zipCode);
         setIdCity(idCity);
         setIdProvince(idProvince);
         setIdRegion(idRegion);
         setIdCountry(idCountry);
-        setCity(CitiesCaller.getInstance().obtainCity(idCity,idProvince,idRegion,idCountry));
-        setProvince(city.getProvince());
-        setRegion(province.getRegion());
-        setCountry(region.getCountry());
-        setNameCity(city.getCityName());
-        setNameProvince(province.getNameProvince());
-        setNameRegion(region.getNameRegion());
-
-    }
-
-    //Constructor para direcciones de fuera de España
-    public Address(int idAddress, String name, int number, int floor, char apt, int zipCode, String nameCity, String nameProvince, String nameRegion, String idCountry){
-        setIdAddress(idAddress);
-        setName(name);
-        setNumber(number);
-        setFloor(floor);
-        setApartment(apt);
-        setZipCode(zipCode);
-        setIdCountry(idCountry);
-        setCountry(CountriesCaller.getInstance().obtainCountry(idCountry));
         setNameCity(nameCity);
         setNameProvince(nameProvince);
         setNameRegion(nameRegion);
 
     }
+
     //Getters and setters of every field
 
     /**
@@ -132,65 +100,21 @@ public class Address {
     public void setIdAddress(int idAddress){this.idAddress=idAddress;}
 
     /**
-     * <p>EN: Method that obtains the road's name</p>
-     * <p>ES: Metodo que obtiene el nombre de la calle</p>
-     * @return <p>EN: Road's name</p><p>ES: Nombre de la calle</p>
+     * <p>EN: Method that obtains the address's name</p>
+     * <p>ES: Metodo que obtiene el nombre de la direccion</p>
+     * @return <p>EN: Address's name</p><p>ES: Nombre de la direccion</p>
      */
-    public String getName(){return nameStreet;}
+    public String getName(){return addressName;}
 
     /**
-     * <p>EN: Method that changes the road's name</p>
-     * <p>ES: Metodo que cambia el nombre de la calle</p>
+     * <p>EN: Method that changes the address's name</p>
+     * <p>ES: Metodo que cambia el nombre de la direccion</p>
      *
-     * @param name <p>EN: The new road's name</p><p>ES: El nuevo nombre de la calle</p>
+     * @param name <p>EN: The new address's name</p><p>ES: El nuevo nombre de la direccion</p>
      */
-    public void setName(String name){this.nameStreet=name;}
+    public void setName(String name){this.addressName=name;}
 
-    /**
-     * <p>EN: Method that obtains the address' main door's number</p>
-     * <p>ES: Metodo que obtiene el numero de portal de la direccion</p>
-     * @return <p>EN: Main door's number</p><p>ES: Numero de portal</p>
-     */
-    public int getNumber(){return numberSt;}
-
-    /**
-     * <p>EN: Method that changes the main door's number</p>
-     * <p>ES: Metodo que cambia el numero de portal de la direccion</p>
-     *
-     * @param number <p>EN: The new main door's number</p><p>ES: El nuevo numero de portal</p>
-     */
-    public void setNumber(int number){this.numberSt=number;}
-
-    /**
-     * <p>EN: Method that obtains the address' floor number</p>
-     * <p>ES: Metodo que obtiene el numero de piso de la direccion</p>
-     *
-     * @return the int
-     */
-    public int getFloor(){return floorApartment;}
-
-    /**
-     * <p>EN: Method that changes the address' floor's number</p>
-     * <p>ES: Metodo que cambia el numero de piso de la direccion</p>
-     *
-     * @param floor <p>EN: The new floor's number</p><p>ES: El nuevo numero de piso</p>
-     */
-    public void setFloor(int floor){this.floorApartment=floor;}
-
-    /**
-     * <p>EN: Method that obtains the apartment's letter</p>
-     * <p>ES: Metodo que obtiene la letra del apartamento</p>
-     *
-     * @return <p>EN: Apartment's letter</p><p>ES: Letra del apartamento</p>
-     */
-    public char getApartment(){return apartmentLetter;}
-
-    /**
-     * Set apartment.
-     *
-     * @param apt the apt
-     */
-    public void setApartment(char apt){this.apartmentLetter=apt;}
+    
 
     /**
      * Get zip code int.

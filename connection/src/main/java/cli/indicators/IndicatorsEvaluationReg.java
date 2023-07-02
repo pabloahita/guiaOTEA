@@ -2,9 +2,10 @@ package cli.indicators;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class IndicatorsEvaluationReg {
+public class IndicatorsEvaluationReg implements Serializable {
 
     @SerializedName("evaluationDate")
     public Timestamp evaluationDate;

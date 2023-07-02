@@ -13,7 +13,7 @@
         android:theme="@style/Theme.TFG2223.NoActionBar.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar_admin"
             android:layout_width = "match_parent"
             android:background="?attr/colorPrimary"
               app:popupTheme="@style/Theme.TFG2223.NoActionBar.PopupOverlay"
@@ -23,13 +23,14 @@
 
   <include layout="@layout/content_main_menu_admin"/>
 
-  <com.google.android.material.floatingactionbutton.FloatingActionButton
-  android:id="@+id/fab"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content"
-  android:layout_gravity="bottom|end"
-  android:layout_marginEnd="@dimen/fab_margin"
-  android:layout_marginBottom="16dp"
-  app:srcCompat="@android:drawable/ic_dialog_email" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_admin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginBottom="16dp"
+        app:backgroundTint="#445B69"
+        app:srcCompat="@drawable/baseline_add_24" />
 
   </androidx.coordinatorlayout.widget.CoordinatorLayout>

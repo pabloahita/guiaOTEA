@@ -47,16 +47,16 @@ namespace OTEAServer.Controllers
 
         // POST action
         [HttpPost]
-        public IActionResult Create(int id, DateTime creation_date, int idOrganization, string orgType, string illness, string emailConsultant, string emailProfessional, string emailResponsible, string patient_name, string relative_name)
+        public IActionResult Create([FromBody] EvaluatorTeam evaluatorTeam)
         {
-            _evaluatorTeamsService.Add(id, creation_date, idOrganization, orgType, illness, emailConsultant,emailProfessional, emailResponsible, patient_name,relative_name);
-            EvaluatorTeam evaluatorTeam = new EvaluatorTeam(id, creation_date, idOrganization, orgType, illness, emailConsultant, emailProfessional, emailResponsible, patient_name, relative_name);
+            _evaluatorTeamsService.Add(evaluatorTeam.idEvaluatorTeam, evaluatorTeam.creationDate, evaluatorTeam.idOrganization, evaluatorTeam.orgType, evaluatorTeam.illness, evaluatorTeam.emailConsultant,evaluatorTeam.emailProfessional, evaluatorTeam.emailResponsible, evaluatorTeam.patientName,evaluatorTeam.relativeName);
+            //EvaluatorTeam evaluatorTeam = new EvaluatorTeam(id, creation_date, idOrganization, orgType, illness, emailConsultant, emailProfessional, emailResponsible, patient_name, relative_name);
             return CreatedAtAction(nameof(Get), new { id = evaluatorTeam.idEvaluatorTeam ,idOrganization=evaluatorTeam.idOrganization, orgType=evaluatorTeam.orgType, illness=evaluatorTeam.illness }, evaluatorTeam);
         }
 
         // PUT action
         [HttpPut("upd::id={id}:idEvaluatorOrg={idEvaluatorOrg}:orgType={orgType}:illness={illness}")]
-        public IActionResult Update(int id, int idEvaluatorOrg, string orgType, string illness, EvaluatorTeam evaluatorTeam)
+        public IActionResult Update(int id, int idEvaluatorOrg, string orgType, string illness, [FromBody] EvaluatorTeam evaluatorTeam)
         {
             // This code will update the evaluator team and return a result
             if (id != evaluatorTeam.idEvaluatorTeam || idEvaluatorOrg!=evaluatorTeam.idOrganization || orgType!=evaluatorTeam.orgType || illness!=evaluatorTeam.illness)
@@ -66,7 +66,7 @@ namespace OTEAServer.Controllers
             if (existingEvaluatorTeam is null)
                 return NotFound();
 
-            _evaluatorTeamsService.Update(evaluatorTeam);
+            _evaluatorTeamsService.Update(id,idEvaluatorOrg,orgType,illness,evaluatorTeam);
 
             return Ok(evaluatorTeam);
         }

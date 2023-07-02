@@ -96,16 +96,16 @@ namespace OTEAServer.Controllers
 
         // POST action
         [HttpPost]
-        public IActionResult Create(string email, string first_Name, string last_Name, string password, string userType, long telephone, int? idOrganization, string? organizationType, string? illness)
+        public IActionResult Create([FromBody] User user)
         {
-            _usersService.Add(email,first_Name,last_Name,password,userType,telephone,idOrganization,organizationType,illness);
-            User user = new User(email, first_Name, last_Name, password, userType,telephone, idOrganization, organizationType, illness);
+            _usersService.Add(user.emailUser,user.first_name,user.last_name,user.passwordUser,user.userType,user.telephone,user.idOrganization,user.organizationType,user.illness);
+            //User user = new User(emailUser, first_name, last_name, passwordUser, userType,telephone, idOrganization, organizationType, illness);
             return CreatedAtAction(nameof(Get), new { email = user.emailUser}, user);
         }
 
         // PUT action
         [HttpPut("upd::email={email}")]
-        public IActionResult Update(string email, User user)
+        public IActionResult Update(string email, [FromBody] User user)
         {
             // This code will update the mesa and return a result
             if (email != user.emailUser)
@@ -115,7 +115,7 @@ namespace OTEAServer.Controllers
             if (existingUser is null)
                 return NotFound();
 
-            _usersService.Update(user);
+            _usersService.Update(email,user);
 
             return Ok(user);
         }

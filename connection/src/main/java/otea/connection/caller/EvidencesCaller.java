@@ -71,7 +71,7 @@ public class EvidencesCaller {
     }
 
     public static Evidence addEvidence(Evidence evidence){
-        Call<Evidence> call=api.Create(evidence.getIdEvidence(),evidence.getIdIndicator(),evidence.getIndicatorType(),evidence.getDescriptionEnglish(),evidence.getDescriptionSpanish(),evidence.getDescriptionFrench(),evidence.getEvidenceValue());
+        Call<Evidence> call=api.Create(evidence);
         AsyncTask<Void, Void, Evidence> asyncTask = new AsyncTask<Void, Void, Evidence>() {
             Evidence resultEvidence = null;
             @Override

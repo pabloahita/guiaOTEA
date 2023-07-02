@@ -43,7 +43,7 @@ namespace OTEAServer.Services
             List<IndicatorsEvaluation> indicatorsEvaluationList = new List<IndicatorsEvaluation>();
 
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            string query = "SELECT * FROM INDICATORSEVALUATIONS WHERE IDEVALUATORTEAM=@IDEVALUATORTEAM AND IDEVALUATORORGANIZATION=@IDEVALUATORORGANIZATION AND ORGTYPEEVALUATOR=@ORGTYPEEVALUATO AND ILLNESS=@ILLNESS";
+            string query = "SELECT * FROM INDICATORSEVALUATIONS WHERE IDEVALUATORTEAM=@IDEVALUATORTEAM AND IDEVALUATORORGANIZATION=@IDEVALUATORORGANIZATION AND ORGTYPEEVALUATOR=@ORGTYPEEVALUATOR AND ILLNESS=@ILLNESS";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -53,6 +53,35 @@ namespace OTEAServer.Services
                 {
                     command.Parameters.AddWithValue("@IDEVALUATORTEAM", idEvaluatorTeam);
                     command.Parameters.AddWithValue("@IDEVALUATORORGANIZATION", idEvaluatorOrganization);
+                    command.Parameters.AddWithValue("@ORGTYPEEVALUATOR", orgType);
+                    command.Parameters.AddWithValue("@ILLNESS", illness);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            indicatorsEvaluationList.Add(new IndicatorsEvaluation(reader.GetDateTime(0), reader.GetInt32(1), reader.GetString(2), reader.GetInt32(3), reader.GetInt32(4), reader.GetString(5), reader.GetString(6), reader.GetInt32(7)));
+                        }
+                    }
+                }
+            }
+            return indicatorsEvaluationList;
+
+        }
+
+        public List<IndicatorsEvaluation> GetAllByEvaluatedOrganization(int idEvaluatedOrganization, string orgType, string illness)
+        {
+            List<IndicatorsEvaluation> indicatorsEvaluationList = new List<IndicatorsEvaluation>();
+
+            string connectionString = _configuration.GetConnectionString("DefaultConnection");
+            string query = "SELECT * FROM INDICATORSEVALUATIONS WHERE IDEVALUATEDORGANIZATION=@IDEVALUATORORGANIZATION AND ORGTYPEEVALUATED=@ORGTYPEEVALUATED AND ILLNESS=@ILLNESS";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@IDEVALUATEDORGANIZATION", idEvaluatedOrganization);
                     command.Parameters.AddWithValue("@ORGTYPEEVALUATOR", orgType);
                     command.Parameters.AddWithValue("@ILLNESS", illness);
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -158,9 +187,9 @@ namespace OTEAServer.Services
             }
         }
 
-        public void Update(IndicatorsEvaluation indicatorsEvaluation)
+        public void Update(DateTime evaluationDate, int idEvaluatedOrganization, string orgTypeEvaluated, string illness, IndicatorsEvaluation indicatorsEvaluation)
         {
-            if (indicatorsEvaluation != null && Get(indicatorsEvaluation.evaluationDate,indicatorsEvaluation.idEvaluatedOrganization,indicatorsEvaluation.orgTypeEvaluated,indicatorsEvaluation.illness) == indicatorsEvaluation)
+            if (indicatorsEvaluation != null && Get(evaluationDate,idEvaluatedOrganization,orgTypeEvaluated,illness) != null && evaluationDate==indicatorsEvaluation.evaluationDate && idEvaluatedOrganization==indicatorsEvaluation.idEvaluatedOrganization && orgTypeEvaluated==indicatorsEvaluation.orgTypeEvaluated && illness==indicatorsEvaluation.illness)
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
 

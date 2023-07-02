@@ -34,4 +34,8 @@ public interface IUser {
     void connect();
 
     void disconnect();
+
+    String getPassword();
+
+    void setPassword(String passwordUser);
 }

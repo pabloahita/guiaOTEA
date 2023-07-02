@@ -65,11 +65,7 @@ public class IndicatorsCaller {
         };
         asyncTask.execute();
         try {
-            List<Indicator> aux=asyncTask.get();
-            List<Indicator> list=new LinkedList<>();
-            for(Indicator i:aux){//Se hace así debido a que queremos asignar también las evidencias
-                list.add(new Indicator(i.getIdIndicator(),i.getIndicatorType(),i.getDescriptionEnglish(),i.getDescriptionSpanish(),i.getDescriptionFrench(),i.getPriority(),i.getIndicatorVersion()));
-            }
+            List<Indicator> list=asyncTask.get();
             return list;
         } catch (Exception e) {
             Log.d("ERROR", e.toString());
@@ -111,8 +107,8 @@ public class IndicatorsCaller {
         return null;
     }
 
-    public static Indicator Create(int idIndicator, String indicatorType, String descriptionEnglish,String descriptionSpanish,String descriptionFrench, int indicatorPriority, int indicatorVersion){
-        Call<Indicator> call=api.Create(idIndicator,indicatorType,descriptionEnglish,descriptionSpanish,descriptionFrench,indicatorPriority,indicatorVersion);
+    public static Indicator Create(Indicator indicator){
+        Call<Indicator> call=api.Create(indicator);
         AsyncTask<Void, Void, Indicator> asyncTask = new AsyncTask<Void, Void, Indicator>() {
             Indicator resultIndicator= null;
             @Override

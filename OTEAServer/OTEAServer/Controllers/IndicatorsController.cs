@@ -52,16 +52,15 @@ namespace OTEAServer.Controllers
 
         // POST action
         [HttpPost]
-        public IActionResult Create(int idIndicator, string indicatorType, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, int indicatorPriority, int indicatorVersion)
+        public IActionResult Create([FromBody] Indicator indicator)
         {
-            _indicatorsService.Add(idIndicator,indicatorType,descriptionEnglish,descriptionSpanish,descriptionFrench,indicatorPriority,indicatorVersion);
-            Indicator indicator = new Indicator(idIndicator, indicatorType, descriptionEnglish, descriptionSpanish, descriptionFrench, indicatorPriority,indicatorVersion);
+            _indicatorsService.Add(indicator.indicatorId, indicator.indicatorType, indicator.descriptionEnglish, indicator.descriptionSpanish, indicator.descriptionFrench, indicator.indicatorPriority, indicator.indicatorVersion);
             return CreatedAtAction(nameof(Get), new { id = indicator.indicatorId, type=indicator.indicatorType }, indicator);
         }
 
         // PUT action
         [HttpPut("upd::idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")]
-        public IActionResult Update(int idIndicator, string indicatorType, int indicatorVersion, Indicator indicator)
+        public IActionResult Update(int idIndicator, string indicatorType, int indicatorVersion, [FromBody] Indicator indicator)
         {
             // This code will update the mesa and return a result
             if (idIndicator != indicator.indicatorId || indicatorType != indicator.indicatorType || indicatorVersion != indicator.indicatorVersion)
@@ -71,7 +70,7 @@ namespace OTEAServer.Controllers
             if (existingIndicator is null)
                 return NotFound();
 
-            _indicatorsService.Update(indicator);
+            _indicatorsService.Update(idIndicator,indicatorType,indicatorVersion,indicator);
 
             return Ok(indicator);
         }

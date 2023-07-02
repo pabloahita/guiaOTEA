@@ -62,8 +62,7 @@ public class ProvincesCaller {
         asyncTask.execute();
         try {
             Province province=asyncTask.get();
-            //Se devuelve el constructor porque este llama a la obtención de los objetos Region y Country
-            return new Province(province.getIdProvince(),province.getIdRegion(),province.getIdCountry(),province.getNameProvince());
+            return province;
         } catch (Exception e) {
             Log.d("ERROR", e.toString());
         }
@@ -96,11 +95,7 @@ public class ProvincesCaller {
         asyncTask.execute();
         try {
             List<Province> list=asyncTask.get();
-            List<Province> result=new LinkedList<Province>();
-            for(Province province:list){
-                result.add(new Province(province.getIdProvince(),province.getIdRegion(),province.getIdCountry(),province.getNameProvince()));
-            }
-            return result;
+            return list;
         } catch (Exception e) {
             Log.d("ERROR", e.toString());
         }

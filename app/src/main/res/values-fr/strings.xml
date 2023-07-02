@@ -32,5 +32,74 @@
     <string name="view_indicators_evolution">Voir les tests effectués</string>
     <string name="login_failed">Échec de la connexion. Veuillez vérifier l\'e-mail et le mot de passe ou vous inscrire dans l\'application</string>
     <string name="first_name_user">Prénom</string>
-    <string name="last_name_user">Nom</string>
+    <string name="last_name_user">Nom de famille</string>
+    <string name="email_reg">Email</string>
+    <string name="password_reg">"Mot de passe "</string>
+    <string name="telephone_reg">Numéro de téléphone</string>
+    <string name="user_type_reg">Type d\'utilisateur</string>
+
+    <string name="evaluated_org_user_reg">Utilisateur de l\'organisation évaluée</string>
+    <string name="fMiradas_user_reg">Utilisateur de la Fundación Miradas</string>
+    <string name="select_user_type">Sélectionner le type d\'utilisateur</string>
+
+    <string-array name="menu_user_type">
+        <item>@string/evaluated_org_user_reg</item>
+        <item>@string/fMiradas_user_reg</item>
+    </string-array>
+    <string-array name="menu_org_evaluated">
+        <item>@string/select_evaluated_org</item>
+    </string-array>
+    <string name="LOPD_user_reg">J\'accepte que la Fondation Miradas enregistre mes données conformément à la loi équivalente à la loi espagnole LOPD sur la protection des données</string>
+    <string name="wrong_phone">Téléphone incorrect</string>
+    <string name="contry_phone_config">Entrez 00 et votre code pays avant votre numéro de téléphone (sauf pour l\'Espagne)</string>
+    <string name="mandatory_first_name">S\'il vous plaît entrez votre prénom</string>
+    <string name="mandatory_last_name">Veuillez entrer votre prénom</string>
+    <string name="mandatory_email">Veuillez entrer votre nom de famille</string>
+    <string name="wrong_email">L\'email fourni n\'est pas correct, veuillez entrer un vrai email</string>
+
+    <string name="mandatory_phone">Les numéros de téléphone en Espagne doivent commencer par 6, 7, 8 ou 9. Les numéros de téléphone étrangers doivent commencer par 00 suivi de l\'indicatif du pays</string>
+    <string name="wrong_telephone">Mauvais numéro de téléphone</string>
+    <string name="mandatory_password">Le mot de passe doit répondre aux exigences suivantes:
+    - Contenir au moins 6 caractères.
+    - Inclure au moins une majuscule.
+    - Inclure au moins une lettre minuscule.
+    - Inclure au moins un numéro.
+    - Inclure au moins un des symboles suivants: "$&amp;%#.!"^*¨_:;/*-+&gt;&lt;()=¿?¡!"</string>
+    <string name="select_evaluated_org">Sélectionnez l\'organisation évaluée</string>
+    <string name="wrong_password">Mauvais mot de passe</string>
+    <string name="hey_user">Salut utilisateur!</string>
+    <string name="add_new_evaluator_team">Ajouter une nouvelle équipe d\'évaluateurs</string>
+    <string name="add_new_center">Ajouter un nouveau centre d\'organisation évaluée</string>
+    <string name="add_new_indicators_evaluation">Ajouter un nouveau test d\'indicateurs</string>
+    <string name="add_new_evaluated_organization">Ajouter une nouvelle organisation évaluée</string>
+    <string name="org_name">Nom de l\'organisation</string>
+    <string name="org_address">Adresse</string>
+    <string name="org_zipcode">Code postal</string>
+    <string name="org_city">Ville</string>
+    <string name="org_province">Province</string>
+    <string name="org_region">Région</string>
+    <string name="org_country">Pays</string>
+    <string name="please_org_name">Veuillez entrer un nom d\'organisation</string>
+    <string name="please_address">Veuillez entrer l\'adresse</string>
+    <string name="please_city">Veuillez entrer le nom de la ville</string>
+    <string name="please_province">Veuillez entrer le nom de la province</string>
+    <string name="please_region">Veuillez entrer le nom de la région</string>
+    <string name="please_zipcode">Veuillez entrer le code postal</string>
+    <string name="more_info">Plus d\'information</string>
+    <string name="add_director">Ajouter un directeur d\'organisation</string>
+    <string name="edit_director">Modifier le directeur de l\'organisation</string>
+    <string name="add_professional">Ajouter un professionnel des soins directs</string>
+    <string name="edit_professional">Modifier le professionnel des soins directs</string>
+    <string name="add_center">Ajouter un nouveau centre</string>
+    <string name="description_center">Descriptif du centre</string>
+    <string name="please_description_center">Veuillez entrez le centre de description</string>
+    <string name="please_director">Veuillez entrer un directeur d\'organisation</string>
+    <string name="please_professional">Veuillez entrer un professionnel des soins directs</string>
+    <string name="please_wait_login">Connexion à la base de données pour se connecter. Veuillez patienter quelques secondes...</string>
+    <string name="please_wait_register_user">Connexion à la base de données pour enregistrer l\'utilisateur. Veuillez patienter quelques secondes...</string>
+    <string name="please_wait_reg_orgs">Connexion à la base de données pour enregistrer l\'organisation. Veuillez patienter quelques secondes....</string>
+    <string name="please_wait">Connexion à la base de données... Veuillez patienter quelques secondes...</string>
+    <string name="do_you_want_to_exit_otea">Voulez-vous quitter OTEA?</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
 </resources>

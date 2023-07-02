@@ -11,7 +11,7 @@ public interface IndicatorsApi {
     @PUT("Indicators/upd::idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")
     Call<Indicator> Update(@Path("idIndicator") int idIndicator, @Path("indicatorType") String indicatorType, @Path("indicatorVersion") int indicatorVersion, @Body Indicator indicator);
     @POST("Indicators")
-    Call<Indicator> Create(int idIndicator, String indicatorType, String descriptionEnglish,String descriptionSpanish,String descriptionFrench, int indicatorPriority, int indicatorVersion);
+    Call<Indicator> Create(@Body Indicator indicator);
     @GET("Indicators/get::idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")
     Call<Indicator> Get(@Path("idIndicator") int idIndicator, @Path("indicatorType") String indicatorType, @Path("indicatorVersion") int indicatorVersion);
     @GET("Indicators")

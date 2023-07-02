@@ -149,9 +149,9 @@ namespace OTEAServer.Services
             }
         }
 
-        public void Update(Indicator indicator)
+        public void Update(int idIndicator, string indicatorType, int indicatorVersion, Indicator indicator)
         {
-            if (indicator != null && Get(indicator.indicatorId,indicator.indicatorType,indicator.indicatorVersion-1) != null) //Hay que buscar la versión anterior del indicador
+            if (indicator != null && Get(idIndicator,indicatorType,indicatorVersion) != null && idIndicator==indicator.indicatorId && indicatorType==indicator.indicatorType && indicatorVersion==indicator.indicatorVersion-1) //Hay que buscar la versión anterior del indicador
             {
 
                 //Añadir la nueva versión del indicador

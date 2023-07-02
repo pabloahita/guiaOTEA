@@ -32,7 +32,7 @@ public interface OrganizationsApi {
 
     // POST action
     @POST("Organizations")
-    Call<Organization> Create(int id, String orgType, String illness, String name, int idAddress, String email, long telephone, String information, String emailOrgPrincipal, String emailOrgConsultant);
+    Call<Organization> Create(@Body Organization organization);
     // PUT action
     @PUT("Organizations/upd::id={id}:orgType={orgType}:illness={illness}")
     Call<Organization> Update(@Path("id") int id, @Path("orgType") String orgType, @Path("illness") String illness, @Body Organization organization);

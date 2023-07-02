@@ -23,7 +23,7 @@ public interface CentersApi {
     Call<Center> Get(@Path("idOrganization") int idOrganization, @Path("orgType") String orgType, @Path("illness") String illness, @Path("idCenter") int idCenter);
 
     @POST("Centers")
-    Call<Center> Create(int idOrganization,String orgType,String illness,int idCenter,String centerDescription,int idAddress,long telephone);
+    Call<Center> Create(@Body Center center);
 
     @PUT("Centers/put::idOrganization={idOrganization}:orgType={orgType}:illness={illness}:idCenter={idCenter}")
     Call<Center> Update(@Path("idOrganization") int idOrganization, @Path("orgType") String orgType, @Path("illness") String illness, @Path("idCenter") int idCenter, @Body Center center);

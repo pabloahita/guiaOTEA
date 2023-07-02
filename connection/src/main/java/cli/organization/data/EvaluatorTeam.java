@@ -2,118 +2,80 @@ package cli.organization.data;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.LinkedList;
-import java.util.List;
-
-import cli.organization.EvaluatorOrganization;
-import cli.user.EvaluatedOrganizationUser;
-import cli.user.EvaluatorOrganizationUser;
-import otea.connection.caller.OrganizationsCaller;
-import otea.connection.caller.UsersCaller;
 
 
-public class EvaluatorTeam {
+public class EvaluatorTeam implements Serializable {
 
     @SerializedName("idEvaluatorTeam")
-    public int id;
+    public int idEvaluatorTeam;
     @SerializedName("creationDate")
-    public Timestamp creation_date;
+    public Timestamp creationDate;
 
     @SerializedName("idOrganization")
     public int idOrganization;
+
     @SerializedName("orgType")
     public String orgType;
+    
     @SerializedName("illness")
     public String illness;
     @SerializedName("patientName")
-    public String patient_name="";
+    public String patientName="";
     @SerializedName("relativeName")
-    public String relative_name="";
+    public String relativeName="";
     @SerializedName("emailConsultant")
     public String emailConsultant;
     @SerializedName("emailResponsible")
     public String emailResponsible;
     @SerializedName("emailProfessional")
     public String emailProfessional;
-    public EvaluatorOrganizationUser external_consultant;
-    public EvaluatedOrganizationUser professional;
-    public EvaluatedOrganizationUser direct_attendance_responsible;
-    public List<EvaluatorTeamMember> members;
-    public EvaluatorOrganization organization;
 
 
-    public EvaluatorTeam(int id, Timestamp creation_date, int idOrganization, String orgType, String illness, String emailConsultant, String emailProfessional, String emailResponsible, String patient_name, String relative_name){
-        setId(id);
-        setCreationDate(creation_date);
+    public EvaluatorTeam(int idEvaluatorTeam, Timestamp creationDate, int idOrganization, String orgType, String illness, String emailConsultant, String emailProfessional, String emailResponsible, String patientName, String relativeName){
+        setIdEvaluatorTeam(idEvaluatorTeam);
+        setCreationDate(creationDate);
         setIdOrganization(idOrganization);
+        setOrgType(orgType);
+        setIllness(illness);
         setEmailConsultant(emailConsultant);
         setEmailProfessional(emailProfessional);
         setEmailResponsible(emailResponsible);
-        setPatient_name(patient_name);
-        setRelative_name(relative_name);
-        setOrganization((EvaluatorOrganization) OrganizationsCaller.getInstance().obtainOrganization(idOrganization,orgType,illness));
-        setExternalConsultant((EvaluatorOrganizationUser) UsersCaller.getInstance().obtainOrgUser(emailConsultant,organization));
-        setProfessional((EvaluatedOrganizationUser) UsersCaller.getInstance().obtainUser(emailProfessional));
-        setDirect_attendance_responsible((EvaluatedOrganizationUser) UsersCaller.getInstance().obtainUser(emailResponsible));
-        setMembers(new LinkedList<>());
+        setPatient_name(patientName);
+        setRelative_name(relativeName);
     }
 
-    public Timestamp getCreationTimestamp() {
-        return creation_date;
+    public Timestamp getCreationDate() {
+        return creationDate;
     }
 
-    public void setCreationDate(Timestamp creation_date) {
-        this.creation_date = creation_date;
+    public void setCreationDate(Timestamp creationDate) {
+        this.creationDate = creationDate;
     }
 
-    public EvaluatorOrganizationUser getExternalConsultant() {
-        return external_consultant;
+    public int getIdEvaluatorTeam() {
+        return idEvaluatorTeam;
     }
 
-    public void setExternalConsultant(EvaluatorOrganizationUser external_consultant) {
-        this.external_consultant = external_consultant;
-    }
-
-    public List<EvaluatorTeamMember> getMembers() {
-        return members;
-    }
-
-    public void setMembers(List<EvaluatorTeamMember> members) {
-        this.members = members;
-    }
-
-
-    public EvaluatorOrganization getOrganization() {
-        return organization;
-    }
-
-    public void setOrganization(EvaluatorOrganization organization) {
-        this.organization = organization;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setIdEvaluatorTeam(int idEvaluatorTeam) {
+        this.idEvaluatorTeam = idEvaluatorTeam;
     }
 
     public String getPatient_name() {
-        return patient_name;
+        return patientName;
     }
 
-    public void setPatient_name(String patient_name) {
-        this.patient_name = patient_name;
+    public void setPatient_name(String patientName) {
+        this.patientName = patientName;
     }
 
     public String getRelative_name() {
-        return relative_name;
+        return relativeName;
     }
 
-    public void setRelative_name(String relative_name) {
-        this.relative_name = relative_name;
+    public void setRelative_name(String relativeName) {
+        this.relativeName = relativeName;
     }
 
     public String getEmailConsultant() {
@@ -164,27 +126,5 @@ public class EvaluatorTeam {
         this.illness = illness;
     }
 
-    public EvaluatorOrganizationUser getExternal_consultant() {
-        return external_consultant;
-    }
 
-    public void setExternal_consultant(EvaluatorOrganizationUser external_consultant) {
-        this.external_consultant = external_consultant;
-    }
-
-    public EvaluatedOrganizationUser getProfessional() {
-        return professional;
-    }
-
-    public void setProfessional(EvaluatedOrganizationUser professional) {
-        this.professional = professional;
-    }
-
-    public EvaluatedOrganizationUser getDirect_attendance_responsible() {
-        return direct_attendance_responsible;
-    }
-
-    public void setDirect_attendance_responsible(EvaluatedOrganizationUser direct_attendance_responsible) {
-        this.direct_attendance_responsible = direct_attendance_responsible;
-    }
 }

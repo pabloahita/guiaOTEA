@@ -26,8 +26,7 @@ public interface EvidencesApi {
 
     // POST action
     @POST("Evidences")
-    Call<Evidence> Create(int idEvidence, int idIndicator, String indicatorType, String descriptionEnglish,String descriptionSpanish,String descriptionFrench, int evidenceValue);
-
+    Call<Evidence> Create(@Body Evidence evidence);
     // PUT action
     @PUT("Evidences/put::idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")
     Call<Evidence> Update(@Path("idEvidence") int idEvidence, @Path("idIndicator") int idIndicator, @Path("indicatorType") String indicatorType, @Path("indicatorVersion") int indicatorVersion, @Body Evidence evidence);
