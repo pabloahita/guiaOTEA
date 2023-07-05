@@ -150,13 +150,12 @@ public class EvaluatorTeamMembersCaller {
     }
 
     public static EvaluatorTeamMember Create(EvaluatorTeamMember evaluatorTeamMember){
-        Call<EvaluatorTeamMember> call=api.Create(evaluatorTeamMember);
         AsyncTask<Void, Void, EvaluatorTeamMember> asyncTask = new AsyncTask<Void, Void, EvaluatorTeamMember>() {
             EvaluatorTeamMember resultEvaluatorTeamMember = null;
             @Override
             protected EvaluatorTeamMember doInBackground(Void... voids) {
                 try {
-                    Response<EvaluatorTeamMember> response = call.execute();
+                    Response<EvaluatorTeamMember> response = api.Create(evaluatorTeamMember).execute();
                     if (response.isSuccessful()) {
                         return response.body();
                     } else {

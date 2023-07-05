@@ -10,6 +10,8 @@ import android.widget.ImageView;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
+import java.util.List;
+
 import cli.organization.Organization;
 import cli.organization.data.Address;
 import cli.user.User;
@@ -24,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
         startCallers();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Button sign_in = findViewById(R.id.sign_in);
         Button sign_up = findViewById(R.id.sign_up);
            sign_in.setOnClickListener(v -> {

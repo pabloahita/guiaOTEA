@@ -13,8 +13,6 @@ public interface IOrganization {
     String getEmail();
     String getInformation();
 
-    void setEmailOrgConsultant(String emailOrgPrincipal);
-
     void setEmailOrgPrincipal(String emailOrgPrincipal);
 
     int getIdOrganization();
@@ -46,7 +44,6 @@ public interface IOrganization {
     String getEmailOrgPrincipal();
 
 
-    String getEmailOrgConsultant();
 
 
     void setAddress(Address address);

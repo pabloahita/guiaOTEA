@@ -3,7 +3,7 @@ package cli.organization.data;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+;
 
 
 public class EvaluatorTeam implements Serializable {
@@ -11,7 +11,7 @@ public class EvaluatorTeam implements Serializable {
     @SerializedName("idEvaluatorTeam")
     public int idEvaluatorTeam;
     @SerializedName("creationDate")
-    public Timestamp creationDate;
+    public long creationDate;
 
     @SerializedName("idOrganization")
     public int idOrganization;
@@ -32,8 +32,24 @@ public class EvaluatorTeam implements Serializable {
     @SerializedName("emailProfessional")
     public String emailProfessional;
 
+    @SerializedName("evaluationDate1")
+    public long evaluationDate1;
 
-    public EvaluatorTeam(int idEvaluatorTeam, Timestamp creationDate, int idOrganization, String orgType, String illness, String emailConsultant, String emailProfessional, String emailResponsible, String patientName, String relativeName){
+    @SerializedName("evaluationDate2")
+    public long evaluationDate2;
+
+    @SerializedName("evaluationDate3")
+    public long evaluationDate3;
+
+    @SerializedName("evaluationDate4")
+    public long evaluationDate4;
+
+    @SerializedName("observations")
+    public String observations;
+
+
+
+    public EvaluatorTeam(int idEvaluatorTeam, long creationDate, int idOrganization, String orgType, String illness, String emailConsultant, String emailProfessional, String emailResponsible, String patientName, String relativeName, long evaluationDate1, long evaluationDate2, long evaluationDate3, long evaluationDate4, String observations){
         setIdEvaluatorTeam(idEvaluatorTeam);
         setCreationDate(creationDate);
         setIdOrganization(idOrganization);
@@ -44,13 +60,18 @@ public class EvaluatorTeam implements Serializable {
         setEmailResponsible(emailResponsible);
         setPatient_name(patientName);
         setRelative_name(relativeName);
+        setEvaluationDate1(evaluationDate1);
+        setEvaluationDate2(evaluationDate2);
+        setEvaluationDate3(evaluationDate3);
+        setEvaluationDate4(evaluationDate4);
+        setObservations(observations);
     }
 
-    public Timestamp getCreationDate() {
+    public long getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Timestamp creationDate) {
+    public void setCreationDate(long creationDate) {
         this.creationDate = creationDate;
     }
 
@@ -127,4 +148,43 @@ public class EvaluatorTeam implements Serializable {
     }
 
 
+    public long getEvaluationDate1() {
+        return evaluationDate1;
+    }
+
+    public void setEvaluationDate1(long evaluationDate1) {
+        this.evaluationDate1 = evaluationDate1;
+    }
+
+    public long getEvaluationDate2() {
+        return evaluationDate2;
+    }
+
+    public void setEvaluationDate2(long evaluationDate2) {
+        this.evaluationDate2 = evaluationDate2;
+    }
+
+    public long getEvaluationDate3() {
+        return evaluationDate3;
+    }
+
+    public void setEvaluationDate3(long evaluationDate3) {
+        this.evaluationDate3 = evaluationDate3;
+    }
+
+    public long getEvaluationDate4() {
+        return evaluationDate4;
+    }
+
+    public void setEvaluationDate4(long evaluationDate4) {
+        this.evaluationDate4 = evaluationDate4;
+    }
+
+    public String getObservations() {
+        return observations;
+    }
+
+    public void setObservations(String observations) {
+        this.observations = observations;
+    }
 }

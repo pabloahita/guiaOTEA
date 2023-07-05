@@ -4,7 +4,7 @@ namespace OTEAServer.Models
 {
     public class IndicatorsEvaluationReg
     {
-        public IndicatorsEvaluationReg(DateTime evaluationDate, int idEvaluatedOrganization, string orgTypeEvaluated, string illness, int indicatorId, int idEvidence, int isMarked, int indicatorVersion)
+        public IndicatorsEvaluationReg(long evaluationDate, int idEvaluatedOrganization, string orgTypeEvaluated, string illness, int indicatorId, int idEvidence, int isMarked, int indicatorVersion)
         {
             this.evaluationDate = evaluationDate;
             this.idEvaluatedOrganization = idEvaluatedOrganization;
@@ -17,7 +17,7 @@ namespace OTEAServer.Models
         }
 
         [JsonProperty("evaluationDate")]
-        public DateTime evaluationDate { get; set; }
+        public long evaluationDate { get; set; }
         [JsonProperty("idEvaluatedOrganization")]
         public int idEvaluatedOrganization { get; set; }
         [JsonProperty("orgTypeEvaluated")]

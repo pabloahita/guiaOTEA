@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import cli.organization.Organization;
 import cli.organization.data.Center;
@@ -136,13 +137,12 @@ public class CentersCaller {
     }
 
     public static Center Create(Center center) {
-        Call<Center> call=api.Create(center);
         AsyncTask<Void, Void, Center> asyncTask = new AsyncTask<Void, Void, Center>() {
             Center result = null;
             @Override
             protected Center doInBackground(Void... voids) {
                 try {
-                    Response<Center> response = call.execute();
+                    Response<Center> response = api.Create(center).execute();
                     if (response.isSuccessful()) {
                         return response.body();
                     } else {
@@ -161,10 +161,11 @@ public class CentersCaller {
         asyncTask.execute();
         try {
             return asyncTask.get();
-        } catch (Exception e) {
-            Log.d("ERROR", e.toString());
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     public static Center Update(int idOrganization, String orgType, String illness,  int idCenter, Center center){

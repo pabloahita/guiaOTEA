@@ -35,7 +35,7 @@ public class OrgsAdapter extends ArrayAdapter<Organization> {
 
         Organization evaluatedOrganization = getItem(position);
         TextView textView = view.findViewById(android.R.id.text1);
-        text=evaluatedOrganization.getName();
+        text = evaluatedOrganization.getName();
         textView.setText(text);
 
         return view;

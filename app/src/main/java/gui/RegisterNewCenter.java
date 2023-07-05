@@ -6,11 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
@@ -25,11 +28,13 @@ import cli.organization.data.geo.City;
 import cli.organization.data.geo.Country;
 import cli.organization.data.geo.Province;
 import cli.organization.data.geo.Region;
+import cli.user.User;
 import gui.adapters.CityAdapter;
 import gui.adapters.CountryAdapter;
 import gui.adapters.ProvinceAdapter;
 import gui.adapters.RegionAdapter;
 import misc.FieldChecker;
+import misc.PasswordCodifier;
 import otea.connection.caller.AddressesCaller;
 import otea.connection.caller.CitiesCaller;
 import otea.connection.caller.CountriesCaller;
@@ -89,6 +94,11 @@ public class RegisterNewCenter extends AppCompatActivity {
         countrySpinner.setAdapter(countryAdapter[0]);
         countrySpinner.setEnabled(true);
 
+        ProgressBar progressBar=findViewById(R.id.progressBar);
+        TextView textView=findViewById(R.id.turning_back);
+
+        progressBar.setVisibility(View.GONE);
+        textView.setVisibility(View.GONE);
 
         int[] idCity={-1};
         int[] idProvince={-1};
@@ -401,80 +411,153 @@ public class RegisterNewCenter extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String centerDescription=descriptionCenterField.getText().toString();
-                String addressName=addressNameField.getText().toString();
-                String zipCode=zipCodeField.getText().toString();
-                String nameProvince;
-                String nameRegion;
-                String nameCity;
-                if(currIdCountry.equals("ESP")){
-                    nameProvince=province[0].getNameProvince();
-                    nameRegion=region[0].getNameRegion();
-                    nameCity=city[0].getCityName();
-                }
-                else{
-                    nameProvince=nameProvinceField.getText().toString();
-                    nameRegion=nameRegionField.getText().toString();
-                    nameCity=nameCityField.getText().toString();
-                }
-                String telephone=phoneField.getText().toString();
-                if(!centerDescription.equals("") && !addressName.equals("") && !zipCode.equals("") && !nameProvince.equals("") && !nameRegion.equals("") && !nameCity.equals("") && (FieldChecker.isASpanishNumber(telephone) || FieldChecker.isAForeignNumber(telephone))){
+                descriptionCenterField.setEnabled(false);
+                addressNameField.setEnabled(false);
+                zipCodeField.setEnabled(false);
+                phoneField.setEnabled(false);
+                countrySpinner.setEnabled(false);
+                regionSpinner.setEnabled(false);
+                provinceSpinner.setEnabled(false);
+                citySpinner.setEnabled(false);
 
-                    numCenters[0]++;
-                    int idAddress= AddressesCaller.GetAll().size()+numCenters[0];
-                    int zip_code=Integer.parseInt(zipCode);
-                    long phone=Long.parseLong(telephone);
-                    int idOrganization=getIntent().getIntExtra("idOrganization",-1);
-                    String orgType=getIntent().getStringExtra("orgType");
-                    String illness=getIntent().getStringExtra("illness");
+                nameRegionField.setEnabled(false);
+                nameProvinceField.setEnabled(false);
+                nameCityField.setEnabled(false);
 
-                    Address address=new Address(idAddress,addressName,zip_code,currIdCity,currIdProvince,currIdRegion,currIdCountry,nameCity,nameProvince,nameRegion);
-                    //AddressesCaller.Create(idAddress,addressName,zip_code,currIdCity,currIdProvince,currIdRegion,nameCity,nameProvince,nameRegion,currIdCountry);
-                    centers.add(new Center(idOrganization,orgType,illness, numCenters[0],centerDescription,idAddress,phone));
+                progressBar.setVisibility(View.VISIBLE);
+                textView.setVisibility(View.VISIBLE);
 
-                    Intent intent=new Intent(getApplicationContext(),gui.RegisterOrganization.class);
-                    intent.putExtra("user",getIntent().getSerializableExtra("user"));
-                    intent.putExtra("professional",getIntent().getSerializableExtra("professional"));
-                    intent.putExtra("passwordProfessional",getIntent().getSerializableExtra("passwordProfessional"));
-                    intent.putExtra("director",getIntent().getSerializableExtra("director"));
-                    intent.putExtra("passwordDirector",getIntent().getSerializableExtra("passwordProfessional"));
-                    intent.putExtra("idOrganization",idOrganization);
-                    intent.putExtra("orgType",orgType);
-                    intent.putExtra("illness",illness);
-                    intent.putExtra("address",getIntent().getSerializableExtra("address"));
-                    intent.putExtra("organization",getIntent().getSerializableExtra("organization"));
-                    intent.putExtra("country",getIntent().getSerializableExtra("country"));
-                    intent.putExtra("province",getIntent().getSerializableExtra("province"));
-                    intent.putExtra("region",getIntent().getSerializableExtra("region"));
-                    intent.putExtra("city",getIntent().getSerializableExtra("city"));
-                    intent.putExtra("zipCode",getIntent().getStringExtra("zipCode"));
-                    intent.putExtra("telephone",getIntent().getStringExtra("telephone"));
-                    intent.putExtra("information",getIntent().getStringExtra("information"));
-                    intent.putExtra("email",getIntent().getStringExtra("email"));
-                    intent.putExtra("centers", (Serializable) centers);
-                    startActivity(intent);
-                }
-                else{
-                    if(centerDescription.equals("")){
-                        descriptionCenterField.setError(getString(R.string.please_description_center));
+
+                v.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        String centerDescription=descriptionCenterField.getText().toString();
+                        String addressName=addressNameField.getText().toString();
+                        String zipCode=zipCodeField.getText().toString();
+                        String nameProvince;
+                        String nameRegion;
+                        String nameCity;
+                        if(currIdCountry.equals("ESP")){
+                            nameProvince=province[0].getNameProvince();
+                            nameRegion=region[0].getNameRegion();
+                            nameCity=city[0].getCityName();
+                        }
+                        else{
+                            nameProvince=nameProvinceField.getText().toString();
+                            nameRegion=nameRegionField.getText().toString();
+                            nameCity=nameCityField.getText().toString();
+                        }
+                        String telephone=phoneField.getText().toString();
+                        if(!centerDescription.equals("") && !addressName.equals("") && !zipCode.equals("") && !nameProvince.equals("") && !nameRegion.equals("") && !nameCity.equals("") && (FieldChecker.isASpanishNumber(telephone) || FieldChecker.isAForeignNumber(telephone))){
+
+                            numCenters[0]++;
+                            int idAddress= AddressesCaller.GetAll().size()+numCenters[0];
+                            int zip_code=Integer.parseInt(zipCode);
+                            long phone=Long.parseLong(telephone);
+                            int idOrganization=getIntent().getIntExtra("idOrganization",-1);
+                            String orgType=getIntent().getStringExtra("orgType");
+                            String illness=getIntent().getStringExtra("illness");
+
+                            Address address=new Address(idAddress,addressName,zip_code,currIdCity,currIdProvince,currIdRegion,currIdCountry,nameCity,nameProvince,nameRegion);
+                            AddressesCaller.Create(address);
+                            centers.add(new Center(idOrganization,orgType,illness, numCenters[0],centerDescription,idAddress,phone));
+
+                            Intent intent=new Intent(getApplicationContext(),gui.RegisterOrganization.class);
+                            intent.putExtra("user",getIntent().getSerializableExtra("user"));
+                            intent.putExtra("professional",getIntent().getSerializableExtra("professional"));
+                            intent.putExtra("passwordProfessional",getIntent().getSerializableExtra("passwordProfessional"));
+                            intent.putExtra("director",getIntent().getSerializableExtra("director"));
+                            intent.putExtra("passwordDirector",getIntent().getSerializableExtra("passwordProfessional"));
+                            intent.putExtra("idOrganization",idOrganization);
+                            intent.putExtra("orgType",orgType);
+                            intent.putExtra("illness",illness);
+                            intent.putExtra("address",getIntent().getSerializableExtra("address"));
+                            intent.putExtra("organization",getIntent().getSerializableExtra("organization"));
+                            intent.putExtra("country",getIntent().getSerializableExtra("country"));
+                            intent.putExtra("province",getIntent().getSerializableExtra("province"));
+                            intent.putExtra("region",getIntent().getSerializableExtra("region"));
+                            intent.putExtra("city",getIntent().getSerializableExtra("city"));
+                            intent.putExtra("zipCode",getIntent().getStringExtra("zipCode"));
+                            intent.putExtra("telephone",getIntent().getStringExtra("telephone"));
+                            intent.putExtra("information",getIntent().getStringExtra("information"));
+                            intent.putExtra("email",getIntent().getStringExtra("email"));
+                            intent.putExtra("centers", (Serializable) centers);
+                            startActivity(intent);
+                        }
+                        else{
+                            descriptionCenterField.setEnabled(true);
+                            addressNameField.setEnabled(true);
+                            zipCodeField.setEnabled(true);
+                            phoneField.setEnabled(true);
+                            countrySpinner.setEnabled(true);
+                            if(country[0].getIdCountry().equals("ESP")) {
+                                regionSpinner.setEnabled(true);
+                                provinceSpinner.setEnabled(true);
+                                citySpinner.setEnabled(true);
+                            }
+
+                            else {
+                                nameRegionField.setEnabled(true);
+                                nameProvinceField.setEnabled(true);
+                                nameCityField.setEnabled(true);
+
+                            }
+                            progressBar.setVisibility(View.GONE);
+                            textView.setVisibility(View.GONE);
+
+                            if(centerDescription.equals("")){
+                                descriptionCenterField.setError(getString(R.string.please_description_center));
+                            }
+                            if(addressName.equals("")){
+                                addressNameField.setError(getString(R.string.please_address));
+                            }
+                            if(zipCode.equals("")){
+                                zipCodeField.setError(getString(R.string.please_zipcode));
+                            }
+                            if(!(FieldChecker.isASpanishNumber(telephone) || FieldChecker.isAForeignNumber(telephone))){
+                                phoneField.setError(getString(R.string.wrong_phone));
+                            }
+                        }
+
                     }
-                    if(addressName.equals("")){
-                        addressNameField.setError(getString(R.string.please_address));
-                    }
-                    if(zipCode.equals("")){
-                        zipCodeField.setError(getString(R.string.please_zipcode));
-                    }
-                    if(!(FieldChecker.isASpanishNumber(telephone) || FieldChecker.isAForeignNumber(telephone))){
-                        phoneField.setError(getString(R.string.wrong_phone));
-                    }
-                }
-
-
+                }, 100);
             }
+
         });
 
 
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+        if(keyCode==event.KEYCODE_BACK){
+            Intent intent=new Intent(getApplicationContext(),gui.RegisterOrganization.class);
+            intent.putExtra("user",getIntent().getSerializableExtra("user"));
+            int idOrganization=getIntent().getIntExtra("idOrganization",-1);
+            String orgType=getIntent().getStringExtra("orgType");
+            String illness=getIntent().getStringExtra("illness");
+            intent.putExtra("professional",getIntent().getSerializableExtra("professional"));
+            intent.putExtra("passwordProfessional",getIntent().getSerializableExtra("passwordProfessional"));
+            intent.putExtra("director",getIntent().getSerializableExtra("director"));
+            intent.putExtra("passwordDirector",getIntent().getSerializableExtra("passwordProfessional"));
+            intent.putExtra("idOrganization",idOrganization);
+            intent.putExtra("orgType",orgType);
+            intent.putExtra("illness",illness);
+            intent.putExtra("address",getIntent().getSerializableExtra("address"));
+            intent.putExtra("organization",getIntent().getSerializableExtra("organization"));
+            intent.putExtra("country",getIntent().getSerializableExtra("country"));
+            intent.putExtra("province",getIntent().getSerializableExtra("province"));
+            intent.putExtra("region",getIntent().getSerializableExtra("region"));
+            intent.putExtra("city",getIntent().getSerializableExtra("city"));
+            intent.putExtra("zipCode",getIntent().getStringExtra("zipCode"));
+            intent.putExtra("telephone",getIntent().getStringExtra("telephone"));
+            intent.putExtra("information",getIntent().getStringExtra("information"));
+            intent.putExtra("email",getIntent().getStringExtra("email"));
+            intent.putExtra("centers", (Serializable) centers);
+            startActivity(intent);
+        }
+        return super.onKeyDown(keyCode,event);
     }
 
     public List<Country> getCountries(){

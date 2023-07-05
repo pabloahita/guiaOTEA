@@ -75,7 +75,7 @@ public class AddressesCaller {
             throw new RuntimeException(e);
         }
     }
-    public static Address obtainAddress(int idAddress) {
+    public static Address Get(int idAddress) {
         Call<Address> call = api.Get(idAddress);
         AsyncTask<Void, Void, Address> asyncTask = new AsyncTask<Void, Void, Address>() {
             Address resultAddress = null;

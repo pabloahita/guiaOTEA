@@ -4,8 +4,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.IOException;
-import java.sql.Timestamp;
+;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import cli.organization.data.EvaluatorTeam;
 import otea.connection.ConnectionClient;
@@ -144,13 +145,12 @@ public class EvaluatorTeamsCaller {
     }
 
     public static EvaluatorTeam Create(EvaluatorTeam evaluatorTeam){
-        Call<EvaluatorTeam> call=api.Create(evaluatorTeam);
         AsyncTask<Void, Void, EvaluatorTeam> asyncTask = new AsyncTask<Void, Void, EvaluatorTeam>() {
             EvaluatorTeam resultEvaluatorTeam = null;
             @Override
             protected EvaluatorTeam doInBackground(Void... voids) {
                 try {
-                    Response<EvaluatorTeam> response = call.execute();
+                    Response<EvaluatorTeam> response = api.Create(evaluatorTeam).execute();
                     if (response.isSuccessful()) {
                         return response.body();
                     } else {
@@ -169,10 +169,11 @@ public class EvaluatorTeamsCaller {
         asyncTask.execute();
         try {
             return asyncTask.get();
-        } catch (Exception e) {
-            Log.d("ERROR", e.toString());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
 

@@ -30,7 +30,7 @@ namespace OTEAServer.Services
                     {
                         while (reader.Read())
                         {
-                            indicatorsEvaluationRegList.Add(new IndicatorsEvaluationReg(reader.GetDateTime(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetInt32(5), reader.GetInt32(6), reader.GetInt32(7)));
+                            indicatorsEvaluationRegList.Add(new IndicatorsEvaluationReg(reader.GetInt64(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetInt32(5), reader.GetInt32(6), reader.GetInt32(7)));
                         }
                     }
                 }
@@ -39,7 +39,7 @@ namespace OTEAServer.Services
 
         }
 
-        public List<IndicatorsEvaluationReg> GetAllByIndicatorsEvaluation(DateTime evaluationDate, int idEvaluatedOrganization, string orgType, string illness)
+        public List<IndicatorsEvaluationReg> GetAllByIndicatorsEvaluation(long evaluationDate, int idEvaluatedOrganization, string orgType, string illness)
         {
             List<IndicatorsEvaluationReg> indicatorsEvaluationRegList = new List<IndicatorsEvaluationReg>();
 
@@ -60,7 +60,7 @@ namespace OTEAServer.Services
                     {
                         while (reader.Read())
                         {
-                            indicatorsEvaluationRegList.Add(new IndicatorsEvaluationReg(reader.GetDateTime(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetInt32(5), reader.GetInt32(6), reader.GetInt32(7)));
+                            indicatorsEvaluationRegList.Add(new IndicatorsEvaluationReg(reader.GetInt64(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetInt32(5), reader.GetInt32(6), reader.GetInt32(7)));
                         }
                     }
                 }
@@ -69,10 +69,10 @@ namespace OTEAServer.Services
 
         }
 
-        public IndicatorsEvaluationReg Get(DateTime evaluationDate, int idEvaluatedOrganization, string orgType, string illness, int indicatorId, int idEvidence, int indicatorVersion)
+        public IndicatorsEvaluationReg Get(long evaluationDate, int idEvaluatedOrganization, string orgType, string illness, int indicatorId, int idEvidence, int indicatorVersion)
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            string query = "SELECT * FROM INDICATORSEVALUATIONREGS WHERE evaluationDate=@EVALUATIONDATE AND idEvaluatedOrganization=@IDEVALUATEDORGANIZATION AND orgTypeEvaluated=@ORGTYPE AND illness=@ILLNESS AND indicatorId=@INDICATORID AND idEvidence=@IDEVIDENCE AND indicatorVersion=@INDICATORVERSION";
+            string query = "SELECT * FROM INDICATORSEVALUATIONSREGS WHERE evaluationDate=@EVALUATIONDATE AND idEvaluatedOrganization=@IDEVALUATEDORGANIZATION AND orgTypeEvaluated=@ORGTYPE AND illness=@ILLNESS AND indicatorId=@INDICATORID AND idEvidence=@IDEVIDENCE AND indicatorVersion=@INDICATORVERSION";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -91,7 +91,7 @@ namespace OTEAServer.Services
                     {
                         if (reader.Read())
                         {
-                            return new IndicatorsEvaluationReg(reader.GetDateTime(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetInt32(5), reader.GetInt32(6), reader.GetInt32(7));
+                            return new IndicatorsEvaluationReg(reader.GetInt64(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetInt32(5), reader.GetInt32(6), reader.GetInt32(7));
                         }
                     }
                 }
@@ -99,7 +99,7 @@ namespace OTEAServer.Services
             return null;
         }
 
-        public void Add(DateTime evaluationDate, int idEvaluatedOrganization, string orgType, string illness, int indicatorId, int idEvidence, int isMarked, int indicatorVersion)
+        public void Add(long evaluationDate, int idEvaluatedOrganization, string orgType, string illness, int indicatorId, int idEvidence, int isMarked, int indicatorVersion)
         {
 
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -110,7 +110,7 @@ namespace OTEAServer.Services
                 connection.Open();
 
                 // Crea el command SQL
-                string sql = "INSERT INTO INDICATORSEVALUATIONREGS (EVALUATIONDATE,IDEVALUATEDORGANIZATION,ORGTYPEEVALUATED,ILLNESS,INDICATORID,IDEVIDENCE,ISMARKED,INDICATORVERSION) VALUES (@EVALUATIONDATE,@IDEVALUATEDORGANIZATION,@ORGTYPEEVALUATED,@ILLNESS,@INDICATORID,@IDEVIDENCE,@ISMARKED,@INDICATORVERSION)";
+                string sql = "INSERT INTO INDICATORSEVALUATIONSREGS (EVALUATIONDATE,IDEVALUATEDORGANIZATION,ORGTYPEEVALUATED,ILLNESS,INDICATORID,IDEVIDENCE,ISMARKED,INDICATORVERSION) VALUES (@EVALUATIONDATE,@IDEVALUATEDORGANIZATION,@ORGTYPEEVALUATED,@ILLNESS,@INDICATORID,@IDEVIDENCE,@ISMARKED,@INDICATORVERSION)";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     // Añade parámetros para evitar la inyección de SQL
@@ -131,7 +131,7 @@ namespace OTEAServer.Services
             }
         }
 
-        public void Delete(DateTime evaluationDate, int idEvaluatedOrganization, string orgType, string illness, int indicatorId, int idEvidence, int indicatorVersion)
+        public void Delete(long evaluationDate, int idEvaluatedOrganization, string orgType, string illness, int indicatorId, int idEvidence, int indicatorVersion)
         {
             if (Get(evaluationDate, idEvaluatedOrganization, orgType, illness, indicatorId, idEvidence, indicatorVersion) != null)
             {
@@ -143,7 +143,7 @@ namespace OTEAServer.Services
                     connection.Open();
 
                     // Crea el command SQL
-                    string sql = "DELETE FROM INDICATORSEVALUATIONREGS WHERE evaluationDate=@EVALUATIONDATE AND idEvaluatedOrganization=@IDEVALUATEDORGANIZATION AND orgTypeEvaluated=@ORGTYPEEVALUATED AND illness=@ILLNESS AND INDICATORID=@INDICATORID AND IDEVIDENCE=@IDEVIDENCE AND INDICATORVERSION=@INDICATORVERSION";
+                    string sql = "DELETE FROM INDICATORSEVALUATIONSREGS WHERE evaluationDate=@EVALUATIONDATE AND idEvaluatedOrganization=@IDEVALUATEDORGANIZATION AND orgTypeEvaluated=@ORGTYPEEVALUATED AND illness=@ILLNESS AND INDICATORID=@INDICATORID AND IDEVIDENCE=@IDEVIDENCE AND INDICATORVERSION=@INDICATORVERSION";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         // Añade parámetros para evitar la inyección de SQL
@@ -201,5 +201,10 @@ namespace OTEAServer.Services
 
 
         }
+
+
+        
+
+
     }
 }

@@ -46,15 +46,15 @@ namespace OTEAServer.Controllers
         [HttpPost]
         public ActionResult<Center> Create([FromBody] Center center)
         {
-            _centersService.Add(center.IdOrganization, center.orgType, center.illness, center.idCenter, center.centerDescription, center.idAddress, center.telephone);
+            _centersService.Add(center.idOrganization, center.orgType, center.illness, center.idCenter, center.centerDescription, center.idAddress, center.telephone);
             //Center center = new Center(idOrganization, orgType, illness, idCenter, centerDescription, idAddress, telephone);
-            return CreatedAtAction(nameof(Get), new { idOrganization = center.IdOrganization, orgType = center.orgType, illness = center.illness, idCenter=center.idCenter }, center);
+            return CreatedAtAction(nameof(Get), new { idOrganization = center.idOrganization, orgType = center.orgType, illness = center.illness, idCenter = center.idCenter }, center);
         }
 
         [HttpPut("put::idOrganization={idOrganization}:orgType={orgType}:illness={illness}:idCenter={idCenter}")]
         public ActionResult<Center> Update(int idOrganization, string orgType, string illness, int idCenter, Center center)
         {
-            if (idOrganization != center.IdOrganization || orgType != center.orgType || illness != center.illness || idCenter != center.idCenter)
+            if (idOrganization != center.idOrganization || orgType != center.orgType || illness != center.illness || idCenter != center.idCenter)
                 return BadRequest();
 
             var existingOrganization = _centersService.Get(idOrganization, orgType, illness,idCenter);

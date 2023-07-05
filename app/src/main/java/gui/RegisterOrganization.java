@@ -109,16 +109,14 @@ public class RegisterOrganization extends AppCompatActivity {
         countrySpinner.setEnabled(true);
 
         ImageButton addDirector = findViewById(R.id.add_director);
-        ImageButton addProfessional = findViewById(R.id.add_professional_direct);
         ImageButton addCenter = findViewById(R.id.add_center);
 
 
         TextView addCenterText = findViewById(R.id.add_center_text);
         TextView addDirectorText = findViewById(R.id.add_director_text);
-        TextView addProfessionalText = findViewById(R.id.add_professional_direct_text);
+
 
         User[] director = {(User) getIntent().getSerializableExtra("director")};
-        User[] professional = {(User) getIntent().getSerializableExtra("professional")};
 
 
         String[] nameCity = {getIntent().getStringExtra("nameCity")};
@@ -175,11 +173,6 @@ public class RegisterOrganization extends AppCompatActivity {
             addDirectorText.setText(getString(R.string.add_director));
         } else {
             addDirectorText.setText(getString(R.string.edit_director));
-        }
-        if (professional[0] == null) {
-            addProfessionalText.setText(getString(R.string.add_professional));
-        } else {
-            addProfessionalText.setText(getString(R.string.edit_professional));
         }
 
 
@@ -498,99 +491,117 @@ public class RegisterOrganization extends AppCompatActivity {
         addDirector.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), gui.RegisterOrgUser.class);
-                intent.putExtra("user", getIntent().getSerializableExtra("user"));
-                intent.putExtra("type", "director");
-                intent.putExtra("director", director[0]);
-                intent.putExtra("professional", professional[0]);
-                intent.putExtra("idOrganization", idOrganization);
-                intent.putExtra("orgType", orgType);
-                intent.putExtra("illness", illness);
-                intent.putExtra("address", new Address(idAddress, addressNameField.getText().toString(), zipCode[0], idCity[0], idProvince[0], idRegion[0], idCountry[0], nameCity[0], nameProvince[0], nameRegion[0]));
-                intent.putExtra("organization", new Organization(idOrganization, orgType, illness, nameOrgField.getText().toString(), idAddress, telephone[0], emailField.getText().toString(), moreInfoField.getText().toString(), "", ""));
-                intent.putExtra("country", country[0]);
-                intent.putExtra("province", province[0]);
-                intent.putExtra("region", region[0]);
-                intent.putExtra("city", city[0]);
-                intent.putExtra("email", email[0]);
-                intent.putExtra("zipCode", zip_code[0]);
-                intent.putExtra("telephone", phone[0]);
-                intent.putExtra("information", information[0]);
-                intent.putExtra("email", email[0]);
-                intent.putExtra("nameRegion", nameRegion[0]);
-                intent.putExtra("nameProvince", nameProvince[0]);
-                intent.putExtra("nameCity", nameCity[0]);
-                intent.putExtra("centers", (Serializable) centers);
-                startActivity(intent);
-                director[0] = (User) getIntent().getSerializableExtra("director");
-                if (director[0] == null) {
-                    addDirectorText.setText(getString(R.string.add_director));
-                } else {
-                    addDirectorText.setText(getString(R.string.edit_director));
-                }
+                nameOrgField.setEnabled(false);
+                addressNameField.setEnabled(false);
+                zipCodeField.setEnabled(false);
+                phoneField.setEnabled(false);
+                moreInfoField.setEnabled(false);
+                countrySpinner.setEnabled(false);
+                regionSpinner.setEnabled(false);
+                provinceSpinner.setEnabled(false);
+                citySpinner.setEnabled(false);
+
+                nameRegionField.setEnabled(false);
+                nameProvinceField.setEnabled(false);
+                nameCityField.setEnabled(false);
+
+                progressBar.setVisibility(View.VISIBLE);
+                loadingText.setVisibility(View.VISIBLE);
+
+                loadingText.setText(getString(R.string.going_director));
+                v.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(getApplicationContext(), gui.RegisterOrgUser.class);
+                        intent.putExtra("user", getIntent().getSerializableExtra("user"));
+                        intent.putExtra("type", "director");
+                        intent.putExtra("director", director[0]);
+                        intent.putExtra("idOrganization", idOrganization);
+                        intent.putExtra("orgType", orgType);
+                        intent.putExtra("illness", illness);
+                        intent.putExtra("address", new Address(idAddress, addressNameField.getText().toString(), zipCode[0], idCity[0], idProvince[0], idRegion[0], idCountry[0], nameCity[0], nameProvince[0], nameRegion[0]));
+                        intent.putExtra("organization", new Organization(idOrganization, orgType, illness, nameOrgField.getText().toString(), idAddress, telephone[0], emailField.getText().toString(), moreInfoField.getText().toString(), ""));
+                        intent.putExtra("country", country[0]);
+                        intent.putExtra("province", province[0]);
+                        intent.putExtra("region", region[0]);
+                        intent.putExtra("city", city[0]);
+                        intent.putExtra("email", email[0]);
+                        intent.putExtra("zipCode", zip_code[0]);
+                        intent.putExtra("telephone", phone[0]);
+                        intent.putExtra("information", information[0]);
+                        intent.putExtra("email", email[0]);
+                        intent.putExtra("nameRegion", nameRegion[0]);
+                        intent.putExtra("nameProvince", nameProvince[0]);
+                        intent.putExtra("nameCity", nameCity[0]);
+                        intent.putExtra("centers", (Serializable) centers);
+                        startActivity(intent);
+                        director[0] = (User) getIntent().getSerializableExtra("director");
+                        if (director[0] == null) {
+                            addDirectorText.setText(getString(R.string.add_director));
+                        } else {
+                            addDirectorText.setText(getString(R.string.edit_director));
+                        }
+                    }
+                }, 100);
             }
         });
 
-        addProfessional.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), gui.RegisterOrgUser.class);
-                intent.putExtra("user", getIntent().getSerializableExtra("user"));
-                intent.putExtra("type", "professional");
-                intent.putExtra("director", director[0]);
-                intent.putExtra("professional", professional[0]);
-                intent.putExtra("idOrganization", idOrganization);
-                intent.putExtra("orgType", orgType);
-                intent.putExtra("illness", illness);
-                intent.putExtra("address", new Address(idAddress, addressNameField.getText().toString(), zipCode[0], idCity[0], idProvince[0], idRegion[0], idCountry[0], nameCity[0], nameProvince[0], nameRegion[0]));
-                intent.putExtra("organization", new Organization(idOrganization, orgType, illness, nameOrgField.getText().toString(), idAddress, telephone[0], emailField.getText().toString(), moreInfoField.getText().toString(), "", ""));
-                intent.putExtra("zipCode", zip_code[0]);
-                intent.putExtra("telephone", phone[0]);
-                intent.putExtra("information", information[0]);
-                intent.putExtra("email", email[0]);
-                intent.putExtra("nameRegion", nameRegion[0]);
-                intent.putExtra("nameProvince", nameProvince[0]);
-                intent.putExtra("nameCity", nameCity[0]);
-                intent.putExtra("country", country[0]);
-                intent.putExtra("province", province[0]);
-                intent.putExtra("region", region[0]);
-                intent.putExtra("city", city[0]);
-                intent.putExtra("centers", (Serializable) centers);
-                startActivity(intent);
-                professional[0] = (User) getIntent().getSerializableExtra("professional");
-                if (professional[0] == null) {
-                    addProfessionalText.setText(getString(R.string.add_professional));
-                } else {
-                    addProfessionalText.setText(getString(R.string.edit_professional));
-                }
-            }
-        });
 
         addCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), gui.RegisterNewCenter.class);
-                intent.putExtra("user", getIntent().getSerializableExtra("user"));
-                intent.putExtra("director", director[0]);
-                intent.putExtra("professional", professional[0]);
-                intent.putExtra("idOrganization", idOrganization);
-                intent.putExtra("orgType", orgType);
-                intent.putExtra("illness", illness);
-                intent.putExtra("address", new Address(idAddress, addressNameField.getText().toString(), zipCode[0], idCity[0], idProvince[0], idRegion[0], idCountry[0], nameCity[0], nameProvince[0], nameRegion[0]));
-                intent.putExtra("organization", new Organization(idOrganization, orgType, illness, nameOrgField.getText().toString(), idAddress, telephone[0], emailField.getText().toString(), moreInfoField.getText().toString(), "", ""));
-                intent.putExtra("country", country[0]);
-                intent.putExtra("province", province[0]);
-                intent.putExtra("region", region[0]);
-                intent.putExtra("city", city[0]);
-                intent.putExtra("zipCode", zip_code[0]);
-                intent.putExtra("telephone", phone[0]);
-                intent.putExtra("information", information[0]);
-                intent.putExtra("email", email[0]);
-                intent.putExtra("nameRegion", nameRegion[0]);
-                intent.putExtra("nameProvince", nameProvince[0]);
-                intent.putExtra("nameCity", nameCity[0]);
-                intent.putExtra("centers", (Serializable) centers);
-                startActivity(intent);
+                nameOrgField.setEnabled(false);
+                addressNameField.setEnabled(false);
+                zipCodeField.setEnabled(false);
+                phoneField.setEnabled(false);
+                moreInfoField.setEnabled(false);
+                countrySpinner.setEnabled(false);
+                regionSpinner.setEnabled(false);
+                provinceSpinner.setEnabled(false);
+                citySpinner.setEnabled(false);
+
+                nameRegionField.setEnabled(false);
+                nameProvinceField.setEnabled(false);
+                nameCityField.setEnabled(false);
+
+                progressBar.setVisibility(View.VISIBLE);
+                loadingText.setVisibility(View.VISIBLE);
+
+                loadingText.setText(getString(R.string.going_center));
+                v.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(getApplicationContext(), gui.RegisterNewCenter.class);
+                        intent.putExtra("user", getIntent().getSerializableExtra("user"));
+                        intent.putExtra("type", "director");
+                        intent.putExtra("director", director[0]);
+                        intent.putExtra("idOrganization", idOrganization);
+                        intent.putExtra("orgType", orgType);
+                        intent.putExtra("illness", illness);
+                        intent.putExtra("address", new Address(idAddress, addressNameField.getText().toString(), zipCode[0], idCity[0], idProvince[0], idRegion[0], idCountry[0], nameCity[0], nameProvince[0], nameRegion[0]));
+                        intent.putExtra("organization", new Organization(idOrganization, orgType, illness, nameOrgField.getText().toString(), idAddress, telephone[0], emailField.getText().toString(), moreInfoField.getText().toString(), ""));
+                        intent.putExtra("country", country[0]);
+                        intent.putExtra("province", province[0]);
+                        intent.putExtra("region", region[0]);
+                        intent.putExtra("city", city[0]);
+                        intent.putExtra("email", email[0]);
+                        intent.putExtra("zipCode", zip_code[0]);
+                        intent.putExtra("telephone", phone[0]);
+                        intent.putExtra("information", information[0]);
+                        intent.putExtra("email", email[0]);
+                        intent.putExtra("nameRegion", nameRegion[0]);
+                        intent.putExtra("nameProvince", nameProvince[0]);
+                        intent.putExtra("nameCity", nameCity[0]);
+                        intent.putExtra("centers", (Serializable) centers);
+                        startActivity(intent);
+                        director[0] = (User) getIntent().getSerializableExtra("director");
+                        if (director[0] == null) {
+                            addDirectorText.setText(getString(R.string.add_director));
+                        } else {
+                            addDirectorText.setText(getString(R.string.edit_director));
+                        }
+                    }
+                }, 100);
             }
         });
 
@@ -616,13 +627,11 @@ public class RegisterOrganization extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                if(!nameOrgField.getText().equals("") && !addressNameField.getText().equals("") && !zipCodeField.getText().equals("") && (FieldChecker.isAForeignNumber(phoneField.getText().toString()) || FieldChecker.isASpanishNumber(phoneField.getText().toString())) && FieldChecker.emailHasCorrectFormat(emailField.getText().toString()) && director[0]!=null && professional[0]!=null){
+                if(!nameOrgField.getText().equals("") && !addressNameField.getText().equals("") && !zipCodeField.getText().equals("") && (FieldChecker.isAForeignNumber(phoneField.getText().toString()) || FieldChecker.isASpanishNumber(phoneField.getText().toString())) && FieldChecker.emailHasCorrectFormat(emailField.getText().toString()) && director[0]!=null){
                     Address address = new Address(idAddress, addressNameField.getText().toString(), zipCode[0],idCity[0],idProvince[0],idRegion[0],idCountry[0],nameCity[0],nameProvince[0],nameRegion[0]);
-                    Organization organization=new Organization(idOrganization,orgType,illness,nameOrgField.getText().toString(),idAddress,telephone[0],emailField.getText().toString(),moreInfoField.getText().toString(),"","");
+                    Organization organization=new Organization(idOrganization,orgType,illness,nameOrgField.getText().toString(),idAddress,telephone[0],emailField.getText().toString(),moreInfoField.getText().toString(),"");
                     User directorOrg=director[0];
                     directorOrg.setPassword(PasswordCodifier.codify(directorOrg.getPassword()));
-                    User professionalOrg=professional[0];
-                    professionalOrg.setPassword(PasswordCodifier.codify(professionalOrg.getPassword()));
 
 
                     nameOrgField.setEnabled(false);
@@ -642,7 +651,7 @@ public class RegisterOrganization extends AppCompatActivity {
                     progressBar.setVisibility(View.VISIBLE);
                     loadingText.setVisibility(View.VISIBLE);
 
-
+                    loadingText.setText(getString(R.string.please_wait_reg_orgs));
 
                     v.postDelayed(new Runnable() {
                         @Override
@@ -650,9 +659,7 @@ public class RegisterOrganization extends AppCompatActivity {
                             AddressesCaller.Create(address);
                             OrganizationsCaller.Create(organization);
                             UsersCaller.Create(directorOrg);
-                            UsersCaller.Create(professionalOrg);
                             organization.setEmailOrgPrincipal(directorOrg.getEmailUser());
-                            organization.setEmailOrgConsultant(professionalOrg.getEmailUser());
                             OrganizationsCaller.Update(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),organization);
                             Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
                             intent.putExtra("user",getIntent().getSerializableExtra("user"));
@@ -688,9 +695,6 @@ public class RegisterOrganization extends AppCompatActivity {
                     }
                     if(director[0]!=null){
                         addDirectorText.setError(getString(R.string.please_director));
-                    }
-                    if(professional[0]!=null){
-                        addProfessionalText.setError(getString(R.string.please_professional));
                     }
                 }
 

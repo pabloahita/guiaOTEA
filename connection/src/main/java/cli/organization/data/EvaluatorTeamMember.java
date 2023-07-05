@@ -27,7 +27,7 @@ public class EvaluatorTeamMember implements Serializable {
         setIdEvaluatorOrganization(idEvaluatorOrganization);
         setOrgType(orgType);
         setIllness(illness);
-        //setUser(UsersCaller.getInstance().obtainOrgUser(emailUser, OrganizationsCaller.getInstance().obtainOrganization(idEvaluatorOrganization,orgType,illness)));
+        //setUser(UsersCaller.getInstance().obtainOrgUser(emailUser, OrganizationsCaller.getInstance().Get(idEvaluatorOrganization,orgType,illness)));
     }
 
     public String getEmailUser() {

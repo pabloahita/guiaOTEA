@@ -35,41 +35,7 @@ public class UsersCaller {
     }
 
 
-    public static User obtainOrgUser(String email, Organization organization){
-        Call<User> call = api.Get(email);
-        AsyncTask<Void, Void, User> asyncTask = new AsyncTask<Void, Void, User>() {
-            User resultUser = null;
-            @Override
-            protected User doInBackground(Void... voids) {
-                try {
-                    Response<User> response = call.execute();
-                    if (response.isSuccessful()) {
-                        return response.body();
-                    } else {
-                        throw new IOException("Error: " + response.code() + " " + response.message());
-                    }
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            @Override
-            protected void onPostExecute(User user) {
-                resultUser=user;
-            }
-
-        };
-        asyncTask.execute();
-        try {
-            User user=asyncTask.get();
-            return user;
-        } catch (Exception e) {
-            Log.d("ERROR", e.toString());
-        }
-
-
-        return null;
-    }
-    public static User obtainUserForLogin(String email, String password){
+    public static User GetForLogin(String email, String password){
         Call<User> call = api.GetForLogin(email, password);
         AsyncTask<Void, Void, User> asyncTask = new AsyncTask<Void, Void, User>() {
             User resultUser = null;
@@ -107,7 +73,7 @@ public class UsersCaller {
         return null;
     }
 
-    public static User obtainUser(String email){
+    public static User Get(String email){
         Call<User> call = api.Get(email);
         AsyncTask<Void, Void, User> asyncTask = new AsyncTask<Void, Void, User>() {
             User resultUser = null;
@@ -210,8 +176,8 @@ public class UsersCaller {
     }
 
     //GET all organization users by organization type
-    public static List<User> GetAllOrgUsersByOrganization(int idOrganization,String orgType){
-        Call<List<User>> call = api.GetAllOrgUsersByOrganization(idOrganization,orgType);
+    public static List<User> GetAllOrgUsersByOrganization(int idOrganization,String orgType, String illness){
+        Call<List<User>> call = api.GetAllOrgUsersByOrganization(idOrganization,orgType,illness);
         AsyncTask<Void, Void, List<User>> asyncTask = new AsyncTask<Void, Void, List<User>>() {
             List<User> resultList = null;
             @Override
@@ -280,8 +246,8 @@ public class UsersCaller {
 
     // GET by EMAIL and ORGANIZATION action
 
-    public static User GetOrgUserByOrganization(String email,int idOrganization,String orgType){
-        Call<User> call = api.GetOrgUserByOrganization(email,idOrganization,orgType);
+    public static User GetOrgUserByOrganization(String email,int idOrganization,String orgType, String illness){
+        Call<User> call = api.GetOrgUserByOrganization(email,idOrganization,orgType,illness);
         AsyncTask<Void, Void, User> asyncTask = new AsyncTask<Void, Void, User>() {
             User resultUser = null;
             @Override

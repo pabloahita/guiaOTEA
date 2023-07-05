@@ -4,9 +4,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.IOException;
-import java.sql.Timestamp;
+;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import cli.indicators.IndicatorsEvaluation;
 import cli.organization.data.EvaluatorTeam;
@@ -62,26 +63,20 @@ public class IndicatorsEvaluationsCaller {
         };
         asyncTask.execute();
         try {
-            List<IndicatorsEvaluation> list= asyncTask.get();
-            List<IndicatorsEvaluation> result=asyncTask.get();
-            for(IndicatorsEvaluation indicatorsEvaluation:list){
-                result.add(new IndicatorsEvaluation(indicatorsEvaluation.getEvaluationDate(),indicatorsEvaluation.getIdEvaluatedOrganization(),indicatorsEvaluation.getOrgTypeEvaluated(),indicatorsEvaluation.getIdEvaluatorTeam(),indicatorsEvaluation.getIdEvaluatorTeam(),indicatorsEvaluation.getOrgTypeEvaluator(),indicatorsEvaluation.getIllness(),indicatorsEvaluation.getTotalScore()));
-            }
-            return result;
+            return asyncTask.get();
         } catch (Exception e) {
             Log.d("ERROR", e.toString());
         }
         return null;
     }
 
-    public static List<IndicatorsEvaluation> GetAllByEvaluatorTeam(EvaluatorTeam evaluatorTeam){
-        Call<List<IndicatorsEvaluation>> call=api.GetAllByEvaluatorTeam(evaluatorTeam.getIdEvaluatorTeam(),evaluatorTeam.getIdOrganization(),evaluatorTeam.getOrgType(),evaluatorTeam.getIllness());
+    public static List<IndicatorsEvaluation> GetAllByEvaluatedOrganization(int idOrganization, String orgType, String illness){
         AsyncTask<Void, Void, List<IndicatorsEvaluation>> asyncTask = new AsyncTask<Void, Void, List<IndicatorsEvaluation>>() {
             List<IndicatorsEvaluation> resultList = null;
             @Override
             protected List<IndicatorsEvaluation> doInBackground(Void... voids) {
                 try {
-                    Response<List<IndicatorsEvaluation>> response = call.execute();
+                    Response<List<IndicatorsEvaluation>> response = api.GetAllByEvaluatedOrganization(idOrganization,orgType,illness).execute();
                     if (response.isSuccessful()) {
                         return response.body();
                     } else {
@@ -100,14 +95,47 @@ public class IndicatorsEvaluationsCaller {
         asyncTask.execute();
         try {
             return asyncTask.get();
-        } catch (Exception e) {
-            Log.d("ERROR", e.toString());
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
-        return null;
+    }
+
+    public static List<IndicatorsEvaluation> GetAllByEvaluatorOrganization(int idOrganization, String orgType, String illness){
+        AsyncTask<Void, Void, List<IndicatorsEvaluation>> asyncTask = new AsyncTask<Void, Void, List<IndicatorsEvaluation>>() {
+            List<IndicatorsEvaluation> resultList = null;
+            @Override
+            protected List<IndicatorsEvaluation> doInBackground(Void... voids) {
+                try {
+                    Response<List<IndicatorsEvaluation>> response = api.GetAllByEvaluatorOrganization(idOrganization,orgType,illness).execute();
+                    if (response.isSuccessful()) {
+                        return response.body();
+                    } else {
+                        throw new IOException("Error: " + response.code() + " " + response.message());
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            @Override
+            protected void onPostExecute(List<IndicatorsEvaluation> list) {
+                resultList=list;
+            }
+
+        };
+        asyncTask.execute();
+        try {
+            return asyncTask.get();
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     
-    public static IndicatorsEvaluation Get(Timestamp evaluation_date,int idEvaluatedOrganization,String orgTypeEvaluated,String illness){
+    public static IndicatorsEvaluation Get(long evaluation_date,int idEvaluatedOrganization,String orgTypeEvaluated,String illness){
         Call<IndicatorsEvaluation> call=api.Get(evaluation_date,idEvaluatedOrganization,orgTypeEvaluated,illness);
         AsyncTask<Void, Void, IndicatorsEvaluation> asyncTask = new AsyncTask<Void, Void, IndicatorsEvaluation>() {
             IndicatorsEvaluation resultIndicatorsEvaluation = null;
@@ -133,7 +161,7 @@ public class IndicatorsEvaluationsCaller {
         asyncTask.execute();
         try {
             IndicatorsEvaluation indicatorsEvaluation= asyncTask.get();
-            return new IndicatorsEvaluation(indicatorsEvaluation.getEvaluationDate(),indicatorsEvaluation.getIdEvaluatedOrganization(),indicatorsEvaluation.getOrgTypeEvaluated(),indicatorsEvaluation.getIdEvaluatorTeam(),indicatorsEvaluation.getIdEvaluatorTeam(),indicatorsEvaluation.getOrgTypeEvaluator(),indicatorsEvaluation.getIllness(),indicatorsEvaluation.getTotalScore());
+            return indicatorsEvaluation;
         } catch (Exception e) {
             Log.d("ERROR", e.toString());
         }
@@ -142,13 +170,12 @@ public class IndicatorsEvaluationsCaller {
 
     
     public static IndicatorsEvaluation Create(IndicatorsEvaluation indicatorsEvaluation){
-        Call<IndicatorsEvaluation> call=api.Create(indicatorsEvaluation);
         AsyncTask<Void, Void, IndicatorsEvaluation> asyncTask = new AsyncTask<Void, Void, IndicatorsEvaluation>() {
             IndicatorsEvaluation resultIndicatorsEvaluation = null;
             @Override
             protected IndicatorsEvaluation doInBackground(Void... voids) {
                 try {
-                    Response<IndicatorsEvaluation> response = call.execute();
+                    Response<IndicatorsEvaluation> response = api.Create(indicatorsEvaluation).execute();
                     if (response.isSuccessful()) {
                         return response.body();
                     } else {
@@ -167,13 +194,14 @@ public class IndicatorsEvaluationsCaller {
         asyncTask.execute();
         try {
             return asyncTask.get();
-        } catch (Exception e) {
-            Log.d("ERROR", e.toString());
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
-        return null;
     }
     
-    public static IndicatorsEvaluation Update(Timestamp evaluation_date,int idEvaluatedOrganization,String orgTypeEvaluated,String illness,IndicatorsEvaluation indicatorsEvaluation){
+    public static IndicatorsEvaluation Update(long evaluation_date,int idEvaluatedOrganization,String orgTypeEvaluated,String illness,IndicatorsEvaluation indicatorsEvaluation){
         Call<IndicatorsEvaluation> call=api.Update(evaluation_date,idEvaluatedOrganization,orgTypeEvaluated,illness,indicatorsEvaluation);
         AsyncTask<Void, Void, IndicatorsEvaluation> asyncTask = new AsyncTask<Void, Void, IndicatorsEvaluation>() {
             IndicatorsEvaluation resultIndicatorsEvaluation = null;
@@ -206,7 +234,7 @@ public class IndicatorsEvaluationsCaller {
     }
 
     
-    public static IndicatorsEvaluation Delete(Timestamp evaluation_date,int idEvaluatedOrganization,String orgTypeEvaluated,String illness){
+    public static IndicatorsEvaluation Delete(long evaluation_date,int idEvaluatedOrganization,String orgTypeEvaluated,String illness){
         Call<IndicatorsEvaluation> call=api.Delete(evaluation_date,idEvaluatedOrganization,orgTypeEvaluated,illness);
         AsyncTask<Void, Void, IndicatorsEvaluation> asyncTask = new AsyncTask<Void, Void, IndicatorsEvaluation>() {
             IndicatorsEvaluation resultIndicatorsEvaluation = null;

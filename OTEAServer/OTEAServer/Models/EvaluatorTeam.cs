@@ -5,7 +5,7 @@ namespace OTEAServer.Models
     public class EvaluatorTeam
     {
 
-        public EvaluatorTeam(int idEvaluatorTeam, DateTime creationDate, int idOrganization, string orgType, string illness, string emailConsultant, string emailProfessional, string emailResponsible, string patientName, string relativeName) {
+        public EvaluatorTeam(int idEvaluatorTeam, long creationDate, int idOrganization, string orgType, string illness, string emailConsultant, string emailProfessional, string emailResponsible, string patientName, string relativeName, long evaluationDate1, long evaluationDate2, long evaluationDate3, long evaluationDate4, string observations) {
             this.idEvaluatorTeam = idEvaluatorTeam;
             this.creationDate = creationDate;
             this.idOrganization = idOrganization;
@@ -16,12 +16,17 @@ namespace OTEAServer.Models
             this.emailResponsible = emailResponsible;
             this.patientName = patientName;
             this.relativeName = relativeName;
+            this.evaluationDate1 = evaluationDate1;
+            this.evaluationDate2 = evaluationDate2;
+            this.evaluationDate3 = evaluationDate3;
+            this.evaluationDate4 = evaluationDate4;
+            this.observations = observations;
         }
 
         [JsonProperty("idEvaluatorTeam")]
         public int idEvaluatorTeam { get; set; }
         [JsonProperty("creationDate")]
-        public DateTime creationDate { get; set; }
+        public long creationDate { get; set; }
 
         [JsonProperty("idOrganization")]
         public int idOrganization { get; set; }
@@ -45,5 +50,22 @@ namespace OTEAServer.Models
         
         [JsonProperty("emailProfessional")]
         public string emailProfessional { get; set; }
+
+
+        [JsonProperty("evaluationDate1")]
+        public long evaluationDate1 { get; set; }
+
+        [JsonProperty("evaluationDate2")]
+        public long evaluationDate2 { get; set; }
+
+        [JsonProperty("evaluationDate3")]
+        public long evaluationDate3 { get; set; }
+
+        [JsonProperty("evaluationDate4")]
+        public long evaluationDate4 { get; set; }
+
+        [JsonProperty("observations")]
+        public string observations { get; set; }
+
     }
 }

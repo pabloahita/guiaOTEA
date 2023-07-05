@@ -151,6 +151,25 @@ public class Indicator implements Serializable {
         }
     }
 
+    public int getAmbit(){
+        if(indicatorId>=1 && indicatorId<=28){
+            return 1;
+        }
+        if(indicatorId>=29 && indicatorId<=34){
+            return 2;
+        }
+        if(indicatorId>=35 && indicatorId<=47){
+            return 3;
+        }
+        if(indicatorId>=48 && indicatorId<=61){
+            return 4;
+        }
+        if(indicatorId>=62 && indicatorId<=65){
+            return 5;
+        }
+        return 6;
+    }
+
     public void setNumFilledEvidences(int numFilledEvidences){this.numFilledEvidences=numFilledEvidences;}
 
     public int getNumFilledEvidences(){return numFilledEvidences;}

@@ -2,6 +2,7 @@ using OTEAServer.Services;
 
 var builder = WebApplication.CreateBuilder(args); // Web app builder
 
+builder.Services.AddControllers();
 // Add services to the container.
 builder.Services.AddRazorPages();
 // Add custom service to the container builder.Service.AddScoped<ServiceName>();
@@ -18,6 +19,12 @@ builder.Services.AddScoped<IndicatorsEvaluationsService>();
 builder.Services.AddScoped<CentersService>();
 builder.Services.AddScoped<IndicatorsEvaluationRegsService>();
 builder.Services.AddScoped<EvaluatorTeamMembersService>();
+builder.Services.AddScoped<EvaluatorTeamsService>();
+builder.Services.AddMvc(options =>
+{
+    options.SuppressAsyncSuffixInActionNames = false;
+});
+builder.Services.AddRouting();
 
 var app = builder.Build();
 

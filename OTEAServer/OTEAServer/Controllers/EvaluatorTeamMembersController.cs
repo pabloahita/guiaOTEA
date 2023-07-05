@@ -42,7 +42,7 @@ namespace OTEAServer.Controllers
         public ActionResult<EvaluatorTeamMember> Create([FromBody] EvaluatorTeamMember evaluatorTeamMember) {
             _evaluatorTeamMembersService.Add(evaluatorTeamMember.emailUser, evaluatorTeamMember.idEvaluatorTeam, evaluatorTeamMember.idEvaluatorOrganization, evaluatorTeamMember.orgType, evaluatorTeamMember.illness);
             //EvaluatorTeamMember evaluatorTeamMember = new EvaluatorTeamMember(emailUser, idEvaluatorTeam, idEvaluatorOrganization, orgType, illness);
-            return CreatedAtAction(nameof(Get), new { idEvaluatorTeam = evaluatorTeamMember.idEvaluatorTeam, idOrganization = evaluatorTeamMember.idEvaluatorOrganization, orgType = evaluatorTeamMember.orgType, illness = evaluatorTeamMember.illness }, evaluatorTeamMember);
+            return CreatedAtAction(nameof(Get), new { emailUser = evaluatorTeamMember.emailUser, idEvaluatorTeam = evaluatorTeamMember.idEvaluatorTeam, idEvaluatorOrganization = evaluatorTeamMember.idEvaluatorOrganization, orgType = evaluatorTeamMember.orgType, illness = evaluatorTeamMember.illness }, evaluatorTeamMember);
         }
 
         [HttpPut("upd::emailUser={emailUser}:idEvaluatorTeam={idEvaluatorTeam}:idEvaluatorOrganization={idEvaluatorOrganization}:orgType={orgType}:illness={illness}")]

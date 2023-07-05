@@ -127,7 +127,7 @@ namespace OTEAServer.Services
 
         public void Update(int idOrganization, string orgType, string illness, int idCenter, Center center)
         {
-            if (center != null && Get(idOrganization,orgType,illness,idCenter)!=null && idOrganization==center.IdOrganization && orgType==center.orgType && illness==center.illness && idCenter==center.idCenter)
+            if (center != null && Get(idOrganization,orgType,illness,idCenter)!=null && idOrganization==center.idOrganization && orgType==center.orgType && illness==center.illness && idCenter==center.idCenter)
             {
                 string connectionString = _configuration.GetConnectionString("DefaultConnection");
 
@@ -141,7 +141,7 @@ namespace OTEAServer.Services
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         // Añade parámetros para evitar la inyección de SQL
-                        command.Parameters.AddWithValue("@ID", center.IdOrganization);
+                        command.Parameters.AddWithValue("@ID", center.idOrganization);
                         command.Parameters.AddWithValue("@ORGTYPE", center.orgType);
                         command.Parameters.AddWithValue("@ILLNESS", center.illness);
                         command.Parameters.AddWithValue("@IDCENTER", center.idCenter);
@@ -172,7 +172,7 @@ namespace OTEAServer.Services
                     connection.Open();
 
                     // Crea el command SQL
-                    string sql = "DELETE FROM CENTERS WHERE IdOrganization=@IDORGANIZATION AND orgType=@ORGTYPE AND illness=@ILLNESS AND idCenter=@IDCENTER";
+                    string sql = "DELETE FROM CENTERS WHERE idOrganization=@IDORGANIZATION AND orgType=@ORGTYPE AND illness=@ILLNESS AND idCenter=@IDCENTER";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         // Añade parámetros para evitar la inyección de SQL

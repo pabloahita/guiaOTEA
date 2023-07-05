@@ -73,11 +73,11 @@ namespace OTEAServer.Services
 
         }
 
-        public List<User> GetAllOrgUsersByOrganization(int idOrganization, string orgType)
+        public List<User> GetAllOrgUsersByOrganization(int idOrganization, string orgType, string illness)
         {
             List<User> usersList=new List<User>();
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            string query = "SELECT * FROM USERS WHERE userType=@USERTYPE AND idOrganization=@IDORGANIZATION AND orgType=@ORGTYPE AND illness=@ORGTYPE";
+            string query = "SELECT * FROM USERS WHERE userType=@USERTYPE AND idOrganization=@IDORGANIZATION AND organizationType=@ORGTYPE AND illness=@ILLNESS";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -88,7 +88,7 @@ namespace OTEAServer.Services
                     command.Parameters.AddWithValue("@USERTYPE", "ORGANIZATION");
                     command.Parameters.AddWithValue("@IDORGANIZATION", idOrganization);
                     command.Parameters.AddWithValue("@ORGTYPE", orgType);
-                    command.Parameters.AddWithValue("@ILLNESS", "AUTISM");
+                    command.Parameters.AddWithValue("@ILLNESS", illness);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -186,10 +186,10 @@ namespace OTEAServer.Services
             return null;
         }
 
-        public User? GetOrgUserByOrganization(string email, int idOrganization, string orgType)
+        public User? GetOrgUserByOrganization(string email, int idOrganization, string orgType, string illness)
         {
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
-            string query = "SELECT * FROM USERS WHERE emailUser=@EMAIL AND userType=@USERTYPE AND idOrganization=@IDORGANIZATION AND orgType=@ORGTYPE AND illness=@ILLNESS";
+            string query = "SELECT * FROM USERS WHERE emailUser=@EMAIL AND userType=@USERTYPE AND idOrganization=@IDORGANIZATION AND organizationType=@ORGTYPE AND illness=@ILLNESS";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -201,7 +201,7 @@ namespace OTEAServer.Services
                     command.Parameters.AddWithValue("@USERTYPE", "ORGANIZATION");
                     command.Parameters.AddWithValue("@IDORGANIZATION", idOrganization);
                     command.Parameters.AddWithValue("@ORGTYPE", orgType);
-                    command.Parameters.AddWithValue("@ILLNESS", "AUTISM");
+                    command.Parameters.AddWithValue("@ILLNESS", illness);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.Read())

@@ -8,9 +8,5 @@
             android:id="@+id/nav_recent_activity_evaluated"
             android:icon="@drawable/ic_notifications_black_24dp"
             android:title="@string/recent_activity" />
-        <item
-            android:id="@+id/nav_see_evaluations"
-            android:icon="@drawable/baseline_view_list_24"
-            android:title="@string/view_indicators_evolution" />
     </group>
 </menu>

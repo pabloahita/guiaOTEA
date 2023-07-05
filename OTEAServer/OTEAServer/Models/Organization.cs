@@ -6,7 +6,7 @@ namespace OTEAServer.Models
 {
     public class Organization
     {
-        public Organization(int idOrganization, string orgType, string illness, string nameOrg, int idAddress, string email, long telephone, string information, string emailOrgPrincipal, string emailOrgConsultant) {
+        public Organization(int idOrganization, string orgType, string illness, string nameOrg, int idAddress, string email, long telephone, string information, string emailOrgPrincipal) {
             this.IdOrganization = idOrganization;
             this.orgType = orgType;
             this.illness = illness;
@@ -16,7 +16,6 @@ namespace OTEAServer.Models
             this.telephone = telephone;
             this.information = information;
             this.emailOrgPrincipal = emailOrgPrincipal;
-            this.emailOrgConsultant = emailOrgConsultant;
 
         }
 
@@ -46,9 +45,6 @@ namespace OTEAServer.Models
 
         [JsonProperty("emailOrgPrincipal")]
         public string emailOrgPrincipal { get; set; }
-
-        [JsonProperty("emailOrgConsultant")]
-        public string emailOrgConsultant {  get; set; }
 
 
     }

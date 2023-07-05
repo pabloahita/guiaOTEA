@@ -9,8 +9,8 @@ public class Center implements Serializable {
 
     Address address;
 
-    @SerializedName("IdOrganization")
-    public int IdOrganization;
+    @SerializedName("idOrganization")
+    public int idOrganization;
 
     @SerializedName("orgType")
     public String orgType;
@@ -65,11 +65,11 @@ public class Center implements Serializable {
     }
 
     public int getIdOrganization() {
-        return IdOrganization;
+        return idOrganization;
     }
 
     public void setIdOrganization(int idOrganization) {
-        this.IdOrganization = idOrganization;
+        this.idOrganization = idOrganization;
     }
 
     public String getOrgType() {

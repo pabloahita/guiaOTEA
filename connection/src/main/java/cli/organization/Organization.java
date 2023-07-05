@@ -9,8 +9,8 @@ import otea.connection.caller.AddressesCaller;
 
 public class Organization implements IOrganization, Serializable {
 
-    @SerializedName("IdOrganization")
-    public int idOrganization;
+    @SerializedName("idOrganization")
+    public int IdOrganization;
 
     @SerializedName("orgType")
     public String orgType;
@@ -36,11 +36,9 @@ public class Organization implements IOrganization, Serializable {
     @SerializedName("emailOrgPrincipal")
     public String emailOrgPrincipal;
 
-    @SerializedName("emailOrgConsultant")
-    public String emailOrgConsultant;
 
     private Address address;
-    public Organization(int idOrganization, String orgType, String illness, String name, int idAddress, long telephone, String email, String information, String emailOrgPrincipal, String emailOrgConsultant){
+    public Organization(int idOrganization, String orgType, String illness, String name, int idAddress, long telephone, String email, String information, String emailOrgPrincipal){
         setIdOrganization(idOrganization);
         setOrgType(orgType);
         setIllness(illness);
@@ -50,26 +48,19 @@ public class Organization implements IOrganization, Serializable {
         setEmail(email);
         setInformation(information);
         setEmailOrgPrincipal(emailOrgPrincipal);
-        setEmailOrgConsultant(emailOrgConsultant);
-        //setAddress(AddressesCaller.getInstance().obtainAddress(idAddress));
+        //setAddress(AddressesCaller.getInstance().Get(idAddress));
     }
 
-
-    @Override
-    public void setEmailOrgConsultant(String emailOrgPrincipal) {this.emailOrgPrincipal=emailOrgPrincipal;}
-
-    @Override
-    public void setEmailOrgPrincipal(String emailOrgConsultant) {this.emailOrgConsultant=emailOrgConsultant;}
 
 
     @Override
     public int getIdOrganization() {
-        return idOrganization;
+        return IdOrganization;
     }
 
     @Override
     public void setIdOrganization(int idOrganization) {
-        this.idOrganization = idOrganization;
+        this.IdOrganization = idOrganization;
     }
 
     @Override
@@ -105,6 +96,11 @@ public class Organization implements IOrganization, Serializable {
     @Override
     public String getInformation() {
         return information;
+    }
+
+    @Override
+    public void setEmailOrgPrincipal(String emailOrgPrincipal) {
+        this.emailOrgPrincipal=emailOrgPrincipal;
     }
 
 
@@ -151,10 +147,6 @@ public class Organization implements IOrganization, Serializable {
         return emailOrgPrincipal;
     }
 
-    @Override
-    public String getEmailOrgConsultant() {
-        return emailOrgConsultant;
-    }
 
     @Override
     public String getOrgType() {

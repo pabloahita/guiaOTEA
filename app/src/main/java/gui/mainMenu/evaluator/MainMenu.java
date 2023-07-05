@@ -42,11 +42,9 @@ public class MainMenu extends AppCompatActivity {
 
         setSupportActionBar(binding.appBarMainMenu.toolbarEvaluator);
 
-        binding.appBarMainMenu.fabAddNewCenter.setVisibility(View.GONE);
         binding.appBarMainMenu.fabAddNewEvaluatedOrganization.setVisibility(View.GONE);
         binding.appBarMainMenu.fabAddNewIndicatorsEvaluation.setVisibility(View.GONE);
         binding.appBarMainMenu.fabAddNewEvaluatorTeam.setVisibility(View.GONE);
-        binding.appBarMainMenu.textNewCenter.setVisibility(View.GONE);
         binding.appBarMainMenu.textNewEvaluatedOrg.setVisibility(View.GONE);
         binding.appBarMainMenu.textNewIndicatorTest.setVisibility(View.GONE);
         binding.appBarMainMenu.textNewEvaluatorTeam.setVisibility(View.GONE);
@@ -60,13 +58,7 @@ public class MainMenu extends AppCompatActivity {
             public void onClick(View view) {
                 /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
-                if(binding.appBarMainMenu.fabAddNewCenter.getVisibility()==View.VISIBLE) {
-                    binding.appBarMainMenu.fabAddNewCenter.setVisibility(View.GONE);
-                    binding.appBarMainMenu.textNewCenter.setVisibility(View.GONE);
-                }else{
-                    binding.appBarMainMenu.fabAddNewCenter.setVisibility(View.VISIBLE);
-                    binding.appBarMainMenu.textNewCenter.setVisibility(View.VISIBLE);
-                }
+
                 if(binding.appBarMainMenu.fabAddNewEvaluatedOrganization.getVisibility()==View.VISIBLE) {
                     binding.appBarMainMenu.fabAddNewEvaluatedOrganization.setVisibility(View.GONE);
                     binding.appBarMainMenu.textNewEvaluatedOrg.setVisibility(View.GONE);
@@ -92,32 +84,23 @@ public class MainMenu extends AppCompatActivity {
         });
 
 
-        binding.appBarMainMenu.fabAddNewCenter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"WORK",Toast.LENGTH_SHORT).show();
-            }
-        });
+
         binding.appBarMainMenu.fabAddNewEvaluatedOrganization.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getApplicationContext(),"WORK",Toast.LENGTH_SHORT).show();
                 binding.appBarMainMenu.progressBar.setVisibility(View.VISIBLE);
                 binding.appBarMainMenu.pleaseWait.setVisibility(View.VISIBLE);
-                binding.appBarMainMenu.fabAddNewCenter.setVisibility(View.GONE);
                 binding.appBarMainMenu.fabAddNewEvaluatedOrganization.setVisibility(View.GONE);
                 binding.appBarMainMenu.fabAddNewIndicatorsEvaluation.setVisibility(View.GONE);
                 binding.appBarMainMenu.fabAddNewEvaluatorTeam.setVisibility(View.GONE);
-                binding.appBarMainMenu.textNewCenter.setVisibility(View.GONE);
                 binding.appBarMainMenu.textNewEvaluatedOrg.setVisibility(View.GONE);
                 binding.appBarMainMenu.textNewIndicatorTest.setVisibility(View.GONE);
                 binding.appBarMainMenu.textNewEvaluatorTeam.setVisibility(View.GONE);
 
-                binding.appBarMainMenu.fabAddNewCenter.setEnabled(false);
                 binding.appBarMainMenu.fabAddNewEvaluatedOrganization.setEnabled(false);
                 binding.appBarMainMenu.fabAddNewIndicatorsEvaluation.setEnabled(false);
                 binding.appBarMainMenu.fabAddNewEvaluatorTeam.setEnabled(false);
-                binding.appBarMainMenu.textNewCenter.setEnabled(false);
                 binding.appBarMainMenu.textNewEvaluatedOrg.setEnabled(false);
                 binding.appBarMainMenu.textNewIndicatorTest.setEnabled(false);
                 binding.appBarMainMenu.textNewEvaluatorTeam.setEnabled(false);
@@ -142,20 +125,16 @@ public class MainMenu extends AppCompatActivity {
             public void onClick(View v) {
                 binding.appBarMainMenu.progressBar.setVisibility(View.VISIBLE);
                 binding.appBarMainMenu.pleaseWait.setVisibility(View.VISIBLE);
-                binding.appBarMainMenu.fabAddNewCenter.setVisibility(View.GONE);
                 binding.appBarMainMenu.fabAddNewEvaluatedOrganization.setVisibility(View.GONE);
                 binding.appBarMainMenu.fabAddNewIndicatorsEvaluation.setVisibility(View.GONE);
                 binding.appBarMainMenu.fabAddNewEvaluatorTeam.setVisibility(View.GONE);
-                binding.appBarMainMenu.textNewCenter.setVisibility(View.GONE);
                 binding.appBarMainMenu.textNewEvaluatedOrg.setVisibility(View.GONE);
                 binding.appBarMainMenu.textNewIndicatorTest.setVisibility(View.GONE);
                 binding.appBarMainMenu.textNewEvaluatorTeam.setVisibility(View.GONE);
 
-                binding.appBarMainMenu.fabAddNewCenter.setEnabled(false);
                 binding.appBarMainMenu.fabAddNewEvaluatedOrganization.setEnabled(false);
                 binding.appBarMainMenu.fabAddNewIndicatorsEvaluation.setEnabled(false);
                 binding.appBarMainMenu.fabAddNewEvaluatorTeam.setEnabled(false);
-                binding.appBarMainMenu.textNewCenter.setEnabled(false);
                 binding.appBarMainMenu.textNewEvaluatedOrg.setEnabled(false);
                 binding.appBarMainMenu.textNewIndicatorTest.setEnabled(false);
                 binding.appBarMainMenu.textNewEvaluatorTeam.setEnabled(false);
@@ -164,7 +143,7 @@ public class MainMenu extends AppCompatActivity {
                     @Override
                     public void run() {
                         //Cambiar a elegir equipo evaluador
-                        Intent intent=new Intent(getApplicationContext(),gui.DoIndicatorsEvaluation.class);
+                        Intent intent=new Intent(getApplicationContext(),gui.SelectToDoIndicatorsEvaluations.class);
                         intent.putExtra("user",getIntent().getSerializableExtra("user"));
                         startActivity(intent);
                     }
@@ -176,7 +155,31 @@ public class MainMenu extends AppCompatActivity {
         binding.appBarMainMenu.fabAddNewEvaluatorTeam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"WORK",Toast.LENGTH_SHORT).show();
+                binding.appBarMainMenu.progressBar.setVisibility(View.VISIBLE);
+                binding.appBarMainMenu.pleaseWait.setVisibility(View.VISIBLE);
+                binding.appBarMainMenu.fabAddNewEvaluatedOrganization.setVisibility(View.GONE);
+                binding.appBarMainMenu.fabAddNewIndicatorsEvaluation.setVisibility(View.GONE);
+                binding.appBarMainMenu.fabAddNewEvaluatorTeam.setVisibility(View.GONE);
+                binding.appBarMainMenu.textNewEvaluatedOrg.setVisibility(View.GONE);
+                binding.appBarMainMenu.textNewIndicatorTest.setVisibility(View.GONE);
+                binding.appBarMainMenu.textNewEvaluatorTeam.setVisibility(View.GONE);
+
+                binding.appBarMainMenu.fabAddNewEvaluatedOrganization.setEnabled(false);
+                binding.appBarMainMenu.fabAddNewIndicatorsEvaluation.setEnabled(false);
+                binding.appBarMainMenu.fabAddNewEvaluatorTeam.setEnabled(false);
+                binding.appBarMainMenu.textNewEvaluatedOrg.setEnabled(false);
+                binding.appBarMainMenu.textNewIndicatorTest.setEnabled(false);
+                binding.appBarMainMenu.textNewEvaluatorTeam.setEnabled(false);
+
+                v.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //Cambiar a elegir equipo evaluador
+                        Intent intent=new Intent(getApplicationContext(),gui.RegisterNewEvaluatorTeam.class);
+                        intent.putExtra("user",getIntent().getSerializableExtra("user"));
+                        startActivity(intent);
+                    }
+                }, 100);
             }
         });
 

@@ -49,9 +49,15 @@ namespace OTEAServer.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] EvaluatorTeam evaluatorTeam)
         {
-            _evaluatorTeamsService.Add(evaluatorTeam.idEvaluatorTeam, evaluatorTeam.creationDate, evaluatorTeam.idOrganization, evaluatorTeam.orgType, evaluatorTeam.illness, evaluatorTeam.emailConsultant,evaluatorTeam.emailProfessional, evaluatorTeam.emailResponsible, evaluatorTeam.patientName,evaluatorTeam.relativeName);
-            //EvaluatorTeam evaluatorTeam = new EvaluatorTeam(id, creation_date, idOrganization, orgType, illness, emailConsultant, emailProfessional, emailResponsible, patient_name, relative_name);
-            return CreatedAtAction(nameof(Get), new { id = evaluatorTeam.idEvaluatorTeam ,idOrganization=evaluatorTeam.idOrganization, orgType=evaluatorTeam.orgType, illness=evaluatorTeam.illness }, evaluatorTeam);
+            _evaluatorTeamsService.Add(evaluatorTeam.idEvaluatorTeam, evaluatorTeam.creationDate, evaluatorTeam.idOrganization, evaluatorTeam.orgType, evaluatorTeam.illness, evaluatorTeam.emailConsultant, evaluatorTeam.emailProfessional, evaluatorTeam.emailResponsible, evaluatorTeam.patientName, evaluatorTeam.relativeName, evaluatorTeam.evaluationDate1, evaluatorTeam.evaluationDate2, evaluatorTeam.evaluationDate3, evaluatorTeam.evaluationDate4, evaluatorTeam.observations);
+
+            return CreatedAtAction(nameof(Get), new
+            {
+                id = evaluatorTeam.idEvaluatorTeam,
+                idEvaluatorOrg = evaluatorTeam.idOrganization,
+                orgType = evaluatorTeam.orgType,
+                illness = evaluatorTeam.illness
+            }, evaluatorTeam);
         }
 
         // PUT action

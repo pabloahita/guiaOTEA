@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="gui.RegisterNewEvaluatorTeam">
+
+
+    <View
+        android:id="@+id/space1"
+        android:layout_width="404dp"
+        android:layout_height="33dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout3" />
+
+    <View
+        android:id="@+id/space3"
+        android:layout_width="414dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="1dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toTopOf="@+id/tableLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintHorizontal_bias="0.582"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout"
+        app:layout_constraintVertical_bias="0.216" />
+
+    <View
+        android:id="@+id/space2"
+        android:layout_width="416dp"
+        android:layout_height="38dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toTopOf="@+id/tableLayout3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintHorizontal_bias="0.585"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout2"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_new_evaluator_team"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.903" />
+
+    <EditText
+        android:id="@+id/patientName"
+        android:layout_width="351dp"
+        android:layout_height="46dp"
+        android:ems="10"
+        android:hint="@string/patient_name"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.416"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.396" />
+
+    <EditText
+        android:id="@+id/relativeName"
+        android:layout_width="327dp"
+        android:layout_height="52dp"
+        android:ems="10"
+        android:hint="@string/relative_name"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/patientName"
+        app:layout_constraintVertical_bias="0.033" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.415" />
+
+    <TextView
+        android:id="@+id/textProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/please_wait"
+        android:textSize="20sp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.467" />
+
+    <TableLayout
+        android:id="@+id/tableLayout3"
+        android:layout_width="410dp"
+        android:layout_height="45dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.587"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.197">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="195dp"
+                android:layout_height="match_parent"
+                android:text="@string/professional" />
+
+            <Spinner
+                android:id="@+id/spinner_select_professional"
+                android:layout_width="218dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
+        </TableRow>
+
+    </TableLayout>
+
+    <TableLayout
+        android:id="@+id/tableLayout4"
+        android:layout_width="410dp"
+        android:layout_height="45dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.576"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/space1"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="195dp"
+                android:layout_height="match_parent"
+                android:text="@string/responsible" />
+
+            <Spinner
+                android:id="@+id/spinner_select_responsible"
+                android:layout_width="215dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp" />
+        </TableRow>
+
+    </TableLayout>
+
+    <TableLayout
+        android:id="@+id/tableLayout2"
+        android:layout_width="410dp"
+        android:layout_height="45dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.576"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.13">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="194dp"
+                android:layout_height="match_parent"
+                android:text="@string/consultant" />
+
+            <Spinner
+                android:id="@+id/spinner_select_consultant"
+                android:layout_width="214dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="8dp" />
+        </TableRow>
+
+    </TableLayout>
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="410dp"
+        android:layout_height="45dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.576"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.035">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="195dp"
+                android:layout_height="match_parent"
+                android:text="@string/evaluated_org" />
+
+            <Spinner
+                android:id="@+id/spinner_select_organization"
+                android:layout_width="214dp"
+                android:layout_height="match_parent" />
+        </TableRow>
+
+    </TableLayout>
+
+    <EditText
+        android:id="@+id/creation_date"
+        android:layout_width="306dp"
+        android:layout_height="47dp"
+        android:ems="10"
+        android:hint="@string/creation_date"
+        android:inputType="date"
+        app:layout_constraintBottom_toTopOf="@+id/add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeName"
+        app:layout_constraintVertical_bias="0.053" />
+
+    <EditText
+        android:id="@+id/eval_date_1"
+        android:layout_width="161dp"
+        android:layout_height="41dp"
+        android:ems="10"
+        android:hint="@string/eval_date_1"
+        android:inputType="date"
+        app:layout_constraintBottom_toTopOf="@+id/add"
+        app:layout_constraintEnd_toStartOf="@+id/eval_date_2"
+        app:layout_constraintHorizontal_bias="0.715"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/creation_date"
+        app:layout_constraintVertical_bias="0.193" />
+
+    <EditText
+        android:id="@+id/eval_date_2"
+        android:layout_width="161dp"
+        android:layout_height="41dp"
+        android:ems="10"
+        android:hint="@string/eval_date_2"
+        android:inputType="date"
+        app:layout_constraintBottom_toTopOf="@+id/add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.738"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/creation_date"
+        app:layout_constraintVertical_bias="0.193" />
+
+    <EditText
+        android:id="@+id/eval_date_3"
+        android:layout_width="161dp"
+        android:layout_height="41dp"
+        android:ems="10"
+        android:hint="@string/eval_date_3"
+        android:inputType="date"
+        app:layout_constraintBottom_toTopOf="@+id/add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.208"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eval_date_1"
+        app:layout_constraintVertical_bias="0.128" />
+
+    <EditText
+        android:id="@+id/eval_date_4"
+        android:layout_width="161dp"
+        android:layout_height="41dp"
+        android:ems="10"
+        android:hint="@string/eval_date_4"
+        android:inputType="date"
+        app:layout_constraintBottom_toTopOf="@+id/add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.166"
+        app:layout_constraintStart_toEndOf="@+id/eval_date_3"
+        app:layout_constraintTop_toBottomOf="@+id/eval_date_2"
+        app:layout_constraintVertical_bias="0.135" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/observations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/observations"
+        app:layout_constraintBottom_toTopOf="@+id/add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.921" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

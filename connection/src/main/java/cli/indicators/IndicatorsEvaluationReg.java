@@ -3,12 +3,12 @@ package cli.indicators;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+;
 
 public class IndicatorsEvaluationReg implements Serializable {
 
     @SerializedName("evaluationDate")
-    public Timestamp evaluationDate;
+    public long evaluationDate;
     @SerializedName("idEvaluatedOrganization")
     public int idEvaluatedOrganization;
     @SerializedName("orgTypeEvaluated")
@@ -26,7 +26,7 @@ public class IndicatorsEvaluationReg implements Serializable {
     @SerializedName("indicatorVersion")
     public int indicatorVersion;
 
-    public IndicatorsEvaluationReg(Timestamp evaluationDate, int idEvaluatedOrganization, String orgTypeEvaluated, String illness, int indicatorId, int idEvidence, int isMarked, int indicatorVersion) {
+    public IndicatorsEvaluationReg(long evaluationDate, int idEvaluatedOrganization, String orgTypeEvaluated, String illness, int indicatorId, int idEvidence, int isMarked, int indicatorVersion) {
         setEvaluationDate(evaluationDate);
         setIdEvaluatedOrganization(idEvaluatedOrganization);
         setOrgTypeEvaluated(orgTypeEvaluated);
@@ -37,11 +37,11 @@ public class IndicatorsEvaluationReg implements Serializable {
         setIndicatorVersion(indicatorVersion);
     }
 
-    public Timestamp getEvaluationDate() {
+    public long getEvaluationDate() {
         return evaluationDate;
     }
 
-    public void setEvaluationDate(Timestamp evaluationDate) {
+    public void setEvaluationDate(long evaluationDate) {
         this.evaluationDate = evaluationDate;
     }
 

@@ -16,8 +16,8 @@ public interface UsersApi {
     Call<List<User>> GetAllByType(@Path("userType") String userType);
 
     //GET all organization users by organization type
-    @GET("Users/getAllByOrg::idOrganization={idOrganization}:orgType={orgType}")
-    Call<List<User>> GetAllOrgUsersByOrganization(@Path("idOrganization") int idOrganization, @Path("orgType") String orgType);
+    @GET("Users/getAllByOrg::idOrganization={idOrganization}:orgType={orgType}:illness={illness}")
+    Call<List<User>> GetAllOrgUsersByOrganization(@Path("idOrganization") int idOrganization, @Path("orgType") String orgType, @Path("illness") String illness);
     
     // GET by EMAIL action
     @GET("Users/get::email={email}")
@@ -30,8 +30,8 @@ public interface UsersApi {
 
     // GET by EMAIL and ORGANIZATION action
 
-    @GET("Users/getByOrg::email={email}:idOrganization={idOrganization}:orgType={orgType}")
-    Call<User> GetOrgUserByOrganization(@Path("email") String email,@Path("idOrganization") int idOrganization,@Path("orgType") String orgType);
+    @GET("Users/getByOrg::email={email}:idOrganization={idOrganization}:orgType={orgType}:illness={illness}")
+    Call<User> GetOrgUserByOrganization(@Path("email") String email,@Path("idOrganization") int idOrganization,@Path("orgType") String orgType,@Path("illness") String illness);
 
     // POST action
     @POST("Users")

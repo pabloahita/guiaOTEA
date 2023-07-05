@@ -5,7 +5,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.Timestamp;
+;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -76,7 +76,7 @@ public class IndicatorsEvaluationRegsCaller {
         return null;
     }
 
-    public static List<IndicatorsEvaluationReg> GetAllByIndicatorsEvaluation(Timestamp evaluationDate, int idEvaluatorOrganization, String orgType, String illness){
+    public static List<IndicatorsEvaluationReg> GetAllByIndicatorsEvaluation(long evaluationDate, int idEvaluatorOrganization, String orgType, String illness){
 
         Call<List<IndicatorsEvaluationReg>> call=api.GetAllByIndicatorsEvaluation(evaluationDate,idEvaluatorOrganization,orgType,illness);
         AsyncTask<Void, Void, List<IndicatorsEvaluationReg>> asyncTask = new AsyncTask<Void, Void, List<IndicatorsEvaluationReg>>() {
@@ -110,7 +110,7 @@ public class IndicatorsEvaluationRegsCaller {
         return null;
     }
 
-    public static IndicatorsEvaluationReg Get(Timestamp evaluationDate, int idEvaluatedOrganization, String orgType,String illness, int idIndicator, int idEvidence, int indicatorVersion){
+    public static IndicatorsEvaluationReg Get(long evaluationDate, int idEvaluatedOrganization, String orgType,String illness, int idIndicator, int idEvidence, int indicatorVersion){
         Call<IndicatorsEvaluationReg> call=api.Get(evaluationDate,idEvaluatedOrganization,orgType,illness,idIndicator,idEvidence,indicatorVersion);
         AsyncTask<Void, Void, IndicatorsEvaluationReg> asyncTask = new AsyncTask<Void, Void, IndicatorsEvaluationReg>() {
             IndicatorsEvaluationReg result= null;
@@ -144,13 +144,12 @@ public class IndicatorsEvaluationRegsCaller {
     }
 
     public static IndicatorsEvaluationReg Create(IndicatorsEvaluationReg indicatorsEvaluationReg){
-        Call<IndicatorsEvaluationReg> call=api.Create(indicatorsEvaluationReg);
         AsyncTask<Void, Void, IndicatorsEvaluationReg> asyncTask = new AsyncTask<Void, Void, IndicatorsEvaluationReg>() {
             IndicatorsEvaluationReg result= null;
             @Override
             protected IndicatorsEvaluationReg doInBackground(Void... voids) {
                 try {
-                    Response<IndicatorsEvaluationReg> response = call.execute();
+                    Response<IndicatorsEvaluationReg> response = api.Create(indicatorsEvaluationReg).execute();
                     if (response.isSuccessful()) {
                         return response.body();
                     } else {
@@ -176,7 +175,7 @@ public class IndicatorsEvaluationRegsCaller {
         return null;
     }
 
-    public static IndicatorsEvaluationReg Update(Timestamp evaluationDate, int idEvaluatedOrganization,String orgType,String illness, int idIndicator, int idEvidence, int indicatorVersion){
+    public static IndicatorsEvaluationReg Update(long evaluationDate, int idEvaluatedOrganization,String orgType,String illness, int idIndicator, int idEvidence, int indicatorVersion){
         Call<IndicatorsEvaluationReg> call=api.Update(evaluationDate,idEvaluatedOrganization,orgType,illness,idIndicator,idEvidence,indicatorVersion);
         AsyncTask<Void, Void, IndicatorsEvaluationReg> asyncTask = new AsyncTask<Void, Void, IndicatorsEvaluationReg>() {
             IndicatorsEvaluationReg result= null;
@@ -209,7 +208,7 @@ public class IndicatorsEvaluationRegsCaller {
         return null;
     }
 
-    public static IndicatorsEvaluationReg Delete(Timestamp evaluationDate, int idEvaluatedOrganization, String orgType,String illness, int idIndicator, int idEvidence, int indicatorVersion){
+    public static IndicatorsEvaluationReg Delete(long evaluationDate, int idEvaluatedOrganization, String orgType,String illness, int idIndicator, int idEvidence, int indicatorVersion){
         Call<IndicatorsEvaluationReg> call=api.Delete(evaluationDate,idEvaluatedOrganization,orgType,illness,idIndicator,idEvidence,indicatorVersion);
         AsyncTask<Void, Void, IndicatorsEvaluationReg> asyncTask = new AsyncTask<Void, Void, IndicatorsEvaluationReg>() {
             IndicatorsEvaluationReg result= null;

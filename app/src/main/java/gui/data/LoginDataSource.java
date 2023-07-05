@@ -22,9 +22,9 @@ public class LoginDataSource {
             //LoggedInUser user=new LoggedInUser(username,password);
             //Codificar contraseña
             String nuevaPassword= PasswordCodifier.codify(password);
-            User user= UsersCaller.getInstance().obtainUserForLogin(username,nuevaPassword);
+            User user= UsersCaller.getInstance().GetForLogin(username,nuevaPassword);
             if(user==null){
-                User aux=UsersCaller.getInstance().obtainUser(username);
+                User aux=UsersCaller.getInstance().Get(username);
                 if(aux!=null){
                     return new Result.Error(new PasswordIncorrectException("The password is wrong, please put the correct one"));
                 }

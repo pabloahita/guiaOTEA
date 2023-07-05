@@ -2,7 +2,7 @@ package cli.indicators;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +16,7 @@ import otea.connection.caller.OrganizationsCaller;
 public class IndicatorsEvaluation implements Serializable {
 
     @SerializedName("evaluationDate")
-    public Timestamp evaluationDate;
+    public long evaluationDate;
 
     @SerializedName("idEvaluatedOrganization")
     public int idEvaluatedOrganization;
@@ -36,17 +36,29 @@ public class IndicatorsEvaluation implements Serializable {
     @SerializedName("illness")
     public String illness;
 
+    @SerializedName("scoreLevel1")
+    public int scoreLevel1=0;
+
+    @SerializedName("scoreLevel2")
+    public int scoreLevel2=0;
+
+    @SerializedName("scoreLevel3")
+    public int scoreLevel3=0;
+
+    @SerializedName("scoreLevel4")
+    public int scoreLevel4=0;
+
+    @SerializedName("scoreLevel5")
+    public int scoreLevel5=0;
+
+    @SerializedName("scoreLevel6")
+    public int scoreLevel6=0;
+
     @SerializedName("totalScore")
     public int totalScore=0;
 
-    private EvaluatorTeam evaluator_team;
 
-    private List<IndicatorsEvaluationReg> evaluation;
-
-    private List<Indicator> indicators;
-
-
-    public IndicatorsEvaluation(Timestamp evaluationDate,int idEvaluatedOrganization,String orgTypeEvaluated,int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator, String illness, int totalScore){
+    public IndicatorsEvaluation(long evaluationDate,int idEvaluatedOrganization,String orgTypeEvaluated,int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator, String illness, int scoreLevel1, int scoreLevel2, int scoreLevel3, int scoreLevel4, int scoreLevel5, int scoreLevel6, int totalScore){
         setEvaluationDate(evaluationDate);
         setIdEvaluatedOrganization(idEvaluatedOrganization);
         setOrgTypeEvaluated(orgTypeEvaluated);
@@ -54,23 +66,25 @@ public class IndicatorsEvaluation implements Serializable {
         setIdEvaluatorOrganization(idEvaluatorOrganization);
         setOrgTypeEvaluator(orgTypeEvaluator);
         setIllness(illness);
+        setScoreLevel1(scoreLevel1);
+        setScoreLevel2(scoreLevel2);
+        setScoreLevel3(scoreLevel3);
+        setScoreLevel4(scoreLevel4);
+        setScoreLevel5(scoreLevel5);
+        setScoreLevel6(scoreLevel6);
         setTotalScore(totalScore);
     }
 
 
 
-    public Timestamp getEvaluationDate() {
+    public long getEvaluationDate() {
         return evaluationDate;
     }
 
-    public void setEvaluationDate(Timestamp evaluationDate) {
+    public void setEvaluationDate(long evaluationDate) {
         this.evaluationDate = evaluationDate;
     }
 
-    public List<Indicator> getIndicators(){
-        return indicators;
-
-    }
 
     public int getIdEvaluatedOrganization() {
         return idEvaluatedOrganization;
@@ -121,54 +135,6 @@ public class IndicatorsEvaluation implements Serializable {
     }
 
 
-    private void setIndicators(List<Indicator> indicators) {
-        this.indicators=indicators;
-    }
-
-
-
-    public void setEvaluation(List<IndicatorsEvaluationReg> evaluation){
-        this.evaluation=evaluation;
-    }
-
-    public void setResults(Map<Indicator,Integer> results){
-        for(Indicator i: results.keySet()){
-            List<Evidence> evidences=i.getEvidences();
-        }
-    }
-    public void getResults(){
-        int[][] numberOfIndicatorsPerLevel=new int[4][3];
-        int[][] multiplicators=new int[4][3];
-        Map<Indicator,Integer> filled=new HashMap<Indicator,Integer>();
-        for(IndicatorsEvaluationReg reg:evaluation){
-            Indicator indicator=indicators.get(reg.getIndicatorId()-1);
-            if(reg.getIsMarked()==0){
-                if(!filled.containsKey(indicator)){
-                    filled.put(indicator,1);
-                }
-                else{
-                    filled.put(indicator,filled.get(indicator)+1);
-                }
-            }
-        }
-        for(Indicator i:indicators){
-            if(!filled.containsKey(i)){filled.put(i,0);}
-            i.setNumFilledEvidences(filled.get(i));
-            int ind=-1;
-            if (filled.get(i)==0 || filled.get(i)==1){ind=0;}
-            if (filled.get(i)==2 || filled.get(i)==3){ind=1;}
-            if (filled.get(i)==4){ind=2;}
-            numberOfIndicatorsPerLevel[(int) i.getPriority()-1][ind]++;
-            if(multiplicators[(int) i.getPriority()-1][ind]!=i.getMultiplicator()){
-                multiplicators[(int) i.getPriority()-1][ind]=i.getMultiplicator();
-            }
-        }
-        for(int i=0;i<numberOfIndicatorsPerLevel.length;i++){
-            for(int j=0;j<numberOfIndicatorsPerLevel[i].length;j++){
-                totalScore+=(numberOfIndicatorsPerLevel[i][j]*multiplicators[i][j]);
-            }
-        }
-    }
 
     public int getTotalScore() {
         return totalScore;
@@ -178,15 +144,51 @@ public class IndicatorsEvaluation implements Serializable {
         this.totalScore = totalScore;
     }
 
-    public EvaluatorTeam getEvaluator_team() {
-        return evaluator_team;
+    public int getScoreLevel1() {
+        return scoreLevel1;
     }
 
-    public void setEvaluator_team(EvaluatorTeam evaluator_team) {
-        this.evaluator_team = evaluator_team;
+    public void setScoreLevel1(int scoreLevel1) {
+        this.scoreLevel1 = scoreLevel1;
     }
 
-    public List<IndicatorsEvaluationReg> getEvaluation() {
-        return evaluation;
+    public int getScoreLevel2() {
+        return scoreLevel2;
+    }
+
+    public void setScoreLevel2(int scoreLevel2) {
+        this.scoreLevel2 = scoreLevel2;
+    }
+
+    public int getScoreLevel3() {
+        return scoreLevel3;
+    }
+
+    public void setScoreLevel3(int scoreLevel3) {
+        this.scoreLevel3 = scoreLevel3;
+    }
+
+    public int getScoreLevel4() {
+        return scoreLevel4;
+    }
+
+    public void setScoreLevel4(int scoreLevel4) {
+        this.scoreLevel4 = scoreLevel4;
+    }
+
+    public int getScoreLevel5() {
+        return scoreLevel5;
+    }
+
+    public void setScoreLevel5(int scoreLevel5) {
+        this.scoreLevel5 = scoreLevel5;
+    }
+
+    public int getScoreLevel6() {
+        return scoreLevel6;
+    }
+
+    public void setScoreLevel6(int scoreLevel6) {
+        this.scoreLevel6 = scoreLevel6;
     }
 }

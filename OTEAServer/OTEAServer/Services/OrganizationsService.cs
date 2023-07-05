@@ -30,8 +30,7 @@ namespace OTEAServer.Services
                         while (reader.Read())
                         {
                             string emailOrgPrincipal = reader.IsDBNull(8) ? "" : reader.GetString(8);
-                            string emailOrgConsultant = reader.IsDBNull(9) ? "" : reader.GetString(9);
-                            orgsList.Add(new Organization(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetString(5), reader.GetInt64(6), reader.GetString(7), emailOrgPrincipal, emailOrgConsultant));
+                            orgsList.Add(new Organization(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetString(5), reader.GetInt64(6), reader.GetString(7), emailOrgPrincipal));
                         }
                     }
                 }
@@ -59,8 +58,7 @@ namespace OTEAServer.Services
                         while (reader.Read())
                         {
                             string emailOrgPrincipal = reader.IsDBNull(8) ? "" : reader.GetString(8);
-                            string emailOrgConsultant = reader.IsDBNull(9) ? "" : reader.GetString(9);
-                            orgsList.Add(new Organization(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetString(5), reader.GetInt64(6), reader.GetString(7), emailOrgPrincipal, emailOrgConsultant));
+                            orgsList.Add(new Organization(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetString(5), reader.GetInt64(6), reader.GetString(7), emailOrgPrincipal));
                         }
                     }
                 }
@@ -93,8 +91,7 @@ namespace OTEAServer.Services
                         if (reader.Read())
                         {
                             string emailOrgPrincipal = reader.IsDBNull(8) ? "" : reader.GetString(8);
-                            string emailOrgConsultant = reader.IsDBNull(9) ? "" : reader.GetString(9);
-                            return new Organization(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetString(5), reader.GetInt64(6), reader.GetString(7), emailOrgPrincipal, emailOrgConsultant);
+                            return new Organization(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetString(5), reader.GetInt64(6), reader.GetString(7), emailOrgPrincipal);
                         }
                     }
                 }
@@ -108,7 +105,7 @@ namespace OTEAServer.Services
         public Organization GetEvaluatorOrganizationById(int id, string illness) => Get(id, "EVALUATOR", illness);
 
 
-        public void Add(int id, string orgType, string illness, string name, int idAddress, string email, long telephone, string information, string emailOrgPrincipal, string emailOrgConsultant)
+        public void Add(int id, string orgType, string illness, string name, int idAddress, string email, long telephone, string information, string emailOrgPrincipal)
         {
 
             string connectionString = _configuration.GetConnectionString("DefaultConnection");
@@ -119,7 +116,7 @@ namespace OTEAServer.Services
                 connection.Open();
 
                 // Crea el command SQL
-                string sql = "INSERT INTO ORGANIZATIONS (IDORGANIZATION,ORGTYPE,ILLNESS,NAMEORG,IDADDRESS,EMAIL,TELEPHONE,INFORMATION,EMAILORGPRINCIPAL,EMAILORGCONSULTANT) VALUES (@ID,@ORGTYPE,@ILLNESS,@NAME,@IDADDRESS,@EMAIL,@TELEPHONE,@INFORMATION,@EMAILORGPRINCIPAL,@EMAILORGCONSULTANT)";
+                string sql = "INSERT INTO ORGANIZATIONS (IDORGANIZATION,ORGTYPE,ILLNESS,NAMEORG,IDADDRESS,EMAIL,TELEPHONE,INFORMATION,EMAILORGPRINCIPAL) VALUES (@ID,@ORGTYPE,@ILLNESS,@NAME,@IDADDRESS,@EMAIL,@TELEPHONE,@INFORMATION,@EMAILORGPRINCIPAL)";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     // Añade parámetros para evitar la inyección de SQL
@@ -139,17 +136,6 @@ namespace OTEAServer.Services
                     {
                         command.Parameters.AddWithValue("@EMAILORGPRINCIPAL", emailOrgPrincipal);
                     }
-
-                    // Verifica si emailOrgConsultant es una cadena vacía y agrega el valor correspondiente
-                    if (string.IsNullOrEmpty(emailOrgConsultant))
-                    {
-                        command.Parameters.AddWithValue("@EMAILORGCONSULTANT", DBNull.Value);
-                    }
-                    else
-                    {
-                        command.Parameters.AddWithValue("@EMAILORGCONSULTANT", emailOrgConsultant);
-                    }
-
 
                     // Ejecuta el command
                     command.ExecuteNonQuery();
@@ -204,7 +190,7 @@ namespace OTEAServer.Services
                     connection.Open();
 
                     // Crea el command SQL
-                    string sql = "UPDATE ORGANIZATIONS SET NAMEORG=@NAME,IDADDRESS=@IDADDRESS,EMAIL=@EMAIL,TELEPHONE=@TELEPHONE,INFORMATION=@INFORMATION,EMAILORGPRINCIPAL=@EMAILORGPRINCIPAL,EMAILORGCONSULTANT=@EMAILORGCONSULTANT WHERE IDORGANIZATION=@ID AND ORGTYPE=@ORGTYPE AND ILLNESS=@ILLNESS";
+                    string sql = "UPDATE ORGANIZATIONS SET NAMEORG=@NAME,IDADDRESS=@IDADDRESS,EMAIL=@EMAIL,TELEPHONE=@TELEPHONE,INFORMATION=@INFORMATION,EMAILORGPRINCIPAL=@EMAILORGPRINCIPAL WHERE IDORGANIZATION=@ID AND ORGTYPE=@ORGTYPE AND ILLNESS=@ILLNESS";
                     using (SqlCommand command = new SqlCommand(sql, connection))
                     {
                         // Añade parámetros para evitar la inyección de SQL
@@ -225,15 +211,6 @@ namespace OTEAServer.Services
                             command.Parameters.AddWithValue("@EMAILORGPRINCIPAL", organization.emailOrgPrincipal);
                         }
 
-                        // Verifica si emailOrgConsultant es una cadena vacía y agrega el valor correspondiente
-                        if (string.IsNullOrEmpty(organization.emailOrgConsultant))
-                        {
-                            command.Parameters.AddWithValue("@EMAILORGCONSULTANT", DBNull.Value);
-                        }
-                        else
-                        {
-                            command.Parameters.AddWithValue("@EMAILORGCONSULTANT", organization.emailOrgConsultant);
-                        }
 
 
                         // Ejecuta el command

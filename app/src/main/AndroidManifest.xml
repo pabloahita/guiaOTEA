@@ -17,6 +17,15 @@
         android:theme="@style/Theme.TFG2223.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name="gui.AddCenter"
+            android:exported="false" />
+        <activity
+            android:name="gui.RegisterNewEvaluatorTeam"
+            android:exported="false" />
+        <activity
+            android:name="gui.SelectToDoIndicatorsEvaluations"
+            android:exported="false" />
+        <activity
             android:name="gui.RegisterNewCenter"
             android:exported="false" />
         <activity

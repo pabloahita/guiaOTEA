@@ -1,6 +1,6 @@
 package otea.connection.api;
 
-import java.sql.Timestamp;
+;
 import java.util.List;
 
 import cli.organization.data.EvaluatorTeam;

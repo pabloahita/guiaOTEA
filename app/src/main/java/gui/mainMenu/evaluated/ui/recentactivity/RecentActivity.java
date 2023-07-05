@@ -14,17 +14,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 import com.fundacionmiradas.indicatorsevaluation.databinding.FragmentRecentEvaluatedBinding;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import cli.indicators.IndicatorsEvaluation;
+import cli.organization.data.EvaluatorTeam;
 import cli.user.User;
 import gui.mainMenu.admin.ui.recentactivity.RecentViewModel;
 import otea.connection.ConnectionClient;
+import otea.connection.caller.EvaluatorTeamsCaller;
+import otea.connection.caller.IndicatorsEvaluationsCaller;
+
 import java.util.Locale;
 public class RecentActivity extends Fragment {
 
@@ -52,6 +61,7 @@ public class RecentActivity extends Fragment {
             text="Hi "+user.getFirst_name()+"!";
         }
         textView.setText(text);
+
         return root;
 
     }

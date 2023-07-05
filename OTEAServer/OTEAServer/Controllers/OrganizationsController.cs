@@ -88,7 +88,7 @@ namespace OTEAServer.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Organization organization)
         {
-            _organizationsService.Add(organization.IdOrganization, organization.orgType, organization.illness, organization.nameOrg, organization.idAddress, organization.email, organization.telephone, organization.information, organization.emailOrgPrincipal, organization.emailOrgConsultant);
+            _organizationsService.Add(organization.IdOrganization, organization.orgType, organization.illness, organization.nameOrg, organization.idAddress, organization.email, organization.telephone, organization.information, organization.emailOrgPrincipal);
             //Organization organization = new Organization(id, orgType, illness, name, idAddress, email, telephone, information, emailOrgPrincipal, emailOrgConsultant);
             return CreatedAtAction(nameof(Get), new { id = organization.IdOrganization, organizationType=organization.orgType, illness=organization.illness }, organization);
         }

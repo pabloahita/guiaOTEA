@@ -36,10 +36,10 @@ namespace OTEAServer.Controllers
         }
 
         //GET all organization users by organization type
-        [HttpGet("getAllByOrg::idOrganization={idOrganization}:orgType={orgType}")]
-        public IActionResult GetAllOrgUsersByOrganization(int idOrganization, string orgType)
+        [HttpGet("getAllByOrg::idOrganization={idOrganization}:orgType={orgType}:illness={illness}")]
+        public IActionResult GetAllOrgUsersByOrganization(int idOrganization, string orgType, string illness)
         {
-            var users = _usersService.GetAllOrgUsersByOrganization(idOrganization,orgType);
+            var users = _usersService.GetAllOrgUsersByOrganization(idOrganization,orgType,illness);
             return Ok(users);
         }
 
@@ -83,10 +83,10 @@ namespace OTEAServer.Controllers
 
         // GET by EMAIL and ORGANIZATION action
 
-        [HttpGet("getByOrg::email={email}:idOrganization={idOrganization}:orgType={orgType}")]
-        public ActionResult<User> GetOrgUserByOrganization(string email, int idOrganization, string orgType)
+        [HttpGet("getByOrg::email={email}:idOrganization={idOrganization}:orgType={orgType}:illness={illness}")]
+        public ActionResult<User> GetOrgUserByOrganization(string email, int idOrganization, string orgType, string illness)
         {
-            var user = _usersService.GetOrgUserByOrganization(email,idOrganization,orgType);
+            var user = _usersService.GetOrgUserByOrganization(email,idOrganization,orgType,illness);
 
             if (user == null)
                 return NotFound();

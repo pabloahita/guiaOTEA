@@ -35,7 +35,7 @@ public class OrganizationsCaller {
         }
         return instance;
     }
-    public static Organization obtainOrganization(int idOrganization, String orgType, String illness) {
+    public static Organization Get(int idOrganization, String orgType, String illness) {
 
         Call<Organization> call=api.Get(idOrganization,orgType,illness);
         AsyncTask<Void, Void, Organization> asyncTask = new AsyncTask<Void, Void, Organization>() {
@@ -138,7 +138,7 @@ public class OrganizationsCaller {
 
     // GET all evaluator organizations action
     public static List<Organization> GetAllEvaluatorOrganizations(){
-        Call<List<Organization>> call=api.GetAll();
+        Call<List<Organization>> call=api.GetAllEvaluatorOrganizations();
         AsyncTask<Void, Void, List<Organization>> asyncTask = new AsyncTask<Void, Void, List<Organization>>() {
             List<Organization> resultList = null;
             @Override

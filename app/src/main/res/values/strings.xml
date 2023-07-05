@@ -131,7 +131,7 @@
     <string name="description_center">Center description</string>
     <string name="please_description_center">Please enter description center</string>
     <string name="please_director">Please enter a organization director</string>
-    <string name="please_professional">Please enter a direct care professional</string>
+    <string name="please_professional">Please select a direct care professional</string>
     <string name="please_wait_login">Connecting to database to login. Please wait a few seconds...</string>
     <string name="please_wait_register_user">Connecting to database to register the user. Please wait a few seconds...</string>
     <string name="please_wait_reg_orgs">Connecting to database to register the organization. Please wait a few seconds....</string>
@@ -139,6 +139,38 @@
     <string name="do_you_want_to_exit_otea">Do you want to exit from OTEA?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="loading_evidences">Loading evidences... Please wait a few seconds...</string>
+    <string name="start">Start</string>
+    <string name="patient_name">ASD person name</string>
+    <string name="relative_name">ASD person\'s relative name</string>
+    <string name="select_evaluated_organization">Evaluated organization:</string>
+    <string name="select_external_consultant">External consultant</string>
+    <string name="non_existing_evaluated_organization">There is none evaluator organization, please add one to continue</string>
+    <string name="non_existing_evaluator_team">There is non existing evaluator team, please add a new one to continue</string>
+    <string name="please_patient_name">Please enter ASD person name</string>
+    <string name="please_relative_name">Please enter ASD person\'s relative name</string>
+    <string name="please_evaluated_org">Please select an evaluated organization</string>
+    <string name="please_consultant">Please select an external consultant</string>
+    <string name="please_responsible">Please select a responsible</string>
+    <string name="evaluated_org">Evaluated organization</string>
+    <string name="consultant">External consultant</string>
+    <string name="professional">Direct attendance professional</string>
+    <string name="responsible">Responsible</string>
+    <string name="evaluator_team">Evaluator team</string>
+    <string name="calculating_results">Calculating results... Please wait a few seconds...</string>
+    <string name="loading_indicators">Loading indicators... Please wait a few seconds...</string>
+    <string name="creation_date">Creation date</string>
+    <string name="eval_date_1">Evaluation date 1</string>
+    <string name="eval_date_2">Evaluation date 2</string>
+    <string name="eval_date_3">Evaluation date 3</string>
+    <string name="eval_date_4">Evaluation date 4</string>
+    <string name="observations">Observations</string>
+    <string name="please_date">Please enter a date here</string>
+    <string name="turning_back_to_org">Turning back to organization creation...</string>
+    <string name="adding_center">Adding center.. Please wait a few seconds...</string>
+    <string name="adding_org">Adding organization... Please wait a few seconds...</string>
+    <string name="going_director">Going to director form... Please wait a few seconds...</string>
+    <string name="going_center">Going to new center form... Please wait a few seconds...</string>
 
 
 </resources>

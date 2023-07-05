@@ -96,7 +96,7 @@
     <string name="description_center">Descripción del centro</string>
     <string name="please_description_center">Por favor introduzca la descripción del centro</string>
     <string name="please_director">Por favor introduzca un director de la organización</string>
-    <string name="please_professional">Por favor introduzca un profesional de atención directa</string>
+    <string name="please_professional">Por favor seleccione un profesional de atención directa</string>
     <string name="please_wait_login">Conectando a la base de datos para iniciar sesión. Por favor espere unos segundos...</string>
     <string name="please_wait_register_user">"Conectando a la base de datos para registrar el usuario. Por favor, espere unos segundos... "</string>
     <string name="please_wait_reg_orgs">Conectando a la base de datos para registrar la organización. Por favor, espere unos segundos...</string>
@@ -104,5 +104,37 @@
     <string name="do_you_want_to_exit_otea">¿Quiere salir de OTEA?</string>
     <string name="yes">Sí</string>
     <string name="no">No</string>
+    <string name="loading_evidences">Cargando evidencias... Por favor, espere unos segundos...</string>
+    <string name="start">Comenzar</string>
+    <string name="patient_name">Nombre de la persona con TEA</string>
+    <string name="relative_name">Nombre del familiar de la persona con TEA</string>
+    <string name="select_evaluated_organization">Organización evaluada:</string>
+    <string name="select_external_consultant">Consultor externo</string>
+    <string name="non_existing_evaluated_organization">No se ha encontrado ninguna organización evaluadora, por favor, añada una nueva</string>
+    <string name="non_existing_evaluator_team">No se ha encontrado ningún equipo evaluador. Por favor, introducza uno nuevo para continuar</string>
+    <string name="please_patient_name">Por favor inserte el nombre de la persona con TEA</string>
+    <string name="please_relative_name">Por favor inserte el nombre del familiar de la persona con TEA</string>
+    <string name="please_evaluated_org">Por favor seleccione una organización evaluada</string>
+    <string name="please_consultant">Por favor seleccione un consultor externo</string>
+    <string name="please_responsible">Por favor seleccione un responsable</string>
+    <string name="evaluated_org">Organización evaluada</string>
+    <string name="consultant">Consultor externo</string>
+    <string name="professional">Profesional de atención directa</string>
+    <string name="responsible">Responsable</string>
+    <string name="evaluator_team">Equipo evaluador</string>
+    <string name="calculating_results">Calculando resultados... Por favor espere unos segundos...</string>
+    <string name="loading_indicators">Cargando indicadores... Por favor espere unos segundos</string>
+    <string name="creation_date">Fecha de creación</string>
+    <string name="eval_date_1">Fecha de evaluación 1</string>
+    <string name="eval_date_2">Fecha de evaluación 2</string>
+    <string name="eval_date_3">Fecha de evaluación 3</string>
+    <string name="eval_date_4">Fecha de evaluación 4</string>
+    <string name="observations">Observaciones</string>
+    <string name="please_date">Por favor introduzca una fecha aquí</string>
+    <string name="turning_back_to_org">Volviendo a la creación de la organización...</string>
+    <string name="adding_center">Añadiendo centro... Por favor espere unos segundos...</string>
+    <string name="adding_org">Agregando organización... Por favor espere unos segundos...</string>
+    <string name="going_director">Pasando al formulario de director... Por favor espere unos segundos...</string>
+    <string name="going_center">Ir al formulario de nuevo centro... Por favor, espere unos segundos...</string>
 
 </resources>

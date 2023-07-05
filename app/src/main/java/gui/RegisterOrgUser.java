@@ -7,9 +7,12 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
@@ -44,17 +47,18 @@ public class RegisterOrgUser extends AppCompatActivity {
         String[] passwordKey={""};
         String[] userKey={""};
 
+        ProgressBar progressBar=findViewById(R.id.progressBar);
+        TextView textView=findViewById(R.id.turning_back);
+
+        progressBar.setVisibility(View.GONE);
+        textView.setVisibility(View.GONE);
+
 
         if(userType.equals("director")){
             user[0]=(User) getIntent().getSerializableExtra("director");
             passwordKey[0]="passwordDirector";
             userKey[0]="director";
             button.setText(getString(R.string.add_director));
-        }else if(userType.equals("professional")){
-            user[0]=(User) getIntent().getSerializableExtra("professional");
-            passwordKey[0]="passwordProfessional";
-            userKey[0]="professional";
-            button.setText(getString(R.string.add_professional));
         }
 
 
@@ -221,63 +225,106 @@ public class RegisterOrgUser extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String first_name=firstNameField.getText().toString();
-                String last_name=lastNameField.getText().toString();
-                String email=emailField.getText().toString();
-                String password= passwordField.getText().toString();
-                String telephone=telephoneField.getText().toString();
-                int idOrganization=getIntent().getIntExtra("idOrganization",-1);
-                String orgType=getIntent().getStringExtra("orgType");
-                String illness=getIntent().getStringExtra("illness");
-                if(!first_name.equals("") && !last_name.equals("") && FieldChecker.emailHasCorrectFormat(email) && FieldChecker.passwordHasCorrectFormat(password) && (FieldChecker.isASpanishNumber(telephone) || FieldChecker.isAForeignNumber(telephone))){
-                    long phone=Long.parseLong(telephone);
-                    User user=new User(email,"ORGANIZATION",first_name,last_name, password,phone,idOrganization,orgType,illness);
-                    Intent intent=new Intent(getApplicationContext(),gui.RegisterOrganization.class);
-                    intent.putExtra(userKey[0],user);
-                    intent.putExtra(passwordKey[0],password);
-                    if(userKey[0].equals("director")){
-                        intent.putExtra("professional",getIntent().getSerializableExtra("professional"));
-                    }else{
-                        intent.putExtra("director",getIntent().getSerializableExtra("director"));
+                firstNameField.setEnabled(false);
+                lastNameField.setEnabled(false);
+                emailField.setEnabled(false);
+                passwordField.setEnabled(false);
+                telephoneField.setEnabled(false);
+
+                progressBar.setVisibility(View.VISIBLE);
+                textView.setVisibility(View.VISIBLE);
+
+                v.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        String first_name=firstNameField.getText().toString();
+                        String last_name=lastNameField.getText().toString();
+                        String email=emailField.getText().toString();
+                        String password= passwordField.getText().toString();
+                        String telephone=telephoneField.getText().toString();
+                        int idOrganization=getIntent().getIntExtra("idOrganization",-1);
+                        String orgType=getIntent().getStringExtra("orgType");
+                        String illness=getIntent().getStringExtra("illness");
+                        if(!first_name.equals("") && !last_name.equals("") && FieldChecker.emailHasCorrectFormat(email) && FieldChecker.passwordHasCorrectFormat(password) && (FieldChecker.isASpanishNumber(telephone) || FieldChecker.isAForeignNumber(telephone))){
+                            long phone=Long.parseLong(telephone);
+                            User user=new User(email,"ORGANIZATION",first_name,last_name, password,phone,idOrganization,orgType,illness);
+                            Intent intent=new Intent(getApplicationContext(),gui.RegisterOrganization.class);
+                            intent.putExtra(userKey[0],user);
+                            intent.putExtra(passwordKey[0],password);
+                            intent.putExtra("user",getIntent().getSerializableExtra("user"));
+                            intent.putExtra("idOrganization",idOrganization);
+                            intent.putExtra("orgType",orgType);
+                            intent.putExtra("illness",illness);
+                            intent.putExtra("address",getIntent().getSerializableExtra("address"));
+                            intent.putExtra("organization",getIntent().getSerializableExtra("organization"));
+                            intent.putExtra("country",getIntent().getSerializableExtra("country"));
+                            intent.putExtra("province",getIntent().getSerializableExtra("province"));
+                            intent.putExtra("region",getIntent().getSerializableExtra("region"));
+                            intent.putExtra("city",getIntent().getSerializableExtra("city"));
+                            intent.putExtra("zipCode",getIntent().getStringExtra("zipCode"));
+                            intent.putExtra("telephone",getIntent().getStringExtra("telephone"));
+                            intent.putExtra("information",getIntent().getStringExtra("information"));
+                            intent.putExtra("email",getIntent().getStringExtra("email"));
+                            intent.putExtra("centers", getIntent().getSerializableExtra("centers"));
+                            startActivity(intent);
+                        }
+                        else{
+                            firstNameField.setEnabled(true);
+                            lastNameField.setEnabled(true);
+                            emailField.setEnabled(true);
+                            passwordField.setEnabled(true);
+                            telephoneField.setEnabled(true);
+
+                            progressBar.setVisibility(View.GONE);
+                            textView.setVisibility(View.GONE);
+                            if(first_name.equals("")){
+                                firstNameField.setError(getString(R.string.mandatory_first_name));
+                            }
+                            if(last_name.equals("")){
+                                lastNameField.setError(getString(R.string.mandatory_last_name));
+                            }
+                            if(!FieldChecker.emailHasCorrectFormat(email)){
+                                emailField.setError(getString(R.string.wrong_email));
+                            }
+                            if(!FieldChecker.passwordHasCorrectFormat(password)){
+                                passwordField.setError(getString(R.string.wrong_password));
+                            }
+                            if(!(FieldChecker.isASpanishNumber(telephone) || FieldChecker.isAForeignNumber(telephone))){
+                                telephoneField.setError(getString(R.string.wrong_phone));
+                            }
+                        }
                     }
-                    intent.putExtra("user",getIntent().getSerializableExtra("user"));
-                    intent.putExtra("idOrganization",idOrganization);
-                    intent.putExtra("orgType",orgType);
-                    intent.putExtra("illness",illness);
-                    intent.putExtra("address",getIntent().getSerializableExtra("address"));
-                    intent.putExtra("organization",getIntent().getSerializableExtra("organization"));
-                    intent.putExtra("country",getIntent().getSerializableExtra("country"));
-                    intent.putExtra("province",getIntent().getSerializableExtra("province"));
-                    intent.putExtra("region",getIntent().getSerializableExtra("region"));
-                    intent.putExtra("city",getIntent().getSerializableExtra("city"));
-                    intent.putExtra("zipCode",getIntent().getStringExtra("zipCode"));
-                    intent.putExtra("telephone",getIntent().getStringExtra("telephone"));
-                    intent.putExtra("information",getIntent().getStringExtra("information"));
-                    intent.putExtra("email",getIntent().getStringExtra("email"));
-                    intent.putExtra("centers", getIntent().getSerializableExtra("centers"));
-                    startActivity(intent);
-                }
-                else{
-                    if(first_name.equals("")){
-                        firstNameField.setError(getString(R.string.mandatory_first_name));
-                    }
-                    if(last_name.equals("")){
-                        lastNameField.setError(getString(R.string.mandatory_last_name));
-                    }
-                    if(!FieldChecker.emailHasCorrectFormat(email)){
-                        emailField.setError(getString(R.string.wrong_email));
-                    }
-                    if(!FieldChecker.passwordHasCorrectFormat(password)){
-                        passwordField.setError(getString(R.string.wrong_password));
-                    }
-                    if(!(FieldChecker.isASpanishNumber(telephone) || FieldChecker.isAForeignNumber(telephone))){
-                        telephoneField.setError(getString(R.string.wrong_phone));
-                    }
-                }
+                }, 100);
+
+
 
 
             }
         });
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+        if(keyCode==event.KEYCODE_BACK){
+            Intent intent=new Intent(getApplicationContext(),gui.RegisterOrganization.class);
+            intent.putExtra("user",getIntent().getSerializableExtra("user"));
+            intent.putExtra("idOrganization",getIntent().getIntExtra("idOrganization",-1));
+            intent.putExtra("orgType",getIntent().getStringExtra("orgType"));
+            intent.putExtra("illness",getIntent().getStringExtra("illness"));
+            intent.putExtra("address",getIntent().getSerializableExtra("address"));
+            intent.putExtra("organization",getIntent().getSerializableExtra("organization"));
+            intent.putExtra("country",getIntent().getSerializableExtra("country"));
+            intent.putExtra("province",getIntent().getSerializableExtra("province"));
+            intent.putExtra("region",getIntent().getSerializableExtra("region"));
+            intent.putExtra("city",getIntent().getSerializableExtra("city"));
+            intent.putExtra("zipCode",getIntent().getStringExtra("zipCode"));
+            intent.putExtra("telephone",getIntent().getStringExtra("telephone"));
+            intent.putExtra("information",getIntent().getStringExtra("information"));
+            intent.putExtra("email",getIntent().getStringExtra("email"));
+            intent.putExtra("centers", getIntent().getSerializableExtra("centers"));
+            startActivity(intent);
+        }
+        return super.onKeyDown(keyCode,event);
     }
 }
