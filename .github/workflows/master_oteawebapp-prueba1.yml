@@ -25,6 +25,9 @@ jobs:
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
+      - name: LIST
+        run: ls -al
+
       - name: dotnet publish
         run: dotnet publish ./OTEAServer/OTEAServer/OTEAServer.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
