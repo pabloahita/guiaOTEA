@@ -1,29 +1,22 @@
-using OTEAServer.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using OTEAServer.Misc;
 
 var builder = WebApplication.CreateBuilder(args); // Web app builder
 
 builder.Services.AddControllers();
 // Add services to the container.
 builder.Services.AddRazorPages();
-// Add custom service to the container builder.Service.AddScoped<ServiceName>();
-builder.Services.AddScoped<UsersService>();
-builder.Services.AddScoped<OrganizationsService>();
-builder.Services.AddScoped<AddressesService>();
-builder.Services.AddScoped<IndicatorsService>();
-builder.Services.AddScoped<EvidencesService>();
-builder.Services.AddScoped<CitiesService>();
-builder.Services.AddScoped<ProvincesService>();
-builder.Services.AddScoped<RegionsService>();
-builder.Services.AddScoped<CountriesService>();
-builder.Services.AddScoped<IndicatorsEvaluationsService>();
-builder.Services.AddScoped<CentersService>();
-builder.Services.AddScoped<IndicatorsEvaluationRegsService>();
-builder.Services.AddScoped<EvaluatorTeamMembersService>();
-builder.Services.AddScoped<EvaluatorTeamsService>();
+
 builder.Services.AddMvc(options =>
 {
     options.SuppressAsyncSuffixInActionNames = false;
 });
+
+//Add DATABASE CONTEXT
+builder.Services.AddDbContext<DatabaseContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddRouting();
 
 var app = builder.Build();

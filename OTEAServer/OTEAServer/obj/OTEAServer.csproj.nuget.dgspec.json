@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Pablo\\StudioProjects\\tfg2223\\OTEAServer\\OTEAServer\\OTEAServer.csproj": {}
+    "C:\\Users\\fundacionmiradas\\StudioProjects\\tfg2223\\OTEAServer\\OTEAServer\\OTEAServer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Pablo\\StudioProjects\\tfg2223\\OTEAServer\\OTEAServer\\OTEAServer.csproj": {
+    "C:\\Users\\fundacionmiradas\\StudioProjects\\tfg2223\\OTEAServer\\OTEAServer\\OTEAServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Pablo\\StudioProjects\\tfg2223\\OTEAServer\\OTEAServer\\OTEAServer.csproj",
+        "projectUniqueName": "C:\\Users\\fundacionmiradas\\StudioProjects\\tfg2223\\OTEAServer\\OTEAServer\\OTEAServer.csproj",
         "projectName": "OTEAServer",
-        "projectPath": "C:\\Users\\Pablo\\StudioProjects\\tfg2223\\OTEAServer\\OTEAServer\\OTEAServer.csproj",
-        "packagesPath": "C:\\Users\\Pablo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Pablo\\StudioProjects\\tfg2223\\OTEAServer\\OTEAServer\\obj\\",
+        "projectPath": "C:\\Users\\fundacionmiradas\\StudioProjects\\tfg2223\\OTEAServer\\OTEAServer\\OTEAServer.csproj",
+        "packagesPath": "C:\\Users\\fundacionmiradas\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\fundacionmiradas\\StudioProjects\\tfg2223\\OTEAServer\\OTEAServer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Pablo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\fundacionmiradas\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,8 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\sdk\\7.0.302\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
-          "C:\\Program Files\\dotnet\\sdk\\7.0.304\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
+          "C:\\Program Files\\dotnet\\sdk\\7.0.306\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -42,6 +41,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.9, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
@@ -74,7 +77,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
         }
       }
     }

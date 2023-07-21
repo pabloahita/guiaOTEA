@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using OTEAServer.Misc;
 using OTEAServer.Models;
 using OTEAServer.Services;
 
@@ -8,13 +10,13 @@ namespace OTEAServer.Controllers
     [Route("Users")]
     public class UsersController : ControllerBase
     {
-        private readonly ILogger<UsersController> _logger;
+        /*private readonly ILogger<UsersController> _logger;
         private readonly UsersService _usersService;
-
-        public UsersController(ILogger<UsersController> logger, UsersService usersService)
+        */
+        private readonly DatabaseContext _context;
+        public UsersController(DatabaseContext context)
         {
-            _logger = logger;
-            _usersService = usersService;
+            _context = context;
         }
 
         
@@ -22,7 +24,7 @@ namespace OTEAServer.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var users = _usersService.GetAll();
+            var users = _context.Users.ToList();
             return Ok(users);
         }
 
@@ -31,7 +33,7 @@ namespace OTEAServer.Controllers
         [HttpGet("getAllByType::userType={userType}")]
         public IActionResult GetAllByType(string userType)
         {
-            var users = _usersService.GetAllByType(userType);
+            var users = _context.Users.Where(u => u.userType == userType).ToList();
             return Ok(users);
         }
 
@@ -39,7 +41,7 @@ namespace OTEAServer.Controllers
         [HttpGet("getAllByOrg::idOrganization={idOrganization}:orgType={orgType}:illness={illness}")]
         public IActionResult GetAllOrgUsersByOrganization(int idOrganization, string orgType, string illness)
         {
-            var users = _usersService.GetAllOrgUsersByOrganization(idOrganization,orgType,illness);
+            var users = _context.Users.Where(u => u.idOrganization==idOrganization && u.organizationType==orgType && u.illness==illness).ToList();
             return Ok(users);
         }
 
@@ -48,7 +50,7 @@ namespace OTEAServer.Controllers
         [HttpGet("get::email={email}")]
         public ActionResult<User> Get(string email)
         {
-            var user = _usersService.Get(email);
+            var user = _context.Users.FirstOrDefault(u => u.emailUser == email);
 
             if (user == null)
                 return NotFound();
@@ -60,7 +62,7 @@ namespace OTEAServer.Controllers
         [HttpGet("login::email={email}:password={password}")]
         public ActionResult<User> GetForLogin(string email,string password)
         {
-            var user = _usersService.GetForLogin(email,password);
+            var user = _context.Users.FirstOrDefault(u => u.emailUser == email && u.passwordUser==password);
 
             if (user == null)
                 return NotFound();
@@ -73,7 +75,7 @@ namespace OTEAServer.Controllers
         [HttpGet("getByType::email={email}:userType={userType}")]
         public ActionResult<User> GetByType(string email, string userType)
         {
-            var user = _usersService.GetByType(email,userType);
+            var user = _context.Users.FirstOrDefault(u => u.emailUser == email && u.userType==userType);
 
             if (user == null)
                 return NotFound();
@@ -86,7 +88,7 @@ namespace OTEAServer.Controllers
         [HttpGet("getByOrg::email={email}:idOrganization={idOrganization}:orgType={orgType}:illness={illness}")]
         public ActionResult<User> GetOrgUserByOrganization(string email, int idOrganization, string orgType, string illness)
         {
-            var user = _usersService.GetOrgUserByOrganization(email,idOrganization,orgType,illness);
+            var user = _context.Users.FirstOrDefault(u => u.emailUser == email && u.idOrganization == idOrganization && u.organizationType == orgType && u.illness == illness);
 
             if (user == null)
                 return NotFound();
@@ -98,8 +100,8 @@ namespace OTEAServer.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] User user)
         {
-            _usersService.Add(user.emailUser,user.first_name,user.last_name,user.passwordUser,user.userType,user.telephone,user.idOrganization,user.organizationType,user.illness);
-            //User user = new User(emailUser, first_name, last_name, passwordUser, userType,telephone, idOrganization, organizationType, illness);
+            _context.Users.Add(user);
+            _context.SaveChanges();
             return CreatedAtAction(nameof(Get), new { email = user.emailUser}, user);
         }
 
@@ -107,30 +109,39 @@ namespace OTEAServer.Controllers
         [HttpPut("upd::email={email}")]
         public IActionResult Update(string email, [FromBody] User user)
         {
-            // This code will update the mesa and return a result
             if (email != user.emailUser)
                 return BadRequest();
 
-            var existingUser = _usersService.Get(email);
+            var existingUser = _context.Users.FirstOrDefault(u => u.emailUser == email);
             if (existingUser is null)
                 return NotFound();
 
-            _usersService.Update(email,user);
+            existingUser.first_name = user.first_name;
+            existingUser.last_name = user.last_name;
+            existingUser.passwordUser = user.passwordUser;
+            existingUser.userType = user.userType;
+            existingUser.telephone = user.telephone;
+            existingUser.idOrganization = user.idOrganization;
+            existingUser.organizationType = user.organizationType;
+            existingUser.illness = user.illness;
 
-            return Ok(user);
+            _context.SaveChanges();
+
+            return Ok(existingUser);
         }
 
         // DELETE action
         [HttpDelete("del::email={email}")]
-        public IActionResult Delete(String email)
+        public IActionResult Delete(string email)
         {
-            // This code will delete the mesa and return a result
-            var user = _usersService.Get(email);
+            // This code will delete the user and return a result
+            var user = _context.Users.FirstOrDefault(u => u.emailUser == email);
 
             if (user is null)
                 return NotFound();
 
-            _usersService.Delete(email);
+            _context.Users.Remove(user);
+            _context.SaveChanges();
 
             return NoContent();
         }

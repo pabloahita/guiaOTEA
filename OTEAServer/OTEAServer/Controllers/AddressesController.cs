@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OTEAServer.Misc;
 using OTEAServer.Models;
-using OTEAServer.Services;
 using System.Data;
 
 namespace OTEAServer.Controllers
@@ -10,19 +10,17 @@ namespace OTEAServer.Controllers
     [Route("Addresses")]
     public class AddressesController : ControllerBase
     {
-        private readonly ILogger<AddressesController> _logger;
-        private readonly AddressesService _addressesService;
+        private readonly DatabaseContext _context;
 
-        public AddressesController(ILogger<AddressesController> logger, AddressesService addressesService)
+        public AddressesController(DatabaseContext context)
         {
-            _logger = logger;
-            _addressesService = addressesService;
+            _context = context;
         }
         // GET all action
         [HttpGet]
         public IActionResult GetAll()
         {
-            var addresses = _addressesService.GetAll();
+            var addresses = _context.Addresses.ToList();
             return Ok(addresses);
         }
 
@@ -31,7 +29,7 @@ namespace OTEAServer.Controllers
         [HttpGet("get::{id}")]
         public ActionResult<Address> Get(int id)
         {
-            var address = _addressesService.Get(id);
+            var address = _context.Addresses.FirstOrDefault(a => a.idAddress == id);
 
             if (address == null)
                 return NotFound();
@@ -43,8 +41,8 @@ namespace OTEAServer.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Address address)
         {
-            _addressesService.Add(address.idAddress, address.addressName, address.zipCode, address.idCity, address.idProvince, address.idRegion, address.nameCity, address.nameProvince, address.nameRegion, address.idCountry);
-
+            _context.Addresses.Add(address);
+            _context.SaveChanges();
             return CreatedAtAction(nameof(Get), new { idAddress = address.idAddress }, address);
         }
 
@@ -57,26 +55,38 @@ namespace OTEAServer.Controllers
             if (idAddress != address.idAddress)
                 return BadRequest();
 
-            var existingAddress = _addressesService.Get(idAddress);
+            var existingAddress = _context.Addresses.FirstOrDefault(a => a.idAddress == idAddress);
             if (existingAddress is null)
                 return NotFound();
 
-            _addressesService.Update(idAddress,address);
+            existingAddress.idAddress = idAddress;
+            existingAddress.addressName = address.addressName;
+            existingAddress.zipCode = address.zipCode;
+            existingAddress.idCity= address.idCity;
+            existingAddress.idProvince = address.idProvince;
+            existingAddress.idRegion = address.idRegion;
+            existingAddress.idCountry=address.idCountry;
+            existingAddress.nameCity= address.nameCity;
+            existingAddress.nameProvince=address.nameProvince;
+            existingAddress.nameRegion = address.nameRegion;
 
-            return Ok(address);
+            _context.SaveChanges();
+
+            return Ok(existingAddress);
         }
 
         // DELETE action
         [HttpDelete("del::{id}")]
         public IActionResult Delete(int id)
         {
-            // This code will delete the mesa and return a result
-            var address = _addressesService.Get(id);
+            // This code will delete the address and return a result
+            var address = _context.Addresses.FirstOrDefault(a => a.idAddress == id);
 
             if (address is null)
                 return NotFound();
 
-            _addressesService.Delete(id);
+            _context.Addresses.Remove(address);
+            _context.SaveChanges();
 
             return NoContent();
         }

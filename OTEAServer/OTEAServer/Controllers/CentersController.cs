@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using OTEAServer.Misc;
 using OTEAServer.Models;
-using OTEAServer.Services;
 using System.Data.SqlClient;
 using System.Security.Policy;
 
@@ -11,31 +11,29 @@ namespace OTEAServer.Controllers
     [Route("Centers")]
     public class CentersController : ControllerBase
     {
-        private readonly ILogger<CentersController> _logger;
-        private readonly CentersService _centersService;
+        private readonly DatabaseContext _context;
 
-        public CentersController(ILogger<CentersController> logger, CentersService centersService)
+        public CentersController(DatabaseContext context)
         {
-            _logger = logger;
-            _centersService = centersService;
+            _context = context;
         }
 
         [HttpGet]
         public IActionResult GetAll() {
-            var centers = _centersService.GetAll();
+            var centers = _context.Centers.ToList();
             return Ok(centers);
         }
 
         [HttpGet("org::idOrganization={idOrganization}:orgType={orgType}:illness={illness}")]
         public IActionResult GetAllByOrganization(int idOrganization, string orgType, string illness) {
-            var centers = _centersService.GetAllByOrganization(idOrganization,orgType,illness);
+            var centers = _context.Centers.Where(c=>c.idOrganization== idOrganization && c.orgType==orgType && c.illness==illness).ToList();
             return Ok(centers);
         }
 
         [HttpGet("get::idOrganization={idOrganization}:orgType={orgType}:illness={illness}:idCenter={idCenter}")]
         public ActionResult<Center> Get(int idOrganization, string orgType, string illness, int idCenter)
         {
-            var center = _centersService.Get(idOrganization, orgType, illness,idCenter);
+            var center = _context.Centers.FirstOrDefault(c => c.idOrganization == idOrganization && c.orgType == orgType && c.illness == illness && c.idCenter == idCenter);
             if(center == null)
             {
                 return NotFound();
@@ -46,8 +44,8 @@ namespace OTEAServer.Controllers
         [HttpPost]
         public ActionResult<Center> Create([FromBody] Center center)
         {
-            _centersService.Add(center.idOrganization, center.orgType, center.illness, center.idCenter, center.centerDescription, center.idAddress, center.telephone);
-            //Center center = new Center(idOrganization, orgType, illness, idCenter, centerDescription, idAddress, telephone);
+            _context.Centers.Add(center);
+            _context.SaveChanges();
             return CreatedAtAction(nameof(Get), new { idOrganization = center.idOrganization, orgType = center.orgType, illness = center.illness, idCenter = center.idCenter }, center);
         }
 
@@ -57,25 +55,32 @@ namespace OTEAServer.Controllers
             if (idOrganization != center.idOrganization || orgType != center.orgType || illness != center.illness || idCenter != center.idCenter)
                 return BadRequest();
 
-            var existingOrganization = _centersService.Get(idOrganization, orgType, illness,idCenter);
-            if (existingOrganization is null)
+            var existingCenter = _context.Centers.FirstOrDefault(c => c.idOrganization == idOrganization && c.orgType == orgType && c.illness == illness && c.idCenter == idCenter);
+            if (existingCenter is null)
                 return NotFound();
 
-            _centersService.Update(idOrganization,orgType,illness,idCenter,center);
+            existingCenter.idOrganization = idOrganization;
+            existingCenter.orgType = orgType;
+            existingCenter.illness = illness;
+            existingCenter.idCenter = idCenter;
+            existingCenter.centerDescription=center.centerDescription;
+            existingCenter.idAddress = center.idAddress;
+            existingCenter.telephone = center.telephone;
+            existingCenter.email=center.email;
 
-            return Ok(center);
+            return Ok(existingCenter);
         }
 
         [HttpDelete("del::idOrganization={idOrganization}:orgType={orgType}:illness={illness}:idCenter={idCenter}")]
         public ActionResult<Center> Delete(int idOrganization, string orgType, string illness, int idCenter)
         {
-            var center = _centersService.Get(idOrganization, orgType, illness, idCenter);
+            var center = _context.Centers.FirstOrDefault(c => c.idOrganization == idOrganization && c.orgType == orgType && c.illness == illness && c.idCenter == idCenter);
 
             if (center is null)
                 return NotFound();
 
-            _centersService.Delete(idOrganization, orgType, illness,idCenter);
-
+            _context.Centers.Remove(center);
+            _context.SaveChanges();
             return NoContent();
         }
 

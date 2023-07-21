@@ -1,0 +1,15 @@
+C:\Users\fundacionmiradas\StudioProjects\tfg2223\OTEAServer\OTEAServer\bin\Debug\net6.0\publish\OTEAServer.exe
+C:\Users\fundacionmiradas\StudioProjects\tfg2223\OTEAServer\OTEAServer\bin\Debug\net6.0\publish\appsettings.Development.json
+C:\Users\fundacionmiradas\StudioProjects\tfg2223\OTEAServer\OTEAServer\bin\Debug\net6.0\publish\appsettings.json
+C:\Users\fundacionmiradas\StudioProjects\tfg2223\OTEAServer\OTEAServer\bin\Debug\net6.0\publish\OTEAServer.dll
+C:\Users\fundacionmiradas\StudioProjects\tfg2223\OTEAServer\OTEAServer\bin\Debug\net6.0\publish\OTEAServer.deps.json
+C:\Users\fundacionmiradas\StudioProjects\tfg2223\OTEAServer\OTEAServer\bin\Debug\net6.0\publish\OTEAServer.runtimeconfig.json
+C:\Users\fundacionmiradas\StudioProjects\tfg2223\OTEAServer\OTEAServer\bin\Debug\net6.0\publish\OTEAServer.pdb
+C:\Users\fundacionmiradas\StudioProjects\tfg2223\OTEAServer\OTEAServer\bin\Debug\net6.0\publish\Newtonsoft.Json.dll
+C:\Users\fundacionmiradas\StudioProjects\tfg2223\OTEAServer\OTEAServer\bin\Debug\net6.0\publish\System.Data.SqlClient.dll
+C:\Users\fundacionmiradas\StudioProjects\tfg2223\OTEAServer\OTEAServer\bin\Debug\net6.0\publish\Vse.Web.Serialization.dll
+C:\Users\fundacionmiradas\StudioProjects\tfg2223\OTEAServer\OTEAServer\bin\Debug\net6.0\publish\runtimes\win-arm64\native\sni.dll
+C:\Users\fundacionmiradas\StudioProjects\tfg2223\OTEAServer\OTEAServer\bin\Debug\net6.0\publish\runtimes\win-x64\native\sni.dll
+C:\Users\fundacionmiradas\StudioProjects\tfg2223\OTEAServer\OTEAServer\bin\Debug\net6.0\publish\runtimes\win-x86\native\sni.dll
+C:\Users\fundacionmiradas\StudioProjects\tfg2223\OTEAServer\OTEAServer\bin\Debug\net6.0\publish\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\fundacionmiradas\StudioProjects\tfg2223\OTEAServer\OTEAServer\bin\Debug\net6.0\publish\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OTEAServer.Misc;
 using OTEAServer.Models;
-using OTEAServer.Services;
 
 namespace OTEAServer.Controllers
 {
@@ -9,13 +9,11 @@ namespace OTEAServer.Controllers
     [Route("Evidences")]
     public class EvidencesController : ControllerBase
     {
-        private readonly ILogger<EvidencesController> _logger;
-        private readonly EvidencesService _evidencesService;
+        private readonly DatabaseContext _context;
 
-        public EvidencesController(ILogger<EvidencesController> logger, EvidencesService evidencesService)
+        public EvidencesController(DatabaseContext context)
         {
-            _logger = logger;
-            _evidencesService = evidencesService;
+            _context = context;
         }
 
 
@@ -23,7 +21,7 @@ namespace OTEAServer.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var evidences = _evidencesService.GetAll();
+            var evidences = _context.Evidences.ToList();
             return Ok(evidences);
         }
 
@@ -31,7 +29,7 @@ namespace OTEAServer.Controllers
         [HttpGet("ind::idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")]
         public IActionResult GetAllByIndicator(int idIndicator, string indicatorType, int indicatorVersion)
         {
-            var evidences = _evidencesService.GetAllByIndicator(idIndicator, indicatorType, indicatorVersion);
+            var evidences = _context.Evidences.Where(e=>e.idIndicator==idIndicator && e.indicatorType==indicatorType && e.indicatorVersion==indicatorVersion).ToList();
             return Ok(evidences);
         }
 
@@ -40,7 +38,7 @@ namespace OTEAServer.Controllers
         [HttpGet("get::idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")]
         public ActionResult<Evidence> Get(int idEvidence, int idIndicator, string indicatorType, int indicatorVersion)
         {
-            var evidence = _evidencesService.Get(idEvidence,idIndicator, indicatorType, indicatorVersion);
+            var evidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.indicatorVersion == indicatorVersion);
 
             if (evidence == null)
                 return NotFound();
@@ -54,7 +52,8 @@ namespace OTEAServer.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Evidence evidence)
         {
-            _evidencesService.Add(evidence.idEvidence, evidence.idIndicator, evidence.indicatorType, evidence.descriptionEnglish, evidence.descriptionSpanish, evidence.descriptionFrench, evidence.evidenceValue, evidence.indicatorVersion);
+            _context.Evidences.Add(evidence);
+            _context.SaveChanges();
             return CreatedAtAction(nameof(Get), new { id = evidence.idEvidence, idIndicator=evidence.idIndicator, type = evidence.indicatorType, version=evidence.indicatorVersion }, evidence);
         }
 
@@ -66,13 +65,22 @@ namespace OTEAServer.Controllers
             if (idEvidence != evidence.idEvidence || idIndicator != evidence.idIndicator || indicatorType != evidence.indicatorType)
                 return BadRequest();
 
-            var existingEvidence = _evidencesService.Get(idEvidence, idIndicator, indicatorType, indicatorVersion);
+            var existingEvidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.indicatorVersion == indicatorVersion);
             if (existingEvidence is null)
                 return NotFound();
 
-            _evidencesService.Update(evidence);
+            existingEvidence.idEvidence = idEvidence;
+            existingEvidence.idIndicator = idIndicator;
+            existingEvidence.indicatorType = indicatorType;
+            existingEvidence.indicatorVersion = indicatorVersion;
+            existingEvidence.descriptionEnglish = evidence.descriptionEnglish;
+            existingEvidence.descriptionSpanish = evidence.descriptionSpanish;
+            existingEvidence.descriptionFrench = evidence.descriptionFrench;
+            existingEvidence.evidenceValue=evidence.evidenceValue;
 
-            return Ok(evidence);
+            _context.SaveChanges();
+
+            return Ok(existingEvidence);
         }
 
         // DELETE action
@@ -80,12 +88,13 @@ namespace OTEAServer.Controllers
         public IActionResult Delete(int idEvidence, int idIndicator, string indicatorType, int indicatorVersion)
         {
             // This code will delete the mesa and return a result
-            var evidence = _evidencesService.Get(idEvidence, idIndicator, indicatorType, indicatorVersion);
+            var evidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.indicatorVersion == indicatorVersion);
 
             if (evidence is null)
                 return NotFound();
 
-            _evidencesService.Delete(idEvidence, idIndicator, indicatorType, indicatorVersion);
+            _context.Evidences.Remove(evidence);
+            _context.SaveChanges();
 
             return NoContent();
         }

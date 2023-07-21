@@ -4,8 +4,8 @@ namespace OTEAServer.Models
 {
     public class Indicator
     {
-        public Indicator(int idIndicator, string indicatorType, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, int indicatorPriority, int indicatorVersion) {
-            this.indicatorId = idIndicator;
+        public Indicator(int indicatorId, string indicatorType, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, int indicatorPriority, int indicatorVersion) {
+            this.indicatorId = indicatorId;
             this.indicatorType = indicatorType;
             this.descriptionEnglish = descriptionEnglish;
             this.descriptionSpanish = descriptionSpanish;

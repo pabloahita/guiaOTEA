@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OTEAServer.Misc;
 using OTEAServer.Models;
-using OTEAServer.Services;
 
 namespace OTEAServer.Controllers
 {
@@ -9,20 +9,18 @@ namespace OTEAServer.Controllers
     [Route("Cities")]
     public class CitiesController : ControllerBase
     {
-        private readonly ILogger<CitiesController> _logger;
-        private readonly CitiesService _citiesService;
+        private readonly DatabaseContext _context;
 
-        public CitiesController(ILogger<CitiesController> logger, CitiesService citiesService)
+        public CitiesController(DatabaseContext context)
         {
-            _logger = logger;
-            _citiesService = citiesService;
+            _context=context;
         }
 
         // GET all by province action
         [HttpGet("province::idProvince={idProvince}:idRegion={idRegion}:idCountry={idCountry}")]
         public IActionResult GetAllByProvince(int idProvince, int idRegion, string idCountry)
         {
-            var cities = _citiesService.GetAllByProvince(idProvince,idRegion,idCountry);
+            var cities = _context.Cities.Where(c=>c.idProvince==idProvince && c.idRegion==idRegion && c.idCountry==idCountry).ToList();
             return Ok(cities);
         }
 
@@ -31,7 +29,7 @@ namespace OTEAServer.Controllers
         [HttpGet("city::idCity={idCity}:idProvince={idProvince}:idRegion={idRegion}:idCountry={idCountry}")]
         public ActionResult<City> Get(int idCity, int idProvince, int idRegion, string idCountry)
         {
-            var city = _citiesService.Get(idCity,idProvince,idRegion,idCountry);
+            var city = _context.Cities.FirstOrDefault(c => c.idCity == idCity && c.idProvince == idProvince && c.idRegion == idRegion && c.idCountry == idCountry);
 
             if (city == null)
                 return NotFound();

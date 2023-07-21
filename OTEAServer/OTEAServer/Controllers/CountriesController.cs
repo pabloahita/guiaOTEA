@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OTEAServer.Misc;
 using OTEAServer.Models;
 using OTEAServer.Services;
 
@@ -8,20 +9,18 @@ namespace OTEAServer.Controllers
     [Route("Countries")]
     public class CountriesController : ControllerBase
     {
-        private readonly ILogger<CountriesController> _logger;
-        private readonly CountriesService _countriesService;
+        private readonly DatabaseContext _context;
 
-        public CountriesController(ILogger<CountriesController> logger, CountriesService countriesService)
+        public CountriesController(DatabaseContext context)
         {
-            _logger = logger;
-            _countriesService = countriesService;
+            _context = context;
         }
 
         // GET all by country action
         [HttpGet]
         public IActionResult GetAll()
         {
-            var countries = _countriesService.GetAll();
+            var countries = _context.Countries.ToList();
             return Ok(countries);
         }
 
@@ -30,7 +29,7 @@ namespace OTEAServer.Controllers
         [HttpGet("idCountry={idCountry}")]
         public ActionResult<Country> Get(string idCountry)
         {
-            var country = _countriesService.Get(idCountry);
+            var country = _context.Countries.FirstOrDefault(c=>c.idCountry == idCountry);
 
             if (country == null)
                 return NotFound();

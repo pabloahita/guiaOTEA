@@ -5,7 +5,7 @@ namespace OTEAServer.Models
 {
     public class Address
     {
-        public Address(int idAddress, string addressName, int zipCode, int idCity, int idProvince, int idRegion, string idCountry, string nameCity, string nameProvince, string nameRegion)
+        public Address(int idAddress, string addressName, int zipCode, int? idCity, int? idProvince, int? idRegion, string idCountry, string nameCity, string nameProvince, string nameRegion)
         {
             this.idAddress = idAddress;
             this.addressName= addressName;
@@ -30,13 +30,13 @@ namespace OTEAServer.Models
         public int zipCode { get; set; }
 
         [JsonProperty("idCity")]
-        public int idCity { get; set; }
+        public int? idCity { get; set; }
 
         [JsonProperty("idProvince")]
-        public int idProvince { get; set; }
+        public int? idProvince { get; set; }
 
         [JsonProperty("idRegion")]
-        public int idRegion { get; set; }
+        public int? idRegion { get; set; }
 
         [JsonProperty("idCountry")]
         public string idCountry { get; set; }

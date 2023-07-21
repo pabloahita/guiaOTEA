@@ -35,6 +35,9 @@ namespace OTEAServer.Models
 
         [JsonProperty("telephone")]
         public long telephone { get; set; }
+
+        [JsonProperty("email")]
+        public string email { get; set; }
     }
 
     
