@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.6.33723.286
+VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OTEAServer", "OTEAServer\OTEAServer.csproj", "{DD7A52CB-E3C3-4F7D-83D8-943DA1B4C064}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OTEAServer", "OTEAServer.csproj", "{D46461E1-0C73-4AE3-94CE-6448D153B971}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DD7A52CB-E3C3-4F7D-83D8-943DA1B4C064}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DD7A52CB-E3C3-4F7D-83D8-943DA1B4C064}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DD7A52CB-E3C3-4F7D-83D8-943DA1B4C064}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DD7A52CB-E3C3-4F7D-83D8-943DA1B4C064}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D46461E1-0C73-4AE3-94CE-6448D153B971}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D46461E1-0C73-4AE3-94CE-6448D153B971}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D46461E1-0C73-4AE3-94CE-6448D153B971}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D46461E1-0C73-4AE3-94CE-6448D153B971}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {BDEF0EBE-A755-4A93-9742-EFF5C1CEB3B2}
+		SolutionGuid = {042663F9-0377-41F7-A225-23A57F66EEC3}
 	EndGlobalSection
 EndGlobal
