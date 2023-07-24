@@ -42,6 +42,7 @@ namespace OTEAServer.Misc
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Address>().HasKey(a => new { a.idAddress });
+            modelBuilder.Entity<Ambit>().HasKey(a => new { a.idAmbit });
             modelBuilder.Entity<Center>().HasKey(c => new { c.idCenter, c.idOrganization, c.orgType, c.illness });
             modelBuilder.Entity<City>().HasKey(c => new { c.idCity, c.idProvince, c.idRegion, c.idCountry });
             modelBuilder.Entity<Country>().HasKey(c => new { c.idCountry });
