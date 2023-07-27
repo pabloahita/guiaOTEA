@@ -15,7 +15,7 @@ namespace OTEAServer.Controllers
         }
 
         // GET all by region action
-        [HttpGet("country::idCountry={idCountry}")]
+        [HttpGet("country")]
         public IActionResult GetAllByRegion(string idCountry)
         {
             var regions = _context.Regions.Where(r=>r.idCountry==idCountry).ToList();
@@ -24,8 +24,8 @@ namespace OTEAServer.Controllers
 
         // GET by CITY by IDS action
 
-        [HttpGet("get::idRegion={idRegion}:idCountry={idCountry}")]
-        public ActionResult<Region> Get(int idRegion, string idCountry)
+        [HttpGet("get")]
+        public ActionResult<Region> Get([FromQuery] int idRegion, [FromQuery] string idCountry)
         {
             var region = _context.Regions.FirstOrDefault(r=>r.idRegion==idRegion && r.idCountry==idCountry);
 

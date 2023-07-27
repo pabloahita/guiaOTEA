@@ -29,7 +29,7 @@ namespace OTEAServer.Misc
 
         public DbSet<IndicatorsEvaluation> IndicatorsEvaluations { get; set; }
 
-        public DbSet<IndicatorsEvaluationReg> IndicatorsEvaluationRegs { get; set; }
+        public DbSet<IndicatorsEvaluationReg> IndicatorsEvaluationsRegs { get; set; }
 
         public DbSet<Organization> Organizations { get; set; }
 

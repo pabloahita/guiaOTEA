@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Misc;
 using OTEAServer.Models;
+using System.Net.NetworkInformation;
 
 namespace OTEAServer.Controllers
 {
@@ -18,7 +19,7 @@ namespace OTEAServer.Controllers
 
 
         // GET all action
-        [HttpGet]
+        [HttpGet("all")]
         public IActionResult GetAll()
         {
             var indicatorsEvaluations = _context.IndicatorsEvaluations.ToList();
@@ -26,16 +27,16 @@ namespace OTEAServer.Controllers
         }
 
         // GET all by EVALUATOR ORGANIZATION action
-        [HttpGet("evaluatorOrg::idEvaluatorOrganization={idEvaluatorOrganization}:orgType={orgType}:illness={illness}")]
-        public IActionResult GetAllByEvaluatorOrganization(int idEvaluatorOrganization,string orgType,string illness)
+        [HttpGet("evaluatorOrg")]
+        public IActionResult GetAllByEvaluatorOrganization([FromQuery] int idEvaluatorOrganization, [FromQuery] string orgType, [FromQuery] string illness)
         {
             var indicatorsEvaluations = _context.IndicatorsEvaluations.Where(e=>e.idEvaluatorOrganization==idEvaluatorOrganization && e.orgTypeEvaluator==orgType && e.illness==illness).ToList();
             return Ok(indicatorsEvaluations);
         }
 
         //GET all by EVALUATED ORGANIZATION
-        [HttpGet("evaluatedOrg::idEvaluatedOrganization={idEvaluatedOrganization}:orgType={orgType}:illness={illness}")]
-        public IActionResult GetAllByEvaluatedOrganization(int idEvaluatedOrganization, string orgType, string illness)
+        [HttpGet("evaluatedOrg")]
+        public IActionResult GetAllByEvaluatedOrganization([FromQuery] int idEvaluatedOrganization, [FromQuery] string orgType, [FromQuery] string illness)
         {
             var indicatorsEvaluations = _context.IndicatorsEvaluations.Where(e => e.idEvaluatedOrganization == idEvaluatedOrganization && e.orgTypeEvaluated == orgType && e.illness == illness).ToList();
             return Ok(indicatorsEvaluations);
@@ -43,8 +44,8 @@ namespace OTEAServer.Controllers
 
         // GET by PK action
 
-        [HttpGet("get::evaluation_date={evaluation_date}:idEvaluatedOrganization:orgTypeEvaluated={orgTypeEvaluated}:illness={illness}")]
-        public ActionResult<IndicatorsEvaluation> Get(long evaluationDate, int idEvaluatedOrganization, string orgTypeEvaluated, string illness)
+        [HttpGet("get")]
+        public ActionResult<IndicatorsEvaluation> Get([FromQuery] long evaluationDate, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness)
         {
             var indicatorsEvaluation = _context.IndicatorsEvaluations.FirstOrDefault(e => e.evaluationDate==evaluationDate && e.idEvaluatedOrganization == idEvaluatedOrganization && e.orgTypeEvaluated == orgTypeEvaluated && e.illness == illness);
 
@@ -66,8 +67,8 @@ namespace OTEAServer.Controllers
         }
 
         // PUT action
-        [HttpPut("upd::evaluation_date={evaluation_date}:idEvaluatedOrganization:orgTypeEvaluated={orgTypeEvaluated}:illness={illness}")]
-        public IActionResult Update(long evaluationDate, int idEvaluatedOrganization, string orgTypeEvaluated, string illness, IndicatorsEvaluation indicatorsEvaluation)
+        [HttpPut]
+        public IActionResult Update([FromQuery] long evaluationDate, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromBody] IndicatorsEvaluation indicatorsEvaluation)
         {
             // This code will update the mesa and return a result
             if (evaluationDate != indicatorsEvaluation.evaluationDate || idEvaluatedOrganization != indicatorsEvaluation.idEvaluatedOrganization || orgTypeEvaluated != indicatorsEvaluation.orgTypeEvaluated || illness!=indicatorsEvaluation.illness)
@@ -77,14 +78,30 @@ namespace OTEAServer.Controllers
             if (existingIndicatorsEvaluation is null)
                 return NotFound();
 
-            _context.IndicatorsEvaluations.Update(indicatorsEvaluation);
+            existingIndicatorsEvaluation.evaluationDate = evaluationDate;
+            existingIndicatorsEvaluation.idEvaluatedOrganization = idEvaluatedOrganization;
+            existingIndicatorsEvaluation.orgTypeEvaluated = orgTypeEvaluated;
+            existingIndicatorsEvaluation.idEvaluatorTeam = indicatorsEvaluation.idEvaluatorTeam;
+            existingIndicatorsEvaluation.idEvaluatorOrganization = indicatorsEvaluation.idEvaluatorOrganization;
+            existingIndicatorsEvaluation.orgTypeEvaluator = indicatorsEvaluation.orgTypeEvaluator;
+            existingIndicatorsEvaluation.illness = illness;
+            existingIndicatorsEvaluation.observations = indicatorsEvaluation.observations;
+            existingIndicatorsEvaluation.conclusions = indicatorsEvaluation.conclusions;
+            existingIndicatorsEvaluation.scoreLevel1 = indicatorsEvaluation.scoreLevel1;
+            existingIndicatorsEvaluation.scoreLevel2 = indicatorsEvaluation.scoreLevel2;
+            existingIndicatorsEvaluation.scoreLevel3 = indicatorsEvaluation.scoreLevel3;
+            existingIndicatorsEvaluation.scoreLevel4 = indicatorsEvaluation.scoreLevel4;
+            existingIndicatorsEvaluation.scoreLevel5 = indicatorsEvaluation.scoreLevel5;
+            existingIndicatorsEvaluation.scoreLevel6 = indicatorsEvaluation.scoreLevel6;
+            existingIndicatorsEvaluation.totalScore = indicatorsEvaluation.totalScore;
+            existingIndicatorsEvaluation.isFinished = indicatorsEvaluation.isFinished;
             _context.SaveChanges();
-            return Ok(indicatorsEvaluation);
+            return Ok(existingIndicatorsEvaluation);
         }
 
         // DELETE action
-        [HttpDelete("del::evaluation_date={evaluation_date}:idEvaluatedOrganization:orgTypeEvaluated={orgTypeEvaluated}:illness={illness}")]
-        public IActionResult Delete(long evaluationDate, int idEvaluatedOrganization, string orgTypeEvaluated, string illness)
+        [HttpDelete]
+        public IActionResult Delete([FromQuery] long evaluationDate, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness)
         {
             // This code will delete the mesa and return a result
             var indicatorsEvaluation = _context.IndicatorsEvaluations.FirstOrDefault(e => e.evaluationDate == evaluationDate && e.idEvaluatedOrganization == idEvaluatedOrganization && e.orgTypeEvaluated == orgTypeEvaluated && e.illness == illness);

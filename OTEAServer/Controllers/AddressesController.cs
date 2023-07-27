@@ -17,7 +17,7 @@ namespace OTEAServer.Controllers
             _context = context;
         }
         // GET all action
-        [HttpGet]
+        [HttpGet("all")]
         public IActionResult GetAll()
         {
             var addresses = _context.Addresses.ToList();
@@ -26,8 +26,8 @@ namespace OTEAServer.Controllers
 
         // GET by ID action
 
-        [HttpGet("get::{id}")]
-        public ActionResult<Address> Get(int id)
+        [HttpGet("get")]
+        public ActionResult<Address> Get([FromQuery] int id)
         {
             var address = _context.Addresses.FirstOrDefault(a => a.idAddress == id);
 
@@ -48,8 +48,8 @@ namespace OTEAServer.Controllers
 
 
         // PUT action
-        [HttpPut("upd::{id}")]
-        public IActionResult Update(int idAddress, Address address)
+        [HttpPut]
+        public IActionResult Update([FromQuery] int idAddress, [FromBody] Address address)
         {
             // This code will update the mesa and return a result
             if (idAddress != address.idAddress)
@@ -60,15 +60,25 @@ namespace OTEAServer.Controllers
                 return NotFound();
 
 
-            _context.Addresses.Update(address);
+            //_context.Addresses.Update(address);
+            existingAddress.addressName = address.addressName;
+            existingAddress.zipCode = address.zipCode;
+            existingAddress.idCity = address.idCity;
+            existingAddress.idProvince = address.idProvince;
+            existingAddress.idRegion = address.idRegion;
+            existingAddress.idCountry = address.idCountry;
+            existingAddress.nameCity = address.nameCity;
+            existingAddress.nameProvince = address.nameProvince;
+            existingAddress.nameRegion = address.nameRegion;
+
             _context.SaveChanges();
 
-            return Ok(existingAddress);
+            return Ok(existingAddress); 
         }
 
         // DELETE action
-        [HttpDelete("del::{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete]
+        public IActionResult Delete([FromQuery] int id)
         {
             // This code will delete the address and return a result
             var address = _context.Addresses.FirstOrDefault(a => a.idAddress == id);

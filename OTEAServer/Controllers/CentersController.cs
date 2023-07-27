@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using OTEAServer.Misc;
 using OTEAServer.Models;
 using System.Data.SqlClient;
+using System.Net;
 using System.Security.Policy;
 
 namespace OTEAServer.Controllers
@@ -18,20 +19,20 @@ namespace OTEAServer.Controllers
             _context = context;
         }
 
-        [HttpGet]
+        [HttpGet("all")]
         public IActionResult GetAll() {
             var centers = _context.Centers.ToList();
             return Ok(centers);
         }
 
-        [HttpGet("org::idOrganization={idOrganization}:orgType={orgType}:illness={illness}")]
-        public IActionResult GetAllByOrganization(int idOrganization, string orgType, string illness) {
+        [HttpGet("org")]
+        public IActionResult GetAllByOrganization([FromQuery] int idOrganization,[FromQuery] string orgType,[FromQuery] string illness) {
             var centers = _context.Centers.Where(c=>c.idOrganization== idOrganization && c.orgType==orgType && c.illness==illness).ToList();
             return Ok(centers);
         }
 
-        [HttpGet("get::idOrganization={idOrganization}:orgType={orgType}:illness={illness}:idCenter={idCenter}")]
-        public ActionResult<Center> Get(int idOrganization, string orgType, string illness, int idCenter)
+        [HttpGet("get")]
+        public ActionResult<Center> Get([FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness,[FromQuery] int idCenter)
         {
             var center = _context.Centers.FirstOrDefault(c => c.idOrganization == idOrganization && c.orgType == orgType && c.illness == illness && c.idCenter == idCenter);
             if(center == null)
@@ -49,8 +50,8 @@ namespace OTEAServer.Controllers
             return CreatedAtAction(nameof(Get), new { idOrganization = center.idOrganization, orgType = center.orgType, illness = center.illness, idCenter = center.idCenter }, center);
         }
 
-        [HttpPut("put::idOrganization={idOrganization}:orgType={orgType}:illness={illness}:idCenter={idCenter}")]
-        public ActionResult<Center> Update(int idOrganization, string orgType, string illness, int idCenter, Center center)
+        [HttpPut]
+        public ActionResult<Center> Update([FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness, [FromQuery] int idCenter,[FromBody] Center center)
         {
             if (idOrganization != center.idOrganization || orgType != center.orgType || illness != center.illness || idCenter != center.idCenter)
                 return BadRequest();
@@ -59,14 +60,20 @@ namespace OTEAServer.Controllers
             if (existingCenter is null)
                 return NotFound();
 
-            _context.Centers.Update(center);
+            existingCenter.idOrganization = idOrganization;
+            existingCenter.orgType = orgType;
+            existingCenter.illness = illness;
+            existingCenter.idCenter = idCenter;
+            existingCenter.centerDescription = center.centerDescription;
+            existingCenter.telephone = center.telephone;
+            existingCenter.idAddress = center.idAddress;
             _context.SaveChanges();
 
             return Ok(existingCenter);
         }
 
-        [HttpDelete("del::idOrganization={idOrganization}:orgType={orgType}:illness={illness}:idCenter={idCenter}")]
-        public ActionResult<Center> Delete(int idOrganization, string orgType, string illness, int idCenter)
+        [HttpDelete]
+        public ActionResult<Center> Delete([FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness, [FromQuery] int idCenter)
         {
             var center = _context.Centers.FirstOrDefault(c => c.idOrganization == idOrganization && c.orgType == orgType && c.illness == illness && c.idCenter == idCenter);
 

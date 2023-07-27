@@ -18,25 +18,25 @@ namespace OTEAServer.Controllers
 
 
         // GET all action
-        [HttpGet]
+        [HttpGet("all")]
         public IActionResult GetAll()
         {
-            var indicators = _context.Indicators.ToList();
+            var indicators = _context.Indicators.Where(i=>i.isActive==1).ToList();
             return Ok(indicators);
         }
 
         // GET all by INDICATORTYPE action
-        [HttpGet("all::indicatorType={indicatorType}")]
-        public IActionResult GetAllByType(string indicatorType)
+        [HttpGet("type")]
+        public IActionResult GetAllByType([FromQuery] string indicatorType)
         {
-            var indicators = _context.Indicators.Where(i=>i.indicatorType == indicatorType).ToList();
+            var indicators = _context.Indicators.Where(i=>i.indicatorType == indicatorType && i.isActive == 1).ToList();
             return Ok(indicators);
         }
 
         // GET by ID AND INDICATOR TYPE action
 
-        [HttpGet("get::idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")]
-        public ActionResult<Indicator> Get(int idIndicator, string indicatorType, int indicatorVersion)
+        [HttpGet("get")]
+        public ActionResult<Indicator> Get([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int indicatorVersion)
         {
             var indicator = _context.Indicators.FirstOrDefault(i=>i.indicatorId== idIndicator && i.indicatorType== indicatorType && i.indicatorVersion== indicatorVersion);
 
@@ -58,29 +58,27 @@ namespace OTEAServer.Controllers
         }
 
         // PUT action
-        [HttpPut("upd::idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")]
-        public IActionResult Update(int idIndicator, string indicatorType, int indicatorVersion, [FromBody] Indicator indicator)
+        [HttpPut]
+        public IActionResult Update([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int indicatorVersion, [FromBody] Indicator indicator)
         {
             // This code will update the mesa and return a result
-            if (idIndicator != indicator.indicatorId || indicatorType != indicator.indicatorType || indicatorVersion != indicator.indicatorVersion)
+            if (idIndicator != indicator.indicatorId || indicatorType != indicator.indicatorType || indicatorVersion != indicator.indicatorVersion-1)
                 return BadRequest();
 
-            var existingIndicator = _context.Indicators.FirstOrDefault(i => i.indicatorId == idIndicator && i.indicatorType == indicatorType && i.indicatorVersion == indicatorVersion-1);
+            var existingIndicator = _context.Indicators.FirstOrDefault(i => i.indicatorId == idIndicator && i.indicatorType == indicatorType && i.indicatorVersion == indicatorVersion);
             if (existingIndicator is null)
                 return NotFound();
 
-            //_indicatorsService.Update(idIndicator,indicatorType,indicatorVersion,indicator);
             _context.Indicators.Add(indicator);
             existingIndicator.isActive = 0;
-            _context.Indicators.Update(existingIndicator);
             _context.SaveChanges();
 
             return Ok(indicator);
         }
 
         // DELETE action
-        [HttpDelete("del::idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")]
-        public IActionResult Delete(int idIndicator, string indicatorType, int indicatorVersion)
+        [HttpDelete]
+        public IActionResult Delete([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int indicatorVersion)
         {
             // This code will delete the mesa and return a result
             var indicator = _context.Indicators.FirstOrDefault(i => i.indicatorId == idIndicator && i.indicatorType == indicatorType && i.indicatorVersion == indicatorVersion);

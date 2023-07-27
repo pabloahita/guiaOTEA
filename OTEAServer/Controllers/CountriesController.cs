@@ -16,7 +16,7 @@ namespace OTEAServer.Controllers
         }
 
         // GET all by country action
-        [HttpGet]
+        [HttpGet("all")]
         public IActionResult GetAll()
         {
             var countries = _context.Countries.ToList();
@@ -25,8 +25,8 @@ namespace OTEAServer.Controllers
 
         // GET COUNTRY by IDS action
 
-        [HttpGet("idCountry={idCountry}")]
-        public ActionResult<Country> Get(string idCountry)
+        [HttpGet("get")]
+        public ActionResult<Country> Get([FromQuery] string idCountry)
         {
             var country = _context.Countries.FirstOrDefault(c=>c.idCountry == idCountry);
 

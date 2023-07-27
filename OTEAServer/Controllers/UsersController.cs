@@ -20,7 +20,7 @@ namespace OTEAServer.Controllers
 
         
         // GET all action
-        [HttpGet]
+        [HttpGet("all")]
         public IActionResult GetAll()
         {
             var users = _context.Users.ToList();
@@ -29,16 +29,16 @@ namespace OTEAServer.Controllers
 
 
         //GET all by user type
-        [HttpGet("getAllByType::userType={userType}")]
-        public IActionResult GetAllByType(string userType)
+        [HttpGet("allByType")]
+        public IActionResult GetAllByType([FromQuery] string userType)
         {
             var users = _context.Users.Where(u => u.userType == userType).ToList();
             return Ok(users);
         }
 
         //GET all organization users by organization type
-        [HttpGet("getAllByOrg::idOrganization={idOrganization}:orgType={orgType}:illness={illness}")]
-        public IActionResult GetAllOrgUsersByOrganization(int idOrganization, string orgType, string illness)
+        [HttpGet("allByOrg")]
+        public IActionResult GetAllOrgUsersByOrganization([FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness)
         {
             var users = _context.Users.Where(u => u.idOrganization==idOrganization && u.organizationType==orgType && u.illness==illness).ToList();
             return Ok(users);
@@ -46,8 +46,8 @@ namespace OTEAServer.Controllers
 
         // GET by EMAIL action
 
-        [HttpGet("get::email={email}")]
-        public ActionResult<User> Get(string email)
+        [HttpGet("get")]
+        public ActionResult<User> Get([FromQuery] string email)
         {
             var user = _context.Users.FirstOrDefault(u => u.emailUser == email);
 
@@ -58,8 +58,8 @@ namespace OTEAServer.Controllers
         }
 
         //GET for LOGIN
-        [HttpGet("login::email={email}:password={password}")]
-        public ActionResult<User> GetForLogin(string email,string password)
+        [HttpGet("login")]
+        public ActionResult<User> GetForLogin([FromQuery] string email,[FromQuery] string password)
         {
             var user = _context.Users.FirstOrDefault(u => u.emailUser == email && u.passwordUser==password);
 
@@ -71,8 +71,8 @@ namespace OTEAServer.Controllers
 
         // GET by EMAIL and USER TYPE action
 
-        [HttpGet("getByType::email={email}:userType={userType}")]
-        public ActionResult<User> GetByType(string email, string userType)
+        [HttpGet("type")]
+        public ActionResult<User> GetByType([FromQuery] string email, [FromQuery] string userType)
         {
             var user = _context.Users.FirstOrDefault(u => u.emailUser == email && u.userType==userType);
 
@@ -84,8 +84,8 @@ namespace OTEAServer.Controllers
 
         // GET by EMAIL and ORGANIZATION action
 
-        [HttpGet("getByOrg::email={email}:idOrganization={idOrganization}:orgType={orgType}:illness={illness}")]
-        public ActionResult<User> GetOrgUserByOrganization(string email, int idOrganization, string orgType, string illness)
+        [HttpGet("org")]
+        public ActionResult<User> GetOrgUserByOrganization([FromQuery] string email, [FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness)
         {
             var user = _context.Users.FirstOrDefault(u => u.emailUser == email && u.idOrganization == idOrganization && u.organizationType == orgType && u.illness == illness);
 
@@ -105,8 +105,8 @@ namespace OTEAServer.Controllers
         }
 
         // PUT action
-        [HttpPut("upd::email={email}")]
-        public IActionResult Update(string email, [FromBody] User user)
+        [HttpPut]
+        public IActionResult Update([FromQuery] string email, [FromBody] User user)
         {
             if (email != user.emailUser)
                 return BadRequest();
@@ -115,15 +115,23 @@ namespace OTEAServer.Controllers
             if (existingUser is null)
                 return NotFound();
 
-            _context.Users.Update(user);
+            existingUser.emailUser = email;
+            existingUser.userType = user.userType;
+            existingUser.first_name = user.first_name;
+            existingUser.last_name = user.last_name;
+            existingUser.passwordUser = user.passwordUser;
+            existingUser.telephone = user.telephone;
+            existingUser.idOrganization = user.idOrganization;
+            existingUser.organizationType = user.organizationType;
+            existingUser.illness = user.illness;
             _context.SaveChanges();
 
             return Ok(existingUser);
         }
 
         // DELETE action
-        [HttpDelete("del::email={email}")]
-        public IActionResult Delete(string email)
+        [HttpDelete]
+        public IActionResult Delete([FromQuery] string email)
         {
             // This code will delete the user and return a result
             var user = _context.Users.FirstOrDefault(u => u.emailUser == email);

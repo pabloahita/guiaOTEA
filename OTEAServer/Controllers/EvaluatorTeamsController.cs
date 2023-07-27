@@ -16,15 +16,15 @@ namespace OTEAServer.Controllers
             _context = context;
         }
         // GET all action
-        [HttpGet]
+        [HttpGet("all")]
         public IActionResult GetAll()
         {
             var evaluatorTeams = _context.EvaluatorTeams.ToList();
             return Ok(evaluatorTeams);
         }
 
-        [HttpGet("org::id={id}:orgType={orgType}:illness={illness}")]
-        public IActionResult GetAllByOrganization(int id, string orgType, string illness)
+        [HttpGet("allByOrg")]
+        public IActionResult GetAllByOrganization([FromQuery] int id, [FromQuery] string orgType, [FromQuery] string illness)
         {
             var evaluatorTeams = _context.EvaluatorTeams.Where(e=>e.idOrganization==id && e.orgType==orgType && e.illness==illness).ToList();
             return Ok(evaluatorTeams);
@@ -32,8 +32,8 @@ namespace OTEAServer.Controllers
 
         // GET by ID AND ORGTYPE action
 
-        [HttpGet("get::id={id}:idEvaluatorOrg={idEvaluatorOrg}:orgType={orgType}:illness={illness}")]
-        public ActionResult<EvaluatorTeam> Get(int id, int idEvaluatorOrg, string orgType, string illness)
+        [HttpGet("get")]
+        public ActionResult<EvaluatorTeam> Get([FromQuery] int id, [FromQuery] int idEvaluatorOrg, [FromQuery] string orgType, [FromQuery] string illness)
         {
             var evaluatorTeam = _context.EvaluatorTeams.FirstOrDefault(e => e.idEvaluatorTeam == id && e.idOrganization == idEvaluatorOrg && e.orgType == orgType && e.illness == illness);
 
@@ -59,11 +59,11 @@ namespace OTEAServer.Controllers
         }
 
         // PUT action
-        [HttpPut("upd::id={id}:idEvaluatorOrg={idEvaluatorOrg}:orgType={orgType}:illness={illness}")]
-        public IActionResult Update(int id, int idEvaluatorOrg, string orgType, string illness, [FromBody] EvaluatorTeam evaluatorTeam)
+        [HttpPut]
+        public IActionResult Update([FromQuery] int id, [FromQuery] int idEvaluatorOrg, [FromQuery] string orgType, [FromQuery] string illness, [FromBody] EvaluatorTeam evaluatorTeam)
         {
             // This code will update the evaluator team and return a result
-            if (id != evaluatorTeam.idEvaluatorTeam || idEvaluatorOrg!=evaluatorTeam.idOrganization || orgType!=evaluatorTeam.orgType || illness!=evaluatorTeam.illness)
+            if (id != evaluatorTeam.idEvaluatorTeam || idEvaluatorOrg != evaluatorTeam.idOrganization || orgType != evaluatorTeam.orgType || illness != evaluatorTeam.illness)
                 return BadRequest();
 
             var existingEvaluatorTeam = _context.EvaluatorTeams.FirstOrDefault(e => e.idEvaluatorTeam == id && e.idOrganization == idEvaluatorOrg && e.orgType == orgType && e.illness == illness);
@@ -71,7 +71,22 @@ namespace OTEAServer.Controllers
             if (existingEvaluatorTeam is null)
                 return NotFound();
 
-            _context.EvaluatorTeams.Update(evaluatorTeam);
+
+            existingEvaluatorTeam.idEvaluatorTeam = id;
+            existingEvaluatorTeam.creationDate = evaluatorTeam.creationDate;
+            existingEvaluatorTeam.idOrganization = idEvaluatorOrg;
+            existingEvaluatorTeam.orgType = orgType;
+            existingEvaluatorTeam.illness = illness;
+            existingEvaluatorTeam.externalConsultant = evaluatorTeam.externalConsultant;
+            existingEvaluatorTeam.emailProfessional = evaluatorTeam.emailProfessional;
+            existingEvaluatorTeam.emailResponsible = evaluatorTeam.emailResponsible;
+            existingEvaluatorTeam.patientName = evaluatorTeam.patientName;
+            existingEvaluatorTeam.relativeName = evaluatorTeam.relativeName;
+            existingEvaluatorTeam.evaluationDate1 = evaluatorTeam.evaluationDate1;
+            existingEvaluatorTeam.evaluationDate2 = evaluatorTeam.evaluationDate2;
+            existingEvaluatorTeam.evaluationDate3 = evaluatorTeam.evaluationDate3;
+            existingEvaluatorTeam.evaluationDate4 = evaluatorTeam.evaluationDate4;
+            existingEvaluatorTeam.observations = evaluatorTeam.observations;
 
             _context.SaveChanges();
 
@@ -79,8 +94,8 @@ namespace OTEAServer.Controllers
         }
 
         // DELETE action
-        [HttpDelete("del::id={id}:idEvaluatorOrg={idEvaluatorOrg}:orgType={orgType}:illness={illness}")]
-        public IActionResult Delete(int id, int idEvaluatorOrg, string orgType, string illness)
+        [HttpDelete]
+        public IActionResult Delete([FromQuery] int id, [FromQuery] int idEvaluatorOrg, [FromQuery] string orgType, [FromQuery] string illness)
         {
             // This code will delete the evaluator team and return a result
             var evaluatorTeam = _context.EvaluatorTeams.FirstOrDefault(e => e.idEvaluatorTeam == id && e.idOrganization == idEvaluatorOrg && e.orgType == orgType && e.illness == illness);

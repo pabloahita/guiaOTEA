@@ -18,7 +18,7 @@ namespace OTEAServer.Controllers
 
 
         // GET all action
-        [HttpGet]
+        [HttpGet("all")]
         public IActionResult GetAll()
         {
             var organizations = _context.Organizations.ToList();
@@ -27,7 +27,7 @@ namespace OTEAServer.Controllers
 
 
         // GET all evaluated organizations action
-        [HttpGet("evaluated")]
+        [HttpGet("allEvaluated")]
         public IActionResult GetAllEvaluatedOrganizations()
         {
             var organizations = _context.Organizations.Where(o => o.orgType == "EVALUATED").ToList();
@@ -35,7 +35,7 @@ namespace OTEAServer.Controllers
         }
 
         // GET all evaluator organizations action
-        [HttpGet("evaluator")]
+        [HttpGet("allEvaluator")]
         public IActionResult GetAllEvaluatorOrganizations()
         {
             var organizations = _context.Organizations.Where(o => o.orgType == "EVALUATOR").ToList();
@@ -44,8 +44,8 @@ namespace OTEAServer.Controllers
 
         // GET by ID AND ORGTYPE action
 
-        [HttpGet("get::id={id}:orgType={orgType}:illness={illness}")]
-        public ActionResult<Organization> Get(int id,string orgType,string illness)
+        [HttpGet("get")]
+        public ActionResult<Organization> Get([FromQuery] int id,[FromQuery] string orgType,[FromQuery] string illness)
         {
             var organization = _context.Organizations.FirstOrDefault(o=>o.IdOrganization==id && o.orgType==orgType && o.illness==illness);
 
@@ -58,16 +58,16 @@ namespace OTEAServer.Controllers
 
         // GET by ID AND ORGTYPE action
 
-        [HttpGet("evaluated::id={id}:illness={illness}")]
-        public ActionResult<Organization> GetEvaluatedOrganizationById(int id, string illness)
+        [HttpGet("evaluated")]
+        public ActionResult<Organization> GetEvaluatedOrganizationById([FromQuery] int id, [FromQuery] string illness)
         {
             return Get(id, "EVALUATED", illness);
         }
 
         // GET by ID AND ORGTYPE action
 
-        [HttpGet("evaluator::id={id}:illness={illness}")]
-        public ActionResult<Organization> GetEvaluatorOrganizationById(int id, string illness)
+        [HttpGet("evaluator")]
+        public ActionResult<Organization> GetEvaluatorOrganizationById([FromQuery] int id, [FromQuery] string illness)
         {
             return Get(id, "EVALUATOR", illness);
         }
@@ -82,8 +82,8 @@ namespace OTEAServer.Controllers
         }
 
         // PUT action
-        [HttpPut("upd::id={id}:orgType={orgType}:illness={illness}")]
-        public IActionResult Update(int id,string orgType,string illness, [FromBody] Organization organization)
+        [HttpPut]
+        public IActionResult Update([FromQuery] int id, [FromQuery] string orgType, [FromQuery] string illness, [FromBody] Organization organization)
         {
             // This code will update the mesa and return a result
             if (id != organization.IdOrganization || orgType!=organization.orgType || illness!=organization.illness)
@@ -93,15 +93,23 @@ namespace OTEAServer.Controllers
             if (existingOrganization is null)
                 return NotFound();
 
-            _context.Organizations.Update(organization);
+            existingOrganization.IdOrganization = id;
+            existingOrganization.orgType = orgType;
+            existingOrganization.illness = illness;
+            existingOrganization.nameOrg = organization.nameOrg;
+            existingOrganization.idAddress = organization.idAddress;
+            existingOrganization.email = organization.email;
+            existingOrganization.telephone = organization.telephone;
+            existingOrganization.information = organization.information;
+            existingOrganization.emailOrgPrincipal = organization.emailOrgPrincipal;
             _context.SaveChanges();
 
-            return Ok(organization);
+            return Ok(existingOrganization);
         }
 
         // DELETE action
-        [HttpDelete("del::id={id}:orgType={orgType}:illness={illness}")]
-        public IActionResult Delete(int id, string orgType, string illness)
+        [HttpDelete]
+        public IActionResult Delete([FromQuery] int id, [FromQuery] string orgType, [FromQuery] string illness)
         {
             // This code will delete the mesa and return a result
             var organization = _context.Organizations.FirstOrDefault(o => o.IdOrganization == id && o.orgType == orgType && o.illness == illness);

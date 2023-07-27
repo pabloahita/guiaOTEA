@@ -18,7 +18,7 @@ namespace OTEAServer.Controllers
 
 
         // GET all action
-        [HttpGet]
+        [HttpGet("all")]
         public IActionResult GetAll()
         {
             var evidences = _context.Evidences.ToList();
@@ -26,8 +26,8 @@ namespace OTEAServer.Controllers
         }
 
         // GET all by INDICATORTYPE action
-        [HttpGet("ind::idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")]
-        public IActionResult GetAllByIndicator(int idIndicator, string indicatorType, int indicatorVersion)
+        [HttpGet("ind")]
+        public IActionResult GetAllByIndicator([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int indicatorVersion)
         {
             var evidences = _context.Evidences.Where(e=>e.idIndicator==idIndicator && e.indicatorType==indicatorType && e.indicatorVersion==indicatorVersion).ToList();
             return Ok(evidences);
@@ -35,8 +35,8 @@ namespace OTEAServer.Controllers
 
         // GET by ID AND INDICATOR TYPE action
 
-        [HttpGet("get::idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")]
-        public ActionResult<Evidence> Get(int idEvidence, int idIndicator, string indicatorType, int indicatorVersion)
+        [HttpGet("get")]
+        public ActionResult<Evidence> Get([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int indicatorVersion)
         {
             var evidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.indicatorVersion == indicatorVersion);
 
@@ -58,8 +58,8 @@ namespace OTEAServer.Controllers
         }
 
         // PUT action
-        [HttpPut("put::idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")]
-        public IActionResult Update(int idEvidence, int idIndicator, string indicatorType, int indicatorVersion, [FromBody] Evidence evidence)
+        [HttpPut]
+        public IActionResult Update([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int indicatorVersion, [FromBody] Evidence evidence)
         {
             // This code will update the mesa and return a result
             if (idEvidence != evidence.idEvidence || idIndicator != evidence.idIndicator || indicatorType != evidence.indicatorType)
@@ -69,7 +69,14 @@ namespace OTEAServer.Controllers
             if (existingEvidence is null)
                 return NotFound();
 
-            _context.Evidences.Update(evidence);
+            existingEvidence.idEvidence = idEvidence;
+            existingEvidence.idIndicator = idIndicator;
+            existingEvidence.indicatorType = indicatorType;
+            existingEvidence.descriptionEnglish = evidence.descriptionEnglish;
+            existingEvidence.descriptionSpanish = evidence.descriptionSpanish;
+            existingEvidence.descriptionFrench = evidence.descriptionFrench;
+            existingEvidence.evidenceValue = evidence.evidenceValue;
+            existingEvidence.indicatorVersion = indicatorVersion;
 
             _context.SaveChanges();
 
@@ -77,8 +84,8 @@ namespace OTEAServer.Controllers
         }
 
         // DELETE action
-        [HttpDelete("del::idEvidence={idEvidence}:idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")]
-        public IActionResult Delete(int idEvidence, int idIndicator, string indicatorType, int indicatorVersion)
+        [HttpDelete]
+        public IActionResult Delete([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int indicatorVersion)
         {
             // This code will delete the mesa and return a result
             var evidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.indicatorVersion == indicatorVersion);

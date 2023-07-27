@@ -16,7 +16,7 @@ namespace OTEAServer.Controllers
         }
 
         // GET all action
-        [HttpGet]
+        [HttpGet("all")]
         public IActionResult GetAll()
         {
             var ambits = _context.Ambits.ToList();
@@ -25,8 +25,8 @@ namespace OTEAServer.Controllers
 
         // GET by ID AND ORGTYPE action
 
-        [HttpGet("get::{id}")]
-        public ActionResult<Ambit> Get(int id)
+        [HttpGet("get")]
+        public ActionResult<Ambit> Get([FromQuery] int id)
         {
             var ambit = _context.Ambits.FirstOrDefault(a => a.idAmbit==id);
 
@@ -47,27 +47,30 @@ namespace OTEAServer.Controllers
 
 
         // PUT action
-        [HttpPut("upd::{id}")]
-        public IActionResult Update(int idAmbit, Ambit ambit)
+        [HttpPut]
+        public IActionResult Update([FromQuery] int idAmbit, [FromBody] Ambit ambit)
         {
             // This code will update the mesa and return a result
             if (idAmbit != ambit.idAmbit)
                 return BadRequest();
 
-            var existingambit = _context.Ambits.FirstOrDefault(a => a.idAmbit == idAmbit);
-            if (existingambit is null)
+            var existingAmbit = _context.Ambits.FirstOrDefault(a => a.idAmbit == idAmbit);
+            if (existingAmbit is null)
                 return NotFound();
 
 
-            _context.Ambits.Update(ambit);
+            existingAmbit.idAmbit = ambit.idAmbit;
+            existingAmbit.descriptionEnglish = ambit.descriptionEnglish;
+            existingAmbit.descriptionSpanish = ambit.descriptionSpanish;
+            existingAmbit.descriptionFrench = ambit.descriptionFrench;
             _context.SaveChanges();
 
-            return Ok(existingambit);
+            return Ok(existingAmbit);
         }
 
         // DELETE action
-        [HttpDelete("del::{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete]
+        public IActionResult Delete([FromQuery] int id)
         {
             // This code will delete the ambit and return a result
             var ambit = _context.Ambits.FirstOrDefault(a => a.idAmbit == id);
