@@ -193,7 +193,8 @@ public class IndicatorsEvaluationsCaller {
         };
         asyncTask.execute();
         try {
-            return asyncTask.get();
+            IndicatorsEvaluation evaluation=asyncTask.get();
+            return evaluation;
         } catch (ExecutionException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {

@@ -8,16 +8,16 @@ import retrofit2.Call;
 import retrofit2.http.*;
 
 public interface IndicatorsApi {
-    @PUT("Indicators/upd::idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")
-    Call<Indicator> Update(@Path("idIndicator") int idIndicator, @Path("indicatorType") String indicatorType, @Path("indicatorVersion") int indicatorVersion, @Body Indicator indicator);
+    @PUT("Indicators")
+    Call<Indicator> Update(@Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("indicatorVersion") int indicatorVersion, @Body Indicator indicator);
     @POST("Indicators")
     Call<Indicator> Create(@Body Indicator indicator);
-    @GET("Indicators/get::idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")
-    Call<Indicator> Get(@Path("idIndicator") int idIndicator, @Path("indicatorType") String indicatorType, @Path("indicatorVersion") int indicatorVersion);
-    @GET("Indicators")
+    @GET("Indicators/get")
+    Call<Indicator> Get(@Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("indicatorVersion") int indicatorVersion);
+    @GET("Indicators/all")
     Call<List<Indicator>> GetAll();
-    @GET("Indicators/all::indicatorType={indicatorType}")
-    Call<List<Indicator>> GetAllByType(@Path("indicatorType") String indicatorType);
-    @DELETE("Indicators/del::idIndicator={idIndicator}:indicatorType={indicatorType}:indicatorVersion={indicatorVersion}")
-    Call<Indicator> Delete(@Path("idIndicator") int idIndicator, @Path("indicatorType") String indicatorType, @Path("indicatorVersion") int indicatorVersion);
+    @GET("Indicators/type")
+    Call<List<Indicator>> GetAllByType(@Query("indicatorType") String indicatorType);
+    @DELETE("Indicators")
+    Call<Indicator> Delete(@Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("indicatorVersion") int indicatorVersion);
 }

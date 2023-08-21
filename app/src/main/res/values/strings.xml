@@ -171,6 +171,12 @@
     <string name="adding_org">Adding organization... Please wait a few seconds...</string>
     <string name="going_director">Going to director form... Please wait a few seconds...</string>
     <string name="going_center">Going to new center form... Please wait a few seconds...</string>
+    <string name="org_data">Organization data</string>
+    <string name="org_director">Organization director</string>
+    <string name="org_reg_ins">To register the organization please fill all the fields, scrolling down to see all of them and completing the registration.</string>
+    <string name="first_name_user_menu">First Name: name</string>
+    <string name="last_name_user_menu">Last Name: last name</string>
+    <string name="org_name_user_menu">Organization: organization</string>
 
 
 </resources>

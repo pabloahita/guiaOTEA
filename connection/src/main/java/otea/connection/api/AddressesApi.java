@@ -9,25 +9,25 @@ import retrofit2.http.*;
 public interface AddressesApi {
 
     // GET all action
-    @GET("Addresses")
+    @GET("Addresses/all")
     Call<List<Address>> GetAll();
 
     // GET by ID AND ORGTYPE action
 
-    @GET("Addresses/get::{id}")
-    Call<Address> Get(@Path("id") int id);
+    @GET("Addresses/get")
+    Call<Address> Get(@Query("id") int id);
 
     // POST action
     @POST("Addresses")
     Call<Address> Create(@Body Address address);
 
     // PUT action
-    @PUT("Addresses/upd::{id}")
-    Call<Address> Update(@Path("id") int id, @Body Address address);
+    @PUT("Addresses")
+    Call<Address> Update(@Query("idAddress") int idAddress, @Body Address address);
 
     // DELETE action
-    @DELETE("Addresses/del::{id}")
-    Call<Address> Delete(@Path("id") int id);
+    @DELETE("Addresses")
+    Call<Address> Delete(@Query("id") int id);
 
 
 }

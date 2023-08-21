@@ -160,7 +160,8 @@ public class CentersCaller {
         };
         asyncTask.execute();
         try {
-            return asyncTask.get();
+            Center aux=asyncTask.get();
+            return aux;
         } catch (ExecutionException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {

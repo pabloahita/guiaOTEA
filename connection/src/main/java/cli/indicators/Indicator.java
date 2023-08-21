@@ -25,6 +25,8 @@ public class Indicator implements Serializable {
 
     public List<Evidence> evidences;
 
+    @SerializedName("idAmbit")
+    public int idAmbit;
     @SerializedName("indicatorPriority")
     public int indicatorPriority;
 
@@ -33,8 +35,9 @@ public class Indicator implements Serializable {
 
     public int numFilledEvidences=0;
 
-    public Indicator(int indicatorId, String indicatorType, String descriptionEnglish,String descriptionSpanish,String descriptionFrench, int indicatorPriority, int indicatorVersion) {
+    public Indicator(int indicatorId, int idAmbit, String indicatorType, String descriptionEnglish,String descriptionSpanish,String descriptionFrench, int indicatorPriority, int indicatorVersion) {
         setIdIndicator(indicatorId);
+        setIdAmbit(idAmbit);
         setIndicatorType(indicatorType);
         setDescriptionEnglish(descriptionEnglish);
         setDescriptionSpanish(descriptionSpanish);
@@ -116,16 +119,6 @@ public class Indicator implements Serializable {
         EvidencesCaller.getInstance().deleteEvidence(evidence.getIdEvidence(),evidence.getIdIndicator(),evidence.getIndicatorType(),evidence.getIndicatorVersion());
     }
 
-    public Evidence getEvidenceById(int i){
-        Evidence evidence=evidences.get(0);
-        int c=0;
-        while(c<evidences.size() && i!=evidence.getIdEvidence()){
-            evidence=evidences.get(c);
-            c++;
-        }
-        return evidence;
-    }
-
 
     public int getPriority() {
         return indicatorPriority;
@@ -151,24 +144,7 @@ public class Indicator implements Serializable {
         }
     }
 
-    public int getAmbit(){
-        if(indicatorId>=1 && indicatorId<=28){
-            return 1;
-        }
-        if(indicatorId>=29 && indicatorId<=34){
-            return 2;
-        }
-        if(indicatorId>=35 && indicatorId<=47){
-            return 3;
-        }
-        if(indicatorId>=48 && indicatorId<=61){
-            return 4;
-        }
-        if(indicatorId>=62 && indicatorId<=65){
-            return 5;
-        }
-        return 6;
-    }
+
 
     public void setNumFilledEvidences(int numFilledEvidences){this.numFilledEvidences=numFilledEvidences;}
 
@@ -180,5 +156,13 @@ public class Indicator implements Serializable {
 
     public void setIndicatorVersion(int indicatorVersion) {
         this.indicatorVersion = indicatorVersion;
+    }
+
+    public int getIdAmbit() {
+        return idAmbit;
+    }
+
+    public void setIdAmbit(int idAmbit) {
+        this.idAmbit = idAmbit;
     }
 }

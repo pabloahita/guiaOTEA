@@ -9,42 +9,42 @@ import retrofit2.http.*;
 public interface UsersApi {
 
     // GET all action
-    @GET("Users")
+    @GET("Users/all")
     Call<List<User>> GetAll();
     //GET all by user type
-    @GET("Users/getAllByType::userType={userType}")
-    Call<List<User>> GetAllByType(@Path("userType") String userType);
+    @GET("Users/allByType")
+    Call<List<User>> GetAllByType(@Query("userType") String userType);
 
     //GET all organization users by organization type
-    @GET("Users/getAllByOrg::idOrganization={idOrganization}:orgType={orgType}:illness={illness}")
-    Call<List<User>> GetAllOrgUsersByOrganization(@Path("idOrganization") int idOrganization, @Path("orgType") String orgType, @Path("illness") String illness);
+    @GET("Users/allByOrg")
+    Call<List<User>> GetAllOrgUsersByOrganization(@Query("idOrganization") int idOrganization, @Query("orgType") String orgType, @Query("illness") String illness);
     
     // GET by EMAIL action
-    @GET("Users/get::email={email}")
-    Call<User> Get(@Path("email") String email);
+    @GET("Users/get")
+    Call<User> Get(@Query("email") String email);
 
     // GET by EMAIL and USER TYPE action
 
-    @GET("Users/getByType::email={email}:userType={userType}")
-    Call<User> GetByType(String email, String userType);
+    @GET("Users/type")
+    Call<User> GetByType(@Query("email") String email, @Query("userType")String userType);
 
     // GET by EMAIL and ORGANIZATION action
 
-    @GET("Users/getByOrg::email={email}:idOrganization={idOrganization}:orgType={orgType}:illness={illness}")
-    Call<User> GetOrgUserByOrganization(@Path("email") String email,@Path("idOrganization") int idOrganization,@Path("orgType") String orgType,@Path("illness") String illness);
+    @GET("Users/org")
+    Call<User> GetOrgUserByOrganization(@Query("email") String email,@Query("idOrganization") int idOrganization,@Query("orgType") String orgType,@Query("illness") String illness);
 
     // POST action
     @POST("Users")
     Call<User> Create(@Body User user);
 
     // PUT action
-    @PUT("Users/upd::email={email}")
-    Call<User> Update(@Path("email") String email, @Body User user);
+    @PUT("Users")
+    Call<User> Update(@Query("email") String email, @Body User user);
 
     // DELETE action
-    @DELETE("Users/del::email={email}")
-    Call<User> Delete(@Path("email") String email);
+    @DELETE("Users")
+    Call<User> Delete(@Query("email") String email);
 
-    @GET("Users/login::email={email}:password={password}")
-    Call<User> GetForLogin(@Path("email") String email, @Path("password") String password);
+    @GET("Users/login")
+    Call<User> GetForLogin(@Query("email") String email, @Query("password") String password);
 }

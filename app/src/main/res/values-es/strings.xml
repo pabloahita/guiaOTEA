@@ -136,5 +136,11 @@
     <string name="adding_org">Agregando organización... Por favor espere unos segundos...</string>
     <string name="going_director">Pasando al formulario de director... Por favor espere unos segundos...</string>
     <string name="going_center">Ir al formulario de nuevo centro... Por favor, espere unos segundos...</string>
+    <string name="org_data">Datos de la organización</string>
+    <string name="org_director">Director de la organización</string>
+    <string name="org_reg_ins">Para registrar la organización, complete todos los campos, desplácese hacia abajo para verlos todos y complete el registro.</string>
+    <string name="first_name_user_menu">Nombre: nombre</string>
+    <string name="last_name_user_menu">Apellido: apellido</string>
+    <string name="org_name_user_menu">Organización: org</string>
 
 </resources>

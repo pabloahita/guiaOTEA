@@ -8,35 +8,35 @@ import retrofit2.http.*;
 
 public interface OrganizationsApi {
     // GET all action
-    @GET("Organizations")
+    @GET("Organizations/all")
     Call<List<Organization>> GetAll();
 
 
     // GET all evaluated organizations action
-    @GET("Organizations/evaluated")
+    @GET("Organizations/allEvaluated")
     Call<List<Organization>> GetAllEvaluatedOrganizations();
 
     // GET all evaluator organizations action
-    @GET("Organizations/evaluator")
+    @GET("Organizations/allEvaluator")
     Call<List<Organization>> GetAllEvaluatorOrganizations();
 
     // GET by ID, ORGTYPE AND ILLNESS
-    @GET("Organizations/get::id={id}:orgType={orgType}:illness={illness}")
-    Call<Organization> Get(@Path("id") int id, @Path("orgType") String orgType, @Path("illness") String illness);
+    @GET("Organizations/get")
+    Call<Organization> Get(@Query("id") int id, @Query("orgType") String orgType, @Query("illness") String illness);
 
-    @GET("Organizations/evaluated::id={id}:illness={illness}")
-    Call<Organization> GetEvaluatedOrganizationById(@Path("id") int id, @Path("illness") String illness);
+    @GET("Organizations/evaluated")
+    Call<Organization> GetEvaluatedOrganizationById(@Query("id") int id, @Query("illness") String illness);
 
-    @GET("Organizations/evaluator::id={id}:illness={illness}")
-    Call<Organization> GetEvaluatorOrganizationById(@Path("id") int id, @Path("illness") String illness);
+    @GET("Organizations/evaluator")
+    Call<Organization> GetEvaluatorOrganizationById(@Query("id") int id, @Query("illness") String illness);
 
     // POST action
     @POST("Organizations")
     Call<Organization> Create(@Body Organization organization);
     // PUT action
-    @PUT("Organizations/upd::id={id}:orgType={orgType}:illness={illness}")
-    Call<Organization> Update(@Path("id") int id, @Path("orgType") String orgType, @Path("illness") String illness, @Body Organization organization);
+    @PUT("Organizations")
+    Call<Organization> Update(@Query("id") int id, @Query("orgType") String orgType, @Query("illness") String illness, @Body Organization organization);
     // DELETE action
-    @DELETE("Organizations/del::id={id}:orgType={orgType}:illness={illness}")
-    Call<Organization> Delete(@Path("id") int id, @Path("orgType") String orgType, @Path("illness")  String illness);
+    @DELETE("Organizations")
+    Call<Organization> Delete(@Query("id") int id, @Query("orgType") String orgType, @Query("illness")  String illness);
 }

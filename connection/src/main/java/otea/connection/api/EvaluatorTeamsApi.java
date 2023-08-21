@@ -10,28 +10,28 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface EvaluatorTeamsApi {
 
-    @GET("EvaluatorTeams")
+    @GET("EvaluatorTeams/all")
     Call<List<EvaluatorTeam>> GetAll();
 
-    @GET("EvaluatorTeams/org::id={id}:orgType={orgType}:illness={illness}")
-    Call<List<EvaluatorTeam>> GetAllByOrganization(@Path("id") int id, @Path("orgType") String orgType,@Path("illness") String illness);
+    @GET("EvaluatorTeams/allByOrg")
+    Call<List<EvaluatorTeam>> GetAllByOrganization(@Query("id") int id, @Query("orgType") String orgType,@Query("illness") String illness);
 
-    @GET("EvaluatorTeams/get::id={id}:idEvaluatorOrg={idEvaluatorOrg}:orgType={orgType}:illness={illness}")
-    Call<EvaluatorTeam> Get(@Path("id") int id,@Path("idEvaluatorOrg") int idEvaluatorOrg,@Path("orgType") String orgType,@Path("illness") String illness);
+    @GET("EvaluatorTeams/get")
+    Call<EvaluatorTeam> Get(@Query("id") int id,@Query("idEvaluatorOrg") int idEvaluatorOrg,@Query("orgType") String orgType,@Query("illness") String illness);
 
     // POST action
     @POST("EvaluatorTeams")
     Call<EvaluatorTeam> Create(@Body EvaluatorTeam evaluatorTeam);
 
     // PUT action
-    @PUT("EvaluatorTeams/upd::id={id}:idEvaluatorOrg={idEvaluatorOrg}:orgType={orgType}:illness={illness}")
-    Call<EvaluatorTeam> Update(@Path("id") int id,@Path("idEvaluatorOrg") int idEvaluatorOrg,@Path("orgType") String orgType,@Path("illness") String illness,@Body EvaluatorTeam evaluatorTeam);
+    @PUT("EvaluatorTeams")
+    Call<EvaluatorTeam> Update(@Query("id") int id,@Query("idEvaluatorOrg") int idEvaluatorOrg,@Query("orgType") String orgType,@Query("illness") String illness,@Body EvaluatorTeam evaluatorTeam);
 
     // DELETE action
-    @DELETE("EvaluatorTeams/del::id={id}:idEvaluatorOrg={idEvaluatorOrg}:orgType={orgType}:illness={illness}")
-    Call<EvaluatorTeam> Delete(@Path("id") int id,@Path("idEvaluatorOrg") int idEvaluatorOrg,@Path("orgType") String orgType,@Path("illness") String illness);
+    @DELETE("EvaluatorTeams")
+    Call<EvaluatorTeam> Delete(@Query("id") int id,@Query("idEvaluatorOrg") int idEvaluatorOrg,@Query("orgType") String orgType,@Query("illness") String illness);
 }

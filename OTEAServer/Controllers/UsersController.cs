@@ -9,9 +9,6 @@ namespace OTEAServer.Controllers
     [Route("Users")]
     public class UsersController : ControllerBase
     {
-        /*private readonly ILogger<UsersController> _logger;
-        private readonly UsersService _usersService;
-        */
         private readonly DatabaseContext _context;
         public UsersController(DatabaseContext context)
         {

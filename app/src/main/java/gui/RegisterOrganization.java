@@ -1,6 +1,7 @@
 package gui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -31,6 +32,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cli.organization.Organization;
 import cli.organization.data.Address;
@@ -99,7 +102,7 @@ public class RegisterOrganization extends AppCompatActivity {
         EditText nameRegionField = findViewById(R.id.foreign_region_reg);
         EditText nameCityField = findViewById(R.id.foreign_city_reg);
         EditText emailField = findViewById(R.id.email_reg);
-        EditText phoneField = findViewById(R.id.phone_reg);
+        EditText orgPhoneField = findViewById(R.id.phone_reg);
         EditText moreInfoField = findViewById(R.id.more_info_org_reg);
         Spinner countrySpinner = findViewById(R.id.spinner_countries_reg);
         Spinner regionSpinner = findViewById(R.id.spinner_regions_reg);
@@ -108,27 +111,34 @@ public class RegisterOrganization extends AppCompatActivity {
         countrySpinner.setAdapter(countryAdapter[0]);
         countrySpinner.setEnabled(true);
 
-        ImageButton addDirector = findViewById(R.id.add_director);
-        ImageButton addCenter = findViewById(R.id.add_center);
+        EditText firstNameField=(EditText)findViewById(R.id.first_name_reg);
+        EditText lastNameField=(EditText)findViewById(R.id.last_name_reg);
+        EditText emailDirField=(EditText)findViewById(R.id.email_dir_reg);
+        EditText passwordField=(EditText)findViewById(R.id.password_reg);
+        EditText directorPhoneField=(EditText)findViewById(R.id.telephone_reg);
+
+        Drawable correct=ContextCompat.getDrawable(getApplicationContext(),R.drawable.baseline_check_circle_24);
 
 
-        TextView addCenterText = findViewById(R.id.add_center_text);
-        TextView addDirectorText = findViewById(R.id.add_director_text);
 
 
-        User[] director = {(User) getIntent().getSerializableExtra("director")};
-
-
-        String[] nameCity = {getIntent().getStringExtra("nameCity")};
-        String[] nameProvince = {getIntent().getStringExtra("nameProvince")};
-        String[] nameRegion = {getIntent().getStringExtra("nameRegion")};
+        String[] nameCity = {""};
+        String[] nameProvince = {""};
+        String[] nameRegion = {""};
 
         int[] idCity = {-1};
         int[] idProvince = {-1};
         int[] idRegion = {-1};
         String[] idCountry = {""};
         int[] zipCode = {-1};
-        long[] telephone = {-1};
+        long[] orgPhone = {-1};
+
+        String[] firstName={""};
+        String[] lastName={""};
+        String[] emailDir={""};
+        String[] password={""};
+        long[] dirPhone={-1};
+
         List<Organization> orgs = OrganizationsCaller.GetAllEvaluatedOrganizations();
         int idOrganization = orgs.size() + 1;
         String orgType = "EVALUATED";
@@ -140,7 +150,6 @@ public class RegisterOrganization extends AppCompatActivity {
 
 
         String[] zip_code = {getIntent().getStringExtra("zipCode")};
-        String[] phone = {getIntent().getStringExtra("telephone")};
 
         String[] information = {getIntent().getStringExtra("information")};
         String[] email = {getIntent().getStringExtra("email")};
@@ -156,24 +165,8 @@ public class RegisterOrganization extends AppCompatActivity {
         Province[] auxProvince = province;
         City[] auxCity = city;
 
-        List<Center> centers = (List<Center>) getIntent().getSerializableExtra("centers");
+        List<Center> centers = new LinkedList<Center>();
 
-
-        if (organization != null && address != null) {
-            nameOrgField.setText(organization.nameOrg);
-            addressNameField.setText(address.addressName);
-            zipCodeField.setText(zip_code[0]);
-            phoneField.setText(phone[0]);
-            emailField.setText(email[0]);
-            moreInfoField.setText(information[0]);
-        }
-
-
-        if (director[0] == null) {
-            addDirectorText.setText(getString(R.string.add_director));
-        } else {
-            addDirectorText.setText(getString(R.string.edit_director));
-        }
 
 
         countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -282,8 +275,10 @@ public class RegisterOrganization extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String input_text = s.toString();
                 if (input_text.equals("")) {
+                    nameOrgField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
                     nameOrgField.setError(getString(R.string.please_org_name));
                 } else {
+                    nameOrgField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     nameOrgField.setError(null);
                 }
             }
@@ -304,8 +299,10 @@ public class RegisterOrganization extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String input_text = s.toString();
                 if (input_text.equals("")) {
+                    addressNameField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
                     addressNameField.setError(getString(R.string.please_org_name));
                 } else {
+                    addressNameField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     addressNameField.setError(null);
                 }
             }
@@ -326,8 +323,10 @@ public class RegisterOrganization extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String input_text = s.toString();
                 if (input_text.equals("")) {
+                    zipCodeField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
                     zipCodeField.setError(getString(R.string.please_org_name));
                 } else {
+                    zipCodeField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     zipCodeField.setError(null);
                     zip_code[0] = input_text;
                     try {
@@ -354,8 +353,10 @@ public class RegisterOrganization extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String input_text = s.toString();
                 if (input_text.equals("")) {
+                    nameRegionField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     nameRegionField.setError(getString(R.string.please_region));
                 } else {
+                    nameRegionField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
                     nameRegionField.setError(null);
                     nameRegion[0] = input_text;
                 }
@@ -377,8 +378,10 @@ public class RegisterOrganization extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String input_text = s.toString();
                 if (input_text.equals("")) {
+                    nameProvinceField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
                     nameProvinceField.setError(getString(R.string.please_province));
                 } else {
+                    nameProvinceField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     nameProvinceField.setError(null);
                     nameProvince[0] = input_text;
                 }
@@ -400,8 +403,10 @@ public class RegisterOrganization extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String input_text = s.toString();
                 if (input_text.equals("")) {
+                    nameCityField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
                     nameCityField.setError(getString(R.string.please_city));
                 } else {
+                    nameCityField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     nameCityField.setError(null);
                     nameCity[0] = input_text;
                 }
@@ -413,27 +418,28 @@ public class RegisterOrganization extends AppCompatActivity {
             }
         });
 
-        phoneField.addTextChangedListener(new TextWatcher() {
+        orgPhoneField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                phoneField.setError(null);
+                orgPhoneField.setError(null);
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String inputText = s.toString();
                 if (inputText.equals("")) {
-                    phoneField.setError(getString(R.string.mandatory_phone));
+                    orgPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                    orgPhoneField.setError(getString(R.string.mandatory_phone));
                 } else if (FieldChecker.isASpanishNumber(inputText) || FieldChecker.isAForeignNumber(inputText)) {
-                    phoneField.setError(null);
-                    phone[0] = inputText;
+                    orgPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+                    orgPhoneField.setError(null);
                     try {
-                        telephone[0] = Long.parseLong(phone[0]);
+                        orgPhone[0] = Long.parseLong(inputText);
                     } catch (NumberFormatException e) {
-                        telephone[0] = -1;
+                        orgPhone[0] = -1;
                     }
                 } else {
-                    phoneField.setError(getString(R.string.wrong_phone));
+                    orgPhoneField.setError(getString(R.string.wrong_phone));
                 }
             }
 
@@ -453,9 +459,11 @@ public class RegisterOrganization extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String inputText = s.toString();
                 if (FieldChecker.emailHasCorrectFormat(inputText)) {
+                    emailField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     emailField.setError(null);
                     email[0] = inputText;
                 } else {
+                    emailField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
                     if (inputText.equals("")) {
                         emailField.setError(getString(R.string.mandatory_email));
                     } else {
@@ -488,122 +496,171 @@ public class RegisterOrganization extends AppCompatActivity {
             }
         });
 
-        addDirector.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nameOrgField.setEnabled(false);
-                addressNameField.setEnabled(false);
-                zipCodeField.setEnabled(false);
-                phoneField.setEnabled(false);
-                moreInfoField.setEnabled(false);
-                countrySpinner.setEnabled(false);
-                regionSpinner.setEnabled(false);
-                provinceSpinner.setEnabled(false);
-                citySpinner.setEnabled(false);
-
-                nameRegionField.setEnabled(false);
-                nameProvinceField.setEnabled(false);
-                nameCityField.setEnabled(false);
-
-                progressBar.setVisibility(View.VISIBLE);
-                loadingText.setVisibility(View.VISIBLE);
-
-                loadingText.setText(getString(R.string.going_director));
-                v.postDelayed(new Runnable() {
+        firstNameField.addTextChangedListener(
+                new TextWatcher() {
                     @Override
-                    public void run() {
-                        Intent intent = new Intent(getApplicationContext(), gui.RegisterOrgUser.class);
-                        intent.putExtra("user", getIntent().getSerializableExtra("user"));
-                        intent.putExtra("type", "director");
-                        intent.putExtra("director", director[0]);
-                        intent.putExtra("idOrganization", idOrganization);
-                        intent.putExtra("orgType", orgType);
-                        intent.putExtra("illness", illness);
-                        intent.putExtra("address", new Address(idAddress, addressNameField.getText().toString(), zipCode[0], idCity[0], idProvince[0], idRegion[0], idCountry[0], nameCity[0], nameProvince[0], nameRegion[0]));
-                        intent.putExtra("organization", new Organization(idOrganization, orgType, illness, nameOrgField.getText().toString(), idAddress, telephone[0], emailField.getText().toString(), moreInfoField.getText().toString(), ""));
-                        intent.putExtra("country", country[0]);
-                        intent.putExtra("province", province[0]);
-                        intent.putExtra("region", region[0]);
-                        intent.putExtra("city", city[0]);
-                        intent.putExtra("email", email[0]);
-                        intent.putExtra("zipCode", zip_code[0]);
-                        intent.putExtra("telephone", phone[0]);
-                        intent.putExtra("information", information[0]);
-                        intent.putExtra("email", email[0]);
-                        intent.putExtra("nameRegion", nameRegion[0]);
-                        intent.putExtra("nameProvince", nameProvince[0]);
-                        intent.putExtra("nameCity", nameCity[0]);
-                        intent.putExtra("centers", (Serializable) centers);
-                        startActivity(intent);
-                        director[0] = (User) getIntent().getSerializableExtra("director");
-                        if (director[0] == null) {
-                            addDirectorText.setText(getString(R.string.add_director));
-                        } else {
-                            addDirectorText.setText(getString(R.string.edit_director));
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        //No es necesario introducir nada aquí
+                        firstNameField.setError(null);
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        String inputText=s.toString();
+                        if(inputText.equals("")){
+                            firstNameField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                            firstNameField.setError(getString(R.string.mandatory_first_name));
+                        }else{
+                            firstNameField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+                            firstNameField.setError(null);
+                            firstName[0]=inputText;
                         }
                     }
-                }, 100);
-            }
-        });
 
-
-        addCenter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nameOrgField.setEnabled(false);
-                addressNameField.setEnabled(false);
-                zipCodeField.setEnabled(false);
-                phoneField.setEnabled(false);
-                moreInfoField.setEnabled(false);
-                countrySpinner.setEnabled(false);
-                regionSpinner.setEnabled(false);
-                provinceSpinner.setEnabled(false);
-                citySpinner.setEnabled(false);
-
-                nameRegionField.setEnabled(false);
-                nameProvinceField.setEnabled(false);
-                nameCityField.setEnabled(false);
-
-                progressBar.setVisibility(View.VISIBLE);
-                loadingText.setVisibility(View.VISIBLE);
-
-                loadingText.setText(getString(R.string.going_center));
-                v.postDelayed(new Runnable() {
                     @Override
-                    public void run() {
-                        Intent intent = new Intent(getApplicationContext(), gui.RegisterNewCenter.class);
-                        intent.putExtra("user", getIntent().getSerializableExtra("user"));
-                        intent.putExtra("type", "director");
-                        intent.putExtra("director", director[0]);
-                        intent.putExtra("idOrganization", idOrganization);
-                        intent.putExtra("orgType", orgType);
-                        intent.putExtra("illness", illness);
-                        intent.putExtra("address", new Address(idAddress, addressNameField.getText().toString(), zipCode[0], idCity[0], idProvince[0], idRegion[0], idCountry[0], nameCity[0], nameProvince[0], nameRegion[0]));
-                        intent.putExtra("organization", new Organization(idOrganization, orgType, illness, nameOrgField.getText().toString(), idAddress, telephone[0], emailField.getText().toString(), moreInfoField.getText().toString(), ""));
-                        intent.putExtra("country", country[0]);
-                        intent.putExtra("province", province[0]);
-                        intent.putExtra("region", region[0]);
-                        intent.putExtra("city", city[0]);
-                        intent.putExtra("email", email[0]);
-                        intent.putExtra("zipCode", zip_code[0]);
-                        intent.putExtra("telephone", phone[0]);
-                        intent.putExtra("information", information[0]);
-                        intent.putExtra("email", email[0]);
-                        intent.putExtra("nameRegion", nameRegion[0]);
-                        intent.putExtra("nameProvince", nameProvince[0]);
-                        intent.putExtra("nameCity", nameCity[0]);
-                        intent.putExtra("centers", (Serializable) centers);
-                        startActivity(intent);
-                        director[0] = (User) getIntent().getSerializableExtra("director");
-                        if (director[0] == null) {
-                            addDirectorText.setText(getString(R.string.add_director));
-                        } else {
-                            addDirectorText.setText(getString(R.string.edit_director));
+                    public void afterTextChanged(Editable s) {
+                        //No es necesario introducir nada aquí
+                    }
+                }
+        );
+
+        lastNameField.addTextChangedListener(
+                new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        //No es necesario introducir nada aquí
+                        lastNameField.setError(null);
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        String inputText=s.toString();
+                        if(inputText.equals("")){
+                            lastNameField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                            lastNameField.setError(getString(R.string.mandatory_first_name));
+                        }else{
+                            lastNameField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+                            lastNameField.setError(null);
+                            lastName[0]=inputText;
                         }
                     }
-                }, 100);
-            }
-        });
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        //No es necesario introducir nada aquí
+                    }
+                }
+        );
+
+        emailDirField.addTextChangedListener(
+                new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        //No es necesario introducir nada aquí
+                        emailDirField.setError(null);
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        String inputText=s.toString();
+                        if(FieldChecker.emailHasCorrectFormat(inputText)){
+                            emailDirField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+                            emailDirField.setError(null);
+                            emailDir[0]=inputText;
+                        }
+                        else{
+                            emailDirField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                            if(inputText.equals("")){
+                                emailDirField.setError(getString(R.string.mandatory_email));
+                            }
+                            else{
+                                emailDirField.setError(getString(R.string.wrong_email));
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        //No es necesario introducir nada aquí
+                    }
+
+
+                }
+        );
+
+        passwordField.addTextChangedListener(
+                new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        //No es necesario introducir nada aquí
+                        passwordField.setError(null);
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        String inputText=s.toString();
+                        Pattern patronPassword=Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$&%#.!\"^¨_:;/+><()=¿?¡!-]).{6,}$");
+                        Matcher matcher= patronPassword.matcher(inputText);
+                        if(matcher.matches()){
+                            passwordField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+                            passwordField.setError(null);
+                            password[0]=inputText;
+                        }
+                        else{
+                            passwordField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                            passwordField.setError(getString(R.string.mandatory_password));
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        //No es necesario introducir nada aquí
+                    }
+
+
+                }
+        );
+
+        directorPhoneField.addTextChangedListener(
+                new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        //No es necesario introducir nada aquí
+                        directorPhoneField.setError(null);
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        String inputText=s.toString();
+                        if(inputText.equals("")){
+                            directorPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                            directorPhoneField.setError(getString(R.string.mandatory_phone));
+                        }
+                        else if(FieldChecker.isASpanishNumber(inputText)||FieldChecker.isAForeignNumber(inputText)){
+                            directorPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+                            directorPhoneField.setError(null);
+                            try{
+                                dirPhone[0]=Long.parseLong(inputText);
+                            }catch(NumberFormatException e){
+                                dirPhone[0]=-1;
+                            }
+                        }
+                        else{
+                            directorPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                            directorPhoneField.setError(getString(R.string.wrong_phone));
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        //No es necesario introducir nada aquí
+                    }
+
+
+                }
+        );
+
+
 
         CheckBox acceptLOPD = findViewById(R.id.accept_LOPD);
 
@@ -627,17 +684,18 @@ public class RegisterOrganization extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                if(!nameOrgField.getText().equals("") && !addressNameField.getText().equals("") && !zipCodeField.getText().equals("") && (FieldChecker.isAForeignNumber(phoneField.getText().toString()) || FieldChecker.isASpanishNumber(phoneField.getText().toString())) && FieldChecker.emailHasCorrectFormat(emailField.getText().toString()) && director[0]!=null){
+                if(!nameOrgField.getText().equals("") && !addressNameField.getText().equals("") && !zipCodeField.getText().equals("") && (FieldChecker.isAForeignNumber(orgPhoneField.getText().toString()) || FieldChecker.isASpanishNumber(orgPhoneField.getText().toString()))
+                        && FieldChecker.emailHasCorrectFormat(emailField.getText().toString()) && !firstNameField.getText().equals("") && !lastNameField.getText().equals("") && FieldChecker.emailHasCorrectFormat(emailDirField.getText().toString()) && !passwordField.getText().equals("") && (FieldChecker.isAForeignNumber(directorPhoneField.getText().toString()) || FieldChecker.isASpanishNumber(directorPhoneField.getText().toString()))){
                     Address address = new Address(idAddress, addressNameField.getText().toString(), zipCode[0],idCity[0],idProvince[0],idRegion[0],idCountry[0],nameCity[0],nameProvince[0],nameRegion[0]);
-                    Organization organization=new Organization(idOrganization,orgType,illness,nameOrgField.getText().toString(),idAddress,telephone[0],emailField.getText().toString(),moreInfoField.getText().toString(),"");
-                    User directorOrg=director[0];
+                    Organization organization=new Organization(idOrganization,orgType,illness,nameOrgField.getText().toString(),idAddress,orgPhone[0],emailField.getText().toString(),moreInfoField.getText().toString(),"");
+                    User directorOrg=new User(emailDir[0],"ORGANIZATION",firstName[0],lastName[0],password[0],dirPhone[0],idOrganization,orgType,illness);
                     directorOrg.setPassword(PasswordCodifier.codify(directorOrg.getPassword()));
 
 
                     nameOrgField.setEnabled(false);
                     addressNameField.setEnabled(false);
                     zipCodeField.setEnabled(false);
-                    phoneField.setEnabled(false);
+                    orgPhoneField.setEnabled(false);
                     moreInfoField.setEnabled(false);
                     countrySpinner.setEnabled(false);
                     regionSpinner.setEnabled(false);
@@ -647,6 +705,12 @@ public class RegisterOrganization extends AppCompatActivity {
                     nameRegionField.setEnabled(false);
                     nameProvinceField.setEnabled(false);
                     nameCityField.setEnabled(false);
+
+                    firstNameField.setEnabled(false);
+                    lastNameField.setEnabled(false);
+                    emailDirField.setEnabled(false);
+                    passwordField.setEnabled(false);
+                    directorPhoneField.setEnabled(false);
 
                     progressBar.setVisibility(View.VISIBLE);
                     loadingText.setVisibility(View.VISIBLE);
@@ -661,6 +725,7 @@ public class RegisterOrganization extends AppCompatActivity {
                             UsersCaller.Create(directorOrg);
                             organization.setEmailOrgPrincipal(directorOrg.getEmailUser());
                             OrganizationsCaller.Update(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),organization);
+
                             Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
                             intent.putExtra("user",getIntent().getSerializableExtra("user"));
                             startActivity(intent);
@@ -687,14 +752,26 @@ public class RegisterOrganization extends AppCompatActivity {
                             nameRegionField.setError(getString(R.string.please_region));
                         }
                     }
-                    if(!FieldChecker.isAForeignNumber(phoneField.getText().toString()) && !FieldChecker.isASpanishNumber(phoneField.getText().toString())){
-                        phoneField.setError(getString(R.string.wrong_phone));
+                    if(!FieldChecker.isAForeignNumber(orgPhoneField.getText().toString()) && !FieldChecker.isASpanishNumber(orgPhoneField.getText().toString())){
+                        orgPhoneField.setError(getString(R.string.wrong_phone));
                     }
                     if(!FieldChecker.emailHasCorrectFormat(emailField.getText().toString())){
-                        phoneField.setError(getString(R.string.wrong_email));
+                        orgPhoneField.setError(getString(R.string.wrong_email));
                     }
-                    if(director[0]!=null){
-                        addDirectorText.setError(getString(R.string.please_director));
+                    if(firstName[0].equals("")){
+                        firstNameField.setError(getString(R.string.mandatory_first_name));
+                    }
+                    if(lastName[0].equals("")){
+                        lastNameField.setError(getString(R.string.mandatory_last_name));
+                    }
+                    if(!FieldChecker.emailHasCorrectFormat(emailDir[0])){
+                        emailDirField.setError(getString(R.string.wrong_email));
+                    }
+                    if(!FieldChecker.passwordHasCorrectFormat(password[0])){
+                        passwordField.setError(getString(R.string.wrong_password));
+                    }
+                    if(!(FieldChecker.isASpanishNumber(directorPhoneField.getText().toString()) || FieldChecker.isAForeignNumber(directorPhoneField.getText().toString()))){
+                        directorPhoneField.setError(getString(R.string.wrong_phone));
                     }
                 }
 

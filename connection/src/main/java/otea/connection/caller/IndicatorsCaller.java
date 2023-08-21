@@ -100,7 +100,7 @@ public class IndicatorsCaller {
         asyncTask.execute();
         try {
             Indicator i=asyncTask.get();
-            return new Indicator(i.getIdIndicator(),i.getIndicatorType(),i.getDescriptionEnglish(),i.getDescriptionSpanish(),i.getDescriptionFrench(),i.getPriority(),i.getIndicatorVersion());
+            return i;//new Indicator(i.getIdIndicator(),i.getIndicatorType(),i.getDescriptionEnglish(),i.getDescriptionSpanish(),i.getDescriptionFrench(),i.getPriority(),i.getIndicatorVersion());
         } catch (Exception e) {
             Log.d("ERROR", e.toString());
         }
@@ -133,7 +133,7 @@ public class IndicatorsCaller {
         asyncTask.execute();
         try {
             Indicator i=asyncTask.get();
-            return new Indicator(i.getIdIndicator(),i.getIndicatorType(),i.getDescriptionEnglish(),i.getDescriptionSpanish(),i.getDescriptionFrench(),i.getPriority(),i.getIndicatorVersion());
+            return i;//new Indicator(i.getIdIndicator(),i.getIndicatorType(),i.getDescriptionEnglish(),i.getDescriptionSpanish(),i.getDescriptionFrench(),i.getPriority(),i.getIndicatorVersion());
         } catch (Exception e) {
             Log.d("ERROR", e.toString());
         }
@@ -166,7 +166,7 @@ public class IndicatorsCaller {
         asyncTask.execute();
         try {
             Indicator i=asyncTask.get();
-            return new Indicator(i.getIdIndicator(),i.getIndicatorType(),i.getDescriptionEnglish(),i.getDescriptionSpanish(),i.getDescriptionFrench(),i.getPriority(),i.getIndicatorVersion());
+            return i;//new Indicator(i.getIdIndicator(),i.getIndicatorType(),i.getDescriptionEnglish(),i.getDescriptionSpanish(),i.getDescriptionFrench(),i.getPriority(),i.getIndicatorVersion());
         } catch (Exception e) {
             Log.d("ERROR", e.toString());
         }
@@ -198,11 +198,7 @@ public class IndicatorsCaller {
         asyncTask.execute();
         try {
             List<Indicator> aux=asyncTask.get();
-            List<Indicator> list=new LinkedList<>();
-            for(Indicator i:aux){//Se hace así debido a que queremos asignar también las evidencias
-                list.add(new Indicator(i.getIdIndicator(),i.getIndicatorType(),i.getDescriptionEnglish(),i.getDescriptionSpanish(),i.getDescriptionFrench(),i.getPriority(),i.getIndicatorVersion()));
-            }
-            return list;
+            return aux;
         } catch (Exception e) {
             Log.d("ERROR", e.toString());
         }

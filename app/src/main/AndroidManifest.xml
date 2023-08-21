@@ -29,11 +29,6 @@
             android:name="gui.RegisterNewCenter"
             android:exported="false" />
         <activity
-            android:name="gui.RegisterOrgUser"
-            android:exported="false"
-            android:label="@string/title_activity_register_org_user"
-            android:theme="@style/Theme.TFG2223.NoActionBar.NoActionBar" />
-        <activity
             android:name="gui.RegisterOrganization"
             android:exported="false" />
         <activity

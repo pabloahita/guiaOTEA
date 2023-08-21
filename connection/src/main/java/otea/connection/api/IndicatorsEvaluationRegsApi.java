@@ -10,26 +10,26 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface IndicatorsEvaluationRegsApi {
-    @GET("IndicatorsEvaluationRegs")
+    @GET("IndicatorsEvaluationsRegs/all")
     Call<List<IndicatorsEvaluationReg>> GetAll();
 
-    @GET("IndicatorsEvaluationRegs/indEval::evaluationDate={evaluationDate}:idEvaluatorOrganization={idEvaluatorOrganization}:orgType={orgType}:illness={illness}")
-    Call<List<IndicatorsEvaluationReg>> GetAllByIndicatorsEvaluation(@Path("evaluationDate") long evaluationDate,@Path("idEvaluatedOrganization") int idEvaluatedOrganization, @Path("orgType") String orgType, @Path("illness") String illness);
+    @GET("IndicatorsEvaluationsRegs/indEval")
+    Call<List<IndicatorsEvaluationReg>> GetAllByIndicatorsEvaluation(@Query("evaluationDate") long evaluationDate,@Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgType") String orgType, @Query("illness") String illness);
 
-    @GET("IndicatorsEvaluationRegs/get::evaluationDate={evaluationDate}:idEvaluatedOrganization={idEvaluatedOrganization}:orgType={orgType}:illness={illness}:indicatorId={indicatorId}:idEvidence={idEvidence}:indicatorVersion={indicatorVersion}")
-    Call<IndicatorsEvaluationReg> Get(@Path("evaluationDate")long evaluationDate, @Path("idEvaluatedOrganization") int idEvaluatedOrganization, @Path("orgType") String orgType,@Path("illness") String illness,@Path("indicatorId") int indicatorId,@Path("idEvidence") int idEvidence,@Path("indicatorVersion") int indicatorVersion);
+    @GET("IndicatorsEvaluationsRegs/get")
+    Call<IndicatorsEvaluationReg> Get(@Query("evaluationDate")long evaluationDate, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgType") String orgType,@Query("illness") String illness,@Query("indicatorId") int indicatorId,@Query("idEvidence") int idEvidence,@Query("indicatorVersion") int indicatorVersion);
 
-    @POST("IndicatorsEvaluationRegs")
+    @POST("IndicatorsEvaluationsRegs")
     Call<IndicatorsEvaluationReg> Create(@Body IndicatorsEvaluationReg indicatorsEvaluationReg);
 
-    @PUT("IndicatorsEvaluationRegs/upd::evaluationDate={evaluationDate}:idEvaluatedOrganization={idEvaluatedOrganization}:orgType={orgType}:illness={illness}:indicatorId={indicatorId}:idEvidence={idEvidence}:indicatorVersion={indicatorVersion}")
-    Call<IndicatorsEvaluationReg> Update(@Path("evaluationDate")long evaluationDate, @Path("idEvaluatedOrganization") int idEvaluatedOrganization, @Path("orgType") String orgType,@Path("illness") String illness,@Path("indicatorId") int indicatorId,@Path("idEvidence") int idEvidence,@Path("indicatorVersion") int indicatorVersion);
+    @PUT("IndicatorsEvaluationsRegs")
+    Call<IndicatorsEvaluationReg> Update(@Query("evaluationDate")long evaluationDate, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgType") String orgType,@Query("illness") String illness,@Query("indicatorId") int indicatorId,@Query("idEvidence") int idEvidence,@Query("indicatorVersion") int indicatorVersion);
 
 
-    @DELETE("IndicatorsEvaluationRegs/del::evaluationDate={evaluationDate}:idEvaluatedOrganization={idEvaluatedOrganization}:orgType={orgType}:illness={illness}:indicatorId={indicatorId}:idEvidence={idEvidence}:indicatorVersion={indicatorVersion}")
-    Call<IndicatorsEvaluationReg> Delete(@Path("evaluationDate")long evaluationDate, @Path("idEvaluatedOrganization") int idEvaluatedOrganization, @Path("orgType") String orgType,@Path("illness") String illness,@Path("indicatorId") int indicatorId,@Path("idEvidence") int idEvidence,@Path("indicatorVersion") int indicatorVersion);
+    @DELETE("IndicatorsEvaluationsRegs")
+    Call<IndicatorsEvaluationReg> Delete(@Query("evaluationDate")long evaluationDate, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgType") String orgType,@Query("illness") String illness,@Query("indicatorId") int indicatorId,@Query("idEvidence") int idEvidence,@Query("indicatorVersion") int indicatorVersion);
 
 }

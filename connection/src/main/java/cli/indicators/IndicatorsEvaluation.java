@@ -57,8 +57,19 @@ public class IndicatorsEvaluation implements Serializable {
     @SerializedName("totalScore")
     public int totalScore=0;
 
+    @SerializedName("observations")
+    public String observations;
 
-    public IndicatorsEvaluation(long evaluationDate,int idEvaluatedOrganization,String orgTypeEvaluated,int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator, String illness, int scoreLevel1, int scoreLevel2, int scoreLevel3, int scoreLevel4, int scoreLevel5, int scoreLevel6, int totalScore){
+    @SerializedName("conclusions")
+    public String conclusions;
+
+    @SerializedName("isFinished")
+    public int isFinished=0;
+
+
+
+
+    public IndicatorsEvaluation(long evaluationDate,int idEvaluatedOrganization,String orgTypeEvaluated,int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator, String illness,String observations, String conclusions, int scoreLevel1, int scoreLevel2, int scoreLevel3, int scoreLevel4, int scoreLevel5, int scoreLevel6, int totalScore, int isFinished){
         setEvaluationDate(evaluationDate);
         setIdEvaluatedOrganization(idEvaluatedOrganization);
         setOrgTypeEvaluated(orgTypeEvaluated);
@@ -66,6 +77,8 @@ public class IndicatorsEvaluation implements Serializable {
         setIdEvaluatorOrganization(idEvaluatorOrganization);
         setOrgTypeEvaluator(orgTypeEvaluator);
         setIllness(illness);
+        setObservations(observations);
+        setConclusions(conclusions);
         setScoreLevel1(scoreLevel1);
         setScoreLevel2(scoreLevel2);
         setScoreLevel3(scoreLevel3);
@@ -73,6 +86,7 @@ public class IndicatorsEvaluation implements Serializable {
         setScoreLevel5(scoreLevel5);
         setScoreLevel6(scoreLevel6);
         setTotalScore(totalScore);
+        setIsFinished(isFinished);
     }
 
 
@@ -190,5 +204,29 @@ public class IndicatorsEvaluation implements Serializable {
 
     public void setScoreLevel6(int scoreLevel6) {
         this.scoreLevel6 = scoreLevel6;
+    }
+
+    public int getIsFinished() {
+        return isFinished;
+    }
+
+    public void setIsFinished(int isFinished) {
+        this.isFinished = isFinished;
+    }
+
+    public String getObservations() {
+        return observations;
+    }
+
+    public void setObservations(String observations) {
+        this.observations = observations;
+    }
+
+    public String getConclusions() {
+        return conclusions;
+    }
+
+    public void setConclusions(String conclusions) {
+        this.conclusions = conclusions;
     }
 }

@@ -5,12 +5,12 @@ import java.util.List;
 import cli.organization.data.geo.Region;
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface RegionsApi {
-    @GET("Regions/get::idRegion={idRegion}:idCountry={idCountry}")
-    Call<Region> GetRegion(@Path("idRegion") int idRegion, @Path("idCountry") String idCountry);
+    @GET("Regions/get")
+    Call<Region> GetRegion(@Query("idRegion") int idRegion, @Query("idCountry") String idCountry);
 
-    @GET("Regions/country::idCountry={idCountry}")
-    Call<List<Region>> GetRegionsByCountry(@Path("idCountry") String idCountry);
+    @GET("Regions/country")
+    Call<List<Region>> GetRegionsByCountry(@Query("idCountry") String idCountry);
 }

@@ -134,4 +134,10 @@
     <string name="adding_org">Ajout d\'une organisation... Veuillez patienter quelques secondes...</string>
     <string name="going_director">Aller au formulaire directeur... Veuillez patienter quelques secondes..</string>
     <string name="going_center">Aller au formulaire du nouveau centre... Veuillez patienter quelques secondes...</string>
+    <string name="org_data">Données d\'organisation</string>
+    <string name="org_director">Directeur d\'organisation</string>
+    <string name="org_reg_ins">Pour enregistrer l\'organisation, veuillez remplir tous les champs, faire défiler vers le bas pour les voir tous et terminer l\'enregistrement.</string>
+    <string name="first_name_user_menu">Prénom: prenom</string>
+    <string name="last_name_user_menu">Nom: nom</string>
+    <string name="org_name_user_menu">Organisation: org</string>
 </resources>
