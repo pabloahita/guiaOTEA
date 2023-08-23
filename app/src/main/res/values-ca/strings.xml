@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OTEA</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="next">Següent</string>
+    <string name="previous">Anterior</string>
+
+    <string name="welcome">Benvingut a l\'aplicació d\'OTEA</string>
+    <string name="start_evaluation">Començar l\'avaluació d\'indicadors</string>
+    <string name="indicator_caption">Títol de l\'indicador</string>
+    <string name="evidence1">Evidència 1</string>
+    <string name="evidence2">Evidència 2</string>
+    <string name="evidence3">Evidència 3</string>
+    <string name="evidence4">Evidència 4</string>
+    <string name="previous_indicator">Indicador anterior</string>
+    <string name="next_indicator">Indicador següent</string>
+    <string name="sign_in">Iniciar sessió</string>
+    <string name="sign_up">Registrar-se</string>
+    <string name="users_email">Correu electrònic de l\'usuari</string>
+    <string name="users_password">Contrasenya de l\'usuari</string>
+    <string name="invalid_username">No és un correu electrònic vàlid</string>
+    <string name="invalid_password">La contrasenya ha de tenir més de 5 caràcters</string>
+    <!-- Strings used for fragments for navigation -->
+
+    <string name="nav_header_title" translatable="false">Android Studio</string>
+    <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
+    <string name="nav_header_desc" translatable="false">Capçalera de navegació</string>
+    <string name="action_settings">Configuració</string>
+
+    <string name="menu_home" translatable="false">Inici</string>
+    <string name="menu_gallery" translatable="false">Galeria</string>
+    <string name="menu_slideshow" translatable="false">Presentació de diapositives</string>
+    <string name="add_new_evaluated_org">Afegir nova organització avaluada</string>
+    <string name="add_new_complete_evaluation">Afegir nova avaluació completa</string>
+    <string name="add_new_simple_evaluation">Afegir nova avaluació simple</string>
+    <string name="navigation_drawer_close" translatable="false">Tanca el calaix de navegació</string>
+    <string name="title_activity_main_menu">Menú principal</string>
+    <string name="title_activity_settings">Configuració</string>
+
+
+    <!-- Preference Titles -->
+    <string name="messages_header" translatable="false">Missatges</string>
+    <string name="sync_header" translatable="false">Sincronització</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title" translatable="false">La teva signatura</string>
+    <string name="reply_title" translatable="false">Acció de resposta per defecte</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title" translatable="false">Sincronitzar el correu periòdicament</string>
+    <string name="attachment_title" translatable="false">Descarregar adjunts entrants</string>
+    <string name="attachment_summary_on" translatable="false">Descarregar automàticament els adjunts dels correus entrants
+</string>
+    <string name="attachment_summary_off" translatable="false">Només descarregar els adjunts quan sigui sol·licitat manualment</string>
+    <!-- Strings used for fragments for navigation -->
+
+    <string name="add_new_evaluated_org_center">Afegir nou centre d\'organització avaluada</string>
+    <string name="modify_database">Modificar base de dades</string>
+    <string name="modify_indicators">Modificar indicadors</string>
+    <string name="recent_activity">Activitat recent</string>
+    <string name="help">Ajuda</string>
+    <string name="view_indicators_evolution">Veure proves realitzades</string>
+    <string name="login_failed">Inici de sessió fallit. Si us plau, verifica l\'email i la contrasenya o registra\'t a l\'aplicació</string>
+    <string name="title_activity_register">Registrar-se</string>
+    <string name="first_name_user">Nom</string>
+    <string name="last_name_user">Cognom</string>
+    <string name="email_reg">Correu electrònic</string>
+    <string name="password_reg">Contrasenya</string>
+    <string name="telephone_reg">Número de telèfon</string>
+
+
+    <string name="user_type_reg">Tipus d\'usuari</string>
+    <string name="evaluated_org_user_reg">Usuari de l\'organització avaluada</string>
+    <string name="fMiradas_user_reg">Usuari de la Fundació Miradas</string>
+    <string name="select_user_type">Selecciona el tipus d\'usuari</string>
+
+    <string-array name="menu_user_type">
+        <item>@string/evaluated_org_user_reg</item>
+        <item>@string/fMiradas_user_reg</item>
+    </string-array>
+
+    <string-array name="menu_org_evaluated">
+        <item>@string/select_evaluated_org</item>
+    </string-array>
+    <string name="LOPD_user_reg">Accepto que la Fundación Miradas guardi registre sobre les meves dades d\'acord amb la Llei Orgànica de Protecció de Dades.</string>
+    <string name="wrong_phone">Telèfon incorrecte.</string>
+    <string name="contry_phone_config">Introduïu 00 i el codi del vostre país abans del vostre número de telèfon (excepte Espanya)</string>
+    <string name="mandatory_first_name">Si us plau, introduïu el vostre nom</string>
+    <string name="mandatory_last_name">Si us plau, introduïu el vostre cognom</string>
+    <string name="mandatory_email">Si us plau, introduïu el vostre correu electrònic</string>
+    <string name="wrong_email">El correu electrònic proporcionat no és correcte, si us plau, introduïu un correu electrònic real</string>
+    <string name="mandatory_phone">Els números de telèfon a Espanya han de començar amb 6, 7, 8 o 9. Els números de telèfon estrangers han de començar amb 00 seguit del codi del país</string>
+    <string name="wrong_telephone">Número de telèfon incorrecte</string>
+    <string name="mandatory_password">La contrasenya ha de complir els següents requisits:
+- Contenir almenys 6 caràcters.
+- Incloure almenys una lletra majúscula.
+- Incloure almenys una lletra minúscula.
+- Incloure almenys un número.
+- Incloure almenys un dels següents símbols: "$&amp;%#.!"^*¨_:;/*-+&gt;&lt;()=¿?¡!"</string>
+
+
+    <string name="select_evaluated_org">Selecciona l\'organització avaluada</string>
+    <string name="wrong_password">Contrasenya incorrecta</string>
+    <string name="hey_user">Hola usuari!</string>
+    <string name="add_new_evaluator_team">Afegir nou equip d\'avaluació</string>
+    <string name="add_new_center">Afegir nou centre de l\'organització avaluada</string>
+    <string name="add_new_indicators_evaluation">Afegir nova avaluació d\'indicadors</string>
+    <string name="add_new_evaluated_organization">Afegir nova organització avaluada</string>
+    <string name="org_name">Nom de l\'organització</string>
+    <string name="org_address">Adreça</string>
+    <string name="org_zipcode">Codi postal</string>
+    <string name="org_city">Ciutat</string>
+    <string name="org_province">Província</string>
+    <string name="org_region">Regió</string>
+    <string name="org_country">País</string>
+    <string name="please_org_name">Si us plau, introduïu el nom de l\'organització</string>
+    <string name="please_address">Si us plau, introduïu l\'adreça</string>
+    <string name="please_city">Si us plau, introduïu el nom de la ciutat</string>
+    <string name="please_province">Si us plau, introduïu el nom de la província</string>
+    <string name="please_region">Si us plau, introduïu el nom de la regió</string>
+    <string name="please_zipcode">Si us plau, introduïu el codi postal</string>
+    <string name="more_info">Més informació</string>
+    <string name="add_director">Afegir director de l\'organització</string>
+    <string name="edit_director">Editar director de l\'organització</string>
+    <string name="add_professional">Afegir professional de cures directes</string>
+    <string name="edit_professional">Editar professional de cures directes</string>
+    <string name="add_center">Afegir nou centre</string>
+    <string name="title_activity_register_org_user">RegistrarUsuariOrg</string>
+    <!-- Cadenes utilitzades per fragments de navegació -->
+    <string name="first_fragment_label">Primer Fragment</string>
+    <string name="second_fragment_label">Segon Fragment</string>
+
+
+
+    <string name="hello_first_fragment">Hola primer fragment</string>
+    <string name="hello_second_fragment">Hola segon fragment. Arg: %1$s</string>
+    <string name="description_center">Descripció del centre</string>
+    <string name="please_description_center">Si us plau, introduïu la descripció del centre</string>
+    <string name="please_director">Si us plau, introduïu el director de l\'organització</string>
+    <string name="please_professional">Si us plau, seleccioneu un professional de cures directes</string>
+    <string name="please_wait_login">Connectant a la base de dades per iniciar sessió. Espereu uns segons...</string>
+    <string name="please_wait_register_user">Connectant a la base de dades per registrar l\'usuari. Espereu uns segons...</string>
+    <string name="please_wait_reg_orgs">Connectant a la base de dades per registrar l\'organització. Espereu uns segons...</string>
+    <string name="please_wait">Connectant a la base de dades... Espereu uns segons...</string>
+    <string name="do_you_want_to_exit_otea">Voleu sortir de l\'OTEA?</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+    <string name="loading_evidences">Carregant proves... Espereu uns segons...</string>
+    <string name="start">Inici</string>
+    <string name="patient_name">Nom de la persona amb TDAH</string>
+    <string name="relative_name">Nom del familiar de la persona amb TEA</string>
+    <string name="select_evaluated_organization">Organització avaluada:</string>
+    <string name="select_external_consultant">Consultor extern</string>
+    <string name="non_existing_evaluated_organization">No hi ha cap organització avaluadora, si us plau afegiu-ne una per continuar</string>
+    <string name="non_existing_evaluator_team">No hi ha cap equip d\'avaluadors existent, si us plau afegiu-ne un de nou per continuar</string>
+    <string name="please_patient_name">Si us plau, introduïu el nom de la persona amb TDAH</string>
+    <string name="please_relative_name">Si us plau, introduïu el nom del familiar de la persona amb TDAH</string>
+    <string name="please_evaluated_org">Si us plau, seleccioneu una organització avaluadora</string>
+    <string name="please_consultant">Si us plau, seleccioneu un consultor extern</string>
+    <string name="please_responsible">Si us plau, seleccioneu un responsable</string>
+    <string name="evaluated_org">Organització avaluadora</string>
+    <string name="consultant">Consultor extern</string>
+    <string name="professional">Professional d\'assistència directa</string>
+    <string name="responsible">Responsable</string>
+    <string name="evaluator_team">Equip d\'avaluadors</string>
+    <string name="calculating_results">Calculant resultats... Espereu uns segons...</string>
+    <string name="loading_indicators">Carregant indicadors... Espereu uns segons...</string>
+    <string name="creation_date">Data de creació</string>
+    <string name="eval_date_1">Data d\'avaluació 1</string>
+    <string name="eval_date_2">Data d\'avaluació 2</string>
+    <string name="eval_date_3">Data d\'avaluació 3</string>
+    <string name="eval_date_4">Data d\'avaluació 4</string>
+    <string name="observations">Observacions</string>
+    <string name="please_date">Si us plau, introduïu una data aquí</string>
+    <string name="turning_back_to_org">Tornant a la creació d\'organitzacions...</string>
+    <string name="adding_center">Afegint centre... Espereu uns segons...</string>
+    <string name="adding_org">Afegint organització... Espereu uns segons...</string>
+    <string name="going_director">Anant al formulari del director... Espereu uns segons...</string>
+    <string name="going_center">Anant al nou formulari de centre... Espereu uns segons...</string>
+    <string name="org_data">Dades de l\'organització</string>
+    <string name="org_director">Director de l\'organització</string>
+    <string name="org_reg_ins">Per registrar l\'organització, si us plau ompliu tots els camps, feis scroll per veure\'ls tots i completeu el registre.</string>
+    <string name="first_name_user_menu">Nom: nom</string>
+    <string name="last_name_user_menu">Cognom: cognom</string>
+    <string name="org_name_user_menu">Organització: organització</string>
+
+</resources>

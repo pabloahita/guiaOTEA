@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OTEA</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="next">Weiter</string>
+    <string name="previous">Zurück</string>
+
+    <string name="welcome">Willkommen bei der OTEA-App</string>
+    <string name="start_evaluation">Indikatorenbewertung starten</string>
+    <string name="indicator_caption">Indikatorbeschreibung</string>
+    <string name="evidence1">Nachweis 1</string>
+    <string name="evidence2">Nachweis 2</string>
+    <string name="evidence3">Nachweis 3</string>
+    <string name="evidence4">Nachweis 4</string>
+    <string name="previous_indicator">Vorheriger Indikator</string>
+    <string name="next_indicator">Nächster Indikator</string>
+    <string name="sign_in">Anmelden</string>
+    <string name="sign_up">Registrieren</string>
+    <string name="users_email">Benutzer-E-Mail</string>
+    <string name="users_password">Benutzerpasswort</string>
+    <string name="invalid_username">Keine gültige E-Mail-Adresse</string>
+    <string name="invalid_password">Passwort muss >5 Zeichen lang sein</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="nav_header_title" translatable="false">Android Studio</string>
+    <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
+    <string name="nav_header_desc" translatable="false">Navigationsheader</string>
+    <string name="action_settings">Einstellungen</string>
+
+    <string name="menu_home" translatable="false">Startseite</string>
+    <string name="menu_gallery" translatable="false">Galerie</string>
+    <string name="menu_slideshow" translatable="false">Diashow</string>
+    <string name="add_new_evaluated_org">Neue bewertete Organisation hinzufügen</string>
+    <string name="add_new_complete_evaluation">Neue vollständige Bewertung hinzufügen</string>
+    <string name="add_new_simple_evaluation">Neue einfache Bewertung hinzufügen</string>
+    <string name="navigation_drawer_close" translatable="false">Navigationsleiste schließen</string>
+    <string name="title_activity_main_menu">Hauptmenü</string>
+    <string name="title_activity_settings">Einstellungen</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header" translatable="false">Nachrichten</string>
+    <string name="sync_header" translatable="false">Synchronisation</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title" translatable="false">Ihre Signatur</string>
+    <string name="reply_title" translatable="false">Standardantwortaktion</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title" translatable="false">E-Mails regelmäßig synchronisieren</string>
+    <string name="attachment_title" translatable="false">Eingehende Anhänge herunterladen</string>
+    <string name="attachment_summary_on" translatable="false">Anhänge von eingehenden E-Mails automatisch herunterladen</string>
+    <string name="attachment_summary_off" translatable="false">Anhänge nur bei manueller Anforderung herunterladen</string>
+
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="add_new_evaluated_org_center">Neues bewertetes Organisationszentrum hinzufügen</string>
+    <string name="modify_database">Datenbank bearbeiten</string>
+    <string name="modify_indicators">Indikatoren bearbeiten</string>
+    <string name="recent_activity">Kürzliche Aktivität</string>
+    <string name="help">Hilfe</string>
+    <string name="view_indicators_evolution">Durchgeführte Tests anzeigen</string>
+    <string name="login_failed">Anmeldung fehlgeschlagen. Bitte überprüfen Sie die E-Mail und das Passwort oder melden Sie sich in der App an</string>
+    <string name="title_activity_register">Registrieren</string>
+    <string name="first_name_user">Vorname</string>
+    <string name="last_name_user">Nachname</string>
+    <string name="email_reg">E-Mail</string>
+    <string name="password_reg">Passwort</string>
+    <string name="telephone_reg">Telefonnummer</string>
+
+    <string name="user_type_reg">Benutzertyp</string>
+    <string name="evaluated_org_user_reg">Benutzer bewerteter Organisationen</string>
+    <string name="fMiradas_user_reg">Benutzer der Fundación Miradas</string>
+    <string name="select_user_type">Benutzertyp auswählen</string>
+
+    <string-array name="menu_user_type">
+        <item>@string/evaluated_org_user_reg</item>
+        <item>@string/fMiradas_user_reg</item>
+    </string-array>
+
+    <string-array name="menu_org_evaluated">
+        <item>@string/select_evaluated_org</item>
+    </string-array>
+
+    <string name="LOPD_user_reg">"Ich erlaube, dass die Fundación Miradas meine Daten gemäß dem Gesetz, das dem spanischen Datenschutzgesetz LOPD entspricht, speichert."</string>
+    <string name="wrong_phone">Falsche Telefonnummer.</string>
+    <string name="contry_phone_config">Geben Sie 00 und Ihre Ländervorwahl vor Ihrer Telefonnummer ein (außer Spanien).</string>
+    <string name="mandatory_first_name">Bitte geben Sie Ihren Vornamen ein.</string>
+    <string name="mandatory_last_name">Bitte geben Sie Ihren Nachnamen ein.</string>
+    <string name="mandatory_email">Bitte geben Sie Ihre E-Mail-Adresse ein.</string>
+    <string name="wrong_email">Die angegebene E-Mail-Adresse ist nicht korrekt. Bitte geben Sie eine echte E-Mail-Adresse ein.</string>
+    <string name="mandatory_phone">Telefonnummern in Spanien müssen mit 6, 7, 8 oder 9 beginnen. Ausländische Telefonnummern müssen mit 00 gefolgt von der Ländervorwahl beginnen.</string>
+    <string name="wrong_telephone">Falsche Telefonnummer.</string>
+    <string name="mandatory_password">Das Passwort muss folgende Anforderungen erfüllen:
+- Mindestens 6 Zeichen enthalten.
+- Mindestens einen Großbuchstaben enthalten.
+- Mindestens einen Kleinbuchstaben enthalten.
+- Mindestens eine Zahl enthalten.
+- Mindestens eines der folgenden Symbole enthalten: "$&amp;%#.!"^*¨_:;/*-+&gt;&lt;()=¿?¡!"</string>
+    <string name="select_evaluated_org">Bewertete Organisation auswählen</string>
+    <string name="wrong_password">Falsches Passwort</string>
+    <string name="hey_user">Hallo Benutzer!</string>
+    <string name="add_new_evaluator_team">Neues Evaluatoren-Team hinzufügen</string>
+    <string name="add_new_center">Neues Zentrum der bewerteten Organisation hinzufügen</string>
+    <string name="add_new_indicators_evaluation">Neue Indikatoren-Bewertung hinzufügen</string>
+    <string name="add_new_evaluated_organization">Neue bewertete Organisation hinzufügen</string>
+    <string name="org_name">Organisationsname</string>
+    <string name="org_address">Adresse</string>
+    <string name="org_zipcode">PLZ</string>
+    <string name="org_city">Stadt</string>
+    <string name="org_province">Provinz</string>
+    <string name="org_region">Region</string>
+    <string name="org_country">Land</string>
+    <string name="please_org_name">Bitte geben Sie einen Organisationsnamen ein</string>
+    <string name="please_address">Bitte geben Sie die Adresse ein</string>
+    <string name="please_city">Bitte geben Sie den Stadtnamen ein</string>
+    <string name="please_province">Bitte geben Sie den Provinznamen ein</string>
+    <string name="please_region">Bitte geben Sie den Regionsnamen ein</string>
+    <string name="please_zipcode">Bitte geben Sie die PLZ ein</string>
+    <string name="more_info">Weitere Informationen</string>
+    <string name="add_director">Organisationsleiter hinzufügen</string>
+    <string name="edit_director">Organisationsleiter bearbeiten</string>
+    <string name="add_professional">Fachkraft für direkte Betreuung hinzufügen</string>
+    <string name="edit_professional">Fachkraft für direkte Betreuung bearbeiten</string>
+    <string name="add_center">Neues Zentrum hinzufügen</string>
+    <string name="title_activity_register_org_user">Organisationsbenutzer registrieren</string>
+
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">Erstes Fragment</string>
+    <string name="second_fragment_label">Zweites Fragment</string>
+
+    <string name="hello_first_fragment">Hallo erstes Fragment</string>
+    <string name="hello_second_fragment">Hallo zweites Fragment. Argument: %1$s</string>
+    <string name="description_center">Zentrumsbeschreibung</string>
+    <string name="please_description_center">Bitte geben Sie eine Zentrumsbeschreibung ein</string>
+    <string name="please_director">Bitte geben Sie einen Organisationsleiter ein</string>
+    <string name="please_professional">Bitte wählen Sie eine direkte Betreuungsfachkraft aus</string>
+    <string name="please_wait_login">Verbindung zur Datenbank zum Einloggen wird hergestellt. Bitte warten Sie einige Sekunden...</string>
+    <string name="please_wait_register_user">Verbindung zur Datenbank zur Registrierung des Benutzers wird hergestellt. Bitte warten Sie einige Sekunden...</string>
+    <string name="please_wait_reg_orgs">Verbindung zur Datenbank zur Registrierung der Organisation wird hergestellt. Bitte warten Sie einige Sekunden...</string>
+    <string name="please_wait">Verbindung zur Datenbank wird hergestellt... Bitte warten Sie einige Sekunden...</string>
+    <string name="do_you_want_to_exit_otea">Möchten Sie OTEA verlassen?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+    <string name="loading_evidences">Beweise werden geladen... Bitte warten Sie einige Sekunden...</string>
+    <string name="start">Start</string>
+    <string name="patient_name">Name der ASD-Person</string>
+    <string name="relative_name">Name des Angehörigen der ASD-Person</string>
+    <string name="select_evaluated_organization">Bewertete Organisation auswählen:</string>
+    <string name="select_external_consultant">Externer Berater</string>
+    <string name="non_existing_evaluated_organization">Es gibt keine bewertete Organisation. Bitte fügen Sie eine hinzu, um fortzufahren</string>
+    <string name="non_existing_evaluator_team">Es gibt kein vorhandenes Bewertungsteam. Bitte fügen Sie ein neues hinzu, um fortzufahren</string>
+    <string name="please_patient_name">Bitte geben Sie den Namen der ASD-Person ein</string>
+    <string name="please_relative_name">Bitte geben Sie den Namen des Angehörigen der ASD-Person ein</string>
+    <string name="please_evaluated_org">Bitte wählen Sie eine bewertete Organisation aus</string>
+    <string name="please_consultant">Bitte wählen Sie einen externen Berater aus</string>
+    <string name="please_responsible">Bitte wählen Sie einen Verantwortlichen aus</string>
+    <string name="evaluated_org">Bewertete Organisation</string>
+    <string name="consultant">Externer Berater</string>
+    <string name="professional">Direkte Betreuungsfachkraft</string>
+    <string name="responsible">Verantwortlicher</string>
+    <string name="evaluator_team">Bewertungsteam</string>
+    <string name="calculating_results">Ergebnisse werden berechnet... Bitte warten Sie einige Sekunden...</string>
+    <string name="loading_indicators">Indikatoren werden geladen... Bitte warten Sie einige Sekunden...</string>
+    <string name="creation_date">Erstellungsdatum</string>
+    <string name="eval_date_1">Bewertungsdatum 1</string>
+    <string name="eval_date_2">Bewertungsdatum 2</string>
+    <string name="eval_date_3">Bewertungsdatum 3</string>
+    <string name="eval_date_4">Bewertungsdatum 4</string>
+    <string name="observations">Beobachtungen</string>
+    <string name="please_date">Bitte geben Sie hier ein Datum ein</string>
+    <string name="turning_back_to_org">Zurück zur Organisationserstellung...</string>
+    <string name="adding_center">Zentrum wird hinzugefügt... Bitte warten Sie einige Sekunden...</string>
+    <string name="adding_org">Organisation wird hinzugefügt... Bitte warten Sie einige Sekunden...</string>
+    <string name="going_director">Wechseln zum Formular für den Leiter der Organisation... Bitte warten Sie einige Sekunden...</string>
+    <string name="going_center">Wechseln zum Formular für das neue Zentrum... Bitte warten Sie einige Sekunden...</string>
+    <string name="org_data">Organisationsdaten</string>
+    <string name="org_director">Organisationsleiter</string>
+    <string name="org_reg_ins">Um die Organisation zu registrieren, füllen Sie bitte alle Felder aus, scrollen Sie nach unten, um alle anzuzeigen, und schließen Sie die Registrierung ab.</string>
+    <string name="first_name_user_menu">Vorname: Name</string>
+    <string name="last_name_user_menu">Nachname: Nachname</string>
+    <string name="org_name_user_menu">Organisation: Organisation</string>
+
+
+</resources>

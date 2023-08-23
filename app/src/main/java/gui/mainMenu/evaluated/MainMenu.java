@@ -40,8 +40,7 @@ public class MainMenu extends AppCompatActivity {
 
         setSupportActionBar(binding.appBarMainMenu.toolbarEvaluated);
 
-        binding.appBarMainMenu.fabAddNewCenterEvaluated.setVisibility(View.GONE);
-        binding.appBarMainMenu.textNewCenterEvaluated.setVisibility(View.GONE);
+
 
         binding.appBarMainMenu.progressBar2.setVisibility(View.GONE);
         binding.appBarMainMenu.pleaseWait2.setVisibility(View.GONE);
@@ -49,37 +48,12 @@ public class MainMenu extends AppCompatActivity {
         binding.appBarMainMenu.fabEvaluated.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(binding.appBarMainMenu.fabAddNewCenterEvaluated.getVisibility()==View.VISIBLE) {
-                    binding.appBarMainMenu.fabAddNewCenterEvaluated.setVisibility(View.GONE);
-                    binding.appBarMainMenu.textNewCenterEvaluated.setVisibility(View.GONE);
-                }else{
-                    binding.appBarMainMenu.fabAddNewCenterEvaluated.setVisibility(View.VISIBLE);
-                    binding.appBarMainMenu.textNewCenterEvaluated.setVisibility(View.VISIBLE);
-                }
+
             }
         });
 
 
-        binding.appBarMainMenu.fabAddNewCenterEvaluated.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.appBarMainMenu.fabAddNewCenterEvaluated.setVisibility(View.GONE);
-                binding.appBarMainMenu.textNewCenterEvaluated.setVisibility(View.GONE);
 
-                binding.appBarMainMenu.progressBar2.setVisibility(View.VISIBLE);
-                binding.appBarMainMenu.pleaseWait2.setVisibility(View.VISIBLE);
-
-                v.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Intent intent=new Intent(getApplicationContext(),gui.AddCenter.class);
-                        intent.putExtra("user",getIntent().getSerializableExtra("user"));
-                        startActivity(intent);
-
-                    }
-                }, 100);
-            }
-        });
 
 
         DrawerLayout drawer = binding.drawerLayout;

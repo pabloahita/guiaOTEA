@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OTEA</string>
+
+    <!-- Navigazio fragmentuentzako erabiliko diren kateak -->
+    <string name="next">Hurrengoa</string>
+    <string name="previous">Aurrekoa</string>
+
+    <string name="welcome">Ongi etorri OTEA aplikaziora</string>
+    <string name="start_evaluation">Hasi azterketa adierazleak</string>
+    <string name="indicator_caption">Azterketa Adierazlea</string>
+    <string name="evidence1">Frogak 1</string>
+    <string name="evidence2">Frogak 2</string>
+    <string name="evidence3">Frogak 3</string>
+    <string name="evidence4">Frogak 4</string>
+    <string name="previous_indicator">Aurreko Azterketa Adierazlea</string>
+    <string name="next_indicator">Hurrengo Azterketa Adierazlea</string>
+    <string name="sign_in">Sartu</string>
+    <string name="sign_up">Erregistratu</string>
+    <string name="users_email">Erabiltzailearen emaila</string>
+    <string name="users_password">Erabiltzailearen pasahitza</string>
+    <string name="invalid_username">Email ez da baliozkoa</string>
+    <string name="invalid_password">Pasahitza 5 karakteretik luzegi behar du</string>
+
+    <!-- Navigazioa fragmentuentzat erabiliko diren kateak -->
+
+    <string name="nav_header_title" translatable="false">Android Studio</string>
+    <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
+    <string name="nav_header_desc" translatable="false">Nabigazioaren goiburua</string>
+    <string name="action_settings">Ezarpenak</string>
+
+    <string name="menu_home" translatable="false">Hasiera</string>
+    <string name="menu_gallery" translatable="false">Galeria</string>
+    <string name="menu_slideshow" translatable="false">Irudi-bilketa</string>
+    <string name="add_new_evaluated_org">Gehitu ebaluatzeko erakunde berri bat</string>
+    <string name="add_new_complete_evaluation">Gehitu azterketa osorako berri bat</string>
+    <string name="add_new_simple_evaluation">Gehitu azterketa sinple berri bat</string>
+    <string name="navigation_drawer_close" translatable="false">Itxi nabigazioa</string>
+    <string name="title_activity_main_menu">Menu Nagusia</string>
+    <string name="title_activity_settings">Ezarpenak</string>
+
+
+    <!-- Ezaugarri Izenburuak -->
+    <string name="messages_header" translatable="false">Mezuak</string>
+    <string name="sync_header" translatable="false">Sinkronizazioa</string>
+
+    <!-- Mezuak Ezaugarriak -->
+    <string name="signature_title" translatable="false">Zure sinadura</string>
+    <string name="reply_title" translatable="false">Lehenetsitako erantzun ekintza</string>
+
+    <!-- Sinkronizazio Ezaugarriak -->
+    <string name="sync_title" translatable="false">Mezuak sinkronizatu periodikoki</string>
+    <string name="attachment_title" translatable="false">Sartutako eranskineak deskargatu</string>
+    <string name="attachment_summary_on" translatable="false">Mezu sartuetarako eranskineak automatikoki deskargatu</string>
+    <string name="attachment_summary_off" translatable="false">Eranskineak eskatu egin arte bakarrik deskargatu</string>
+
+    <!-- Navigazioa fragmentuentzat erabiliko diren kateak -->
+
+    <string name="add_new_evaluated_org_center">Ebaluatzeko erakundeko erdi berri bat gehitu</string>
+    <string name="modify_database">Datu-basea aldatu</string>
+    <string name="modify_indicators">Adierazleak aldatu</string>
+    <string name="recent_activity">Dekentasun berriak</string>
+    <string name="help">Laguntza</string>
+    <string name="view_indicators_evolution">Egindako azterketak ikusi</string>
+    <string name="login_failed">Sarrera hutsegitea. Mesedez, egiaztatu emaila eta pasahitza edo erregistratu aplikaziora</string>
+    <string name="title_activity_register">Erregistratu</string>
+    <string name="first_name_user">Lehenengo izena</string>
+    <string name="last_name_user">Azken izena</string>
+    <string name="email_reg">Emaila</string>
+    <string name="password_reg">Pasahitza</string>
+    <string name="telephone_reg">Telefono zenbakia</string>
+
+
+    <string name="user_type_reg">Erabiltzaile mota</string>
+    <string name="evaluated_org_user_reg">Ebaluatzeko erakundearen erabiltzailea</string>
+    <string name="fMiradas_user_reg">Fundación Miradas erabiltzailea</string>
+    <string name="select_user_type">Hautatu erabiltzaile mota</string>
+
+    <string-array name="menu_user_type">
+        <item>@string/evaluated_org_user_reg</item>
+        <item>@string/fMiradas_user_reg</item>
+    </string-array>
+
+    <string-array name="menu_org_evaluated">
+        <item>@string/select_evaluated_org</item>
+    </string-array>
+    <string name="LOPD_user_reg">Ados zaude Fundación Miradas-ek nire datuei buruzko erregistroa gordetzea Datu Babesaren Lege Organikoaren arabera</string>
+    <string name="wrong_phone">Telefono okerra.</string>
+    <string name="contry_phone_config">Sartu zure telefono zenbakia aurrera 00 eta zure herrialdearen kodea (Espainia salbu)</string>
+    <string name="mandatory_first_name">Mesedez, sartu zure lehenengo izena</string>
+    <string name="mandatory_last_name">Mesedez, sartu zure azkenengo izena</string>
+    <string name="mandatory_email">Mesedez, sartu zure email-a</string>
+    <string name="wrong_email">Eskainitako email-a ez da zuzena, mesedez, sartu zuzeneko email bat</string>
+    <string name="mandatory_phone">Espainian telefono zenbakiak 6, 7, 8 edo 9 zenbakiakin hasi behar dira. Kanpoko telefono zenbakiak 00 baina herrialdearen kodea sartu ondoren hasi behar dira</string>
+    <string name="wrong_telephone">Telefono zenbakia okerra</string>
+    <string name="mandatory_password">Pasahitzak honako baldintza hauek bete behar ditu:
+- Gutxienez 6 karaktere izan behar ditu.
+- Gutxienez maiuskulakoa karaktere bat izan behar du.
+- Gutxienez minuskulakoa karaktere bat izan behar du.
+- Gutxienez zenbaki bat izan behar du.
+- Gutxienez hurrengo sinbolo hauek bat izan behar du: "$&amp;%#.!"^*¨_:;/*-+&gt;&lt;()=¿?¡!"</string>
+
+
+    <string name="select_evaluated_org">Ebaluatzeko erakundea hautatu</string>
+    <string name="wrong_password">Pasahitz okerra</string>
+    <string name="hey_user">Kaixo erabiltzaile!</string>
+    <string name="add_new_evaluator_team">Gehitu ebaluazio talde berri bat</string>
+    <string name="add_new_center">Gehitu ebaluatzeko erakundeko erdi berri bat</string>
+    <string name="add_new_indicators_evaluation">Gehitu adierazle ebaluazio berri bat</string>
+    <string name="add_new_evaluated_organization">Gehitu ebaluatzeko erakunde berri bat</string>
+    <string name="org_name">Erakundearen izena</string>
+    <string name="org_address">Helbidea</string>
+    <string name="org_zipcode">Posta kodea</string>
+    <string name="org_city">Hiria</string>
+    <string name="org_province">Probintzia</string>
+    <string name="org_region">Eskualdea</string>
+    <string name="org_country">Herrialdea</string>
+    <string name="please_org_name">Mesedez, sartu erakundearen izena</string>
+    <string name="please_address">Mesedez, sartu helbidea</string>
+    <string name="please_city">Mesedez, sartu hiriko izena</string>
+    <string name="please_province">Mesedez, sartu probintziaren izena</string>
+    <string name="please_region">Mesedez, sartu eskualdearen izena</string>
+    <string name="please_zipcode">Mesedez, sartu posta kodea</string>
+    <string name="more_info">Informazio gehiago</string>
+    <string name="add_director">Gehitu erakunde zuzendaria</string>
+    <string name="edit_director">Editatu erakunde zuzendaria</string>
+    <string name="add_professional">Gehitu arduradun zuzendaria</string>
+    <string name="edit_professional">Editatu arduradun zuzendaria</string>
+    <string name="add_center">Gehitu erdi berri bat</string>
+    <string name="title_activity_register_org_user">ErakundeErabiltzaileaErregistratu</string>
+    <!-- Fragments for navigation -->
+    <string name="first_fragment_label">Lehenengo Fragmentua</string>
+    <string name="second_fragment_label">Bigarren Fragmentua</string>
+
+    <string name="hello_first_fragment">Kaixo lehen fragmentua</string>
+    <string name="hello_second_fragment">Kaixo bigarren fragmentua. Arg: %1$s</string>
+    <string name="description_center">Erdiaren deskribapena</string>
+    <string name="please_description_center">Mesedez, sartu erdiaren deskribapena</string>
+    <string name="please_director">Mesedez, sartu erakundearen zuzendaria</string>
+    <string name="please_professional">Mesedez, hautatu arduradun zuzendaria</string>
+    <string name="please_wait_login">Datu-basearekin konektatzen hasi da logeatu nahi zaren momentuan. Itxoin segundo batzuk...</string>
+    <string name="please_wait_register_user">Datu-basearekin konektatzen hasi da erabiltzailea erregistratu nahi den momentuan. Itxoin segundo batzuk...</string>
+    <string name="please_wait_reg_orgs">Datu-basearekin konektatzen hasi da erakunde bat erregistratu nahi den momentuan. Itxoin segundo batzuk...</string>
+    <string name="please_wait">Datu-basearekin konektatzen... Itxoin segundo batzuk...</string>
+    <string name="do_you_want_to_exit_otea">OTEA-tik irten nahi duzu?</string>
+    <string name="yes">Bai</string>
+    <string name="no">Ez</string>
+    <string name="loading_evidences">Frogak kargatzen... Itxoin segundo batzuk...</string>
+    <string name="start">Hasi</string>
+    <string name="patient_name">AEN pertsonaren izena</string>
+    <string name="relative_name">AEN pertsonaren senidearen izena</string>
+    <string name="select_evaluated_organization">Ebaluatu den erakundea:</string>
+    <string name="select_external_consultant">Kanpoko aholkularia</string>
+    <string name="non_existing_evaluated_organization">Ebaluatzeko erakundeik ez dago, mesedez, gehitu bat jarraitzeko</string>
+    <string name="non_existing_evaluator_team">Ebaluazio talderik ez dago, mesedez, bat gehitu berri bat jarraitzeko</string>
+    <string name="please_patient_name">Mesedez, sartu AEN pertsonaren izena</string>
+    <string name="please_relative_name">Mesedez, sartu AEN pertsonaren senidearen izena</string>
+    <string name="please_evaluated_org">Mesedez, hautatu ebaluatzeko erakunde bat</string>
+    <string name="please_consultant">Mesedez, hautatu kanpoko aholkulari bat</string>
+    <string name="please_responsible">Mesedez, hautatu arduradun bat</string>
+    <string name="evaluated_org">Ebaluatzeko erakundea</string>
+    <string name="consultant">Kanpoko aholkularia</string>
+    <string name="professional">Zuzenduko duen arduraduna</string>
+    <string name="responsible">Arduraduna</string>
+    <string name="evaluator_team">Ebaluazio taldea</string>
+    <string name="calculating_results">Emaitzak kalkulatzen... Itxoin segundo batzuk...</string>
+    <string name="loading_indicators">Adierazleak kargatzen... Itxoin segundo batzuk...</string>
+    <string name="creation_date">Sortze-data</string>
+    <string name="eval_date_1">Ebaluazio data 1</string>
+    <string name="eval_date_2">Ebaluazio data 2</string>
+    <string name="eval_date_3">Ebaluazio data 3</string>
+    <string name="eval_date_4">Ebaluazio data 4</string>
+    <string name="observations">Oharrak</string>
+    <string name="please_date">Mesedez, sartu hemen data bat</string>
+    <string name="turning_back_to_org">Erakunde sortzera bueltatzen... </string>
+    <string name="adding_center">Erdia gehitzen... Itxoin segundo batzuk...</string>
+    <string name="adding_org">Erakunde gehitzen... Itxoin segundo batzuk...</string>
+    <string name="going_director">Zuzendaria formularioa eramaten... Itxoin segundo batzuk...</string>
+    <string name="going_center">Erdi berri formularioa eramaten... Itxoin segundo batzuk...</string>
+    <string name="org_data">Erakunde datuak</string>
+    <string name="org_director">Erakunde zuzendaria</string>
+    <string name="org_reg_ins">Erakundearen erregistratzeko, mesedez, bete eremu guztiak, behera eror dezazun guztiak ikusteko eta erregistratzea osatu dezazun.</string>
+    <string name="first_name_user_menu">Izena: izena</string>
+    <string name="last_name_user_menu">Abizena: abizena</string>
+    <string name="org_name_user_menu">Erakundea: erakundea</string>
+
+</resources>

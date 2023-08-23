@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OTEA</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="next">Volgende</string>
+    <string name="previous">Vorige</string>
+
+    <string name="welcome">Welkom bij de OTEA-app</string>
+    <string name="start_evaluation">Start evaluatie van indicatoren</string>
+    <string name="indicator_caption">Bijschrift van indicator</string>
+    <string name="evidence1">Bewijs 1</string>
+    <string name="evidence2">Bewijs 2</string>
+    <string name="evidence3">Bewijs 3</string>
+    <string name="evidence4">Bewijs 4</string>
+    <string name="previous_indicator">Vorige Indicator</string>
+    <string name="next_indicator">Volgende Indicator</string>
+    <string name="sign_in">Inloggen</string>
+    <string name="sign_up">Registreren</string>
+    <string name="users_email">E-mail van gebruiker</string>
+    <string name="users_password">Wachtwoord van gebruiker</string>
+    <string name="invalid_username">Geen geldig e-mailadres</string>
+    <string name="invalid_password">Wachtwoord moet >5 tekens bevatten</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="nav_header_title" translatable="false">Android Studio</string>
+    <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
+    <string name="nav_header_desc" translatable="false">Navigatie kop</string>
+    <string name="action_settings">Instellingen</string>
+
+    <string name="menu_home" translatable="false">Home</string>
+    <string name="menu_gallery" translatable="false">Galerij</string>
+    <string name="menu_slideshow" translatable="false">Diavoorstelling</string>
+    <string name="add_new_evaluated_org">Nieuwe beoordeelde organisatie toevoegen</string>
+    <string name="add_new_complete_evaluation">Nieuwe volledige evaluatie toevoegen</string>
+    <string name="add_new_simple_evaluation">Nieuwe eenvoudige evaluatie toevoegen</string>
+    <string name="navigation_drawer_close" translatable="false">Navigatievenster sluiten</string>
+    <string name="title_activity_main_menu">Hoofdmenu</string>
+    <string name="title_activity_settings">Instellingen</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header" translatable="false">Berichten</string>
+    <string name="sync_header" translatable="false">Synchronisatie</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title" translatable="false">Je handtekening</string>
+    <string name="reply_title" translatable="false">Standaard antwoordactie</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title" translatable="false">E-mails periodiek synchroniseren</string>
+    <string name="attachment_title" translatable="false">Inkomende bijlagen downloaden</string>
+    <string name="attachment_summary_on" translatable="false">Automatisch bijlagen downloaden voor inkomende e-mails</string>
+    <string name="attachment_summary_off" translatable="false">Alleen bijlagen downloaden bij handmatige aanvraag</string>
+
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="add_new_evaluated_org_center">Nieuw beoordeeld organisatiecentrum toevoegen</string>
+    <string name="modify_database">Database aanpassen</string>
+    <string name="modify_indicators">Indicatoren aanpassen</string>
+    <string name="recent_activity">Recente activiteit</string>
+    <string name="help">Help</string>
+    <string name="view_indicators_evolution">Bekijk uitgevoerde tests</string>
+    <string name="login_failed">Inloggen mislukt. Controleer de e-mail en het wachtwoord of meld je aan bij de app</string>
+    <string name="title_activity_register">Registreren</string>
+    <string name="first_name_user">Voornaam</string>
+    <string name="last_name_user">Achternaam</string>
+    <string name="email_reg">E-mail</string>
+    <string name="password_reg">Wachtwoord</string>
+    <string name="telephone_reg">Telefoonnummer</string>
+
+    <string name="user_type_reg">Gebruikerstype</string>
+    <string name="evaluated_org_user_reg">Gebruiker beoordeelde organisatie</string>
+    <string name="fMiradas_user_reg">Gebruiker Fundación Miradas</string>
+    <string name="select_user_type">Selecteer gebruikerstype</string>
+
+    <string-array name="menu_user_type">
+        <item>@string/evaluated_org_user_reg</item>
+        <item>@string/fMiradas_user_reg</item>
+    </string-array>
+
+    <string-array name="menu_org_evaluated">
+        <item>@string/select_evaluated_org</item>
+    </string-array>
+
+
+    <string name="LOPD_user_reg">"Ik sta toe dat Fundación Miradas mijn gegevens bijhoudt volgens de wet gelijkwaardig aan de Spaanse wet LOPD inzake gegevensbescherming."</string>
+    <string name="wrong_phone">Onjuist telefoonnummer.</string>
+    <string name="contry_phone_config">Voer 00 en uw landcode in voordat u uw telefoonnummer invoert (behalve Spanje).</string>
+    <string name="mandatory_first_name">Voer uw voornaam in.</string>
+    <string name="mandatory_last_name">Voer uw achternaam in.</string>
+    <string name="mandatory_email">Voer uw e-mailadres in.</string>
+    <string name="wrong_email">Het opgegeven e-mailadres is niet correct, voer alstublieft een echt e-mailadres in.</string>
+    <string name="mandatory_phone">Telefoonnummers in Spanje moeten beginnen met 6, 7, 8 of 9. Buitenlandse telefoonnummers moeten beginnen met 00 gevolgd door de landcode.</string>
+    <string name="wrong_telephone">Onjuist telefoonnummer.</string>
+    <string name="mandatory_password">Het wachtwoord moet aan de volgende eisen voldoen:
+- Minimaal 6 tekens bevatten.
+- Ten minste één hoofdletter bevatten.
+- Ten minste één kleine letter bevatten.
+- Ten minste één cijfer bevatten.
+- Ten minste één van de volgende symbolen bevatten: "$&amp;%#.!"^*¨_:;/*-+&gt;&lt;()=¿?¡!"</string>
+    <string name="select_evaluated_org">Selecteer beoordeelde organisatie</string>
+    <string name="wrong_password">Onjuist wachtwoord</string>
+    <string name="hey_user">Hallo gebruiker!</string>
+    <string name="add_new_evaluator_team">Voeg nieuw beoordelingsteam toe</string>
+    <string name="add_new_center">Voeg nieuw centrum van beoordeelde organisatie toe</string>
+    <string name="add_new_indicators_evaluation">Voeg nieuwe indicatorenbeoordeling toe</string>
+    <string name="add_new_evaluated_organization">Voeg nieuwe beoordeelde organisatie toe</string>
+    <string name="org_name">Naam organisatie</string>
+    <string name="org_address">Adres</string>
+    <string name="org_zipcode">Postcode</string>
+    <string name="org_city">Stad</string>
+    <string name="org_province">Provincie</string>
+    <string name="org_region">Regio</string>
+    <string name="org_country">Land</string>
+    <string name="please_org_name">Voer een organisatienaam in</string>
+    <string name="please_address">Voer het adres in</string>
+    <string name="please_city">Voer de naam van de stad in</string>
+    <string name="please_province">Voer de naam van de provincie in</string>
+    <string name="please_region">Voer de naam van de regio in</string>
+    <string name="please_zipcode">Voer de postcode in</string>
+    <string name="more_info">Meer informatie</string>
+    <string name="add_director">Voeg organisatiedirecteur toe</string>
+    <string name="edit_director">Bewerk organisatiedirecteur</string>
+    <string name="add_professional">Voeg directe zorgprofessional toe</string>
+    <string name="edit_professional">Bewerk directe zorgprofessional</string>
+    <string name="add_center">Voeg nieuw centrum toe</string>
+    <string name="title_activity_register_org_user">Registreer organisatiegebruiker</string>
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">Eerste Fragment</string>
+    <string name="second_fragment_label">Tweede Fragment</string>
+
+    <string name="hello_first_fragment">Hallo eerste fragment</string>
+    <string name="hello_second_fragment">Hallo tweede fragment. Argument: %1$s</string>
+    <string name="description_center">Centrumbeschrijving</string>
+    <string name="please_description_center">Voer de beschrijving van het centrum in</string>
+    <string name="please_director">Voer een organisatiedirecteur in</string>
+    <string name="please_professional">Selecteer een directe zorgprofessional</string>
+    <string name="please_wait_login">Verbinding maken met de database om in te loggen. Even geduld a.u.b., enkele seconden...</string>
+    <string name="please_wait_register_user">Verbinding maken met de database om de gebruiker te registreren. Even geduld a.u.b., enkele seconden...</string>
+    <string name="please_wait_reg_orgs">Verbinding maken met de database om de organisatie te registreren. Even geduld a.u.b., enkele seconden...</string>
+    <string name="please_wait">Verbinding maken met de database... Even geduld a.u.b., enkele seconden...</string>
+    <string name="do_you_want_to_exit_otea">Wil je OTEA verlaten?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nee</string>
+    <string name="loading_evidences">Bewijsmateriaal wordt geladen... Even geduld a.u.b., enkele seconden...</string>
+    <string name="start">Start</string>
+    <string name="patient_name">Naam van persoon met ASD</string>
+    <string name="relative_name">Naam van familielid van persoon met ASD</string>
+    <string name="select_evaluated_organization">Beoordeelde organisatie selecteren:</string>
+    <string name="select_external_consultant">Externe consultant</string>
+    <string name="non_existing_evaluated_organization">Er is geen beoordeelde organisatie, voeg er een toe om door te gaan</string>
+    <string name="non_existing_evaluator_team">Er is geen bestaand beoordelingsteam, voeg een nieuw team toe om door te gaan</string>
+    <string name="please_patient_name">Voer de naam van de persoon met ASD in</string>
+    <string name="please_relative_name">Voer de naam van het familielid van de persoon met ASD in</string>
+    <string name="please_evaluated_org">Selecteer een beoordeelde organisatie</string>
+    <string name="please_consultant">Selecteer een externe consultant</string>
+    <string name="please_responsible">Selecteer een verantwoordelijke</string>
+    <string name="evaluated_org">Beoordeelde organisatie</string>
+    <string name="consultant">Externe consultant</string>
+    <string name="professional">Directe zorgprofessional</string>
+    <string name="responsible">Verantwoordelijke</string>
+    <string name="evaluator_team">Beoordelingsteam</string>
+    <string name="calculating_results">Resultaten worden berekend... Even geduld a.u.b., enkele seconden...</string>
+    <string name="loading_indicators">Indicatoren worden geladen... Even geduld a.u.b., enkele seconden...</string>
+    <string name="creation_date">Creatiedatum</string>
+    <string name="eval_date_1">Evaluatiedatum 1</string>
+    <string name="eval_date_2">Evaluatiedatum 2</string>
+    <string name="eval_date_3">Evaluatiedatum 3</string>
+    <string name="eval_date_4">Evaluatiedatum 4</string>
+    <string name="observations">Waarnemingen</string>
+    <string name="please_date">Voer hier een datum in</string>
+    <string name="turning_back_to_org">Terug naar het maken van de organisatie...</string>
+    <string name="adding_center">Centrum wordt toegevoegd... Even geduld a.u.b., enkele seconden...</string>
+    <string name="adding_org">Organisatie wordt toegevoegd... Even geduld a.u.b., enkele seconden...</string>
+    <string name="going_director">Naar het formulier voor de organisatiedirecteur gaan... Even geduld a.u.b., enkele seconden...</string>
+    <string name="going_center">Naar het formulier voor het nieuwe centrum gaan... Even geduld a.u.b., enkele seconden...</string>
+    <string name="org_data">Organisatiegegevens</string>
+    <string name="org_director">Organisatiedirecteur</string>
+    <string name="org_reg_ins">Om de organisatie te registreren, vul alle velden in, scroll naar beneden om alles te zien en voltooi de registratie.</string>
+    <string name="first_name_user_menu">Voornaam: voornaam</string>
+    <string name="last_name_user_menu">Achternaam: achternaam</string>
+    <string name="org_name_user_menu">Organisatie: organisatie</string>
+
+
+</resources>
