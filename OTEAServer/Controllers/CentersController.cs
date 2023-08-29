@@ -27,14 +27,14 @@ namespace OTEAServer.Controllers
 
         [HttpGet("org")]
         public IActionResult GetAllByOrganization([FromQuery] int idOrganization,[FromQuery] string orgType,[FromQuery] string illness) {
-            var centers = _context.Centers.Where(c=>c.idOrganization== idOrganization && c.orgType==orgType && c.illness==illness).ToList();
+            var centers = _context.Centers.Where(c=>c.IdOrganization== idOrganization && c.orgType==orgType && c.illness==illness).ToList();
             return Ok(centers);
         }
 
         [HttpGet("get")]
         public ActionResult<Center> Get([FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness,[FromQuery] int idCenter)
         {
-            var center = _context.Centers.FirstOrDefault(c => c.idOrganization == idOrganization && c.orgType == orgType && c.illness == illness && c.idCenter == idCenter);
+            var center = _context.Centers.FirstOrDefault(c => c.IdOrganization == idOrganization && c.orgType == orgType && c.illness == illness && c.idCenter == idCenter);
             if(center == null)
             {
                 return NotFound();
@@ -53,14 +53,14 @@ namespace OTEAServer.Controllers
         [HttpPut]
         public ActionResult<Center> Update([FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness, [FromQuery] int idCenter,[FromBody] Center center)
         {
-            if (idOrganization != center.idOrganization || orgType != center.orgType || illness != center.illness || idCenter != center.idCenter)
+            if (idOrganization != center.IdOrganization || orgType != center.orgType || illness != center.illness || idCenter != center.idCenter)
                 return BadRequest();
 
-            var existingCenter = _context.Centers.FirstOrDefault(c => c.idOrganization == idOrganization && c.orgType == orgType && c.illness == illness && c.idCenter == idCenter);
+            var existingCenter = _context.Centers.FirstOrDefault(c => c.IdOrganization == idOrganization && c.orgType == orgType && c.illness == illness && c.idCenter == idCenter);
             if (existingCenter is null)
                 return NotFound();
 
-            existingCenter.idOrganization = idOrganization;
+            existingCenter.IdOrganization = idOrganization;
             existingCenter.orgType = orgType;
             existingCenter.illness = illness;
             existingCenter.idCenter = idCenter;
@@ -76,7 +76,7 @@ namespace OTEAServer.Controllers
         [HttpDelete]
         public ActionResult<Center> Delete([FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness, [FromQuery] int idCenter)
         {
-            var center = _context.Centers.FirstOrDefault(c => c.idOrganization == idOrganization && c.orgType == orgType && c.illness == illness && c.idCenter == idCenter);
+            var center = _context.Centers.FirstOrDefault(c => c.IdOrganization == idOrganization && c.orgType == orgType && c.illness == illness && c.idCenter == idCenter);
 
             if (center is null)
                 return NotFound();

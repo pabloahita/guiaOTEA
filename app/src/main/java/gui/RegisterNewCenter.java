@@ -140,7 +140,7 @@ public class RegisterNewCenter extends AppCompatActivity {
         String[] phone={""};
 
         String[] information={};
-        String[] email={};
+        String[] email={""};
 
         orgSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
