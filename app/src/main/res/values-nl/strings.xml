@@ -160,7 +160,7 @@
     <string name="consultant">Externe consultant</string>
     <string name="professional">Directe zorgprofessional</string>
     <string name="responsible">Verantwoordelijke</string>
-    <string name="evaluator_team">Beoordelingsteam</string>
+    <string name="evaluator_team">Evaluatieteam</string>
     <string name="calculating_results">Resultaten worden berekend... Even geduld a.u.b., enkele seconden...</string>
     <string name="loading_indicators">Indicatoren worden geladen... Even geduld a.u.b., enkele seconden...</string>
     <string name="creation_date">Creatiedatum</string>
@@ -181,6 +181,13 @@
     <string name="first_name_user_menu">Voornaam: voornaam</string>
     <string name="last_name_user_menu">Achternaam: achternaam</string>
     <string name="org_name_user_menu">Organisatie: organisatie</string>
+    <string name="continue_indicators">Ga verder met een indicatoren test</string>
+    <string name="see_results">Zie gerealiseerde indicatoren test</string>
+    <string name="generate_report">Rapport genereren</string>
+    <string name="eval_team_members">Leden van het evaluatieteam</string>
+    <string name="key_dates">Belangrijke data</string>
+    <string name="other_members">Andere leden</string>
+    <string name="eval_team_ins">Om het evaluatieteam te registreren, vul alle velden in, scroll naar beneden om ze allemaal te zien, en voltooi de registratie</string>
 
 
 </resources>

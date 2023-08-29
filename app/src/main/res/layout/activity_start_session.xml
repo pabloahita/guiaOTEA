@@ -13,8 +13,8 @@
 
     <EditText
         android:id="@+id/username"
-        android:layout_width="348dp"
-        android:layout_height="43dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="96dp"
         android:autofillHints=""
         android:hint="@string/users_email"
@@ -26,8 +26,8 @@
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="348dp"
-        android:layout_height="43dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:autofillHints=""
         android:hint="@string/users_password"
@@ -42,7 +42,7 @@
 
     <Button
         android:id="@+id/login"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:enabled="false"
@@ -54,8 +54,8 @@
 
     <TextView
         android:id="@+id/please_wait"
-        android:layout_width="370dp"
-        android:layout_height="113dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="84dp"
         android:text="@string/please_wait_login"
         android:textSize="20sp"

@@ -1,6 +1,7 @@
 package gui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
@@ -90,10 +91,9 @@ public class RegisterOrganization extends AppCompatActivity {
         countryAdapter[0] = new CountryAdapter(RegisterOrganization.this, countries);
         countryAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
 
-        ProgressBar progressBar = findViewById(R.id.loading_org_reg);
-        progressBar.setVisibility(View.GONE);
-        TextView loadingText = findViewById(R.id.please_wait_org_reg);
-        loadingText.setVisibility(View.GONE);
+        ConstraintLayout loading=findViewById(R.id.final_background);
+
+        loading.setVisibility(View.GONE);
 
         EditText nameOrgField = findViewById(R.id.org_name_reg);
         EditText addressNameField = findViewById(R.id.name_address_reg);
@@ -160,12 +160,7 @@ public class RegisterOrganization extends AppCompatActivity {
         province[0] = (Province) getIntent().getSerializableExtra("province");
         city[0] = (City) getIntent().getSerializableExtra("city");
 
-        Country[] auxCountry = country;
-        Region[] auxRegion = region;
-        Province[] auxProvince = province;
-        City[] auxCity = city;
 
-        List<Center> centers = new LinkedList<Center>();
 
 
 
@@ -712,10 +707,7 @@ public class RegisterOrganization extends AppCompatActivity {
                     passwordField.setEnabled(false);
                     directorPhoneField.setEnabled(false);
 
-                    progressBar.setVisibility(View.VISIBLE);
-                    loadingText.setVisibility(View.VISIBLE);
-
-                    loadingText.setText(getString(R.string.please_wait_reg_orgs));
+                    loading.setVisibility(View.VISIBLE);
 
                     v.postDelayed(new Runnable() {
                         @Override
@@ -726,8 +718,13 @@ public class RegisterOrganization extends AppCompatActivity {
                             organization.setEmailOrgPrincipal(directorOrg.getEmailUser());
                             OrganizationsCaller.Update(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),organization);
 
+                            CentersCaller.Create(new Center(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),1,"Sede principal",idAddress,organization.telephone,email[0]));
+
+
                             Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
                             intent.putExtra("user",getIntent().getSerializableExtra("user"));
+                            intent.putExtra("org",getIntent().getSerializableExtra("org"));
+                            loading.setVisibility(View.GONE);
                             startActivity(intent);
                         }
                     }, 100);

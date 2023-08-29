@@ -1,8 +1,10 @@
 package gui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,11 +33,13 @@ import cli.organization.data.geo.Region;
 import cli.user.User;
 import gui.adapters.CityAdapter;
 import gui.adapters.CountryAdapter;
+import gui.adapters.OrgsAdapter;
 import gui.adapters.ProvinceAdapter;
 import gui.adapters.RegionAdapter;
 import misc.FieldChecker;
 import misc.PasswordCodifier;
 import otea.connection.caller.AddressesCaller;
+import otea.connection.caller.CentersCaller;
 import otea.connection.caller.CitiesCaller;
 import otea.connection.caller.CountriesCaller;
 import otea.connection.caller.OrganizationsCaller;
@@ -44,6 +48,7 @@ import otea.connection.caller.RegionsCaller;
 
 public class RegisterNewCenter extends AppCompatActivity {
 
+    List<Organization> organizations;
     List<Country> countries;
     List<Region> regions;
     List<Province> provinces;
@@ -55,6 +60,10 @@ public class RegisterNewCenter extends AppCompatActivity {
     ProvinceAdapter[] provinceAdapter={null};
 
     CityAdapter[] cityAdapter={null};
+
+    OrgsAdapter[] orgAdapter={null};
+
+    Organization[] organization={null};
 
     Country[] country=new Country[1];
 
@@ -75,6 +84,10 @@ public class RegisterNewCenter extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_new_center);
 
+        getEvaluatedOrgs();
+        orgAdapter[0]=new OrgsAdapter(RegisterNewCenter.this,organizations);
+        orgAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+
         getCountries();
         countryAdapter[0]= new CountryAdapter(RegisterNewCenter.this, countries);
         countryAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
@@ -87,15 +100,22 @@ public class RegisterNewCenter extends AppCompatActivity {
         EditText nameRegionField=findViewById(R.id.foreign_region_reg);
         EditText nameCityField=findViewById(R.id.foreign_city_reg);
         EditText phoneField=findViewById(R.id.phone_reg);
+        EditText emailField = findViewById(R.id.email_reg);
         Spinner countrySpinner=findViewById(R.id.spinner_countries_reg);
         Spinner regionSpinner=findViewById(R.id.spinner_regions_reg);
         Spinner provinceSpinner=findViewById(R.id.spinner_provinces_reg);
         Spinner citySpinner=findViewById(R.id.spinner_cities_reg);
+        Spinner orgSpinner=findViewById(R.id.spinner_orgs);
         countrySpinner.setAdapter(countryAdapter[0]);
         countrySpinner.setEnabled(true);
+        orgSpinner.setAdapter(orgAdapter[0]);
+        orgSpinner.setEnabled(true);
+
 
         ProgressBar progressBar=findViewById(R.id.progressBar);
         TextView textView=findViewById(R.id.turning_back);
+
+        Drawable correct= ContextCompat.getDrawable(getApplicationContext(),R.drawable.baseline_check_circle_24);
 
         progressBar.setVisibility(View.GONE);
         textView.setVisibility(View.GONE);
@@ -113,15 +133,8 @@ public class RegisterNewCenter extends AppCompatActivity {
 
 
 
-        Address addressOrg=(Address) getIntent().getSerializableExtra("address");
-        int idAddress=addressOrg.getIdAddress();
 
-        centers=(List<Center>) getIntent().getSerializableExtra("centers");
 
-        if(centers==null){
-            centers=new LinkedList<Center>();
-        }
-        int[] numCenters={centers.size()};
 
         String[] zip_code={""};
         String[] phone={""};
@@ -129,6 +142,17 @@ public class RegisterNewCenter extends AppCompatActivity {
         String[] information={};
         String[] email={};
 
+        orgSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                organization[0]=orgAdapter[0].getItem(position);
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Acciones a realizar cuando no se selecciona ningún elemento
+            }
+        });
 
         countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -237,6 +261,7 @@ public class RegisterNewCenter extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String input_text=s.toString();
                 if(input_text.equals("")){
+                    descriptionCenterField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     descriptionCenterField.setError(getString(R.string.please_org_name));
                 }
                 else{
@@ -263,6 +288,7 @@ public class RegisterNewCenter extends AppCompatActivity {
                     addressNameField.setError(getString(R.string.please_org_name));
                 }
                 else{
+                    addressNameField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     addressNameField.setError(null);
                 }
             }
@@ -286,6 +312,7 @@ public class RegisterNewCenter extends AppCompatActivity {
                     zipCodeField.setError(getString(R.string.please_org_name));
                 }
                 else{
+                    zipCodeField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     zipCodeField.setError(null);
                     zip_code[0]=input_text;
                     try {
@@ -315,6 +342,7 @@ public class RegisterNewCenter extends AppCompatActivity {
                     nameRegionField.setError(getString(R.string.please_region));
                 }
                 else{
+                    nameRegionField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     nameRegionField.setError(null);
                     nameRegion[0]=input_text;
                 }
@@ -339,6 +367,7 @@ public class RegisterNewCenter extends AppCompatActivity {
                     nameProvinceField.setError(getString(R.string.please_province));
                 }
                 else{
+                    nameProvinceField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     nameProvinceField.setError(null);
                     nameProvince[0]=input_text;
                 }
@@ -363,6 +392,7 @@ public class RegisterNewCenter extends AppCompatActivity {
                     nameCityField.setError(getString(R.string.please_city));
                 }
                 else{
+                    nameCityField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     nameCityField.setError(null);
                     nameCity[0]=input_text;
                 }
@@ -387,6 +417,7 @@ public class RegisterNewCenter extends AppCompatActivity {
                     phoneField.setError(getString(R.string.mandatory_phone));
                 }
                 else if(FieldChecker.isASpanishNumber(inputText)||FieldChecker.isAForeignNumber(inputText)){
+                    phoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     phoneField.setError(null);
                     phone[0]=inputText;
                     try {
@@ -397,6 +428,35 @@ public class RegisterNewCenter extends AppCompatActivity {
                 }
                 else{
                     phoneField.setError(getString(R.string.wrong_phone));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        emailField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                emailField.setError(null);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String inputText = s.toString();
+                if (FieldChecker.emailHasCorrectFormat(inputText)) {
+                    emailField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+                    emailField.setError(null);
+                    email[0] = inputText;
+                } else {
+                    emailField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                    if (inputText.equals("")) {
+                        emailField.setError(getString(R.string.mandatory_email));
+                    } else {
+                        emailField.setError(getString(R.string.wrong_email));
+                    }
                 }
             }
 
@@ -450,38 +510,21 @@ public class RegisterNewCenter extends AppCompatActivity {
                         String telephone=phoneField.getText().toString();
                         if(!centerDescription.equals("") && !addressName.equals("") && !zipCode.equals("") && !nameProvince.equals("") && !nameRegion.equals("") && !nameCity.equals("") && (FieldChecker.isASpanishNumber(telephone) || FieldChecker.isAForeignNumber(telephone))){
 
-                            numCenters[0]++;
-                            int idAddress= AddressesCaller.GetAll().size()+numCenters[0];
+                            int numCenters= CentersCaller.GetAllByOrganization(organization[0]).size();
+                            int numAddresses= AddressesCaller.GetAll().size();
                             int zip_code=Integer.parseInt(zipCode);
                             long phone=Long.parseLong(telephone);
-                            int idOrganization=getIntent().getIntExtra("idOrganization",-1);
-                            String orgType=getIntent().getStringExtra("orgType");
-                            String illness=getIntent().getStringExtra("illness");
+                            int idOrganization=organization[0].getIdOrganization();
+                            String orgType=organization[0].getOrgType();
+                            String illness=organization[0].getIllness();
 
-                            Address address=new Address(idAddress,addressName,zip_code,currIdCity,currIdProvince,currIdRegion,currIdCountry,nameCity,nameProvince,nameRegion);
+                            Address address=new Address(numAddresses+1,addressName,zip_code,currIdCity,currIdProvince,currIdRegion,currIdCountry,nameCity,nameProvince,nameRegion);
                             AddressesCaller.Create(address);
-                            centers.add(new Center(idOrganization,orgType,illness, numCenters[0],centerDescription,idAddress,phone));
+                            CentersCaller.Create(new Center(idOrganization,orgType,illness, numCenters+1,centerDescription,address.idAddress,phone,email[0]));
 
-                            Intent intent=new Intent(getApplicationContext(),gui.RegisterOrganization.class);
+                            Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
                             intent.putExtra("user",getIntent().getSerializableExtra("user"));
-                            intent.putExtra("professional",getIntent().getSerializableExtra("professional"));
-                            intent.putExtra("passwordProfessional",getIntent().getSerializableExtra("passwordProfessional"));
-                            intent.putExtra("director",getIntent().getSerializableExtra("director"));
-                            intent.putExtra("passwordDirector",getIntent().getSerializableExtra("passwordProfessional"));
-                            intent.putExtra("idOrganization",idOrganization);
-                            intent.putExtra("orgType",orgType);
-                            intent.putExtra("illness",illness);
-                            intent.putExtra("address",getIntent().getSerializableExtra("address"));
-                            intent.putExtra("organization",getIntent().getSerializableExtra("organization"));
-                            intent.putExtra("country",getIntent().getSerializableExtra("country"));
-                            intent.putExtra("province",getIntent().getSerializableExtra("province"));
-                            intent.putExtra("region",getIntent().getSerializableExtra("region"));
-                            intent.putExtra("city",getIntent().getSerializableExtra("city"));
-                            intent.putExtra("zipCode",getIntent().getStringExtra("zipCode"));
-                            intent.putExtra("telephone",getIntent().getStringExtra("telephone"));
-                            intent.putExtra("information",getIntent().getStringExtra("information"));
-                            intent.putExtra("email",getIntent().getStringExtra("email"));
-                            intent.putExtra("centers", (Serializable) centers);
+                            intent.putExtra("org",getIntent().getSerializableExtra("org"));
                             startActivity(intent);
                         }
                         else{
@@ -532,32 +575,20 @@ public class RegisterNewCenter extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if(keyCode==event.KEYCODE_BACK){
-            Intent intent=new Intent(getApplicationContext(),gui.RegisterOrganization.class);
+            Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
             intent.putExtra("user",getIntent().getSerializableExtra("user"));
-            int idOrganization=getIntent().getIntExtra("idOrganization",-1);
-            String orgType=getIntent().getStringExtra("orgType");
-            String illness=getIntent().getStringExtra("illness");
-            intent.putExtra("professional",getIntent().getSerializableExtra("professional"));
-            intent.putExtra("passwordProfessional",getIntent().getSerializableExtra("passwordProfessional"));
-            intent.putExtra("director",getIntent().getSerializableExtra("director"));
-            intent.putExtra("passwordDirector",getIntent().getSerializableExtra("passwordProfessional"));
-            intent.putExtra("idOrganization",idOrganization);
-            intent.putExtra("orgType",orgType);
-            intent.putExtra("illness",illness);
-            intent.putExtra("address",getIntent().getSerializableExtra("address"));
-            intent.putExtra("organization",getIntent().getSerializableExtra("organization"));
-            intent.putExtra("country",getIntent().getSerializableExtra("country"));
-            intent.putExtra("province",getIntent().getSerializableExtra("province"));
-            intent.putExtra("region",getIntent().getSerializableExtra("region"));
-            intent.putExtra("city",getIntent().getSerializableExtra("city"));
-            intent.putExtra("zipCode",getIntent().getStringExtra("zipCode"));
-            intent.putExtra("telephone",getIntent().getStringExtra("telephone"));
-            intent.putExtra("information",getIntent().getStringExtra("information"));
-            intent.putExtra("email",getIntent().getStringExtra("email"));
-            intent.putExtra("centers", (Serializable) centers);
+            intent.putExtra("org",getIntent().getSerializableExtra("org"));
+
             startActivity(intent);
         }
         return super.onKeyDown(keyCode,event);
+    }
+
+    public List<Organization> getEvaluatedOrgs(){
+        if(organizations==null){
+            organizations=OrganizationsCaller.GetAllEvaluatedOrganizations();
+        }
+        return organizations;
     }
 
     public List<Country> getCountries(){

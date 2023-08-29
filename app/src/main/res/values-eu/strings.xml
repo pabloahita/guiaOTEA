@@ -183,5 +183,12 @@
     <string name="first_name_user_menu">Izena: izena</string>
     <string name="last_name_user_menu">Abizena: abizena</string>
     <string name="org_name_user_menu">Erakundea: erakundea</string>
+    <string name="continue_indicators">Indikadoreen proba jarraitu</string>
+    <string name="see_results">Ikusi egin diren adierazleak proba</string>
+    <string name="generate_report">Txostena sortu</string>
+    <string name="eval_team_members">Evaluatzaile taldeko kideak</string>
+    <string name="key_dates">Gako datuak</string>
+    <string name="other_members">Besteak</string>
+    <string name="eval_team_ins">Evaluatzaile taldea erregistratzeko, mesedez, bete eremu guztiak, behera egin behar dituzu guztiak ikusteko, eta erregistrazioa osatzeko.</string>
 
 </resources>

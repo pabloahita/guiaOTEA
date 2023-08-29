@@ -29,8 +29,11 @@ public class Center implements Serializable {
     @SerializedName("telephone")
     public long telephone;
 
+    @SerializedName("email")
+    public String email;
 
-    public Center(int idOrganization, String orgType, String illness,int idCenter, String centerDescription, int idAddress, long telephone){
+
+    public Center(int idOrganization, String orgType, String illness,int idCenter, String centerDescription, int idAddress, long telephone, String email){
         setIdOrganization(idOrganization);
         setOrgType(orgType);
         setIllness(illness);
@@ -38,6 +41,7 @@ public class Center implements Serializable {
         setCenterDescription(centerDescription);
         setIdAddress(idAddress);
         setTelephone(telephone);
+        setEmail(email);
     }
 
     public int getIdCenter() {
@@ -104,4 +108,11 @@ public class Center implements Serializable {
         this.telephone = telephone;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

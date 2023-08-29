@@ -67,6 +67,7 @@ namespace OTEAServer.Controllers
             existingCenter.centerDescription = center.centerDescription;
             existingCenter.telephone = center.telephone;
             existingCenter.idAddress = center.idAddress;
+            existingCenter.email = center.email;
             _context.SaveChanges();
 
             return Ok(existingCenter);

@@ -36,7 +36,10 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.197" />
+                    app:layout_constraintVertical_bias="0.197"
+                    android:gravity="center"
+                    android:autoSizeMinTextSize="12sp"
+                    android:autoSizeMaxTextSize="30sp"/>
 
 
                 <TextView
@@ -49,7 +52,10 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.432" />
+                    app:layout_constraintVertical_bias="0.432"
+                    android:gravity="center"
+                    android:autoSizeMinTextSize="12sp"
+                    android:autoSizeMaxTextSize="30sp"/>
 
                 <TextView
                     android:id="@+id/org_name_user_menu"
@@ -61,7 +67,10 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.666" />
+                    app:layout_constraintVertical_bias="0.666"
+                    android:gravity="center"
+                    android:autoSizeMinTextSize="12sp"
+                    android:autoSizeMaxTextSize="30sp"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -69,50 +78,244 @@
         </androidx.cardview.widget.CardView>
 
 
-        <TableLayout
+        <GridLayout
+            android:id="@+id/gridLayout"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_margin="16dp"
+            android:columnCount="3"
+            android:padding="16dp"
+            android:rowCount="6"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView">
 
-            <TableRow
+            <ImageButton
+                android:id="@+id/imageButton1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:contentDescription="@string/add_new_indicators_evaluation"
+                android:background="@drawable/round_button_background"
+                app:srcCompat="@drawable/baseline_add_indicators"
+                android:scaleType="fitCenter"/>
+
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="1dp" />
+
+            <ImageButton
+                android:id="@+id/imageButton2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:contentDescription="@string/add_new_center"
+                android:background="@drawable/round_button_background"
+                app:srcCompat="@drawable/baseline_continue_indicators"
+                android:scaleType="fitCenter"/>
+
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="0.25"
+                android:layout_columnWeight="1"
+                android:text="@string/add_new_indicators_evaluation"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeMaxTextSize="30sp"
+                android:gravity="center"/>
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="1dp" />
+
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="0.25"
+                android:layout_columnWeight="1"
+                android:text="@string/continue_indicators"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeMaxTextSize="30sp"
+                android:gravity="center"/>
+
+
+
+
+            <ImageButton
+                android:id="@+id/imageButton3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:contentDescription="@string/add_new_evaluated_org"
+                android:background="@drawable/round_button_background"
+                app:srcCompat="@drawable/baseline_add_evaluator_org"
+                android:layout_marginTop="16dp"
+                android:scaleType="fitCenter"/>
+
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="1dp" />
+
+            <ImageButton
+                android:id="@+id/imageButton4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:contentDescription="@string/add_new_center"
+                android:background="@drawable/round_button_background"
+                app:srcCompat="@drawable/baseline_add_center"
+                android:layout_marginTop="16dp"
+                android:scaleType="fitCenter"/>
+
+            <TextView
+                android:id="@+id/text3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="0.25"
+                android:layout_columnWeight="1"
+                android:text="@string/add_new_evaluated_org"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeMaxTextSize="30sp"
+                android:gravity="center"/>
+
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="1dp" />
+
+            <TextView
+                android:id="@+id/text4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="0.25"
+                android:layout_columnWeight="1"
+                android:text="@string/add_new_center"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeMaxTextSize="30sp"
+                android:gravity="center"/>
+
+
+
+            <ImageButton
+                android:id="@+id/imageButton5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:contentDescription="@string/add_new_evaluated_org"
+                android:background="@drawable/round_button_background"
+                app:srcCompat="@drawable/baseline_add_evaluator_team"
+                android:layout_marginTop="16dp"
+                android:scaleType="fitCenter"/>
+
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="1dp" />
+
+            <ImageButton
+                android:id="@+id/imageButton6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:contentDescription="@string/add_new_center"
+                android:background="@drawable/round_button_background"
+                app:srcCompat="@drawable/baseline_see_evaluations"
+                android:layout_marginTop="16dp"
+                android:scaleType="fitCenter"/>
+
+            <TextView
+                android:id="@+id/text5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="0.25"
+                android:layout_columnWeight="1"
+                android:text="@string/add_new_evaluator_team"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeMaxTextSize="30sp"
+                android:gravity="center"/>
+
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="1dp" />
+
+            <TextView
+                android:id="@+id/text6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_rowWeight="0.25"
+                android:layout_columnWeight="1"
+                android:text="@string/see_results"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeMaxTextSize="30sp"
+                android:gravity="center"/>
+
+
+            <!-- Puedes seguir añadiendo más botones y textos -->
+
+        </GridLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageButton
-                    android:id="@+id/imageButton"
-                    android:layout_width="83dp"
-                    android:layout_height="85dp"
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.128"
+                    app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:srcCompat="@drawable/baseline_indicators"
-                    tools:layout_editor_absoluteY="256dp" />
-
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.411" />
 
                 <TextView
-                    android:id="@+id/text_new_indicator_test"
-                    android:layout_width="77dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:layout_marginStart="24dp"
-                    android:text="@string/add_new_indicators_evaluation"
+                    android:id="@+id/please_wait"
+                    android:layout_width="370dp"
+                    android:layout_height="113dp"
+                    android:layout_marginBottom="300dp"
+                    android:gravity="center"
+                    android:text="@string/please_wait"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.39"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:layout_editor_absoluteY="256dp" />
-
-            </TableRow>
-
+                    app:layout_constraintTop_toBottomOf="@+id/progressBar"
+                    app:layout_constraintVertical_bias="0.069" />
 
 
-        </TableLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

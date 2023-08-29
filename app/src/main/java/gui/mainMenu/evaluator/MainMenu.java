@@ -42,29 +42,6 @@ public class MainMenu extends AppCompatActivity {
 
         setSupportActionBar(binding.appBarMainMenu.toolbarEvaluator);
 
-
-        binding.appBarMainMenu.textNewEvaluatedOrg.setVisibility(View.GONE);
-        binding.appBarMainMenu.textNewIndicatorTest.setVisibility(View.GONE);
-        binding.appBarMainMenu.textNewEvaluatorTeam.setVisibility(View.GONE);
-
-        binding.appBarMainMenu.progressBar.setVisibility(View.GONE);
-        binding.appBarMainMenu.pleaseWait.setVisibility(View.GONE);
-
-
-        binding.appBarMainMenu.fabEvaluator.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
-
-            }
-        });
-
-
-
-
-
-
         DrawerLayout drawer = binding.drawerLayout;
 
         User user= (User) getIntent().getSerializableExtra("user");

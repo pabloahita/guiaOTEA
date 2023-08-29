@@ -1,7 +1,9 @@
 package gui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 import com.fundacionmiradas.indicatorsevaluation.R;
 
 ;
+import java.util.Calendar;
 import java.util.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -42,6 +45,13 @@ import otea.connection.caller.UsersCaller;
 
 public class RegisterNewEvaluatorTeam extends AppCompatActivity {
 
+    TextView creationDate;
+
+    TextView evalDate1;
+    TextView evalDate2;
+    TextView evalDate3;
+    TextView evalDate4;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,18 +63,21 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
         if (organizations.size() > 0 && usersEvaluator.size()>0) {
 
             Spinner orgSpinner = findViewById(R.id.spinner_select_organization);
-            Spinner consultantSpinner = findViewById(R.id.spinner_select_consultant);
             Spinner responsibleSpinner = findViewById(R.id.spinner_select_responsible);
             Spinner professionalSpinner = findViewById(R.id.spinner_select_professional);
+
+            TextView otherMembers = findViewById(R.id.other_members);
+
+            TextView consultant = findViewById(R.id.consultant);
 
             TextView patient = findViewById(R.id.patientName);
             TextView relative = findViewById(R.id.relativeName);
 
-            TextView creationDate=findViewById(R.id.creation_date);
-            TextView evalDate1=findViewById(R.id.eval_date_1);
-            TextView evalDate2=findViewById(R.id.eval_date_2);
-            TextView evalDate3=findViewById(R.id.eval_date_3);
-            TextView evalDate4=findViewById(R.id.eval_date_4);
+            creationDate=findViewById(R.id.creation_date);
+            evalDate1=findViewById(R.id.eval_date_1);
+            evalDate2=findViewById(R.id.eval_date_2);
+            evalDate3=findViewById(R.id.eval_date_3);
+            evalDate4=findViewById(R.id.eval_date_4);
 
             TextView observations=findViewById(R.id.observations);
 
@@ -84,18 +97,15 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
 
             Organization[] organizationSelected=new Organization[1];
 
-            consultantSpinner.setEnabled(false);
 
             final List<User>[] users = new List[]{new LinkedList<>()};
 
             User[] membersSelected=new User[3];
 
 
-            ProgressBar progressBar=findViewById(R.id.progressBar);
-            TextView textLoading=findViewById(R.id.textProgress);
+            ConstraintLayout finalBackground=findViewById(R.id.final_background);
 
-            progressBar.setVisibility(View.GONE);
-            textLoading.setVisibility(View.GONE);
+            finalBackground.setVisibility(View.GONE);
 
 
             orgSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -105,8 +115,8 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                     users[0] = UsersCaller.GetAllOrgUsersByOrganization(organizationSelected[0].getIdOrganization(), organizationSelected[0].getOrganizationType(), organizationSelected[0].getIllness());
                     usersAdapter[0] = new UsersAdapter(getApplicationContext(), users[0]);
                     usersAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-                    consultantSpinner.setAdapter(usersAdapter[0]);
-                    consultantSpinner.setEnabled(true);
+                    //consultantSpinner.setAdapter(usersAdapter[0]);
+                    //consultantSpinner.setEnabled(true);
                 }
 
                 @Override
@@ -115,18 +125,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                 }
             });
 
-            consultantSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    membersSelected[0]=(User) parent.getItemAtPosition(position);
 
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
 
             responsibleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -191,6 +190,29 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                     }
                     else{
                         relative.setError(null);
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+
+            consultant.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    consultant.setError(null);
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    String input=s.toString();
+                    if(input.equals("")){
+                        consultant.setError(getString(R.string.please_consultant));
+                    }
+                    else{
+                        consultant.setError(null);
                     }
                 }
 
@@ -321,7 +343,6 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     orgSpinner.setEnabled(false);
-                    consultantSpinner.setEnabled(false);
                     responsibleSpinner.setEnabled(false);
                     professionalSpinner.setEnabled(false);
                     patient.setEnabled(false);
@@ -332,14 +353,14 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                     evalDate3.setEnabled(false);
                     evalDate4.setEnabled(false);
                     observations.setEnabled(false);
+                    consultant.setEnabled(false);
 
-                    progressBar.setVisibility(View.VISIBLE);
-                    textLoading.setVisibility(View.VISIBLE);
+                    finalBackground.setVisibility(View.VISIBLE);
 
                     v.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if(organizationSelected[0]!=null && membersSelected[0]!=null && membersSelected[1]!=null && membersSelected[2]!=null && !patient.getText().toString().equals("") && !relative.getText().toString().equals("") && !creationDate.getText().toString().equals("") && !evalDate1.getText().toString().equals("") && !evalDate2.getText().toString().equals("") && !evalDate3.getText().toString().equals("") && !evalDate4.getText().toString().equals("")){
+                            if(organizationSelected[0]!=null && membersSelected[0]!=null && membersSelected[1]!=null && membersSelected[2]!=null && !patient.getText().toString().equals("") && !relative.getText().toString().equals("") && !creationDate.getText().toString().equals("") && !evalDate1.getText().toString().equals("") && !evalDate2.getText().toString().equals("") && !evalDate3.getText().toString().equals("") && !evalDate4.getText().toString().equals("") && !consultant.toString().equals("")){
                                 int idEvaluatorTeam= EvaluatorTeamsCaller.GetAllByOrganization(1,"EVALUATOR","AUTISM").size()+1;
 
                                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -362,15 +383,14 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
 
                                 Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
                                 intent.putExtra("user",getIntent().getSerializableExtra("user"));
-                                progressBar.setVisibility(View.GONE);
-                                textLoading.setVisibility(View.GONE);
+                                intent.putExtra("org",getIntent().getSerializableExtra("org"));
+                                finalBackground.setVisibility(View.GONE);
                                 startActivity(intent);
 
 
                             }
                             else{
                                 orgSpinner.setEnabled(true);
-                                consultantSpinner.setEnabled(true);
                                 responsibleSpinner.setEnabled(true);
                                 professionalSpinner.setEnabled(true);
                                 evalDate1.setEnabled(true);
@@ -378,8 +398,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                                 evalDate3.setEnabled(true);
                                 evalDate4.setEnabled(true);
 
-                                progressBar.setVisibility(View.GONE);
-                                textLoading.setVisibility(View.GONE);
+                                finalBackground.setVisibility(View.GONE);
 
                                 if(organizationSelected[0]==null){
                                     Toast.makeText(getApplicationContext(),getString(R.string.please_evaluated_org),Toast.LENGTH_SHORT).show();
@@ -414,14 +433,59 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                                 if(evalDate4.getText().toString().equals("")){
                                     evalDate4.setError(getString(R.string.please_date));
                                 }
+                                if(consultant.getText().toString().equals("")){
+                                    consultant.setError(getString(R.string.please_consultant));
+                                }
                             }
                         }
                     }, 100);
                 }
             });
 
-
         }
     }
+
+    private void changeDate(String type, View view) {
+        final Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                (datePicker, yearSelected, monthOfYear, dayOfMonth) -> {
+                    // Aquí obtienes la fecha seleccionada
+                    String selectedDate = dayOfMonth + "/" + (monthOfYear + 1) + "/" + yearSelected;
+                    if(type.equals("CREATION")) {
+                        creationDate.setText(selectedDate);
+                    }
+                    if(type.equals("EVALDATE1")) {
+                        evalDate1.setText(selectedDate);
+                    }
+                    if(type.equals("EVALDATE2")) {
+                        evalDate2.setText(selectedDate);
+                    }
+                    if(type.equals("EVALDATE3")) {
+                        evalDate3.setText(selectedDate);
+                    }
+                    if(type.equals("EVALDATE4")) {
+                        evalDate4.setText(selectedDate);
+                    }
+                },
+                year, month, day
+        );
+
+        datePickerDialog.show();
+    }
+
+    public void changeCreationDate(View view){changeDate("CREATION",view);}
+
+    public void changeEvalDate1(View view){changeDate("EVALDATE1",view);}
+
+    public void changeEvalDate2(View view){changeDate("EVALDATE2",view);}
+
+    public void changeEvalDate3(View view){changeDate("EVALDATE3",view);}
+
+    public void changeEvalDate4(View view){changeDate("EVALDATE4",view);}
 
 }

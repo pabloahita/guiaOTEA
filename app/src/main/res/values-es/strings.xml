@@ -142,5 +142,12 @@
     <string name="first_name_user_menu">Nombre: nombre</string>
     <string name="last_name_user_menu">Apellido: apellido</string>
     <string name="org_name_user_menu">Organización: org</string>
+    <string name="continue_indicators">Continuar con una evaluación de indicadores</string>
+    <string name="see_results">Ver evaluaciones de indicadores realizadas</string>
+    <string name="generate_report">Generar informe</string>
+    <string name="eval_team_members">Miembros del equipo evaluador</string>
+    <string name="key_dates">Fechas clave</string>
+    <string name="other_members">Otros miembros</string>
+    <string name="eval_team_ins">Para registrar al equipo evaluador, por favor rellene todos los campos, desplazándose hacia abajo para verlos todos y complete el registro</string>
 
 </resources>

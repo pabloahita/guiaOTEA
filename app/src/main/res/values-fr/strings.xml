@@ -119,7 +119,7 @@
     <string name="consultant">Consultant externe</string>
     <string name="professional">Professionnel de la fréquentation directe</string>
     <string name="responsible">Responsable</string>
-    <string name="evaluator_team">Équipe d\'évaluateurs</string>
+    <string name="evaluator_team">Équipe d\'évaluation</string>
     <string name="calculating_results">Calcul des résultats... Veuillez patienter quelques secondes...</string>
     <string name="loading_indicators">Chargement des indicateurs... Veuillez patienter quelques secondes...</string>
     <string name="creation_date">Date de création</string>
@@ -140,4 +140,11 @@
     <string name="first_name_user_menu">Prénom: prenom</string>
     <string name="last_name_user_menu">Nom: nom</string>
     <string name="org_name_user_menu">Organisation: org</string>
+    <string name="continue_indicators">Poursuivre avec un test d\'indicateurs</string>
+    <string name="see_results">Voir les tests d\'indicateurs réalisés</string>
+    <string name="generate_report">Générer le rapport</string>
+    <string name="eval_team_members">Membres de l\'équipe d\'évaluation</string>
+    <string name="key_dates">Dates clés</string>
+    <string name="other_members">Autres membres</string>
+    <string name="eval_team_ins">Pour enregistrer l\'équipe d\'évaluation, veuillez remplir tous les champs, faites défiler pour tous les voir et complétez l\'inscription</string>
 </resources>

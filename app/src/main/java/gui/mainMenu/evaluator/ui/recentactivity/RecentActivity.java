@@ -2,6 +2,7 @@ package gui.mainMenu.evaluator.ui.recentactivity;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -95,6 +96,105 @@ public class RecentActivity extends Fragment {
             last_name.setText("Last name: "+user.getLast_name());
             organizationName.setText("Organization: "+org.getName());
         }
+
+
+        binding.cardView2.setVisibility(View.GONE);
+
+        binding.imageButton1.setOnClickListener(v -> {
+                binding.cardView2.setVisibility(View.VISIBLE);
+                v.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent=new Intent(getContext(),gui.SelectToDoIndicatorsEvaluations.class);
+                        intent.putExtra("user",getActivity().getIntent().getSerializableExtra("user"));
+                        intent.putExtra("org",getActivity().getIntent().getSerializableExtra("org"));
+                        startActivity(intent);
+
+                        v.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                binding.cardView2.setVisibility(View.GONE);
+                            }
+                        }, 50);
+                    }
+                }, 50);
+
+        });
+
+        binding.imageButton2.setOnClickListener(v -> {
+
+        });
+
+        binding.imageButton3.setOnClickListener(v -> {
+            binding.cardView2.setVisibility(View.VISIBLE);
+
+            v.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent=new Intent(getContext(),gui.RegisterOrganization.class);
+                    intent.putExtra("user",getActivity().getIntent().getSerializableExtra("user"));
+                    intent.putExtra("org",getActivity().getIntent().getSerializableExtra("org"));
+                    startActivity(intent);
+
+                    v.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.cardView2.setVisibility(View.GONE);
+                        }
+                    }, 50);
+                }
+            }, 50);
+        });
+
+        binding.imageButton4.setOnClickListener(v -> {
+            binding.cardView2.setVisibility(View.VISIBLE);
+
+            v.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent=new Intent(getContext(),gui.RegisterNewCenter.class);
+                    intent.putExtra("user",getActivity().getIntent().getSerializableExtra("user"));
+                    intent.putExtra("org",getActivity().getIntent().getSerializableExtra("org"));
+                    startActivity(intent);
+
+                    v.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.cardView2.setVisibility(View.GONE);
+                        }
+                    }, 50);
+                }
+            }, 50);
+
+        });
+
+        binding.imageButton5.setOnClickListener(v -> {
+            binding.cardView2.setVisibility(View.VISIBLE);
+
+            v.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent=new Intent(getContext(),gui.RegisterNewEvaluatorTeam.class);
+                    intent.putExtra("user",getActivity().getIntent().getSerializableExtra("user"));
+                    intent.putExtra("org",getActivity().getIntent().getSerializableExtra("org"));
+                    startActivity(intent);
+
+                    v.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.cardView2.setVisibility(View.GONE);
+                        }
+                    }, 50);
+                }
+            }, 50);
+
+        });
+
+        binding.imageButton6.setOnClickListener(v -> {
+
+        });
+
+
 
         return root;
     }

@@ -177,10 +177,13 @@
     <string name="first_name_user_menu">First Name: name</string>
     <string name="last_name_user_menu">Last Name: last name</string>
     <string name="org_name_user_menu">Organization: organization</string>
-
-
-
-
+    <string name="continue_indicators">Continue with an indicators test</string>
+    <string name="see_results">See realized indicators test</string>
+    <string name="generate_report">Generate report</string>
+    <string name="eval_team_members">Evaluator team members</string>
+    <string name="key_dates">Key dates</string>
+    <string name="other_members">Other members</string>
+    <string name="eval_team_ins">To register the evaluator team please fill all the fields, scrolling down to see all of them and completing the registration.</string>
 
 
 </resources>

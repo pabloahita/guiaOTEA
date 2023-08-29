@@ -159,7 +159,7 @@
     <string name="consultant">Consultor externo</string>
     <string name="professional">Profesional de atención directa</string>
     <string name="responsible">Responsable</string>
-    <string name="evaluator_team">Equipo de avaliadores</string>
+    <string name="evaluator_team">Equipo de avaliación</string>
     <string name="calculating_results">Calculando resultados... Por favor, agarda uns segundos...</string>
     <string name="loading_indicators">Cargando indicadores... Por favor, agarda uns segundos...</string>
     <string name="creation_date">Data de creación</string>
@@ -180,7 +180,13 @@
     <string name="first_name_user_menu">Nome: nome</string>
     <string name="last_name_user_menu">Apelido: apelido</string>
     <string name="org_name_user_menu">Organización: organización</string>
-
+    <string name="continue_indicators">Continúa cunha proba de indicadores</string>
+    <string name="see_results">Ver probas de indicadores realizados</string>
+    <string name="generate_report">Xerar informe</string>
+    <string name="eval_team_members">Membros do equipo de avaliación</string>
+    <string name="key_dates">Datas chave</string>
+    <string name="other_members">Outros membros</string>
+    <string name="eval_team_ins">Para registrar a equipa de avaliación, preencha todos os campos, role para baixo para ver todos eles e complete o registo</string>
 
 
 </resources>

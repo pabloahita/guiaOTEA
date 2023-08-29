@@ -179,4 +179,11 @@
     <string name="first_name_user_menu">Primeiro Nome: nome</string>
     <string name="last_name_user_menu">Sobrenome: sobrenome</string>
     <string name="org_name_user_menu">Organização: organização</string>
+    <string name="continue_indicators">Continuar com um teste de indicadores</string>
+    <string name="see_results">Ver testes de indicadores realizados</string>
+    <string name="generate_report">Gerar relatório</string>
+    <string name="eval_team_members">Membros da equipe de avaliação</string>
+    <string name="key_dates">Datas importantes</string>
+    <string name="other_members">Outros membros</string>
+    <string name="eval_team_ins">Para registrar a equipe de avaliação, preencha todos os campos, role para baixo para ver todos eles e complete o registro</string>
 </resources>
