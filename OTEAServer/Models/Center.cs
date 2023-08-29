@@ -16,7 +16,7 @@ namespace OTEAServer.Models
         }
 
 
-        [JsonProperty("idOrganization")]
+        [JsonProperty("IdOrganization")]
         public int IdOrganization { get; set; }
 
         [JsonProperty("orgType")]
