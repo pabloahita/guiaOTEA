@@ -47,7 +47,7 @@ namespace OTEAServer.Controllers
         {
             _context.Centers.Add(center);
             _context.SaveChanges();
-            return CreatedAtAction(nameof(Get), new { idOrganization = center.idOrganization, orgType = center.orgType, illness = center.illness, idCenter = center.idCenter }, center);
+            return CreatedAtAction(nameof(Get), new { idOrganization = center.IdOrganization, orgType = center.orgType, illness = center.illness, idCenter = center.idCenter }, center);
         }
 
         [HttpPut]
