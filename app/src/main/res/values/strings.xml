@@ -184,6 +184,7 @@
     <string name="key_dates">Key dates</string>
     <string name="other_members">Other members</string>
     <string name="eval_team_ins">To register the evaluator team please fill all the fields, scrolling down to see all of them and completing the registration.</string>
+    <string name="save_changes">Save changes</string>
 
 
 </resources>

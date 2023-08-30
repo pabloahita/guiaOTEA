@@ -95,8 +95,7 @@ public class CentersCaller {
         asyncTask.execute();
         try {
             List<Center> list=asyncTask.get();
-            List<Center> result=new LinkedList<Center>();
-            return result;
+            return list;
         } catch (Exception e) {
             Log.d("ERROR", e.toString());
         }

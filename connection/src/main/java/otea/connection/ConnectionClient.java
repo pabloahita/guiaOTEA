@@ -1,6 +1,7 @@
 package otea.connection;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -12,7 +13,11 @@ public class ConnectionClient {
     private static Retrofit retrofit;
 
     private static ConnectionClient instance;
+    private static HttpLoggingInterceptor loggingInterceptor;
+
     private ConnectionClient() {
+        loggingInterceptor=new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         client=new OkHttpClient().newBuilder().build();
         retrofit=new Retrofit.Builder().baseUrl(BASE_URL).client(client).addConverterFactory(GsonConverterFactory.create()).build();
     }

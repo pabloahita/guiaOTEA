@@ -188,6 +188,7 @@
     <string name="key_dates">Wichtige termine</string>
     <string name="other_members">Andere mitglieder</string>
     <string name="eval_team_ins">Um das Bewertungsteam zu registrieren, füllen Sie bitte alle Felder aus, scrollen Sie nach unten, um alle anzuzeigen, und vervollständigen Sie die Registrierung</string>
+    <string name="save_changes">Änderungen speichern</string>
 
 
 </resources>

@@ -149,5 +149,6 @@
     <string name="key_dates">Fechas clave</string>
     <string name="other_members">Otros miembros</string>
     <string name="eval_team_ins">Para registrar al equipo evaluador, por favor rellene todos los campos, desplazándose hacia abajo para verlos todos y complete el registro</string>
+    <string name="save_changes">Guardar cambios</string>
 
 </resources>

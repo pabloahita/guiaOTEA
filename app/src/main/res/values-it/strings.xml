@@ -185,6 +185,7 @@
     <string name="key_dates">Date chiave</string>
     <string name="other_members">Altri membri</string>
     <string name="eval_team_ins">Per registrare il team di valutazione, compila tutti i campi, scorri verso il basso per vederli tutti e completa la registrazione</string>
+    <string name="save_changes">Salva le modifiche</string>
 
 
 </resources>

@@ -7,10 +7,8 @@ import java.io.Serializable;
 public class Center implements Serializable {
 
 
-    Address address;
-
-    @SerializedName("idOrganization")
-    public int idOrganization;
+    @SerializedName("IdOrganization")
+    public int IdOrganization;
 
     @SerializedName("orgType")
     public String orgType;
@@ -33,8 +31,8 @@ public class Center implements Serializable {
     public String email;
 
 
-    public Center(int idOrganization, String orgType, String illness,int idCenter, String centerDescription, int idAddress, long telephone, String email){
-        setIdOrganization(idOrganization);
+    public Center(int IdOrganization, String orgType, String illness,int idCenter, String centerDescription, int idAddress, long telephone, String email){
+        setIdOrganization(IdOrganization);
         setOrgType(orgType);
         setIllness(illness);
         setIdCenter(idCenter);
@@ -60,20 +58,13 @@ public class Center implements Serializable {
         this.centerDescription = centerDescription;
     }
 
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
 
     public int getIdOrganization() {
-        return idOrganization;
+        return IdOrganization;
     }
 
     public void setIdOrganization(int idOrganization) {
-        this.idOrganization = idOrganization;
+        this.IdOrganization = idOrganization;
     }
 
     public String getOrgType() {

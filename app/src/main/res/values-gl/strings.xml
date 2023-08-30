@@ -187,6 +187,7 @@
     <string name="key_dates">Datas chave</string>
     <string name="other_members">Outros membros</string>
     <string name="eval_team_ins">Para registrar a equipa de avaliación, preencha todos os campos, role para baixo para ver todos eles e complete o registo</string>
+    <string name="save_changes">Gardar cambios</string>
 
 
 </resources>

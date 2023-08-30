@@ -147,4 +147,5 @@
     <string name="key_dates">Dates clés</string>
     <string name="other_members">Autres membres</string>
     <string name="eval_team_ins">Pour enregistrer l\'équipe d\'évaluation, veuillez remplir tous les champs, faites défiler pour tous les voir et complétez l\'inscription</string>
+    <string name="save_changes">Enregistrer les modifications</string>
 </resources>

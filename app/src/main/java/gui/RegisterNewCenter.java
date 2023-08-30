@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -75,7 +76,6 @@ public class RegisterNewCenter extends AppCompatActivity {
     String currIdCountry;
     int currIdRegion;
     int currIdProvince;
-    int currIdCity;
 
     List<Center> centers;
 
@@ -518,9 +518,11 @@ public class RegisterNewCenter extends AppCompatActivity {
                             String orgType=organization[0].getOrgType();
                             String illness=organization[0].getIllness();
 
-                            Address address=new Address(numAddresses+1,addressName,zip_code,currIdCity,currIdProvince,currIdRegion,currIdCountry,nameCity,nameProvince,nameRegion);
+                            Address address=new Address(numAddresses+1,addressName,zip_code,idCity[0],idProvince[0],idRegion[0],idCountry[0],nameCity,nameProvince,nameRegion);
                             AddressesCaller.Create(address);
-                            CentersCaller.Create(new Center(idOrganization,orgType,illness, numCenters+1,centerDescription,address.idAddress,phone,email[0]));
+
+                            Center center=new Center(idOrganization,orgType,illness, numCenters+1,centerDescription,address.idAddress,phone,email[0]);
+                            CentersCaller.Create(center);
 
                             Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
                             intent.putExtra("user",getIntent().getSerializableExtra("user"));

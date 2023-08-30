@@ -139,7 +139,8 @@ public class AddressesCaller {
 
         asyncTask.execute();
         try {
-            return asyncTask.get();
+            Address aux= asyncTask.get();
+            return aux;
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } catch (ExecutionException e) {

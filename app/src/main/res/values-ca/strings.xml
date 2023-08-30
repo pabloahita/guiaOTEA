@@ -191,5 +191,6 @@
     <string name="key_dates">Dates clau</string>
     <string name="other_members">Altres membres</string>
     <string name="eval_team_ins">Per registrar l\'equip d\'avaluació, si us plau, ompliu tots els camps, feu scroll per veure\'ls tots i completeu el registre</string>
+    <string name="save_changes">Desa els canvis</string>
 
 </resources>
