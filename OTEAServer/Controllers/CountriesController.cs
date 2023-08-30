@@ -49,7 +49,7 @@ namespace OTEAServer.Controllers
                 case "de": query=query.OrderBy(c=>c.nameDeustch);break;
                 case "it": query=query.OrderBy(c=>c.nameItalian);break;
                 case "nl": query=query.OrderBy(c=>c.nameDutch);break;*/
-                default: query=new List<string>{"USA","GBR","AUS","CAN","GIB","IND","IRL","NZL","ZAF"};break;
+                default: firstCountries=new List<string>{"USA","GBR","AUS","CAN","GIB","IND","IRL","NZL","ZAF"};break;
             }
 
             var sortedCountries = query.ToList();
