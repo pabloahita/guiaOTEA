@@ -55,8 +55,8 @@ namespace OTEAServer.Controllers
             var sortedCountries = query.ToList();
             sortedCountries.Sort((c1, c2) =>
             {
-                var indexC1 = specificCountries.IndexOf(c1.idCountry);
-                var indexC2 = specificCountries.IndexOf(c2.idCountry);
+                var indexC1 = firstCountries.IndexOf(c1.idCountry);
+                var indexC2 = firstCountries.IndexOf(c2.idCountry);
 
                 if (indexC1 != -1 && indexC2 != -1)
                     return indexC1.CompareTo(indexC2);
