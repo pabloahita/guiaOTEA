@@ -779,7 +779,7 @@ public class RegisterOrganization extends AppCompatActivity {
     }
     public List<Country> getCountries(){
         if(countries==null){
-            countries= CountriesCaller.GetAll();
+            countries= CountriesCaller.GetAll(Locale.getDefault().getLanguage());
         }
         return countries;
     }

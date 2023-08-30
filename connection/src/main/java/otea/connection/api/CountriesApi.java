@@ -12,5 +12,5 @@ public interface CountriesApi {
     Call<Country> GetCountry(@Query("idCountry") String idCountry);
 
     @GET("Countries/all")
-    Call<List<Country>> GetAll();
+    Call<List<Country>> GetAll(@Query("language") String language);
 }

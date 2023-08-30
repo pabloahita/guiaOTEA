@@ -25,49 +25,60 @@ namespace OTEAServer.Controllers
             IQueryable<Country> query = _context.Countries.AsQueryable();
 
             switch(language){
-                case "es": query=query.OrderBy(c=>c.nameSpanish);break;
-                case "fr": query=query.OrderBy(c=>c.nameFrench);break;
+                case "es": query=query.OrderByDescending(c=>c.idCountry=="ESP")
+                                .ThenByDescending(c=>c.idCountry=="AND")
+                                .ThenByDescending(c=>c.idCountry=="USA")
+                                .ThenByDescending(c=>c.idCountry=="ARG")
+                                .ThenByDescending(c=>c.idCountry=="BOL")
+                                .ThenByDescending(c=>c.idCountry=="CHL")
+                                .ThenByDescending(c=>c.idCountry=="COL")
+                                .ThenByDescending(c=>c.idCountry=="CRI")
+                                .ThenByDescending(c=>c.idCountry=="CUB")
+                                .ThenByDescending(c=>c.idCountry=="ECU")
+                                .ThenByDescending(c=>c.idCountry=="SLV")
+                                .ThenByDescending(c=>c.idCountry=="GUA")
+                                .ThenByDescending(c=>c.idCountry=="GNQ")
+                                .ThenByDescending(c=>c.idCountry=="HND")
+                                .ThenByDescending(c=>c.idCountry=="MEX")
+                                .ThenByDescending(c=>c.idCountry=="NIC")
+                                .ThenByDescending(c=>c.idCountry=="PAN")
+                                .ThenByDescending(c=>c.idCountry=="PRY")
+                                .ThenByDescending(c=>c.idCountry=="PER")
+                                .ThenByDescending(c=>c.idCountry=="PRI")
+                                .ThenByDescending(c=>c.idCountry=="DOM")
+                                .ThenByDescending(c=>c.idCountry=="URY")
+                                .ThenByDescending(c=>c.idCountry=="VEN")
+                                .ThenBy(c=>c.nameSpanish);break;
+                case "fr": query=query..OrderByDescending(c=>c.idCountry=="FRA")
+                                .ThenByDescending(c=>c.idCountry=="MCO")
+                                .ThenByDescending(c=>c.idCountry=="BEL")
+                                .ThenByDescending(c=>c.idCountry=="CHE")
+                                .ThenByDescending(c=>c.idCountry=="LUX")
+                                .ThenByDescending(c=>c.idCountry=="CAN")
+                                .ThenByDescending(c=>c.idCountry=="MAR")
+                                .ThenByDescending(c=>c.idCountry=="DZA")
+                                .ThenBy(c=>c.nameFrench);break;
                 /*case "eu": query=query.OrderBy(c=>c.nameBasque);break; Poner cuando se implementen más idiomas en la base de datos
                 case "ca": query=query.OrderBy(c=>c.nameCatalan);break;
                 case "gl": query=query.OrderBy(c=>c.nameGalician);break;
                 case "pt": query=query.OrderBy(c=>c.namePortuguese);break;
                 case "de": query=query.OrderBy(c=>c.nameDeustch);break;
                 case "it": query=query.OrderBy(c=>c.nameItalian);break;
-                case "nl": query=query.OrderBy(c=>c.nameDutch);break;*/
-                default: query=query.OrderBy(c=>c.nameEnglish);break;
+                case "nl": query=query.OrderBy(c=>c.nameDutch);break;*/"USA","GBR","AUS","CAN","GIB","IND","IRL","NZL","ZAF"
+                default: query=query..OrderByDescending(c=>c.idCountry=="USA")
+                                .ThenByDescending(c=>c.idCountry=="GBR")
+                                .ThenByDescending(c=>c.idCountry=="AUS")
+                                .ThenByDescending(c=>c.idCountry=="CAN")
+                                .ThenByDescending(c=>c.idCountry=="GIB")
+                                .ThenByDescending(c=>c.idCountry=="IND")
+                                .ThenByDescending(c=>c.idCountry=="IRL")
+                                .ThenByDescending(c=>c.idCountry=="NZF")
+                                .ThenByDescending(c=>c.idCountry=="ZAF")
+                                .ThenBy(c=>c.nameEnglish);break;
             }
 
-            var list=query.ToList();
-            List<string> firstCountries=new List<string>();
-            switch(language){
-                case "es": firstCountries=new List<string>{"ESP","AND","USA","ARG","BOL","CHL","COL","CRI","CUB","ECU","SLV","GUA","GNQ","HND","MEX","NIC","PAN","PRY","PER","PRI","DOM","URY","VEN"};break;
-                case "fr": firstCountries=new List<string>{"FRA","MCO","BEL","CHE","LUX","CAN","MAR","DZA"};break;
-                /*case "eu": query=query.OrderBy(c=>c.nameBasque);break; Poner cuando se implementen más idiomas en la base de datos
-                case "ca": query=query.OrderBy(c=>c.nameCatalan);break;
-                case "gl": query=query.OrderBy(c=>c.nameGalician);break;
-                case "pt": query=query.OrderBy(c=>c.namePortuguese);break;
-                case "de": query=query.OrderBy(c=>c.nameDeustch);break;
-                case "it": query=query.OrderBy(c=>c.nameItalian);break;
-                case "nl": query=query.OrderBy(c=>c.nameDutch);break;*/
-                default: firstCountries=new List<string>{"USA","GBR","AUS","CAN","GIB","IND","IRL","NZL","ZAF"};break;
-            }
-
-            var sortedCountries = query.ToList();
-            sortedCountries.Sort((c1, c2) =>
-            {
-                var indexC1 = firstCountries.IndexOf(c1.idCountry);
-                var indexC2 = firstCountries.IndexOf(c2.idCountry);
-
-                if (indexC1 != -1 && indexC2 != -1)
-                    return indexC1.CompareTo(indexC2);
-                else if (indexC1 != -1)
-                    return -1;
-                else if (indexC2 != -1)
-                    return 1;
-
-                return 0;
-            });
-            return Ok(sortedCountries);
+            
+            return Ok(query.ToList());
 
         }
 

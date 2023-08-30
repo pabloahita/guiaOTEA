@@ -23,6 +23,7 @@ import com.fundacionmiradas.indicatorsevaluation.R;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import cli.organization.Organization;
 import cli.organization.data.Address;
@@ -595,7 +596,7 @@ public class RegisterNewCenter extends AppCompatActivity {
 
     public List<Country> getCountries(){
         if(countries==null){
-            countries= CountriesCaller.GetAll();
+            countries= CountriesCaller.GetAll(Locale.getDefault().getLanguage());
         }
         return countries;
     }

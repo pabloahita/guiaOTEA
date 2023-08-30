@@ -68,8 +68,8 @@ public class CountriesCaller {
         return null;
     }
 
-    public static List<Country> GetAll(){
-        Call<List<Country>> call=api.GetAll();
+    public static List<Country> GetAll(String language){
+        Call<List<Country>> call=api.GetAll(language);
         AsyncTask<Void, Void, List<Country>> asyncTask = new AsyncTask<Void, Void, List<Country>>() {
             List<Country> resultList = null;
             @Override
