@@ -49,7 +49,7 @@ namespace OTEAServer.Controllers
                                 .ThenByDescending(c=>c.idCountry=="URY")
                                 .ThenByDescending(c=>c.idCountry=="VEN")
                                 .ThenBy(c=>c.nameSpanish);break;
-                case "fr": query=query..OrderByDescending(c=>c.idCountry=="FRA")
+                case "fr": query=query.OrderByDescending(c=>c.idCountry=="FRA")
                                 .ThenByDescending(c=>c.idCountry=="MCO")
                                 .ThenByDescending(c=>c.idCountry=="BEL")
                                 .ThenByDescending(c=>c.idCountry=="CHE")
@@ -65,7 +65,7 @@ namespace OTEAServer.Controllers
                 case "de": query=query.OrderBy(c=>c.nameDeustch);break;
                 case "it": query=query.OrderBy(c=>c.nameItalian);break;
                 case "nl": query=query.OrderBy(c=>c.nameDutch);break;*/
-                default: query=query..OrderByDescending(c=>c.idCountry=="USA")
+                default: query=query.OrderByDescending(c=>c.idCountry=="USA")
                                 .ThenByDescending(c=>c.idCountry=="GBR")
                                 .ThenByDescending(c=>c.idCountry=="AUS")
                                 .ThenByDescending(c=>c.idCountry=="CAN")
