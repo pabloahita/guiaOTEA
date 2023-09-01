@@ -1,14 +1,17 @@
 package gui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Space;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +21,7 @@ import com.fundacionmiradas.indicatorsevaluation.R;
 ;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -61,17 +65,21 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
 
     List<IndicatorsEvaluationReg> regs;
 
+    ConstraintLayout background;
+
     int total_score;
+
+    List<Switch> switches;
+    List<Space> spaces;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_indicators_evaluation);
 
-        progressBar=findViewById(R.id.progressBar);
         textView=findViewById(R.id.loading);
 
-        progressBar.setVisibility(View.GONE);
-        textView.setVisibility(View.GONE);
+        background=findViewById(R.id.background);
+        background.setVisibility(View.GONE);
 
         num_evidences_reached_per_indicator=new HashMap<Indicator,Integer>();
 
@@ -92,6 +100,15 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
         Switch evidence2=(Switch) findViewById(R.id.evidence2);
         Switch evidence3=(Switch) findViewById(R.id.evidence3);
         Switch evidence4=(Switch) findViewById(R.id.evidence4);
+        Space space1=(Space) findViewById(R.id.space1);
+        Space space2=(Space) findViewById(R.id.space2);
+        Space space3=(Space) findViewById(R.id.space3);
+        Space space4=(Space) findViewById(R.id.space4);
+
+        switches = Arrays.asList(evidence1, evidence2, evidence3, evidence4);
+        spaces = Arrays.asList(space1, space2, space3,space4);
+
+
         Button previous_indicator=(Button) findViewById(R.id.previous_indicator);
         Button next_indicator=(Button) findViewById(R.id.next_indicator);
         num_evidences_reached_per_indicator=new HashMap<Indicator, Integer>();
@@ -125,6 +142,13 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
             evidence3.setText("Evidence 3: "+evidences.get(2).getDescriptionEnglish());
             evidence4.setText("Evidence 4: "+evidences.get(3).getDescriptionEnglish());
         }
+
+        for (int index = 0; index < switches.size() && index < spaces.size(); index++) {
+            Switch switchView = switches.get(index);
+            Space space = spaces.get(index);
+            adjustSpaceHeight(switchView, space);
+        }
+
         evidence1.setOnClickListener(this);
         evidence2.setOnClickListener(this);
         evidence3.setOnClickListener(this);
@@ -212,8 +236,7 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
                     intent.putExtra("user", getIntent().getSerializableExtra("user"));
                     startActivity(intent);
                 } else {
-                    progressBar.setVisibility(View.VISIBLE);
-                    textView.setVisibility(View.VISIBLE);
+                    background.setVisibility(View.VISIBLE);
                     view.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -224,8 +247,7 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
                             }
                             current_indicator--;
                             changeIndicator();
-                            progressBar.setVisibility(View.GONE);
-                            textView.setVisibility(View.GONE);
+                            background.setVisibility(View.GONE);
                         }
                     }, 100);
                 }
@@ -234,8 +256,7 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
             case R.id.next_indicator: {
                 Log.d("NI", "Next Indicator Pressed");
                 if (current_indicator < num_indicators - 1) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    textView.setVisibility(View.VISIBLE);
+                    background.setVisibility(View.VISIBLE);
                     view.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -246,16 +267,14 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
                             }
                             current_indicator++;
                             changeIndicator();
-                            progressBar.setVisibility(View.GONE);
-                            textView.setVisibility(View.GONE);
+                            background.setVisibility(View.GONE);
                         }
                     }, 100);
                 } else {
                     //current_evaluation.setResults(num_evidences_reached_per_indicator);
                     //current_evaluation.getEvaluatedOrganization().addEvaluation(current_evaluation);
                     //current_evaluation=new IndicatorsEvaluation(long.valueOf());
-                    progressBar.setVisibility(View.VISIBLE);
-                    textView.setVisibility(View.VISIBLE);
+                    background.setVisibility(View.VISIBLE);
                     textView.setText(getString(R.string.calculating_results));
                     view.postDelayed(new Runnable() {
                         @Override
@@ -438,6 +457,12 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
             startActivity(intent);
         }
         return super.onKeyDown(keyCode,event);
+    }
+
+    private void adjustSpaceHeight(Switch switchView, Space space) {
+        ViewGroup.LayoutParams layoutParams = space.getLayoutParams();
+        layoutParams.height = switchView.getHeight(); // Ajusta la altura del espacio según el tamaño del Switch
+        space.setLayoutParams(layoutParams);
     }
 
 }
