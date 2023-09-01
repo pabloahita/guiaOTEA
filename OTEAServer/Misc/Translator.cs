@@ -18,7 +18,7 @@ namespace OTEAServer.Misc
             List<string> languages=new List<string>{"es","en","fr","eu","ca","nl","gl","de","it","pt"};
             List<string> result=new List<string>();
             for(int i=0;i<languages.Count;i++){
-                Task<string> translationTask=translateString(text,origin,languages[i]);
+                Task<string> translationTask=translate(text,origin,languages[i]);
                 string translationResult=await translationTask;
                 result.Add(translationResult);
             }
