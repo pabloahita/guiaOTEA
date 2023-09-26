@@ -1,0 +1,41 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "csvToSqlScript/1.0.0": {
+        "dependencies": {
+          "GTranslate": "2.1.6"
+        },
+        "runtime": {
+          "csvToSqlScript.dll": {}
+        }
+      },
+      "GTranslate/2.1.6": {
+        "runtime": {
+          "lib/net6.0/GTranslate.dll": {
+            "assemblyVersion": "2.1.6.0",
+            "fileVersion": "2.1.6.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "csvToSqlScript/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "GTranslate/2.1.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-2ejPoAQDOkd5T54D8T/thwX57KLj2fIi9jcGel8YdJnRu4Ek3eyaWUy/jPMiBu5pG1rXzJc8al+hHuU0LImrHQ==",
+      "path": "gtranslate/2.1.6",
+      "hashPath": "gtranslate.2.1.6.nupkg.sha512"
+    }
+  }
+}

@@ -59,7 +59,7 @@
     <string name="add_new_evaluated_org_center">Ebaluatzeko erakundeko erdi berri bat gehitu</string>
     <string name="modify_database">Datu-basea aldatu</string>
     <string name="modify_indicators">Adierazleak aldatu</string>
-    <string name="recent_activity">Dekentasun berriak</string>
+    <string name="recent_activity">Menu nagusia</string>
     <string name="help">Laguntza</string>
     <string name="view_indicators_evolution">Egindako azterketak ikusi</string>
     <string name="login_failed">Sarrera hutsegitea. Mesedez, egiaztatu emaila eta pasahitza edo erregistratu aplikaziora</string>
@@ -179,7 +179,7 @@
     <string name="going_center">Erdi berri formularioa eramaten... Itxoin segundo batzuk...</string>
     <string name="org_data">Erakunde datuak</string>
     <string name="org_director">Erakunde zuzendaria</string>
-    <string name="org_reg_ins">Erakundearen erregistratzeko, mesedez, bete eremu guztiak, behera eror dezazun guztiak ikusteko eta erregistratzea osatu dezazun.</string>
+    <string name="org_reg_ins">Ebaluatutako erakunde bat erregistratzeko eremu guztiak behar bezala bete behar dituzu eta aipatutako datuen tratamendua baimendu behar duzu</string>
     <string name="first_name_user_menu">Izena: izena</string>
     <string name="last_name_user_menu">Abizena: abizena</string>
     <string name="org_name_user_menu">Erakundea: erakundea</string>
@@ -191,5 +191,15 @@
     <string name="other_members">Besteak</string>
     <string name="eval_team_ins">Evaluatzaile taldea erregistratzeko, mesedez, bete eremu guztiak, behera egin behar dituzu guztiak ikusteko, eta erregistrazioa osatzeko.</string>
     <string name="save_changes">Aldaketak gorde</string>
+    <string name="center">Erakundearen Zentroa</string>
+    <string name="edit_indicators">Editatu adierazleak</string>
+    <string name="edit_org">Editatu Erakundea ebaluatu da</string>
+    <string name="edit_users">Erabiltzaileak editatu</string>
+    <string name="center_info">Zentroari buruzko informazioa</string>
+    <string name="center_reg_ins">Kanpoko antolakuntza zentro bat erregistratzeko, pantaila honen behealdean kokatutako eremu guztiak bete behar dituzu</string>
+    <string name="ambit_caption">Esparruaren deskribapena</string>
+    <string name="eval_type">Ebaluazio mota</string>
+    <string name="simple">Ebaluazio sinplea</string>
+    <string name="complete">Ebaluazio osoa</string>
 
 </resources>

@@ -22,15 +22,15 @@ namespace OTEAServer.Controllers
         }
 
         [HttpGet("indEval")]
-        public IActionResult GetAllByIndicatorsEvaluation([FromQuery] long evaluationDate, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgType, [FromQuery] string illness) {
-            var IndicatorsEvaluationsRegs = _context.IndicatorsEvaluationsRegs.Where(r=>r.evaluationDate==evaluationDate && r.idEvaluatedOrganization==idEvaluatedOrganization && r.orgTypeEvaluated==orgType && r.illness==illness).ToList();
+        public IActionResult GetAllByIndicatorsEvaluation([FromQuery] long evaluationDate,[FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter) {
+            var IndicatorsEvaluationsRegs = _context.IndicatorsEvaluationsRegs.Where(r => r.evaluationDate==evaluationDate && r.idEvaluatorTeam == idEvaluatorTeam && r.idEvaluatorOrganization == idEvaluatorOrganization && r.orgTypeEvaluator == orgTypeEvaluator && r.idEvaluatedOrganization == idEvaluatedOrganization && r.orgTypeEvaluated == orgTypeEvaluated && r.illness == illness).ToList();
             return Ok(IndicatorsEvaluationsRegs);
         }
        
 
         [HttpGet("get")]
-        public ActionResult<IndicatorsEvaluationReg> Get([FromQuery] long evaluationDate, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgType, [FromQuery] string illness, [FromQuery] int indicatorId, [FromQuery] int idEvidence, [FromQuery] int indicatorVersion) {
-            var indicatorsEvaluation = _context.IndicatorsEvaluationsRegs.FirstOrDefault(r => r.evaluationDate == evaluationDate && r.idEvaluatedOrganization == idEvaluatedOrganization && r.orgTypeEvaluated == orgType && r.illness == illness && r.indicatorId == indicatorId && r.idEvidence == idEvidence && r.indicatorVersion==indicatorVersion);
+        public ActionResult<IndicatorsEvaluationReg> Get([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] int idAmbit, [FromQuery] int idIndicator, [FromQuery] int idEvidence, [FromQuery] int indicatorVersion) {
+            var indicatorsEvaluation = _context.IndicatorsEvaluationsRegs.FirstOrDefault(r => r.evaluationDate == evaluationDate && r.idEvaluatorTeam==idEvaluatorTeam && r.idEvaluatorOrganization == idEvaluatorOrganization && r.orgTypeEvaluator == orgTypeEvaluator && r.idEvaluatedOrganization == idEvaluatedOrganization && r.orgTypeEvaluated == orgTypeEvaluated && r.illness == illness && r.idCenter==idCenter && r.idAmbit==idAmbit && r.idIndicator == idIndicator && r.idEvidence == idEvidence && r.indicatorVersion == indicatorVersion);
 
             if (indicatorsEvaluation == null)
                 return NotFound();
@@ -45,10 +45,15 @@ namespace OTEAServer.Controllers
             return CreatedAtAction(nameof(Get), new
             {
                 evaluationDate = indicatorsEvaluationReg.evaluationDate,
+                idEvaluatorTeam = indicatorsEvaluationReg.idEvaluatorTeam,
+                idEvaluatorOrganization = indicatorsEvaluationReg.idEvaluatorOrganization,
+                orgTypeEvaluator = indicatorsEvaluationReg.orgTypeEvaluator,
                 idEvaluatedOrganization = indicatorsEvaluationReg.idEvaluatedOrganization,
-                orgType = indicatorsEvaluationReg.orgTypeEvaluated,
+                orgTypeEvaluated = indicatorsEvaluationReg.orgTypeEvaluated,
                 illness = indicatorsEvaluationReg.illness,
-                indicatorId = indicatorsEvaluationReg.indicatorId,
+                idCenter = indicatorsEvaluationReg.idCenter,
+                idAmbit = indicatorsEvaluationReg.idAmbit,
+                idIndicator = indicatorsEvaluationReg.idIndicator,
                 idEvidence = indicatorsEvaluationReg.idEvidence,
                 indicatorVersion = indicatorsEvaluationReg.indicatorVersion
             }, indicatorsEvaluationReg);
@@ -56,17 +61,22 @@ namespace OTEAServer.Controllers
 
 
         [HttpPut]
-        public ActionResult<IndicatorsEvaluationReg> Update([FromQuery] long evaluationDate, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgType, [FromQuery] string illness, [FromQuery] int indicatorId, [FromQuery] int idEvidence, [FromQuery] int indicatorVersion, [FromBody] IndicatorsEvaluationReg indicatorsEvaluationReg) {
+        public ActionResult<IndicatorsEvaluationReg> Update([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] int idAmbit, [FromQuery] int idIndicator, [FromQuery] int idEvidence, [FromQuery] int indicatorVersion, [FromBody] IndicatorsEvaluationReg indicatorsEvaluationReg) {
             // This code will update the mesa and return a result
-            var existingIndicatorsEvaluationReg = _context.IndicatorsEvaluationsRegs.FirstOrDefault(r => r.evaluationDate == evaluationDate && r.idEvaluatedOrganization == idEvaluatedOrganization && r.orgTypeEvaluated == orgType && r.illness == illness && r.indicatorId == indicatorId && r.idEvidence == idEvidence && r.indicatorVersion == indicatorVersion);
+            var existingIndicatorsEvaluationReg = _context.IndicatorsEvaluationsRegs.FirstOrDefault(r => r.evaluationDate == evaluationDate && r.idEvaluatorTeam==idEvaluatorTeam && r.idEvaluatorOrganization == idEvaluatorOrganization && r.orgTypeEvaluator == orgTypeEvaluator && r.idEvaluatedOrganization == idEvaluatedOrganization && r.orgTypeEvaluated == orgTypeEvaluated && r.illness == illness && r.idCenter==idCenter && r.idAmbit==idAmbit && r.idIndicator == idIndicator && r.idEvidence == idEvidence && r.indicatorVersion == indicatorVersion);
             if (existingIndicatorsEvaluationReg is null)
                 return NotFound();
 
             existingIndicatorsEvaluationReg.evaluationDate = indicatorsEvaluationReg.evaluationDate;
+            existingIndicatorsEvaluationReg.idEvaluatorTeam = indicatorsEvaluationReg.idEvaluatorTeam;
+            existingIndicatorsEvaluationReg.idEvaluatorOrganization = indicatorsEvaluationReg.idEvaluatorOrganization;
+            existingIndicatorsEvaluationReg.orgTypeEvaluator = indicatorsEvaluationReg.orgTypeEvaluator;
             existingIndicatorsEvaluationReg.idEvaluatedOrganization = indicatorsEvaluationReg.idEvaluatedOrganization;
             existingIndicatorsEvaluationReg.orgTypeEvaluated = indicatorsEvaluationReg.orgTypeEvaluated;
             existingIndicatorsEvaluationReg.illness = indicatorsEvaluationReg.illness;
-            existingIndicatorsEvaluationReg.indicatorId = indicatorsEvaluationReg.indicatorId;
+            existingIndicatorsEvaluationReg.idCenter = indicatorsEvaluationReg.idCenter;
+            existingIndicatorsEvaluationReg.idAmbit = indicatorsEvaluationReg.idAmbit;
+            existingIndicatorsEvaluationReg.idIndicator = indicatorsEvaluationReg.idIndicator;
             existingIndicatorsEvaluationReg.idEvidence = indicatorsEvaluationReg.idEvidence;
             existingIndicatorsEvaluationReg.isMarked = indicatorsEvaluationReg.isMarked;
             existingIndicatorsEvaluationReg.indicatorVersion = indicatorsEvaluationReg.indicatorVersion;
@@ -76,8 +86,8 @@ namespace OTEAServer.Controllers
 
 
         [HttpDelete]
-        public ActionResult<IndicatorsEvaluationReg> Delete([FromQuery] long evaluationDate, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgType, [FromQuery] string illness, [FromQuery] int indicatorId, [FromQuery] int idEvidence, [FromQuery] int indicatorVersion) {
-            var indicatorsEvaluation = _context.IndicatorsEvaluationsRegs.FirstOrDefault(r => r.evaluationDate == evaluationDate && r.idEvaluatedOrganization == idEvaluatedOrganization && r.orgTypeEvaluated == orgType && r.illness == illness && r.indicatorId == indicatorId && r.idEvidence == idEvidence && r.indicatorVersion == indicatorVersion);
+        public ActionResult<IndicatorsEvaluationReg> Delete([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] int idAmbit, [FromQuery] int idIndicator, [FromQuery] int idEvidence, [FromQuery] int indicatorVersion) {
+            var indicatorsEvaluation = _context.IndicatorsEvaluationsRegs.FirstOrDefault(r => r.evaluationDate == evaluationDate && r.idEvaluatorTeam==idEvaluatorTeam && r.idEvaluatorOrganization == idEvaluatorOrganization && r.orgTypeEvaluator == orgTypeEvaluator && r.idEvaluatedOrganization == idEvaluatedOrganization && r.orgTypeEvaluated == orgTypeEvaluated && r.illness == illness && r.idCenter==idCenter && r.idAmbit==idAmbit && r.idIndicator == idIndicator && r.idEvidence == idEvidence && r.indicatorVersion == indicatorVersion);
 
             if (indicatorsEvaluation is null)
                 return NotFound();

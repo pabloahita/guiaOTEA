@@ -27,8 +27,8 @@ import gui.adapters.OrgsAdapter;
 import misc.FieldChecker;
 import cli.organization.Organization;
 import misc.PasswordCodifier;
-import otea.connection.caller.OrganizationsCaller;
-import otea.connection.caller.UsersCaller;
+import otea.connection.controller.OrganizationsController;
+import otea.connection.controller.UsersController;
 
 import java.util.Locale;
 import java.util.regex.*;
@@ -294,7 +294,7 @@ public class Register extends AppCompatActivity {
                         if(!first_name.equals("") && !last_name.equals("") && FieldChecker.emailHasCorrectFormat(email) && FieldChecker.passwordHasCorrectFormat(password) && (FieldChecker.isASpanishNumber(telephone) || FieldChecker.isAForeignNumber(telephone))){
                             long phone=Long.parseLong(telephone);
                             User user=new User(email,"ORGANIZATION",first_name,last_name, PasswordCodifier.codify(password),phone,idOrganization[0],orgType[0],illness[0]);
-                            UsersCaller.Create(user);
+                            UsersController.Create(user);
                             Log.d("USER_REGISTERED","USER REGISTERED");
                             Intent intent=new Intent(getApplicationContext(),gui.MainActivity.class);
                             String messageSuccess="";
@@ -350,7 +350,7 @@ public class Register extends AppCompatActivity {
 
     public List<Organization> obtainOrganizations() {
         if (evaluatedOrganizations == null) {
-            evaluatedOrganizations=OrganizationsCaller.GetAllEvaluatedOrganizations();
+            evaluatedOrganizations= OrganizationsController.GetAllEvaluatedOrganizations();
         }
         return evaluatedOrganizations;
     }

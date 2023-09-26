@@ -34,12 +34,17 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthorization();
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
+    endpoints.MapGet("/", async context =>
+    {
+        await context.Response.WriteAsync("¡Hola, mundo!");
+    });
 });
 
-app.UseAuthorization();
 
 app.MapRazorPages();
 

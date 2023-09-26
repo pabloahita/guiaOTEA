@@ -4,8 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-import otea.connection.caller.RegionsCaller;
-
 public class Province implements Serializable {
     @SerializedName("idProvince")
     public int idProvince;

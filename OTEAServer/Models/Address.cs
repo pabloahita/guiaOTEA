@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 
 namespace OTEAServer.Models
@@ -20,34 +20,34 @@ namespace OTEAServer.Models
         }
 
         [Key]
-        [JsonProperty("idAddress")]
+        [JsonPropertyName("idAddress")]
         public int idAddress { get; set; }
 
-        [JsonProperty("addressName")]
+        [JsonPropertyName("addressName")]
         public string addressName { get; set; }
 
-        [JsonProperty("zipCode")]
+        [JsonPropertyName("zipCode")]
         public int zipCode { get; set; }
 
-        [JsonProperty("idCity")]
+        [JsonPropertyName("idCity")]
         public int? idCity { get; set; }
 
-        [JsonProperty("idProvince")]
+        [JsonPropertyName("idProvince")]
         public int? idProvince { get; set; }
 
-        [JsonProperty("idRegion")]
+        [JsonPropertyName("idRegion")]
         public int? idRegion { get; set; }
 
-        [JsonProperty("idCountry")]
+        [JsonPropertyName("idCountry")]
         public string idCountry { get; set; }
         
-        [JsonProperty("nameCity")]
+        [JsonPropertyName("nameCity")]
         public string nameCity { get; set; }
 
-        [JsonProperty("nameProvince")]
+        [JsonPropertyName("nameProvince")]
         public string nameProvince { get; set; }
 
-        [JsonProperty("nameRegion")]
+        [JsonPropertyName("nameRegion")]
         public string nameRegion { get; set; }
     }
 }

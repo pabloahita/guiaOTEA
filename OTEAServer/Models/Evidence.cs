@@ -1,43 +1,75 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace OTEAServer.Models
 {
     public class Evidence
     {
-        public Evidence(int idEvidence, int idIndicator, string indicatorType, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, int evidenceValue, int indicatorVersion) {
+        public Evidence(int idEvidence, int idIndicator, string indicatorType, int idAmbit, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, string descriptionBasque, string descriptionCatalan, string descriptionDutch, string descriptionGalician, string descriptionGerman, string descriptionItalian, string descriptionPortuguese, int evidenceValue, int indicatorVersion) {
             this.idEvidence = idEvidence;
             this.idIndicator = idIndicator;
             this.indicatorType = indicatorType;
+            this.idAmbit = idAmbit;
             this.descriptionEnglish = descriptionEnglish;
             this.descriptionSpanish = descriptionSpanish;
             this.descriptionFrench = descriptionFrench;
+            this.descriptionBasque = descriptionBasque;
+            this.descriptionCatalan = descriptionCatalan;
+            this.descriptionDutch = descriptionDutch;
+            this.descriptionGalician = descriptionGalician;
+            this.descriptionGerman = descriptionGerman;
+            this.descriptionItalian = descriptionItalian;
+            this.descriptionPortuguese = descriptionPortuguese;
             this.evidenceValue = evidenceValue;
             this.indicatorVersion = indicatorVersion;
         }
 
 
-        [JsonProperty("idEvidence")]
+        [JsonPropertyName("idEvidence")]
         public int idEvidence { get; set; }
 
-        [JsonProperty("idIndicator")]
+        [JsonPropertyName("idIndicator")]
         public int idIndicator { get; set; }
 
-        [JsonProperty("indicatorType")]
+        [JsonPropertyName("indicatorType")]
         public string indicatorType { get; set; }
 
-        [JsonProperty("descriptionEnglish")]
+        [JsonPropertyName("idAmbit")]
+        public int idAmbit { get; set; }
+
+        [JsonPropertyName("descriptionEnglish")]
         public string descriptionEnglish { get; set; }
 
-        [JsonProperty("descriptionSpanish")]
+        [JsonPropertyName("descriptionSpanish")]
         public string descriptionSpanish { get; set; }
 
-        [JsonProperty("descriptionFrench")]
+        [JsonPropertyName("descriptionFrench")]
         public string descriptionFrench { get; set; }
 
-        [JsonProperty("evidenceValue")]
+        [JsonPropertyName("descriptionBasque")]
+        public string descriptionBasque { get; set; }
+
+        [JsonPropertyName("descriptionCatalan")]
+        public string descriptionCatalan { get; set; }
+
+        [JsonPropertyName("descriptionDutch")]
+        public string descriptionDutch { get; set; }
+
+        [JsonPropertyName("descriptionGalician")]
+        public string descriptionGalician { get; set; }
+
+        [JsonPropertyName("descriptionGerman")]
+        public string descriptionGerman { get; set; }
+
+        [JsonPropertyName("descriptionItalian")]
+        public string descriptionItalian { get; set; }
+
+        [JsonPropertyName("descriptionPortuguese")]
+        public string descriptionPortuguese { get; set; }
+
+        [JsonPropertyName("evidenceValue")]
         public int evidenceValue{ get; set; }
 
-        [JsonProperty("indicatorVersion")]
+        [JsonPropertyName("indicatorVersion")]
         public int indicatorVersion { get; set; }
     }
 }

@@ -58,7 +58,7 @@
     <string name="add_new_evaluated_org_center">Afegir nou centre d\'organització avaluada</string>
     <string name="modify_database">Modificar base de dades</string>
     <string name="modify_indicators">Modificar indicadors</string>
-    <string name="recent_activity">Activitat recent</string>
+    <string name="recent_activity">Menú principal</string>
     <string name="help">Ajuda</string>
     <string name="view_indicators_evolution">Veure proves realitzades</string>
     <string name="login_failed">Inici de sessió fallit. Si us plau, verifica l\'email i la contrasenya o registra\'t a l\'aplicació</string>
@@ -180,7 +180,7 @@
     <string name="going_center">Anant al nou formulari de centre... Espereu uns segons...</string>
     <string name="org_data">Dades de l\'organització</string>
     <string name="org_director">Director de l\'organització</string>
-    <string name="org_reg_ins">Per registrar l\'organització, si us plau ompliu tots els camps, feis scroll per veure\'ls tots i completeu el registre.</string>
+    <string name="org_reg_ins">Per registrar una organització avaluada, heu d’omplir tots els camps correctament i permetre el processament d’aquestes dades</string>
     <string name="first_name_user_menu">Nom: nom</string>
     <string name="last_name_user_menu">Cognom: cognom</string>
     <string name="org_name_user_menu">Organització: organització</string>
@@ -192,5 +192,15 @@
     <string name="other_members">Altres membres</string>
     <string name="eval_team_ins">Per registrar l\'equip d\'avaluació, si us plau, ompliu tots els camps, feu scroll per veure\'ls tots i completeu el registre</string>
     <string name="save_changes">Desa els canvis</string>
+    <string name="center">Centre de l’organització</string>
+    <string name="edit_indicators">Edita els indicadors</string>
+    <string name="edit_org">Edita l\'organització avaluada</string>
+    <string name="edit_users">Editar els usuaris</string>
+    <string name="center_info">Informació del centre</string>
+    <string name="center_reg_ins">Per registrar un centre d’organització externa, heu d’omplir tots els camps situats a la part inferior d’aquesta pantalla</string>
+    <string name="ambit_caption">Descripció de l’àmbit</string>
+    <string name="eval_type">Tipus d\'avaluació</string>
+    <string name="simple">Avaluació senzilla</string>
+    <string name="complete">Avaluació completa</string>
 
 </resources>

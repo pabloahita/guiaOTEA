@@ -13,11 +13,15 @@ public class EvaluatorTeam implements Serializable {
     @SerializedName("creationDate")
     public long creationDate;
 
-    @SerializedName("idOrganization")
-    public int idOrganization;
+    @SerializedName("idEvaluatorOrganization")
+    public int idEvaluatorOrganization;
 
-    @SerializedName("orgType")
-    public String orgType;
+    @SerializedName("orgTypeEvaluator")
+    public String orgTypeEvaluator;
+    @SerializedName("idEvaluatedOrganization")
+    public int idEvaluatedOrganization;
+    @SerializedName("orgTypeEvaluated")
+    public String orgTypeEvaluated;
     
     @SerializedName("illness")
     public String illness;
@@ -25,12 +29,16 @@ public class EvaluatorTeam implements Serializable {
     public String patientName="";
     @SerializedName("relativeName")
     public String relativeName="";
-    @SerializedName("emailConsultant")
-    public String emailConsultant;
+    @SerializedName("externalConsultant")
+    public String externalConsultant;
     @SerializedName("emailResponsible")
     public String emailResponsible;
     @SerializedName("emailProfessional")
     public String emailProfessional;
+    @SerializedName("otherMembers")
+    public String otherMembers;
+    @SerializedName("idCenter")
+    public int idCenter;
 
     @SerializedName("evaluationDate1")
     public long evaluationDate1;
@@ -44,27 +52,58 @@ public class EvaluatorTeam implements Serializable {
     @SerializedName("evaluationDate4")
     public long evaluationDate4;
 
-    @SerializedName("observations")
-    public String observations;
+    @SerializedName("observationsEnglish")
+    public String observationsEnglish;
+    @SerializedName("observationsSpanish")
+    public String observationsSpanish;
+    @SerializedName("observationsFrench")
+    public String observationsFrench;
+    @SerializedName("observationsBasque")
+    public String observationsBasque;
+    @SerializedName("observationsCatalan")
+    public String observationsCatalan;
+    @SerializedName("observationsDutch")
+    public String observationsDutch;
+    @SerializedName("observationsGalician")
+    public String observationsGalician;
+    @SerializedName("observationsGerman")
+    public String observationsGerman;
+    @SerializedName("observationsItalian")
+    public String observationsItalian;
+    @SerializedName("observationsPortuguese")
+    public String observationsPortuguese;
 
 
 
-    public EvaluatorTeam(int idEvaluatorTeam, long creationDate, int idOrganization, String orgType, String illness, String emailConsultant, String emailProfessional, String emailResponsible, String patientName, String relativeName, long evaluationDate1, long evaluationDate2, long evaluationDate3, long evaluationDate4, String observations){
+    public EvaluatorTeam(int idEvaluatorTeam, long creationDate, String emailProfessional, String emailResponsible, String otherMembers, int idEvaluatorOrganization, String orgTypeEvaluator, int idEvaluatedOrganization, String orgTypeEvaluated, int idCenter, String illness, String externalConsultant, String patientName, String relativeName, long evaluationDate1, long evaluationDate2, long evaluationDate3, long evaluationDate4, String observationsSpanish, String observationsEnglish, String observationsFrench, String observationsBasque, String observationsCatalan, String observationsDutch, String observationsGalician, String observationsGerman, String observationsItalian, String observationsPortuguese){
         setIdEvaluatorTeam(idEvaluatorTeam);
         setCreationDate(creationDate);
-        setIdOrganization(idOrganization);
-        setOrgType(orgType);
-        setIllness(illness);
-        setEmailConsultant(emailConsultant);
         setEmailProfessional(emailProfessional);
         setEmailResponsible(emailResponsible);
+        setOtherMembers(otherMembers);
+        setIdEvaluatorOrganization(idEvaluatorOrganization);
+        setOrgTypeEvaluator(orgTypeEvaluator);
+        setIdEvaluatedOrganization(idEvaluatedOrganization);
+        setOrgTypeEvaluated(orgTypeEvaluated);
+        setIdCenter(idCenter);
+        setIllness(illness);
+        setExternalConsultant(externalConsultant);
         setPatient_name(patientName);
         setRelative_name(relativeName);
         setEvaluationDate1(evaluationDate1);
         setEvaluationDate2(evaluationDate2);
         setEvaluationDate3(evaluationDate3);
         setEvaluationDate4(evaluationDate4);
-        setObservations(observations);
+        setObservationsEnglish(observationsEnglish);
+        setObservationsSpanish(observationsSpanish);
+        setObservationsFrench(observationsFrench);
+        setObservationsBasque(observationsBasque);
+        setObservationsCatalan(observationsCatalan);
+        setObservationsDutch(observationsDutch);
+        setObservationsGalician(observationsGalician);
+        setObservationsGerman(observationsGerman);
+        setObservationsItalian(observationsItalian);
+        setObservationsPortuguese(observationsPortuguese);
     }
 
     public long getCreationDate() {
@@ -99,12 +138,12 @@ public class EvaluatorTeam implements Serializable {
         this.relativeName = relativeName;
     }
 
-    public String getEmailConsultant() {
-        return emailConsultant;
+    public String getExternalConsultant() {
+        return externalConsultant;
     }
 
-    public void setEmailConsultant(String emailConsultant) {
-        this.emailConsultant = emailConsultant;
+    public void setExternalConsultant(String externalConsultant) {
+        this.externalConsultant = externalConsultant;
     }
 
     public String getEmailResponsible() {
@@ -123,20 +162,36 @@ public class EvaluatorTeam implements Serializable {
         this.emailProfessional = emailProfessional;
     }
 
-    public int getIdOrganization() {
-        return idOrganization;
+    public int getIdEvaluatorOrganization() {
+        return idEvaluatorOrganization;
     }
 
-    public void setIdOrganization(int idOrganization) {
-        this.idOrganization = idOrganization;
+    public void setIdEvaluatorOrganization(int idEvaluatorOrganization) {
+        this.idEvaluatorOrganization = idEvaluatorOrganization;
     }
 
-    public String getOrgType() {
-        return orgType;
+    public String getOrgTypeEvaluator() {
+        return orgTypeEvaluator;
     }
 
-    public void setOrgType(String orgType) {
-        this.orgType = orgType;
+    public void setOrgTypeEvaluator(String orgTypeEvaluator) {
+        this.orgTypeEvaluator = orgTypeEvaluator;
+    }
+
+    public int getIdEvaluatedOrganization() {
+        return idEvaluatedOrganization;
+    }
+
+    public void setIdEvaluatedOrganization(int idEvaluatedOrganization) {
+        this.idEvaluatedOrganization = idEvaluatedOrganization;
+    }
+
+    public String getOrgTypeEvaluated() {
+        return orgTypeEvaluated;
+    }
+
+    public void setOrgTypeEvaluated(String orgTypeEvaluated) {
+        this.orgTypeEvaluated = orgTypeEvaluated;
     }
 
     public String getIllness() {
@@ -147,6 +202,21 @@ public class EvaluatorTeam implements Serializable {
         this.illness = illness;
     }
 
+    public String getOtherMembers() {
+        return otherMembers;
+    }
+
+    public void setOtherMembers(String otherMembers) {
+        this.otherMembers = otherMembers;
+    }
+
+    public int getIdCenter() {
+        return idCenter;
+    }
+
+    public void setIdCenter(int idCenter) {
+        this.idCenter = idCenter;
+    }
 
     public long getEvaluationDate1() {
         return evaluationDate1;
@@ -180,11 +250,83 @@ public class EvaluatorTeam implements Serializable {
         this.evaluationDate4 = evaluationDate4;
     }
 
-    public String getObservations() {
-        return observations;
+    public String getObservationsEnglish() {
+        return observationsEnglish;
     }
 
-    public void setObservations(String observations) {
-        this.observations = observations;
+    public void setObservationsEnglish(String observationsEnglish) {
+        this.observationsEnglish = observationsEnglish;
+    }
+
+    public String getObservationsSpanish() {
+        return observationsSpanish;
+    }
+
+    public void setObservationsSpanish(String observationsSpanish) {
+        this.observationsSpanish = observationsSpanish;
+    }
+
+    public String getObservationsFrench() {
+        return observationsFrench;
+    }
+
+    public void setObservationsFrench(String observationsFrench) {
+        this.observationsFrench = observationsFrench;
+    }
+
+    public String getObservationsBasque() {
+        return observationsBasque;
+    }
+
+    public void setObservationsBasque(String observationsBasque) {
+        this.observationsBasque = observationsBasque;
+    }
+
+    public String getObservationsCatalan() {
+        return observationsCatalan;
+    }
+
+    public void setObservationsCatalan(String observationsCatalan) {
+        this.observationsCatalan = observationsCatalan;
+    }
+
+    public String getObservationsDutch() {
+        return observationsDutch;
+    }
+
+    public void setObservationsDutch(String observationsDutch) {
+        this.observationsDutch = observationsDutch;
+    }
+
+    public String getObservationsGalician() {
+        return observationsGalician;
+    }
+
+    public void setObservationsGalician(String observationsGalician) {
+        this.observationsGalician = observationsGalician;
+    }
+
+    public String getObservationsGerman() {
+        return observationsGerman;
+    }
+
+    public void setObservationsGerman(String observationsGerman) {
+        this.observationsGerman = observationsGerman;
+    }
+
+    public String getObservationsItalian() {
+        return observationsItalian;
+    }
+
+    public void setObservationsItalian(String observationsItalian) {
+        this.observationsItalian = observationsItalian;
+    }
+
+    public String getObservationsPortuguese() {
+        return observationsPortuguese;
+    }
+
+    public void setObservationsPortuguese(String observationsPortuguese) {
+        this.observationsPortuguese = observationsPortuguese;
     }
 }

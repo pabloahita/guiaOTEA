@@ -17,19 +17,18 @@ public interface IndicatorsEvaluationRegsApi {
     Call<List<IndicatorsEvaluationReg>> GetAll();
 
     @GET("IndicatorsEvaluationsRegs/indEval")
-    Call<List<IndicatorsEvaluationReg>> GetAllByIndicatorsEvaluation(@Query("evaluationDate") long evaluationDate,@Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgType") String orgType, @Query("illness") String illness);
-
+    Call<List<IndicatorsEvaluationReg>> GetAllByIndicatorsEvaluation(@Query("evaluationDate") long evaluationDate,@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter);
     @GET("IndicatorsEvaluationsRegs/get")
-    Call<IndicatorsEvaluationReg> Get(@Query("evaluationDate")long evaluationDate, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgType") String orgType,@Query("illness") String illness,@Query("indicatorId") int indicatorId,@Query("idEvidence") int idEvidence,@Query("indicatorVersion") int indicatorVersion);
+    Call<IndicatorsEvaluationReg> Get(@Query("evaluationDate") long evaluationDate, @Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("idAmbit") int idAmbit, @Query("idIndicator") int idIndicator, @Query("idEvidence") int idEvidence, @Query("indicatorValue") int indicatorVersion);
 
     @POST("IndicatorsEvaluationsRegs")
     Call<IndicatorsEvaluationReg> Create(@Body IndicatorsEvaluationReg indicatorsEvaluationReg);
 
     @PUT("IndicatorsEvaluationsRegs")
-    Call<IndicatorsEvaluationReg> Update(@Query("evaluationDate")long evaluationDate, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgType") String orgType,@Query("illness") String illness,@Query("indicatorId") int indicatorId,@Query("idEvidence") int idEvidence,@Query("indicatorVersion") int indicatorVersion);
+    Call<IndicatorsEvaluationReg> Update(@Query("evaluationDate") long evaluationDate, @Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("idAmbit") int idAmbit, @Query("idIndicator") int idIndicator, @Query("idEvidence") int idEvidence, @Query("indicatorValue") int indicatorVersion, @Body IndicatorsEvaluationReg indicatorsEvaluationReg);
 
 
     @DELETE("IndicatorsEvaluationsRegs")
-    Call<IndicatorsEvaluationReg> Delete(@Query("evaluationDate")long evaluationDate, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgType") String orgType,@Query("illness") String illness,@Query("indicatorId") int indicatorId,@Query("idEvidence") int idEvidence,@Query("indicatorVersion") int indicatorVersion);
+    Call<IndicatorsEvaluationReg> Delete(@Query("evaluationDate") long evaluationDate, @Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("idAmbit") int idAmbit, @Query("idIndicator") int idIndicator, @Query("idEvidence") int idEvidence, @Query("indicatorValue") int indicatorVersion);
 
 }

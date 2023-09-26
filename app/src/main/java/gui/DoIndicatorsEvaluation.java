@@ -8,10 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.Space;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,7 +19,6 @@ import com.fundacionmiradas.indicatorsevaluation.R;
 ;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -35,10 +32,8 @@ import cli.indicators.IndicatorsEvaluation;
 import cli.indicators.IndicatorsEvaluationReg;
 import cli.organization.Organization;
 import cli.organization.data.EvaluatorTeam;
-import otea.connection.caller.EvidencesCaller;
-import otea.connection.caller.IndicatorsCaller;
-import otea.connection.caller.IndicatorsEvaluationRegsCaller;
-import otea.connection.caller.IndicatorsEvaluationsCaller;
+import otea.connection.controller.IndicatorsEvaluationRegsController;
+import otea.connection.controller.IndicatorsEvaluationsController;
 
 public class DoIndicatorsEvaluation extends AppCompatActivity implements View.OnClickListener{
 
@@ -70,7 +65,7 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
     int total_score;
 
     List<Switch> switches;
-    List<Space> spaces;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,13 +95,7 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
         Switch evidence2=(Switch) findViewById(R.id.evidence2);
         Switch evidence3=(Switch) findViewById(R.id.evidence3);
         Switch evidence4=(Switch) findViewById(R.id.evidence4);
-        Space space1=(Space) findViewById(R.id.space1);
-        Space space2=(Space) findViewById(R.id.space2);
-        Space space3=(Space) findViewById(R.id.space3);
-        Space space4=(Space) findViewById(R.id.space4);
 
-        switches = Arrays.asList(evidence1, evidence2, evidence3, evidence4);
-        spaces = Arrays.asList(space1, space2, space3,space4);
 
 
         Button previous_indicator=(Button) findViewById(R.id.previous_indicator);
@@ -143,11 +132,6 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
             evidence4.setText("Evidence 4: "+evidences.get(3).getDescriptionEnglish());
         }
 
-        for (int index = 0; index < switches.size() && index < spaces.size(); index++) {
-            Switch switchView = switches.get(index);
-            Space space = spaces.get(index);
-            adjustSpaceHeight(switchView, space);
-        }
 
         evidence1.setOnClickListener(this);
         evidence2.setOnClickListener(this);
@@ -304,9 +288,9 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
 
                                     }
                                 }
-                                IndicatorsEvaluationsCaller.Create(current_evaluation);
+                                IndicatorsEvaluationsController.Create(current_evaluation);
                                 for(IndicatorsEvaluationReg reg:regs){
-                                    IndicatorsEvaluationRegsCaller.Create(reg);
+                                    IndicatorsEvaluationRegsController.Create(reg);
                                 }
 
                             } catch (ParseException e) {
@@ -459,10 +443,6 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
         return super.onKeyDown(keyCode,event);
     }
 
-    private void adjustSpaceHeight(Switch switchView, Space space) {
-        ViewGroup.LayoutParams layoutParams = space.getLayoutParams();
-        layoutParams.height = switchView.getHeight(); // Ajusta la altura del espacio según el tamaño del Switch
-        space.setLayoutParams(layoutParams);
-    }
+
 
 }

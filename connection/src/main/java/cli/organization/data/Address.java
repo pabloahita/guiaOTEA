@@ -8,8 +8,6 @@ import cli.organization.data.geo.City;
 import cli.organization.data.geo.Country;
 import cli.organization.data.geo.Province;
 import cli.organization.data.geo.Region;
-import otea.connection.caller.CitiesCaller;
-import otea.connection.caller.CountriesCaller;
 
 /**
  * <p>EN: Class that represents an address that belongs to an organization. Every organization is composed by a road type, a name, a main entry's number, a floor level, an apartment letter, a zip-code, a city an a country.</p>

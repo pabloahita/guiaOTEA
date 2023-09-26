@@ -1,11 +1,10 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace OTEAServer.Models
 {
     public class User
     {
-        public User(string emailUser, string userType, string first_name, string last_name, string passwordUser, long telephone, int? idOrganization, string? organizationType, string? illness)
+        public User(string emailUser, string userType, string first_name, string last_name, string passwordUser, long telephone, int? idOrganization, string? orgType, string? illness)
         {
             this.emailUser = emailUser;
             this.userType = userType;
@@ -14,35 +13,35 @@ namespace OTEAServer.Models
             this.passwordUser = passwordUser;
             this.telephone = telephone;
             this.idOrganization = idOrganization;
-            this.organizationType = organizationType;
+            this.orgType = orgType;
             this.illness = illness;
         }
 
-        [JsonProperty("emailUser")]
+        [JsonPropertyName("emailUser")]
         public string emailUser { get; set; }
 
-        [JsonProperty("first_name")]
+        [JsonPropertyName("first_name")]
         public string first_name { get; set; }
 
-        [JsonProperty("last_name")]
+        [JsonPropertyName("last_name")]
         public string last_name { get; set; }
 
-        [JsonProperty("passwordUser")]
+        [JsonPropertyName("passwordUser")]
         public string passwordUser { get; set; }
 
-        [JsonProperty("telephone")]
+        [JsonPropertyName("telephone")]
         public long telephone { get; set; }
 
-        [JsonProperty("userType")]
+        [JsonPropertyName("userType")]
         public string userType { get; set; }
 
-        [JsonProperty("idOrganization")]
+        [JsonPropertyName("idOrganization")]
         public int? idOrganization { get; set; }
 
-        [JsonProperty("organizationType")]
-        public string? organizationType { get; set; }
+        [JsonPropertyName("orgType")]
+        public string? orgType { get; set; }
 
-        [JsonProperty("illness")]
+        [JsonPropertyName("illness")]
         public string? illness { get; set; }
 
     }

@@ -47,7 +47,7 @@ namespace OTEAServer.Controllers
         [HttpGet("get")]
         public ActionResult<Organization> Get([FromQuery] int id,[FromQuery] string orgType,[FromQuery] string illness)
         {
-            var organization = _context.Organizations.FirstOrDefault(o=>o.IdOrganization==id && o.orgType==orgType && o.illness==illness);
+            var organization = _context.Organizations.FirstOrDefault(o=>o.idOrganization==id && o.orgType==orgType && o.illness==illness);
 
             if (organization == null)
                 return NotFound();
@@ -78,7 +78,7 @@ namespace OTEAServer.Controllers
         {
            _context.Organizations.Add(organization);
            _context.SaveChanges();
-           return CreatedAtAction(nameof(Get), new { id = organization.IdOrganization, organizationType=organization.orgType, illness=organization.illness }, organization);
+           return CreatedAtAction(nameof(Get), new { id = organization.idOrganization, organizationType=organization.orgType, illness=organization.illness }, organization);
         }
 
         // PUT action
@@ -86,21 +86,30 @@ namespace OTEAServer.Controllers
         public IActionResult Update([FromQuery] int id, [FromQuery] string orgType, [FromQuery] string illness, [FromBody] Organization organization)
         {
             // This code will update the mesa and return a result
-            if (id != organization.IdOrganization || orgType!=organization.orgType || illness!=organization.illness)
+            if (id != organization.idOrganization || orgType!=organization.orgType || illness!=organization.illness)
                 return BadRequest();
 
-            var existingOrganization = _context.Organizations.FirstOrDefault(o => o.IdOrganization == id && o.orgType == orgType && o.illness == illness);
+            var existingOrganization = _context.Organizations.FirstOrDefault(o => o.idOrganization == id && o.orgType == orgType && o.illness == illness);
             if (existingOrganization is null)
                 return NotFound();
 
-            existingOrganization.IdOrganization = id;
+            existingOrganization.idOrganization = id;
             existingOrganization.orgType = orgType;
             existingOrganization.illness = illness;
             existingOrganization.nameOrg = organization.nameOrg;
             existingOrganization.idAddress = organization.idAddress;
             existingOrganization.email = organization.email;
             existingOrganization.telephone = organization.telephone;
-            existingOrganization.information = organization.information;
+            existingOrganization.informationSpanish = organization.informationSpanish;
+            existingOrganization.informationEnglish = organization.informationEnglish;
+            existingOrganization.informationFrench = organization.informationFrench;
+            existingOrganization.informationBasque = organization.informationBasque;
+            existingOrganization.informationCatalan = organization.informationCatalan;
+            existingOrganization.informationDutch = organization.informationDutch;
+            existingOrganization.informationGalician = organization.informationGalician;
+            existingOrganization.informationGerman = organization.informationGerman;
+            existingOrganization.informationItalian = organization.informationItalian;
+            existingOrganization.informationPortuguese = organization.informationPortuguese;
             existingOrganization.emailOrgPrincipal = organization.emailOrgPrincipal;
             _context.SaveChanges();
 
@@ -112,7 +121,7 @@ namespace OTEAServer.Controllers
         public IActionResult Delete([FromQuery] int id, [FromQuery] string orgType, [FromQuery] string illness)
         {
             // This code will delete the mesa and return a result
-            var organization = _context.Organizations.FirstOrDefault(o => o.IdOrganization == id && o.orgType == orgType && o.illness == illness);
+            var organization = _context.Organizations.FirstOrDefault(o => o.idOrganization == id && o.orgType == orgType && o.illness == illness);
 
             if (organization is null)
                 return NotFound();

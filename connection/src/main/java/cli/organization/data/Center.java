@@ -7,8 +7,8 @@ import java.io.Serializable;
 public class Center implements Serializable {
 
 
-    @SerializedName("IdOrganization")
-    public int IdOrganization;
+    @SerializedName("idOrganization")
+    public int idOrganization;
 
     @SerializedName("orgType")
     public String orgType;
@@ -18,8 +18,26 @@ public class Center implements Serializable {
     @SerializedName("idCenter")
     public int idCenter;
 
-    @SerializedName("centerDescription")
-    public String centerDescription;
+    @SerializedName("descriptionEnglish")
+    public String descriptionEnglish;
+    @SerializedName("descriptionSpanish")
+    public String descriptionSpanish;
+    @SerializedName("descriptionFrench")
+    public String descriptionFrench;
+    @SerializedName("descriptionBasque")
+    public String descriptionBasque;
+    @SerializedName("descriptionCatalan")
+    public String descriptionCatalan;
+    @SerializedName("descriptionDutch")
+    public String descriptionDutch;
+    @SerializedName("descriptionGalician")
+    public String descriptionGalician;
+    @SerializedName("descriptionGerman")
+    public String descriptionGerman;
+    @SerializedName("descriptionItalian")
+    public String descriptionItalian;
+    @SerializedName("descriptionPortuguese")
+    public String descriptionPortuguese;
 
     @SerializedName("idAddress")
     public int idAddress;
@@ -31,12 +49,21 @@ public class Center implements Serializable {
     public String email;
 
 
-    public Center(int IdOrganization, String orgType, String illness,int idCenter, String centerDescription, int idAddress, long telephone, String email){
-        setIdOrganization(IdOrganization);
+    public Center(int idOrganization, String orgType, String illness,int idCenter, String descriptionEnglish, String descriptionSpanish, String descriptionFrench, String descriptionBasque, String descriptionCatalan, String descriptionDutch, String descriptionGalician, String descriptionGerman, String descriptionItalian, String descriptionPortuguese, int idAddress, long telephone, String email){
+        setIdOrganization(idOrganization);
         setOrgType(orgType);
         setIllness(illness);
         setIdCenter(idCenter);
-        setCenterDescription(centerDescription);
+        setDescriptionEnglish(descriptionEnglish);
+        setDescriptionSpanish(descriptionSpanish);
+        setDescriptionFrench(descriptionFrench);
+        setDescriptionBasque(descriptionBasque);
+        setDescriptionCatalan(descriptionCatalan);
+        setDescriptionDutch(descriptionDutch);
+        setDescriptionGalician(descriptionGalician);
+        setDescriptionGerman(descriptionGerman);
+        setDescriptionItalian(descriptionItalian);
+        setDescriptionPortuguese(descriptionPortuguese);
         setIdAddress(idAddress);
         setTelephone(telephone);
         setEmail(email);
@@ -50,21 +77,92 @@ public class Center implements Serializable {
         this.idCenter = idCenter;
     }
 
-    public String getCenterDescription() {
-        return centerDescription;
+    public String getDescriptionEnglish() {
+        return descriptionEnglish;
     }
 
-    public void setCenterDescription(String centerDescription) {
-        this.centerDescription = centerDescription;
+    public void setDescriptionEnglish(String descriptionEnglish) {
+        this.descriptionEnglish = descriptionEnglish;
     }
 
+    public String getDescriptionSpanish() {
+        return descriptionSpanish;
+    }
+
+    public void setDescriptionSpanish(String descriptionSpanish) {
+        this.descriptionSpanish = descriptionSpanish;
+    }
+
+    public String getDescriptionFrench() {
+        return descriptionFrench;
+    }
+
+    public void setDescriptionFrench(String descriptionFrench) {
+        this.descriptionFrench = descriptionFrench;
+    }
+
+    public String getDescriptionBasque() {
+        return descriptionBasque;
+    }
+
+    public void setDescriptionBasque(String descriptionBasque) {
+        this.descriptionBasque = descriptionBasque;
+    }
+
+    public String getDescriptionCatalan() {
+        return descriptionCatalan;
+    }
+
+    public void setDescriptionCatalan(String descriptionCatalan) {
+        this.descriptionCatalan = descriptionCatalan;
+    }
+
+    public String getDescriptionDutch() {
+        return descriptionDutch;
+    }
+
+    public void setDescriptionDutch(String descriptionDutch) {
+        this.descriptionDutch = descriptionDutch;
+    }
+
+    public String getDescriptionGalician() {
+        return descriptionGalician;
+    }
+
+    public void setDescriptionGalician(String descriptionGalician) {
+        this.descriptionGalician = descriptionGalician;
+    }
+
+    public String getDescriptionGerman() {
+        return descriptionGerman;
+    }
+
+    public void setDescriptionGerman(String descriptionGerman) {
+        this.descriptionGerman = descriptionGerman;
+    }
+
+    public String getDescriptionItalian() {
+        return descriptionItalian;
+    }
+
+    public void setDescriptionItalian(String descriptionItalian) {
+        this.descriptionItalian = descriptionItalian;
+    }
+
+    public String getDescriptionPortuguese() {
+        return descriptionPortuguese;
+    }
+
+    public void setDescriptionPortuguese(String descriptionPortuguese) {
+        this.descriptionPortuguese = descriptionPortuguese;
+    }
 
     public int getIdOrganization() {
-        return IdOrganization;
+        return idOrganization;
     }
 
     public void setIdOrganization(int idOrganization) {
-        this.IdOrganization = idOrganization;
+        this.idOrganization = idOrganization;
     }
 
     public String getOrgType() {

@@ -5,14 +5,10 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,17 +16,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -47,14 +36,14 @@ import cli.user.User;
 import gui.adapters.*;
 import misc.FieldChecker;
 import misc.PasswordCodifier;
-import otea.connection.caller.AddressesCaller;
-import otea.connection.caller.CentersCaller;
-import otea.connection.caller.CitiesCaller;
-import otea.connection.caller.CountriesCaller;
-import otea.connection.caller.OrganizationsCaller;
-import otea.connection.caller.ProvincesCaller;
-import otea.connection.caller.RegionsCaller;
-import otea.connection.caller.UsersCaller;
+import otea.connection.controller.AddressesController;
+import otea.connection.controller.CentersController;
+import otea.connection.controller.CitiesController;
+import otea.connection.controller.CountriesController;
+import otea.connection.controller.OrganizationsController;
+import otea.connection.controller.ProvincesController;
+import otea.connection.controller.RegionsController;
+import otea.connection.controller.UsersController;
 
 public class RegisterOrganization extends AppCompatActivity {
 
@@ -139,12 +128,12 @@ public class RegisterOrganization extends AppCompatActivity {
         String[] password={""};
         long[] dirPhone={-1};
 
-        List<Organization> orgs = OrganizationsCaller.GetAllEvaluatedOrganizations();
+        List<Organization> orgs = OrganizationsController.GetAllEvaluatedOrganizations();
         int idOrganization = orgs.size() + 1;
         String orgType = "EVALUATED";
         String illness = "AUTISM";
 
-        int idAddress = AddressesCaller.GetAll().size() + 1;
+        int idAddress = AddressesController.GetAll().size() + 1;
         Address address = (Address) getIntent().getSerializableExtra("address");
         Organization organization = (Organization) getIntent().getSerializableExtra("organization");
 
@@ -712,13 +701,13 @@ public class RegisterOrganization extends AppCompatActivity {
                     v.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            AddressesCaller.Create(address);
-                            OrganizationsCaller.Create(organization);
-                            UsersCaller.Create(directorOrg);
+                            AddressesController.Create(address);
+                            OrganizationsController.Create(organization);
+                            UsersController.Create(directorOrg);
                             organization.setEmailOrgPrincipal(directorOrg.getEmailUser());
-                            OrganizationsCaller.Update(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),organization);
+                            OrganizationsController.Update(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),organization);
 
-                            CentersCaller.Create(new Center(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),1,"Sede principal",idAddress,organization.telephone,email[0]));
+                            CentersController.Create(new Center(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),1,"Sede principal",idAddress,organization.telephone,email[0]));
 
 
                             Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
@@ -779,14 +768,14 @@ public class RegisterOrganization extends AppCompatActivity {
     }
     public List<Country> getCountries(){
         if(countries==null){
-            countries= CountriesCaller.GetAll(Locale.getDefault().getLanguage());
+            countries= CountriesController.GetAll(Locale.getDefault().getLanguage());
         }
         return countries;
     }
 
     public List<Region> getRegions(String idCountry){
         if(regions==null){
-            regions= RegionsCaller.GetRegionsByCountry(idCountry);
+            regions= RegionsController.GetRegionsByCountry(idCountry);
             currIdCountry=idCountry;
         }
         return regions;
@@ -794,7 +783,7 @@ public class RegisterOrganization extends AppCompatActivity {
 
     public List<Province> getProvinces(int idRegion,String idCountry){
         if(provinces==null || currIdRegion!=idRegion || currIdCountry!=idCountry){
-            provinces= ProvincesCaller.GetProvincesByRegion(idRegion,idCountry);
+            provinces= ProvincesController.GetProvincesByRegion(idRegion,idCountry);
             currIdRegion=idRegion;
             currIdCountry=idCountry;
         }
@@ -803,7 +792,7 @@ public class RegisterOrganization extends AppCompatActivity {
 
     public List<City> getCities(int idProvince, int idRegion,String idCountry){
         if(cities==null || currIdProvince!=currIdProvince || currIdRegion!=idRegion || currIdCountry!=idCountry){
-            cities= CitiesCaller.GetCitiesByProvince(idProvince,idRegion,idCountry);
+            cities= CitiesController.GetCitiesByProvince(idProvince,idRegion,idCountry);
             currIdProvince=idProvince;
             currIdRegion=idRegion;
             currIdCountry=idCountry;

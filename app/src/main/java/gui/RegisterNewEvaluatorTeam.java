@@ -8,11 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,27 +19,19 @@ import com.fundacionmiradas.indicatorsevaluation.R;
 
 ;
 import java.util.Calendar;
-import java.util.Date;
-import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
 import cli.organization.Organization;
 import cli.organization.data.EvaluatorTeam;
-import cli.organization.data.EvaluatorTeamMember;
 import cli.user.User;
 import gui.adapters.OrgsAdapter;
 import gui.adapters.UsersAdapter;
 import misc.DateFormatter;
-import otea.connection.caller.EvaluatorTeamMembersCaller;
-import otea.connection.caller.EvaluatorTeamsCaller;
-import otea.connection.caller.OrganizationsCaller;
-import otea.connection.caller.UsersCaller;
+import otea.connection.controller.EvaluatorTeamsController;
+import otea.connection.controller.OrganizationsController;
+import otea.connection.controller.UsersController;
 
 public class RegisterNewEvaluatorTeam extends AppCompatActivity {
 
@@ -57,8 +47,8 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_new_evaluator_team);
 
-        List<Organization> organizations = OrganizationsCaller.GetAllEvaluatedOrganizations();
-        List<User> usersEvaluator = UsersCaller.GetAllOrgUsersByOrganization(1, "EVALUATOR", "AUTISM");
+        List<Organization> organizations = OrganizationsController.GetAllEvaluatedOrganizations();
+        List<User> usersEvaluator = UsersController.GetAllOrgUsersByOrganization(1, "EVALUATOR", "AUTISM");
 
         if (organizations.size() > 0 && usersEvaluator.size()>0) {
 
@@ -112,7 +102,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     organizationSelected[0]= (Organization) parent.getItemAtPosition(position);
-                    users[0] = UsersCaller.GetAllOrgUsersByOrganization(organizationSelected[0].getIdOrganization(), organizationSelected[0].getOrganizationType(), organizationSelected[0].getIllness());
+                    users[0] = UsersController.GetAllOrgUsersByOrganization(organizationSelected[0].getIdOrganization(), organizationSelected[0].getOrganizationType(), organizationSelected[0].getIllness());
                     usersAdapter[0] = new UsersAdapter(getApplicationContext(), users[0]);
                     usersAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
                     //consultantSpinner.setAdapter(usersAdapter[0]);
@@ -361,7 +351,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                         @Override
                         public void run() {
                             if(organizationSelected[0]!=null && membersSelected[0]!=null && membersSelected[1]!=null && membersSelected[2]!=null && !patient.getText().toString().equals("") && !relative.getText().toString().equals("") && !creationDate.getText().toString().equals("") && !evalDate1.getText().toString().equals("") && !evalDate2.getText().toString().equals("") && !evalDate3.getText().toString().equals("") && !evalDate4.getText().toString().equals("") && !consultant.toString().equals("")){
-                                int idEvaluatorTeam= EvaluatorTeamsCaller.GetAllByOrganization(1,"EVALUATOR","AUTISM").size()+1;
+                                int idEvaluatorTeam= EvaluatorTeamsController.GetAllByOrganization(1,"EVALUATOR","AUTISM").size()+1;
 
                                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -372,13 +362,9 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                                 long eval_date4= DateFormatter.formatDate(evalDate4.getText().toString());
                                 EvaluatorTeam evaluatorTeam=new EvaluatorTeam(idEvaluatorTeam, creation_date, 1, "EVALUATOR", "AUTISM", membersSelected[0].getEmailUser(), membersSelected[1].getEmailUser(), membersSelected[2].getEmailUser(), patient.getText().toString(), relative.getText().toString(),eval_date1,eval_date2,eval_date3,eval_date4,observations.getText().toString());
 
-                                List<EvaluatorTeamMember> members=new LinkedList<>();
-                                for(User user:membersSelected){
-                                    EvaluatorTeamMember member=new EvaluatorTeamMember(user.getEmailUser(),idEvaluatorTeam,1,"EVALUATOR","AUTISM");
-                                    members.add(member);
-                                }
 
-                                EvaluatorTeamsCaller.Create(evaluatorTeam);
+
+                                EvaluatorTeamsController.Create(evaluatorTeam);
 
 
                                 Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);

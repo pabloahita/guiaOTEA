@@ -1,6 +1,7 @@
 package gui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,27 +9,27 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
-import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 import cli.indicators.Indicator;
 import cli.organization.Organization;
+import cli.organization.data.Center;
 import cli.organization.data.EvaluatorTeam;
-import gui.adapters.CountryAdapter;
+import gui.adapters.CenterAdapter;
+import gui.adapters.EvalTypesAdapter;
 import gui.adapters.EvaluatorTeamsAdapter;
 import gui.adapters.OrgsAdapter;
-import gui.adapters.ProvinceAdapter;
-import otea.connection.caller.EvaluatorTeamsCaller;
-import otea.connection.caller.EvidencesCaller;
-import otea.connection.caller.IndicatorsCaller;
-import otea.connection.caller.OrganizationsCaller;
+import otea.connection.controller.CentersController;
+import otea.connection.controller.EvaluatorTeamsController;
+import otea.connection.controller.EvidencesController;
+import otea.connection.controller.IndicatorsController;
+import otea.connection.controller.OrganizationsController;
 
 public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
 
@@ -37,23 +38,31 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_to_do_indicators_evaluations);
 
-        ProgressBar progressBar=findViewById(R.id.progressBar);
-        TextView textView=findViewById(R.id.loading_indicators);
+        CardView final_background=findViewById(R.id.cardView2);
 
-        progressBar.setVisibility(View.GONE);
-        textView.setVisibility(View.GONE);
+        final_background.setVisibility(View.GONE);
 
-        List<Organization> organizations= OrganizationsCaller.GetAllEvaluatedOrganizations();
-        List<EvaluatorTeam> evaluatorTeams= EvaluatorTeamsCaller.GetAllByOrganization(1,"EVALUATOR","AUTISM");
+        List<Organization> organizations= OrganizationsController.GetAllEvaluatedOrganizations();
+        List<EvaluatorTeam> evaluatorTeams= EvaluatorTeamsController.GetAllByOrganization(1,"EVALUATOR","AUTISM");
+        List<String> evaluationTypes=new LinkedList<String>();
+        evaluationTypes.add(getString(R.string.complete));
+        evaluationTypes.add(getString(R.string.simple));
+        EvalTypesAdapter[] evalTypesAdapter={new EvalTypesAdapter(SelectToDoIndicatorsEvaluations.this,evaluationTypes)};
+        evalTypesAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
         if(organizations.size()>0 && evaluatorTeams.size()>0){
 
             Spinner spinnerEvaluatedOrganization=findViewById(R.id.spinner_select_organization);
+            Spinner spinnerCenter=findViewById(R.id.spinner_select_center);
             Spinner spinnerEvaluatorTeam=findViewById(R.id.select_evaluator_team);
 
             OrgsAdapter[] orgsAdapter= {new OrgsAdapter(SelectToDoIndicatorsEvaluations.this, organizations)};
             orgsAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
 
             spinnerEvaluatedOrganization.setAdapter(orgsAdapter[0]);
+
+            CenterAdapter[] centerAdapter=new CenterAdapter[1];
+
+
 
 
             EvaluatorTeamsAdapter[] evaluatorTeamsAdapter={new EvaluatorTeamsAdapter(SelectToDoIndicatorsEvaluations.this,evaluatorTeams)};
@@ -64,6 +73,8 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
 
             Organization[] evaluatedOrganization = new Organization[1];
 
+            Center[] center=new Center[1];
+
             EvaluatorTeam[] evaluatorTeam = new EvaluatorTeam[1];
 
             spinnerEvaluatedOrganization.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -72,10 +83,31 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
 
                     evaluatedOrganization[0] = orgsAdapter[0].getItem(position);
 
+                    centerAdapter[0]=new CenterAdapter(SelectToDoIndicatorsEvaluations.this, CentersController.GetAllByOrganization(evaluatedOrganization[0]));
+
+                    centerAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+
+                    spinnerCenter.setAdapter(centerAdapter[0]);
+
+                    
+
+
                 }
 
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            spinnerCenter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view,int position, long id) {
+                    center[0]=centerAdapter[0].getItem(position);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
 
                 }
             });
@@ -99,8 +131,7 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    textView.setVisibility(View.VISIBLE);
+                    final_background.setVisibility(View.VISIBLE);
                     spinnerEvaluatorTeam.setEnabled(false);
                     spinnerEvaluatedOrganization.setEnabled(false);
                     button.setEnabled(false);
@@ -108,12 +139,12 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
                     v.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            List<Indicator> indicators= IndicatorsCaller.obtainIndicators("AUTISM");
+                            List<Indicator> indicators= IndicatorsController.obtainIndicators("AUTISM");
                             int num_indicators=indicators.size();
                             //Indicator i=indicators.get(current_indicator);
                             for(Indicator i: indicators) {
                                 if (i.getEvidences() == null) {//En caso de que no se hayan descargado las evidencias del indicador actual
-                                    i.setEvidences(EvidencesCaller.obtainEvidences(i.getIdIndicator(), i.getIndicatorType(), i.getIndicatorVersion()));
+                                    i.setEvidences(EvidencesController.GetAllByIndicator(i.getIdIndicator(), i.getIndicatorType(), i.getIdAmbit(), i.getIndicatorVersion()));
                                 }
                             }
                             int evidences_per_indicator=indicators.get(0).getEvidences().size();

@@ -55,7 +55,7 @@
     <string name="add_new_evaluated_org_center">Add new evaluated organization center</string>
     <string name="modify_database">Modify database</string>
     <string name="modify_indicators">Modify indicators</string>
-    <string name="recent_activity">Recent activity</string>
+    <string name="recent_activity">Main menu</string>
     <string name="help">Help</string>
     <string name="view_indicators_evolution">View realized tests</string>
     <string name="login_failed">Login failed. Please check the email and the password or sign up to the app</string>
@@ -173,7 +173,7 @@
     <string name="going_center">Going to new center form... Please wait a few seconds...</string>
     <string name="org_data">Organization data</string>
     <string name="org_director">Organization director</string>
-    <string name="org_reg_ins">To register the organization please fill all the fields, scrolling down to see all of them and completing the registration.</string>
+    <string name="org_reg_ins">To register an evaluated organization you must fill out all fields correctly and allow the processing of said data</string>
     <string name="first_name_user_menu">First Name: name</string>
     <string name="last_name_user_menu">Last Name: last name</string>
     <string name="org_name_user_menu">Organization: organization</string>
@@ -185,6 +185,16 @@
     <string name="other_members">Other members</string>
     <string name="eval_team_ins">To register the evaluator team please fill all the fields, scrolling down to see all of them and completing the registration.</string>
     <string name="save_changes">Save changes</string>
+    <string name="center">Center of the organization</string>
+    <string name="edit_indicators">Edit indicators</string>
+    <string name="edit_org">Edit evaluated organization</string>
+    <string name="edit_users">Edit users</string>
+    <string name="center_info">Center information</string>
+    <string name="center_reg_ins">In order to register an external organization center, you must fill in all the fields located at the bottom of this screen</string>
+    <string name="ambit_caption">Description of the scope</string>
+    <string name="eval_type">Type of evaluation</string>
+    <string name="simple">Simple evaluation</string>
+    <string name="complete">Complete evaluation</string>
 
 
 </resources>

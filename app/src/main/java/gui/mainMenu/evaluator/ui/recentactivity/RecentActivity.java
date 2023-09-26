@@ -14,16 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.fundacionmiradas.indicatorsevaluation.R;
-import com.fundacionmiradas.indicatorsevaluation.databinding.FragmentRecentActivityAdminBinding;
-import com.fundacionmiradas.indicatorsevaluation.databinding.FragmentRecentEvaluatedBinding;
 import com.fundacionmiradas.indicatorsevaluation.databinding.FragmentRecentEvaluatorBinding;
 
 import java.util.Locale;
 
 import cli.organization.Organization;
 import cli.user.User;
-import otea.connection.caller.OrganizationsCaller;
+import otea.connection.controller.OrganizationsController;
 
 public class RecentActivity extends Fragment {
 
@@ -47,7 +44,7 @@ public class RecentActivity extends Fragment {
         Organization org=(Organization) getActivity().getIntent().getSerializableExtra("org");
 
         if(org==null) {
-            org = OrganizationsCaller.Get(user.getIdOrganization(), user.getOrgType(), user.getIllness());
+            org = OrganizationsController.Get(user.getIdOrganization(), user.getOrgType(), user.getIllness());
             getActivity().getIntent().putExtra("org",org);
         }
 
@@ -126,24 +123,7 @@ public class RecentActivity extends Fragment {
         });
 
         binding.imageButton3.setOnClickListener(v -> {
-            binding.cardView2.setVisibility(View.VISIBLE);
 
-            v.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent=new Intent(getContext(),gui.RegisterOrganization.class);
-                    intent.putExtra("user",getActivity().getIntent().getSerializableExtra("user"));
-                    intent.putExtra("org",getActivity().getIntent().getSerializableExtra("org"));
-                    startActivity(intent);
-
-                    v.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            binding.cardView2.setVisibility(View.GONE);
-                        }
-                    }, 50);
-                }
-            }, 50);
         });
 
         binding.imageButton4.setOnClickListener(v -> {
@@ -152,7 +132,7 @@ public class RecentActivity extends Fragment {
             v.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent=new Intent(getContext(),gui.RegisterNewCenter.class);
+                    Intent intent=new Intent(getContext(),gui.RegisterOrganization.class);
                     intent.putExtra("user",getActivity().getIntent().getSerializableExtra("user"));
                     intent.putExtra("org",getActivity().getIntent().getSerializableExtra("org"));
                     startActivity(intent);
@@ -174,7 +154,7 @@ public class RecentActivity extends Fragment {
             v.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent=new Intent(getContext(),gui.RegisterNewEvaluatorTeam.class);
+                    Intent intent=new Intent(getContext(),gui.RegisterNewCenter.class);
                     intent.putExtra("user",getActivity().getIntent().getSerializableExtra("user"));
                     intent.putExtra("org",getActivity().getIntent().getSerializableExtra("org"));
                     startActivity(intent);
@@ -191,7 +171,24 @@ public class RecentActivity extends Fragment {
         });
 
         binding.imageButton6.setOnClickListener(v -> {
+            binding.cardView2.setVisibility(View.VISIBLE);
 
+            v.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent=new Intent(getContext(),gui.RegisterNewEvaluatorTeam.class);
+                    intent.putExtra("user",getActivity().getIntent().getSerializableExtra("user"));
+                    intent.putExtra("org",getActivity().getIntent().getSerializableExtra("org"));
+                    startActivity(intent);
+
+                    v.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.cardView2.setVisibility(View.GONE);
+                        }
+                    }, 50);
+                }
+            }, 50);
         });
 
 

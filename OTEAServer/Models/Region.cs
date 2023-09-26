@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace OTEAServer.Models
 {
@@ -11,13 +10,13 @@ namespace OTEAServer.Models
             this.nameRegion = nameRegion;
         }
 
-        [JsonProperty("idRegion")]
+        [JsonPropertyName("idRegion")]
         public int idRegion { get; set; }
 
-        [JsonProperty("idCountry")]
+        [JsonPropertyName("idCountry")]
         public string idCountry { get; set; }
 
-        [JsonProperty("nameRegion")]
+        [JsonPropertyName("nameRegion")]
         public string nameRegion { get; set; }
 
     }

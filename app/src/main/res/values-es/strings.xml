@@ -27,7 +27,7 @@
     <string name="add_new_evaluated_org_center">Añadir nuevo centro de organización evaluadora</string>
     <string name="modify_database">Modificar base de datos</string>
     <string name="modify_indicators">Modificar indicadores</string>
-    <string name="recent_activity">Actividad reciente</string>
+    <string name="recent_activity">Menú principal</string>
     <string name="help">Ayuda</string>
     <string name="view_indicators_evolution">"Ver pruebas realizadas "</string>
     <string name="login_failed">Inicio de sesión fallido. Por favor compruebe el email y la contraseña o regístrese en la aplicación</string>
@@ -138,7 +138,7 @@
     <string name="going_center">Ir al formulario de nuevo centro... Por favor, espere unos segundos...</string>
     <string name="org_data">Datos de la organización</string>
     <string name="org_director">Director de la organización</string>
-    <string name="org_reg_ins">Para registrar la organización, complete todos los campos, desplácese hacia abajo para verlos todos y complete el registro.</string>
+    <string name="org_reg_ins">Para registrar una organización evaluada debe rellenar todos los campos correctamente y permitir el tratamiento de dichos datos</string>
     <string name="first_name_user_menu">Nombre: nombre</string>
     <string name="last_name_user_menu">Apellido: apellido</string>
     <string name="org_name_user_menu">Organización: org</string>
@@ -150,5 +150,15 @@
     <string name="other_members">Otros miembros</string>
     <string name="eval_team_ins">Para registrar al equipo evaluador, por favor rellene todos los campos, desplazándose hacia abajo para verlos todos y complete el registro</string>
     <string name="save_changes">Guardar cambios</string>
+    <string name="center">Centro de la organización</string>
+    <string name="edit_indicators">Editar indicadores</string>
+    <string name="edit_org">Edición de organización evaluada</string>
+    <string name="edit_users">Editar usuarios</string>
+    <string name="center_info">Información del centro</string>
+    <string name="center_reg_ins">Para poder registrar un centro de organización externa, debe rellenar todos los campos situados en la parte inferior de esta pantalla. Si no se rellena alguno de los campos, se le aviará de cual es para que sea rellenado.</string>
+    <string name="ambit_caption">Descripción del ámbito</string>
+    <string name="eval_type">Tipo de evaluación</string>
+    <string name="simple">Evaluación simple</string>
+    <string name="complete">Evaluación completa</string>
 
 </resources>

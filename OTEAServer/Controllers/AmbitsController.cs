@@ -63,6 +63,13 @@ namespace OTEAServer.Controllers
             existingAmbit.descriptionEnglish = ambit.descriptionEnglish;
             existingAmbit.descriptionSpanish = ambit.descriptionSpanish;
             existingAmbit.descriptionFrench = ambit.descriptionFrench;
+            existingAmbit.descriptionBasque = ambit.descriptionBasque;
+            existingAmbit.descriptionCatalan = ambit.descriptionCatalan;
+            existingAmbit.descriptionDutch = ambit.descriptionDutch;
+            existingAmbit.descriptionGalician = ambit.descriptionGalician;
+            existingAmbit.descriptionGerman = ambit.descriptionGerman;
+            existingAmbit.descriptionItalian = ambit.descriptionItalian;
+            existingAmbit.descriptionPortuguese = ambit.descriptionPortuguese;
             _context.SaveChanges();
 
             return Ok(existingAmbit);

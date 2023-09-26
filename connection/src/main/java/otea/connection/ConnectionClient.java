@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ConnectionClient {
 
-    private static final String BASE_URL = "https://oteawebapp-prueba1.azurewebsites.net"; // Cambiar al enlace definitivo
+    private static final String BASE_URL = "https://guiaotea.azurewebsites.net/";
 
     private OkHttpClient client;
     private static Retrofit retrofit;

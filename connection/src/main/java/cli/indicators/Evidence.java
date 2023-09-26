@@ -12,23 +12,47 @@ public class Evidence implements Serializable {
     public int idIndicator;
     @SerializedName("indicatorType")
     public String indicatorType;
+    @SerializedName("idAmbit")
+    public int idAmbit;
     @SerializedName("descriptionEnglish")
     public String descriptionEnglish;
     @SerializedName("descriptionSpanish")
     public String descriptionSpanish;
     @SerializedName("descriptionFrench")
     public String descriptionFrench;
+    @SerializedName("descriptionBasque")
+    public String descriptionBasque;
+    @SerializedName("descriptionCatalan")
+    public String descriptionCatalan;
+    @SerializedName("descriptionDutch")
+    public String descriptionDutch;
+    @SerializedName("descriptionGalician")
+    public String descriptionGalician;
+    @SerializedName("descriptionGerman")
+    public String descriptionGerman;
+    @SerializedName("descriptionItalian")
+    public String descriptionItalian;
+    @SerializedName("descriptionPortuguese")
+    public String descriptionPortuguese;
     @SerializedName("evidenceValue")
     public int evidenceValue;
     @SerializedName("indicatorVersion")
     public int indicatorVersion;
-    public Evidence(int idEvidence, int idIndicator, String indicatorType, String descriptionEnglish,String descriptionSpanish,String descriptionFrench, int evidenceValue, int indicatorVersion){
+    public Evidence(int idEvidence, int idIndicator, String indicatorType, int idAmbit, String descriptionEnglish, String descriptionSpanish, String descriptionFrench, String descriptionBasque, String descriptionCatalan, String descriptionDutch, String descriptionGalician, String descriptionGerman, String descriptionItalian, String descriptionPortuguese, int evidenceValue, int indicatorVersion){
         setIdEvidence(idEvidence);
         setIdIndicator(idIndicator);
         setIndicatorType(indicatorType);
+        setIdAmbit(idAmbit);
         setDescriptionEnglish(descriptionEnglish);
         setDescriptionSpanish(descriptionSpanish);
         setDescriptionFrench(descriptionFrench);
+        setDescriptionBasque(descriptionBasque);
+        setDescriptionCatalan(descriptionCatalan);
+        setDescriptionDutch(descriptionDutch);
+        setDescriptionGalician(descriptionGalician);
+        setDescriptionGerman(descriptionGerman);
+        setDescriptionItalian(descriptionItalian);
+        setDescriptionPortuguese(descriptionPortuguese);
         setEvidenceValue(evidenceValue);
         setIndicatorVersion(indicatorVersion);
     }
@@ -85,6 +109,62 @@ public class Evidence implements Serializable {
         this.descriptionFrench = descriptionFrench;
     }
 
+    public String getDescriptionBasque() {
+        return descriptionBasque;
+    }
+
+    public void setDescriptionBasque(String descriptionBasque) {
+        this.descriptionBasque = descriptionBasque;
+    }
+
+    public String getDescriptionCatalan() {
+        return descriptionCatalan;
+    }
+
+    public void setDescriptionCatalan(String descriptionCatalan) {
+        this.descriptionCatalan = descriptionCatalan;
+    }
+
+    public String getDescriptionDutch() {
+        return descriptionDutch;
+    }
+
+    public void setDescriptionDutch(String descriptionDutch) {
+        this.descriptionDutch = descriptionDutch;
+    }
+
+    public String getDescriptionGalician() {
+        return descriptionGalician;
+    }
+
+    public void setDescriptionGalician(String descriptionGalician) {
+        this.descriptionGalician = descriptionGalician;
+    }
+
+    public String getDescriptionGerman() {
+        return descriptionGerman;
+    }
+
+    public void setDescriptionGerman(String descriptionGerman) {
+        this.descriptionGerman = descriptionGerman;
+    }
+
+    public String getDescriptionItalian() {
+        return descriptionItalian;
+    }
+
+    public void setDescriptionItalian(String descriptionItalian) {
+        this.descriptionItalian = descriptionItalian;
+    }
+
+    public String getDescriptionPortuguese() {
+        return descriptionPortuguese;
+    }
+
+    public void setDescriptionPortuguese(String descriptionPortuguese) {
+        this.descriptionPortuguese = descriptionPortuguese;
+    }
+
     public int getValue(){
         return evidenceValue;
     }
@@ -103,5 +183,13 @@ public class Evidence implements Serializable {
 
     public void setIndicatorVersion(int indicatorVersion) {
         this.indicatorVersion = indicatorVersion;
+    }
+
+    public int getIdAmbit() {
+        return idAmbit;
+    }
+
+    public void setIdAmbit(int idAmbit) {
+        this.idAmbit = idAmbit;
     }
 }

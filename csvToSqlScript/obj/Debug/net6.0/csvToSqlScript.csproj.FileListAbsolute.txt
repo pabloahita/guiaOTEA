@@ -1,0 +1,17 @@
+/home/pablo/StudioProjects/tfg2223/csvToSqlScript/bin/Debug/net6.0/csvToSqlScript
+/home/pablo/StudioProjects/tfg2223/csvToSqlScript/bin/Debug/net6.0/csvToSqlScript.deps.json
+/home/pablo/StudioProjects/tfg2223/csvToSqlScript/bin/Debug/net6.0/csvToSqlScript.runtimeconfig.json
+/home/pablo/StudioProjects/tfg2223/csvToSqlScript/bin/Debug/net6.0/csvToSqlScript.dll
+/home/pablo/StudioProjects/tfg2223/csvToSqlScript/bin/Debug/net6.0/csvToSqlScript.pdb
+/home/pablo/StudioProjects/tfg2223/csvToSqlScript/obj/Debug/net6.0/csvToSqlScript.csproj.AssemblyReference.cache
+/home/pablo/StudioProjects/tfg2223/csvToSqlScript/obj/Debug/net6.0/csvToSqlScript.GeneratedMSBuildEditorConfig.editorconfig
+/home/pablo/StudioProjects/tfg2223/csvToSqlScript/obj/Debug/net6.0/csvToSqlScript.AssemblyInfoInputs.cache
+/home/pablo/StudioProjects/tfg2223/csvToSqlScript/obj/Debug/net6.0/csvToSqlScript.AssemblyInfo.cs
+/home/pablo/StudioProjects/tfg2223/csvToSqlScript/obj/Debug/net6.0/csvToSqlScript.csproj.CoreCompileInputs.cache
+/home/pablo/StudioProjects/tfg2223/csvToSqlScript/obj/Debug/net6.0/csvToSqlScript.dll
+/home/pablo/StudioProjects/tfg2223/csvToSqlScript/obj/Debug/net6.0/refint/csvToSqlScript.dll
+/home/pablo/StudioProjects/tfg2223/csvToSqlScript/obj/Debug/net6.0/csvToSqlScript.pdb
+/home/pablo/StudioProjects/tfg2223/csvToSqlScript/obj/Debug/net6.0/csvToSqlScript.genruntimeconfig.cache
+/home/pablo/StudioProjects/tfg2223/csvToSqlScript/obj/Debug/net6.0/ref/csvToSqlScript.dll
+/home/pablo/StudioProjects/tfg2223/csvToSqlScript/bin/Debug/net6.0/GTranslate.dll
+/home/pablo/StudioProjects/tfg2223/csvToSqlScript/obj/Debug/net6.0/csvToSqlScript.csproj.CopyComplete

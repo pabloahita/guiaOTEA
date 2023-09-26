@@ -57,7 +57,7 @@
     <string name="add_new_evaluated_org_center">Nieuw beoordeeld organisatiecentrum toevoegen</string>
     <string name="modify_database">Database aanpassen</string>
     <string name="modify_indicators">Indicatoren aanpassen</string>
-    <string name="recent_activity">Recente activiteit</string>
+    <string name="recent_activity">Hoofdmenu</string>
     <string name="help">Help</string>
     <string name="view_indicators_evolution">Bekijk uitgevoerde tests</string>
     <string name="login_failed">Inloggen mislukt. Controleer de e-mail en het wachtwoord of meld je aan bij de app</string>
@@ -177,7 +177,7 @@
     <string name="going_center">Naar het formulier voor het nieuwe centrum gaan... Even geduld a.u.b., enkele seconden...</string>
     <string name="org_data">Organisatiegegevens</string>
     <string name="org_director">Organisatiedirecteur</string>
-    <string name="org_reg_ins">Om de organisatie te registreren, vul alle velden in, scroll naar beneden om alles te zien en voltooi de registratie.</string>
+    <string name="org_reg_ins">Om een ​​geëvalueerde organisatie te registreren, moet u alle velden correct invullen en de verwerking van genoemde gegevens toestaan</string>
     <string name="first_name_user_menu">Voornaam: voornaam</string>
     <string name="last_name_user_menu">Achternaam: achternaam</string>
     <string name="org_name_user_menu">Organisatie: organisatie</string>
@@ -189,6 +189,16 @@
     <string name="other_members">Andere leden</string>
     <string name="eval_team_ins">Om het evaluatieteam te registreren, vul alle velden in, scroll naar beneden om ze allemaal te zien, en voltooi de registratie</string>
     <string name="save_changes">Wijzigingen opslaan</string>
+    <string name="center">Centrum van de organisatie</string>
+    <string name="edit_indicators">Bewerk indicatoren</string>
+    <string name="edit_org">Bewerk de geëvalueerde organisatie</string>
+    <string name="edit_users">Gebruikers bewerken</string>
+    <string name="center_info">Center Informatie</string>
+    <string name="center_reg_ins">Om een ​​extern organisatiecentrum te registreren, moet u alle velden onderaan dit scherm invullen</string>
+    <string name="ambit_caption">Beschrijving van de reikwijdte</string>
+    <string name="eval_type">Type evaluatie</string>
+    <string name="simple">Eenvoudige evaluatie</string>
+    <string name="complete">Volledige evaluatie</string>
 
 
 </resources>

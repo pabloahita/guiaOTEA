@@ -41,24 +41,10 @@ public class MainMenu extends AppCompatActivity {
         setSupportActionBar(binding.appBarMainMenu.toolbarEvaluated);
 
 
-
-        binding.appBarMainMenu.progressBar2.setVisibility(View.GONE);
-        binding.appBarMainMenu.pleaseWait2.setVisibility(View.GONE);
-
-        binding.appBarMainMenu.fabEvaluated.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-
-
-
-
         DrawerLayout drawer = binding.drawerLayout;
 
         User user= (User) getIntent().getSerializableExtra("user");
+
         NavigationView navigationView = binding.navView;
         View header=navigationView.getHeaderView(0);
         TextView userName=header.findViewById(R.id.user_complete_name_evaluated);

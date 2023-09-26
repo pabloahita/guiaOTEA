@@ -17,11 +17,11 @@ public interface EvaluatorTeamsApi {
     @GET("EvaluatorTeams/all")
     Call<List<EvaluatorTeam>> GetAll();
 
-    @GET("EvaluatorTeams/allByOrg")
-    Call<List<EvaluatorTeam>> GetAllByOrganization(@Query("id") int id, @Query("orgType") String orgType,@Query("illness") String illness);
+    @GET("EvaluatorTeams/allByCenter")
+    Call<List<EvaluatorTeam>> GetAllByCenter(@Query("id") int id, @Query("orgType") String orgType, @Query("idCenter") String idCenter, @Query("illness") String illness);
 
     @GET("EvaluatorTeams/get")
-    Call<EvaluatorTeam> Get(@Query("id") int id,@Query("idEvaluatorOrg") int idEvaluatorOrg,@Query("orgType") String orgType,@Query("illness") String illness);
+    Call<EvaluatorTeam> Get(@Query("id") int id, @Query("idEvaluatorOrg") int idEvaluatorOrg, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrg") int idEvaluatedOrg, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("idCenter") int idCenter, @Query("illness") String illness);
 
     // POST action
     @POST("EvaluatorTeams")
@@ -29,9 +29,9 @@ public interface EvaluatorTeamsApi {
 
     // PUT action
     @PUT("EvaluatorTeams")
-    Call<EvaluatorTeam> Update(@Query("id") int id,@Query("idEvaluatorOrg") int idEvaluatorOrg,@Query("orgType") String orgType,@Query("illness") String illness,@Body EvaluatorTeam evaluatorTeam);
+    Call<EvaluatorTeam> Update(@Query("id") int id, @Query("idEvaluatorOrg") int idEvaluatorOrg, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrg") int idEvaluatedOrg, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("idCenter") int idCenter, @Query("illness") String illness,@Body EvaluatorTeam evaluatorTeam);
 
     // DELETE action
     @DELETE("EvaluatorTeams")
-    Call<EvaluatorTeam> Delete(@Query("id") int id,@Query("idEvaluatorOrg") int idEvaluatorOrg,@Query("orgType") String orgType,@Query("illness") String illness);
+    Call<EvaluatorTeam> Delete(@Query("id") int id, @Query("idEvaluatorOrg") int idEvaluatorOrg, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrg") int idEvaluatedOrg, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("idCenter") int idCenter, @Query("illness") String illness);
 }

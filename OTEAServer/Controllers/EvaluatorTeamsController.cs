@@ -23,19 +23,19 @@ namespace OTEAServer.Controllers
             return Ok(evaluatorTeams);
         }
 
-        [HttpGet("allByOrg")]
-        public IActionResult GetAllByOrganization([FromQuery] int id, [FromQuery] string orgType, [FromQuery] string illness)
+        [HttpGet("allByCenter")]
+        public IActionResult GetAllByCenter([FromQuery] int id, [FromQuery] string orgType, [FromQuery] int idCenter, [FromQuery] string illness)
         {
-            var evaluatorTeams = _context.EvaluatorTeams.Where(e=>e.idOrganization==id && e.orgType==orgType && e.illness==illness).ToList();
+            var evaluatorTeams = _context.EvaluatorTeams.Where(e=>e.idEvaluatedOrganization==id && e.orgTypeEvaluated==orgType && e.idCenter==idCenter && e.illness==illness).ToList();
             return Ok(evaluatorTeams);
         }
 
         // GET by ID AND ORGTYPE action
 
         [HttpGet("get")]
-        public ActionResult<EvaluatorTeam> Get([FromQuery] int id, [FromQuery] int idEvaluatorOrg, [FromQuery] string orgType, [FromQuery] string illness)
+        public ActionResult<EvaluatorTeam> Get([FromQuery] int id, [FromQuery] int idEvaluatorOrg, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrg, [FromQuery] string orgTypeEvaluated, [FromQuery] int idCenter, [FromQuery] string illness)
         {
-            var evaluatorTeam = _context.EvaluatorTeams.FirstOrDefault(e => e.idEvaluatorTeam == id && e.idOrganization == idEvaluatorOrg && e.orgType == orgType && e.illness == illness);
+            var evaluatorTeam = _context.EvaluatorTeams.FirstOrDefault(e => e.idEvaluatorTeam == id && e.idEvaluatorOrganization == idEvaluatorOrg && e.orgTypeEvaluator == orgTypeEvaluator && e.idEvaluatedOrganization==idEvaluatedOrg && e.orgTypeEvaluated==orgTypeEvaluated && e.idCenter==idCenter && e.illness == illness);
 
             if (evaluatorTeam == null)
                 return NotFound();
@@ -52,21 +52,24 @@ namespace OTEAServer.Controllers
             return CreatedAtAction(nameof(Get), new
             {
                 id = evaluatorTeam.idEvaluatorTeam,
-                idEvaluatorOrg = evaluatorTeam.idOrganization,
-                orgType = evaluatorTeam.orgType,
+                idEvaluatorOrg = evaluatorTeam.idEvaluatorOrganization,
+                orgTypeEvaluator = evaluatorTeam.orgTypeEvaluator,
+                idEvaluatedOrg = evaluatorTeam.idEvaluatedOrganization,
+                orgTypeEvaluated = evaluatorTeam.orgTypeEvaluated,
+                idCenter = evaluatorTeam.idCenter,
                 illness = evaluatorTeam.illness
             }, evaluatorTeam);
         }
 
         // PUT action
         [HttpPut]
-        public IActionResult Update([FromQuery] int id, [FromQuery] int idEvaluatorOrg, [FromQuery] string orgType, [FromQuery] string illness, [FromBody] EvaluatorTeam evaluatorTeam)
+        public IActionResult Update([FromQuery] int id, [FromQuery] int idEvaluatorOrg, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrg, [FromQuery] string orgTypeEvaluated, [FromQuery] int idCenter, [FromQuery] string illness, [FromBody] EvaluatorTeam evaluatorTeam)
         {
             // This code will update the evaluator team and return a result
-            if (id != evaluatorTeam.idEvaluatorTeam || idEvaluatorOrg != evaluatorTeam.idOrganization || orgType != evaluatorTeam.orgType || illness != evaluatorTeam.illness)
+            if (id != evaluatorTeam.idEvaluatorTeam || idEvaluatorOrg != evaluatorTeam.idEvaluatorOrganization || orgTypeEvaluator != evaluatorTeam.orgTypeEvaluator || idEvaluatedOrg != evaluatorTeam.idEvaluatedOrganization || orgTypeEvaluated != evaluatorTeam.orgTypeEvaluated || idCenter != evaluatorTeam.idCenter || illness != evaluatorTeam.illness)
                 return BadRequest();
 
-            var existingEvaluatorTeam = _context.EvaluatorTeams.FirstOrDefault(e => e.idEvaluatorTeam == id && e.idOrganization == idEvaluatorOrg && e.orgType == orgType && e.illness == illness);
+            var existingEvaluatorTeam = _context.EvaluatorTeams.FirstOrDefault(e => e.idEvaluatorTeam == id && e.idEvaluatorOrganization == idEvaluatorOrg && e.orgTypeEvaluator == orgTypeEvaluator && e.idEvaluatedOrganization == idEvaluatedOrg && e.orgTypeEvaluated == orgTypeEvaluated && e.idCenter == idCenter && e.illness == illness);
 
             if (existingEvaluatorTeam is null)
                 return NotFound();
@@ -74,19 +77,32 @@ namespace OTEAServer.Controllers
 
             existingEvaluatorTeam.idEvaluatorTeam = id;
             existingEvaluatorTeam.creationDate = evaluatorTeam.creationDate;
-            existingEvaluatorTeam.idOrganization = idEvaluatorOrg;
-            existingEvaluatorTeam.orgType = orgType;
+            existingEvaluatorTeam.idEvaluatorOrganization = idEvaluatorOrg;
+            existingEvaluatorTeam.orgTypeEvaluator = orgTypeEvaluator;
+            existingEvaluatorTeam.idEvaluatedOrganization = idEvaluatedOrg;
+            existingEvaluatorTeam.orgTypeEvaluated = orgTypeEvaluator;
+            existingEvaluatorTeam.idCenter = idCenter;
             existingEvaluatorTeam.illness = illness;
             existingEvaluatorTeam.externalConsultant = evaluatorTeam.externalConsultant;
             existingEvaluatorTeam.emailProfessional = evaluatorTeam.emailProfessional;
             existingEvaluatorTeam.emailResponsible = evaluatorTeam.emailResponsible;
+            existingEvaluatorTeam.otherMembers = evaluatorTeam.otherMembers;
             existingEvaluatorTeam.patientName = evaluatorTeam.patientName;
             existingEvaluatorTeam.relativeName = evaluatorTeam.relativeName;
             existingEvaluatorTeam.evaluationDate1 = evaluatorTeam.evaluationDate1;
             existingEvaluatorTeam.evaluationDate2 = evaluatorTeam.evaluationDate2;
             existingEvaluatorTeam.evaluationDate3 = evaluatorTeam.evaluationDate3;
             existingEvaluatorTeam.evaluationDate4 = evaluatorTeam.evaluationDate4;
-            existingEvaluatorTeam.observations = evaluatorTeam.observations;
+            existingEvaluatorTeam.observationsSpanish = evaluatorTeam.observationsSpanish;
+            existingEvaluatorTeam.observationsEnglish = evaluatorTeam.observationsEnglish;
+            existingEvaluatorTeam.observationsFrench = evaluatorTeam.observationsFrench;
+            existingEvaluatorTeam.observationsBasque = evaluatorTeam.observationsBasque;
+            existingEvaluatorTeam.observationsCatalan = evaluatorTeam.observationsCatalan;
+            existingEvaluatorTeam.observationsDutch = evaluatorTeam.observationsDutch;
+            existingEvaluatorTeam.observationsGalician = evaluatorTeam.observationsGalician;
+            existingEvaluatorTeam.observationsGerman = evaluatorTeam.observationsGerman;
+            existingEvaluatorTeam.observationsItalian = evaluatorTeam.observationsItalian;
+            existingEvaluatorTeam.observationsPortuguese = evaluatorTeam.observationsPortuguese;
 
             _context.SaveChanges();
 
@@ -95,10 +111,10 @@ namespace OTEAServer.Controllers
 
         // DELETE action
         [HttpDelete]
-        public IActionResult Delete([FromQuery] int id, [FromQuery] int idEvaluatorOrg, [FromQuery] string orgType, [FromQuery] string illness)
+        public IActionResult Delete([FromQuery] int id, [FromQuery] int idEvaluatorOrg, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrg, [FromQuery] string orgTypeEvaluated, [FromQuery] int idCenter, [FromQuery] string illness)
         {
             // This code will delete the evaluator team and return a result
-            var evaluatorTeam = _context.EvaluatorTeams.FirstOrDefault(e => e.idEvaluatorTeam == id && e.idOrganization == idEvaluatorOrg && e.orgType == orgType && e.illness == illness);
+            var evaluatorTeam = _context.EvaluatorTeams.FirstOrDefault(e => e.idEvaluatorTeam == id && e.idEvaluatorOrganization == idEvaluatorOrg && e.orgTypeEvaluator == orgTypeEvaluator && e.idEvaluatedOrganization == idEvaluatedOrg && e.orgTypeEvaluated == orgTypeEvaluated && e.idCenter == idCenter && e.illness == illness);
 
             if (evaluatorTeam is null)
                 return NotFound();

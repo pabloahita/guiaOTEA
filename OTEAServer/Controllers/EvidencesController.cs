@@ -27,18 +27,18 @@ namespace OTEAServer.Controllers
 
         // GET all by INDICATORTYPE action
         [HttpGet("ind")]
-        public IActionResult GetAllByIndicator([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int indicatorVersion)
+        public IActionResult GetAllByIndicator([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion)
         {
-            var evidences = _context.Evidences.Where(e=>e.idIndicator==idIndicator && e.indicatorType==indicatorType && e.indicatorVersion==indicatorVersion).ToList();
+            var evidences = _context.Evidences.Where(e=>e.idIndicator==idIndicator && e.indicatorType==indicatorType && e.idAmbit==idAmbit && e.indicatorVersion==indicatorVersion).ToList();
             return Ok(evidences);
         }
 
         // GET by ID AND INDICATOR TYPE action
 
         [HttpGet("get")]
-        public ActionResult<Evidence> Get([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int indicatorVersion)
+        public ActionResult<Evidence> Get([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion)
         {
-            var evidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.indicatorVersion == indicatorVersion);
+            var evidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator==idIndicator && e.indicatorType==indicatorType && e.idAmbit==idAmbit && e.indicatorVersion==indicatorVersion);
 
             if (evidence == null)
                 return NotFound();
@@ -54,18 +54,18 @@ namespace OTEAServer.Controllers
         {
             _context.Evidences.Add(evidence);
             _context.SaveChanges();
-            return CreatedAtAction(nameof(Get), new { id = evidence.idEvidence, idIndicator=evidence.idIndicator, type = evidence.indicatorType, version=evidence.indicatorVersion }, evidence);
+            return CreatedAtAction(nameof(Get), new { id = evidence.idEvidence, idIndicator=evidence.idIndicator, type = evidence.indicatorType, idAmbit=evidence.idAmbit, version=evidence.indicatorVersion }, evidence);
         }
 
         // PUT action
         [HttpPut]
-        public IActionResult Update([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int indicatorVersion, [FromBody] Evidence evidence)
+        public IActionResult Update([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromBody] Evidence evidence)
         {
             // This code will update the mesa and return a result
-            if (idEvidence != evidence.idEvidence || idIndicator != evidence.idIndicator || indicatorType != evidence.indicatorType)
+            if (idEvidence != evidence.idEvidence || idIndicator != evidence.idIndicator || idAmbit!= evidence.idAmbit || indicatorType != evidence.indicatorType)
                 return BadRequest();
 
-            var existingEvidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.indicatorVersion == indicatorVersion);
+            var existingEvidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.idAmbit==idAmbit && e.indicatorVersion == indicatorVersion);
             if (existingEvidence is null)
                 return NotFound();
 
@@ -75,6 +75,13 @@ namespace OTEAServer.Controllers
             existingEvidence.descriptionEnglish = evidence.descriptionEnglish;
             existingEvidence.descriptionSpanish = evidence.descriptionSpanish;
             existingEvidence.descriptionFrench = evidence.descriptionFrench;
+            existingEvidence.descriptionBasque = evidence.descriptionBasque;
+            existingEvidence.descriptionCatalan = evidence.descriptionCatalan;
+            existingEvidence.descriptionDutch = evidence.descriptionDutch;
+            existingEvidence.descriptionGalician = evidence.descriptionGalician;
+            existingEvidence.descriptionGerman = evidence.descriptionGerman;
+            existingEvidence.descriptionItalian = evidence.descriptionItalian;
+            existingEvidence.descriptionPortuguese = evidence.descriptionPortuguese;
             existingEvidence.evidenceValue = evidence.evidenceValue;
             existingEvidence.indicatorVersion = indicatorVersion;
 
@@ -85,10 +92,10 @@ namespace OTEAServer.Controllers
 
         // DELETE action
         [HttpDelete]
-        public IActionResult Delete([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int indicatorVersion)
+        public IActionResult Delete([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion)
         {
             // This code will delete the mesa and return a result
-            var evidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.indicatorVersion == indicatorVersion);
+            var evidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.idAmbit==idAmbit && e.indicatorVersion == indicatorVersion);
 
             if (evidence is null)
                 return NotFound();

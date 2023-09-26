@@ -2,6 +2,7 @@ package gui.ui.startSession;
 
 import android.app.Activity;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -47,11 +48,9 @@ public class StartSession extends AppCompatActivity {
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
         final Button loginButton = binding.login;
-        final ProgressBar loadingProgressBar = binding.loading;
-        final TextView textLoading=binding.pleaseWait;
+        final ConstraintLayout final_background=binding.finalBackground;
 
-        loadingProgressBar.setVisibility(View.GONE);
-        textLoading.setVisibility(View.GONE);
+        final_background.setVisibility(View.GONE);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -75,7 +74,7 @@ public class StartSession extends AppCompatActivity {
                 if (loginResult == null) {
                     return;
                 }
-                loadingProgressBar.setVisibility(View.GONE);
+                final_background.setVisibility(View.GONE);
                 if (loginResult.getError() != null) {
                     showLoginFailed(loginResult.getError());
                 }
@@ -113,8 +112,14 @@ public class StartSession extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
+                    final_background.setVisibility(View.VISIBLE);
+                    v.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            loginViewModel.login(usernameEditText.getText().toString(),
+                                    passwordEditText.getText().toString());
+                        }
+                    }, 100);
                 }
                 return false;
             }
@@ -127,8 +132,7 @@ public class StartSession extends AppCompatActivity {
                 usernameEditText.setEnabled(false);
                 passwordEditText.setEnabled(false);
                 loginButton.setEnabled(false);
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                textLoading.setVisibility(View.VISIBLE);
+                final_background.setVisibility(View.VISIBLE);
                 v.postDelayed(new Runnable() {
                     @Override
                     public void run() {

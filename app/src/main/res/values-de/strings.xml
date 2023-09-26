@@ -57,7 +57,7 @@
     <string name="add_new_evaluated_org_center">Neues bewertetes Organisationszentrum hinzufügen</string>
     <string name="modify_database">Datenbank bearbeiten</string>
     <string name="modify_indicators">Indikatoren bearbeiten</string>
-    <string name="recent_activity">Kürzliche Aktivität</string>
+    <string name="recent_activity">Hauptmenü</string>
     <string name="help">Hilfe</string>
     <string name="view_indicators_evolution">Durchgeführte Tests anzeigen</string>
     <string name="login_failed">Anmeldung fehlgeschlagen. Bitte überprüfen Sie die E-Mail und das Passwort oder melden Sie sich in der App an</string>
@@ -177,7 +177,7 @@
     <string name="going_center">Wechseln zum Formular für das neue Zentrum... Bitte warten Sie einige Sekunden...</string>
     <string name="org_data">Organisationsdaten</string>
     <string name="org_director">Organisationsleiter</string>
-    <string name="org_reg_ins">Um die Organisation zu registrieren, füllen Sie bitte alle Felder aus, scrollen Sie nach unten, um alle anzuzeigen, und schließen Sie die Registrierung ab.</string>
+    <string name="org_reg_ins">Um eine bewertete Organisation zu registrieren, müssen Sie alle Felder korrekt ausfüllen und die Verarbeitung dieser Daten zulassen</string>
     <string name="first_name_user_menu">Vorname: Name</string>
     <string name="last_name_user_menu">Nachname: Nachname</string>
     <string name="org_name_user_menu">Organisation: Organisation</string>
@@ -189,6 +189,16 @@
     <string name="other_members">Andere mitglieder</string>
     <string name="eval_team_ins">Um das Bewertungsteam zu registrieren, füllen Sie bitte alle Felder aus, scrollen Sie nach unten, um alle anzuzeigen, und vervollständigen Sie die Registrierung</string>
     <string name="save_changes">Änderungen speichern</string>
+    <string name="center">Zentrum der Organisation</string>
+    <string name="edit_indicators">Anzeigen bearbeiten</string>
+    <string name="edit_org">Organisation bearbeiten bewertet</string>
+    <string name="edit_users">Benutzer bearbeiten</string>
+    <string name="center_info">Zentruminformationen</string>
+    <string name="center_reg_ins">Um ein externes Organisationszentrum zu registrieren, müssen Sie alle Felder am Ende dieses Bildschirms ausfüllen</string>
+    <string name="ambit_caption">Beschreibung des Umfangs</string>
+    <string name="eval_type">Art der Bewertung</string>
+    <string name="simple">Einfache Bewertung</string>
+    <string name="complete">Vollständige Bewertung</string>
 
 
 </resources>

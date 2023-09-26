@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "ZJm/bMHJhniG5e6V8laAo1Wh/D26RJTGJ7y+msgnDYcAxJ5Jgm+/ay12a7O80qv5DATpi4HIboWWJDD9sQfKmA==",
+  "success": true,
+  "projectFilePath": "/home/pablo/StudioProjects/tfg2223/csvToSqlScript/csvToSqlScript.csproj",
+  "expectedPackageFiles": [
+    "/home/pablo/.nuget/packages/gtranslate/2.1.6/gtranslate.2.1.6.nupkg.sha512"
+  ],
+  "logs": []
+}

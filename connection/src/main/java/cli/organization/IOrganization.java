@@ -11,7 +11,6 @@ public interface IOrganization {
     long getTelephone();
 
     String getEmail();
-    String getInformation();
 
     void setEmailOrgPrincipal(String emailOrgPrincipal);
 
@@ -26,7 +25,45 @@ public interface IOrganization {
 
     void setEmail(String email);
 
-    void setInformation(String information);
+    String getInformationEnglish();
+
+    void setInformationEnglish(String informationEnglish);
+
+    String getInformationSpanish();
+
+    void setInformationSpanish(String informationSpanish);
+
+    String getInformationFrench();
+
+    void setInformationFrench(String informationFrench);
+
+    String getInformationBasque();
+
+    void setInformationBasque(String informationBasque);
+
+    String getInformationCatalan();
+
+    void setInformationCatalan(String informationCatalan);
+
+    String getInformationDutch();
+
+    void setInformationDutch(String informationDutch);
+
+    String getInformationGalician();
+
+    void setInformationGalician(String informationGalician);
+
+    String getInformationGerman();
+
+    void setInformationGerman(String informationGerman);
+
+    String getInformationItalian();
+
+    void setInformationItalian(String informationItalian);
+
+    String getInformationPortuguese();
+
+    void setInformationPortuguese(String informationPortuguese);
 
     String getIllness();
 

@@ -1,28 +1,55 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace OTEAServer.Models
 {
     public class Country
     {
-        public Country(string nameSpanish, string nameEnglish, string nameFrench, string idCountry) {
+        public Country(string nameSpanish, string nameEnglish, string nameFrench,string nameBasque, string nameCatalan, string nameDutch, string nameGalician, string nameGerman, string nameItalian, string namePortuguese, string idCountry) {
             this.nameSpanish = nameSpanish;
             this.nameEnglish = nameEnglish;
             this.nameFrench = nameFrench;
+            this.nameBasque = nameBasque;
+            this.nameCatalan = nameCatalan;
+            this.nameDutch = nameDutch;
+            this.nameGalician = nameGalician;
+            this.nameGerman = nameGerman;
+            this.nameItalian = nameItalian;
+            this.namePortuguese = namePortuguese;
             this.idCountry = idCountry;
         }
         
-        [JsonProperty("idCountry")]
+        [JsonPropertyName("idCountry")]
         public string idCountry { get; set; }
 
-        [JsonProperty("nameRegion")]
+        [JsonPropertyName("nameSpanish")]
         public string nameSpanish { get; set; }
 
-        [JsonProperty("nameRegion")]
+        [JsonPropertyName("nameEnglish")]
         public string nameEnglish { get; set; }
 
-        [JsonProperty("nameRegion")]
+        [JsonPropertyName("nameFrench")]
         public string nameFrench { get; set; }
+
+        [JsonPropertyName("nameBasque")]
+        public string nameBasque { get; set; }
+
+        [JsonPropertyName("nameCatalan")]
+        public string nameCatalan { get; set; }
+
+        [JsonPropertyName("nameDutch")]
+        public string nameDutch { get; set; }
+
+        [JsonPropertyName("nameGalician")]
+        public string nameGalician { get; set; }
+
+        [JsonPropertyName("nameGerman")]
+        public string nameGerman { get; set; }
+
+        [JsonPropertyName("nameItalian")]
+        public string nameItalian { get; set; }
+
+        [JsonPropertyName("namePortuguese")]
+        public string namePortuguese { get; set; }
 
     }
 }

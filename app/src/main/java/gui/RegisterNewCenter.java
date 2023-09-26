@@ -1,6 +1,7 @@
 package gui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
@@ -8,20 +9,15 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
-import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -32,21 +28,19 @@ import cli.organization.data.geo.City;
 import cli.organization.data.geo.Country;
 import cli.organization.data.geo.Province;
 import cli.organization.data.geo.Region;
-import cli.user.User;
 import gui.adapters.CityAdapter;
 import gui.adapters.CountryAdapter;
 import gui.adapters.OrgsAdapter;
 import gui.adapters.ProvinceAdapter;
 import gui.adapters.RegionAdapter;
 import misc.FieldChecker;
-import misc.PasswordCodifier;
-import otea.connection.caller.AddressesCaller;
-import otea.connection.caller.CentersCaller;
-import otea.connection.caller.CitiesCaller;
-import otea.connection.caller.CountriesCaller;
-import otea.connection.caller.OrganizationsCaller;
-import otea.connection.caller.ProvincesCaller;
-import otea.connection.caller.RegionsCaller;
+import otea.connection.controller.AddressesController;
+import otea.connection.controller.CentersController;
+import otea.connection.controller.CitiesController;
+import otea.connection.controller.CountriesController;
+import otea.connection.controller.OrganizationsController;
+import otea.connection.controller.ProvincesController;
+import otea.connection.controller.RegionsController;
 
 public class RegisterNewCenter extends AppCompatActivity {
 
@@ -113,13 +107,12 @@ public class RegisterNewCenter extends AppCompatActivity {
         orgSpinner.setEnabled(true);
 
 
-        ProgressBar progressBar=findViewById(R.id.progressBar);
-        TextView textView=findViewById(R.id.turning_back);
+        ConstraintLayout background=findViewById(R.id.final_background);
+
 
         Drawable correct= ContextCompat.getDrawable(getApplicationContext(),R.drawable.baseline_check_circle_24);
 
-        progressBar.setVisibility(View.GONE);
-        textView.setVisibility(View.GONE);
+        background.setVisibility(View.GONE);
 
         int[] idCity={-1};
         int[] idProvince={-1};
@@ -485,8 +478,7 @@ public class RegisterNewCenter extends AppCompatActivity {
                 nameProvinceField.setEnabled(false);
                 nameCityField.setEnabled(false);
 
-                progressBar.setVisibility(View.VISIBLE);
-                textView.setVisibility(View.VISIBLE);
+                background.setVisibility(View.VISIBLE);
 
 
                 v.postDelayed(new Runnable() {
@@ -511,8 +503,8 @@ public class RegisterNewCenter extends AppCompatActivity {
                         String telephone=phoneField.getText().toString();
                         if(!centerDescription.equals("") && !addressName.equals("") && !zipCode.equals("") && !nameProvince.equals("") && !nameRegion.equals("") && !nameCity.equals("") && (FieldChecker.isASpanishNumber(telephone) || FieldChecker.isAForeignNumber(telephone))){
 
-                            int numCenters= CentersCaller.GetAllByOrganization(organization[0]).size();
-                            int numAddresses= AddressesCaller.GetAll().size();
+                            int numCenters= CentersController.GetAllByOrganization(organization[0]).size();
+                            int numAddresses= AddressesController.GetAll().size();
                             int zip_code=Integer.parseInt(zipCode);
                             long phone=Long.parseLong(telephone);
                             int idOrganization=organization[0].getIdOrganization();
@@ -520,10 +512,10 @@ public class RegisterNewCenter extends AppCompatActivity {
                             String illness=organization[0].getIllness();
 
                             Address address=new Address(numAddresses+1,addressName,zip_code,idCity[0],idProvince[0],idRegion[0],idCountry[0],nameCity,nameProvince,nameRegion);
-                            AddressesCaller.Create(address);
+                            AddressesController.Create(address);
 
                             Center center=new Center(idOrganization,orgType,illness, numCenters+1,centerDescription,address.idAddress,phone,email[0]);
-                            CentersCaller.Create(center);
+                            CentersController.Create(center);
 
                             Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
                             intent.putExtra("user",getIntent().getSerializableExtra("user"));
@@ -548,8 +540,7 @@ public class RegisterNewCenter extends AppCompatActivity {
                                 nameCityField.setEnabled(true);
 
                             }
-                            progressBar.setVisibility(View.GONE);
-                            textView.setVisibility(View.GONE);
+                            background.setVisibility(View.GONE);
 
                             if(centerDescription.equals("")){
                                 descriptionCenterField.setError(getString(R.string.please_description_center));
@@ -589,21 +580,21 @@ public class RegisterNewCenter extends AppCompatActivity {
 
     public List<Organization> getEvaluatedOrgs(){
         if(organizations==null){
-            organizations=OrganizationsCaller.GetAllEvaluatedOrganizations();
+            organizations= OrganizationsController.GetAllEvaluatedOrganizations();
         }
         return organizations;
     }
 
     public List<Country> getCountries(){
         if(countries==null){
-            countries= CountriesCaller.GetAll(Locale.getDefault().getLanguage());
+            countries= CountriesController.GetAll(Locale.getDefault().getLanguage());
         }
         return countries;
     }
 
     public List<Region> getRegions(String idCountry){
         if(regions==null){
-            regions= RegionsCaller.GetRegionsByCountry(idCountry);
+            regions= RegionsController.GetRegionsByCountry(idCountry);
             currIdCountry=idCountry;
         }
         return regions;
@@ -611,7 +602,7 @@ public class RegisterNewCenter extends AppCompatActivity {
 
     public List<Province> getProvinces(int idRegion, String idCountry){
         if(provinces==null || currIdRegion!=idRegion || currIdCountry!=idCountry){
-            provinces= ProvincesCaller.GetProvincesByRegion(idRegion,idCountry);
+            provinces= ProvincesController.GetProvincesByRegion(idRegion,idCountry);
             currIdRegion=idRegion;
             currIdCountry=idCountry;
         }
@@ -620,7 +611,7 @@ public class RegisterNewCenter extends AppCompatActivity {
 
     public List<City> getCities(int idProvince, int idRegion, String idCountry){
         if(cities==null || currIdProvince!=currIdProvince || currIdRegion!=idRegion || currIdCountry!=idCountry){
-            cities= CitiesCaller.GetCitiesByProvince(idProvince,idRegion,idCountry);
+            cities= CitiesController.GetCitiesByProvince(idProvince,idRegion,idCountry);
             currIdProvince=idProvince;
             currIdRegion=idRegion;
             currIdCountry=idCountry;
