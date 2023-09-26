@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - oteawebapp-prueba1
+name: Build and deploy ASP.Net Core app to Azure Web App - guiaotea
 
 on:
   push:
@@ -12,6 +12,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    
+    
+    strategy:
+      matrix:
+        dotnet-version: [7.0.401]
 
     steps:
       - uses: actions/checkout@v2
@@ -51,7 +56,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'oteawebapp-prueba1'
+          app-name: 'guiaotea'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_1D4644E7315F44BE83BCC068C7863B41 }}
           package: .
