@@ -273,7 +273,7 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
                                 total_score=getScore();
 
                                 //En la demo solo hay indicadores de nivel 1 (Cambiar por observaciones y conclusiones cuando esté implementado)
-                                current_evaluation = new IndicatorsEvaluation(evaluationDate,evaluatedOrganization.getIdOrganization(),evaluatedOrganization.getOrgType(),evaluatorTeam.getIdEvaluatorTeam(),evaluatorTeam.getIdOrganization(),evaluatorTeam.getOrgType(),evaluatorTeam.getIllness(),"","",0,0,0,0,0,0,total_score,1);
+                                current_evaluation = new IndicatorsEvaluation(evaluationDate,evaluatorTeam.getIdEvaluatedOrganization(),evaluatorTeam.getOrgTypeEvaluated(),evaluatorTeam.getIdEvaluatorTeam(), evaluatorTeam.getIdEvaluatorOrganization(), evaluatorTeam.getOrgTypeEvaluator(), evaluatorTeam.getIllness(), "","","","","","","","","","","","","","","","","","","","",0,0,0,0,0,0,0,1);
                                 regs=new LinkedList<>();
                                 for(int i=0;i<switches_values.length;i++){
                                     for(int j=0;j<switches_values[i].length;j++){

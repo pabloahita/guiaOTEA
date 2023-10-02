@@ -23,9 +23,9 @@ public interface IUser {
 
     void setIdOrganization(int idOrganization);
 
-    String getOrgType();
+    String getOrganizationType();
 
-    void setOrgType(String orgType);
+    void setOrganizationType(String orgType);
 
     String getIllness();
 

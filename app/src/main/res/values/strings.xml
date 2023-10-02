@@ -195,6 +195,10 @@
     <string name="eval_type">Type of evaluation</string>
     <string name="simple">Simple evaluation</string>
     <string name="complete">Complete evaluation</string>
+    <string name="request_reg">Request registration</string>
+    <string name="complete_reg">Complete registration (after requesting it)</string>
+    <string name="please_email_req">To complete the request, please type your email below</string>
+    <string name="complete_req">Complete request</string>
 
 
 </resources>

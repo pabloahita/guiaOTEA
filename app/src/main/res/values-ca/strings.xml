@@ -202,5 +202,9 @@
     <string name="eval_type">Tipus d\'avaluació</string>
     <string name="simple">Avaluació senzilla</string>
     <string name="complete">Avaluació completa</string>
+    <string name="request_reg">Sol·licitud de registre</string>
+    <string name="complete_reg">Completar el registre (després de sol·licitar-ho)</string>
+    <string name="please_email_req">Per completar la sol·licitud, si us plau, escrigui el seu correu electrònic a continuació:</string>
+    <string name="complete_req">Completar la sol·licitud</string>
 
 </resources>

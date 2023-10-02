@@ -35,6 +35,10 @@ namespace OTEAServer.Misc
 
         public DbSet<Region> Regions { get; set; }
 
+        public DbSet<Request> Requests { get; set; }
+
+        public DbSet<Session> Sessions { get; set; }
+
         public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -52,6 +56,8 @@ namespace OTEAServer.Misc
             modelBuilder.Entity<Organization>().HasKey(o => new { o.idOrganization,o.orgType,o.illness });
             modelBuilder.Entity<Province>().HasKey(p => new { p.idProvince,p.idRegion,p.idCountry });
             modelBuilder.Entity<Region>().HasKey(r => new { r.idRegion,r.idCountry });
+            modelBuilder.Entity<Request>().HasKey(r => new { r.email });
+            modelBuilder.Entity<Session>().HasKey(s => new { s.sessionToken });
             modelBuilder.Entity<User>().HasKey(u => new { u.emailUser });
         }
 

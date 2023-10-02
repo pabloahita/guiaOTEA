@@ -199,6 +199,10 @@
     <string name="eval_type">Type evaluatie</string>
     <string name="simple">Eenvoudige evaluatie</string>
     <string name="complete">Volledige evaluatie</string>
+    <string name="request_reg">Verzoek om registratie</string>
+    <string name="complete_reg">Registratie voltooien (na aanvraag)</string>
+    <string name="please_email_req">Om de aanvraag te voltooien, typ alstublieft uw e-mail hieronder:</string>
+    <string name="complete_req">Voltooi de aanvraag</string>
 
 
 </resources>

@@ -39,7 +39,7 @@ public class RecentActivity extends Fragment {
         Organization org=(Organization) getActivity().getIntent().getSerializableExtra("org");
 
         if(org==null) {
-            org = OrganizationsController.Get(user.getIdOrganization(), user.getOrgType(), user.getIllness());
+            org = OrganizationsController.Get(user.getIdOrganization(), user.getOrganizationType(), user.getIllness());
             getActivity().getIntent().putExtra("org",org);
         }
 

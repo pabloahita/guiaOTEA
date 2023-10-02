@@ -22,15 +22,20 @@ import java.util.Calendar;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import cli.organization.Organization;
+import cli.organization.data.Center;
 import cli.organization.data.EvaluatorTeam;
 import cli.user.User;
+import gui.adapters.CenterAdapter;
 import gui.adapters.OrgsAdapter;
 import gui.adapters.UsersAdapter;
 import misc.DateFormatter;
+import otea.connection.controller.CentersController;
 import otea.connection.controller.EvaluatorTeamsController;
 import otea.connection.controller.OrganizationsController;
+import otea.connection.controller.TranslatorController;
 import otea.connection.controller.UsersController;
 
 public class RegisterNewEvaluatorTeam extends AppCompatActivity {
@@ -53,6 +58,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
         if (organizations.size() > 0 && usersEvaluator.size()>0) {
 
             Spinner orgSpinner = findViewById(R.id.spinner_select_organization);
+            Spinner centerSpinner = findViewById(R.id.spinner_select_center);
             Spinner responsibleSpinner = findViewById(R.id.spinner_select_responsible);
             Spinner professionalSpinner = findViewById(R.id.spinner_select_professional);
 
@@ -73,6 +79,8 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
 
             OrgsAdapter[] orgsAdapter={new OrgsAdapter(getApplicationContext(),organizations)};
             UsersAdapter[] usersAdapter=new UsersAdapter[3];
+            CenterAdapter[] centerAdapters=new CenterAdapter[1];
+            final List<Center>[] centers = new List[]{new LinkedList<>()};
 
             orgsAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
             orgSpinner.setAdapter(orgsAdapter[0]);
@@ -86,6 +94,8 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
             professionalSpinner.setAdapter(usersAdapter[2]);
 
             Organization[] organizationSelected=new Organization[1];
+
+            Center[] centerSelected=new Center[1];
 
 
             final List<User>[] users = new List[]{new LinkedList<>()};
@@ -105,8 +115,22 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                     users[0] = UsersController.GetAllOrgUsersByOrganization(organizationSelected[0].getIdOrganization(), organizationSelected[0].getOrganizationType(), organizationSelected[0].getIllness());
                     usersAdapter[0] = new UsersAdapter(getApplicationContext(), users[0]);
                     usersAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-                    //consultantSpinner.setAdapter(usersAdapter[0]);
-                    //consultantSpinner.setEnabled(true);
+                    centers[0] = CentersController.GetAllByOrganization(organizationSelected[0]);
+                    centerAdapters[0]=new CenterAdapter(getApplicationContext(),centers[0]);
+                    centerAdapters[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            centerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    centerSelected[0]= (Center) parent.getItemAtPosition(position);
+
                 }
 
                 @Override
@@ -327,6 +351,23 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                 }
             });
 
+            observations.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    String input=charSequence.toString();
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+
             Button add=findViewById(R.id.add);
 
             add.setOnClickListener(new View.OnClickListener() {
@@ -360,7 +401,138 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                                 long eval_date2= DateFormatter.formatDate(evalDate2.getText().toString());
                                 long eval_date3= DateFormatter.formatDate(evalDate3.getText().toString());
                                 long eval_date4= DateFormatter.formatDate(evalDate4.getText().toString());
-                                EvaluatorTeam evaluatorTeam=new EvaluatorTeam(idEvaluatorTeam, creation_date, 1, "EVALUATOR", "AUTISM", membersSelected[0].getEmailUser(), membersSelected[1].getEmailUser(), membersSelected[2].getEmailUser(), patient.getText().toString(), relative.getText().toString(),eval_date1,eval_date2,eval_date3,eval_date4,observations.getText().toString());
+
+                                String observationsEnglish="";
+                                String observationsSpanish="";
+                                String observationsFrench="";
+                                String observationsBasque="";
+                                String observationsCatalan="";
+                                String observationsDutch="";
+                                String observationsGalician="";
+                                String observationsGerman="";
+                                String observationsItalian="";
+                                String observationsPortuguese="";
+
+                                String observationsText=observations.getText().toString();
+
+                                if(!observations.getText().toString().equals("")){
+                                    if(Locale.getDefault().getLanguage().equals("es")){
+                                        observationsEnglish= TranslatorController.getInstance().translate(observationsText,"es","en");
+                                        observationsSpanish=observationsText;
+                                        observationsFrench=TranslatorController.getInstance().translate(observationsText,"es","fr");
+                                        observationsBasque=TranslatorController.getInstance().translate(observationsText,"es","eu");
+                                        observationsCatalan=TranslatorController.getInstance().translate(observationsText,"es","ca");
+                                        observationsDutch=TranslatorController.getInstance().translate(observationsText,"es","nl");
+                                        observationsGalician=TranslatorController.getInstance().translate(observationsText,"es","gl");
+                                        observationsGerman=TranslatorController.getInstance().translate(observationsText,"es","de");
+                                        observationsItalian=TranslatorController.getInstance().translate(observationsText,"es","it");
+                                        observationsPortuguese=TranslatorController.getInstance().translate(observationsText,"es","pt");
+                                    }else if(Locale.getDefault().getLanguage().equals("fr")){
+                                        observationsEnglish= TranslatorController.getInstance().translate(observationsText,"es","en");
+                                        observationsSpanish=TranslatorController.getInstance().translate(observationsText,"fr","es");
+                                        observationsFrench=observationsText;
+                                        observationsBasque=TranslatorController.getInstance().translate(observationsText,"fr","eu");
+                                        observationsCatalan=TranslatorController.getInstance().translate(observationsText,"fr","ca");
+                                        observationsDutch=TranslatorController.getInstance().translate(observationsText,"fr","nl");
+                                        observationsGalician=TranslatorController.getInstance().translate(observationsText,"fr","gl");
+                                        observationsGerman=TranslatorController.getInstance().translate(observationsText,"fr","de");
+                                        observationsItalian=TranslatorController.getInstance().translate(observationsText,"fr","it");
+                                        observationsPortuguese=TranslatorController.getInstance().translate(observationsText,"fr","pt");
+                                    }else if(Locale.getDefault().getLanguage().equals("eu")){
+                                        observationsEnglish= TranslatorController.getInstance().translate(observationsText,"eu","en");
+                                        observationsSpanish=TranslatorController.getInstance().translate(observationsText,"eu","es");
+                                        observationsFrench=TranslatorController.getInstance().translate(observationsText,"eu","fr");
+                                        observationsBasque=observationsText;
+                                        observationsCatalan=TranslatorController.getInstance().translate(observationsText,"eu","ca");
+                                        observationsDutch=TranslatorController.getInstance().translate(observationsText,"eu","nl");
+                                        observationsGalician=TranslatorController.getInstance().translate(observationsText,"eu","gl");
+                                        observationsGerman=TranslatorController.getInstance().translate(observationsText,"eu","de");
+                                        observationsItalian=TranslatorController.getInstance().translate(observationsText,"eu","it");
+                                        observationsPortuguese=TranslatorController.getInstance().translate(observationsText,"eu","pt");
+                                    }else if(Locale.getDefault().getLanguage().equals("ca")){
+                                        observationsEnglish= TranslatorController.getInstance().translate(observationsText,"ca","en");
+                                        observationsSpanish=TranslatorController.getInstance().translate(observationsText,"ca","es");
+                                        observationsFrench=TranslatorController.getInstance().translate(observationsText,"ca","fr");
+                                        observationsBasque=TranslatorController.getInstance().translate(observationsText,"ca","eu");
+                                        observationsCatalan=observationsText;
+                                        observationsDutch=TranslatorController.getInstance().translate(observationsText,"ca","nl");
+                                        observationsGalician=TranslatorController.getInstance().translate(observationsText,"ca","gl");
+                                        observationsGerman=TranslatorController.getInstance().translate(observationsText,"ca","de");
+                                        observationsItalian=TranslatorController.getInstance().translate(observationsText,"ca","it");
+                                        observationsPortuguese=TranslatorController.getInstance().translate(observationsText,"ca","pt");
+                                    }else if(Locale.getDefault().getLanguage().equals("nl")){
+                                        observationsEnglish= TranslatorController.getInstance().translate(observationsText,"nl","en");
+                                        observationsSpanish=TranslatorController.getInstance().translate(observationsText,"nl","es");
+                                        observationsFrench=TranslatorController.getInstance().translate(observationsText,"nl","fr");
+                                        observationsBasque=TranslatorController.getInstance().translate(observationsText,"nl","eu");
+                                        observationsCatalan=TranslatorController.getInstance().translate(observationsText,"nl","ca");
+                                        observationsDutch=observationsText;
+                                        observationsGalician=TranslatorController.getInstance().translate(observationsText,"nl","gl");
+                                        observationsGerman=TranslatorController.getInstance().translate(observationsText,"nl","de");
+                                        observationsItalian=TranslatorController.getInstance().translate(observationsText,"nl","it");
+                                        observationsPortuguese=TranslatorController.getInstance().translate(observationsText,"nl","pt");
+                                    }else if(Locale.getDefault().getLanguage().equals("gl")){
+                                        observationsEnglish= TranslatorController.getInstance().translate(observationsText,"gl","en");
+                                        observationsSpanish=TranslatorController.getInstance().translate(observationsText,"gl","es");
+                                        observationsFrench=TranslatorController.getInstance().translate(observationsText,"gl","fr");
+                                        observationsBasque=TranslatorController.getInstance().translate(observationsText,"gl","eu");
+                                        observationsCatalan=TranslatorController.getInstance().translate(observationsText,"gl","ca");
+                                        observationsDutch=TranslatorController.getInstance().translate(observationsText,"gl","nl");
+                                        observationsGalician=observationsText;
+                                        observationsGerman=TranslatorController.getInstance().translate(observationsText,"gl","de");
+                                        observationsItalian=TranslatorController.getInstance().translate(observationsText,"gl","it");
+                                        observationsPortuguese=TranslatorController.getInstance().translate(observationsText,"gl","pt");
+                                    }else if(Locale.getDefault().getLanguage().equals("de")){
+                                        observationsEnglish= TranslatorController.getInstance().translate(observationsText,"de","en");
+                                        observationsSpanish=TranslatorController.getInstance().translate(observationsText,"de","es");
+                                        observationsFrench=TranslatorController.getInstance().translate(observationsText,"de","fr");
+                                        observationsBasque=TranslatorController.getInstance().translate(observationsText,"de","eu");
+                                        observationsCatalan=TranslatorController.getInstance().translate(observationsText,"de","ca");
+                                        observationsDutch=TranslatorController.getInstance().translate(observationsText,"de","nl");
+                                        observationsGalician=TranslatorController.getInstance().translate(observationsText,"de","gl");
+                                        observationsGerman=observationsText;
+                                        observationsItalian=TranslatorController.getInstance().translate(observationsText,"de","it");
+                                        observationsPortuguese=TranslatorController.getInstance().translate(observationsText,"de","pt");
+                                    }else if(Locale.getDefault().getLanguage().equals("it")){
+                                        observationsEnglish= TranslatorController.getInstance().translate(observationsText,"it","en");
+                                        observationsSpanish=TranslatorController.getInstance().translate(observationsText,"it","es");
+                                        observationsFrench=TranslatorController.getInstance().translate(observationsText,"it","fr");
+                                        observationsBasque=TranslatorController.getInstance().translate(observationsText,"it","eu");
+                                        observationsCatalan=TranslatorController.getInstance().translate(observationsText,"it","ca");
+                                        observationsDutch=TranslatorController.getInstance().translate(observationsText,"it","nl");
+                                        observationsGalician=TranslatorController.getInstance().translate(observationsText,"it","gl");
+                                        observationsGerman=TranslatorController.getInstance().translate(observationsText,"it","de");
+                                        observationsItalian=observationsText;
+                                        observationsPortuguese=TranslatorController.getInstance().translate(observationsText,"it","pt");
+                                    }else if(Locale.getDefault().getLanguage().equals("pt")){
+                                        observationsEnglish= TranslatorController.getInstance().translate(observationsText,"pt","en");
+                                        observationsSpanish=TranslatorController.getInstance().translate(observationsText,"pt","es");
+                                        observationsFrench=TranslatorController.getInstance().translate(observationsText,"pt","fr");
+                                        observationsBasque=TranslatorController.getInstance().translate(observationsText,"pt","eu");
+                                        observationsCatalan=TranslatorController.getInstance().translate(observationsText,"pt","ca");
+                                        observationsDutch=TranslatorController.getInstance().translate(observationsText,"pt","nl");
+                                        observationsGalician=TranslatorController.getInstance().translate(observationsText,"pt","gl");
+                                        observationsGerman=TranslatorController.getInstance().translate(observationsText,"pt","de");
+                                        observationsItalian=TranslatorController.getInstance().translate(observationsText,"pt","it");
+                                        observationsPortuguese=observationsText;
+                                    }else{
+                                        observationsEnglish=observationsText;
+                                        observationsSpanish=TranslatorController.getInstance().translate(observationsText,"en","es");
+                                        observationsFrench=TranslatorController.getInstance().translate(observationsText,"en","fr");
+                                        observationsBasque=TranslatorController.getInstance().translate(observationsText,"en","eu");
+                                        observationsCatalan=TranslatorController.getInstance().translate(observationsText,"en","ca");
+                                        observationsDutch=TranslatorController.getInstance().translate(observationsText,"en","nl");
+                                        observationsGalician=TranslatorController.getInstance().translate(observationsText,"en","gl");
+                                        observationsGerman=TranslatorController.getInstance().translate(observationsText,"en","de");
+                                        observationsItalian=TranslatorController.getInstance().translate(observationsText,"en","it");
+                                        observationsPortuguese=TranslatorController.getInstance().translate(observationsText,"en","pt");
+                                    }
+                                }
+
+
+                                EvaluatorTeam evaluatorTeam=new EvaluatorTeam(idEvaluatorTeam,creation_date,membersSelected[2].getEmailUser(),membersSelected[1].getEmailUser(),"",1,"EVALUATOR",organizationSelected[0].getIdOrganization(),organizationSelected[0].getOrgType(),centerSelected[0].getIdCenter(),organizationSelected[0].getIllness(),consultant.getText().toString(),patient.getText().toString(),relative.getText().toString(),eval_date1,eval_date2,eval_date3,eval_date4,observationsSpanish,observationsEnglish,observationsFrench,observationsBasque,observationsCatalan,observationsDutch,observationsGalician,observationsGerman,observationsItalian,observationsPortuguese);
+
+
 
 
 

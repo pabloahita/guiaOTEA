@@ -199,6 +199,10 @@
     <string name="eval_type">Art der Bewertung</string>
     <string name="simple">Einfache Bewertung</string>
     <string name="complete">Vollständige Bewertung</string>
+    <string name="request_reg">Anforderung der Registrierung</string>
+    <string name="complete_reg">Registrierung abschließen (nach der Anfrage)</string>
+    <string name="please_email_req">Um die Anfrage abzuschließen, geben Sie bitte Ihre E-Mail-Adresse unten ein:</string>
+    <string name="complete_req">Anfrage abschließen</string>
 
 
 </resources>

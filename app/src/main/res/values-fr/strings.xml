@@ -158,4 +158,8 @@
     <string name="eval_type">Type d\'évaluation</string>
     <string name="simple">Évaluation simple</string>
     <string name="complete">Évaluation complète</string>
+    <string name="request_reg">Demande d\'inscription</string>
+    <string name="complete_reg">Compléter l\'inscription (après l\'avoir demandée)</string>
+    <string name="please_email_req">Pour compléter la demande, veuillez saisir votre adresse e-mail ci-dessous :</string>
+    <string name="complete_req">Compléter la demande</string>
 </resources>

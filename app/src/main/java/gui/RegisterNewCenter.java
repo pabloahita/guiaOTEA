@@ -41,6 +41,7 @@ import otea.connection.controller.CountriesController;
 import otea.connection.controller.OrganizationsController;
 import otea.connection.controller.ProvincesController;
 import otea.connection.controller.RegionsController;
+import otea.connection.controller.TranslatorController;
 
 public class RegisterNewCenter extends AppCompatActivity {
 
@@ -514,7 +515,135 @@ public class RegisterNewCenter extends AppCompatActivity {
                             Address address=new Address(numAddresses+1,addressName,zip_code,idCity[0],idProvince[0],idRegion[0],idCountry[0],nameCity,nameProvince,nameRegion);
                             AddressesController.Create(address);
 
-                            Center center=new Center(idOrganization,orgType,illness, numCenters+1,centerDescription,address.idAddress,phone,email[0]);
+                            String descriptionEnglish="";
+                            String descriptionSpanish="";
+                            String descriptionFrench="";
+                            String descriptionBasque="";
+                            String descriptionCatalan="";
+                            String descriptionDutch="";
+                            String descriptionGalician="";
+                            String descriptionGerman="";
+                            String descriptionItalian="";
+                            String descriptionPortuguese="";
+
+                            String descriptionText=centerDescription;
+
+                            if(!descriptionText.equals("")){
+                                if(Locale.getDefault().getLanguage().equals("es")){
+                                    descriptionEnglish= TranslatorController.getInstance().translate(descriptionText,"es","en");
+                                    descriptionSpanish=descriptionText;
+                                    descriptionFrench=TranslatorController.getInstance().translate(descriptionText,"es","fr");
+                                    descriptionBasque=TranslatorController.getInstance().translate(descriptionText,"es","eu");
+                                    descriptionCatalan=TranslatorController.getInstance().translate(descriptionText,"es","ca");
+                                    descriptionDutch=TranslatorController.getInstance().translate(descriptionText,"es","nl");
+                                    descriptionGalician=TranslatorController.getInstance().translate(descriptionText,"es","gl");
+                                    descriptionGerman=TranslatorController.getInstance().translate(descriptionText,"es","de");
+                                    descriptionItalian=TranslatorController.getInstance().translate(descriptionText,"es","it");
+                                    descriptionPortuguese=TranslatorController.getInstance().translate(descriptionText,"es","pt");
+                                }else if(Locale.getDefault().getLanguage().equals("fr")){
+                                    descriptionEnglish= TranslatorController.getInstance().translate(descriptionText,"es","en");
+                                    descriptionSpanish=TranslatorController.getInstance().translate(descriptionText,"fr","es");
+                                    descriptionFrench=descriptionText;
+                                    descriptionBasque=TranslatorController.getInstance().translate(descriptionText,"fr","eu");
+                                    descriptionCatalan=TranslatorController.getInstance().translate(descriptionText,"fr","ca");
+                                    descriptionDutch=TranslatorController.getInstance().translate(descriptionText,"fr","nl");
+                                    descriptionGalician=TranslatorController.getInstance().translate(descriptionText,"fr","gl");
+                                    descriptionGerman=TranslatorController.getInstance().translate(descriptionText,"fr","de");
+                                    descriptionItalian=TranslatorController.getInstance().translate(descriptionText,"fr","it");
+                                    descriptionPortuguese=TranslatorController.getInstance().translate(descriptionText,"fr","pt");
+                                }else if(Locale.getDefault().getLanguage().equals("eu")){
+                                    descriptionEnglish= TranslatorController.getInstance().translate(descriptionText,"eu","en");
+                                    descriptionSpanish=TranslatorController.getInstance().translate(descriptionText,"eu","es");
+                                    descriptionFrench=TranslatorController.getInstance().translate(descriptionText,"eu","fr");
+                                    descriptionBasque=descriptionText;
+                                    descriptionCatalan=TranslatorController.getInstance().translate(descriptionText,"eu","ca");
+                                    descriptionDutch=TranslatorController.getInstance().translate(descriptionText,"eu","nl");
+                                    descriptionGalician=TranslatorController.getInstance().translate(descriptionText,"eu","gl");
+                                    descriptionGerman=TranslatorController.getInstance().translate(descriptionText,"eu","de");
+                                    descriptionItalian=TranslatorController.getInstance().translate(descriptionText,"eu","it");
+                                    descriptionPortuguese=TranslatorController.getInstance().translate(descriptionText,"eu","pt");
+                                }else if(Locale.getDefault().getLanguage().equals("ca")){
+                                    descriptionEnglish= TranslatorController.getInstance().translate(descriptionText,"ca","en");
+                                    descriptionSpanish=TranslatorController.getInstance().translate(descriptionText,"ca","es");
+                                    descriptionFrench=TranslatorController.getInstance().translate(descriptionText,"ca","fr");
+                                    descriptionBasque=TranslatorController.getInstance().translate(descriptionText,"ca","eu");
+                                    descriptionCatalan=descriptionText;
+                                    descriptionDutch=TranslatorController.getInstance().translate(descriptionText,"ca","nl");
+                                    descriptionGalician=TranslatorController.getInstance().translate(descriptionText,"ca","gl");
+                                    descriptionGerman=TranslatorController.getInstance().translate(descriptionText,"ca","de");
+                                    descriptionItalian=TranslatorController.getInstance().translate(descriptionText,"ca","it");
+                                    descriptionPortuguese=TranslatorController.getInstance().translate(descriptionText,"ca","pt");
+                                }else if(Locale.getDefault().getLanguage().equals("nl")){
+                                    descriptionEnglish= TranslatorController.getInstance().translate(descriptionText,"nl","en");
+                                    descriptionSpanish=TranslatorController.getInstance().translate(descriptionText,"nl","es");
+                                    descriptionFrench=TranslatorController.getInstance().translate(descriptionText,"nl","fr");
+                                    descriptionBasque=TranslatorController.getInstance().translate(descriptionText,"nl","eu");
+                                    descriptionCatalan=TranslatorController.getInstance().translate(descriptionText,"nl","ca");
+                                    descriptionDutch=descriptionText;
+                                    descriptionGalician=TranslatorController.getInstance().translate(descriptionText,"nl","gl");
+                                    descriptionGerman=TranslatorController.getInstance().translate(descriptionText,"nl","de");
+                                    descriptionItalian=TranslatorController.getInstance().translate(descriptionText,"nl","it");
+                                    descriptionPortuguese=TranslatorController.getInstance().translate(descriptionText,"nl","pt");
+                                }else if(Locale.getDefault().getLanguage().equals("gl")){
+                                    descriptionEnglish= TranslatorController.getInstance().translate(descriptionText,"gl","en");
+                                    descriptionSpanish=TranslatorController.getInstance().translate(descriptionText,"gl","es");
+                                    descriptionFrench=TranslatorController.getInstance().translate(descriptionText,"gl","fr");
+                                    descriptionBasque=TranslatorController.getInstance().translate(descriptionText,"gl","eu");
+                                    descriptionCatalan=TranslatorController.getInstance().translate(descriptionText,"gl","ca");
+                                    descriptionDutch=TranslatorController.getInstance().translate(descriptionText,"gl","nl");
+                                    descriptionGalician=descriptionText;
+                                    descriptionGerman=TranslatorController.getInstance().translate(descriptionText,"gl","de");
+                                    descriptionItalian=TranslatorController.getInstance().translate(descriptionText,"gl","it");
+                                    descriptionPortuguese=TranslatorController.getInstance().translate(descriptionText,"gl","pt");
+                                }else if(Locale.getDefault().getLanguage().equals("de")){
+                                    descriptionEnglish= TranslatorController.getInstance().translate(descriptionText,"de","en");
+                                    descriptionSpanish=TranslatorController.getInstance().translate(descriptionText,"de","es");
+                                    descriptionFrench=TranslatorController.getInstance().translate(descriptionText,"de","fr");
+                                    descriptionBasque=TranslatorController.getInstance().translate(descriptionText,"de","eu");
+                                    descriptionCatalan=TranslatorController.getInstance().translate(descriptionText,"de","ca");
+                                    descriptionDutch=TranslatorController.getInstance().translate(descriptionText,"de","nl");
+                                    descriptionGalician=TranslatorController.getInstance().translate(descriptionText,"de","gl");
+                                    descriptionGerman=descriptionText;
+                                    descriptionItalian=TranslatorController.getInstance().translate(descriptionText,"de","it");
+                                    descriptionPortuguese=TranslatorController.getInstance().translate(descriptionText,"de","pt");
+                                }else if(Locale.getDefault().getLanguage().equals("it")){
+                                    descriptionEnglish= TranslatorController.getInstance().translate(descriptionText,"it","en");
+                                    descriptionSpanish=TranslatorController.getInstance().translate(descriptionText,"it","es");
+                                    descriptionFrench=TranslatorController.getInstance().translate(descriptionText,"it","fr");
+                                    descriptionBasque=TranslatorController.getInstance().translate(descriptionText,"it","eu");
+                                    descriptionCatalan=TranslatorController.getInstance().translate(descriptionText,"it","ca");
+                                    descriptionDutch=TranslatorController.getInstance().translate(descriptionText,"it","nl");
+                                    descriptionGalician=TranslatorController.getInstance().translate(descriptionText,"it","gl");
+                                    descriptionGerman=TranslatorController.getInstance().translate(descriptionText,"it","de");
+                                    descriptionItalian=descriptionText;
+                                    descriptionPortuguese=TranslatorController.getInstance().translate(descriptionText,"it","pt");
+                                }else if(Locale.getDefault().getLanguage().equals("pt")){
+                                    descriptionEnglish= TranslatorController.getInstance().translate(descriptionText,"pt","en");
+                                    descriptionSpanish=TranslatorController.getInstance().translate(descriptionText,"pt","es");
+                                    descriptionFrench=TranslatorController.getInstance().translate(descriptionText,"pt","fr");
+                                    descriptionBasque=TranslatorController.getInstance().translate(descriptionText,"pt","eu");
+                                    descriptionCatalan=TranslatorController.getInstance().translate(descriptionText,"pt","ca");
+                                    descriptionDutch=TranslatorController.getInstance().translate(descriptionText,"pt","nl");
+                                    descriptionGalician=TranslatorController.getInstance().translate(descriptionText,"pt","gl");
+                                    descriptionGerman=TranslatorController.getInstance().translate(descriptionText,"pt","de");
+                                    descriptionItalian=TranslatorController.getInstance().translate(descriptionText,"pt","it");
+                                    descriptionPortuguese=descriptionText;
+                                }else{
+                                    descriptionEnglish=descriptionText;
+                                    descriptionSpanish=TranslatorController.getInstance().translate(descriptionText,"en","es");
+                                    descriptionFrench=TranslatorController.getInstance().translate(descriptionText,"en","fr");
+                                    descriptionBasque=TranslatorController.getInstance().translate(descriptionText,"en","eu");
+                                    descriptionCatalan=TranslatorController.getInstance().translate(descriptionText,"en","ca");
+                                    descriptionDutch=TranslatorController.getInstance().translate(descriptionText,"en","nl");
+                                    descriptionGalician=TranslatorController.getInstance().translate(descriptionText,"en","gl");
+                                    descriptionGerman=TranslatorController.getInstance().translate(descriptionText,"en","de");
+                                    descriptionItalian=TranslatorController.getInstance().translate(descriptionText,"en","it");
+                                    descriptionPortuguese=TranslatorController.getInstance().translate(descriptionText,"en","pt");
+                                }
+                            }
+
+
+                            Center center=new Center(idOrganization,orgType,illness, numCenters+1,descriptionEnglish,descriptionSpanish,descriptionFrench,descriptionBasque,descriptionCatalan,descriptionDutch,descriptionGalician,descriptionGerman,descriptionItalian,descriptionPortuguese,address.getIdAddress(),phone,email[0]);
                             CentersController.Create(center);
 
                             Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);

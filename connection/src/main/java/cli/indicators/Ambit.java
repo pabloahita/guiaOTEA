@@ -2,7 +2,9 @@ package cli.indicators;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Ambit {
+import java.io.Serializable;
+
+public class Ambit implements Serializable {
 
     @SerializedName("idAmbit")
     public int idAmbit;

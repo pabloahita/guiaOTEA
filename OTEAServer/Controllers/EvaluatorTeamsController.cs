@@ -30,6 +30,13 @@ namespace OTEAServer.Controllers
             return Ok(evaluatorTeams);
         }
 
+        [HttpGet("allByOrganization")]
+        public IActionResult GetAllByOrganization([FromQuery] int id, [FromQuery] string orgType, [FromQuery] string illness)
+        {
+            var evaluatorTeams = _context.EvaluatorTeams.Where(e=>e.idEvaluatedOrganization==id && e.orgTypeEvaluated==orgType && e.illness==illness).ToList();
+            return Ok(evaluatorTeams);
+        }
+
         // GET by ID AND ORGTYPE action
 
         [HttpGet("get")]

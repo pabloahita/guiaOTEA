@@ -196,6 +196,10 @@
     <string name="eval_type">Tipo di valutazione</string>
     <string name="simple">Valutazione semplice</string>
     <string name="complete">Valutazione completa</string>
+    <string name="request_reg">Richiesta di registrazione</string>
+    <string name="complete_reg">Completare la registrazione (dopo averla richiesta)</string>
+    <string name="please_email_req">Per completare la richiesta, si prega di digitare il proprio indirizzo email di seguito:</string>
+    <string name="complete_req">Completare la richiesta</string>
 
 
 </resources>

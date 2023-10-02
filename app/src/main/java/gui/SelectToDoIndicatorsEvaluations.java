@@ -17,6 +17,7 @@ import com.fundacionmiradas.indicatorsevaluation.R;
 import java.util.LinkedList;
 import java.util.List;
 
+import cli.indicators.Ambit;
 import cli.indicators.Indicator;
 import cli.organization.Organization;
 import cli.organization.data.Center;
@@ -25,6 +26,7 @@ import gui.adapters.CenterAdapter;
 import gui.adapters.EvalTypesAdapter;
 import gui.adapters.EvaluatorTeamsAdapter;
 import gui.adapters.OrgsAdapter;
+import otea.connection.controller.AmbitsController;
 import otea.connection.controller.CentersController;
 import otea.connection.controller.EvaluatorTeamsController;
 import otea.connection.controller.EvidencesController;
@@ -43,7 +45,7 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
         final_background.setVisibility(View.GONE);
 
         List<Organization> organizations= OrganizationsController.GetAllEvaluatedOrganizations();
-        List<EvaluatorTeam> evaluatorTeams= EvaluatorTeamsController.GetAllByOrganization(1,"EVALUATOR","AUTISM");
+        List<EvaluatorTeam> evaluatorTeams= new LinkedList<>();
         List<String> evaluationTypes=new LinkedList<String>();
         evaluationTypes.add(getString(R.string.complete));
         evaluationTypes.add(getString(R.string.simple));
@@ -63,12 +65,9 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
             CenterAdapter[] centerAdapter=new CenterAdapter[1];
 
 
+            EvaluatorTeamsAdapter[] evaluatorTeamsAdapter={null};
 
 
-            EvaluatorTeamsAdapter[] evaluatorTeamsAdapter={new EvaluatorTeamsAdapter(SelectToDoIndicatorsEvaluations.this,evaluatorTeams)};
-            evaluatorTeamsAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-
-            spinnerEvaluatorTeam.setAdapter(evaluatorTeamsAdapter[0]);
 
 
             Organization[] evaluatedOrganization = new Organization[1];
@@ -104,6 +103,10 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view,int position, long id) {
                     center[0]=centerAdapter[0].getItem(position);
+                    evaluatorTeamsAdapter[0]=new EvaluatorTeamsAdapter(SelectToDoIndicatorsEvaluations.this,EvaluatorTeamsController.GetAllByCenter(center[0].getIdOrganization(),center[0].getOrgType(),center[0].getIdCenter(),center[0].getIllness()));
+                    evaluatorTeamsAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+
+                    spinnerEvaluatorTeam.setAdapter(evaluatorTeamsAdapter[0]);
                 }
 
                 @Override
@@ -139,7 +142,12 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
                     v.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            List<Indicator> indicators= IndicatorsController.obtainIndicators("AUTISM");
+                            List<Ambit> ambits= AmbitsController.GetAll();
+                            List<Indicator> indicators=new LinkedList<>();
+                            for (Ambit a : ambits){
+                                List<Indicator> aux=IndicatorsController.GetAllByIdAmbit(a.idAmbit);
+                                indicators.addAll(aux);
+                            }
                             int num_indicators=indicators.size();
                             //Indicator i=indicators.get(current_indicator);
                             for(Indicator i: indicators) {
@@ -153,6 +161,9 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
                             intent.putExtra("user",getIntent().getSerializableExtra("user"));
                             intent.putExtra("evaluatorTeam",evaluatorTeam[0]);
                             intent.putExtra("evaluatedOrganization",evaluatedOrganization[0]);
+                            for(Ambit a : ambits){
+                                intent.putExtra("ambit "+a.getIdAmbit(),a);
+                            }
                             for(Indicator i:indicators){
                                 intent.putExtra("indicator "+i.getIdIndicator(),i);
                             }

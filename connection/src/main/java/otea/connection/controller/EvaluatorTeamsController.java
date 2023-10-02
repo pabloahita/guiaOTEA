@@ -90,7 +90,7 @@ public class EvaluatorTeamsController {
         }
     }
 
-    public static List<EvaluatorTeam> GetAllByCenter(int id, String orgType, String idCenter, String illness){
+    public static List<EvaluatorTeam> GetAllByCenter(int id, String orgType, int idCenter, String illness){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<EvaluatorTeam>> callable = new Callable<List<EvaluatorTeam>>() {
             @Override
@@ -115,6 +115,30 @@ public class EvaluatorTeamsController {
 
     }
 
+    public static List<EvaluatorTeam> GetAllByOrganization(int id, String orgType, String illness){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Callable<List<EvaluatorTeam>> callable = new Callable<List<EvaluatorTeam>>() {
+            @Override
+            public List<EvaluatorTeam> call() throws Exception {
+                Call<List<EvaluatorTeam>> call = api.GetAllByOrganization(id,orgType,illness);
+                Response<List<EvaluatorTeam>> response = call.execute();
+                if (response.isSuccessful()) {
+                    return response.body();
+                } else {
+                    throw new IOException("Error: " + response.code() + " " + response.message());
+                }
+            }
+        };
+        try {
+            Future<List<EvaluatorTeam>> future = executor.submit(callable);
+            List<EvaluatorTeam> list = future.get();
+            executor.shutdown();
+            return list;
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
     public static EvaluatorTeam Create(EvaluatorTeam evaluatorTeam){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<EvaluatorTeam> callable = new Callable<EvaluatorTeam>() {

@@ -201,5 +201,9 @@
     <string name="eval_type">Ebaluazio mota</string>
     <string name="simple">Ebaluazio sinplea</string>
     <string name="complete">Ebaluazio osoa</string>
+    <string name="request_reg">Segurtasun eskaera</string>
+    <string name="complete_reg">Erregistratzea osatu (eskatu ondoren)</string>
+    <string name="please_email_req">Eskaria osatzeko, mesedez, hemen idatzi zure posta elektronikoa:</string>
+    <string name="complete_req">Eskaria osatu</string>
 
 </resources>

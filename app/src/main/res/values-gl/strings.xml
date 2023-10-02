@@ -198,6 +198,10 @@
     <string name="eval_type">Tipo de avaliación</string>
     <string name="simple">Avaliación sinxela</string>
     <string name="complete">Avaliación completa</string>
+    <string name="request_reg">Petición de rexistro</string>
+    <string name="complete_reg">Completar o rexistro (tras a solicitude)</string>
+    <string name="please_email_req">Para completar a solicitude, por favor, escriba o seu correo electrónico abaixo:</string>
+    <string name="complete_req">Completar a solicitude</string>
 
 
 </resources>

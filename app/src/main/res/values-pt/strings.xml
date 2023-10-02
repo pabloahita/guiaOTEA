@@ -197,4 +197,8 @@
     <string name="eval_type">Tipo de avaliação</string>
     <string name="simple">Avaliação simples</string>
     <string name="complete">Avaliação completa</string>
+    <string name="request_reg">Solicitação de registro</string>
+    <string name="complete_reg">Completar o registo (após solicitação)</string>
+    <string name="please_email_req">" Para completar o pedido, por favor, digite seu email abaixo:"</string>
+    <string name="complete_req">Completar o pedido</string>
 </resources>

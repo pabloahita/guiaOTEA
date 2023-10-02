@@ -160,5 +160,9 @@
     <string name="eval_type">Tipo de evaluación</string>
     <string name="simple">Evaluación simple</string>
     <string name="complete">Evaluación completa</string>
+    <string name="request_reg">Solicitud de registro</string>
+    <string name="complete_reg">Completar el registro (después de solicitarlo)</string>
+    <string name="please_email_req">Para completar la solicitud, por favor, escriba su correo electrónico a continuación:</string>
+    <string name="complete_req">Completar la solicitud</string>
 
 </resources>

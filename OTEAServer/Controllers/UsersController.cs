@@ -35,9 +35,9 @@ namespace OTEAServer.Controllers
 
         //GET all organization users by organization type
         [HttpGet("allByOrg")]
-        public IActionResult GetAllOrgUsersByOrganization([FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness)
+        public IActionResult GetAllOrgUsersByOrganization([FromQuery] int? idOrganization, [FromQuery] string? organizationType, [FromQuery] string? illness)
         {
-            var users = _context.Users.Where(u => u.idOrganization==idOrganization && u.orgType==orgType && u.illness==illness).ToList();
+            var users = _context.Users.Where(u => u.idOrganization==idOrganization && u.organizationType==organizationType && u.illness==illness).ToList();
             return Ok(users);
         }
 
@@ -82,9 +82,9 @@ namespace OTEAServer.Controllers
         // GET by EMAIL and ORGANIZATION action
 
         [HttpGet("org")]
-        public ActionResult<User> GetOrgUserByOrganization([FromQuery] string email, [FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness)
+        public ActionResult<User> GetOrgUserByOrganization([FromQuery] string email, [FromQuery] int? idOrganization, [FromQuery] string? organizationType, [FromQuery] string? illness)
         {
-            var user = _context.Users.FirstOrDefault(u => u.emailUser == email && u.idOrganization == idOrganization && u.orgType == orgType && u.illness == illness);
+            var user = _context.Users.FirstOrDefault(u => u.emailUser == email && u.idOrganization == idOrganization && u.organizationType == organizationType && u.illness == illness);
 
             if (user == null)
                 return NotFound();
@@ -119,7 +119,7 @@ namespace OTEAServer.Controllers
             existingUser.passwordUser = user.passwordUser;
             existingUser.telephone = user.telephone;
             existingUser.idOrganization = user.idOrganization;
-            existingUser.orgType = user.orgType;
+            existingUser.organizationType = user.organizationType;
             existingUser.illness = user.illness;
             _context.SaveChanges();
 
