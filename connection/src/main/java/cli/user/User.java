@@ -30,14 +30,14 @@ public class User implements IUser, Serializable{
     @SerializedName("idOrganization")
     public int idOrganization;
 
-    @SerializedName("organizationType")
-    public String organizationType;
+    @SerializedName("orgType")
+    public String orgType;
 
     @SerializedName("illness")
     public String illness;
 
 
-    public User(String emailUser, String userType, String first_name, String last_name, String passwordUser, long telephone, int idOrganization, String organizationType, String illness){
+    public User(String emailUser, String userType, String first_name, String last_name, String passwordUser, long telephone, int idOrganization, String orgType, String illness){
         setEmailUser(emailUser);
         setUserType(userType);
         setFirst_name(first_name);
@@ -45,7 +45,7 @@ public class User implements IUser, Serializable{
         setPassword(passwordUser);
         setTelephone(telephone);
         setIdOrganization(idOrganization);
-        setOrganizationType(organizationType);
+        setOrganizationType(orgType);
         setIllness(illness);
     }
 
@@ -100,12 +100,12 @@ public class User implements IUser, Serializable{
 
     @Override
     public String getOrganizationType() {
-        return organizationType;
+        return orgType;
     }
 
     @Override
     public void setOrganizationType(String orgType) {
-        this.organizationType = orgType;
+        this.orgType = orgType;
     }
 
     @Override
