@@ -37,7 +37,27 @@ public class CityAdapter extends ArrayAdapter<City> {
 
         City city = getItem(position);
         TextView textView = view.findViewById(android.R.id.text1);
-        text= city.getCityName();
+        if(Locale.getDefault().getLanguage().equals("es")) {
+            text = city.getNameSpanish();
+        }else if(Locale.getDefault().getLanguage().equals("fr")){
+            text=city.getNameFrench();
+        }else if(Locale.getDefault().getLanguage().equals("eu")) {
+            text = city.getNameBasque();
+        }else if(Locale.getDefault().getLanguage().equals("ca")){
+            text=city.getNameCatalan();
+        }else if(Locale.getDefault().getLanguage().equals("nl")) {
+            text = city.getNameDutch();
+        }else if(Locale.getDefault().getLanguage().equals("gl")){
+            text=city.getNameGalician();
+        }else if(Locale.getDefault().getLanguage().equals("de")) {
+            text = city.getNameGerman();
+        }else if(Locale.getDefault().getLanguage().equals("it")){
+            text=city.getNameItalian();
+        }else if(Locale.getDefault().getLanguage().equals("pt")) {
+            text = city.getNamePortuguese();
+        }else{
+            text= city.getNameEnglish();
+        }
         textView.setText(text);
 
         return view;

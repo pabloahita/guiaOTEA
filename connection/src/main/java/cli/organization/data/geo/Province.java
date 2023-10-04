@@ -14,18 +14,51 @@ public class Province implements Serializable {
     @SerializedName("idCountry")
     public String idCountry;
 
-    @SerializedName("nameProvince")
-    public String nameProvince;
+    @SerializedName("nameSpanish")
+    public String nameSpanish;
 
-    public Region region;
-    public Country country;
+    @SerializedName("nameEnglish")
+    public String nameEnglish;
+
+    @SerializedName("nameFrench")
+    public String nameFrench;
+
+    @SerializedName("nameBasque")
+    public String nameBasque;
+
+    @SerializedName("nameCatalan")
+    public String nameCatalan;
+
+    @SerializedName("nameDutch")
+    public String nameDutch;
+
+    @SerializedName("nameGalician")
+    public String nameGalician;
+
+    @SerializedName("nameGerman")
+    public String nameGerman;
+
+    @SerializedName("nameItalian")
+    public String nameItalian;
+
+    @SerializedName("namePortuguese")
+    public String namePortuguese;
 
 
-    public Province(int idProvince, int idRegion, String idCountry, String nameProvince){
+    public Province(int idProvince, int idRegion, String idCountry, String nameSpanish, String nameEnglish, String nameFrench, String nameBasque, String nameCatalan, String nameDutch, String nameGalician, String nameGerman, String nameItalian, String namePortuguese){
         setIdProvince(idProvince);
         setIdRegion(idRegion);
         setIdCountry(idCountry);
-        setNameProvince(nameProvince);
+        setNameSpanish(nameSpanish);
+        setNameEnglish(nameEnglish);
+        setNameFrench(nameFrench);
+        setNameBasque(nameBasque);
+        setNameCatalan(nameCatalan);
+        setNameDutch(nameDutch);
+        setNameGalician(nameGalician);
+        setNameGerman(nameGerman);
+        setNameItalian(nameItalian);
+        setNamePortuguese(namePortuguese);
     }
 
     public int getIdProvince() {
@@ -53,30 +86,84 @@ public class Province implements Serializable {
     }
 
 
-
-
-    public String getNameProvince() {
-        return nameProvince;
+    public String getNameSpanish() {
+        return nameSpanish;
     }
 
-    public void setNameProvince(String nameRegion) {
-        this.nameProvince = nameRegion;
+    public void setNameSpanish(String nameSpanish) {
+        this.nameSpanish = nameSpanish;
     }
 
-    public Region getRegion() {
-        return region;
+    public String getNameEnglish() {
+        return nameEnglish;
     }
 
-    public void setRegion(Region region) {
-        this.region = region;
+    public void setNameEnglish(String nameEnglish) {
+        this.nameEnglish = nameEnglish;
     }
 
-    public Country getCountry() {
-        return country;
+    public String getNameFrench() {
+        return nameFrench;
     }
 
-    public void setCountry(Country country) {
-        this.country = country;
+    public void setNameFrench(String nameFrench) {
+        this.nameFrench = nameFrench;
+    }
+
+    public String getNameBasque() {
+        return nameBasque;
+    }
+
+    public void setNameBasque(String nameBasque) {
+        this.nameBasque = nameBasque;
+    }
+
+    public String getNameCatalan() {
+        return nameCatalan;
+    }
+
+    public void setNameCatalan(String nameCatalan) {
+        this.nameCatalan = nameCatalan;
+    }
+
+    public String getNameDutch() {
+        return nameDutch;
+    }
+
+    public void setNameDutch(String nameDutch) {
+        this.nameDutch = nameDutch;
+    }
+
+    public String getNameGalician() {
+        return nameGalician;
+    }
+
+    public void setNameGalician(String nameGalician) {
+        this.nameGalician = nameGalician;
+    }
+
+    public String getNameGerman() {
+        return nameGerman;
+    }
+
+    public void setNameGerman(String nameGerman) {
+        this.nameGerman = nameGerman;
+    }
+
+    public String getNameItalian() {
+        return nameItalian;
+    }
+
+    public void setNameItalian(String nameItalian) {
+        this.nameItalian = nameItalian;
+    }
+
+    public String getNamePortuguese() {
+        return namePortuguese;
+    }
+
+    public void setNamePortuguese(String namePortuguese) {
+        this.namePortuguese = namePortuguese;
     }
 
 }

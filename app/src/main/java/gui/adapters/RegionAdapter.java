@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import com.fundacionmiradas.indicatorsevaluation.R;
 
 import java.util.List;
+import java.util.Locale;
 
 import cli.organization.data.geo.Region;
 
@@ -35,7 +36,27 @@ public class RegionAdapter extends ArrayAdapter<Region> {
 
         Region region = getItem(position);
         TextView textView = view.findViewById(android.R.id.text1);
-        text= region.getNameRegion();
+        if(Locale.getDefault().getLanguage().equals("es")) {
+            text = region.getNameSpanish();
+        }else if(Locale.getDefault().getLanguage().equals("fr")){
+            text=region.getNameFrench();
+        }else if(Locale.getDefault().getLanguage().equals("eu")) {
+            text = region.getNameBasque();
+        }else if(Locale.getDefault().getLanguage().equals("ca")){
+            text=region.getNameCatalan();
+        }else if(Locale.getDefault().getLanguage().equals("nl")) {
+            text = region.getNameDutch();
+        }else if(Locale.getDefault().getLanguage().equals("gl")){
+            text=region.getNameGalician();
+        }else if(Locale.getDefault().getLanguage().equals("de")) {
+            text = region.getNameGerman();
+        }else if(Locale.getDefault().getLanguage().equals("it")){
+            text=region.getNameItalian();
+        }else if(Locale.getDefault().getLanguage().equals("pt")) {
+            text = region.getNamePortuguese();
+        }else{
+            text= region.getNameEnglish();
+        }
         textView.setText(text);
 
         return view;

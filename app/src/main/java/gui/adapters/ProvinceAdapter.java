@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import com.fundacionmiradas.indicatorsevaluation.R;
 
 import java.util.List;
+import java.util.Locale;
 
 import cli.organization.data.geo.Province;
 
@@ -35,7 +36,27 @@ public class ProvinceAdapter extends ArrayAdapter<Province> {
 
         Province province = getItem(position);
         TextView textView = view.findViewById(android.R.id.text1);
-        text= province.getNameProvince();
+        if(Locale.getDefault().getLanguage().equals("es")) {
+            text = province.getNameSpanish();
+        }else if(Locale.getDefault().getLanguage().equals("fr")){
+            text=province.getNameFrench();
+        }else if(Locale.getDefault().getLanguage().equals("eu")) {
+            text = province.getNameBasque();
+        }else if(Locale.getDefault().getLanguage().equals("ca")){
+            text=province.getNameCatalan();
+        }else if(Locale.getDefault().getLanguage().equals("nl")) {
+            text = province.getNameDutch();
+        }else if(Locale.getDefault().getLanguage().equals("gl")){
+            text=province.getNameGalician();
+        }else if(Locale.getDefault().getLanguage().equals("de")) {
+            text = province.getNameGerman();
+        }else if(Locale.getDefault().getLanguage().equals("it")){
+            text=province.getNameItalian();
+        }else if(Locale.getDefault().getLanguage().equals("pt")) {
+            text = province.getNamePortuguese();
+        }else{
+            text= province.getNameEnglish();
+        }
         textView.setText(text);
 
         return view;

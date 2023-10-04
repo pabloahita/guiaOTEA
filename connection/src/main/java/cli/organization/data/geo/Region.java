@@ -12,15 +12,49 @@ public class Region implements Serializable {
     @SerializedName("idCountry")
     public String idCountry;
 
-    @SerializedName("nameRegion")
-    public String nameRegion;
+    @SerializedName("nameSpanish")
+    public String nameSpanish;
 
-    public Country country;
+    @SerializedName("nameEnglish")
+    public String nameEnglish;
 
-    public Region(int idRegion, String idCountry, String nameRegion){
+    @SerializedName("nameFrench")
+    public String nameFrench;
+
+    @SerializedName("nameBasque")
+    public String nameBasque;
+
+    @SerializedName("nameCatalan")
+    public String nameCatalan;
+
+    @SerializedName("nameDutch")
+    public String nameDutch;
+
+    @SerializedName("nameGalician")
+    public String nameGalician;
+
+    @SerializedName("nameGerman")
+    public String nameGerman;
+
+    @SerializedName("nameItalian")
+    public String nameItalian;
+
+    @SerializedName("namePortuguese")
+    public String namePortuguese;
+
+    public Region(int idRegion, String idCountry, String nameSpanish, String nameEnglish, String nameFrench, String nameBasque, String nameCatalan, String nameDutch, String nameGalician, String nameGerman, String nameItalian, String namePortuguese){
         setIdRegion(idRegion);
         setIdCountry(idCountry);
-        setNameRegion(nameRegion);
+        setNameSpanish(nameSpanish);
+        setNameEnglish(nameEnglish);
+        setNameFrench(nameFrench);
+        setNameBasque(nameBasque);
+        setNameCatalan(nameCatalan);
+        setNameDutch(nameDutch);
+        setNameGalician(nameGalician);
+        setNameGerman(nameGerman);
+        setNameItalian(nameItalian);
+        setNamePortuguese(namePortuguese);
     }
 
     public int getIdRegion() {
@@ -39,21 +73,85 @@ public class Region implements Serializable {
         this.idCountry = idCountry;
     }
 
-    public String getNameRegion() {
-        return nameRegion;
+
+    public String getNameSpanish() {
+        return nameSpanish;
     }
 
-    public void setNameRegion(String nameRegion) {
-        this.nameRegion = nameRegion;
+    public void setNameSpanish(String nameSpanish) {
+        this.nameSpanish = nameSpanish;
     }
 
-
-
-    public Country getCountry() {
-        return country;
+    public String getNameEnglish() {
+        return nameEnglish;
     }
 
-    public void setCountry(Country country) {
-        this.country = country;
+    public void setNameEnglish(String nameEnglish) {
+        this.nameEnglish = nameEnglish;
     }
+
+    public String getNameFrench() {
+        return nameFrench;
+    }
+
+    public void setNameFrench(String nameFrench) {
+        this.nameFrench = nameFrench;
+    }
+
+    public String getNameBasque() {
+        return nameBasque;
+    }
+
+    public void setNameBasque(String nameBasque) {
+        this.nameBasque = nameBasque;
+    }
+
+    public String getNameCatalan() {
+        return nameCatalan;
+    }
+
+    public void setNameCatalan(String nameCatalan) {
+        this.nameCatalan = nameCatalan;
+    }
+
+    public String getNameDutch() {
+        return nameDutch;
+    }
+
+    public void setNameDutch(String nameDutch) {
+        this.nameDutch = nameDutch;
+    }
+
+    public String getNameGalician() {
+        return nameGalician;
+    }
+
+    public void setNameGalician(String nameGalician) {
+        this.nameGalician = nameGalician;
+    }
+
+    public String getNameGerman() {
+        return nameGerman;
+    }
+
+    public void setNameGerman(String nameGerman) {
+        this.nameGerman = nameGerman;
+    }
+
+    public String getNameItalian() {
+        return nameItalian;
+    }
+
+    public void setNameItalian(String nameItalian) {
+        this.nameItalian = nameItalian;
+    }
+
+    public String getNamePortuguese() {
+        return namePortuguese;
+    }
+
+    public void setNamePortuguese(String namePortuguese) {
+        this.namePortuguese = namePortuguese;
+    }
+
 }

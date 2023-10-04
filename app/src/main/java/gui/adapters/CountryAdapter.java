@@ -40,6 +40,20 @@ public class CountryAdapter extends ArrayAdapter<Country> {
             text = country.getNameSpanish();
         }else if(Locale.getDefault().getLanguage().equals("fr")){
             text=country.getNameFrench();
+        }else if(Locale.getDefault().getLanguage().equals("eu")) {
+            text = country.getNameBasque();
+        }else if(Locale.getDefault().getLanguage().equals("ca")){
+            text=country.getNameCatalan();
+        }else if(Locale.getDefault().getLanguage().equals("nl")) {
+            text = country.getNameDutch();
+        }else if(Locale.getDefault().getLanguage().equals("gl")){
+            text=country.getNameGalician();
+        }else if(Locale.getDefault().getLanguage().equals("de")) {
+            text = country.getNameGerman();
+        }else if(Locale.getDefault().getLanguage().equals("it")){
+            text=country.getNameItalian();
+        }else if(Locale.getDefault().getLanguage().equals("pt")) {
+            text = country.getNamePortuguese();
         }else{
             text= country.getNameEnglish();
         }

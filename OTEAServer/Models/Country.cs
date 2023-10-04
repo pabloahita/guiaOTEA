@@ -4,7 +4,7 @@ namespace OTEAServer.Models
 {
     public class Country
     {
-        public Country(string nameSpanish, string nameEnglish, string nameFrench,string nameBasque, string nameCatalan, string nameDutch, string nameGalician, string nameGerman, string nameItalian, string namePortuguese, string idCountry) {
+        public Country(string idCountry, string nameSpanish, string nameEnglish, string nameFrench,string nameBasque, string nameCatalan, string nameDutch, string nameGalician, string nameGerman, string nameItalian, string namePortuguese) {
             this.nameSpanish = nameSpanish;
             this.nameEnglish = nameEnglish;
             this.nameFrench = nameFrench;

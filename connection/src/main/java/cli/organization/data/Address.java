@@ -203,11 +203,7 @@ public class Address implements Serializable {
     public String getNameRegion(){
         return nameRegion;
     }
-    public String getCountryName(String language){
-        if(language=="ESP"){return country.getNameSpanish();}
-        if(language=="FRA"){return country.getNameFrench();}
-        return country.getNameEnglish();//En inglés es por defectp
-    }
+
 
     public void setNameCity(String nameCity) {
         this.nameCity = nameCity;
