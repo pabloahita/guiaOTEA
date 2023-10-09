@@ -1,6 +1,5 @@
 package otea.connection.controller;
 
-import android.util.Log;
 
 import java.io.IOException;
 import java.util.List;

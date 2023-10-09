@@ -1,7 +1,5 @@
 package otea.connection.controller;
 
-import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.IOException;
 ;
@@ -42,36 +40,27 @@ public class IndicatorsEvaluationRegsController {
     
     
     public static List<IndicatorsEvaluationReg> GetAll(){
-        Call<List<IndicatorsEvaluationReg>> call=api.GetAll();
-        AsyncTask<Void, Void, List<IndicatorsEvaluationReg>> asyncTask = new AsyncTask<Void, Void, List<IndicatorsEvaluationReg>>() {
-            List<IndicatorsEvaluationReg> resultList= null;
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Callable<List<IndicatorsEvaluationReg>> callable = new Callable<List<IndicatorsEvaluationReg>>() {
             @Override
-            protected List<IndicatorsEvaluationReg> doInBackground(Void... voids) {
-                try {
-                    Response<List<IndicatorsEvaluationReg>> response = call.execute();
-                    if (response.isSuccessful()) {
-                        return response.body();
-                    } else {
-                        throw new IOException("Error: " + response.code() + " " + response.message());
-                    }
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+            public List<IndicatorsEvaluationReg> call() throws Exception {
+                Call<List<IndicatorsEvaluationReg>> call=api.GetAll();
+                Response<List<IndicatorsEvaluationReg>> response = call.execute();
+                if (response.isSuccessful()) {
+                    return response.body();
+                } else {
+                    throw new IOException("Error: " + response.code() + " " + response.message());
                 }
             }
-            @Override
-            protected void onPostExecute(List<IndicatorsEvaluationReg> indicatorList) {
-                resultList=indicatorList;
-            }
-
         };
-        asyncTask.execute();
         try {
-            List<IndicatorsEvaluationReg> list=asyncTask.get();
+            Future<List<IndicatorsEvaluationReg>> future = executor.submit(callable);
+            List<IndicatorsEvaluationReg> list = future.get();
+            executor.shutdown();
             return list;
-        } catch (Exception e) {
-            Log.d("ERROR", e.toString());
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     public static List<IndicatorsEvaluationReg> GetAllByIndicatorsEvaluation(long evaluationDate, int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator, int idEvaluatedOrganization, String orgTypeEvaluated, String illness, int idCenter){

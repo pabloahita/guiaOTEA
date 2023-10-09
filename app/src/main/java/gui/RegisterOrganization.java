@@ -201,7 +201,28 @@ public class RegisterOrganization extends AppCompatActivity {
 
                 region[0] = regionAdapter[0].getItem(position);
                 idRegion[0] = region[0].getIdRegion();
-                nameRegion[0] = region[0].getNameRegion();
+                nameRegion[0]="";
+                if(Locale.getDefault().getLanguage().equals("es")) {
+                    nameRegion[0] = region[0].getNameSpanish();
+                }else if(Locale.getDefault().getLanguage().equals("fr")){
+                    nameRegion[0]=region[0].getNameFrench();
+                }else if(Locale.getDefault().getLanguage().equals("eu")) {
+                    nameRegion[0] = region[0].getNameBasque();
+                }else if(Locale.getDefault().getLanguage().equals("ca")){
+                    nameRegion[0]=region[0].getNameCatalan();
+                }else if(Locale.getDefault().getLanguage().equals("nl")) {
+                    nameRegion[0] = region[0].getNameDutch();
+                }else if(Locale.getDefault().getLanguage().equals("gl")){
+                    nameRegion[0]=region[0].getNameGalician();
+                }else if(Locale.getDefault().getLanguage().equals("de")) {
+                    nameRegion[0]= region[0].getNameGerman();
+                }else if(Locale.getDefault().getLanguage().equals("it")){
+                    nameRegion[0]=region[0].getNameItalian();
+                }else if(Locale.getDefault().getLanguage().equals("pt")) {
+                    nameRegion[0]=region[0].getNamePortuguese();
+                }else{
+                    nameRegion[0]=region[0].getNameEnglish();
+                }
                 getProvinces(region[0].getIdRegion(), region[0].getIdCountry());
                 provinceAdapter[0] = new ProvinceAdapter(RegisterOrganization.this, provinces);
                 provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
@@ -221,7 +242,28 @@ public class RegisterOrganization extends AppCompatActivity {
                 ;
                 province[0] = provinceAdapter[0].getItem(position);
                 idProvince[0] = province[0].getIdProvince();
-                nameProvince[0] = province[0].getNameProvince();
+                nameProvince[0]="";
+                if(Locale.getDefault().getLanguage().equals("es")) {
+                    nameProvince[0] = province[0].getNameSpanish();
+                }else if(Locale.getDefault().getLanguage().equals("fr")){
+                    nameProvince[0]=province[0].getNameFrench();
+                }else if(Locale.getDefault().getLanguage().equals("eu")) {
+                    nameProvince[0] = province[0].getNameBasque();
+                }else if(Locale.getDefault().getLanguage().equals("ca")){
+                    nameProvince[0]=province[0].getNameCatalan();
+                }else if(Locale.getDefault().getLanguage().equals("nl")) {
+                    nameProvince[0] = province[0].getNameDutch();
+                }else if(Locale.getDefault().getLanguage().equals("gl")){
+                    nameProvince[0]=province[0].getNameGalician();
+                }else if(Locale.getDefault().getLanguage().equals("de")) {
+                    nameProvince[0]= province[0].getNameGerman();
+                }else if(Locale.getDefault().getLanguage().equals("it")){
+                    nameProvince[0]=province[0].getNameItalian();
+                }else if(Locale.getDefault().getLanguage().equals("pt")) {
+                    nameProvince[0]=province[0].getNamePortuguese();
+                }else{
+                    nameProvince[0]=province[0].getNameEnglish();
+                }
                 getCities(province[0].getIdProvince(), province[0].getIdRegion(), province[0].getIdCountry());
                 cityAdapter[0] = new CityAdapter(RegisterOrganization.this, cities);
                 cityAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
@@ -240,7 +282,28 @@ public class RegisterOrganization extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 city[0] = cityAdapter[0].getItem(position);
                 idCity[0] = city[0].getIdProvince();
-                nameCity[0] = city[0].getCityName();
+                nameCity[0]="";
+                if(Locale.getDefault().getLanguage().equals("es")) {
+                    nameCity[0] = city[0].getNameSpanish();
+                }else if(Locale.getDefault().getLanguage().equals("fr")){
+                    nameCity[0]=city[0].getNameFrench();
+                }else if(Locale.getDefault().getLanguage().equals("eu")) {
+                    nameCity[0] = city[0].getNameBasque();
+                }else if(Locale.getDefault().getLanguage().equals("ca")){
+                    nameCity[0]=city[0].getNameCatalan();
+                }else if(Locale.getDefault().getLanguage().equals("nl")) {
+                    nameCity[0] = city[0].getNameDutch();
+                }else if(Locale.getDefault().getLanguage().equals("gl")){
+                    nameCity[0]=city[0].getNameGalician();
+                }else if(Locale.getDefault().getLanguage().equals("de")) {
+                    nameCity[0]= city[0].getNameGerman();
+                }else if(Locale.getDefault().getLanguage().equals("it")){
+                    nameCity[0]=city[0].getNameItalian();
+                }else if(Locale.getDefault().getLanguage().equals("pt")) {
+                    nameCity[0]=city[0].getNamePortuguese();
+                }else{
+                    nameCity[0]=city[0].getNameEnglish();
+                }
             }
 
             @Override

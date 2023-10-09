@@ -1,8 +1,5 @@
 package otea.connection.controller;
 
-import android.os.AsyncTask;
-import android.util.Log;
-
 import java.io.IOException;
 ;
 import java.util.List;
