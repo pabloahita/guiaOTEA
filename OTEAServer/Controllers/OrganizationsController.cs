@@ -78,7 +78,7 @@ namespace OTEAServer.Controllers
         {
            _context.Organizations.Add(organization);
            _context.SaveChanges();
-           return CreatedAtAction(nameof(Get), new { id = organization.idOrganization, organizationType=organization.orgType, illness=organization.illness }, organization);
+           return CreatedAtAction(nameof(Get), new { id = organization.idOrganization, orgType=organization.orgType, illness=organization.illness }, organization);
         }
 
         // PUT action
