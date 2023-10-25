@@ -48,10 +48,6 @@ public class Address implements Serializable {
     @SerializedName("nameRegion")
     public String nameRegion;
 
-    private City city;
-    private Province province;
-    private Region region;
-    private Country country;
 
 
     /**
@@ -127,38 +123,6 @@ public class Address implements Serializable {
      * @param zipCode the zip code
      */
     public void setZipCode(int zipCode){this.zipCode=zipCode;}
-
-    public City getCity() {
-        return city;
-    }
-
-    public void setCity(City city) {
-        this.city = city;
-    }
-
-    public Province getProvince() {
-        return province;
-    }
-
-    public void setProvince(Province province) {
-        this.province = province;
-    }
-
-    public Region getRegion() {
-        return region;
-    }
-
-    public void setRegion(Region region) {
-        this.region = region;
-    }
-
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
-    }
 
     public int getIdCity() {
         return idCity;

@@ -19,6 +19,8 @@ import com.fundacionmiradas.indicatorsevaluation.R;
 
 import java.util.List;
 
+import cli.organization.Organization;
+import cli.organization.data.Address;
 import cli.organization.data.Center;
 import cli.user.Request;
 import cli.user.User;

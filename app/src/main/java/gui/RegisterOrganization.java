@@ -110,7 +110,8 @@ public class RegisterOrganization extends AppCompatActivity {
         Drawable correct=ContextCompat.getDrawable(getApplicationContext(),R.drawable.baseline_check_circle_24);
 
 
-
+        User currentUser=(User) getIntent().getSerializableExtra("user");
+        Organization currentOrg=(Organization) getIntent().getSerializableExtra("org");
 
         String[] nameCity = {""};
         String[] nameProvince = {""};
@@ -160,8 +161,22 @@ public class RegisterOrganization extends AppCompatActivity {
 
                 country[0] = countryAdapter[0].getItem(position);
                 idCountry[0] = country[0].getIdCountry();
-                if (idCountry[0].equals("ESP")) {
-                    regionSpinner.setVisibility(View.VISIBLE);
+                if (FieldChecker.isPrecharged(idCountry[0])) {
+                    getRegions(country[0].getIdCountry());
+                    if(regions.size()>1){
+                        regionSpinner.setVisibility(View.VISIBLE);
+                        regionAdapter[0] = new RegionAdapter(RegisterOrganization.this, regions);
+                        regionAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                        regionSpinner.setAdapter(regionAdapter[0]);
+                        regionSpinner.setEnabled(true);
+                    }
+                    else{
+                        getProvinces(-1, idCountry[0]);
+                        provinceAdapter[0] = new ProvinceAdapter(RegisterOrganization.this, provinces);
+                        provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                        provinceSpinner.setAdapter(provinceAdapter[0]);
+                        provinceSpinner.setEnabled(true);
+                    }
                     provinceSpinner.setVisibility(View.VISIBLE);
                     citySpinner.setVisibility(View.VISIBLE);
                     provinceSpinner.setEnabled(false);
@@ -169,11 +184,6 @@ public class RegisterOrganization extends AppCompatActivity {
                     nameProvinceField.setVisibility(View.GONE);
                     nameRegionField.setVisibility(View.GONE);
                     nameCityField.setVisibility(View.GONE);
-                    getRegions(country[0].getIdCountry());
-                    regionAdapter[0] = new RegionAdapter(RegisterOrganization.this, regions);
-                    regionAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-                    regionSpinner.setAdapter(regionAdapter[0]);
-                    regionSpinner.setEnabled(true);
                 } else {
                     regionSpinner.setVisibility(View.GONE);
                     provinceSpinner.setVisibility(View.GONE);
@@ -905,8 +915,8 @@ public class RegisterOrganization extends AppCompatActivity {
 
 
                             Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
-                            intent.putExtra("user",getIntent().getSerializableExtra("user"));
-                            intent.putExtra("org",getIntent().getSerializableExtra("org"));
+                            intent.putExtra("user",currentUser);
+                            intent.putExtra("org",currentOrg);
                             loading.setVisibility(View.GONE);
                             startActivity(intent);
                         }
@@ -968,10 +978,8 @@ public class RegisterOrganization extends AppCompatActivity {
     }
 
     public List<Region> getRegions(String idCountry){
-        if(regions==null){
-            regions= RegionsController.GetRegionsByCountry(idCountry);
-            currIdCountry=idCountry;
-        }
+        regions= RegionsController.GetRegionsByCountry(idCountry);
+        currIdCountry=idCountry;
         return regions;
     }
 
@@ -993,6 +1001,8 @@ public class RegisterOrganization extends AppCompatActivity {
         }
         return cities;
     }
+
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){

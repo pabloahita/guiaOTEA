@@ -4,7 +4,7 @@ namespace OTEAServer.Models
 {
     public class Region
     {
-        public Region(int idRegion, string idCountry, string nameSpanish, string nameEnglish, string nameFrench,string nameBasque, string nameCatalan, string nameDutch, string nameGalician, string nameGerman, string nameItalian, string namePortuguese) {
+        public Region(int idRegion, string idCountry, string? nameSpanish, string? nameEnglish, string? nameFrench,string? nameBasque, string? nameCatalan, string? nameDutch, string? nameGalician, string? nameGerman, string? nameItalian, string? namePortuguese) {
             this.idRegion = idRegion;
             this.idCountry = idCountry;
             this.nameSpanish = nameSpanish;
@@ -27,33 +27,33 @@ namespace OTEAServer.Models
 
 
         [JsonPropertyName("nameSpanish")]
-        public string nameSpanish { get; set; }
+        public string? nameSpanish { get; set; }
 
         [JsonPropertyName("nameEnglish")]
-        public string nameEnglish { get; set; }
+        public string? nameEnglish { get; set; }
 
         [JsonPropertyName("nameFrench")]
-        public string nameFrench { get; set; }
+        public string? nameFrench { get; set; }
 
         [JsonPropertyName("nameBasque")]
-        public string nameBasque { get; set; }
+        public string? nameBasque { get; set; }
 
         [JsonPropertyName("nameCatalan")]
-        public string nameCatalan { get; set; }
+        public string? nameCatalan { get; set; }
 
         [JsonPropertyName("nameDutch")]
-        public string nameDutch { get; set; }
+        public string? nameDutch { get; set; }
 
         [JsonPropertyName("nameGalician")]
-        public string nameGalician { get; set; }
+        public string? nameGalician { get; set; }
 
         [JsonPropertyName("nameGerman")]
-        public string nameGerman { get; set; }
+        public string? nameGerman { get; set; }
 
         [JsonPropertyName("nameItalian")]
-        public string nameItalian { get; set; }
+        public string? nameItalian { get; set; }
 
         [JsonPropertyName("namePortuguese")]
-        public string namePortuguese { get; set; }
+        public string? namePortuguese { get; set; }
     }
 }
