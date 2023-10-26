@@ -91,7 +91,7 @@
     <string name="mandatory_last_name">Mesedez, sartu zure azkenengo izena</string>
     <string name="mandatory_email">Mesedez, sartu zure email-a</string>
     <string name="wrong_email">Eskainitako email-a ez da zuzena, mesedez, sartu zuzeneko email bat</string>
-    <string name="mandatory_phone">Espainian telefono zenbakiak 6, 7, 8 edo 9 zenbakiakin hasi behar dira. Kanpoko telefono zenbakiak 00 baina herrialdearen kodea sartu ondoren hasi behar dira</string>
+    <string name="mandatory_phone">Mesedez, telefono zenbaki bat sartu</string>
     <string name="wrong_telephone">Telefono zenbakia okerra</string>
     <string name="mandatory_password">Pasahitzak honako baldintza hauek bete behar ditu:
 - Gutxienez 6 karaktere izan behar ditu.
@@ -205,5 +205,7 @@
     <string name="complete_reg">Erregistratzea osatu (eskatu ondoren)</string>
     <string name="please_email_req">Eskaria osatzeko, mesedez, hemen idatzi zure posta elektronikoa:</string>
     <string name="complete_req">Eskaria osatu</string>
+    <string name="user_reg">Erabiltzailearen erregistroa</string>
+    <string name="to_user_reg">Erabiltzailea arrakastaz erregistratzeko, beheko eremuei guztiak bete behar zaizkizu</string>
 
 </resources>

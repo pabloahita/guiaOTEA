@@ -83,4 +83,28 @@ public class CountriesController {
             throw new RuntimeException(e);
         }
     }
+
+    public static List<Country> GetCountriesWithPhoneCode(String language){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Callable<List<Country>> callable = new Callable<List<Country>>() {
+            @Override
+            public List<Country> call() throws Exception {
+                Call<List<Country>> call = api.GetCountriesWithPhoneCode(language);
+                Response<List<Country>> response = call.execute();
+                if (response.isSuccessful()) {
+                    return response.body();
+                } else {
+                    throw new IOException("Error: " + response.code() + " " + response.message());
+                }
+            }
+        };
+        try {
+            Future<List<Country>> future = executor.submit(callable);
+            List<Country> list = future.get();
+            executor.shutdown();
+            return list;
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package gui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,11 +23,14 @@ import com.fundacionmiradas.indicatorsevaluation.R;
 
 import java.util.List;
 
+import cli.organization.data.geo.Country;
 import cli.user.User;
 import gui.adapters.OrgsAdapter;
+import gui.adapters.PhoneCodeAdapter;
 import misc.FieldChecker;
 import cli.organization.Organization;
 import misc.PasswordCodifier;
+import otea.connection.controller.CountriesController;
 import otea.connection.controller.OrganizationsController;
 import otea.connection.controller.UsersController;
 
@@ -36,15 +40,18 @@ import java.util.regex.*;
 public class Register extends AppCompatActivity {
 
     private List<Organization> evaluatedOrganizations;
+
+    private List<Country> countriesWithPhoneCode;
+
+    PhoneCodeAdapter[] phoneCodeAdapter={null};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        ProgressBar progressBar=findViewById(R.id.loading_reg);
-        progressBar.setVisibility(View.GONE);
-        TextView textLoading=findViewById(R.id.please_wait);
-        textLoading.setVisibility(View.GONE);
+        ConstraintLayout finalBackground=findViewById(R.id.final_background);
+        finalBackground.setVisibility(View.GONE);
         Spinner spinnerUserType = findViewById(R.id.spinner_menu_user_type);
         Spinner spinnerOrgEvaluated = findViewById(R.id.spinner_menu_org_evaluated);
         spinnerOrgEvaluated.setEnabled(false);
@@ -53,6 +60,15 @@ public class Register extends AppCompatActivity {
         int[] idOrganization = {-1};
         String[] orgType = {""};
         String[] illness = {""};
+        String[] telephone=new String[2];
+
+        getCountriesWithPhoneCode();
+        phoneCodeAdapter[0] = new PhoneCodeAdapter(Register.this,countriesWithPhoneCode);
+        phoneCodeAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+
+        Spinner phoneCode1=findViewById(R.id.phonecode1);
+        phoneCode1.setAdapter(phoneCodeAdapter[0]);
+        phoneCode1.setEnabled(true);
 
         EditText firstNameField=(EditText)findViewById(R.id.first_name_reg);
         EditText lastNameField=(EditText)findViewById(R.id.last_name_reg);
@@ -173,6 +189,18 @@ public class Register extends AppCompatActivity {
                 }
         );
 
+        phoneCode1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                telephone[0] = phoneCodeAdapter[0].getItem(position).getPhone_code();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Acciones a realizar cuando no se selecciona ningún elemento
+            }
+        });
+
         telephoneField.addTextChangedListener(
                 new TextWatcher() {
                     @Override
@@ -183,11 +211,11 @@ public class Register extends AppCompatActivity {
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        String inputText=s.toString();
-                        if(inputText.equals("")){
+                        telephone[1]=s.toString();
+                        if(telephone[1].equals("")){
                             telephoneField.setError(getString(R.string.mandatory_phone));
                         }
-                        else if(FieldChecker.isASpanishNumber(inputText)||FieldChecker.isAForeignNumber(inputText)){
+                        else if(FieldChecker.isACorrectPhone(telephone[0]+telephone[1])){
                             telephoneField.setError(null);
                         }
                         else{
@@ -266,8 +294,7 @@ public class Register extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                textLoading.setVisibility(View.VISIBLE);
+                finalBackground.setVisibility(View.VISIBLE);
                 firstNameField.setEnabled(false);
                 lastNameField.setEnabled(false);
                 emailField.setEnabled(false);
@@ -284,16 +311,14 @@ public class Register extends AppCompatActivity {
                         String last_name=lastNameField.getText().toString();
                         String email=emailField.getText().toString();
                         String password= passwordField.getText().toString();
-                        String telephone=telephoneField.getText().toString();
 
                         if(selectedUserType[0].equals(getString(R.string.fMiradas_user_reg))){
                             idOrganization[0] =1;
                             orgType[0] ="EVALUATOR";
                             illness[0] ="AUTISM";
                         }
-                        if(!first_name.equals("") && !last_name.equals("") && FieldChecker.emailHasCorrectFormat(email) && FieldChecker.passwordHasCorrectFormat(password) && (FieldChecker.isASpanishNumber(telephone) || FieldChecker.isAForeignNumber(telephone))){
-                            long phone=Long.parseLong(telephone);
-                            User user=new User(email,"ORGANIZATION",first_name,last_name, PasswordCodifier.codify(password),phone,idOrganization[0],orgType[0],illness[0]);
+                        if(!first_name.equals("") && !last_name.equals("") && FieldChecker.emailHasCorrectFormat(email) && FieldChecker.passwordHasCorrectFormat(password) && FieldChecker.isACorrectPhone(telephone[0]+telephone[1])){
+                            User user=new User(email,"ORGANIZATION",first_name,last_name, PasswordCodifier.codify(password),telephone[0]+" "+telephone[1],idOrganization[0],orgType[0],illness[0]);
                             UsersController.Create(user);
                             Log.d("USER_REGISTERED","USER REGISTERED");
                             Intent intent=new Intent(getApplicationContext(),gui.MainActivity.class);
@@ -309,8 +334,7 @@ public class Register extends AppCompatActivity {
                             startActivity(intent);
                         }
                         else{
-                            progressBar.setVisibility(View.GONE);
-                            textLoading.setVisibility(View.GONE);
+                            finalBackground.setVisibility(View.VISIBLE);
                             firstNameField.setEnabled(true);
                             lastNameField.setEnabled(true);
                             emailField.setEnabled(true);
@@ -334,7 +358,7 @@ public class Register extends AppCompatActivity {
                             if(!FieldChecker.passwordHasCorrectFormat(password)){
                                 passwordField.setError(getString(R.string.wrong_password));
                             }
-                            if(!(FieldChecker.isASpanishNumber(telephone) || FieldChecker.isAForeignNumber(telephone))){
+                            if(!FieldChecker.isACorrectPhone(telephone[0]+telephone[1])){
                                 telephoneField.setError(getString(R.string.wrong_phone));
                             }
                         }
@@ -355,7 +379,12 @@ public class Register extends AppCompatActivity {
         return evaluatedOrganizations;
     }
 
-
+    public List<Country> getCountriesWithPhoneCode(){
+        if(countriesWithPhoneCode==null){
+            countriesWithPhoneCode= CountriesController.GetCountriesWithPhoneCode(Locale.getDefault().getLanguage());
+        }
+        return countriesWithPhoneCode;
+    }
 
 
 

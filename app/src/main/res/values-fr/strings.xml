@@ -57,7 +57,7 @@
     <string name="mandatory_email">Veuillez entrer votre nom de famille</string>
     <string name="wrong_email">L\'email fourni n\'est pas correct, veuillez entrer un vrai email</string>
 
-    <string name="mandatory_phone">Les numéros de téléphone en Espagne doivent commencer par 6, 7, 8 ou 9. Les numéros de téléphone étrangers doivent commencer par 00 suivi de l\'indicatif du pays</string>
+    <string name="mandatory_phone">Veuillez entrer un numéro de téléphone</string>
     <string name="wrong_telephone">Mauvais numéro de téléphone</string>
     <string name="mandatory_password">Le mot de passe doit répondre aux exigences suivantes:
     - Contenir au moins 6 caractères.
@@ -162,4 +162,6 @@
     <string name="complete_reg">Compléter l\'inscription (après l\'avoir demandée)</string>
     <string name="please_email_req">Pour compléter la demande, veuillez saisir votre adresse e-mail ci-dessous :</string>
     <string name="complete_req">Compléter la demande</string>
+    <string name="user_reg">Inscription de l\'utilisateur</string>
+    <string name="to_user_reg">Pour enregistrer l\'utilisateur avec succès, vous devez remplir tous les champs ci-dessous</string>
 </resources>

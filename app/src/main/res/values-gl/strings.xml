@@ -90,7 +90,7 @@
     <string name="mandatory_last_name">Por favor, introduce o teu apelido</string>
     <string name="mandatory_email">Por favor, introduce o teu correo electrónico</string>
     <string name="wrong_email">O correo electrónico fornecido non é correcto, por favor, introduce un correo electrónico válido</string>
-    <string name="mandatory_phone">Os números de teléfono en España deben comezar por 6, 7, 8 ou 9. Os números de teléfono estranxeiros deben comezar por 00 seguido do código do país</string>
+    <string name="mandatory_phone">Por favor, introduce un número de teléfono</string>
     <string name="wrong_telephone">Número de teléfono incorrecto</string>
     <string name="mandatory_password">O contrasinal debe cumprir os seguintes requisitos:
 - Ter polo menos 6 caracteres.
@@ -202,6 +202,8 @@
     <string name="complete_reg">Completar o rexistro (tras a solicitude)</string>
     <string name="please_email_req">Para completar a solicitude, por favor, escriba o seu correo electrónico abaixo:</string>
     <string name="complete_req">Completar a solicitude</string>
+    <string name="user_reg">Rexistro do usuario</string>
+    <string name="to_user_reg">Para rexistrar o usuario de forma satisfactoria, debe encher todos os campos situados debaixo</string>
 
 
 </resources>

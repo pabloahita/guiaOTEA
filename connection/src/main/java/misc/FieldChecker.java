@@ -1,17 +1,24 @@
 package misc;
 
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FieldChecker {
 
-    public static boolean isASpanishNumber(String inputText){
-        return inputText.length()==9 && (inputText.startsWith("6") || inputText.startsWith("9"));
+    public static boolean isACorrectPhone(String phone){
+        try {
+            PhoneNumberUtil phoneNumberUtil=PhoneNumberUtil.getInstance();
+            Phonenumber.PhoneNumber number = phoneNumberUtil.parse(phone, null);
+            return phoneNumberUtil.isValidNumber(number);
+        } catch (Exception e) {
+            System.out.println("Error al analizar el número de teléfono: " + e.getMessage());
+        }
+        return false;
     }
 
-    public static boolean isAForeignNumber(String telephone){
-        return telephone.startsWith("00") && telephone.length()>=8;
-    }
 
     public static boolean emailHasCorrectFormat(String email){
         Pattern patronEmail=Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");

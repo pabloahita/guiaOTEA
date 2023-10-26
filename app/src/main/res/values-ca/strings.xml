@@ -90,7 +90,7 @@
     <string name="mandatory_last_name">Si us plau, introduïu el vostre cognom</string>
     <string name="mandatory_email">Si us plau, introduïu el vostre correu electrònic</string>
     <string name="wrong_email">El correu electrònic proporcionat no és correcte, si us plau, introduïu un correu electrònic real</string>
-    <string name="mandatory_phone">Els números de telèfon a Espanya han de començar amb 6, 7, 8 o 9. Els números de telèfon estrangers han de començar amb 00 seguit del codi del país</string>
+    <string name="mandatory_phone">Si us plau, introdueix un número de telèfon</string>
     <string name="wrong_telephone">Número de telèfon incorrecte</string>
     <string name="mandatory_password">La contrasenya ha de complir els següents requisits:
 - Contenir almenys 6 caràcters.
@@ -206,5 +206,7 @@
     <string name="complete_reg">Completar el registre (després de sol·licitar-ho)</string>
     <string name="please_email_req">Per completar la sol·licitud, si us plau, escrigui el seu correu electrònic a continuació:</string>
     <string name="complete_req">Completar la sol·licitud</string>
+    <string name="user_reg">Registre de l\'usuari</string>
+    <string name="to_user_reg">Per registrar l\'usuari de forma satisfactòria, ha d\'omplir tots els camps situats a sota</string>
 
 </resources>

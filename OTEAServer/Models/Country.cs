@@ -4,7 +4,7 @@ namespace OTEAServer.Models
 {
     public class Country
     {
-        public Country(string idCountry, string nameSpanish, string nameEnglish, string nameFrench,string nameBasque, string nameCatalan, string nameDutch, string nameGalician, string nameGerman, string nameItalian, string namePortuguese) {
+        public Country(string idCountry, string nameSpanish, string nameEnglish, string nameFrench,string nameBasque, string nameCatalan, string nameDutch, string nameGalician, string nameGerman, string nameItalian, string namePortuguese, string? phone_code) {
             this.nameSpanish = nameSpanish;
             this.nameEnglish = nameEnglish;
             this.nameFrench = nameFrench;
@@ -16,6 +16,7 @@ namespace OTEAServer.Models
             this.nameItalian = nameItalian;
             this.namePortuguese = namePortuguese;
             this.idCountry = idCountry;
+            this.phone_code=phone_code;
         }
         
         [JsonPropertyName("idCountry")]
@@ -50,6 +51,9 @@ namespace OTEAServer.Models
 
         [JsonPropertyName("namePortuguese")]
         public string namePortuguese { get; set; }
+
+        [JsonPropertyName("phone_code")]
+        public string? phone_code { get; set; }
 
     }
 }

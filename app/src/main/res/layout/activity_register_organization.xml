@@ -34,7 +34,7 @@
             app:layout_constraintBottom_toTopOf="@+id/guideline9"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline8"/>
+            app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
         <TextView
             android:id="@+id/textProgress"
@@ -50,6 +50,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline9" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline8"
             android:layout_width="wrap_content"
@@ -254,15 +255,43 @@
                 android:hint="@string/email_reg"
                 android:inputType="textEmailAddress" />
 
-            <EditText
-                android:id="@+id/phone_reg"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:ems="10"
-                android:hint="@string/telephone_reg"
-                android:inputType="phone" />
+                android:layout_columnWeight="1">
+
+                <Spinner
+                    android:id="@+id/phonecode1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline15"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.25"/>
+
+                <EditText
+                    android:id="@+id/phone_reg"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:ems="10"
+                    android:hint="@string/telephone_reg"
+                    android:inputType="phone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/guideline15"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
             <EditText
                 android:id="@+id/more_info_org_reg"
@@ -340,15 +369,42 @@
                 android:hint="@string/password_reg"
                 android:inputType="textPassword" />
 
-            <EditText
-                android:id="@+id/telephone_reg"
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:ems="10"
-                android:hint="@string/telephone_reg"
-                android:inputType="phone" />
+                android:layout_columnWeight="1">
+
+                <Spinner
+                    android:id="@+id/phonecode2"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline25"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline25"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.25"/>
+
+                <EditText
+                    android:id="@+id/telephone_reg"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:ems="10"
+                    android:hint="@string/telephone_reg"
+                    android:inputType="phone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/guideline25"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <gui.customItems.CustomCheckBox
                 android:id="@+id/accept_LOPD"
@@ -373,6 +429,8 @@
                 android:autoSizeTextType="uniform"
                 android:text="@string/sign_up" />
 
+
+
         </GridLayout>
 
         <androidx.constraintlayout.widget.Guideline
@@ -395,6 +453,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.6" />
+
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline4"

@@ -49,10 +49,14 @@ import otea.connection.controller.UsersController;
 public class RegisterOrganization extends AppCompatActivity {
 
     List<Country> countries;
+
+    List<Country> countriesWithPhoneCode;
     List<Region> regions;
     List<Province> provinces;
     List<City> cities;
     CountryAdapter[] countryAdapter={null};
+
+    PhoneCodeAdapter[] phoneCodeAdapter={null};
 
     RegionAdapter[] regionAdapter={null};
 
@@ -78,8 +82,11 @@ public class RegisterOrganization extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_organization);
         getCountries();
+        getCountriesWithPhoneCode();
         countryAdapter[0] = new CountryAdapter(RegisterOrganization.this, countries);
         countryAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+
+        phoneCodeAdapter[0]=new PhoneCodeAdapter(RegisterOrganization.this,countriesWithPhoneCode);
 
         ConstraintLayout loading=findViewById(R.id.final_background);
 
@@ -98,8 +105,14 @@ public class RegisterOrganization extends AppCompatActivity {
         Spinner regionSpinner = findViewById(R.id.spinner_regions_reg);
         Spinner provinceSpinner = findViewById(R.id.spinner_provinces_reg);
         Spinner citySpinner = findViewById(R.id.spinner_cities_reg);
+        Spinner phoneCode1=findViewById(R.id.phonecode1);
+        Spinner phoneCode2=findViewById(R.id.phonecode1);
         countrySpinner.setAdapter(countryAdapter[0]);
         countrySpinner.setEnabled(true);
+        phoneCode1.setAdapter(phoneCodeAdapter[0]);
+        phoneCode1.setEnabled(true);
+        phoneCode2.setAdapter(phoneCodeAdapter[0]);
+        phoneCode2.setEnabled(true);
 
         EditText firstNameField=(EditText)findViewById(R.id.first_name_reg);
         EditText lastNameField=(EditText)findViewById(R.id.last_name_reg);
@@ -122,13 +135,11 @@ public class RegisterOrganization extends AppCompatActivity {
         int[] idRegion = {-1};
         String[] idCountry = {""};
         int[] zipCode = {-1};
-        long[] orgPhone = {-1};
 
         String[] firstName={""};
         String[] lastName={""};
         String[] emailDir={""};
         String[] password={""};
-        long[] dirPhone={-1};
 
         List<Organization> orgs = OrganizationsController.GetAllEvaluatedOrganizations();
         int idOrganization = orgs.size() + 1;
@@ -151,6 +162,8 @@ public class RegisterOrganization extends AppCompatActivity {
         province[0] = (Province) getIntent().getSerializableExtra("province");
         city[0] = (City) getIntent().getSerializableExtra("city");
 
+        String[] orgPhone=new String[2];
+        String[] dirPhone=new String[2];
 
 
 
@@ -169,8 +182,12 @@ public class RegisterOrganization extends AppCompatActivity {
                         regionAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
                         regionSpinner.setAdapter(regionAdapter[0]);
                         regionSpinner.setEnabled(true);
+                        provinceSpinner.setEnabled(false);
                     }
                     else{
+                        if(regionSpinner.getVisibility()==View.VISIBLE){
+                            regionSpinner.setVisibility(View.GONE);
+                        }
                         getProvinces(-1, idCountry[0]);
                         provinceAdapter[0] = new ProvinceAdapter(RegisterOrganization.this, provinces);
                         provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
@@ -179,7 +196,6 @@ public class RegisterOrganization extends AppCompatActivity {
                     }
                     provinceSpinner.setVisibility(View.VISIBLE);
                     citySpinner.setVisibility(View.VISIBLE);
-                    provinceSpinner.setEnabled(false);
                     citySpinner.setEnabled(false);
                     nameProvinceField.setVisibility(View.GONE);
                     nameRegionField.setVisibility(View.GONE);
@@ -476,6 +492,18 @@ public class RegisterOrganization extends AppCompatActivity {
             }
         });
 
+        phoneCode1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                orgPhone[0] = phoneCodeAdapter[0].getItem(position).getPhone_code();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Acciones a realizar cuando no se selecciona ningún elemento
+            }
+        });
+
         orgPhoneField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -484,18 +512,13 @@ public class RegisterOrganization extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String inputText = s.toString();
-                if (inputText.equals("")) {
+                orgPhone[1]=s.toString();
+                if (orgPhone[1].equals("")) {
                     orgPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
                     orgPhoneField.setError(getString(R.string.mandatory_phone));
-                } else if (FieldChecker.isASpanishNumber(inputText) || FieldChecker.isAForeignNumber(inputText)) {
+                } else if (FieldChecker.isACorrectPhone(orgPhone[0]+orgPhone[1])) {
                     orgPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     orgPhoneField.setError(null);
-                    try {
-                        orgPhone[0] = Long.parseLong(inputText);
-                    } catch (NumberFormatException e) {
-                        orgPhone[0] = -1;
-                    }
                 } else {
                     orgPhoneField.setError(getString(R.string.wrong_phone));
                 }
@@ -679,6 +702,18 @@ public class RegisterOrganization extends AppCompatActivity {
                 }
         );
 
+        phoneCode2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                dirPhone[0] = phoneCodeAdapter[0].getItem(position).getPhone_code();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Acciones a realizar cuando no se selecciona ningún elemento
+            }
+        });
+
         directorPhoneField.addTextChangedListener(
                 new TextWatcher() {
                     @Override
@@ -689,19 +724,14 @@ public class RegisterOrganization extends AppCompatActivity {
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        String inputText=s.toString();
-                        if(inputText.equals("")){
+                        dirPhone[1]=s.toString();
+                        if(dirPhone[1].equals("")){
                             directorPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
                             directorPhoneField.setError(getString(R.string.mandatory_phone));
                         }
-                        else if(FieldChecker.isASpanishNumber(inputText)||FieldChecker.isAForeignNumber(inputText)){
+                        else if(FieldChecker.isACorrectPhone(dirPhone[0]+dirPhone[1])){
                             directorPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                             directorPhoneField.setError(null);
-                            try{
-                                dirPhone[0]=Long.parseLong(inputText);
-                            }catch(NumberFormatException e){
-                                dirPhone[0]=-1;
-                            }
                         }
                         else{
                             directorPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
@@ -742,8 +772,8 @@ public class RegisterOrganization extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                if(!nameOrgField.getText().equals("") && !addressNameField.getText().equals("") && !zipCodeField.getText().equals("") && (FieldChecker.isAForeignNumber(orgPhoneField.getText().toString()) || FieldChecker.isASpanishNumber(orgPhoneField.getText().toString()))
-                        && FieldChecker.emailHasCorrectFormat(emailField.getText().toString()) && !firstNameField.getText().equals("") && !lastNameField.getText().equals("") && FieldChecker.emailHasCorrectFormat(emailDirField.getText().toString()) && !passwordField.getText().equals("") && (FieldChecker.isAForeignNumber(directorPhoneField.getText().toString()) || FieldChecker.isASpanishNumber(directorPhoneField.getText().toString()))){
+                if(!nameOrgField.getText().equals("") && !addressNameField.getText().equals("") && !zipCodeField.getText().equals("") && (FieldChecker.isACorrectPhone(orgPhone[0]+orgPhone[1]))
+                        && FieldChecker.emailHasCorrectFormat(emailField.getText().toString()) && !firstNameField.getText().equals("") && !lastNameField.getText().equals("") && FieldChecker.emailHasCorrectFormat(emailDirField.getText().toString()) && !passwordField.getText().equals("") && (FieldChecker.isACorrectPhone(dirPhone[0]+dirPhone[1]))){
                     Address address = new Address(idAddress, addressNameField.getText().toString(), zipCode[0],idCity[0],idProvince[0],idRegion[0],idCountry[0],nameCity[0],nameProvince[0],nameRegion[0]);
 
                     String informationEnglish="";
@@ -875,8 +905,8 @@ public class RegisterOrganization extends AppCompatActivity {
 
 
 
-                    Organization organization=new Organization(idOrganization,orgType,illness,nameOrgField.getText().toString(),idAddress,orgPhone[0],emailField.getText().toString(),informationSpanish,informationEnglish,informationFrench,informationBasque,informationCatalan,informationDutch,informationGalician,informationGerman,informationItalian,informationPortuguese,emailDirField.getText().toString());
-                    User directorOrg=new User(emailDir[0],"ORGANIZATION",firstName[0],lastName[0],password[0],dirPhone[0],idOrganization,orgType,illness);
+                    Organization organization=new Organization(idOrganization,orgType,illness,nameOrgField.getText().toString(),idAddress,orgPhone[0]+" "+orgPhone[1],emailField.getText().toString(),informationSpanish,informationEnglish,informationFrench,informationBasque,informationCatalan,informationDutch,informationGalician,informationGerman,informationItalian,informationPortuguese,emailDirField.getText().toString());
+                    User directorOrg=new User(emailDir[0],"ORGANIZATION",firstName[0],lastName[0],password[0],dirPhone[0]+" "+dirPhone[1],idOrganization,orgType,illness);
                     directorOrg.setPassword(PasswordCodifier.codify(directorOrg.getPassword()));
 
 
@@ -911,7 +941,7 @@ public class RegisterOrganization extends AppCompatActivity {
                             organization.setEmailOrgPrincipal(directorOrg.getEmailUser());
                             OrganizationsController.Update(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),organization);
 
-                            CentersController.Create(new Center(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),1,"Headquarters","Sede principal","Siège social","Egoitza","Seu principal","Hoofdkwartier","Sede principal","Hauptsitz","Sede principale","Sede principal",idAddress,organization.telephone,email[0]));
+                            CentersController.Create(new Center(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),1,"Headquarters","Sede principal","Siège social","Egoitza","Seu principal","Hoofdkwartier","Sede principal","Hauptsitz","Sede principale","Sede principal",idAddress,orgPhone[0]+" "+orgPhone[1],email[0]));
 
 
                             Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
@@ -942,7 +972,7 @@ public class RegisterOrganization extends AppCompatActivity {
                             nameRegionField.setError(getString(R.string.please_region));
                         }
                     }
-                    if(!FieldChecker.isAForeignNumber(orgPhoneField.getText().toString()) && !FieldChecker.isASpanishNumber(orgPhoneField.getText().toString())){
+                    if(!FieldChecker.isACorrectPhone(orgPhone[0]+orgPhone[1])){
                         orgPhoneField.setError(getString(R.string.wrong_phone));
                     }
                     if(!FieldChecker.emailHasCorrectFormat(emailField.getText().toString())){
@@ -960,7 +990,7 @@ public class RegisterOrganization extends AppCompatActivity {
                     if(!FieldChecker.passwordHasCorrectFormat(password[0])){
                         passwordField.setError(getString(R.string.wrong_password));
                     }
-                    if(!(FieldChecker.isASpanishNumber(directorPhoneField.getText().toString()) || FieldChecker.isAForeignNumber(directorPhoneField.getText().toString()))){
+                    if(!FieldChecker.isACorrectPhone(dirPhone[0]+dirPhone[1])){
                         directorPhoneField.setError(getString(R.string.wrong_phone));
                     }
                 }
@@ -975,6 +1005,13 @@ public class RegisterOrganization extends AppCompatActivity {
             countries= CountriesController.GetAll(Locale.getDefault().getLanguage());
         }
         return countries;
+    }
+
+    public List<Country> getCountriesWithPhoneCode(){
+        if(countriesWithPhoneCode==null){
+            countriesWithPhoneCode= CountriesController.GetCountriesWithPhoneCode(Locale.getDefault().getLanguage());
+        }
+        return countriesWithPhoneCode;
     }
 
     public List<Region> getRegions(String idCountry){

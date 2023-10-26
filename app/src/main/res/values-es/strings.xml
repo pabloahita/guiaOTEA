@@ -59,7 +59,7 @@
     <string name="mandatory_last_name">Por favor introduzca su apellido</string>
     <string name="mandatory_email">Por favor introduzca su email</string>
     <string name="wrong_email">El email proporcionado no es correcto, por favor introduzca un email real</string>
-    <string name="mandatory_phone">Los números telefónicos de España deben empezar por 6, 7, 8 o 9. Los números teléfonicos extranjeros deben empezar por 00 seguido del prefijo del país</string>
+    <string name="mandatory_phone">Por favor, introduzca un número de teléfono</string>
     <string name="wrong_telephone">Número de teléfono incorrecto</string>
     <string name="mandatory_password">La contraseña debe cumplir los siguientes requisitos:
     - Contener al menos 6 caracteres.
@@ -164,5 +164,7 @@
     <string name="complete_reg">Completar el registro (después de solicitarlo)</string>
     <string name="please_email_req">Para completar la solicitud, por favor, escriba su correo electrónico a continuación:</string>
     <string name="complete_req">Completar la solicitud</string>
+    <string name="user_reg">Registro del usuario</string>
+    <string name="to_user_reg">Para registrar el usuario de forma satisfactoria, debe rellenar todos los campos situados debajo</string>
 
 </resources>

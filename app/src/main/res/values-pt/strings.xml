@@ -88,7 +88,7 @@
     <string name="mandatory_last_name">Por favor, insira o seu último nome</string>
     <string name="mandatory_email">Por favor, insira o seu email</string>
     <string name="wrong_email">O email fornecido não está correto, por favor insira um email válido</string>
-    <string name="mandatory_phone">Números de telefone na Espanha devem começar com 6, 7, 8 ou 9. Números de telefone estrangeiros devem começar com 00 seguido do código do país</string>
+    <string name="mandatory_phone">Por favor, insira um número de telefone</string>
     <string name="wrong_telephone">Número de telefone incorreto</string>
     <string name="mandatory_password">A senha deve atender aos seguintes requisitos:
     - Conter pelo menos 6 caracteres.
@@ -201,4 +201,6 @@
     <string name="complete_reg">Completar o registo (após solicitação)</string>
     <string name="please_email_req">" Para completar o pedido, por favor, digite seu email abaixo:"</string>
     <string name="complete_req">Completar o pedido</string>
+    <string name="user_reg">Registro do usuário</string>
+    <string name="to_user_reg">Para registrar o usuário com sucesso, é necessário preencher todos os campos abaixo</string>
 </resources>

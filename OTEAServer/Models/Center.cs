@@ -4,7 +4,7 @@ namespace OTEAServer.Models
 {
     public class Center
     {
-        public Center(int idOrganization, string orgType, string illness, int idCenter, string descriptionSpanish, string descriptionEnglish, string descriptionFrench,string descriptionBasque, string descriptionCatalan, string descriptionDutch, string descriptionGalician, string descriptionGerman, string descriptionItalian, string descriptionPortuguese, int idAddress, long telephone, string email) { 
+        public Center(int idOrganization, string orgType, string illness, int idCenter, string descriptionSpanish, string descriptionEnglish, string descriptionFrench,string descriptionBasque, string descriptionCatalan, string descriptionDutch, string descriptionGalician, string descriptionGerman, string descriptionItalian, string descriptionPortuguese, int idAddress, string telephone, string email) { 
             this.idOrganization = idOrganization;
             this.orgType = orgType;
             this.illness = illness;
@@ -71,7 +71,7 @@ namespace OTEAServer.Models
         public int idAddress { get; set; }
 
         [JsonPropertyName("telephone")]
-        public long telephone { get; set; }
+        public string telephone { get; set; }
 
         [JsonPropertyName("email")]
         public string email{get;set;}

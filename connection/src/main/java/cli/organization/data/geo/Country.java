@@ -39,7 +39,10 @@ public class Country implements Serializable {
     @SerializedName("idCountry")
     public String idCountry;
 
-    public Country(String idCountry, String nameSpanish, String nameEnglish, String nameFrench, String nameBasque, String nameCatalan, String nameDutch, String nameGalician, String nameGerman, String nameItalian, String namePortuguese){
+    @SerializedName("phone_code")
+    public String phone_code;
+
+    public Country(String idCountry, String nameSpanish, String nameEnglish, String nameFrench, String nameBasque, String nameCatalan, String nameDutch, String nameGalician, String nameGerman, String nameItalian, String namePortuguese, String phone_code){
         setIdCountry(idCountry);
         setNameSpanish(nameSpanish);
         setNameEnglish(nameEnglish);
@@ -51,6 +54,7 @@ public class Country implements Serializable {
         setNameGerman(nameGerman);
         setNameItalian(nameItalian);
         setNamePortuguese(namePortuguese);
+        setPhone_code(phone_code);
     }
 
     public String getNameSpanish() {
@@ -139,5 +143,13 @@ public class Country implements Serializable {
 
     public void setIdCountry(String idCountry) {
         this.idCountry = idCountry;
+    }
+
+    public String getPhone_code() {
+        return phone_code;
+    }
+
+    public void setPhone_code(String phone_code) {
+        this.phone_code = phone_code;
     }
 }

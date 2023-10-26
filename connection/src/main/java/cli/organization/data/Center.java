@@ -43,13 +43,13 @@ public class Center implements Serializable {
     public int idAddress;
 
     @SerializedName("telephone")
-    public long telephone;
+    public String telephone;
 
     @SerializedName("email")
     public String email;
 
 
-    public Center(int idOrganization, String orgType, String illness,int idCenter, String descriptionEnglish, String descriptionSpanish, String descriptionFrench, String descriptionBasque, String descriptionCatalan, String descriptionDutch, String descriptionGalician, String descriptionGerman, String descriptionItalian, String descriptionPortuguese, int idAddress, long telephone, String email){
+    public Center(int idOrganization, String orgType, String illness,int idCenter, String descriptionEnglish, String descriptionSpanish, String descriptionFrench, String descriptionBasque, String descriptionCatalan, String descriptionDutch, String descriptionGalician, String descriptionGerman, String descriptionItalian, String descriptionPortuguese, int idAddress, String telephone, String email){
         setIdOrganization(idOrganization);
         setOrgType(orgType);
         setIllness(illness);
@@ -189,11 +189,11 @@ public class Center implements Serializable {
         this.idAddress = idAddress;
     }
 
-    public long getTelephone() {
+    public String getTelephone() {
         return telephone;
     }
 
-    public void setTelephone(long telephone) {
+    public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
 

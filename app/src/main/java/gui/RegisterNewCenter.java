@@ -31,6 +31,7 @@ import cli.organization.data.geo.Region;
 import gui.adapters.CityAdapter;
 import gui.adapters.CountryAdapter;
 import gui.adapters.OrgsAdapter;
+import gui.adapters.PhoneCodeAdapter;
 import gui.adapters.ProvinceAdapter;
 import gui.adapters.RegionAdapter;
 import misc.FieldChecker;
@@ -47,6 +48,8 @@ public class RegisterNewCenter extends AppCompatActivity {
 
     List<Organization> organizations;
     List<Country> countries;
+
+    List<Country> countriesWithPhoneCode;
     List<Region> regions;
     List<Province> provinces;
     List<City> cities;
@@ -59,6 +62,8 @@ public class RegisterNewCenter extends AppCompatActivity {
     CityAdapter[] cityAdapter={null};
 
     OrgsAdapter[] orgAdapter={null};
+
+    PhoneCodeAdapter[] phoneCodeAdapter={null};
 
     Organization[] organization={null};
 
@@ -88,6 +93,9 @@ public class RegisterNewCenter extends AppCompatActivity {
         countryAdapter[0]= new CountryAdapter(RegisterNewCenter.this, countries);
         countryAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
 
+        getCountriesWithPhoneCode();
+        phoneCodeAdapter[0] = new PhoneCodeAdapter(RegisterNewCenter.this,countriesWithPhoneCode);
+        phoneCodeAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
 
         EditText descriptionCenterField=findViewById(R.id.description_center_reg);
         EditText addressNameField=findViewById(R.id.name_address_reg);
@@ -102,10 +110,13 @@ public class RegisterNewCenter extends AppCompatActivity {
         Spinner provinceSpinner=findViewById(R.id.spinner_provinces_reg);
         Spinner citySpinner=findViewById(R.id.spinner_cities_reg);
         Spinner orgSpinner=findViewById(R.id.spinner_orgs);
+        Spinner phoneCode1=findViewById(R.id.phonecode1);
         countrySpinner.setAdapter(countryAdapter[0]);
         countrySpinner.setEnabled(true);
         orgSpinner.setAdapter(orgAdapter[0]);
         orgSpinner.setEnabled(true);
+        phoneCode1.setAdapter(phoneCodeAdapter[0]);
+        phoneCode1.setEnabled(true);
 
 
         ConstraintLayout background=findViewById(R.id.final_background);
@@ -120,7 +131,6 @@ public class RegisterNewCenter extends AppCompatActivity {
         int[] idRegion={-1};
         String[] idCountry={""};
         int[] zipCode={-1};
-        long[] telephone={-1};
 
         String[] nameCity={getIntent().getStringExtra("nameCity")};
         String[] nameProvince={getIntent().getStringExtra("nameProvince")};
@@ -132,7 +142,7 @@ public class RegisterNewCenter extends AppCompatActivity {
 
 
         String[] zip_code={""};
-        String[] phone={""};
+        String[] phone=new String[2];
 
         String[] information={};
         String[] email={""};
@@ -154,23 +164,34 @@ public class RegisterNewCenter extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 country[0] = countryAdapter[0].getItem(position);
-                idCountry[0]=country[0].getIdCountry();
-                if(idCountry[0].equals("ESP")){
-                    regionSpinner.setVisibility(View.VISIBLE);
+                idCountry[0] = country[0].getIdCountry();
+                if (FieldChecker.isPrecharged(idCountry[0])) {
+                    getRegions(country[0].getIdCountry());
+                    if(regions.size()>1){
+                        regionSpinner.setVisibility(View.VISIBLE);
+                        regionAdapter[0] = new RegionAdapter(RegisterNewCenter.this, regions);
+                        regionAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                        regionSpinner.setAdapter(regionAdapter[0]);
+                        regionSpinner.setEnabled(true);
+                        provinceSpinner.setEnabled(false);
+                    }
+                    else{
+                        if(regionSpinner.getVisibility()==View.VISIBLE){
+                            regionSpinner.setVisibility(View.GONE);
+                        }
+                        getProvinces(-1, idCountry[0]);
+                        provinceAdapter[0] = new ProvinceAdapter(RegisterNewCenter.this, provinces);
+                        provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                        provinceSpinner.setAdapter(provinceAdapter[0]);
+                        provinceSpinner.setEnabled(true);
+                    }
                     provinceSpinner.setVisibility(View.VISIBLE);
                     citySpinner.setVisibility(View.VISIBLE);
-                    provinceSpinner.setEnabled(false);
                     citySpinner.setEnabled(false);
                     nameProvinceField.setVisibility(View.GONE);
                     nameRegionField.setVisibility(View.GONE);
                     nameCityField.setVisibility(View.GONE);
-                    getRegions(country[0].getIdCountry());
-                    regionAdapter[0]=new RegionAdapter(RegisterNewCenter.this, regions);
-                    regionAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-                    regionSpinner.setAdapter(regionAdapter[0]);
-                    regionSpinner.setEnabled(true);
-                }
-                else{
+                } else {
                     regionSpinner.setVisibility(View.GONE);
                     provinceSpinner.setVisibility(View.GONE);
                     citySpinner.setVisibility(View.GONE);
@@ -462,6 +483,17 @@ public class RegisterNewCenter extends AppCompatActivity {
             }
         });
 
+        phoneCode1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                phone[0] = phoneCodeAdapter[0].getItem(position).getPhone_code();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Acciones a realizar cuando no se selecciona ningún elemento
+            }
+        });
         phoneField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -471,18 +503,13 @@ public class RegisterNewCenter extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String inputText=s.toString();
-                if(inputText.equals("")){
+                phone[1]=inputText;
+                if(phone[1].equals("")){
                     phoneField.setError(getString(R.string.mandatory_phone));
                 }
-                else if(FieldChecker.isASpanishNumber(inputText)||FieldChecker.isAForeignNumber(inputText)){
+                else if(FieldChecker.isACorrectPhone(phone[0]+phone[1])){
                     phoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     phoneField.setError(null);
-                    phone[0]=inputText;
-                    try {
-                        telephone[0] = Long.parseLong(phone[0]);
-                    }catch(NumberFormatException e){
-                        telephone[0]=-1;
-                    }
                 }
                 else{
                     phoneField.setError(getString(R.string.wrong_phone));
@@ -554,7 +581,7 @@ public class RegisterNewCenter extends AppCompatActivity {
                         String nameProvince;
                         String nameRegion;
                         String nameCity;
-                        if(currIdCountry.equals("ESP")){
+                        if(FieldChecker.isPrecharged(currIdCountry)){
                             if(Locale.getDefault().getLanguage().equals("es")){
                                 nameProvince=province[0].getNameSpanish();
                                 nameRegion=region[0].getNameSpanish();
@@ -603,13 +630,12 @@ public class RegisterNewCenter extends AppCompatActivity {
                             nameRegion=nameRegionField.getText().toString();
                             nameCity=nameCityField.getText().toString();
                         }
-                        String telephone=phoneField.getText().toString();
-                        if(!centerDescription.equals("") && !addressName.equals("") && !zipCode.equals("") && !nameProvince.equals("") && !nameRegion.equals("") && !nameCity.equals("") && (FieldChecker.isASpanishNumber(telephone) || FieldChecker.isAForeignNumber(telephone))){
+
+                        if(!centerDescription.equals("") && !addressName.equals("") && !zipCode.equals("") && !nameProvince.equals("") && !nameRegion.equals("") && !nameCity.equals("") && FieldChecker.isACorrectPhone(phone[0]+phone[1])){
 
                             int numCenters= CentersController.GetAllByOrganization(organization[0]).size();
                             int numAddresses= AddressesController.GetAll().size();
                             int zip_code=Integer.parseInt(zipCode);
-                            long phone=Long.parseLong(telephone);
                             int idOrganization=organization[0].getIdOrganization();
                             String orgType=organization[0].getOrgType();
                             String illness=organization[0].getIllness();
@@ -745,7 +771,7 @@ public class RegisterNewCenter extends AppCompatActivity {
                             }
 
 
-                            Center center=new Center(idOrganization,orgType,illness, numCenters+1,descriptionEnglish,descriptionSpanish,descriptionFrench,descriptionBasque,descriptionCatalan,descriptionDutch,descriptionGalician,descriptionGerman,descriptionItalian,descriptionPortuguese,address.getIdAddress(),phone,email[0]);
+                            Center center=new Center(idOrganization,orgType,illness, numCenters+1,descriptionEnglish,descriptionSpanish,descriptionFrench,descriptionBasque,descriptionCatalan,descriptionDutch,descriptionGalician,descriptionGerman,descriptionItalian,descriptionPortuguese,address.getIdAddress(),phone[0]+" "+phone[1],email[0]);
                             CentersController.Create(center);
 
                             Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
@@ -782,7 +808,7 @@ public class RegisterNewCenter extends AppCompatActivity {
                             if(zipCode.equals("")){
                                 zipCodeField.setError(getString(R.string.please_zipcode));
                             }
-                            if(!(FieldChecker.isASpanishNumber(telephone) || FieldChecker.isAForeignNumber(telephone))){
+                            if(!(FieldChecker.isACorrectPhone(phone[0]+phone[1]))){
                                 phoneField.setError(getString(R.string.wrong_phone));
                             }
                         }
@@ -823,11 +849,15 @@ public class RegisterNewCenter extends AppCompatActivity {
         return countries;
     }
 
-    public List<Region> getRegions(String idCountry){
-        if(regions==null){
-            regions= RegionsController.GetRegionsByCountry(idCountry);
-            currIdCountry=idCountry;
+    public List<Country> getCountriesWithPhoneCode(){
+        if(countriesWithPhoneCode==null){
+            countriesWithPhoneCode= CountriesController.GetCountriesWithPhoneCode(Locale.getDefault().getLanguage());
         }
+        return countriesWithPhoneCode;
+    }
+    public List<Region> getRegions(String idCountry){
+        regions= RegionsController.GetRegionsByCountry(idCountry);
+        currIdCountry=idCountry;
         return regions;
     }
 
