@@ -37,7 +37,7 @@ public class PhoneCodeAdapter extends ArrayAdapter<Country> {
         Country country = getItem(position);
         TextView textView = view.findViewById(android.R.id.text1);
 
-        textView.setText(country.getPhone_code());
+        textView.setText(country.getFlag());
         return view;
     }
 
@@ -52,27 +52,27 @@ public class PhoneCodeAdapter extends ArrayAdapter<Country> {
         Country country = getItem(position);
         TextView textView = view.findViewById(android.R.id.text1);
 
-        text=country.getPhone_code();
+        text=country.getFlag();
         if(Locale.getDefault().getLanguage().equals("es")) {
-            text = text + " - " + country.getNameSpanish();
+            text = text + " " + country.getNameSpanish();
         }else if(Locale.getDefault().getLanguage().equals("fr")){
-            text = text + " - " + country.getNameFrench();
+            text = text + " " + country.getNameFrench();
         }else if(Locale.getDefault().getLanguage().equals("eu")) {
-            text = text + " - " + country.getNameBasque();
+            text = text + " " + country.getNameBasque();
         }else if(Locale.getDefault().getLanguage().equals("ca")){
-            text = text + " - " + country.getNameCatalan();
+            text = text + " " + country.getNameCatalan();
         }else if(Locale.getDefault().getLanguage().equals("nl")) {
-            text = text + " - " + country.getNameDutch();
+            text = text + " " + country.getNameDutch();
         }else if(Locale.getDefault().getLanguage().equals("gl")){
-            text = text + " - " + country.getNameGalician();
+            text = text + " " + country.getNameGalician();
         }else if(Locale.getDefault().getLanguage().equals("de")) {
-            text = text + " - " + country.getNameGerman();
+            text = text + " " + country.getNameGerman();
         }else if(Locale.getDefault().getLanguage().equals("it")){
-            text = text + " - " + country.getNameItalian();
+            text = text + " " + country.getNameItalian();
         }else if(Locale.getDefault().getLanguage().equals("pt")) {
-            text = text + " - " + country.getNamePortuguese();
+            text = text + " " + country.getNamePortuguese();
         }else{
-            text= text + " - " + country.getNameEnglish();
+            text= text + " " + country.getNameEnglish();
         }
         textView.setText(text);
 

@@ -56,7 +56,7 @@ public class RegisterOrganization extends AppCompatActivity {
     List<City> cities;
     CountryAdapter[] countryAdapter={null};
 
-    PhoneCodeAdapter[] phoneCodeAdapter={null};
+    PhoneCodeAdapter[] phoneCodeAdapter;
 
     RegionAdapter[] regionAdapter={null};
 
@@ -86,7 +86,11 @@ public class RegisterOrganization extends AppCompatActivity {
         countryAdapter[0] = new CountryAdapter(RegisterOrganization.this, countries);
         countryAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
 
+        phoneCodeAdapter=new PhoneCodeAdapter[2];
+
         phoneCodeAdapter[0]=new PhoneCodeAdapter(RegisterOrganization.this,countriesWithPhoneCode);
+        phoneCodeAdapter[1]=new PhoneCodeAdapter(RegisterOrganization.this,countriesWithPhoneCode);
+
 
         ConstraintLayout loading=findViewById(R.id.final_background);
 
@@ -111,7 +115,7 @@ public class RegisterOrganization extends AppCompatActivity {
         countrySpinner.setEnabled(true);
         phoneCode1.setAdapter(phoneCodeAdapter[0]);
         phoneCode1.setEnabled(true);
-        phoneCode2.setAdapter(phoneCodeAdapter[0]);
+        phoneCode2.setAdapter(phoneCodeAdapter[1]);
         phoneCode2.setEnabled(true);
 
         EditText firstNameField=(EditText)findViewById(R.id.first_name_reg);
@@ -705,7 +709,7 @@ public class RegisterOrganization extends AppCompatActivity {
         phoneCode2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                dirPhone[0] = phoneCodeAdapter[0].getItem(position).getPhone_code();
+                dirPhone[0] = phoneCodeAdapter[1].getItem(position).getPhone_code();
             }
 
             @Override

@@ -1,6 +1,7 @@
 package cli.organization.data.geo;
 
 import com.google.gson.annotations.SerializedName;
+import com.vdurmont.emoji.EmojiParser;
 
 import java.io.Serializable;
 
@@ -42,7 +43,10 @@ public class Country implements Serializable {
     @SerializedName("phone_code")
     public String phone_code;
 
-    public Country(String idCountry, String nameSpanish, String nameEnglish, String nameFrench, String nameBasque, String nameCatalan, String nameDutch, String nameGalician, String nameGerman, String nameItalian, String namePortuguese, String phone_code){
+    @SerializedName("flag")
+    public String flag;
+
+    public Country(String idCountry, String nameSpanish, String nameEnglish, String nameFrench, String nameBasque, String nameCatalan, String nameDutch, String nameGalician, String nameGerman, String nameItalian, String namePortuguese, String phone_code, String flag){
         setIdCountry(idCountry);
         setNameSpanish(nameSpanish);
         setNameEnglish(nameEnglish);
@@ -55,6 +59,7 @@ public class Country implements Serializable {
         setNameItalian(nameItalian);
         setNamePortuguese(namePortuguese);
         setPhone_code(phone_code);
+        setFlag(EmojiParser.parseToUnicode(flag)); //It's mandatory to convert it to a visible emoji because it's code is reached by server
     }
 
     public String getNameSpanish() {
@@ -151,5 +156,13 @@ public class Country implements Serializable {
 
     public void setPhone_code(String phone_code) {
         this.phone_code = phone_code;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
     }
 }
