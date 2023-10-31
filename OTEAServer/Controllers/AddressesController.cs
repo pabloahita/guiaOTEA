@@ -62,7 +62,6 @@ namespace OTEAServer.Controllers
 
             //_context.Addresses.Update(address);
             existingAddress.addressName = address.addressName;
-            existingAddress.zipCode = address.zipCode;
             existingAddress.idCity = address.idCity;
             existingAddress.idProvince = address.idProvince;
             existingAddress.idRegion = address.idRegion;

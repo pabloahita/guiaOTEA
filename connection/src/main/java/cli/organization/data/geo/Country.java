@@ -59,7 +59,7 @@ public class Country implements Serializable {
         setNameItalian(nameItalian);
         setNamePortuguese(namePortuguese);
         setPhone_code(phone_code);
-        setFlag(EmojiParser.parseToUnicode(flag)); //It's mandatory to convert it to a visible emoji because it's code is reached by server
+        setFlag(EmojiParser.parseToUnicode(flag)); //It's mandatory to convert it to a visible emoji because its code is reached by server via JSON
     }
 
     public String getNameSpanish() {

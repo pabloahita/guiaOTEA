@@ -25,6 +25,7 @@ import cli.organization.data.Center;
 import cli.user.Request;
 import cli.user.User;
 import misc.FieldChecker;
+import misc.PasswordCodifier;
 import otea.connection.controller.*;
 
 public class MainActivity extends AppCompatActivity {
@@ -71,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
         complete_req.setVisibility(View.GONE);
         email_req.setVisibility(View.GONE);
         final_background.setVisibility(View.GONE);
+
+
 
         sign_in.setOnClickListener(v -> {
             Intent intent = new Intent(this, gui.ui.startSession.StartSession.class);

@@ -41,7 +41,7 @@ public class Register extends AppCompatActivity {
 
     private List<Organization> evaluatedOrganizations;
 
-    private List<Country> countriesWithPhoneCode;
+    private List<Country> countries;
 
     PhoneCodeAdapter[] phoneCodeAdapter={null};
 
@@ -62,8 +62,8 @@ public class Register extends AppCompatActivity {
         String[] illness = {""};
         String[] telephone=new String[2];
 
-        getCountriesWithPhoneCode();
-        phoneCodeAdapter[0] = new PhoneCodeAdapter(Register.this,countriesWithPhoneCode);
+        getCountries();
+        phoneCodeAdapter[0] = new PhoneCodeAdapter(Register.this,countries);
         phoneCodeAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
 
         Spinner phoneCode1=findViewById(R.id.phonecode1);
@@ -379,11 +379,11 @@ public class Register extends AppCompatActivity {
         return evaluatedOrganizations;
     }
 
-    public List<Country> getCountriesWithPhoneCode(){
-        if(countriesWithPhoneCode==null){
-            countriesWithPhoneCode= CountriesController.GetCountriesWithPhoneCode(Locale.getDefault().getLanguage());
+    public List<Country> getCountries(){
+        if(countries==null){
+            countries= CountriesController.GetAll(Locale.getDefault().getLanguage());
         }
-        return countriesWithPhoneCode;
+        return countries;
     }
 
 

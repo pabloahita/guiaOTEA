@@ -14,6 +14,4 @@ public interface CountriesApi {
     @GET("Countries/all")
     Call<List<Country>> GetAll(@Query("language") String language);
 
-    @GET("Countries/countriesWithPhoneCode")
-    Call<List<Country>> GetCountriesWithPhoneCode(@Query("language") String language);
 }

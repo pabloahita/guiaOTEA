@@ -23,16 +23,16 @@ public class Organization implements Serializable {
     @SerializedName("idAddress")
     public int idAddress;
 
-    @SerializedName("telephone")
-    public String telephone;
-
     @SerializedName("email")
     public String email;
 
-    @SerializedName("informationEnglish")
-    public String informationEnglish;
+    @SerializedName("telephone")
+    public String telephone;
+
     @SerializedName("informationSpanish")
     public String informationSpanish;
+    @SerializedName("informationEnglish")
+    public String informationEnglish;
     @SerializedName("informationFrench")
     public String informationFrench;
     @SerializedName("informationBasque")
@@ -54,12 +54,11 @@ public class Organization implements Serializable {
     public String emailOrgPrincipal;
 
 
-    private Address address;
-    public Organization(int idOrganization, String orgType, String illness, String name, int idAddress, String telephone, String email, String informationEnglish, String informationSpanish, String informationFrench, String informationBasque, String informationCatalan, String informationDutch, String informationGalician, String informationGerman, String informationItalian, String informationPortuguese, String emailOrgPrincipal){
+    public Organization(int idOrganization, String orgType, String illness, String nameOrg, int idAddress, String email, String telephone, String informationSpanish, String informationEnglish,String informationFrench, String informationBasque, String informationCatalan, String informationDutch, String informationGalician, String informationGerman, String informationItalian, String informationPortuguese, String emailOrgPrincipal){
         setIdOrganization(idOrganization);
         setOrgType(orgType);
         setIllness(illness);
-        setName(name);
+        setNameOrg(nameOrg);
         setIdAddress(idAddress);
         setTelephone(telephone);
         setEmail(email);
@@ -104,9 +103,7 @@ public class Organization implements Serializable {
     }
 
     
-    public Address getAddress() {
-        return address;
-    }
+
 
     
     public String getTelephone() {
@@ -229,8 +226,7 @@ public class Organization implements Serializable {
         this.nameOrg=name;
     }
 
-    
-    public void setAddress(Address address) {this.address=address;}
+
 
     
     public int getIdAddress(){return idAddress;}

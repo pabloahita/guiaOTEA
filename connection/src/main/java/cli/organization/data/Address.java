@@ -23,10 +23,6 @@ public class Address implements Serializable {
     @SerializedName("addressName")
     public String addressName;
 
-
-    @SerializedName("zipCode")
-    public int zipCode;
-
     @SerializedName("idCity")
     public int idCity;
 
@@ -55,17 +51,15 @@ public class Address implements Serializable {
      * <p>ES: Constructor de la clase Address</p>
      * @param idAddress    <p>EN: Address identifier </p><p>ES: Identificador de la direccion</p>
      * @param addressName    <p>EN: Address's name</p><p>ES: Nombre de la direccion</p>
-     * @param zipCode <p>EN: Address' zip-code</p><p>ES: Codigo postal de la direccion</p>
      * @param idCity    <p>EN: Address' city id</p><p>ES: Id de la ciudad de la direccion</p>
      * @param idProvince <p>EN:Address' province id</p><p>ES: Id de la provincia de la direccion</p>
      * @param idRegion <p>EN: Address' region id</p><p>ES: Id de la region de la direccion</p>
      * @param idCountry <p>EN: Address' country id</p><p>ES: Id del pais de la direccion</p>
      */
 
-    public Address(int idAddress, String addressName, int zipCode, int idCity, int idProvince, int idRegion, String idCountry, String nameCity, String nameProvince, String nameRegion){
+    public Address(int idAddress, String addressName, int idCity, int idProvince, int idRegion, String idCountry, String nameCity, String nameProvince, String nameRegion){
         setIdAddress(idAddress);
         setName(addressName);
-        setZipCode(zipCode);
         setIdCity(idCity);
         setIdProvince(idProvince);
         setIdRegion(idRegion);
@@ -108,21 +102,7 @@ public class Address implements Serializable {
      */
     public void setName(String name){this.addressName=name;}
 
-    
 
-    /**
-     * Get zip code int.
-     *
-     * @return the int
-     */
-    public int getZipCode(){return zipCode;}
-
-    /**
-     * Set zip code.
-     *
-     * @param zipCode the zip code
-     */
-    public void setZipCode(int zipCode){this.zipCode=zipCode;}
 
     public int getIdCity() {
         return idCity;

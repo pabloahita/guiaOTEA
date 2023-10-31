@@ -20,8 +20,10 @@ import android.widget.Spinner;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,7 +52,6 @@ public class RegisterOrganization extends AppCompatActivity {
 
     List<Country> countries;
 
-    List<Country> countriesWithPhoneCode;
     List<Region> regions;
     List<Province> provinces;
     List<City> cities;
@@ -82,14 +83,13 @@ public class RegisterOrganization extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_organization);
         getCountries();
-        getCountriesWithPhoneCode();
         countryAdapter[0] = new CountryAdapter(RegisterOrganization.this, countries);
         countryAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
 
         phoneCodeAdapter=new PhoneCodeAdapter[2];
 
-        phoneCodeAdapter[0]=new PhoneCodeAdapter(RegisterOrganization.this,countriesWithPhoneCode);
-        phoneCodeAdapter[1]=new PhoneCodeAdapter(RegisterOrganization.this,countriesWithPhoneCode);
+        phoneCodeAdapter[0]=new PhoneCodeAdapter(RegisterOrganization.this,countries);
+        phoneCodeAdapter[1]=new PhoneCodeAdapter(RegisterOrganization.this,countries);
 
 
         ConstraintLayout loading=findViewById(R.id.final_background);
@@ -110,7 +110,7 @@ public class RegisterOrganization extends AppCompatActivity {
         Spinner provinceSpinner = findViewById(R.id.spinner_provinces_reg);
         Spinner citySpinner = findViewById(R.id.spinner_cities_reg);
         Spinner phoneCode1=findViewById(R.id.phonecode1);
-        Spinner phoneCode2=findViewById(R.id.phonecode1);
+        Spinner phoneCode2=findViewById(R.id.phonecode2);
         countrySpinner.setAdapter(countryAdapter[0]);
         countrySpinner.setEnabled(true);
         phoneCode1.setAdapter(phoneCodeAdapter[0]);
@@ -130,20 +130,10 @@ public class RegisterOrganization extends AppCompatActivity {
         User currentUser=(User) getIntent().getSerializableExtra("user");
         Organization currentOrg=(Organization) getIntent().getSerializableExtra("org");
 
-        String[] nameCity = {""};
-        String[] nameProvince = {""};
-        String[] nameRegion = {""};
-
         int[] idCity = {-1};
         int[] idProvince = {-1};
         int[] idRegion = {-1};
         String[] idCountry = {""};
-        int[] zipCode = {-1};
-
-        String[] firstName={""};
-        String[] lastName={""};
-        String[] emailDir={""};
-        String[] password={""};
 
         List<Organization> orgs = OrganizationsController.GetAllEvaluatedOrganizations();
         int idOrganization = orgs.size() + 1;
@@ -151,23 +141,25 @@ public class RegisterOrganization extends AppCompatActivity {
         String illness = "AUTISM";
 
         int idAddress = AddressesController.GetAll().size() + 1;
-        Address address = (Address) getIntent().getSerializableExtra("address");
-        Organization organization = (Organization) getIntent().getSerializableExtra("organization");
+        
 
-
-        String[] zip_code = {getIntent().getStringExtra("zipCode")};
-
-        String[] information = {getIntent().getStringExtra("information")};
-        String[] email = {getIntent().getStringExtra("email")};
-
-
-        country[0] = (Country) getIntent().getSerializableExtra("country");
-        region[0] = (Region) getIntent().getSerializableExtra("region");
-        province[0] = (Province) getIntent().getSerializableExtra("province");
-        city[0] = (City) getIntent().getSerializableExtra("city");
-
-        String[] orgPhone=new String[2];
-        String[] dirPhone=new String[2];
+        Map<String,String> fields=new HashMap<String,String>();
+        fields.put("nameOrg","");
+        fields.put("address","");
+        fields.put("zipCode","");
+        fields.put("nameCity","");
+        fields.put("nameProvince","");
+        fields.put("nameRegion","");
+        fields.put("telephoneCodeOrg","");
+        fields.put("telephoneOrg","");
+        fields.put("emailOrg","");
+        fields.put("information","");
+        fields.put("firstName","");
+        fields.put("lastName","");
+        fields.put("emailDir","");
+        fields.put("passwordDir","");
+        fields.put("telephoneCodeDir","");
+        fields.put("telephoneCode","");
 
 
 
@@ -231,27 +223,26 @@ public class RegisterOrganization extends AppCompatActivity {
 
                 region[0] = regionAdapter[0].getItem(position);
                 idRegion[0] = region[0].getIdRegion();
-                nameRegion[0]="";
                 if(Locale.getDefault().getLanguage().equals("es")) {
-                    nameRegion[0] = region[0].getNameSpanish();
+                    fields.replace("nameRegion",region[0].getNameSpanish());
                 }else if(Locale.getDefault().getLanguage().equals("fr")){
-                    nameRegion[0]=region[0].getNameFrench();
+                    fields.replace("nameRegion",region[0].getNameFrench());
                 }else if(Locale.getDefault().getLanguage().equals("eu")) {
-                    nameRegion[0] = region[0].getNameBasque();
+                    fields.replace("nameRegion",region[0].getNameBasque());
                 }else if(Locale.getDefault().getLanguage().equals("ca")){
-                    nameRegion[0]=region[0].getNameCatalan();
+                    fields.replace("nameRegion",region[0].getNameCatalan());
                 }else if(Locale.getDefault().getLanguage().equals("nl")) {
-                    nameRegion[0] = region[0].getNameDutch();
+                    fields.replace("nameRegion",region[0].getNameDutch());
                 }else if(Locale.getDefault().getLanguage().equals("gl")){
-                    nameRegion[0]=region[0].getNameGalician();
+                    fields.replace("nameRegion",region[0].getNameGalician());
                 }else if(Locale.getDefault().getLanguage().equals("de")) {
-                    nameRegion[0]= region[0].getNameGerman();
+                    fields.replace("nameRegion",region[0].getNameGerman());
                 }else if(Locale.getDefault().getLanguage().equals("it")){
-                    nameRegion[0]=region[0].getNameItalian();
+                    fields.replace("nameRegion",region[0].getNameItalian());
                 }else if(Locale.getDefault().getLanguage().equals("pt")) {
-                    nameRegion[0]=region[0].getNamePortuguese();
+                    fields.replace("nameRegion",region[0].getNamePortuguese());
                 }else{
-                    nameRegion[0]=region[0].getNameEnglish();
+                    fields.replace("nameRegion",region[0].getNameEnglish());
                 }
                 getProvinces(region[0].getIdRegion(), region[0].getIdCountry());
                 provinceAdapter[0] = new ProvinceAdapter(RegisterOrganization.this, provinces);
@@ -272,27 +263,26 @@ public class RegisterOrganization extends AppCompatActivity {
                 ;
                 province[0] = provinceAdapter[0].getItem(position);
                 idProvince[0] = province[0].getIdProvince();
-                nameProvince[0]="";
                 if(Locale.getDefault().getLanguage().equals("es")) {
-                    nameProvince[0] = province[0].getNameSpanish();
+                    fields.replace("nameProvince", province[0].getNameSpanish());
                 }else if(Locale.getDefault().getLanguage().equals("fr")){
-                    nameProvince[0]=province[0].getNameFrench();
+                    fields.replace("nameProvince",province[0].getNameFrench());
                 }else if(Locale.getDefault().getLanguage().equals("eu")) {
-                    nameProvince[0] = province[0].getNameBasque();
+                    fields.replace("nameProvince", province[0].getNameBasque());
                 }else if(Locale.getDefault().getLanguage().equals("ca")){
-                    nameProvince[0]=province[0].getNameCatalan();
+                    fields.replace("nameProvince",province[0].getNameCatalan());
                 }else if(Locale.getDefault().getLanguage().equals("nl")) {
-                    nameProvince[0] = province[0].getNameDutch();
+                    fields.replace("nameProvince", province[0].getNameDutch());
                 }else if(Locale.getDefault().getLanguage().equals("gl")){
-                    nameProvince[0]=province[0].getNameGalician();
+                    fields.replace("nameProvince",province[0].getNameGalician());
                 }else if(Locale.getDefault().getLanguage().equals("de")) {
-                    nameProvince[0]= province[0].getNameGerman();
+                    fields.replace("nameProvince", province[0].getNameGerman());
                 }else if(Locale.getDefault().getLanguage().equals("it")){
-                    nameProvince[0]=province[0].getNameItalian();
+                    fields.replace("nameProvince",province[0].getNameItalian());
                 }else if(Locale.getDefault().getLanguage().equals("pt")) {
-                    nameProvince[0]=province[0].getNamePortuguese();
+                    fields.replace("nameProvince",province[0].getNamePortuguese());
                 }else{
-                    nameProvince[0]=province[0].getNameEnglish();
+                    fields.replace("nameProvince",province[0].getNameEnglish());
                 }
                 getCities(province[0].getIdProvince(), province[0].getIdRegion(), province[0].getIdCountry());
                 cityAdapter[0] = new CityAdapter(RegisterOrganization.this, cities);
@@ -312,27 +302,26 @@ public class RegisterOrganization extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 city[0] = cityAdapter[0].getItem(position);
                 idCity[0] = city[0].getIdProvince();
-                nameCity[0]="";
                 if(Locale.getDefault().getLanguage().equals("es")) {
-                    nameCity[0] = city[0].getNameSpanish();
+                    fields.replace("nameCity",city[0].getNameSpanish());
                 }else if(Locale.getDefault().getLanguage().equals("fr")){
-                    nameCity[0]=city[0].getNameFrench();
+                    fields.replace("nameCity",city[0].getNameFrench());
                 }else if(Locale.getDefault().getLanguage().equals("eu")) {
-                    nameCity[0] = city[0].getNameBasque();
+                    fields.replace("nameCity",city[0].getNameBasque());
                 }else if(Locale.getDefault().getLanguage().equals("ca")){
-                    nameCity[0]=city[0].getNameCatalan();
+                    fields.replace("nameCity",city[0].getNameCatalan());
                 }else if(Locale.getDefault().getLanguage().equals("nl")) {
-                    nameCity[0] = city[0].getNameDutch();
+                    fields.replace("nameCity",city[0].getNameDutch());
                 }else if(Locale.getDefault().getLanguage().equals("gl")){
-                    nameCity[0]=city[0].getNameGalician();
+                    fields.replace("nameCity",city[0].getNameGalician());
                 }else if(Locale.getDefault().getLanguage().equals("de")) {
-                    nameCity[0]= city[0].getNameGerman();
+                    fields.replace("nameCity",city[0].getNameGerman());
                 }else if(Locale.getDefault().getLanguage().equals("it")){
-                    nameCity[0]=city[0].getNameItalian();
+                    fields.replace("nameCity",city[0].getNameItalian());
                 }else if(Locale.getDefault().getLanguage().equals("pt")) {
-                    nameCity[0]=city[0].getNamePortuguese();
+                    fields.replace("nameCity",city[0].getNamePortuguese());
                 }else{
-                    nameCity[0]=city[0].getNameEnglish();
+                    fields.replace("nameCity",city[0].getNameEnglish());
                 }
             }
 
@@ -383,6 +372,7 @@ public class RegisterOrganization extends AppCompatActivity {
                     addressNameField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     addressNameField.setError(null);
                 }
+                fields.replace("address",input_text);
             }
 
             @Override
@@ -406,13 +396,8 @@ public class RegisterOrganization extends AppCompatActivity {
                 } else {
                     zipCodeField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     zipCodeField.setError(null);
-                    zip_code[0] = input_text;
-                    try {
-                        zipCode[0] = Integer.parseInt(zip_code[0]);
-                    } catch (NumberFormatException e) {
-                        zipCode[0] = -1;
-                    }
                 }
+                fields.replace("zipCode",input_text);
             }
 
             @Override
@@ -436,8 +421,8 @@ public class RegisterOrganization extends AppCompatActivity {
                 } else {
                     nameRegionField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
                     nameRegionField.setError(null);
-                    nameRegion[0] = input_text;
                 }
+                fields.put("nameRegion",input_text);
             }
 
             @Override
@@ -461,8 +446,8 @@ public class RegisterOrganization extends AppCompatActivity {
                 } else {
                     nameProvinceField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     nameProvinceField.setError(null);
-                    nameProvince[0] = input_text;
                 }
+                fields.replace("nameProvince", input_text);
             }
 
             @Override
@@ -486,8 +471,8 @@ public class RegisterOrganization extends AppCompatActivity {
                 } else {
                     nameCityField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     nameCityField.setError(null);
-                    nameCity[0] = input_text;
                 }
+                fields.replace("nameCity",input_text);
             }
 
             @Override
@@ -499,7 +484,16 @@ public class RegisterOrganization extends AppCompatActivity {
         phoneCode1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                orgPhone[0] = phoneCodeAdapter[0].getItem(position).getPhone_code();
+                fields.replace("telephoneCodeOrg",phoneCodeAdapter[0].getItem(position).getPhone_code());
+                if (fields.get("telephoneOrg").equals("")) {
+                    orgPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                    orgPhoneField.setError(null);
+                } else if (FieldChecker.isACorrectPhone(fields.get("telephoneCodeOrg")+fields.get("telephoneOrg"))) {
+                    orgPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+                    orgPhoneField.setError(null);
+                } else {
+                    orgPhoneField.setError(getString(R.string.wrong_phone));
+                }
             }
 
             @Override
@@ -516,11 +510,11 @@ public class RegisterOrganization extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                orgPhone[1]=s.toString();
-                if (orgPhone[1].equals("")) {
+                fields.replace("telephoneOrg",s.toString());
+                if (fields.get("telephoneOrg").equals("")) {
                     orgPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-                    orgPhoneField.setError(getString(R.string.mandatory_phone));
-                } else if (FieldChecker.isACorrectPhone(orgPhone[0]+orgPhone[1])) {
+                    orgPhoneField.setError(null);
+                } else if (FieldChecker.isACorrectPhone(fields.get("telephoneCodeOrg")+fields.get("telephoneOrg"))) {
                     orgPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     orgPhoneField.setError(null);
                 } else {
@@ -546,7 +540,6 @@ public class RegisterOrganization extends AppCompatActivity {
                 if (FieldChecker.emailHasCorrectFormat(inputText)) {
                     emailField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     emailField.setError(null);
-                    email[0] = inputText;
                 } else {
                     emailField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
                     if (inputText.equals("")) {
@@ -555,6 +548,7 @@ public class RegisterOrganization extends AppCompatActivity {
                         emailField.setError(getString(R.string.wrong_email));
                     }
                 }
+                fields.replace("emailOrg",inputText);
             }
 
             @Override
@@ -572,7 +566,7 @@ public class RegisterOrganization extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String input_text = s.toString();
-                information[0] = input_text;
+                fields.replace("information",input_text);
             }
 
             @Override
@@ -598,8 +592,8 @@ public class RegisterOrganization extends AppCompatActivity {
                         }else{
                             firstNameField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                             firstNameField.setError(null);
-                            firstName[0]=inputText;
                         }
+                        fields.replace("firstName",inputText);
                     }
 
                     @Override
@@ -626,8 +620,8 @@ public class RegisterOrganization extends AppCompatActivity {
                         }else{
                             lastNameField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                             lastNameField.setError(null);
-                            lastName[0]=inputText;
                         }
+                        fields.replace("lastName",inputText);
                     }
 
                     @Override
@@ -651,7 +645,6 @@ public class RegisterOrganization extends AppCompatActivity {
                         if(FieldChecker.emailHasCorrectFormat(inputText)){
                             emailDirField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                             emailDirField.setError(null);
-                            emailDir[0]=inputText;
                         }
                         else{
                             emailDirField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
@@ -662,6 +655,7 @@ public class RegisterOrganization extends AppCompatActivity {
                                 emailDirField.setError(getString(R.string.wrong_email));
                             }
                         }
+                        fields.replace("emailDir",inputText);
                     }
 
                     @Override
@@ -689,12 +683,12 @@ public class RegisterOrganization extends AppCompatActivity {
                         if(matcher.matches()){
                             passwordField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                             passwordField.setError(null);
-                            password[0]=inputText;
                         }
                         else{
                             passwordField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
                             passwordField.setError(getString(R.string.mandatory_password));
                         }
+                        fields.replace("password",inputText);
                     }
 
                     @Override
@@ -709,7 +703,16 @@ public class RegisterOrganization extends AppCompatActivity {
         phoneCode2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                dirPhone[0] = phoneCodeAdapter[1].getItem(position).getPhone_code();
+                fields.replace("telephoneCodeDir",phoneCodeAdapter[1].getItem(position).getPhone_code());
+                if (fields.get("telephoneDir").equals("")) {
+                    directorPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                    directorPhoneField.setError(null);
+                } else if (FieldChecker.isACorrectPhone(fields.get("telephoneCodeDir")+fields.get("telephoneDir"))) {
+                    directorPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+                    directorPhoneField.setError(null);
+                } else {
+                    directorPhoneField.setError(getString(R.string.wrong_phone));
+                }
             }
 
             @Override
@@ -728,17 +731,14 @@ public class RegisterOrganization extends AppCompatActivity {
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        dirPhone[1]=s.toString();
-                        if(dirPhone[1].equals("")){
+                        fields.replace("telephoneDir",s.toString());
+                        if (fields.get("telephoneDir").equals("")) {
                             directorPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-                            directorPhoneField.setError(getString(R.string.mandatory_phone));
-                        }
-                        else if(FieldChecker.isACorrectPhone(dirPhone[0]+dirPhone[1])){
+                            directorPhoneField.setError(null);
+                        } else if (FieldChecker.isACorrectPhone(fields.get("telephoneCodeDir")+fields.get("telephoneDir"))) {
                             directorPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                             directorPhoneField.setError(null);
-                        }
-                        else{
-                            directorPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                        } else {
                             directorPhoneField.setError(getString(R.string.wrong_phone));
                         }
                     }
@@ -776,9 +776,11 @@ public class RegisterOrganization extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                if(!nameOrgField.getText().equals("") && !addressNameField.getText().equals("") && !zipCodeField.getText().equals("") && (FieldChecker.isACorrectPhone(orgPhone[0]+orgPhone[1]))
-                        && FieldChecker.emailHasCorrectFormat(emailField.getText().toString()) && !firstNameField.getText().equals("") && !lastNameField.getText().equals("") && FieldChecker.emailHasCorrectFormat(emailDirField.getText().toString()) && !passwordField.getText().equals("") && (FieldChecker.isACorrectPhone(dirPhone[0]+dirPhone[1]))){
-                    Address address = new Address(idAddress, addressNameField.getText().toString(), zipCode[0],idCity[0],idProvince[0],idRegion[0],idCountry[0],nameCity[0],nameProvince[0],nameRegion[0]);
+                if(!fields.get("nameOrg").equals("") && !fields.get("address").equals("") && !fields.get("zipCode").equals("") && (FieldChecker.isACorrectPhone(fields.get("telephoneCodeOrg")+fields.get("telephoneOrg")))
+                        && FieldChecker.emailHasCorrectFormat(fields.get("emailOrg")) && !fields.get("firstName").equals("") && !fields.get("lastName").equals("") && FieldChecker.emailHasCorrectFormat(fields.get("emailDir")) &&
+                        !fields.get("password").equals("") && (FieldChecker.isACorrectPhone(fields.get("telephoneCodeDir")+fields.get("telephoneDir")))){
+
+                    Address address = new Address(idAddress, fields.get("address"), idCity[0],idProvince[0],idRegion[0],idCountry[0],fields.get("nameCity"),fields.get("nameProvince"),fields.get("nameRegion"));
 
                     String informationEnglish="";
                     String informationSpanish="";
@@ -791,9 +793,9 @@ public class RegisterOrganization extends AppCompatActivity {
                     String informationItalian="";
                     String informationPortuguese="";
 
-                    String informationText=information[0];
+                    String informationText=fields.get("information");
 
-                    if(!information[0].equals("")){
+                    if(!informationText.equals("")){
                         if(Locale.getDefault().getLanguage().equals("es")){
                             informationEnglish= TranslatorController.getInstance().translate(informationText,"es","en");
                             informationSpanish=informationText;
@@ -909,9 +911,8 @@ public class RegisterOrganization extends AppCompatActivity {
 
 
 
-                    Organization organization=new Organization(idOrganization,orgType,illness,nameOrgField.getText().toString(),idAddress,orgPhone[0]+" "+orgPhone[1],emailField.getText().toString(),informationSpanish,informationEnglish,informationFrench,informationBasque,informationCatalan,informationDutch,informationGalician,informationGerman,informationItalian,informationPortuguese,emailDirField.getText().toString());
-                    User directorOrg=new User(emailDir[0],"ORGANIZATION",firstName[0],lastName[0],password[0],dirPhone[0]+" "+dirPhone[1],idOrganization,orgType,illness);
-                    directorOrg.setPassword(PasswordCodifier.codify(directorOrg.getPassword()));
+                    Organization organization=new Organization(idOrganization,orgType,illness,fields.get("nameOrg"),idAddress,fields.get("emailOrg"),fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),informationEnglish,informationSpanish,informationFrench,informationBasque,informationCatalan,informationDutch,informationGalician,informationGerman,informationItalian,informationPortuguese,emailDirField.getText().toString());
+                    User directorOrg=new User(fields.get("emailDir"),"ORGANIZATION",fields.get("firstName"),fields.get("lastName"),PasswordCodifier.codify(fields.get("password")),fields.get("telephoneCodeDir")+" "+fields.get("telephoneDir"),idOrganization,orgType,illness);
 
 
                     nameOrgField.setEnabled(false);
@@ -945,7 +946,7 @@ public class RegisterOrganization extends AppCompatActivity {
                             organization.setEmailOrgPrincipal(directorOrg.getEmailUser());
                             OrganizationsController.Update(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),organization);
 
-                            CentersController.Create(new Center(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),1,"Headquarters","Sede principal","Siège social","Egoitza","Seu principal","Hoofdkwartier","Sede principal","Hauptsitz","Sede principale","Sede principal",idAddress,orgPhone[0]+" "+orgPhone[1],email[0]));
+                            CentersController.Create(new Center(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),1,"Headquarters","Sede principal","Siège social","Egoitza","Seu principal","Hoofdkwartier","Sede principal","Hauptsitz","Sede principale","Sede principal",idAddress,fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),fields.get("emailOrg")));
 
 
                             Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
@@ -956,45 +957,42 @@ public class RegisterOrganization extends AppCompatActivity {
                         }
                     }, 100);
                 }else{
-                    if(nameOrgField.getText().equals("")){
+                    if(fields.get("nameOrg").equals("")){
                         nameOrgField.setError(getString(R.string.please_org_name));
                     }
-                    if(addressNameField.getText().equals("")){
+                    if(fields.get("address").equals("")){
                         addressNameField.setError(getString(R.string.please_address));
                     }
-                    if(zipCodeField.getText().equals("")){
-                        zipCodeField.setError(getString(R.string.please_zipcode));
-                    }
-                    if(!country[0].getIdCountry().equals("ESP")){
-                        if(nameCityField.getText().equals("")){
+                    if(!FieldChecker.isPrecharged(country[0].getIdCountry())){
+                        if(fields.get("nameCity").equals("")){
                             nameCityField.setError(getString(R.string.please_city));
                         }
-                        if(nameProvinceField.getText().equals("")){
+                        if(fields.get("nameProvince").equals("")){
                             nameProvinceField.setError(getString(R.string.please_province));
                         }
-                        if(nameRegionField.getText().equals("")){
+                        if(fields.get("nameRegion").equals("")){
                             nameRegionField.setError(getString(R.string.please_region));
                         }
                     }
-                    if(!FieldChecker.isACorrectPhone(orgPhone[0]+orgPhone[1])){
+                    if(!FieldChecker.isACorrectPhone(fields.get("telephoneCodeOrg")+fields.get("telephoneOrg"))){
                         orgPhoneField.setError(getString(R.string.wrong_phone));
                     }
                     if(!FieldChecker.emailHasCorrectFormat(emailField.getText().toString())){
                         orgPhoneField.setError(getString(R.string.wrong_email));
                     }
-                    if(firstName[0].equals("")){
+                    if(fields.get("firstName").equals("")){
                         firstNameField.setError(getString(R.string.mandatory_first_name));
                     }
-                    if(lastName[0].equals("")){
+                    if(fields.get("lastName").equals("")){
                         lastNameField.setError(getString(R.string.mandatory_last_name));
                     }
-                    if(!FieldChecker.emailHasCorrectFormat(emailDir[0])){
+                    if(!FieldChecker.emailHasCorrectFormat(fields.get("emailDir"))){
                         emailDirField.setError(getString(R.string.wrong_email));
                     }
-                    if(!FieldChecker.passwordHasCorrectFormat(password[0])){
+                    if(!FieldChecker.passwordHasCorrectFormat(fields.get("password"))){
                         passwordField.setError(getString(R.string.wrong_password));
                     }
-                    if(!FieldChecker.isACorrectPhone(dirPhone[0]+dirPhone[1])){
+                    if(!FieldChecker.isACorrectPhone(fields.get("telephoneCodeDir")+fields.get("telephoneDir"))){
                         directorPhoneField.setError(getString(R.string.wrong_phone));
                     }
                 }
@@ -1011,12 +1009,7 @@ public class RegisterOrganization extends AppCompatActivity {
         return countries;
     }
 
-    public List<Country> getCountriesWithPhoneCode(){
-        if(countriesWithPhoneCode==null){
-            countriesWithPhoneCode= CountriesController.GetCountriesWithPhoneCode(Locale.getDefault().getLanguage());
-        }
-        return countriesWithPhoneCode;
-    }
+
 
     public List<Region> getRegions(String idCountry){
         regions= RegionsController.GetRegionsByCountry(idCountry);

@@ -93,8 +93,7 @@ public class RegisterNewCenter extends AppCompatActivity {
         countryAdapter[0]= new CountryAdapter(RegisterNewCenter.this, countries);
         countryAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
 
-        getCountriesWithPhoneCode();
-        phoneCodeAdapter[0] = new PhoneCodeAdapter(RegisterNewCenter.this,countriesWithPhoneCode);
+        phoneCodeAdapter[0] = new PhoneCodeAdapter(RegisterNewCenter.this,countries);
         phoneCodeAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
 
         EditText descriptionCenterField=findViewById(R.id.description_center_reg);
@@ -640,7 +639,7 @@ public class RegisterNewCenter extends AppCompatActivity {
                             String orgType=organization[0].getOrgType();
                             String illness=organization[0].getIllness();
 
-                            Address address=new Address(numAddresses+1,addressName,zip_code,idCity[0],idProvince[0],idRegion[0],idCountry[0],nameCity,nameProvince,nameRegion);
+                            Address address=new Address(numAddresses+1,addressName,idCity[0],idProvince[0],idRegion[0],idCountry[0],nameCity,nameProvince,nameRegion);
                             AddressesController.Create(address);
 
                             String descriptionEnglish="";
@@ -849,12 +848,6 @@ public class RegisterNewCenter extends AppCompatActivity {
         return countries;
     }
 
-    public List<Country> getCountriesWithPhoneCode(){
-        if(countriesWithPhoneCode==null){
-            countriesWithPhoneCode= CountriesController.GetCountriesWithPhoneCode(Locale.getDefault().getLanguage());
-        }
-        return countriesWithPhoneCode;
-    }
     public List<Region> getRegions(String idCountry){
         regions= RegionsController.GetRegionsByCountry(idCountry);
         currIdCountry=idCountry;
