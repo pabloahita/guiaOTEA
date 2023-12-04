@@ -6,37 +6,63 @@ import cli.organization.*;
 import retrofit2.*;
 import retrofit2.http.*;
 
+/**
+ * API for organizations operations
+ *
+ * @author Pablo Ahíta del Barrio
+ * @version 1
+ * */
 public interface OrganizationsApi {
-    // GET all action
+
+    /**Gets all organizations*/
     @GET("Organizations/all")
     Call<List<Organization>> GetAll();
 
 
-    // GET all evaluated organizations action
+    /**Gets all evaluated organizations*/
     @GET("Organizations/allEvaluated")
     Call<List<Organization>> GetAllEvaluatedOrganizations();
 
-    // GET all evaluator organizations action
+    /**Gets all evaluator organizations*/
     @GET("Organizations/allEvaluator")
     Call<List<Organization>> GetAllEvaluatorOrganizations();
 
-    // GET by ID, ORGTYPE AND ILLNESS
+    /**
+     * Gets an organization
+     *
+     * @param id - Organization identifier
+     * @param orgType - Organization type
+     * @param illness - Organization illness or syndrome
+     * */
     @GET("Organizations/get")
     Call<Organization> Get(@Query("id") int id, @Query("orgType") String orgType, @Query("illness") String illness);
 
-    @GET("Organizations/evaluated")
-    Call<Organization> GetEvaluatedOrganizationById(@Query("id") int id, @Query("illness") String illness);
-
-    @GET("Organizations/evaluator")
-    Call<Organization> GetEvaluatorOrganizationById(@Query("id") int id, @Query("illness") String illness);
-
-    // POST action
+    /**
+     * Creates an organization
+     *
+     * @param organization - Organization
+     * */
     @POST("Organizations")
     Call<Organization> Create(@Body Organization organization);
-    // PUT action
+
+    /**
+     * Updates an organization
+     *
+     * @param id - Organization identifier
+     * @param orgType - Organization type
+     * @param illness - Organization illness or syndrome
+     * @param organization - Organization
+     * */
     @PUT("Organizations")
     Call<Organization> Update(@Query("id") int id, @Query("orgType") String orgType, @Query("illness") String illness, @Body Organization organization);
-    // DELETE action
+
+    /**
+     * Deletes an organization
+     *
+     * @param id - Organization identifier
+     * @param orgType - Organization type
+     * @param illness - Organization illness or syndrome
+     * */
     @DELETE("Organizations")
     Call<Organization> Delete(@Query("id") int id, @Query("orgType") String orgType, @Query("illness")  String illness);
 }

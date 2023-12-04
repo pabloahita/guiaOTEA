@@ -11,27 +11,80 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
+/**
+ * API for Evidences operations
+ *
+ * @author Pablo Ahíta del Barrio
+ * @version 1
+ * */
 public interface EvidencesApi {
-    // GET all action
+
+    /**Gets all evidences*/
     @GET("Evidences/all")
     Call<List<Evidence>> GetAll();
 
-    // GET all by INDICATOR action
+    /**
+     * Gets all evidences by indicator
+     *
+     * @param idIndicator - Indicator identifier
+     * @param indicatorType - Indicator type
+     * @param idSubSubAmbit - Second level division of the ambit
+     * @param idSubAmbit  - First level division of the ambit
+     * @param idAmbit - Ambit identifier
+     * @param indicatorVersion - Indicator version
+     *
+     * */
     @GET("Evidences/ind")
-    Call<List<Evidence>> GetAllByIndicator(@Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion);
+    Call<List<Evidence>> GetAllByIndicator(@Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion);
 
-    // GET by ID AND INDICATOR action
+    /**
+     * Gets an evidence
+     *
+     * @param idEvidence - Evidence identifier
+     * @param idIndicator - Indicator identifier
+     * @param indicatorType - Indicator type
+     * @param idSubSubAmbit - Second level division of the ambit
+     * @param idSubAmbit  - First level division of the ambit
+     * @param idAmbit - Ambit identifier
+     * @param indicatorVersion - Indicator version
+     * */
     @GET("Evidences/get")
-    Call<List<Evidence>> Get(@Query("idEvidence") int idEvidence, @Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion);
+    Call<Evidence> Get(@Query("idEvidence") int idEvidence, @Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion);
 
-    // POST action
+    /**
+     * Creates new evidence
+     *
+     * @param evidence - Evidence
+     * */
     @POST("Evidences")
     Call<Evidence> Create(@Body Evidence evidence);
-    // PUT action
-    @PUT("Evidences")
-    Call<Evidence> Update(@Query("idEvidence") int idEvidence, @Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Body Evidence evidence);
 
-    // DELETE action
+    /**
+     * Updates an existant evidence
+     *
+     * @param idEvidence - Evidence identifier
+     * @param idIndicator - Indicator identifier
+     * @param indicatorType - Indicator type
+     * @param idSubSubAmbit - Second level division of the ambit
+     * @param idSubAmbit  - First level division of the ambit
+     * @param idAmbit - Ambit identifier
+     * @param indicatorVersion - Indicator version
+     * @param evidence - Evidence
+     * */
+    @PUT("Evidences")
+    Call<Evidence> Update(@Query("idEvidence") int idEvidence, @Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Body Evidence evidence);
+
+    /**
+     * Deletes an evidence
+     *
+     * @param idEvidence - Evidence identifier
+     * @param idIndicator - Indicator identifier
+     * @param indicatorType - Indicator type
+     * @param idSubSubAmbit - Second level division of the ambit
+     * @param idSubAmbit  - First level division of the ambit
+     * @param idAmbit - Ambit identifier
+     * @param indicatorVersion - Indicator version
+     * */
     @DELETE("Evidences")
-    Call<Evidence> Delete(@Query("idEvidence") int idEvidence,@Query("idIndicator") int idIndicator,@Query("indicatorType") String indicatorType, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion);
+    Call<Evidence> Delete(@Query("idEvidence") int idEvidence,@Query("idIndicator") int idIndicator,@Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion);
 }

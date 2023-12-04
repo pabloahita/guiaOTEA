@@ -12,23 +12,102 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
+/**
+ * API for Indicators evaluations registers operations
+ *
+ * @author Pablo Ahíta del Barrio
+ * @version 1
+ * */
 public interface IndicatorsEvaluationRegsApi {
+
+    /**Gets all registers*/
     @GET("IndicatorsEvaluationsRegs/all")
     Call<List<IndicatorsEvaluationReg>> GetAll();
 
+    /**
+     * Gets all registers of an indicators evaluation
+     *
+     * @param evaluationDate - Evaluation date in timestamp
+     * @param idEvaluatorTeam - Evaluator team identifier
+     * @param idEvaluatedOrganization - Identifier of the evaluator organization that will do the indicators evaluation
+     * @param orgTypeEvaluator - Organization type of the evaluator organization that will do the indicators evaluation. It will be always "EVALUATOR"
+     * @param idEvaluatorOrganization - Identifier of the external organization that will recieve the indicators evaluation
+     * @param orgTypeEvaluated - Organization type of the external organization that will recieve the indicators evaluation. It will be always "EVALUATED"
+     * @param illness - Illness of the external organization that will recieve the indicators evaluation. In case of Fundación Miradas, it will be "AUTISM"
+     * @param idCenter - Center identifier of the external organization
+     * */
     @GET("IndicatorsEvaluationsRegs/indEval")
     Call<List<IndicatorsEvaluationReg>> GetAllByIndicatorsEvaluation(@Query("evaluationDate") long evaluationDate,@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter);
-    @GET("IndicatorsEvaluationsRegs/get")
-    Call<IndicatorsEvaluationReg> Get(@Query("evaluationDate") long evaluationDate, @Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("idAmbit") int idAmbit, @Query("idIndicator") int idIndicator, @Query("idEvidence") int idEvidence, @Query("indicatorValue") int indicatorVersion);
 
+    /**
+     * Gets an indicators evaluation register
+     *
+     * @param evaluationDate - Evaluation date in timestamp
+     * @param idEvaluatorTeam - Evaluator team identifier
+     * @param idEvaluatedOrganization - Identifier of the evaluator organization that will do the indicators evaluation
+     * @param orgTypeEvaluator - Organization type of the evaluator organization that will do the indicators evaluation. It will be always "EVALUATOR"
+     * @param idEvaluatorOrganization - Identifier of the external organization that will recieve the indicators evaluation
+     * @param orgTypeEvaluated - Organization type of the external organization that will recieve the indicators evaluation. It will be always "EVALUATED"
+     * @param illness - Illness of the external organization that will recieve the indicators evaluation. In case of Fundación Miradas, it will be "AUTISM"
+     * @param idCenter - Center identifier of the external organization
+     * @param idSubSubAmbit - Second level division of the ambit. It will be -1 if there is no division
+     * @param idSubAmbit - First level division of the ambit. It will be -1 if there is no division
+     * @param idAmbit - Ambit identifier
+     * @param idIndicator - Indicator identifier
+     * @param idEvidence - Evidence identifier
+     * @param indicatorVersion - Indicator version
+     * */
+    @GET("IndicatorsEvaluationsRegs/get")
+    Call<IndicatorsEvaluationReg> Get(@Query("evaluationDate") long evaluationDate, @Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("idIndicator") int idIndicator, @Query("idEvidence") int idEvidence, @Query("indicatorVersion") int indicatorVersion);
+
+    /**
+     * Creates a new indicators evaluation register
+     *
+     * @param indicatorsEvaluationReg - Indicators evaluation register
+     * */
     @POST("IndicatorsEvaluationsRegs")
     Call<IndicatorsEvaluationReg> Create(@Body IndicatorsEvaluationReg indicatorsEvaluationReg);
 
+    /**
+     * Updates an indicators evaluation register
+     *
+     * @param evaluationDate - Evaluation date in timestamp
+     * @param idEvaluatorTeam - Evaluator team identifier
+     * @param idEvaluatedOrganization - Identifier of the evaluator organization that will do the indicators evaluation
+     * @param orgTypeEvaluator - Organization type of the evaluator organization that will do the indicators evaluation. It will be always "EVALUATOR"
+     * @param idEvaluatorOrganization - Identifier of the external organization that will recieve the indicators evaluation
+     * @param orgTypeEvaluated - Organization type of the external organization that will recieve the indicators evaluation. It will be always "EVALUATED"
+     * @param illness - Illness of the external organization that will recieve the indicators evaluation. In case of Fundación Miradas, it will be "AUTISM"
+     * @param idCenter - Center identifier of the external organization
+     * @param idSubSubAmbit - Second level division of the ambit. It will be -1 if there is no division
+     * @param idSubAmbit - First level division of the ambit. It will be -1 if there is no division
+     * @param idAmbit - Ambit identifier
+     * @param idIndicator - Indicator identifier
+     * @param idEvidence - Evidence identifier
+     * @param indicatorVersion - Indicator version
+     * */
     @PUT("IndicatorsEvaluationsRegs")
-    Call<IndicatorsEvaluationReg> Update(@Query("evaluationDate") long evaluationDate, @Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("idAmbit") int idAmbit, @Query("idIndicator") int idIndicator, @Query("idEvidence") int idEvidence, @Query("indicatorValue") int indicatorVersion, @Body IndicatorsEvaluationReg indicatorsEvaluationReg);
+    Call<IndicatorsEvaluationReg> Update(@Query("evaluationDate") long evaluationDate, @Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("idIndicator") int idIndicator, @Query("idEvidence") int idEvidence, @Query("indicatorVersion") int indicatorVersion, @Body IndicatorsEvaluationReg indicatorsEvaluationReg);
 
-
+    /**
+     * Deletes an indicators evaluation registration
+     *
+     * @param evaluationDate - Evaluation date in timestamp
+     * @param idEvaluatorTeam - Evaluator team identifier
+     * @param idEvaluatedOrganization - Identifier of the evaluator organization that will do the indicators evaluation
+     * @param orgTypeEvaluator - Organization type of the evaluator organization that will do the indicators evaluation. It will be always "EVALUATOR"
+     * @param idEvaluatorOrganization - Identifier of the external organization that will recieve the indicators evaluation
+     * @param orgTypeEvaluated - Organization type of the external organization that will recieve the indicators evaluation. It will be always "EVALUATED"
+     * @param illness - Illness of the external organization that will recieve the indicators evaluation. In case of Fundación Miradas, it will be "AUTISM"
+     * @param idCenter - Center identifier of the external organization
+     * @param idSubSubAmbit - Second level division of the ambit. It will be -1 if there is no division
+     * @param idSubAmbit - First level division of the ambit. It will be -1 if there is no division
+     * @param idAmbit - Ambit identifier
+     * @param idIndicator - Indicator identifier
+     * @param idEvidence - Evidence identifier
+     * @param indicatorVersion - Indicator version
+     * */
     @DELETE("IndicatorsEvaluationsRegs")
-    Call<IndicatorsEvaluationReg> Delete(@Query("evaluationDate") long evaluationDate, @Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("idAmbit") int idAmbit, @Query("idIndicator") int idIndicator, @Query("idEvidence") int idEvidence, @Query("indicatorValue") int indicatorVersion);
+    Call<IndicatorsEvaluationReg> Delete(@Query("evaluationDate") long evaluationDate, @Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("idIndicator") int idIndicator, @Query("idEvidence") int idEvidence, @Query("indicatorVersion") int indicatorVersion);
 
 }

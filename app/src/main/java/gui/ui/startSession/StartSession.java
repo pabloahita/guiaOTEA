@@ -133,8 +133,6 @@ public class StartSession extends AppCompatActivity {
                 passwordEditText.setEnabled(false);
                 loginButton.setEnabled(false);
                 final_background.setVisibility(View.VISIBLE);
-                Log.d("usuario",usernameEditText.getText().toString());
-                Log.d("contraseña",passwordEditText.getText().toString());
                 v.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -151,18 +149,18 @@ public class StartSession extends AppCompatActivity {
         if(user.getUserType().equals("ADMIN")){
             //GO TO ADMIN MAIN MENU
             Intent intent = new Intent(this, gui.mainMenu.admin.MainMenu.class);
-            intent.putExtra("user",user);
+            intent.putExtra("userEmail",user.getEmailUser());
             startActivity(intent);
         } else if(user.getUserType().equals("ORGANIZATION")){
             if(user.getOrganizationType().equals("EVALUATED")){
                 //GO TO EVALUATED MAIN MENU
                 Intent intent = new Intent(this, gui.mainMenu.evaluated.MainMenu.class);
-                intent.putExtra("user",user);
+                intent.putExtra("userEmail",user.getEmailUser());
                 startActivity(intent);
             }else if(user.getOrganizationType().equals("EVALUATOR")){
                 //GO TO EVALUATOR MAIN MENU
                 Intent intent = new Intent(this, gui.mainMenu.evaluator.MainMenu.class);
-                intent.putExtra("user",user);
+                intent.putExtra("userEmail",user.getEmailUser());
                 startActivity(intent);
             }
         }

@@ -15,16 +15,30 @@ import otea.connection.api.RequestsApi;
 import retrofit2.Call;
 import retrofit2.Response;
 
+/**
+ * Controller class for requests operations
+ *
+ * @author Pablo Ahíta del Barrio
+ * @version 1
+ * */
 public class RequestsController {
 
+    /**Controller instance*/
     private static RequestsController instance;
 
+    /**Requests api to connect to the server*/
     private static RequestsApi api;
 
+    /**Class constructor*/
     private RequestsController(){
         api= ConnectionClient.getInstance().getRetrofit().create(RequestsApi.class);
     }
 
+    /**
+     * Method that obtains the singleton instance of the controller
+     *
+     * @return Controller instance
+     * */
     public static RequestsController getInstance(){
         if(instance==null){
             synchronized (RequestsController.class){
@@ -35,6 +49,12 @@ public class RequestsController {
         }
         return instance;
     }
+
+    /**
+     * Method that obtains all requests
+     *
+     * @return Request list
+     * */
     public static List<Request> GetAll(){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<Request>> callable = new Callable<List<Request>>() {
@@ -59,7 +79,12 @@ public class RequestsController {
         }
     }
 
-
+    /**
+     * Method that obtains a request from the database
+     *
+     * @param email - Email of the register request
+     * @return Request if success, null if not
+     * */
     public static Request Get(String email){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Request> callable = new Callable<Request>() {
@@ -84,6 +109,12 @@ public class RequestsController {
         }
     }
 
+    /**
+     * Method that appends a request to the database
+     *
+     * @param request - Request
+     * @return Request if success, null if not
+     * */
     public static Request Create(Request request){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Request> callable = new Callable<Request>() {
@@ -108,6 +139,13 @@ public class RequestsController {
         }
     }
 
+    /**
+     * Method that updates a request
+     *
+     * @param email - Email of the register request
+     * @param request - Request
+     * @return Request if success, null if not
+     * */
     public static Request Update(String email,Request request){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Request> callable = new Callable<Request>() {
@@ -132,7 +170,12 @@ public class RequestsController {
         }
     }
 
-
+    /**
+     * Method that deletes a request
+     *
+     * @param email - Email of the register request
+     * @return Request if success, null if not
+     * */
     public static Request Delete(String email){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Request> callable = new Callable<Request>() {

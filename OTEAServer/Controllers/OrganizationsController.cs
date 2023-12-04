@@ -5,19 +5,34 @@ using OTEAServer.Models;
 
 namespace OTEAServer.Controllers
 {
+    /// <summary>
+    /// Controller class for organization operations
+    /// Author: Pablo Ahíta del Barrio
+    /// Version: 1
+    /// </summary>
     [ApiController]
     [Route("Organizations")]
     public class OrganizationsController : ControllerBase
     {
+        /// <summary>
+        /// Database context
+        /// </summary>
         private readonly DatabaseContext _context;
 
+        /// <summary>
+        /// Class constructor
+        /// </summary>
+        /// <param name="context">Database context</param>
         public OrganizationsController(DatabaseContext context)
         {
             _context = context;
         }
 
 
-        // GET all action
+        /// <summary>
+        /// Gets all organizations
+        /// </summary>
+        /// <returns>Organization list</returns>
         [HttpGet("all")]
         public IActionResult GetAll()
         {
@@ -26,7 +41,10 @@ namespace OTEAServer.Controllers
         }
 
 
-        // GET all evaluated organizations action
+        /// <summary>
+        /// Gets all evaluated organizations
+        /// </summary>
+        /// <returns>Evaluated organization list</returns>
         [HttpGet("allEvaluated")]
         public IActionResult GetAllEvaluatedOrganizations()
         {
@@ -34,7 +52,10 @@ namespace OTEAServer.Controllers
             return Ok(organizations);
         }
 
-        // GET all evaluator organizations action
+        /// <summary>
+        /// Gets all evaluator organizations
+        /// </summary>
+        /// <returns>Evaluator organization list</returns>
         [HttpGet("allEvaluator")]
         public IActionResult GetAllEvaluatorOrganizations()
         {
@@ -42,8 +63,13 @@ namespace OTEAServer.Controllers
             return Ok(organizations);
         }
 
-        // GET by ID AND ORGTYPE action
-
+        /// <summary>
+        /// Method that obtains an organization from the database
+        /// </summary>
+        /// <param name="id">Organization identifier</param>
+        /// <param name="orgType">Organization type</param>
+        /// <param name="illness">Organization illness or syndrome</param>
+        /// <returns>Organization if success, null if not</returns>
         [HttpGet("get")]
         public ActionResult<Organization> Get([FromQuery] int id,[FromQuery] string orgType,[FromQuery] string illness)
         {
@@ -56,23 +82,11 @@ namespace OTEAServer.Controllers
         }
 
 
-        // GET by ID AND ORGTYPE action
-
-        [HttpGet("evaluated")]
-        public ActionResult<Organization> GetEvaluatedOrganizationById([FromQuery] int id, [FromQuery] string illness)
-        {
-            return Get(id, "EVALUATED", illness);
-        }
-
-        // GET by ID AND ORGTYPE action
-
-        [HttpGet("evaluator")]
-        public ActionResult<Organization> GetEvaluatorOrganizationById([FromQuery] int id, [FromQuery] string illness)
-        {
-            return Get(id, "EVALUATOR", illness);
-        }
-
-        // POST action
+        /// <summary>
+        /// Method that appends an organization to the database
+        /// </summary>
+        /// <param name="organization">Organization</param>
+        /// <returns>Organization if success, null if not</returns>
         [HttpPost]
         public IActionResult Create([FromBody] Organization organization)
         {
@@ -81,11 +95,17 @@ namespace OTEAServer.Controllers
            return CreatedAtAction(nameof(Get), new { id = organization.idOrganization, orgType=organization.orgType, illness=organization.illness }, organization);
         }
 
-        // PUT action
+        /// <summary>
+        /// Method that updates an organization
+        /// </summary>
+        /// <param name="id">Organization identifier</param>
+        /// <param name="orgType">Organization type</param>
+        /// <param name="illness">Organization illness or syndrome</param>
+        /// <param name="organization">Organization</param>
+        /// <returns>Organization if success, null if not</returns>
         [HttpPut]
         public IActionResult Update([FromQuery] int id, [FromQuery] string orgType, [FromQuery] string illness, [FromBody] Organization organization)
         {
-            // This code will update the mesa and return a result
             if (id != organization.idOrganization || orgType!=organization.orgType || illness!=organization.illness)
                 return BadRequest();
 
@@ -116,7 +136,13 @@ namespace OTEAServer.Controllers
             return Ok(existingOrganization);
         }
 
-        // DELETE action
+        /// <summary>
+        /// Method that deletes an organization
+        /// </summary>
+        /// <param name="id">Organization identifier</param>
+        /// <param name="orgType">Organization type</param>
+        /// <param name="illness">Organization illness or syndrome</param>
+        /// <returns>Organization if success, null if not</returns>
         [HttpDelete]
         public IActionResult Delete([FromQuery] int id, [FromQuery] string orgType, [FromQuery] string illness)
         {

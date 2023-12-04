@@ -15,16 +15,30 @@ import otea.connection.api.CountriesApi;
 import retrofit2.Call;
 import retrofit2.Response;
 
+/**
+ * Controller for countries operations
+ *
+ * @author Pablo Ahíta del Barrio
+ * @version 1
+ * */
 public class CountriesController {
 
+    /**Countries api used to connect to the server*/
     private static CountriesApi api;
 
+    /**Controller instance*/
     private static CountriesController instance;
 
+    /**Class constructor*/
     private CountriesController(){
         api= ConnectionClient.getInstance().getRetrofit().create(CountriesApi.class);
     }
 
+    /**
+     * Method that obtains the singleton instance of the controller
+     *
+     * @return Controller instance
+     * */
     public static CountriesController getInstance(){
         if(instance==null){
             synchronized (CountriesController.class){
@@ -36,6 +50,12 @@ public class CountriesController {
         return instance;
     }
 
+    /**
+     * Method that obtains the country from the database
+     *
+     * @param idCountry - Country identifier
+     * @return Country if exists, null if not
+     * */
     public static Country GetCountry(String idCountry){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Country> callable = new Callable<Country>() {
@@ -60,6 +80,12 @@ public class CountriesController {
         }
     }
 
+    /**
+     * Method that obtains all the countries in language order
+     *
+     * @param language - App language (english, spanish, french, basque, catalan, dutch, galician, german, italian and portuguese)
+     * @return Country list
+     * */
     public static List<Country> GetAll(String language){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<Country>> callable = new Callable<List<Country>>() {

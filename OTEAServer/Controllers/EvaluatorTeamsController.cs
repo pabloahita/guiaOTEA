@@ -5,17 +5,35 @@ using OTEAServer.Models;
 
 namespace OTEAServer.Controllers
 {
+    /// <summary>
+    /// Controller class for evaluator teams operations
+    /// Author: Pablo Ahíta del Barrio
+    /// Version: 1
+    /// </summary>
+
+
     [ApiController]
     [Route("EvaluatorTeams")]
     public class EvaluatorTeamsController : ControllerBase
     {
+        /// <summary>
+        /// Database context
+        /// </summary>
         private readonly DatabaseContext _context;
 
+        /// <summary>
+        /// Class constructor
+        /// </summary>
+        /// <param name="context">Database context</param>
         public EvaluatorTeamsController(DatabaseContext context)
         {
             _context = context;
         }
-        // GET all action
+
+        /// <summary>
+        /// Method that obtains all the evaluator teams
+        /// </summary>
+        /// <returns>Evaluator team list</returns>
         [HttpGet("all")]
         public IActionResult GetAll()
         {
@@ -23,6 +41,14 @@ namespace OTEAServer.Controllers
             return Ok(evaluatorTeams);
         }
 
+        /// <summary>
+        /// Method that obtains all the evaluator teams by center
+        /// </summary>
+        /// <param name="id">Organization identifier</param>
+        /// <param name="orgType">Organization type</param>
+        /// <param name="idCenter">Organization center</param>
+        /// <param name="illness">Organization illness or syndrome</param>
+        /// <returns>Evaluator teams list</returns>
         [HttpGet("allByCenter")]
         public IActionResult GetAllByCenter([FromQuery] int id, [FromQuery] string orgType, [FromQuery] int idCenter, [FromQuery] string illness)
         {
@@ -30,6 +56,13 @@ namespace OTEAServer.Controllers
             return Ok(evaluatorTeams);
         }
 
+        /// <summary>
+        /// Method that obtains all the evaluator teams by organization
+        /// </summary>
+        /// <param name="id">Organization identifier</param>
+        /// <param name="orgType">Organization type</param>
+        /// <param name="illness">Organization illness or syndrome</param>
+        /// <returns>Evaluator teams list</returns>
         [HttpGet("allByOrganization")]
         public IActionResult GetAllByOrganization([FromQuery] int id, [FromQuery] string orgType, [FromQuery] string illness)
         {
@@ -37,7 +70,17 @@ namespace OTEAServer.Controllers
             return Ok(evaluatorTeams);
         }
 
-        // GET by ID AND ORGTYPE action
+        /// <summary>
+        /// Method that obtains an evaluator team from the database
+        /// </summary>
+        /// <param name="id">Evaluator team identifier</param>
+        /// <param name="idEvaluatorOrg">Evaluator organization identifier (who does the indicators evaluations)</param>
+        /// <param name="orgTypeEvaluator">Evaluator organization type (who does the indicators evaluations)</param>
+        /// <param name="idEvaluatedOrg">Evaluated organization identifier (who receives the indicators evaluations)</param>
+        /// <param name="orgTypeEvaluated">Evaluated organization type (who receives the indicators evaluations)</param>
+        /// <param name="idCenter">Evaluated organization center (who receives the indicators evaluations)</param>
+        /// <param name="illness">Both organizations illness or syndrome</param>
+        /// <returns>Evaluator team if sucess, null if not</returns>
 
         [HttpGet("get")]
         public ActionResult<EvaluatorTeam> Get([FromQuery] int id, [FromQuery] int idEvaluatorOrg, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrg, [FromQuery] string orgTypeEvaluated, [FromQuery] int idCenter, [FromQuery] string illness)
@@ -50,7 +93,11 @@ namespace OTEAServer.Controllers
             return evaluatorTeam;
         }
 
-        // POST action
+        /// <summary>
+        /// Method that appends a new evaluator team to the database
+        /// </summary>
+        /// <param name="evaluatorTeam">Evaluator team</param>
+        /// <returns>Evaluator team if sucess, null if not</returns>
         [HttpPost]
         public IActionResult Create([FromBody] EvaluatorTeam evaluatorTeam)
         {
@@ -68,7 +115,18 @@ namespace OTEAServer.Controllers
             }, evaluatorTeam);
         }
 
-        // PUT action
+        /// <summary>
+        /// Method that updates an existant evaluator team
+        /// </summary>
+        /// <param name="id">Evaluator team identifier</param>
+        /// <param name="idEvaluatorOrg">Evaluator organization identifier (who does the indicators evaluations)</param>
+        /// <param name="orgTypeEvaluator">Evaluator organization type (who does the indicators evaluations)</param>
+        /// <param name="idEvaluatedOrg">Evaluated organization identifier (who receives the indicators evaluations)</param>
+        /// <param name="orgTypeEvaluated">Evaluated organization type (who receives the indicators evaluations)</param>
+        /// <param name="idCenter">Evaluated organization center (who receives the indicators evaluations)</param>
+        /// <param name="illness">Both organizations illness or syndrome</param>
+        /// <param name="evaluatorTeam">Evaluator team</param>
+        /// <returns>Updated evaluator team if sucess, null if not</returns>
         [HttpPut]
         public IActionResult Update([FromQuery] int id, [FromQuery] int idEvaluatorOrg, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrg, [FromQuery] string orgTypeEvaluated, [FromQuery] int idCenter, [FromQuery] string illness, [FromBody] EvaluatorTeam evaluatorTeam)
         {
@@ -116,7 +174,17 @@ namespace OTEAServer.Controllers
             return Ok(existingEvaluatorTeam);
         }
 
-        // DELETE action
+        /// <summary>
+        /// Method that deletes an evaluator team
+        /// </summary>
+        /// <param name="id">Evaluator team identifier</param>
+        /// <param name="idEvaluatorOrg">Evaluator organization identifier (who does the indicators evaluations)</param>
+        /// <param name="orgTypeEvaluator">Evaluator organization type (who does the indicators evaluations)</param>
+        /// <param name="idEvaluatedOrg">Evaluated organization identifier (who receives the indicators evaluations)</param>
+        /// <param name="orgTypeEvaluated">Evaluated organization type (who receives the indicators evaluations)</param>
+        /// <param name="idCenter">Evaluated organization center (who receives the indicators evaluations)</param>
+        /// <param name="illness">Both organizations illness or syndrome</param>
+        /// <returns>Evaluator team if sucess, null if not</returns>
         [HttpDelete]
         public IActionResult Delete([FromQuery] int id, [FromQuery] int idEvaluatorOrg, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrg, [FromQuery] string orgTypeEvaluated, [FromQuery] int idCenter, [FromQuery] string illness)
         {

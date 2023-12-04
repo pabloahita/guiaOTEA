@@ -80,7 +80,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
             OrgsAdapter[] orgsAdapter={new OrgsAdapter(getApplicationContext(),organizations)};
             UsersAdapter[] usersAdapter=new UsersAdapter[3];
             CenterAdapter[] centerAdapters=new CenterAdapter[1];
-            final List<Center>[] centers = new List[]{new LinkedList<>()};
+            final List<Center>[] centers = new List[1];
 
             orgsAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
             orgSpinner.setAdapter(orgsAdapter[0]);
@@ -530,7 +530,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                                 }
 
 
-                                EvaluatorTeam evaluatorTeam=new EvaluatorTeam(idEvaluatorTeam,creation_date,membersSelected[2].getEmailUser(),membersSelected[1].getEmailUser(),"",1,"EVALUATOR",organizationSelected[0].getIdOrganization(),organizationSelected[0].getOrgType(),centerSelected[0].getIdCenter(),organizationSelected[0].getIllness(),consultant.getText().toString(),patient.getText().toString(),relative.getText().toString(),eval_date1,eval_date2,eval_date3,eval_date4,observationsSpanish,observationsEnglish,observationsFrench,observationsBasque,observationsCatalan,observationsDutch,observationsGalician,observationsGerman,observationsItalian,observationsPortuguese);
+                                EvaluatorTeam evaluatorTeam=new EvaluatorTeam(idEvaluatorTeam,creation_date,membersSelected[2].getEmailUser(),membersSelected[1].getEmailUser(),"",1,"EVALUATOR",organizationSelected[0].getIdOrganization(),organizationSelected[0].getOrgType(),centerSelected[0].getIdCenter(),organizationSelected[0].getIllness(),consultant.getText().toString(),patient.getText().toString(),relative.getText().toString(),eval_date1,eval_date2,eval_date3,eval_date4,observationsEnglish,observationsSpanish,observationsFrench,observationsBasque,observationsCatalan,observationsDutch,observationsGalician,observationsGerman,observationsItalian,observationsPortuguese);
 
 
 

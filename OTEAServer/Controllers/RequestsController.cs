@@ -4,18 +4,33 @@ using OTEAServer.Models;
 
 namespace OTEAServer.Controllers
 {
+    /// <summary>
+    /// Controller class for requests operations
+    /// Author: Pablo Ahíta del Barrio
+    /// Version: 1
+    /// </summary>
     [ApiController]
     [Route("Requests")]
     public class RequestsController : ControllerBase
     {
-
+        /// <summary>
+        /// Database context
+        /// </summary>
         private readonly DatabaseContext _context;
 
+        /// <summary>
+        /// Class controller
+        /// </summary>
+        /// <param name="context">Database context</param>
         public RequestsController(DatabaseContext context)
         {
             _context = context;
         }
 
+        /// <summary>
+        /// Method that obtains all requests
+        /// </summary>
+        /// <returns>Request list</returns>
         [HttpGet("all")]
         public IActionResult GetAll()
         {
@@ -23,6 +38,11 @@ namespace OTEAServer.Controllers
             return Ok(requests);
         }
 
+        /// <summary>
+        /// Method that obtains a request from the database
+        /// </summary>
+        /// <param name="email">Email of the register request</param>
+        /// <returns>Request if success, null if not</returns>
         [HttpGet("get")]
         public ActionResult<Request> Get([FromQuery] string email)
         {
@@ -34,6 +54,11 @@ namespace OTEAServer.Controllers
             return request;
         }
 
+        /// <summary>
+        /// Method that appends a request to the database
+        /// </summary>
+        /// <param name="request">Request</param>
+        /// <returns>Request if success, null if not</returns>
         [HttpPost]
         public IActionResult Create([FromBody] Request request)
         {
@@ -42,9 +67,14 @@ namespace OTEAServer.Controllers
             return CreatedAtAction(nameof(Get), new { email = request.email }, request);
         }
 
-        
-        [HttpPut]
 
+        /// <summary>
+        /// Method that updates a request
+        /// </summary>
+        /// <param name="email">Email of the register request</param>
+        /// <param name="request">Request</param>
+        /// <returns>Request if success, null if not</returns>
+        [HttpPut]
         public IActionResult Update([FromQuery] string email, [FromBody] Request request){
             if (email!=request.email)
                 return BadRequest();
@@ -60,6 +90,11 @@ namespace OTEAServer.Controllers
             return Ok(existingRequest);
         }
 
+        /// <summary>
+        /// Method that deletes a request
+        /// </summary>
+        /// <param name="email">Email of the register request</param>
+        /// <returns>Request if success, null if not</returns>
         [HttpDelete]
         public IActionResult Delete([FromQuery] string email)
         {

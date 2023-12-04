@@ -16,15 +16,30 @@ import otea.connection.api.IndicatorsApi;
 import retrofit2.Call;
 import retrofit2.Response;
 
+/**
+ * Class controller for indicators operations
+ *
+ * @author Pablo Ahíta del Barrio
+ * @version 1
+ * */
 public class IndicatorsController {
 
+    /**Indicators api to connect to the class*/
     private static IndicatorsApi api;
+
+    /**Controller instance*/
     private static IndicatorsController instance;
 
+    /**Class controller*/
     private IndicatorsController(){
         api=ConnectionClient.getInstance().getRetrofit().create(IndicatorsApi.class);
     }
 
+    /**
+     * Method that obtains the singleton instance of the controller
+     *
+     * @return Controller instance
+     * */
     public static IndicatorsController getInstance(){
         if(instance==null){
             synchronized (IndicatorsController.class){
@@ -36,7 +51,13 @@ public class IndicatorsController {
         return instance;
     }
 
-
+    /**
+     * Method that obtains all the indicators of an ambit
+     *
+     * @param idAmbit - Ambit identifier
+     * @return Indicators list
+     *
+     * */
     public static List<Indicator> GetAllByIdAmbit(int idAmbit){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<Indicator>> callable = new Callable<List<Indicator>>() {
@@ -62,12 +83,24 @@ public class IndicatorsController {
     }
 
 
-    public static Indicator Update(int idIndicator, String indicatorType, int idAmbit, int indicatorVersion, Indicator indicator){
+    /**
+     * Method that updates an indicator
+     *
+     * @param idIndicator - Indicator identifier
+     * @param indicatorType - Indicator type
+     * @param idSubSubAmbit - Second level division of the ambit
+     * @param idSubAmbit  - First level division of the ambit
+     * @param idAmbit - Ambit identifier
+     * @param indicatorVersion - Indicator version
+     * @param indicator - Indicator
+     * @return Updated indicator if success, null if not
+     * */
+    public static Indicator Update(int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion, Indicator indicator){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Indicator> callable = new Callable<Indicator>() {
             @Override
             public Indicator call() throws Exception {
-                Call<Indicator> call = api.Update(idIndicator,indicatorType,idAmbit,indicatorVersion,indicator);
+                Call<Indicator> call = api.Update(idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion,indicator);
                 Response<Indicator> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -86,6 +119,12 @@ public class IndicatorsController {
         }
     }
 
+    /**
+     * Method that creates an indicator
+     *
+     * @param indicator - Indicator
+     * @return Indicator if success, null if not
+     * */
     public static Indicator Create(Indicator indicator){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Indicator> callable = new Callable<Indicator>() {
@@ -110,12 +149,23 @@ public class IndicatorsController {
         }
     }
 
-    public static Indicator Get(int idIndicator, String indicatorType, int idAmbit, int indicatorVersion){
+    /**
+     * Method that obtains an indicator from the database
+     *
+     * @param idIndicator - Indicator identifier
+     * @param indicatorType - Indicator type
+     * @param idSubSubAmbit - Second level division of the ambit
+     * @param idSubAmbit  - First level division of the ambit
+     * @param idAmbit - Ambit identifier
+     * @param indicatorVersion - Indicator version
+     * @return Indicator if success, null if not
+     * */
+    public static Indicator Get(int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Indicator> callable = new Callable<Indicator>() {
             @Override
             public Indicator call() throws Exception {
-                Call<Indicator> call = api.Get(idIndicator,indicatorType,idAmbit,indicatorVersion);
+                Call<Indicator> call = api.Get(idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion);
                 Response<Indicator> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -133,6 +183,12 @@ public class IndicatorsController {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Method that obtains all the indicators
+     *
+     * @return Indicators list
+     * */
     public static List<Indicator> GetAll(){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<Indicator>> callable = new Callable<List<Indicator>>() {
@@ -156,12 +212,24 @@ public class IndicatorsController {
             throw new RuntimeException(e);
         }
     }
-    public static Indicator Delete(int idIndicator, String indicatorType, int idAmbit, int indicatorVersion){
+
+    /**
+     * Method that deletes an indicator
+     *
+     * @param idIndicator - Indicator identifier
+     * @param indicatorType - Indicator type
+     * @param idSubSubAmbit - Second level division of the ambit
+     * @param idSubAmbit  - First level division of the ambit
+     * @param idAmbit - Ambit identifier
+     * @param indicatorVersion - Indicator version
+     * @return Indicator if success, null if not
+     * */
+    public static Indicator Delete(int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Indicator> callable = new Callable<Indicator>() {
             @Override
             public Indicator call() throws Exception {
-                Call<Indicator> call = api.Get(idIndicator,indicatorType,idAmbit,indicatorVersion);
+                Call<Indicator> call = api.Get(idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion);
                 Response<Indicator> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

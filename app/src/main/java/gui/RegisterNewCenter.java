@@ -98,7 +98,6 @@ public class RegisterNewCenter extends AppCompatActivity {
 
         EditText descriptionCenterField=findViewById(R.id.description_center_reg);
         EditText addressNameField=findViewById(R.id.name_address_reg);
-        EditText zipCodeField=findViewById(R.id.org_zip_code);
         EditText nameProvinceField=findViewById(R.id.foreign_province_reg);
         EditText nameRegionField=findViewById(R.id.foreign_region_reg);
         EditText nameCityField=findViewById(R.id.foreign_city_reg);
@@ -129,18 +128,12 @@ public class RegisterNewCenter extends AppCompatActivity {
         int[] idProvince={-1};
         int[] idRegion={-1};
         String[] idCountry={""};
-        int[] zipCode={-1};
 
         String[] nameCity={getIntent().getStringExtra("nameCity")};
         String[] nameProvince={getIntent().getStringExtra("nameProvince")};
         String[] nameRegion={getIntent().getStringExtra("nameRegion")};
 
 
-
-
-
-
-        String[] zip_code={""};
         String[] phone=new String[2];
 
         String[] information={};
@@ -377,35 +370,7 @@ public class RegisterNewCenter extends AppCompatActivity {
             }
         });
 
-        zipCodeField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                zipCodeField.setError(null);
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String input_text=s.toString();
-                if(input_text.equals("")){
-                    zipCodeField.setError(getString(R.string.please_org_name));
-                }
-                else{
-                    zipCodeField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
-                    zipCodeField.setError(null);
-                    zip_code[0]=input_text;
-                    try {
-                        zipCode[0] = Integer.parseInt(zip_code[0]);
-                    }catch(NumberFormatException e){
-                        zipCode[0]=-1;
-                    }
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
 
         nameRegionField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -557,7 +522,6 @@ public class RegisterNewCenter extends AppCompatActivity {
             public void onClick(View v) {
                 descriptionCenterField.setEnabled(false);
                 addressNameField.setEnabled(false);
-                zipCodeField.setEnabled(false);
                 phoneField.setEnabled(false);
                 countrySpinner.setEnabled(false);
                 regionSpinner.setEnabled(false);
@@ -576,7 +540,6 @@ public class RegisterNewCenter extends AppCompatActivity {
                     public void run() {
                         String centerDescription=descriptionCenterField.getText().toString();
                         String addressName=addressNameField.getText().toString();
-                        String zipCode=zipCodeField.getText().toString();
                         String nameProvince;
                         String nameRegion;
                         String nameCity;
@@ -630,11 +593,10 @@ public class RegisterNewCenter extends AppCompatActivity {
                             nameCity=nameCityField.getText().toString();
                         }
 
-                        if(!centerDescription.equals("") && !addressName.equals("") && !zipCode.equals("") && !nameProvince.equals("") && !nameRegion.equals("") && !nameCity.equals("") && FieldChecker.isACorrectPhone(phone[0]+phone[1])){
+                        if(!centerDescription.equals("") && !addressName.equals("") && !nameProvince.equals("") && !nameRegion.equals("") && !nameCity.equals("") && FieldChecker.isACorrectPhone(phone[0]+phone[1])){
 
                             int numCenters= CentersController.GetAllByOrganization(organization[0]).size();
                             int numAddresses= AddressesController.GetAll().size();
-                            int zip_code=Integer.parseInt(zipCode);
                             int idOrganization=organization[0].getIdOrganization();
                             String orgType=organization[0].getOrgType();
                             String illness=organization[0].getIllness();
@@ -781,7 +743,6 @@ public class RegisterNewCenter extends AppCompatActivity {
                         else{
                             descriptionCenterField.setEnabled(true);
                             addressNameField.setEnabled(true);
-                            zipCodeField.setEnabled(true);
                             phoneField.setEnabled(true);
                             countrySpinner.setEnabled(true);
                             if(country[0].getIdCountry().equals("ESP")) {
@@ -803,9 +764,6 @@ public class RegisterNewCenter extends AppCompatActivity {
                             }
                             if(addressName.equals("")){
                                 addressNameField.setError(getString(R.string.please_address));
-                            }
-                            if(zipCode.equals("")){
-                                zipCodeField.setError(getString(R.string.please_zipcode));
                             }
                             if(!(FieldChecker.isACorrectPhone(phone[0]+phone[1]))){
                                 phoneField.setError(getString(R.string.wrong_phone));

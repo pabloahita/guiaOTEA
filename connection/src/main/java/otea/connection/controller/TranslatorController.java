@@ -15,15 +15,30 @@ import otea.connection.api.TranslatorApi;
 import retrofit2.Call;
 import retrofit2.Response;
 
+/**
+ * Controller class for translation operations
+ *
+ * @author Pablo Ahíta del Barrio
+ * @version 1
+ * */
 public class TranslatorController {
+
+    /**Translation api to connect to the server*/
     private static TranslatorApi api;
 
+    /**Controller instance*/
     private static TranslatorController instance;
 
+    /**Class controller*/
     private TranslatorController(){
         api= ConnectionClient.getInstance().getRetrofit().create(TranslatorApi.class);
     }
 
+    /**
+     * Method that obtains the singleton instance of the controller
+     *
+     * @return Controller instance
+     * */
     public static TranslatorController getInstance() {
         if (instance == null) {
             synchronized (TranslatorController.class) {
@@ -35,6 +50,14 @@ public class TranslatorController {
         return instance;
     }
 
+    /**
+     * Method that translates a text from an origin language to a target language
+     *
+     * @param text - Text to translate
+     * @param origin - Origin language
+     * @param target - Target language
+     * @return Translated text
+     * */
     public String translate(String text, String origin, String target){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<String> callable = new Callable<String>() {
@@ -58,29 +81,4 @@ public class TranslatorController {
             throw new RuntimeException(e);
         }
     }
-
-    public List<String> multiLangTranslate(String text, String origin){
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<String>> callable = new Callable<List<String>>() {
-            @Override
-            public List<String> call() throws Exception {
-                Call<List<String>> call=api.multiLangTranslate(text,origin);
-                Response<List<String>> response = call.execute();
-                if (response.isSuccessful()) {
-                    return response.body();
-                } else {
-                    throw new IOException("Error: " + response.code() + " " + response.message());
-                }
-            }
-        };
-        try {
-            Future<List<String>> future = executor.submit(callable);
-            List<String> list = future.get();
-            executor.shutdown();
-            return list;
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 }

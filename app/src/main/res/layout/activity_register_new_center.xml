@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/layout"
         app:layout_constraintEnd_toEndOf="@+id/autoRegulableTextView"
         app:layout_constraintStart_toStartOf="parent"
@@ -119,16 +120,6 @@
             android:hint="@string/org_address"
             android:inputType="text" />
 
-
-        <EditText
-            android:id="@+id/org_zip_code"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:ems="10"
-            android:hint="@string/org_zipcode"
-            android:inputType="number" />
 
 
         <Spinner

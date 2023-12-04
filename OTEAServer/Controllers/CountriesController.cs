@@ -4,23 +4,39 @@ using OTEAServer.Models;
 
 namespace OTEAServer.Controllers
 {
+    /// <summary>
+    /// Controller for countries operations
+    /// Author: Pablo Ahíta del Barrio
+    /// Version: 1
+    /// </summary>
+
+
     [ApiController]
     [Route("Countries")]
     public class CountriesController : ControllerBase
     {
+        /// <summary>
+        /// Database context
+        /// </summary>
         private readonly DatabaseContext _context;
 
+        /// <summary>
+        /// Class constructor
+        /// </summary>
+        /// <param name="context">Database context</param>
         public CountriesController(DatabaseContext context)
         {
             _context = context;
         }
 
-        // GET all by country action
+        /// <summary>
+        /// Method that obtains all the countries in language order
+        /// </summary>
+        /// <param name="language">App language (english, spanish, french, basque, catalan, dutch, galician, german, italian and portuguese)</param>
+        /// <returns>Country list</returns>
         [HttpGet("all")]
         public IActionResult GetAll([FromQuery] string language)
         {
-            /*var countries = _context.Countries.ToList();
-            return Ok(countries);*/
 
             IQueryable<Country> query = _context.Countries.AsQueryable();
 
@@ -174,7 +190,11 @@ namespace OTEAServer.Controllers
 
         }
 
-        // GET COUNTRY by IDS action
+        /// <summary>
+        /// Method that obtains the country from the database
+        /// </summary>
+        /// <param name="idCountry">Country identifier</param>
+        /// <returns>Country if exists, null if not</returns>
 
         [HttpGet("get")]
         public ActionResult<Country> Get([FromQuery] string idCountry)

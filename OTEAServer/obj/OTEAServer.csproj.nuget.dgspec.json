@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/home/pablo/StudioProjects/tfg2223/OTEAServer/OTEAServer.csproj": {}
+    "C:\\Users\\Pablo\\StudioProjects\\guiaOTEA\\OTEAServer\\OTEAServer.csproj": {}
   },
   "projects": {
-    "/home/pablo/StudioProjects/tfg2223/OTEAServer/OTEAServer.csproj": {
+    "C:\\Users\\Pablo\\StudioProjects\\guiaOTEA\\OTEAServer\\OTEAServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/pablo/StudioProjects/tfg2223/OTEAServer/OTEAServer.csproj",
+        "projectUniqueName": "C:\\Users\\Pablo\\StudioProjects\\guiaOTEA\\OTEAServer\\OTEAServer.csproj",
         "projectName": "OTEAServer",
-        "projectPath": "/home/pablo/StudioProjects/tfg2223/OTEAServer/OTEAServer.csproj",
-        "packagesPath": "/home/pablo/.nuget/packages/",
-        "outputPath": "/home/pablo/StudioProjects/tfg2223/OTEAServer/obj/",
+        "projectPath": "C:\\Users\\Pablo\\StudioProjects\\guiaOTEA\\OTEAServer\\OTEAServer.csproj",
+        "packagesPath": "C:\\Users\\Pablo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Pablo\\StudioProjects\\guiaOTEA\\OTEAServer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/pablo/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Pablo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -44,19 +46,23 @@
             },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
-              "version": "[7.0.11, )"
+              "version": "[7.0.13, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[7.0.11, )"
+              "version": "[7.0.13, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[7.0.11, )"
+              "version": "[7.0.13, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.5.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[7.0.3, )"
             },
             "System.Text.Json": {
               "target": "Package",
@@ -82,7 +88,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/snap/dotnet-sdk/226/sdk/7.0.403/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

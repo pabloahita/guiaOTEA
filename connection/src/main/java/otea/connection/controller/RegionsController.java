@@ -16,14 +16,22 @@ import retrofit2.Response;
 
 public class RegionsController {
 
+    /**Regions api to connect to the server*/
     private static RegionsApi api;
 
+    /**Controller instance*/
     private static RegionsController instance;
 
+    /**Class constructor*/
     private RegionsController(){
         api= ConnectionClient.getInstance().getRetrofit().create(RegionsApi.class);
     }
 
+    /**
+     * Method that obtains the singleton instance of the controller
+     *
+     * @return Controller instance
+     * */
     public static RegionsController getInstance(){
         if(instance==null){
             synchronized (RegionsController.class){
@@ -35,6 +43,13 @@ public class RegionsController {
         return instance;
     }
 
+    /**
+     * Method that obtains a region from the database
+     *
+     * @param idRegion - Region identifier
+     * @param idCountry - Country identifier
+     * @return Region if success, null if not
+     * */
     public static Region GetRegion(int idRegion, String idCountry){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Region> callable = new Callable<Region>() {
@@ -59,6 +74,12 @@ public class RegionsController {
         }
     }
 
+    /**
+     * Method that obtains all regions of a country
+     *
+     * @param idCountry - Country identifier
+     * @return Regions list
+     * */
     public static List<Region> GetRegionsByCountry(String idCountry){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<Region>> callable = new Callable<List<Region>>() {

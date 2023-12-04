@@ -15,16 +15,30 @@ import otea.connection.api.UsersApi;
 import retrofit2.Call;
 import retrofit2.Response;
 
+/**
+ * Controller class for users operations
+ *
+ * @author Pablo Ahíta del Barrio
+ * @version 1
+ * */
 public class UsersController {
 
+    /**Users api to connect to the server*/
     private static UsersApi api;
 
+    /**Controller instance*/
     private static UsersController instance;
 
+    /**Class controller*/
     private UsersController(){
         api= ConnectionClient.getInstance().getRetrofit().create(UsersApi.class);
     }
 
+    /**
+     * Method that obtains the singleton instance of the controller
+     *
+     * @return Controller instance
+     * */
     public static UsersController getInstance(){
         if(instance==null){
             synchronized (UsersController.class){
@@ -36,7 +50,13 @@ public class UsersController {
         return instance;
     }
 
-
+    /**
+     * Method that obtains the login
+     *
+     * @param email - User login
+     * @param password - User password
+     * @return Login if credentials are true, null if not
+     * */
     public static User GetForLogin(String email, String password){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<User> callable = new Callable<User>() {
@@ -61,6 +81,12 @@ public class UsersController {
         }
     }
 
+    /**
+     * Method that obtains an user from database
+     *
+     * @param email - User email
+     * @return User if success, null if not
+     * */
     public static User Get(String email){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<User> callable = new Callable<User>() {
@@ -85,6 +111,11 @@ public class UsersController {
         }
     }
 
+    /**
+     * Method that obtains all the users
+     *
+     * @return User list
+     * */
     public static List<User> GetAll(){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<User>> callable = new Callable<List<User>>() {
@@ -108,32 +139,16 @@ public class UsersController {
             throw new RuntimeException(e);
         }
     }
-    //GET all by user type
-    public static List<User> GetAllByType(String userType){
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<User>> callable = new Callable<List<User>>() {
-            @Override
-            public List<User> call() throws Exception {
-                Call<List<User>> call = api.GetAllByType(userType);
-                Response<List<User>> response = call.execute();
-                if (response.isSuccessful()) {
-                    return response.body();
-                } else {
-                    throw new IOException("Error: " + response.code() + " " + response.message());
-                }
-            }
-        };
-        try {
-            Future<List<User>> future = executor.submit(callable);
-            List<User> list = future.get();
-            executor.shutdown();
-            return list;
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
-    //GET all organization users by organization type
+
+    /**
+     * Method that obtains all organization users of an organization
+     *
+     * @param idOrganization - User organization identifier
+     * @param orgType - User organization type
+     * @param illness - User organization illness or syndrome
+     * @return User list
+     * */
     public static List<User> GetAllOrgUsersByOrganization(int idOrganization,String orgType, String illness){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<User>> callable = new Callable<List<User>>() {
@@ -158,58 +173,12 @@ public class UsersController {
         }
     }
 
-    public static User GetByType(String email, String userType) {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<User> callable = new Callable<User>() {
-            @Override
-            public User call() throws Exception {
-                Call<User> call = api.GetByType(email,userType);
-                Response<User> response = call.execute();
-                if (response.isSuccessful()) {
-                    return response.body();
-                } else {
-                    throw new IOException("Error: " + response.code() + " " + response.message());
-                }
-            }
-        };
-        try {
-            Future<User> future = executor.submit(callable);
-            User result = future.get();
-            executor.shutdown();
-            return result;
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    // GET by EMAIL and ORGANIZATION action
-
-    public static User GetOrgUserByOrganization(String email,int idOrganization,String orgType, String illness){
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<User> callable = new Callable<User>() {
-            @Override
-            public User call() throws Exception {
-                Call<User> call = api.GetOrgUserByOrganization(email,idOrganization,orgType,illness);
-                Response<User> response = call.execute();
-                if (response.isSuccessful()) {
-                    return response.body();
-                } else {
-                    throw new IOException("Error: " + response.code() + " " + response.message());
-                }
-            }
-        };
-        try {
-            Future<User> future = executor.submit(callable);
-            User result = future.get();
-            executor.shutdown();
-            return result;
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    // POST action
-
+    /**
+     * Method that appends an user to the database
+     *
+     * @param user - User
+     * @return User if success, null if not
+     * */
     public static User Create(User user){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<User> callable = new Callable<User>() {
@@ -234,7 +203,13 @@ public class UsersController {
         }
     }
 
-    // PUT action
+    /**
+     * Method that updates an user
+     *
+     * @param email - User email
+     * @param user - User
+     * @return User if success, null if not
+     * */
     public static User Update(String email, User user){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<User> callable = new Callable<User>() {
@@ -259,7 +234,12 @@ public class UsersController {
         }
     }
 
-    // DELETE action
+    /**
+     * Method that deletes an user
+     *
+     * @param email - User email
+     * @return User if success, null if not
+     * */
     public static User Delete(String email){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<User> callable = new Callable<User>() {

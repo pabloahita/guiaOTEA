@@ -1,22 +1,42 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using OTEAServer.Misc;
 using OTEAServer.Models;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace OTEAServer.Controllers
 {
+    /// <summary>
+    /// Controller class for users operations
+    /// Author: Pablo Ahíta del Barrio
+    /// Version: 1
+    /// </summary>
     [ApiController]
     [Route("Users")]
     public class UsersController : ControllerBase
     {
+        /// <summary>
+        /// Database context
+        /// </summary>
         private readonly DatabaseContext _context;
+
+        /// <summary>
+        /// Class constructor
+        /// </summary>
+        /// <param name="context">Database context</param>
         public UsersController(DatabaseContext context)
         {
             _context = context;
         }
 
-        
-        // GET all action
+
+        /// <summary>
+        /// Method that obtains all the users
+        /// </summary>
+        /// <returns>User list</returns>
         [HttpGet("all")]
         public IActionResult GetAll()
         {
@@ -25,15 +45,13 @@ namespace OTEAServer.Controllers
         }
 
 
-        //GET all by user type
-        [HttpGet("allByType")]
-        public IActionResult GetAllByType([FromQuery] string userType)
-        {
-            var users = _context.Users.Where(u => u.userType == userType).ToList();
-            return Ok(users);
-        }
-
-        //GET all organization users by organization type
+        /// <summary>
+        /// Method that obtains all organization users of an organization
+        /// </summary>
+        /// <param name="idOrganization">User organization identifier</param>
+        /// <param name="orgType">User organization type</param>
+        /// <param name="illness">User organization illness or syndrome</param>
+        /// <returns>User list</returns>
         [HttpGet("allByOrg")]
         public IActionResult GetAllOrgUsersByOrganization([FromQuery] int? idOrganization, [FromQuery] string? orgType, [FromQuery] string? illness)
         {
@@ -41,8 +59,11 @@ namespace OTEAServer.Controllers
             return Ok(users);
         }
 
-        // GET by EMAIL action
-
+        /// <summary>
+        /// Method that obtains an user from database
+        /// </summary>
+        /// <param name="email">User email</param>
+        /// <returns>User if success, null if not</returns>
         [HttpGet("get")]
         public ActionResult<User> Get([FromQuery] string email)
         {
@@ -54,7 +75,12 @@ namespace OTEAServer.Controllers
             return user;
         }
 
-        //GET for LOGIN
+        /// <summary>
+        /// Method that obtains the login
+        /// </summary>
+        /// <param name="email">User login</param>
+        /// <param name="password">User password</param>
+        /// <returns>Login if credentials are true, null if not</returns>
         [HttpGet("login")]
         public ActionResult<User> GetForLogin([FromQuery] string email,[FromQuery] string password)
         {
@@ -66,33 +92,11 @@ namespace OTEAServer.Controllers
             return user;
         }
 
-        // GET by EMAIL and USER TYPE action
-
-        [HttpGet("type")]
-        public ActionResult<User> GetByType([FromQuery] string email, [FromQuery] string userType)
-        {
-            var user = _context.Users.FirstOrDefault(u => u.emailUser == email && u.userType==userType);
-
-            if (user == null)
-                return NotFound();
-
-            return user;
-        }
-
-        // GET by EMAIL and ORGANIZATION action
-
-        [HttpGet("org")]
-        public ActionResult<User> GetOrgUserByOrganization([FromQuery] string email, [FromQuery] int? idOrganization, [FromQuery] string? orgType, [FromQuery] string? illness)
-        {
-            var user = _context.Users.FirstOrDefault(u => u.emailUser == email && u.idOrganization == idOrganization && u.orgType == orgType && u.illness == illness);
-
-            if (user == null)
-                return NotFound();
-
-            return user;
-        }
-
-        // POST action
+        /// <summary>
+        /// Method that appends an user to the database
+        /// </summary>
+        /// <param name="user">User</param>
+        /// <returns>User if success, null if not</returns>
         [HttpPost]
         public IActionResult Create([FromBody] User user)
         {
@@ -101,7 +105,12 @@ namespace OTEAServer.Controllers
             return CreatedAtAction(nameof(Get), new { email = user.emailUser}, user);
         }
 
-        // PUT action
+        /// <summary>
+        /// Method that updates an user
+        /// </summary>
+        /// <param name="email">User email</param>
+        /// <param name="user">User</param>
+        /// <returns>User if success, null if not</returns>
         [HttpPut]
         public IActionResult Update([FromQuery] string email, [FromBody] User user)
         {
@@ -126,11 +135,14 @@ namespace OTEAServer.Controllers
             return Ok(existingUser);
         }
 
-        // DELETE action
+        /// <summary>
+        /// Method that deletes an user
+        /// </summary>
+        /// <param name="email">User email</param>
+        /// <returns>User if success, null if not</returns>
         [HttpDelete]
         public IActionResult Delete([FromQuery] string email)
         {
-            // This code will delete the user and return a result
             var user = _context.Users.FirstOrDefault(u => u.emailUser == email);
 
             if (user is null)

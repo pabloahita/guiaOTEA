@@ -143,16 +143,6 @@
                 android:hint="@string/org_address"
                 android:inputType="text" />
 
-            <EditText
-                android:id="@+id/org_zip_code"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:ems="10"
-                android:hint="@string/org_zipcode"
-                android:inputType="number" />
-
             <Spinner
                 android:id="@+id/spinner_countries_reg"
                 android:layout_width="0dp"
@@ -445,14 +435,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.05" />
+            app:layout_constraintGuide_percent="0.07" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.6" />
+            app:layout_constraintGuide_percent="0.58" />
 
 
         <androidx.constraintlayout.widget.Guideline

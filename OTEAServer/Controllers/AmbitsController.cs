@@ -4,18 +4,35 @@ using OTEAServer.Models;
 
 namespace OTEAServer.Controllers
 {
+    /// <summary>
+    /// Controller class for ambit operations
+    /// Author: Pablo Ahíta del Barrio
+    /// Version: 1
+    /// </summary>
+
+
     [ApiController]
     [Route("Ambits")]
     public class AmbitsController:ControllerBase
     {
+        /// <summary>
+        /// Database context
+        /// </summary>
         private readonly DatabaseContext _context;
 
+        /// <summary>
+        /// Class constructor
+        /// </summary>
+        /// <param name="context"></param>
         public AmbitsController(DatabaseContext context)
         {
             _context = context;
         }
 
-        // GET all action
+        /// <summary>
+        ///  Method that obtains from the database all the ambits
+        /// </summary>
+        /// <returns>All ambits</returns>
         [HttpGet("all")]
         public IActionResult GetAll()
         {
@@ -23,7 +40,11 @@ namespace OTEAServer.Controllers
             return Ok(ambits);
         }
 
-        // GET by ID AND ORGTYPE action
+        /// <summary>
+        /// Method that obtains from the database a ambit using its identifier
+        /// </summary>
+        /// <param name="id">Ambit identifier</param>
+        /// <returns>The ambit if exists, null if not.</returns>
 
         [HttpGet("get")]
         public ActionResult<Ambit> Get([FromQuery] int id)
@@ -36,7 +57,11 @@ namespace OTEAServer.Controllers
             return ambit;
         }
 
-        // POST action
+        /// <summary>
+        /// Method that appends a new ambit to the database
+        /// </summary>
+        /// <param name="ambit">Ambit to append</param>
+        /// <returns>Ambit append, null if not</returns>
         [HttpPost]
         public IActionResult Create([FromBody] Ambit ambit)
         {
@@ -46,7 +71,12 @@ namespace OTEAServer.Controllers
         }
 
 
-        // PUT action
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="idAmbit">Ambit identifier</param>
+        /// <param name="ambit">New ambit</param>
+        /// <returns>Ambit if was updated, null if not</returns>
         [HttpPut]
         public IActionResult Update([FromQuery] int idAmbit, [FromBody] Ambit ambit)
         {
@@ -75,7 +105,11 @@ namespace OTEAServer.Controllers
             return Ok(existingAmbit);
         }
 
-        // DELETE action
+        /// <summary>
+        /// Method that deletes the ambit using its identifier
+        /// </summary>
+        /// <param name="id">Ambit identifier</param>
+        /// <returns>Deleted ambit if deletion was succesful, null if not</returns>
         [HttpDelete]
         public IActionResult Delete([FromQuery] int id)
         {

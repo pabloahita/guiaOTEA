@@ -15,16 +15,30 @@ import otea.connection.api.AmbitsApi;
 import retrofit2.Call;
 import retrofit2.Response;
 
+/**
+ * Controller class for ambit operations
+ *
+ * @author Pablo Ahíta del Barrio
+ * @version 1
+ * */
 public class AmbitsController {
 
+    /**Ambits api to connect to the server*/
     private static AmbitsApi api;
 
+    /**AmbitsController instance for singleton*/
     private static AmbitsController instance;
 
+    /**Class constructor*/
     private AmbitsController(){
         api= ConnectionClient.getInstance().getRetrofit().create(AmbitsApi.class);
     }
 
+    /**
+     * Synchronized method that obtains the instance
+     *
+     * @return Instance of ambit
+     * */
     public static AmbitsController getInstance(){
         if(instance==null){
             synchronized (AmbitsController.class){
@@ -36,6 +50,11 @@ public class AmbitsController {
         return instance;
     }
 
+    /**
+     * Method that obtains from the database all the ambits
+     *
+     * @return All ambits
+     * */
     public static List<Ambit> GetAll(){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<Ambit>> callable = new Callable<List<Ambit>>() {
@@ -59,8 +78,13 @@ public class AmbitsController {
             throw new RuntimeException(e);
         }
     }
-    
-    // GET by ID AND ORGTYPE action
+
+    /**
+     * Method that obtains from the database a ambit using its identifier
+     *
+     * @param id - Ambit identifier
+     * @return The ambit if exists, null if not.
+     * */
 
     public static Ambit Get(int id){
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -86,7 +110,12 @@ public class AmbitsController {
         }
     }
 
-    // POST action
+    /**
+     * Method that appends a new ambit to the database
+     *
+     * @param ambit - Ambit to append
+     * @return Ambit append, null if not
+     * */
     public static Ambit Create(Ambit ambit){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Ambit> callable = new Callable<Ambit>() {
@@ -110,7 +139,15 @@ public class AmbitsController {
             throw new RuntimeException(e);
         }
     }
-    
+
+    /**
+     * Method that updates the ambit by the given
+     *
+     * @param idAmbit - Ambit identifier
+     * @param ambit - New ambit
+     * @return ambit if was updated, null if not
+     *
+     * */
     public static Ambit Update(int idAmbit, Ambit ambit){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Ambit> callable = new Callable<Ambit>() {
@@ -134,8 +171,13 @@ public class AmbitsController {
             throw new RuntimeException(e);
         }
     }
-    
-    
+
+    /**
+     * Method that deletes the ambit using its identifier
+     *
+     * @param id - Ambit identifier
+     * @return Deleted ambit if deletion was succesful, null if not
+     * */
     public static Ambit Delete(int id){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Ambit> callable = new Callable<Ambit>() {

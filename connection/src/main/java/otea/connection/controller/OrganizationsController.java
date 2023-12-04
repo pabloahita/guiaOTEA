@@ -15,16 +15,30 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 
+/**
+ * Controller class for organization operations
+ *
+ * @author Pablo Ahíta del Barrio
+ * @version 1
+ * */
 public class OrganizationsController {
 
+    /**Controller instance*/
     private static OrganizationsController instance;
 
+    /**Organizations api to connect to the server*/
     private static OrganizationsApi api;
 
+    /**Class constructor*/
     private OrganizationsController(){
         api=ConnectionClient.getInstance().getRetrofit().create(OrganizationsApi.class);
     }
 
+    /**
+     * Method that obtains the singleton instance of the controller
+     *
+     * @return Controller instance
+     * */
     public static OrganizationsController getInstance(){
         if(instance==null){
             synchronized (OrganizationsController.class){
@@ -35,9 +49,19 @@ public class OrganizationsController {
         }
         return instance;
     }
+
+    /**
+     * Method that obtains an organization from the database
+     *
+     * @param idOrganization - Organization identifier
+     * @param orgType - Organization type
+     * @param illness - Organization illness or syndrome
+     * @return Organization if success, null if not
+     * */
     public static Organization Get(int idOrganization, String orgType, String illness) {
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
+
         Callable<Organization> callable = new Callable<Organization>() {
             @Override
             public Organization call() throws Exception {
@@ -60,6 +84,11 @@ public class OrganizationsController {
         }
     }
 
+    /**
+     * Gets all organizations
+     *
+     * @return Organization list
+     * */
     public static List<Organization> GetAll(){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<Organization>> callable = new Callable<List<Organization>>() {
@@ -84,8 +113,11 @@ public class OrganizationsController {
         }
     }
 
-    // GET all evaluated organizations action
-
+    /**
+     * Gets all evaluated organizations
+     *
+     * @return Evaluated organization list
+     * */
     public static List<Organization> GetAllEvaluatedOrganizations() {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<Organization>> callable = new Callable<List<Organization>>() {
@@ -110,7 +142,11 @@ public class OrganizationsController {
         }
     }
 
-    // GET all evaluator organizations action
+    /**
+     * Gets all evaluator organizations
+     *
+     * @return Evaluator organization list
+     * */
     public static List<Organization> GetAllEvaluatorOrganizations(){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<Organization>> callable = new Callable<List<Organization>>() {
@@ -136,56 +172,13 @@ public class OrganizationsController {
     }
 
 
-    public static Organization GetEvaluatedOrganizationById(int id,String illness){
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<Organization> callable = new Callable<Organization>() {
-            @Override
-            public Organization call() throws Exception {
-                Call<Organization> call = api.GetEvaluatedOrganizationById(id,illness);
-                Response<Organization> response = call.execute();
-                if (response.isSuccessful()) {
-                    return response.body();
-                } else {
-                    throw new IOException("Error: " + response.code() + " " + response.message());
-                }
-            }
-        };
-        try {
-            Future<Organization> future = executor.submit(callable);
-            Organization result = future.get();
-            executor.shutdown();
-            return result;
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
-    public static Organization GetEvaluatorOrganizationById(int id, String illness){
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<Organization> callable = new Callable<Organization>() {
-            @Override
-            public Organization call() throws Exception {
-                Call<Organization> call = api.GetEvaluatorOrganizationById(id,illness);
-                Response<Organization> response = call.execute();
-                if (response.isSuccessful()) {
-                    return response.body();
-                } else {
-                    throw new IOException("Error: " + response.code() + " " + response.message());
-                }
-            }
-        };
-        try {
-            Future<Organization> future = executor.submit(callable);
-            Organization result = future.get();
-            executor.shutdown();
-            return result;
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    // POST action
-
+    /**
+     * Method that appends an organization to the database
+     *
+     * @param organization - Organization
+     * @return Organization if success, null if not
+     * */
     public static Organization Create(Organization organization){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Organization> callable = new Callable<Organization>() {
@@ -209,7 +202,16 @@ public class OrganizationsController {
             throw new RuntimeException(e);
         }
     }
-    // PUT action
+
+    /**
+     * Method that updates an organization
+     *
+     * @param id - Organization identifier
+     * @param orgType - Organization type
+     * @param illness - Organization illness or syndrome
+     * @param organization - Organization
+     * @return Organization if success, null if not
+     * */
     public static Organization Update(int id, String orgType, String illness, Organization organization){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Organization> callable = new Callable<Organization>() {
@@ -233,8 +235,15 @@ public class OrganizationsController {
             throw new RuntimeException(e);
         }
     }
-    // DELETE action
 
+    /**
+     * Method that deletes an organization
+     *
+     * @param id - Organization identifier
+     * @param orgType - Organization type
+     * @param illness - Organization illness or syndrome
+     * @return Organization if success, null if not
+     * */
     public static Organization Delete(int id, String orgType, String illness) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Organization> callable = new Callable<Organization>() {

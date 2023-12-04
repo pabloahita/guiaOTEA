@@ -8,29 +8,63 @@ using System.Security.Policy;
 
 namespace OTEAServer.Controllers
 {
+    /// <summary>
+    /// Controller for Centers operations
+    /// Author: Pablo Ahíta del Barrio
+    /// Version: 1
+    /// </summary>
+
+
     [ApiController]
     [Route("Centers")]
     public class CentersController : ControllerBase
     {
+        /// <summary>
+        /// Database context
+        /// </summary>
         private readonly DatabaseContext _context;
 
+        /// <summary>
+        /// Class constructor
+        /// </summary>
+        /// <param name="context">Database context</param>
         public CentersController(DatabaseContext context)
         {
             _context = context;
         }
 
+        /// <summary>
+        /// Method that obtains all the centers
+        /// </summary>
+        /// <returns>Centers list</returns>
         [HttpGet("all")]
         public IActionResult GetAll() {
             var centers = _context.Centers.ToList();
             return Ok(centers);
         }
 
+        /// <summary>
+        /// Method that obtains all the centers of an organization
+        /// </summary>
+        /// <param name="idOrganization">Organization identifier</param>
+        /// <param name="orgType">Organization type</param>
+        /// <param name="illness">Organization illness or syndrome</param>
+        /// <returns>All centers of an organization</returns>
         [HttpGet("org")]
         public IActionResult GetAllByOrganization([FromQuery] int idOrganization,[FromQuery] string orgType,[FromQuery] string illness) {
             var centers = _context.Centers.Where(c=>c.idOrganization== idOrganization && c.orgType==orgType && c.illness==illness).ToList();
             return Ok(centers);
         }
 
+
+        /// <summary>
+        /// Method that obtains a center using its identifier and the belonging organization
+        /// </summary>
+        /// <param name="idOrganization">Organization identifier</param>
+        /// <param name="orgType">Organization type</param>
+        /// <param name="illness">Organization illness or syndrome</param>
+        /// <param name="idCenter">Center identifier</param>
+        /// <returns>Center if found on database, null if not</returns>
         [HttpGet("get")]
         public ActionResult<Center> Get([FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness,[FromQuery] int idCenter)
         {
@@ -42,6 +76,12 @@ namespace OTEAServer.Controllers
             return center;
         }
 
+
+        /// <summary>
+        /// Method that appends a new center to the database
+        /// </summary>
+        /// <param name="center">Center to append</param>
+        /// <returns>Center appended if sucess, null if not</returns>
         [HttpPost]
         public ActionResult<Center> Create([FromBody] Center center)
         {
@@ -50,6 +90,15 @@ namespace OTEAServer.Controllers
             return CreatedAtAction(nameof(Get), new { idOrganization = center.idOrganization, orgType = center.orgType, illness = center.illness, idCenter = center.idCenter }, center);
         }
 
+        /// <summary>
+        /// Method that updates an existing center
+        /// </summary>
+        /// <param name="idOrganization">Organization identifier</param>
+        /// <param name="orgType">Organization type</param>
+        /// <param name="illness">Organization illness or syndrome</param>
+        /// <param name="idCenter">Center identifier</param>
+        /// <param name="center">Center</param>
+        /// <returns>Updated center if success, null if not</returns>
         [HttpPut]
         public ActionResult<Center> Update([FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness, [FromQuery] int idCenter,[FromBody] Center center)
         {
@@ -82,6 +131,15 @@ namespace OTEAServer.Controllers
             return Ok(existingCenter);
         }
 
+
+        /// <summary>
+        /// Method that deletes a center
+        /// </summary>
+        /// <param name="idOrganization">Organization identifier</param>
+        /// <param name="orgType">Organization type</param>
+        /// <param name="illness">Organization illness or syndrome</param>
+        /// <param name="idCenter">Center identifier</param>
+        /// <returns>Deleted center if success, null if not</returns>
         [HttpDelete]
         public ActionResult<Center> Delete([FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness, [FromQuery] int idCenter)
         {

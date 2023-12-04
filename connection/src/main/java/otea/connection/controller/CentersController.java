@@ -16,16 +16,32 @@ import otea.connection.api.CentersApi;
 import retrofit2.Call;
 import retrofit2.Response;
 
+/**
+ * Controller class for Centers operations
+ *
+ * @author Pablo Ahíta del Barrio
+ * @version 1
+ * */
 public class CentersController {
 
+    /**Centers api to connect to the center*/
     private static CentersApi api;
 
+    /**Controller instance*/
     private static CentersController instance;
 
+    /**
+     * Class constructor
+     * */
     private CentersController(){
         api= ConnectionClient.getInstance().getRetrofit().create(CentersApi.class);
     }
 
+    /**
+     * Method that obtains the singleton instance of the controller
+     *
+     * @return Instance of the controller
+     * */
     public static CentersController getInstance(){
         if(instance==null){
             synchronized (CentersController.class){
@@ -37,6 +53,11 @@ public class CentersController {
         return instance;
     }
 
+    /**
+     * Method that obtains all the centers
+     *
+     * @return Centers list
+     * */
     public static List<Center> GetAll(){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<Center>> callable = new Callable<List<Center>>() {
@@ -61,6 +82,12 @@ public class CentersController {
         }
     }
 
+    /**
+     * Method that obtains all the centers of an organization
+     *
+     * @param organization - Organization
+     * @return All centers of an organization
+     * */
     public static List<Center> GetAllByOrganization(Organization organization){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<Center>> callable = new Callable<List<Center>>() {
@@ -85,6 +112,13 @@ public class CentersController {
         }
     }
 
+    /**
+     * Method that obtains a center using its identifier and the belonging organization
+     *
+     * @param organization - Organization
+     * @param idCenter - Center identifier
+     * @return Center if found on database, null if not
+     * */
     public static Center Get(Organization organization, int idCenter){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Center> callable = new Callable<Center>() {
@@ -109,6 +143,12 @@ public class CentersController {
         }
     }
 
+    /**
+     * Method that appends a new center to the database
+     *
+     * @param center - Center to append
+     * @return Center appended if sucess, null if not
+     * */
     public static Center Create(Center center) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Center> callable = new Callable<Center>() {
@@ -133,6 +173,16 @@ public class CentersController {
         }
     }
 
+    /**
+     * Method that updates an existing center
+     *
+     * @param idOrganization - Organization identifier
+     * @param orgType - Organization type
+     * @param illness - Organization illness or syndrome
+     * @param idCenter - Center identifier
+     * @param center - Center
+     * @return Updated center if success, null if not
+     * */
     public static Center Update(int idOrganization, String orgType, String illness,  int idCenter, Center center){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Center> callable = new Callable<Center>() {
@@ -157,6 +207,15 @@ public class CentersController {
         }
     }
 
+    /**
+     * Method that deletes a center
+     *
+     * @param idOrganization - Organization identifier
+     * @param orgType - Organization type
+     * @param illness - Organization illness or syndrome
+     * @param idCenter - Center identifier
+     * @return Deleted center if success, null if not
+     * */
     public static Center Delete(int idOrganization, String orgType, String illness, int idCenter){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Center> callable = new Callable<Center>() {

@@ -152,7 +152,7 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
                             //Indicator i=indicators.get(current_indicator);
                             for(Indicator i: indicators) {
                                 if (i.getEvidences() == null) {//En caso de que no se hayan descargado las evidencias del indicador actual
-                                    i.setEvidences(EvidencesController.GetAllByIndicator(i.getIdIndicator(), i.getIndicatorType(), i.getIdAmbit(), i.getIndicatorVersion()));
+                                    i.setEvidences(EvidencesController.GetAllByIndicator(i.getIdIndicator(), i.getIndicatorType(), i.getIdSubSubAmbit(), i.getIdSubAmbit(), i.getIdAmbit(), i.getIndicatorVersion()));
                                 }
                             }
                             int evidences_per_indicator=indicators.get(0).getEvidences().size();

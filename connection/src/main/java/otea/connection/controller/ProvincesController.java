@@ -14,16 +14,30 @@ import otea.connection.api.ProvincesApi;
 import retrofit2.Call;
 import retrofit2.Response;
 
+/**
+ * Controller class for provinces operation
+ *
+ * @author Pablo Ahíta del Barrio
+ * @version 1
+ * */
 public class ProvincesController {
 
+    /**Provinces api to connect to the server*/
     private static ProvincesApi api;
 
+    /**Controller instance*/
     private static ProvincesController instance;
 
+    /**Class constructor*/
     private ProvincesController(){
         api= ConnectionClient.getInstance().getRetrofit().create(ProvincesApi.class);
     }
 
+    /**
+     * Method that obtains the singleton instance of the controller
+     *
+     * @return Controller instance
+     * */
     public static ProvincesController getInstance(){
         if(instance==null){
             synchronized (ProvincesController.class){
@@ -35,7 +49,14 @@ public class ProvincesController {
         return instance;
     }
 
-
+    /**
+     * Method that obtains a province from the database
+     *
+     * @param idProvince - Province identifier
+     * @param idRegion - Region identifier
+     * @param idCountry - Country identifier
+     * @return Province if success, null if not
+     * */
     public static Province GetProvince(int idProvince, int idRegion, String idCountry){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Province> callable = new Callable<Province>() {
@@ -60,6 +81,13 @@ public class ProvincesController {
         }
     }
 
+    /**
+     * Method that obtains all provinces of a region
+     *
+     * @param idRegion - Region identifier
+     * @param idCountry - Country identifier
+     * @return Provinces list
+     * */
     public static List<Province> GetProvincesByRegion(int idRegion, String idCountry){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<Province>> callable = new Callable<List<Province>>() {

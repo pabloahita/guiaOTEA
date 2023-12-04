@@ -42,9 +42,9 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
 
     int num_evidences_reached=0;
 
-    Map<Indicator,Integer> num_evidences_reached_per_indicator;
+    //Map<Indicator,Integer> num_evidences_reached_per_indicator;
     
-    boolean[][] switches_values;
+    int[][] switches_values;
 
     List<Indicator> indicators;
 
@@ -76,8 +76,6 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
         background=findViewById(R.id.background);
         background.setVisibility(View.GONE);
 
-        num_evidences_reached_per_indicator=new HashMap<Indicator,Integer>();
-
 
         int evidences_per_indicator=getIntent().getIntExtra("evidence_per_indicator",-1);
 
@@ -89,7 +87,12 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
         }
 
 
-        switches_values=new boolean[num_indicators][evidences_per_indicator];
+        switches_values=new int[num_indicators][evidences_per_indicator];
+        for(int i=0;i<num_indicators;i++){
+            for(int j=0;j<evidences_per_indicator;j++){
+                switches_values[i][j]=0;
+            }
+        }
         TextView indicatorCaption = (TextView) findViewById(R.id.indicator_caption);
         Switch evidence1=(Switch) findViewById(R.id.evidence1);
         Switch evidence2=(Switch) findViewById(R.id.evidence2);
@@ -100,38 +103,13 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
 
         Button previous_indicator=(Button) findViewById(R.id.previous_indicator);
         Button next_indicator=(Button) findViewById(R.id.next_indicator);
-        num_evidences_reached_per_indicator=new HashMap<Indicator, Integer>();
+        //num_evidences_reached_per_indicator=new HashMap<Indicator, Integer>();
 
         evaluatedOrganization=(Organization) getIntent().getSerializableExtra("evaluatedOrganization");
         evaluatorTeam=(EvaluatorTeam) getIntent().getSerializableExtra("evaluatorTeam");
 
 
-        if(Locale.getDefault().getLanguage().equals("es")) {
-            indicatorCaption.setText("Indicador "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionSpanish());
-        } else if(Locale.getDefault().getLanguage().equals("fr")) {
-            indicatorCaption.setText("Indicateur "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionFrench());
-        } else {//Default
-            indicatorCaption.setText("Indicator "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionEnglish());
-        }
-        Indicator i=indicators.get(current_indicator);
-        List<Evidence> evidences=i.getEvidences();
-        if(Locale.getDefault().getLanguage().equals("es")) {
-            evidence1.setText("Evidencia 1: "+evidences.get(0).getDescriptionSpanish());
-            evidence2.setText("Evidencia 2: "+evidences.get(1).getDescriptionSpanish());
-            evidence3.setText("Evidencia 3: "+evidences.get(2).getDescriptionSpanish());
-            evidence4.setText("Evidencia 4: "+evidences.get(3).getDescriptionSpanish());
-        }else if(Locale.getDefault().getLanguage().equals("fr")) {
-            evidence1.setText("Preuve 1: "+evidences.get(0).getDescriptionFrench());
-            evidence2.setText("Preuve 2: "+evidences.get(1).getDescriptionFrench());
-            evidence3.setText("Preuve 3: "+evidences.get(2).getDescriptionFrench());
-            evidence4.setText("Preuve 4: "+evidences.get(3).getDescriptionFrench());
-        }else{
-            evidence1.setText("Evidence 1: "+evidences.get(0).getDescriptionEnglish());
-            evidence2.setText("Evidence 2: "+evidences.get(1).getDescriptionEnglish());
-            evidence3.setText("Evidence 3: "+evidences.get(2).getDescriptionEnglish());
-            evidence4.setText("Evidence 4: "+evidences.get(3).getDescriptionEnglish());
-        }
-
+        changeIndicator();
 
         evidence1.setOnClickListener(this);
         evidence2.setOnClickListener(this);
@@ -150,13 +128,13 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
                 if (sw.isChecked()) {
                     if (num_evidences_reached >= 0 && num_evidences_reached < 4) {
                         num_evidences_reached++;
-                        switches_values[current_indicator][0] = true;
+                        switches_values[current_indicator][0] = 1;
                     }
                     Log.d("SW1T", "Switch1 true with " + num_evidences_reached + " reached evidences");
                 } else {
                     if (num_evidences_reached > 0 && num_evidences_reached <= 4) {
                         num_evidences_reached--;
-                        switches_values[current_indicator][0] = false;
+                        switches_values[current_indicator][0] = 0;
                     }
                     Log.d("SW1F", "Switch1 false with " + num_evidences_reached + " reached evidences");
                 }
@@ -167,13 +145,13 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
                 if (sw.isChecked()) {
                     if (num_evidences_reached >= 0 && num_evidences_reached < 4) {
                         num_evidences_reached++;
-                        switches_values[current_indicator][1] = true;
+                        switches_values[current_indicator][1] = 1;
                     }
                     Log.d("SW2T", "Switch2 true with " + num_evidences_reached + " reached evidences");
                 } else {
                     if (num_evidences_reached > 0 && num_evidences_reached <= 4) {
                         num_evidences_reached--;
-                        switches_values[current_indicator][1] = false;
+                        switches_values[current_indicator][1] = 0;
                     }
                     Log.d("SW2F", "Switch2 false with " + num_evidences_reached + " reached evidences");
                 }
@@ -184,13 +162,13 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
                 if (sw.isChecked()) {
                     if (num_evidences_reached >= 0 && num_evidences_reached < 4) {
                         num_evidences_reached++;
-                        switches_values[current_indicator][2] = true;
+                        switches_values[current_indicator][2] = 1;
                     }
                     Log.d("SW3T", "Switch3 true with " + num_evidences_reached + " reached evidences");
                 } else {
                     if (num_evidences_reached > 0 && num_evidences_reached <= 4) {
                         num_evidences_reached--;
-                        switches_values[current_indicator][2] = false;
+                        switches_values[current_indicator][2] = 0;
                     }
                     Log.d("SW3F", "Switch3 false with " + num_evidences_reached + " reached evidences");
                 }
@@ -201,13 +179,13 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
                 if (sw.isChecked()) {
                     if (num_evidences_reached >= 0 && num_evidences_reached < 4) {
                         num_evidences_reached++;
-                        switches_values[current_indicator][3] = true;
+                        switches_values[current_indicator][3] = 1;
                     }
                     Log.d("SW4T", "Switch4 true with " + num_evidences_reached + " reached evidences");
                 } else {
                     if (num_evidences_reached > 0 && num_evidences_reached <= 4) {
                         num_evidences_reached--;
-                        switches_values[current_indicator][3] = false;
+                        switches_values[current_indicator][3] = 0;
                     }
                     Log.d("SW4F", "Switch4 false with " + num_evidences_reached + " reached evidences");
                 }
@@ -224,11 +202,6 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
                     view.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if (num_evidences_reached_per_indicator.containsKey(indicators.get(current_indicator))) {
-                                num_evidences_reached_per_indicator.replace(indicators.get(current_indicator), num_evidences_reached);
-                            } else {
-                                num_evidences_reached_per_indicator.put(indicators.get(current_indicator), num_evidences_reached);
-                            }
                             current_indicator--;
                             changeIndicator();
                             background.setVisibility(View.GONE);
@@ -244,20 +217,13 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
                     view.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if (num_evidences_reached_per_indicator.containsKey(indicators.get(current_indicator))) {
-                                num_evidences_reached_per_indicator.replace(indicators.get(current_indicator), num_evidences_reached);
-                            } else {
-                                num_evidences_reached_per_indicator.put(indicators.get(current_indicator), num_evidences_reached);
-                            }
                             current_indicator++;
                             changeIndicator();
                             background.setVisibility(View.GONE);
                         }
                     }, 100);
                 } else {
-                    //current_evaluation.setResults(num_evidences_reached_per_indicator);
-                    //current_evaluation.getEvaluatedOrganization().addEvaluation(current_evaluation);
-                    //current_evaluation=new IndicatorsEvaluation(long.valueOf());
+
                     background.setVisibility(View.VISIBLE);
                     textView.setText(getString(R.string.calculating_results));
                     view.postDelayed(new Runnable() {
@@ -270,37 +236,29 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
                                 String dateString = dateFormat.format(new java.util.Date());
                                 Date date = dateFormat.parse(dateString);
                                 long evaluationDate = date.getTime();
-                                total_score=getScore();
 
-                                //En la demo solo hay indicadores de nivel 1 (Cambiar por observaciones y conclusiones cuando esté implementado)
-                                current_evaluation = new IndicatorsEvaluation(evaluationDate,evaluatorTeam.getIdEvaluatedOrganization(),evaluatorTeam.getOrgTypeEvaluated(),evaluatorTeam.getIdEvaluatorTeam(), evaluatorTeam.getIdEvaluatorOrganization(), evaluatorTeam.getOrgTypeEvaluator(), evaluatorTeam.getIllness(), "","","","","","","","","","","","","","","","","","","","",0,0,0,0,0,0,0,1);
+                                current_evaluation = new IndicatorsEvaluation(evaluationDate,evaluatorTeam.getIdEvaluatedOrganization(),evaluatorTeam.getOrgTypeEvaluated(),evaluatorTeam.getIdEvaluatorTeam(), evaluatorTeam.getIdEvaluatorOrganization(), evaluatorTeam.getOrgTypeEvaluator(), evaluatorTeam.getIllness(), evaluatorTeam.getIdCenter(),"","","","","","","","","","","","","","","","","","","","",0,0,0,0,0,0,0,1);
                                 regs=new LinkedList<>();
                                 for(int i=0;i<switches_values.length;i++){
                                     for(int j=0;j<switches_values[i].length;j++){
-                                        int isMarked=-1;
-                                        if(switches_values[i][j]==true){
-                                            isMarked=1;
-                                        }
-                                        else{
-                                            isMarked=0;
-                                        }
-                                        regs.add(new IndicatorsEvaluationReg(evaluationDate,evaluatedOrganization.getIdOrganization(), evaluatedOrganization.getOrgType(), evaluatorTeam.getIllness(), indicators.get(i).getIdIndicator(), indicators.get(i).getEvidences().get(j).getIdEvidence(), isMarked, indicators.get(i).getIndicatorVersion()));
-
+                                        regs.add(new IndicatorsEvaluationReg(evaluationDate,evaluatorTeam.getIdEvaluatorTeam(), evaluatorTeam.getIdEvaluatorOrganization(), evaluatorTeam.getOrgTypeEvaluator(), evaluatorTeam.getIdEvaluatedOrganization(), evaluatorTeam.getOrgTypeEvaluated(), evaluatorTeam.getIllness(), evaluatorTeam.getIdCenter(), indicators.get(i).getIdSubSubAmbit(), indicators.get(i).getIdSubAmbit(), indicators.get(i).getIdAmbit(), indicators.get(i).getIdIndicator(), indicators.get(i).getEvidences().get(j).getIdEvidence(), switches_values[i][j], indicators.get(i).getIndicatorVersion()));
                                     }
                                 }
                                 IndicatorsEvaluationsController.Create(current_evaluation);
                                 for(IndicatorsEvaluationReg reg:regs){
                                     IndicatorsEvaluationRegsController.Create(reg);
                                 }
-
+                                IndicatorsEvaluation results=IndicatorsEvaluationsController.calculateResults(evaluationDate,evaluatorTeam.getIdEvaluatorTeam(),evaluatorTeam.getIdEvaluatorOrganization(),evaluatorTeam.getOrgTypeEvaluator(),evaluatorTeam.getIdEvaluatedOrganization(),evaluatorTeam.getOrgTypeEvaluated(),evaluatorTeam.getIllness(),evaluatorTeam.getIdCenter());
+                                //Mostrar resultados
+                                Intent intent = new Intent(getApplicationContext(), gui.mainMenu.evaluator.MainMenu.class);
+                                intent.putExtra("user",getIntent().getSerializableExtra("user"));
+                                startActivity(intent);
                             } catch (ParseException e) {
                                 throw new RuntimeException(e);
                             }
 
-                            Intent intent = new Intent(getApplicationContext(), gui.mainMenu.evaluator.MainMenu.class);
-                            intent.putExtra("user",getIntent().getSerializableExtra("user"));
-                            String level="";
-                            if(Locale.getDefault().equals("es")) {
+
+                            /*if(Locale.getDefault().equals("es")) {
 
                                 if(total_score>=198 && total_score<=246){
                                     level="EXCELENTE";
@@ -351,8 +309,8 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
                                 }
                                 Toast.makeText(getApplicationContext(), total_score + " points - "+level, Toast.LENGTH_LONG).show();
 
-                            }
-                            startActivity(intent);
+                            }*/
+
                         }
                     },100);
 
@@ -365,23 +323,33 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
 
 
     public void changeIndicator(){
-        if(num_evidences_reached_per_indicator.containsKey(indicators.get(current_indicator))){
-            num_evidences_reached=num_evidences_reached_per_indicator.get(indicators.get(current_indicator));
-        }
-        else{num_evidences_reached=0;}
         TextView indicatorCaption = (TextView) findViewById(R.id.indicator_caption);
         Switch evidence1=(Switch) findViewById(R.id.evidence1);
         Switch evidence2=(Switch) findViewById(R.id.evidence2);
         Switch evidence3=(Switch) findViewById(R.id.evidence3);
         Switch evidence4=(Switch) findViewById(R.id.evidence4);
-        evidence1.setChecked(switches_values[current_indicator][0]);
-        evidence2.setChecked(switches_values[current_indicator][1]);
-        evidence3.setChecked(switches_values[current_indicator][2]);
-        evidence4.setChecked(switches_values[current_indicator][3]);
-        if(Locale.getDefault().getLanguage().equals("es")) {
+        evidence1.setChecked((switches_values[current_indicator][0] == 0) ? false : true);
+        evidence2.setChecked((switches_values[current_indicator][1] == 0) ? false : true);
+        evidence3.setChecked((switches_values[current_indicator][2] == 0) ? false : true);
+        evidence4.setChecked((switches_values[current_indicator][3] == 0) ? false : true);
+        if(Locale.getDefault().getLanguage().equals("es")) {//Español
             indicatorCaption.setText("Indicador "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionSpanish());
-        } else if(Locale.getDefault().getLanguage().equals("fr")) {
+        } else if(Locale.getDefault().getLanguage().equals("fr")) {//Francés
             indicatorCaption.setText("Indicateur "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionFrench());
+        } else if(Locale.getDefault().getLanguage().equals("eu")) {//Euskera
+            indicatorCaption.setText(indicators.get(current_indicator).getIdIndicator()+". adierazlea: "+indicators.get(current_indicator).getDescriptionBasque());
+        } else if(Locale.getDefault().getLanguage().equals("ca")) {//Catalán
+            indicatorCaption.setText("Indicador "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionCatalan());
+        } else if(Locale.getDefault().getLanguage().equals("nl")) {//Neerlandés
+            indicatorCaption.setText("Indicator "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionDutch());
+        } else if(Locale.getDefault().getLanguage().equals("gl")) {//Gallego
+            indicatorCaption.setText("Indicador "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionGalician());
+        } else if(Locale.getDefault().getLanguage().equals("de")) {//Alemán
+            indicatorCaption.setText("Indikator "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionGerman());
+        } else if(Locale.getDefault().getLanguage().equals("it")) {//Italiano
+            indicatorCaption.setText("Indicatore "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionItalian());
+        } else if(Locale.getDefault().getLanguage().equals("pt")) {//Portugués
+            indicatorCaption.setText("Indicador "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionPortuguese());
         } else {//Default
             indicatorCaption.setText("Indicator "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionEnglish());
         }
@@ -406,7 +374,7 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
         Log.d("NEWIND","Current indicator has "+num_evidences_reached+" reached evidences");
     }
 
-    public Integer getScore(){
+   /* public Integer getScore(){
         int[][] numberOfIndicatorsPerLevel=new int[4][3];
         int[][] multiplicators=new int[4][3];
         Map<Indicator,Integer> filled=new HashMap<Indicator,Integer>();
@@ -430,7 +398,7 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
             }
         }
         return score;
-    }
+    }*/
 
 
     @Override

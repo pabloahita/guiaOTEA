@@ -14,16 +14,30 @@ import otea.connection.api.CitiesApi;
 import retrofit2.Call;
 import retrofit2.Response;
 
+/**
+ * Controller for Cities operations
+ *
+ * @author Pablo Ahíta del Barrio
+ * @version 1
+ * */
 public class CitiesController {
 
+    /**Cities api to connect to the server*/
     private static CitiesApi api;
 
+    /**Controller instance*/
     private static CitiesController instance;
 
+    /**Class constructor*/
     private CitiesController(){
         api= ConnectionClient.getInstance().getRetrofit().create(CitiesApi.class);
     }
 
+    /**
+     * Method that obtains the singleton instance of the controller
+     *
+     * @return Controller instance
+     * */
     public static CitiesController getInstance(){
         if(instance==null){
             synchronized (CitiesController.class){
@@ -35,6 +49,15 @@ public class CitiesController {
         return instance;
     }
 
+    /**
+     * Method that obtains a city from the database
+     *
+     * @param idCity - City identifier
+     * @param idProvince - Province identifier
+     * @param idRegion - Region identifier
+     * @param idCountry - Country identifier
+     * @return City if success, null if not
+     * */
     public static City GetCity(int idCity, int idProvince, int idRegion, String idCountry){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<City> callable = new Callable<City>() {
@@ -59,6 +82,14 @@ public class CitiesController {
         }
     }
 
+    /**
+     * Method that obtains from the database all the cities of a province
+     *
+     * @param idProvince - Province identifier
+     * @param idRegion - Region identifier
+     * @param idCountry - Country identifier
+     * @return Cities of the province
+     * */
     public static List<City> GetCitiesByProvince(int idProvince, int idRegion, String idCountry){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<City>> callable = new Callable<List<City>>() {

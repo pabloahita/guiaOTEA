@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import cli.user.User;
 import gui.RegisterOrganization;
+import otea.connection.controller.UsersController;
 
 
 public class MainMenu extends AppCompatActivity {
@@ -44,8 +45,8 @@ public class MainMenu extends AppCompatActivity {
 
         DrawerLayout drawer = binding.drawerLayout;
 
-        User user= (User) getIntent().getSerializableExtra("user");
         NavigationView navigationView = binding.navView;
+        User user= UsersController.getInstance().Get((String) getIntent().getSerializableExtra("userEmail"));
         View header=navigationView.getHeaderView(0);
         TextView userName=header.findViewById(R.id.user_complete_name_evaluator);
         TextView email=header.findViewById(R.id.user_email_evaluator);

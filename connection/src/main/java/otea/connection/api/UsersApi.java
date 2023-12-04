@@ -8,43 +8,59 @@ import retrofit2.http.*;
 
 public interface UsersApi {
 
-    // GET all action
+    /**Gets all users*/
     @GET("Users/all")
     Call<List<User>> GetAll();
-    //GET all by user type
-    @GET("Users/allByType")
-    Call<List<User>> GetAllByType(@Query("userType") String userType);
 
-    //GET all organization users by organization type
+    /**
+     * Gets all organization users of an organization
+     *
+     * @param idOrganization - User organization identifier
+     * @param orgType - User organization type
+     * @param illness - User organization illness or syndrome
+     * */
     @GET("Users/allByOrg")
     Call<List<User>> GetAllOrgUsersByOrganization(@Query("idOrganization") int idOrganization, @Query("orgType") String orgType, @Query("illness") String illness);
     
-    // GET by EMAIL action
+    /**
+     * Gets an user
+     *
+     * @param email - User email
+     * */
     @GET("Users/get")
     Call<User> Get(@Query("email") String email);
 
-    // GET by EMAIL and USER TYPE action
-
-    @GET("Users/type")
-    Call<User> GetByType(@Query("email") String email, @Query("userType")String userType);
-
-    // GET by EMAIL and ORGANIZATION action
-
-    @GET("Users/org")
-    Call<User> GetOrgUserByOrganization(@Query("email") String email,@Query("idOrganization") int idOrganization,@Query("orgType") String orgType,@Query("illness") String illness);
-
-    // POST action
+    /**
+     * Creates an user
+     *
+     * @param user - User
+     * */
     @POST("Users")
     Call<User> Create(@Body User user);
 
-    // PUT action
+    /**
+     * Updates an user
+     *
+     * @param email - User email
+     * @param user - User
+     * */
     @PUT("Users")
     Call<User> Update(@Query("email") String email, @Body User user);
 
-    // DELETE action
+    /**
+     * Deletes an user
+     *
+     * @param email - User email
+     * */
     @DELETE("Users")
     Call<User> Delete(@Query("email") String email);
 
+    /**
+     * Temporal user obtainer for login
+     *
+     * @param email - User email
+     * @param password - User password
+     * */
     @GET("Users/login")
     Call<User> GetForLogin(@Query("email") String email, @Query("password") String password);
 }

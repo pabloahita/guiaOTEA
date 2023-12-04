@@ -21,6 +21,7 @@ import java.util.Locale;
 import cli.organization.Organization;
 import cli.user.User;
 import otea.connection.controller.OrganizationsController;
+import otea.connection.controller.UsersController;
 
 public class RecentActivity extends Fragment {
 
@@ -39,157 +40,155 @@ public class RecentActivity extends Fragment {
 
         View root=binding.getRoot();
 
-        User user= (User) getActivity().getIntent().getSerializableExtra("user");
+        User user= UsersController.getInstance().Get((String) getActivity().getIntent().getSerializableExtra("userEmail"));
 
-        Organization org=(Organization) getActivity().getIntent().getSerializableExtra("org");
+        if(user!=null){
+            Organization org=OrganizationsController.getInstance().Get(user.getIdOrganization(),user.getOrganizationType(),user.getIllness());
 
-        if(org==null) {
-            org = OrganizationsController.Get(user.getIdOrganization(), user.getOrganizationType(), user.getIllness());
-            getActivity().getIntent().putExtra("org",org);
+            if(org!=null) {
+                TextView first_name=binding.firstNameUserMenu;
+                TextView last_name=binding.lastNameUserMenu;
+                TextView organizationName=binding.orgNameUserMenu;
+
+                if(Locale.getDefault().getLanguage().equals("es")){
+                    first_name.setText("Nombre: "+user.getFirst_name());
+                    last_name.setText("Apellidos: "+user.getLast_name());
+                    organizationName.setText("Organización: "+org.getNameOrg());
+                }else if(Locale.getDefault().getLanguage().equals("fr")){
+                    first_name.setText("Prénom: "+user.getFirst_name());
+                    last_name.setText("Nom: "+user.getLast_name());
+                    organizationName.setText("Organisation: "+org.getNameOrg());
+                }else if(Locale.getDefault().getLanguage().equals("eu")){
+                    first_name.setText("Izena: "+user.getFirst_name());
+                    last_name.setText("Abizena: "+user.getLast_name());
+                    organizationName.setText("Erakundea: "+org.getNameOrg());
+                }else if(Locale.getDefault().getLanguage().equals("ca")){
+                    first_name.setText("Nom: "+user.getFirst_name());
+                    last_name.setText("Cognom: "+user.getLast_name());
+                    organizationName.setText("Organització: "+org.getNameOrg());
+                }else if(Locale.getDefault().getLanguage().equals("gl")){
+                    first_name.setText("Nome: "+user.getFirst_name());
+                    last_name.setText("Apelido: "+user.getLast_name());
+                    organizationName.setText("Organización: "+org.getNameOrg());
+                }else if(Locale.getDefault().getLanguage().equals("pt")){
+                    first_name.setText("Nome: "+user.getFirst_name());
+                    last_name.setText("Sobrenome: "+user.getLast_name());
+                    organizationName.setText("Organização: "+org.getNameOrg());
+                }else if(Locale.getDefault().getLanguage().equals("de")){
+                    first_name.setText("Vorname:  "+user.getFirst_name());
+                    last_name.setText("Nachname: "+user.getLast_name());
+                    organizationName.setText("Organisation: "+org.getNameOrg());
+                }else if(Locale.getDefault().getLanguage().equals("it")){
+                    first_name.setText("Nome: "+user.getFirst_name());
+                    last_name.setText("Apelido: "+user.getLast_name());
+                    organizationName.setText("Organización: "+org.getNameOrg());
+                }else if(Locale.getDefault().getLanguage().equals("nl")){
+                    first_name.setText("Vornaam: "+user.getFirst_name());
+                    last_name.setText("Achternaam: "+user.getLast_name());
+                    organizationName.setText("Organisatie: "+org.getNameOrg());
+                }else{
+                    first_name.setText("First name: "+user.getFirst_name());
+                    last_name.setText("Last name: "+user.getLast_name());
+                    organizationName.setText("Organization: "+org.getNameOrg());
+                }
+
+                binding.cardView2.setVisibility(View.GONE);
+
+                binding.imageButton1.setOnClickListener(v -> {
+                    binding.cardView2.setVisibility(View.VISIBLE);
+                    v.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent=new Intent(getContext(),gui.SelectToDoIndicatorsEvaluations.class);
+                            intent.putExtra("userEmail",getActivity().getIntent().getSerializableExtra("userEmail"));
+                            startActivity(intent);
+
+                            v.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    binding.cardView2.setVisibility(View.GONE);
+                                }
+                            }, 50);
+                        }
+                    }, 50);
+
+                });
+
+                binding.imageButton2.setOnClickListener(v -> {
+
+                });
+
+                binding.imageButton3.setOnClickListener(v -> {
+
+                });
+
+                binding.imageButton4.setOnClickListener(v -> {
+                    binding.cardView2.setVisibility(View.VISIBLE);
+
+                    v.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent=new Intent(getContext(),gui.RegisterOrganization.class);
+                            intent.putExtra("userEmail",getActivity().getIntent().getSerializableExtra("userEmail"));
+                            startActivity(intent);
+
+                            v.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    binding.cardView2.setVisibility(View.GONE);
+                                }
+                            }, 50);
+                        }
+                    }, 50);
+
+                });
+
+                binding.imageButton5.setOnClickListener(v -> {
+                    binding.cardView2.setVisibility(View.VISIBLE);
+
+                    v.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent=new Intent(getContext(),gui.RegisterNewCenter.class);
+                            intent.putExtra("userEmail",getActivity().getIntent().getSerializableExtra("userEmail"));
+                            intent.putExtra("org",getActivity().getIntent().getSerializableExtra("org"));
+                            startActivity(intent);
+
+                            v.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    binding.cardView2.setVisibility(View.GONE);
+                                }
+                            }, 50);
+                        }
+                    }, 50);
+
+                });
+
+                binding.imageButton6.setOnClickListener(v -> {
+                    binding.cardView2.setVisibility(View.VISIBLE);
+
+                    v.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent=new Intent(getContext(),gui.RegisterNewEvaluatorTeam.class);
+                            intent.putExtra("userEmail",getActivity().getIntent().getSerializableExtra("userEmail"));
+                            startActivity(intent);
+
+                            v.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    binding.cardView2.setVisibility(View.GONE);
+                                }
+                            }, 50);
+                        }
+                    }, 50);
+                });
+            }
+
+
         }
 
-        TextView first_name=binding.firstNameUserMenu;
-        TextView last_name=binding.lastNameUserMenu;
-        TextView organizationName=binding.orgNameUserMenu;
-
-        if(Locale.getDefault().getLanguage().equals("es")){
-            first_name.setText("Nombre: "+user.getFirst_name());
-            last_name.setText("Apellidos: "+user.getLast_name());
-            organizationName.setText("Organización: "+org.getName());
-        }else if(Locale.getDefault().getLanguage().equals("fr")){
-            first_name.setText("Prénom: "+user.getFirst_name());
-            last_name.setText("Nom: "+user.getLast_name());
-            organizationName.setText("Organisation: "+org.getName());
-        }else if(Locale.getDefault().getLanguage().equals("eu")){
-            first_name.setText("Izena: "+user.getFirst_name());
-            last_name.setText("Abizena: "+user.getLast_name());
-            organizationName.setText("Erakundea: "+org.getName());
-        }else if(Locale.getDefault().getLanguage().equals("ca")){
-            first_name.setText("Nom: "+user.getFirst_name());
-            last_name.setText("Cognom: "+user.getLast_name());
-            organizationName.setText("Organització: "+org.getName());
-        }else if(Locale.getDefault().getLanguage().equals("gl")){
-            first_name.setText("Nome: "+user.getFirst_name());
-            last_name.setText("Apelido: "+user.getLast_name());
-            organizationName.setText("Organización: "+org.getName());
-        }else if(Locale.getDefault().getLanguage().equals("pt")){
-            first_name.setText("Nome: "+user.getFirst_name());
-            last_name.setText("Sobrenome: "+user.getLast_name());
-            organizationName.setText("Organização: "+org.getName());
-        }else if(Locale.getDefault().getLanguage().equals("de")){
-            first_name.setText("Vorname:  "+user.getFirst_name());
-            last_name.setText("Nachname: "+user.getLast_name());
-            organizationName.setText("Organisation: "+org.getName());
-        }else if(Locale.getDefault().getLanguage().equals("it")){
-            first_name.setText("Nome: "+user.getFirst_name());
-            last_name.setText("Apelido: "+user.getLast_name());
-            organizationName.setText("Organización: "+org.getName());
-        }else if(Locale.getDefault().getLanguage().equals("nl")){
-            first_name.setText("Vornaam: "+user.getFirst_name());
-            last_name.setText("Achternaam: "+user.getLast_name());
-            organizationName.setText("Organisatie: "+org.getName());
-        }else{
-            first_name.setText("First name: "+user.getFirst_name());
-            last_name.setText("Last name: "+user.getLast_name());
-            organizationName.setText("Organization: "+org.getName());
-        }
-
-
-        binding.cardView2.setVisibility(View.GONE);
-
-        binding.imageButton1.setOnClickListener(v -> {
-                binding.cardView2.setVisibility(View.VISIBLE);
-                v.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Intent intent=new Intent(getContext(),gui.SelectToDoIndicatorsEvaluations.class);
-                        intent.putExtra("user",getActivity().getIntent().getSerializableExtra("user"));
-                        intent.putExtra("org",getActivity().getIntent().getSerializableExtra("org"));
-                        startActivity(intent);
-
-                        v.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                binding.cardView2.setVisibility(View.GONE);
-                            }
-                        }, 50);
-                    }
-                }, 50);
-
-        });
-
-        binding.imageButton2.setOnClickListener(v -> {
-
-        });
-
-        binding.imageButton3.setOnClickListener(v -> {
-
-        });
-
-        binding.imageButton4.setOnClickListener(v -> {
-            binding.cardView2.setVisibility(View.VISIBLE);
-
-            v.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent=new Intent(getContext(),gui.RegisterOrganization.class);
-                    intent.putExtra("user",getActivity().getIntent().getSerializableExtra("user"));
-                    intent.putExtra("org",getActivity().getIntent().getSerializableExtra("org"));
-                    startActivity(intent);
-
-                    v.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            binding.cardView2.setVisibility(View.GONE);
-                        }
-                    }, 50);
-                }
-            }, 50);
-
-        });
-
-        binding.imageButton5.setOnClickListener(v -> {
-            binding.cardView2.setVisibility(View.VISIBLE);
-
-            v.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent=new Intent(getContext(),gui.RegisterNewCenter.class);
-                    intent.putExtra("user",getActivity().getIntent().getSerializableExtra("user"));
-                    intent.putExtra("org",getActivity().getIntent().getSerializableExtra("org"));
-                    startActivity(intent);
-
-                    v.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            binding.cardView2.setVisibility(View.GONE);
-                        }
-                    }, 50);
-                }
-            }, 50);
-
-        });
-
-        binding.imageButton6.setOnClickListener(v -> {
-            binding.cardView2.setVisibility(View.VISIBLE);
-
-            v.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Intent intent=new Intent(getContext(),gui.RegisterNewEvaluatorTeam.class);
-                    intent.putExtra("user",getActivity().getIntent().getSerializableExtra("user"));
-                    intent.putExtra("org",getActivity().getIntent().getSerializableExtra("org"));
-                    startActivity(intent);
-
-                    v.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            binding.cardView2.setVisibility(View.GONE);
-                        }
-                    }, 50);
-                }
-            }, 50);
-        });
 
 
 

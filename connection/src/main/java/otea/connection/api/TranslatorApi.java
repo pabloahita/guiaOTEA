@@ -7,8 +7,23 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
+/**
+ * API for translation operations
+ *
+ * @author Pablo Ahíta del Barrio
+ * @version 1
+ * */
 public interface TranslatorApi {
 
+
+
+    /**
+     * Translates a text from an origin language to a target language
+     *
+     * @param text - Text to translate
+     * @param origin - Origin language
+     * @param target - Target language
+     * */
     @GET("Translator/translate")
     Call<ResponseBody> translate(
             @Query("text") String text,
@@ -16,10 +31,5 @@ public interface TranslatorApi {
             @Query("target") String target
     );
 
-    @GET("Translator/multiLangTranslate")
-    Call<List<String>> multiLangTranslate(
-            @Query("text") String text,
-            @Query("origin") String origin
-    );
 
 }

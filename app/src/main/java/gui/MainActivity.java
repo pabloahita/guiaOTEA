@@ -164,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
         ProvincesController.getInstance();
         RegionsController.getInstance();
         RequestsController.getInstance();
-        SessionsController.getInstance();
         UsersController.getInstance();
         TranslatorController.getInstance();
     }

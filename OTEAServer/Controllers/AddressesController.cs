@@ -6,17 +6,36 @@ using System.Data;
 
 namespace OTEAServer.Controllers
 {
+    ///<summary>
+    /// Controller class for address operations
+    /// Author: Pablo Ahíta del Barrio
+    /// Version: 1
+    /// </summary>
+
+
     [ApiController]
     [Route("Addresses")]
     public class AddressesController : ControllerBase
     {
+        /// <summary>
+        /// Database context
+        /// </summary>
         private readonly DatabaseContext _context;
 
+
+        /// <summary>
+        /// Class constructor
+        /// </summary>
+        /// <param name="context">Database context</param>
         public AddressesController(DatabaseContext context)
         {
             _context = context;
         }
-        // GET all action
+
+        /// <summary>
+        ///  Method that obtains from the database all the addresses
+        /// </summary>
+        /// <returns>Addresses list</returns>
         [HttpGet("all")]
         public IActionResult GetAll()
         {
@@ -24,8 +43,11 @@ namespace OTEAServer.Controllers
             return Ok(addresses);
         }
 
-        // GET by ID action
-
+        /// <summary>
+        /// Method that obtains from the database the address using its identifier
+        /// </summary>
+        /// <param name="id">Address identifier</param>
+        /// <returns>Address if is in the database, null if not</returns>
         [HttpGet("get")]
         public ActionResult<Address> Get([FromQuery] int id)
         {
@@ -37,7 +59,11 @@ namespace OTEAServer.Controllers
             return address;
         }
 
-        // POST action
+        /// <summary>
+        /// Method that appends the address to the database
+        /// </summary>
+        /// <param name="address">New address</param>
+        /// <returns>Address if was append, null if not</returns>
         [HttpPost]
         public IActionResult Create([FromBody] Address address)
         {
@@ -47,11 +73,16 @@ namespace OTEAServer.Controllers
         }
 
 
-        // PUT action
+        /// <summary>
+        /// Method that updates an address using its identifier
+        /// </summary>
+        /// <param name="idAddress">Address identifier</param>
+        /// <param name="address">Address</param>
+        /// <returns>Address if was updated, null if not</returns>
         [HttpPut]
         public IActionResult Update([FromQuery] int idAddress, [FromBody] Address address)
         {
-            // This code will update the mesa and return a result
+            
             if (idAddress != address.idAddress)
                 return BadRequest();
 
@@ -60,7 +91,6 @@ namespace OTEAServer.Controllers
                 return NotFound();
 
 
-            //_context.Addresses.Update(address);
             existingAddress.addressName = address.addressName;
             existingAddress.idCity = address.idCity;
             existingAddress.idProvince = address.idProvince;
@@ -75,7 +105,11 @@ namespace OTEAServer.Controllers
             return Ok(existingAddress); 
         }
 
-        // DELETE action
+        /// <summary>
+        /// Method that deletes the address using its identifier
+        /// </summary>
+        /// <param name="id">Address identifier</param>
+        /// <returns>Address if was deleted, null if not</returns>
         [HttpDelete]
         public IActionResult Delete([FromQuery] int id)
         {

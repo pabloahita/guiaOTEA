@@ -15,16 +15,31 @@ import otea.connection.api.AddressesApi;
 import retrofit2.Call;
 import retrofit2.Response;
 
+/**
+ * Controller class for address operations
+ *
+ * @author Pablo Ahíta del Barrio
+ * @version 1
+ *
+ * */
 public class AddressesController {
 
+    /**Addresses API to connect to the server*/
     private static AddressesApi api;
 
+    /**Controller instance*/
     private static AddressesController instance;
 
+    /**Class constructor*/
     private AddressesController(){
         api= ConnectionClient.getInstance().getRetrofit().create(AddressesApi.class);
     }
 
+    /**
+     * Method that obtains the controller instance
+     *
+     * @return Controller instance
+     * */
     public static AddressesController getInstance(){
         if(instance==null){
             synchronized (AddressesController.class){
@@ -36,6 +51,11 @@ public class AddressesController {
         return instance;
     }
 
+    /**
+     * Method that obtains from the database all the addresses
+     *
+     * @return Addresses list
+     * */
     public static List<Address> GetAll(){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<Address>> callable = new Callable<List<Address>>() {
@@ -59,6 +79,13 @@ public class AddressesController {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Method that obtains from the database the address using its identifier
+     *
+     * @param idAddress - Address identifier
+     * @return Address if is in the database, null if not
+     * */
     public static Address Get(int idAddress) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Address> callable = new Callable<Address>() {
@@ -83,7 +110,12 @@ public class AddressesController {
         }
     }
 
-    // POST action
+    /**
+     * Method that appends the address to the database
+     *
+     * @param address - New address
+     * @return Address if was append, null if not
+     * */
     public static Address Create(Address address) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Address> callable = new Callable<Address>() {
@@ -108,7 +140,13 @@ public class AddressesController {
         }
     }
 
-    // PUT action
+    /**
+     * Method that updates an address using its identifier
+     *
+     * @param id - Address identifier
+     * @param address - Address
+     * @return Address if was updated, null if not
+     * */
     public static Address Update(int id, Address address){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Address> callable = new Callable<Address>() {
@@ -133,7 +171,13 @@ public class AddressesController {
         }
     }
 
-    // DELETE action
+    /**
+     * Method that deletes the address using its identifier
+     *
+     * @param id - Address identifier
+     * @return Address if was deleted, null if not
+     *
+     * */
     public static Address Delete(int id) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Address> callable = new Callable<Address>() {

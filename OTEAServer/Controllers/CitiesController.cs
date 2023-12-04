@@ -5,18 +5,38 @@ using OTEAServer.Models;
 
 namespace OTEAServer.Controllers
 {
+    /// <summary>
+    /// Controller for cities operations
+    /// Author: Pablo Ahíta del Barrio
+    /// Version: 1
+    /// </summary>
+
+
     [ApiController]
     [Route("Cities")]
     public class CitiesController : ControllerBase
     {
+        /// <summary>
+        /// Database context
+        /// </summary>
         private readonly DatabaseContext _context;
 
+        /// <summary>
+        /// Class constructor
+        /// </summary>
+        /// <param name="context">Database context</param>
         public CitiesController(DatabaseContext context)
         {
             _context=context;
         }
 
-        // GET all by province action
+        /// <summary>
+        /// Method that obtains from the database all the cities of a province
+        /// </summary>
+        /// <param name="idProvince"></param>
+        /// <param name="idRegion"></param>
+        /// <param name="idCountry"></param>
+        /// <returns>Cities of the province</returns>
         [HttpGet("allByProvince")]
         public IActionResult GetAllByProvince([FromQuery] int idProvince, [FromQuery] int idRegion, [FromQuery] string idCountry)
         {
@@ -24,7 +44,14 @@ namespace OTEAServer.Controllers
             return Ok(cities);
         }
 
-        // GET by CITY by IDS action
+        /// <summary>
+        /// Method that obtains a city from the database
+        /// </summary>
+        /// <param name="idCity">City identifier</param>
+        /// <param name="idProvince">Province identifier</param>
+        /// <param name="idRegion">Region identifier</param>
+        /// <param name="idCountry">Country identifier</param>
+        /// <returns>City if success, null if not</returns>
         [HttpGet("get")]
         public ActionResult<City> Get([FromQuery] int idCity, [FromQuery] int idProvince, [FromQuery] int idRegion, [FromQuery] string idCountry)
         {
