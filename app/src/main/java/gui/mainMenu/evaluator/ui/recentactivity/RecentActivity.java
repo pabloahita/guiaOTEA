@@ -40,7 +40,10 @@ public class RecentActivity extends Fragment {
 
         View root=binding.getRoot();
 
-        User user= UsersController.getInstance().Get((String) getActivity().getIntent().getSerializableExtra("userEmail"));
+
+        String userEmail=(String) getActivity().getIntent().getSerializableExtra("userEmail");
+
+        User user= UsersController.getInstance().Get(userEmail);
 
         if(user!=null){
             Organization org=OrganizationsController.getInstance().Get(user.getIdOrganization(),user.getOrganizationType(),user.getIllness());
@@ -100,9 +103,8 @@ public class RecentActivity extends Fragment {
                         @Override
                         public void run() {
                             Intent intent=new Intent(getContext(),gui.SelectToDoIndicatorsEvaluations.class);
-                            intent.putExtra("userEmail",getActivity().getIntent().getSerializableExtra("userEmail"));
+                            intent.putExtra("userEmail",userEmail);
                             startActivity(intent);
-
                             v.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -129,7 +131,7 @@ public class RecentActivity extends Fragment {
                         @Override
                         public void run() {
                             Intent intent=new Intent(getContext(),gui.RegisterOrganization.class);
-                            intent.putExtra("userEmail",getActivity().getIntent().getSerializableExtra("userEmail"));
+                            intent.putExtra("userEmail",userEmail);
                             startActivity(intent);
 
                             v.postDelayed(new Runnable() {
@@ -150,8 +152,8 @@ public class RecentActivity extends Fragment {
                         @Override
                         public void run() {
                             Intent intent=new Intent(getContext(),gui.RegisterNewCenter.class);
-                            intent.putExtra("userEmail",getActivity().getIntent().getSerializableExtra("userEmail"));
-                            intent.putExtra("org",getActivity().getIntent().getSerializableExtra("org"));
+                            intent.putExtra("userEmail",userEmail);
+                            //intent.putExtra("org",org);
                             startActivity(intent);
 
                             v.postDelayed(new Runnable() {
@@ -172,7 +174,7 @@ public class RecentActivity extends Fragment {
                         @Override
                         public void run() {
                             Intent intent=new Intent(getContext(),gui.RegisterNewEvaluatorTeam.class);
-                            intent.putExtra("userEmail",getActivity().getIntent().getSerializableExtra("userEmail"));
+                            intent.putExtra("userEmail",userEmail);
                             startActivity(intent);
 
                             v.postDelayed(new Runnable() {

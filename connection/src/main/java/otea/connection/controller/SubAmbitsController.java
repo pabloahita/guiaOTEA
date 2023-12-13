@@ -79,6 +79,36 @@ public class SubAmbitsController {
     }
 
     /**
+     * Method that obtains from the database all the subAmbits of an ambit
+     *
+     * @param idAmbit - Ambit identifier
+     * @return All subAmbits
+     * */
+    public static List<SubAmbit> GetAllByAmbit(int idAmbit){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Callable<List<SubAmbit>> callable = new Callable<List<SubAmbit>>() {
+            @Override
+            public List<SubAmbit> call() throws Exception {
+                Call<List<SubAmbit>> call = api.GetAllByAmbit(idAmbit);
+                Response<List<SubAmbit>> response = call.execute();
+                if (response.isSuccessful()) {
+                    return response.body();
+                } else {
+                    throw new IOException("Error: " + response.code() + " " + response.message());
+                }
+            }
+        };
+        try {
+            Future<List<SubAmbit>> future = executor.submit(callable);
+            List<SubAmbit> list = future.get();
+            executor.shutdown();
+            return list;
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * Method that obtains from the database a subAmbit using its identifier
      *
      * @param id - subAmbit identifier

@@ -1016,7 +1016,7 @@ public class RegisterOrganization extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if(keyCode==event.KEYCODE_BACK){
             Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
-            intent.putExtra("user",getIntent().getSerializableExtra("user"));
+            intent.putExtra("userEmail",getIntent().getSerializableExtra("userEmail"));
             startActivity(intent);
         }
         return super.onKeyDown(keyCode,event);

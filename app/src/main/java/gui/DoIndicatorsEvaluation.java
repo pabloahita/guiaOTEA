@@ -41,8 +41,6 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
     int num_indicators=0;
 
     int num_evidences_reached=0;
-
-    //Map<Indicator,Integer> num_evidences_reached_per_indicator;
     
     int[][] switches_values;
 
@@ -195,7 +193,7 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
                 Log.d("PI", "Previous Indicator Pressed");
                 if (current_indicator == 0) {
                     Intent intent = new Intent(this, gui.mainMenu.evaluator.MainMenu.class);
-                    intent.putExtra("user", getIntent().getSerializableExtra("user"));
+                    intent.putExtra("userEmail", getIntent().getSerializableExtra("userEmail"));
                     startActivity(intent);
                 } else {
                     background.setVisibility(View.VISIBLE);
@@ -249,10 +247,11 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
                                     IndicatorsEvaluationRegsController.Create(reg);
                                 }
                                 IndicatorsEvaluation results=IndicatorsEvaluationsController.calculateResults(evaluationDate,evaluatorTeam.getIdEvaluatorTeam(),evaluatorTeam.getIdEvaluatorOrganization(),evaluatorTeam.getOrgTypeEvaluator(),evaluatorTeam.getIdEvaluatedOrganization(),evaluatorTeam.getOrgTypeEvaluated(),evaluatorTeam.getIllness(),evaluatorTeam.getIdCenter());
-                                //Mostrar resultados
+                                /*
                                 Intent intent = new Intent(getApplicationContext(), gui.mainMenu.evaluator.MainMenu.class);
-                                intent.putExtra("user",getIntent().getSerializableExtra("user"));
-                                startActivity(intent);
+                                intent.putExtra("userEmail",getIntent().getSerializableExtra("userEmail"));
+                                startActivity(intent);*/
+
                             } catch (ParseException e) {
                                 throw new RuntimeException(e);
                             }
@@ -405,7 +404,7 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if(keyCode==event.KEYCODE_BACK){
             Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
-            intent.putExtra("user",getIntent().getSerializableExtra("user"));
+            intent.putExtra("userEmail",getIntent().getSerializableExtra("userEmail"));
             startActivity(intent);
         }
         return super.onKeyDown(keyCode,event);

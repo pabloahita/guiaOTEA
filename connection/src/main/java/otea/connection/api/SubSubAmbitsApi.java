@@ -25,6 +25,14 @@ public interface SubSubAmbitsApi {
     Call<List<SubSubAmbit>> GetAll();
 
     /**
+     * Get all subSubAmbits of an subAmbit
+     * @param idSubAmbit - subAmbit identifier
+     * @param idAmbit - Ambit identifier
+     */
+    @GET("SubSubAmbits/allBySubAmbit")
+    Call<List<SubSubAmbit>> GetAllBySubAmbit(@Query("idSubAmbit") int idSubAmbit,@Query("idAmbit") int idAmbit);
+
+    /**
      * Get a subSubAmbit
      *
      * @param id - subSubAmbit identifier

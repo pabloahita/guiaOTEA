@@ -14,11 +14,15 @@ import android.widget.Toast;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import cli.indicators.Ambit;
 import cli.indicators.Indicator;
+import cli.indicators.SubAmbit;
+import cli.indicators.SubSubAmbit;
 import cli.organization.Organization;
 import cli.organization.data.Center;
 import cli.organization.data.EvaluatorTeam;
@@ -32,6 +36,8 @@ import otea.connection.controller.EvaluatorTeamsController;
 import otea.connection.controller.EvidencesController;
 import otea.connection.controller.IndicatorsController;
 import otea.connection.controller.OrganizationsController;
+import otea.connection.controller.SubAmbitsController;
+import otea.connection.controller.SubSubAmbitsController;
 
 public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
 
@@ -144,9 +150,20 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
                         public void run() {
                             List<Ambit> ambits= AmbitsController.GetAll();
                             List<Indicator> indicators=new LinkedList<>();
+                            Map<Integer,List<SubAmbit>> subAmbits=new HashMap<Integer,List<SubAmbit>>();
+                            Map<List<Integer>,List<SubSubAmbit>> subSubAmbits=new HashMap<List<Integer>,List<SubSubAmbit>>();
                             for (Ambit a : ambits){
                                 List<Indicator> aux=IndicatorsController.GetAllByIdAmbit(a.idAmbit);
                                 indicators.addAll(aux);
+                                List<SubAmbit> aux2=SubAmbitsController.GetAllByAmbit(a.idAmbit);
+                                subAmbits.put(a.idAmbit,aux2);
+                                for(SubAmbit s : aux2){
+                                    List<SubSubAmbit> aux3=SubSubAmbitsController.GetAllBySubAmbit(s.idSubAmbit,a.idAmbit);
+                                    List<Integer> key=new LinkedList<>();
+                                    key.add(s.idSubAmbit);
+                                    key.add(a.idAmbit);
+                                    subSubAmbits.put(key,aux3);
+                                }
                             }
                             int num_indicators=indicators.size();
                             //Indicator i=indicators.get(current_indicator);
@@ -158,11 +175,23 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
                             int evidences_per_indicator=indicators.get(0).getEvidences().size();
 
                             Intent intent=new Intent(getApplicationContext(),gui.DoIndicatorsEvaluation.class);
-                            intent.putExtra("user",getIntent().getSerializableExtra("user"));
+                            intent.putExtra("userEmail",getIntent().getSerializableExtra("userEmail"));
                             intent.putExtra("evaluatorTeam",evaluatorTeam[0]);
                             intent.putExtra("evaluatedOrganization",evaluatedOrganization[0]);
                             for(Ambit a : ambits){
                                 intent.putExtra("ambit "+a.getIdAmbit(),a);
+                            }
+                            for(int i:subAmbits.keySet()) {
+                                List<SubAmbit> aux=subAmbits.get(i);
+                                for (SubAmbit s : aux) {
+                                    intent.putExtra("subAmbit "+s.getIdSubAmbit()+",ambit " + s.getIdAmbit(), s);
+                                }
+                            }
+                            for(List<Integer> l:subSubAmbits.keySet()) {
+                                List<SubSubAmbit> aux=subSubAmbits.get(l);
+                                for (SubSubAmbit s : aux) {
+                                    intent.putExtra("subSubAmbit "+s.getIdSubSubAmbit()+"subAmbit "+s.getIdSubAmbit()+",ambit " + s.getIdAmbit(), s);
+                                }
                             }
                             for(Indicator i:indicators){
                                 intent.putExtra("indicator "+i.getIdIndicator(),i);
@@ -178,7 +207,7 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
             });
         }else{
             Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
-            intent.putExtra("user",getIntent().getSerializableExtra("user"));
+            intent.putExtra("userEmail",getIntent().getSerializableExtra("userEmail"));
             startActivity(intent);
             if(organizations.size()==0) {
                 Toast.makeText(getApplicationContext(),getString(R.string.non_existing_evaluated_organization),Toast.LENGTH_LONG).show();

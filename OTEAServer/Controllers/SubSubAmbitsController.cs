@@ -39,6 +39,19 @@ namespace OTEAServer.Controllers
         }
 
         /// <summary>
+        /// Method that obtains from the database all the subSubAmbits of an subAmbit
+        /// </summary>
+        /// <param name="idSubAmbit">Subambit identifier</param>
+        /// <param name="idAmbit">Ambit identifier</param>
+        /// <returns>All subAmbits</returns>
+        [HttpGet("allBySubAmbit")]
+        public IActionResult GetAllBySubAmbit(int idSubAmbit, int idAmbit)
+        {
+            var subSubAmbits = _context.SubSubAmbits.Where(ss=>ss.idSubAmbit==idSubAmbit && ss.idAmbit==idAmbit).ToList();
+            return Ok(subSubAmbits);
+        }
+
+        /// <summary>
         /// Method that obtains from the database a subSubAmbit using its identifier
         /// </summary>
         /// <param name="id">subSubAmbit identifier</param>
