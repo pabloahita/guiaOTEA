@@ -49,6 +49,10 @@ public class User implements Serializable{
     @SerializedName("illness")
     public String illness;
 
+    /**Profile photo*/
+    @SerializedName("profilePhoto")
+    public String profilePhoto;
+
 
     /**
      * Class constructor
@@ -62,8 +66,9 @@ public class User implements Serializable{
      * @param idOrganization - User organization identifier
      * @param orgType - User organization type
      * @param illness - User organization illness or syndrome
+     * @param profilePhoto - Profile photo
      * */
-    public User(String emailUser, String userType, String first_name, String last_name, String passwordUser, String telephone, int idOrganization, String orgType, String illness){
+    public User(String emailUser, String userType, String first_name, String last_name, String passwordUser, String telephone, int idOrganization, String orgType, String illness, String profilePhoto){
         setEmailUser(emailUser);
         setUserType(userType);
         setFirst_name(first_name);
@@ -73,6 +78,7 @@ public class User implements Serializable{
         setIdOrganization(idOrganization);
         setOrganizationType(orgType);
         setIllness(illness);
+        setProfilePhoto(profilePhoto);
     }
 
     /**
@@ -237,6 +243,21 @@ public class User implements Serializable{
         this.userType = userType;
     }
 
+    /**
+     * Method that obtains the profile photo URL
+     *
+     * @return Profile photo
+     * */
+    public String getProfilePhoto() {
+        return profilePhoto;
+    }
 
-
+    /**
+     * Method that sets the new profile photo URL
+     *
+     * @param profilePhoto - Profile photo
+     * */
+    public void setProfilePhoto(String profilePhoto) {
+        this.profilePhoto = profilePhoto;
+    }
 }

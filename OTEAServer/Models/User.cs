@@ -21,7 +21,8 @@ namespace OTEAServer.Models
         /// <param name="idOrganization">User organization identifier</param>
         /// <param name="orgType">User organization type</param>
         /// <param name="illness">User organization illness or syndrome</param>
-        public User(string emailUser, string userType, string first_name, string last_name, string passwordUser, string telephone, int? idOrganization, string? orgType, string? illness)
+        /// <param name="profilePhoto">Profile photo</param>
+        public User(string emailUser, string userType, string first_name, string last_name, string passwordUser, string telephone, int? idOrganization, string? orgType, string? illness, string? profilePhoto)
         {
             this.emailUser = emailUser;
             this.userType = userType;
@@ -32,6 +33,7 @@ namespace OTEAServer.Models
             this.idOrganization = idOrganization;
             this.orgType = orgType;
             this.illness = illness;
+            this.profilePhoto = profilePhoto;
         }
 
         /// <summary>
@@ -88,5 +90,11 @@ namespace OTEAServer.Models
         [JsonPropertyName("illness")]
         public string? illness { get; set; }
 
+
+        /// <summary>
+        /// Profile photo
+        /// </summary>
+        [JsonPropertyName("profilePhoto")]
+        public string? profilePhoto { get; set; }
     }
 }

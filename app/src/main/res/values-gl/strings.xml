@@ -179,7 +179,7 @@
     <string name="org_reg_ins">Para rexistrar unha organización avaliada debes cubrir correctamente todos os campos e permitir o procesamento dos devanditos datos</string>
     <string name="first_name_user_menu">Nome: nome</string>
     <string name="last_name_user_menu">Apelido: apelido</string>
-    <string name="org_name_user_menu">Organización: organización</string>
+    <string name="org_name_user_menu">Organización</string>
     <string name="continue_indicators">Continúa cunha proba de indicadores</string>
     <string name="see_results">Ver probas de indicadores realizados</string>
     <string name="generate_report">Xerar informe</string>

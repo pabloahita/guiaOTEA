@@ -180,7 +180,7 @@
     <string name="org_reg_ins">Om een ​​geëvalueerde organisatie te registreren, moet u alle velden correct invullen en de verwerking van genoemde gegevens toestaan</string>
     <string name="first_name_user_menu">Voornaam: voornaam</string>
     <string name="last_name_user_menu">Achternaam: achternaam</string>
-    <string name="org_name_user_menu">Organisatie: organisatie</string>
+    <string name="org_name_user_menu">Organisatie</string>
     <string name="continue_indicators">Ga verder met een indicatoren test</string>
     <string name="see_results">Zie gerealiseerde indicatoren test</string>
     <string name="generate_report">Rapport genereren</string>

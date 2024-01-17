@@ -5,6 +5,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,7 +17,6 @@ import android.widget.Toast;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
-;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,10 +26,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import cli.indicators.Ambit;
 import cli.indicators.Evidence;
 import cli.indicators.Indicator;
 import cli.indicators.IndicatorsEvaluation;
 import cli.indicators.IndicatorsEvaluationReg;
+import cli.indicators.SubAmbit;
+import cli.indicators.SubSubAmbit;
 import cli.organization.Organization;
 import cli.organization.data.EvaluatorTeam;
 import otea.connection.controller.IndicatorsEvaluationRegsController;
@@ -38,13 +41,27 @@ import otea.connection.controller.IndicatorsEvaluationsController;
 public class DoIndicatorsEvaluation extends AppCompatActivity implements View.OnClickListener{
 
     int current_indicator=0;
+    int current_ambit=0;
+
+    int current_subAmbit=0;
+
+    int current_subSubAmbit=0;
+
     int num_indicators=0;
+
+    int num_ambits=0;
 
     int num_evidences_reached=0;
     
     int[][] switches_values;
 
     List<Indicator> indicators;
+
+    List<Ambit> ambits;
+
+    List<SubAmbit> subAmbits;
+
+    List<SubSubAmbit> subSubAmbits;
 
     IndicatorsEvaluation current_evaluation;
 
@@ -60,9 +77,8 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
 
     ConstraintLayout background;
 
-    int total_score;
 
-    List<Switch> switches;
+    ConstraintLayout nextAmbit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +100,29 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
             indicators.add((Indicator) getIntent().getSerializableExtra("indicator "+i));
         }
 
+        num_ambits=getIntent().getIntExtra("num_ambits",-1);
+
+        for(int i=1;i<=num_ambits;i++){
+            ambits.add((Ambit) getIntent().getSerializableExtra("ambit "+i));
+            int numSubAmbits=getIntent().getIntExtra("numSubAmbits_ambit"+i,-1);
+            if(numSubAmbits>0) {
+                for (int j = 1; j <= numSubAmbits; j++) {
+                    subAmbits.add((SubAmbit) getIntent().getSerializableExtra("subAmbit "+j+", ambit"+i));
+                    int numSubSubAmbits=getIntent().getIntExtra("numSubSubAmbits_subAmbit"+j+"_ambit"+i,-1);
+                    if(numSubSubAmbits>0){
+                        for(int k=1;k<=numSubSubAmbits;k++){
+                            subSubAmbits.add((SubSubAmbit) getIntent().getSerializableExtra("subSubAmbit "+k+",subAmbit "+j+",ambit " + i));
+                        }
+                    }
+                    else{
+                        subSubAmbits.add((SubSubAmbit) getIntent().getSerializableExtra("subSubAmbit -1,subAmbit "+j+",ambit " + i));
+                    }
+                }
+            }
+            else{
+                subAmbits.add((SubAmbit) getIntent().getSerializableExtra("subAmbit -1, ambit"+i));
+            }
+        }
 
         switches_values=new int[num_indicators][evidences_per_indicator];
         for(int i=0;i<num_indicators;i++){
@@ -101,7 +140,6 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
 
         Button previous_indicator=(Button) findViewById(R.id.previous_indicator);
         Button next_indicator=(Button) findViewById(R.id.next_indicator);
-        //num_evidences_reached_per_indicator=new HashMap<Indicator, Integer>();
 
         evaluatedOrganization=(Organization) getIntent().getSerializableExtra("evaluatedOrganization");
         evaluatorTeam=(EvaluatorTeam) getIntent().getSerializableExtra("evaluatorTeam");
@@ -192,10 +230,11 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
             case R.id.previous_indicator: {
                 Log.d("PI", "Previous Indicator Pressed");
                 if (current_indicator == 0) {
-                    Intent intent = new Intent(this, gui.mainMenu.evaluator.MainMenu.class);
+                    Intent intent = new Intent(this, com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
                     intent.putExtra("userEmail", getIntent().getSerializableExtra("userEmail"));
                     startActivity(intent);
                 } else {
+                    int nextAmbit=indicators.get(current_indicator-1).getIdAmbit();
                     background.setVisibility(View.VISIBLE);
                     view.postDelayed(new Runnable() {
                         @Override
@@ -211,6 +250,9 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
             case R.id.next_indicator: {
                 Log.d("NI", "Next Indicator Pressed");
                 if (current_indicator < num_indicators - 1) {
+                    int formerAmbit=indicators.get(current_indicator+1).getIdAmbit();
+                    int formerSubAmbit=indicators.get(current_indicator+1).getIdSubAmbit();
+                    int formerSubSubAmbit=indicators.get(current_indicator+1).getIdSubSubAmbit();
                     background.setVisibility(View.VISIBLE);
                     view.postDelayed(new Runnable() {
                         @Override
@@ -218,11 +260,46 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
                             current_indicator++;
                             changeIndicator();
                             background.setVisibility(View.GONE);
+                            if(formerAmbit<current_ambit){
+                                if(current_subAmbit!=-1){
+                                    if(current_subSubAmbit!=-1){
+                                        nextAmbit=(ConstraintLayout) findViewById(R.id.ambitChange1);
+                                    }
+                                    else{
+                                        nextAmbit=(ConstraintLayout) findViewById(R.id.ambitChange2);
+                                    }
+                                }
+                                else{
+                                    nextAmbit=(ConstraintLayout) findViewById(R.id.ambitChange3);
+                                }
+                                nextAmbit.setVisibility(View.VISIBLE);
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        nextAmbit.setVisibility(View.GONE);
+                                    }
+                                }, 1500);
+                            }else{
+                                if(formerSubAmbit<current_subAmbit){
+                                    if(current_subSubAmbit!=-1){
+                                        nextAmbit=(ConstraintLayout) findViewById(R.id.ambitChange1);
+                                    }
+                                    else{
+                                        nextAmbit=(ConstraintLayout) findViewById(R.id.ambitChange2);
+                                    }new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            nextAmbit.setVisibility(View.GONE);
+                                        }
+                                    }, 1500);
+                                }
+                            }
                         }
                     }, 100);
                 } else {
 
                     background.setVisibility(View.VISIBLE);
+                    //Primero mostrar observaciones y conclusiones y luego calcular resultados
                     textView.setText(getString(R.string.calculating_results));
                     view.postDelayed(new Runnable() {
                         @Override
@@ -248,7 +325,7 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
                                 }
                                 IndicatorsEvaluation results=IndicatorsEvaluationsController.calculateResults(evaluationDate,evaluatorTeam.getIdEvaluatorTeam(),evaluatorTeam.getIdEvaluatorOrganization(),evaluatorTeam.getOrgTypeEvaluator(),evaluatorTeam.getIdEvaluatedOrganization(),evaluatorTeam.getOrgTypeEvaluated(),evaluatorTeam.getIllness(),evaluatorTeam.getIdCenter());
                                 /*
-                                Intent intent = new Intent(getApplicationContext(), gui.mainMenu.evaluator.MainMenu.class);
+                                Intent intent = new Intent(getApplicationContext(), com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
                                 intent.putExtra("userEmail",getIntent().getSerializableExtra("userEmail"));
                                 startActivity(intent);*/
 
@@ -256,59 +333,6 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
                                 throw new RuntimeException(e);
                             }
 
-
-                            /*if(Locale.getDefault().equals("es")) {
-
-                                if(total_score>=198 && total_score<=246){
-                                    level="EXCELENTE";
-                                }
-                                if(total_score>=149 && total_score<=197){
-                                    level="MUY BUENO";
-                                }
-                                if(total_score>=100 && total_score<=148){
-                                    level="BUENO";
-                                }
-                                if(total_score>=51 && total_score<=99){
-                                    level="MEJORABLE";
-                                }else{
-                                    level="MUY MEJORABLE";
-                                }
-                                Toast.makeText(getApplicationContext(), total_score + " points - "+level, Toast.LENGTH_LONG);
-
-                            }else if(Locale.getDefault().equals("fr")){
-                                if(total_score>=198 && total_score<=246){
-                                    level="EXCELLENT";
-                                }
-                                if(total_score>=149 && total_score<=197){
-                                    level="TRÈS BON";
-                                }
-                                if(total_score>=100 && total_score<=148){
-                                    level="BON";
-                                }
-                                if(total_score>=51 && total_score<=99){
-                                    level="AMÉLIORABLE";
-                                }else{
-                                    level="TRÈS AMÉLIORABLE";
-                                }
-                                Toast.makeText(getApplicationContext(), total_score + " points - "+level, Toast.LENGTH_LONG).show();
-                            }else{
-                                if(total_score>=198 && total_score<=246){
-                                    level="EXCELLENT";
-                                }
-                                if(total_score>=149 && total_score<=197){
-                                    level="VERY GOOD";
-                                }
-                                if(total_score>=100 && total_score<=148){
-                                    level="GOOD";
-                                }
-                                if(total_score>=51 && total_score<=99){
-                                    level="IMPROVABLE";
-                                }else{
-                                    level="VERY IMPROVABLE";
-                                }
-                                Toast.makeText(getApplicationContext(), total_score + " points - "+level, Toast.LENGTH_LONG).show();
-
-                            }*/
 
                         }
                     },100);
@@ -322,7 +346,13 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
 
 
     public void changeIndicator(){
-        TextView indicatorCaption = (TextView) findViewById(R.id.indicator_caption);
+        TextView indicatorCaption = null;//(TextView) findViewById(R.id.indicator_caption);
+        TextView ambitCaption=null;
+        TextView subAmbitCaption=null;
+        TextView subSubAmbitCaption=null;
+        ConstraintLayout layoutWithAmbit=(ConstraintLayout) findViewById(R.id.layoutWithAmbit);
+        ConstraintLayout layoutWithSubAmbit=(ConstraintLayout) findViewById(R.id.layoutWithSubAmbit);
+        ConstraintLayout layoutWithSubSubAmbit=(ConstraintLayout) findViewById(R.id.layoutWithSubSubAmbit);
         Switch evidence1=(Switch) findViewById(R.id.evidence1);
         Switch evidence2=(Switch) findViewById(R.id.evidence2);
         Switch evidence3=(Switch) findViewById(R.id.evidence3);
@@ -331,79 +361,260 @@ public class DoIndicatorsEvaluation extends AppCompatActivity implements View.On
         evidence2.setChecked((switches_values[current_indicator][1] == 0) ? false : true);
         evidence3.setChecked((switches_values[current_indicator][2] == 0) ? false : true);
         evidence4.setChecked((switches_values[current_indicator][3] == 0) ? false : true);
-        if(Locale.getDefault().getLanguage().equals("es")) {//Español
-            indicatorCaption.setText("Indicador "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionSpanish());
-        } else if(Locale.getDefault().getLanguage().equals("fr")) {//Francés
-            indicatorCaption.setText("Indicateur "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionFrench());
-        } else if(Locale.getDefault().getLanguage().equals("eu")) {//Euskera
-            indicatorCaption.setText(indicators.get(current_indicator).getIdIndicator()+". adierazlea: "+indicators.get(current_indicator).getDescriptionBasque());
-        } else if(Locale.getDefault().getLanguage().equals("ca")) {//Catalán
-            indicatorCaption.setText("Indicador "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionCatalan());
-        } else if(Locale.getDefault().getLanguage().equals("nl")) {//Neerlandés
-            indicatorCaption.setText("Indicator "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionDutch());
-        } else if(Locale.getDefault().getLanguage().equals("gl")) {//Gallego
-            indicatorCaption.setText("Indicador "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionGalician());
-        } else if(Locale.getDefault().getLanguage().equals("de")) {//Alemán
-            indicatorCaption.setText("Indikator "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionGerman());
-        } else if(Locale.getDefault().getLanguage().equals("it")) {//Italiano
-            indicatorCaption.setText("Indicatore "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionItalian());
-        } else if(Locale.getDefault().getLanguage().equals("pt")) {//Portugués
-            indicatorCaption.setText("Indicador "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionPortuguese());
-        } else {//Default
-            indicatorCaption.setText("Indicator "+indicators.get(current_indicator).getIdIndicator()+": "+indicators.get(current_indicator).getDescriptionEnglish());
+        current_ambit=indicators.get(current_indicator).getIdAmbit();
+        current_subAmbit=indicators.get(current_indicator).getIdSubAmbit();
+        current_subSubAmbit=indicators.get(current_indicator).getIdSubSubAmbit();
+        if(current_subAmbit==-1){
+            layoutWithAmbit.setVisibility(View.VISIBLE);
+            layoutWithSubAmbit.setVisibility(View.GONE);
+            layoutWithSubSubAmbit.setVisibility(View.GONE);
+            indicatorCaption=(TextView) findViewById(R.id.indicator_caption3);
+            ambitCaption=(TextView) findViewById(R.id.ambit_caption3);
         }
+        else{
+            if(current_subSubAmbit==-1){
+                layoutWithAmbit.setVisibility(View.GONE);
+                layoutWithSubAmbit.setVisibility(View.VISIBLE);
+                layoutWithSubSubAmbit.setVisibility(View.GONE);
+                indicatorCaption=(TextView) findViewById(R.id.indicator_caption);
+                ambitCaption=(TextView) findViewById(R.id.ambit_caption);
+                subAmbitCaption=(TextView) findViewById(R.id.subAmbit_caption);
+            }else{
+                layoutWithAmbit.setVisibility(View.GONE);
+                layoutWithSubAmbit.setVisibility(View.GONE);
+                layoutWithSubSubAmbit.setVisibility(View.VISIBLE);
+                indicatorCaption=(TextView) findViewById(R.id.indicator_caption2);
+                ambitCaption=(TextView) findViewById(R.id.ambit_caption2);
+                subAmbitCaption=(TextView) findViewById(R.id.subAmbit_caption2);
+                subSubAmbitCaption=(TextView) findViewById(R.id.subSubAmbit_caption);
+            }
+        }
+
         Indicator i=indicators.get(current_indicator);
         List<Evidence> evidences=i.getEvidences();
-        if(Locale.getDefault().getLanguage().equals("es")) {
+        if(Locale.getDefault().getLanguage().equals("es")) {//Español
+            indicatorCaption.setText("Indicador "+i.getIdIndicator()+": "+i.getDescriptionSpanish());
+            switch(current_ambit){
+                case 1: ambitCaption.setText("PRIMER ÁMBITO: "+ambits.get(current_ambit-1).getDescriptionSpanish());break;
+                case 2: ambitCaption.setText("SEGUNDO ÁMBITO: "+ambits.get(current_ambit-1).getDescriptionSpanish());break;
+                case 3: ambitCaption.setText("TERCER ÁMBITO: "+ambits.get(current_ambit-1).getDescriptionSpanish());break;
+                case 4: ambitCaption.setText("CUARTO ÁMBITO: "+ambits.get(current_ambit-1).getDescriptionSpanish());break;
+                case 5: ambitCaption.setText("QUINTO ÁMBITO: "+ambits.get(current_ambit-1).getDescriptionSpanish());break;
+                default: ambitCaption.setText("SEXTO ÁMBITO: "+ambits.get(current_ambit-1).getDescriptionSpanish());break;
+            }
+            if(current_subAmbit!=-1){
+                if(current_subSubAmbit!=-1){
+                    subSubAmbitCaption.setText(current_ambit+"."+current_subAmbit+"."+current_subSubAmbit+" "+subSubAmbits.get(current_subSubAmbit-1).getDescriptionSpanish());
+                }
+                subAmbitCaption.setText(current_ambit+"."+current_subAmbit+" "+subAmbits.get(current_subAmbit-1).getDescriptionSpanish());
+            }
+
             evidence1.setText("Evidencia 1: "+evidences.get(0).getDescriptionSpanish());
             evidence2.setText("Evidencia 2: "+evidences.get(1).getDescriptionSpanish());
             evidence3.setText("Evidencia 3: "+evidences.get(2).getDescriptionSpanish());
             evidence4.setText("Evidencia 4: "+evidences.get(3).getDescriptionSpanish());
-        }else if(Locale.getDefault().getLanguage().equals("fr")) {
+        } else if(Locale.getDefault().getLanguage().equals("fr")) {//Francés
+            indicatorCaption.setText("Indicateur "+i.getIdIndicator()+": "+i.getDescriptionFrench());
+
+            switch(current_ambit){
+                case 1: ambitCaption.setText("PREMIÈRE PORTÉE: "+ambits.get(current_ambit-1).getDescriptionFrench());break;
+                case 2: ambitCaption.setText("DEUXIÈME PORTÉE: "+ambits.get(current_ambit-1).getDescriptionFrench());break;
+                case 3: ambitCaption.setText("TROISIÈME PORTÉE: "+ambits.get(current_ambit-1).getDescriptionFrench());break;
+                case 4: ambitCaption.setText("QUATRIÈME PORTÉE: "+ambits.get(current_ambit-1).getDescriptionFrench());break;
+                case 5: ambitCaption.setText("CINQUIÈME PORTÉE: "+ambits.get(current_ambit-1).getDescriptionFrench());break;
+                default: ambitCaption.setText("SIXIÈME PORTÉE: "+ambits.get(current_ambit-1).getDescriptionFrench());break;
+            }
+            if(current_subAmbit!=-1){
+                if(current_subSubAmbit!=-1){
+                    subSubAmbitCaption.setText(current_ambit+"."+current_subAmbit+"."+current_subSubAmbit+" "+subSubAmbits.get(current_subSubAmbit-1).getDescriptionFrench());
+                }
+                subAmbitCaption.setText(current_ambit+"."+current_subAmbit+" "+subAmbits.get(current_subAmbit-1).getDescriptionFrench());
+            }
             evidence1.setText("Preuve 1: "+evidences.get(0).getDescriptionFrench());
             evidence2.setText("Preuve 2: "+evidences.get(1).getDescriptionFrench());
             evidence3.setText("Preuve 3: "+evidences.get(2).getDescriptionFrench());
             evidence4.setText("Preuve 4: "+evidences.get(3).getDescriptionFrench());
-        }else{
+        } else if(Locale.getDefault().getLanguage().equals("eu")) {//Euskera
+            indicatorCaption.setText(i.getIdIndicator()+". adierazlea: "+i.getDescriptionBasque());
+            switch(current_ambit){
+                case 1: ambitCaption.setText("LEHEN IRISMENA: "+ambits.get(current_ambit-1).getDescriptionBasque());break;
+                case 2: ambitCaption.setText("BIGARREN IRISMENA: "+ambits.get(current_ambit-1).getDescriptionBasque());break;
+                case 3: ambitCaption.setText("HIRUGARREN IRISMENA: "+ambits.get(current_ambit-1).getDescriptionBasque());break;
+                case 4: ambitCaption.setText("LAUGARREN IRISMENA: "+ambits.get(current_ambit-1).getDescriptionBasque());break;
+                case 5: ambitCaption.setText("BOSTGARREN IRISMENA: "+ambits.get(current_ambit-1).getDescriptionBasque());break;
+                default: ambitCaption.setText("SEIGARREN IRISMENA: "+ambits.get(current_ambit-1).getDescriptionBasque());break;
+            }
+            if(current_subAmbit!=-1){
+                if(current_subSubAmbit!=-1){
+                    subSubAmbitCaption.setText(current_ambit+"."+current_subAmbit+"."+current_subSubAmbit+" "+subSubAmbits.get(current_subSubAmbit-1).getDescriptionSpanish());
+                }
+                subAmbitCaption.setText(current_ambit+"."+current_subAmbit+" "+subAmbits.get(current_subAmbit-1).getDescriptionSpanish());
+            }
+
+            evidence1.setText("1. froga: "+evidences.get(0).getDescriptionBasque());
+            evidence2.setText("2. froga: "+evidences.get(1).getDescriptionBasque());
+            evidence3.setText("3. froga: "+evidences.get(2).getDescriptionBasque());
+            evidence4.setText("4. froga: "+evidences.get(3).getDescriptionBasque());
+        } else if(Locale.getDefault().getLanguage().equals("ca")) {//Catalán
+            indicatorCaption.setText("Indicador "+i.getIdIndicator()+": "+i.getDescriptionCatalan());
+            switch(current_ambit){
+                case 1: ambitCaption.setText("PRIMER ÀMBIT: "+ambits.get(current_ambit-1).getDescriptionCatalan());break;
+                case 2: ambitCaption.setText("SEGON ÀMBIT: "+ambits.get(current_ambit-1).getDescriptionCatalan());break;
+                case 3: ambitCaption.setText("TERCER ÀMBIT: "+ambits.get(current_ambit-1).getDescriptionCatalan());break;
+                case 4: ambitCaption.setText("QUART ÀMBIT: "+ambits.get(current_ambit-1).getDescriptionCatalan());break;
+                case 5: ambitCaption.setText("CINQUÈ ÀMBIT: "+ambits.get(current_ambit-1).getDescriptionCatalan());break;
+                default: ambitCaption.setText("SISÈ ÀMBIT: "+ambits.get(current_ambit-1).getDescriptionCatalan());break;
+            }
+            if(current_subAmbit!=-1){
+                if(current_subSubAmbit!=-1){
+                    subSubAmbitCaption.setText(current_ambit+"."+current_subAmbit+"."+current_subSubAmbit+" "+subSubAmbits.get(current_subSubAmbit-1).getDescriptionCatalan());
+                }
+                subAmbitCaption.setText(current_ambit+"."+current_subAmbit+" "+subAmbits.get(current_subAmbit-1).getDescriptionCatalan());
+            }
+
+            evidence1.setText("Evidència 1: "+evidences.get(0).getDescriptionCatalan());
+            evidence2.setText("Evidència 2: "+evidences.get(1).getDescriptionCatalan());
+            evidence3.setText("Evidència 3: "+evidences.get(2).getDescriptionCatalan());
+            evidence4.setText("Evidència 4: "+evidences.get(3).getDescriptionCatalan());
+        } else if(Locale.getDefault().getLanguage().equals("nl")) {//Neerlandés
+            indicatorCaption.setText("Indicator "+i.getIdIndicator()+": "+i.getDescriptionDutch());
+            switch(current_ambit){
+                case 1: ambitCaption.setText("EERSTE TOEPASSINGSGEBIED: "+ambits.get(current_ambit-1).getDescriptionDutch());break;
+                case 2: ambitCaption.setText("TWEEDE TOEPASSINGSGEBIED: "+ambits.get(current_ambit-1).getDescriptionDutch());break;
+                case 3: ambitCaption.setText("DERDE TOEPASSINGSGEBIED: "+ambits.get(current_ambit-1).getDescriptionDutch());break;
+                case 4: ambitCaption.setText("VIERDE TOEPASSINGSGEBIED: "+ambits.get(current_ambit-1).getDescriptionDutch());break;
+                case 5: ambitCaption.setText("VIJFDE TOEPASSINGSGEBIED: "+ambits.get(current_ambit-1).getDescriptionDutch());break;
+                default: ambitCaption.setText("ZESDE TOEPASSINGSGEBIED: "+ambits.get(current_ambit-1).getDescriptionDutch());break;
+            }
+            if(current_subAmbit!=-1){
+                if(current_subSubAmbit!=-1){
+                    subSubAmbitCaption.setText(current_ambit+"."+current_subAmbit+"."+current_subSubAmbit+" "+subSubAmbits.get(current_subSubAmbit-1).getDescriptionDutch());
+                }
+                subAmbitCaption.setText(current_ambit+"."+current_subAmbit+" "+subAmbits.get(current_subAmbit-1).getDescriptionDutch());
+            }
+
+            evidence1.setText("Bewijs 1: "+evidences.get(0).getDescriptionDutch());
+            evidence2.setText("Bewijs 2: "+evidences.get(1).getDescriptionDutch());
+            evidence3.setText("Bewijs 3: "+evidences.get(2).getDescriptionDutch());
+            evidence4.setText("Bewijs 4: "+evidences.get(3).getDescriptionDutch());
+        } else if(Locale.getDefault().getLanguage().equals("gl")) {//Gallego
+            indicatorCaption.setText("Indicador "+i.getIdIndicator()+": "+i.getDescriptionGalician());
+            switch(current_ambit){
+                case 1: ambitCaption.setText("PRIMEIRO ÁMBITO: "+ambits.get(current_ambit-1).getDescriptionGalician());break;
+                case 2: ambitCaption.setText("SEGUNDO ÁMBITO: "+ambits.get(current_ambit-1).getDescriptionGalician());break;
+                case 3: ambitCaption.setText("TERCEIRO ÁMBITO: "+ambits.get(current_ambit-1).getDescriptionGalician());break;
+                case 4: ambitCaption.setText("CUARTO ÁMBITO: "+ambits.get(current_ambit-1).getDescriptionGalician());break;
+                case 5: ambitCaption.setText("QUINTO ÁMBITO: "+ambits.get(current_ambit-1).getDescriptionGalician());break;
+                default: ambitCaption.setText("SEXTO ÁMBITO: "+ambits.get(current_ambit-1).getDescriptionGalician());break;
+            }
+            if(current_subAmbit!=-1){
+                if(current_subSubAmbit!=-1){
+                    subSubAmbitCaption.setText(current_ambit+"."+current_subAmbit+"."+current_subSubAmbit+" "+subSubAmbits.get(current_subSubAmbit-1).getDescriptionGalician());
+                }
+                subAmbitCaption.setText(current_ambit+"."+current_subAmbit+" "+subAmbits.get(current_subAmbit-1).getDescriptionGalician());
+            }
+
+
+            evidence1.setText("Evidencia 1: "+evidences.get(0).getDescriptionGalician());
+            evidence2.setText("Evidencia 2: "+evidences.get(1).getDescriptionGalician());
+            evidence3.setText("Evidencia 3: "+evidences.get(2).getDescriptionGalician());
+            evidence4.setText("Evidencia 4: "+evidences.get(3).getDescriptionGalician());
+        } else if(Locale.getDefault().getLanguage().equals("de")) {//Alemán
+            indicatorCaption.setText("Indikator "+i.getIdIndicator()+": "+i.getDescriptionGerman());
+            switch(current_ambit){
+                case 1: ambitCaption.setText("ERSTER UMFANG: "+ambits.get(current_ambit-1).getDescriptionGerman());break;
+                case 2: ambitCaption.setText("ZWEITER UMFANG: "+ambits.get(current_ambit-1).getDescriptionGerman());break;
+                case 3: ambitCaption.setText("DRITTER UMFANG: "+ambits.get(current_ambit-1).getDescriptionGerman());break;
+                case 4: ambitCaption.setText("VIERTER UMFANG: "+ambits.get(current_ambit-1).getDescriptionGerman());break;
+                case 5: ambitCaption.setText("FÜNFTER UMFANG: "+ambits.get(current_ambit-1).getDescriptionGerman());break;
+                default: ambitCaption.setText("SECHSTER UMFANG: "+ambits.get(current_ambit-1).getDescriptionGerman());break;
+            }
+            if(current_subAmbit!=-1){
+                if(current_subSubAmbit!=-1){
+                    subSubAmbitCaption.setText(current_ambit+"."+current_subAmbit+"."+current_subSubAmbit+" "+subSubAmbits.get(current_subSubAmbit-1).getDescriptionGerman());
+                }
+                subAmbitCaption.setText(current_ambit+"."+current_subAmbit+" "+subAmbits.get(current_subAmbit-1).getDescriptionGerman());
+            }
+
+            evidence1.setText("Beweis 1: "+evidences.get(0).getDescriptionGerman());
+            evidence2.setText("Beweis 2: "+evidences.get(1).getDescriptionGerman());
+            evidence3.setText("Beweis 3: "+evidences.get(2).getDescriptionGerman());
+            evidence4.setText("Beweis 4: "+evidences.get(3).getDescriptionGerman());
+        } else if(Locale.getDefault().getLanguage().equals("it")) {//Italiano
+            indicatorCaption.setText("Indicatore "+i.getIdIndicator()+": "+i.getDescriptionItalian());
+            switch(current_ambit){
+                case 1: ambitCaption.setText("PRIMO AMBITO: "+ambits.get(current_ambit-1).getDescriptionItalian());break;
+                case 2: ambitCaption.setText("SECONDO AMBITO: "+ambits.get(current_ambit-1).getDescriptionItalian());break;
+                case 3: ambitCaption.setText("TERZO AMBITO: "+ambits.get(current_ambit-1).getDescriptionItalian());break;
+                case 4: ambitCaption.setText("QUARTO AMBITO: "+ambits.get(current_ambit-1).getDescriptionItalian());break;
+                case 5: ambitCaption.setText("QUINTO AMBITO: "+ambits.get(current_ambit-1).getDescriptionItalian());break;
+                default: ambitCaption.setText("SESTO AMBITO: "+ambits.get(current_ambit-1).getDescriptionItalian());break;
+            }
+            if(current_subAmbit!=-1){
+                if(current_subSubAmbit!=-1){
+                    subSubAmbitCaption.setText(current_ambit+"."+current_subAmbit+"."+current_subSubAmbit+" "+subSubAmbits.get(current_subSubAmbit-1).getDescriptionItalian());
+                }
+                subAmbitCaption.setText(current_ambit+"."+current_subAmbit+" "+subAmbits.get(current_subAmbit-1).getDescriptionItalian());
+            }
+
+
+            evidence1.setText("Prova 1: "+evidences.get(0).getDescriptionItalian());
+            evidence2.setText("Prova 2: "+evidences.get(1).getDescriptionItalian());
+            evidence3.setText("Prova 3: "+evidences.get(2).getDescriptionItalian());
+            evidence4.setText("Prova 4: "+evidences.get(3).getDescriptionItalian());
+        } else if(Locale.getDefault().getLanguage().equals("pt")) {//Portugués
+            indicatorCaption.setText("Indicador "+i.getIdIndicator()+": "+i.getDescriptionPortuguese());
+            switch(current_ambit){
+                case 1: ambitCaption.setText("PRIMEIRO ESCOPO: "+ambits.get(current_ambit-1).getDescriptionPortuguese());break;
+                case 2: ambitCaption.setText("SEGUNDO ESCOPO: "+ambits.get(current_ambit-1).getDescriptionPortuguese());break;
+                case 3: ambitCaption.setText("TERCEIRO ESCOPO: "+ambits.get(current_ambit-1).getDescriptionPortuguese());break;
+                case 4: ambitCaption.setText("QUARTO ESCOPO: "+ambits.get(current_ambit-1).getDescriptionPortuguese());break;
+                case 5: ambitCaption.setText("QUINTO ESCOPO: "+ambits.get(current_ambit-1).getDescriptionPortuguese());break;
+                default: ambitCaption.setText("SEXTO ESCOPO: "+ambits.get(current_ambit-1).getDescriptionPortuguese());break;
+            }
+            if(current_subAmbit!=-1){
+                if(current_subSubAmbit!=-1){
+                    subSubAmbitCaption.setText(current_ambit+"."+current_subAmbit+"."+current_subSubAmbit+" "+subSubAmbits.get(current_subSubAmbit-1).getDescriptionPortuguese());
+                }
+                subAmbitCaption.setText(current_ambit+"."+current_subAmbit+" "+subAmbits.get(current_subAmbit-1).getDescriptionPortuguese());
+            }
+
+
+            evidence1.setText("Evidência 1: "+evidences.get(0).getDescriptionPortuguese());
+            evidence2.setText("Evidência 2: "+evidences.get(1).getDescriptionPortuguese());
+            evidence3.setText("Evidência 3: "+evidences.get(2).getDescriptionPortuguese());
+            evidence4.setText("Evidência 4: "+evidences.get(3).getDescriptionPortuguese());
+        } else {//Default
+            indicatorCaption.setText("Indicator "+i.getIdIndicator()+": "+i.getDescriptionEnglish());
+            switch(current_ambit){
+                case 1: ambitCaption.setText("FIRST AMBIT: "+ambits.get(current_ambit-1).getDescriptionEnglish());break;
+                case 2: ambitCaption.setText("SECOND AMBIT: "+ambits.get(current_ambit-1).getDescriptionEnglish());break;
+                case 3: ambitCaption.setText("THIRD AMBIT: "+ambits.get(current_ambit-1).getDescriptionEnglish());break;
+                case 4: ambitCaption.setText("FOURTH AMBIT: "+ambits.get(current_ambit-1).getDescriptionEnglish());break;
+                case 5: ambitCaption.setText("FIFTH AMBIT: "+ambits.get(current_ambit-1).getDescriptionEnglish());break;
+                default: ambitCaption.setText("SIXTH AMBIT: "+ambits.get(current_ambit-1).getDescriptionEnglish());break;
+            }
+            if(current_subAmbit!=-1){
+                if(current_subSubAmbit!=-1){
+                    subSubAmbitCaption.setText(current_ambit+"."+current_subAmbit+"."+current_subSubAmbit+" "+subSubAmbits.get(current_subSubAmbit-1).getDescriptionEnglish());
+                }
+                subAmbitCaption.setText(current_ambit+"."+current_subAmbit+" "+subAmbits.get(current_subAmbit-1).getDescriptionEnglish());
+            }
+
             evidence1.setText("Evidence 1: "+evidences.get(0).getDescriptionEnglish());
             evidence2.setText("Evidence 2: "+evidences.get(1).getDescriptionEnglish());
             evidence3.setText("Evidence 3: "+evidences.get(2).getDescriptionEnglish());
             evidence4.setText("Evidence 4: "+evidences.get(3).getDescriptionEnglish());
         }
+
         Log.d("NEWIND","Current indicator has "+num_evidences_reached+" reached evidences");
     }
-
-   /* public Integer getScore(){
-        int[][] numberOfIndicatorsPerLevel=new int[4][3];
-        int[][] multiplicators=new int[4][3];
-        Map<Indicator,Integer> filled=new HashMap<Indicator,Integer>();
-        Integer[] numberOfIndicatorsPerAmbit=new Integer[6];
-        int score=0;
-        for(Indicator i:indicators){
-            if(!num_evidences_reached_per_indicator.containsKey(i)){num_evidences_reached_per_indicator.put(i,0);}
-            i.setNumFilledEvidences(num_evidences_reached_per_indicator.get(i));
-            int ind=-1;
-            if (num_evidences_reached_per_indicator.get(i)==0 || num_evidences_reached_per_indicator.get(i)==1){ind=0;}
-            if (num_evidences_reached_per_indicator.get(i)==2 || num_evidences_reached_per_indicator.get(i)==3){ind=1;}
-            if (num_evidences_reached_per_indicator.get(i)==4){ind=2;}
-            numberOfIndicatorsPerLevel[(int) i.getPriority()-1][ind]++;
-            if(multiplicators[(int) i.getPriority()-1][ind]!=i.getMultiplicator()){
-                multiplicators[(int) i.getPriority()-1][ind]=i.getMultiplicator();
-            }
-        }
-        for(int i=0;i<numberOfIndicatorsPerLevel.length;i++){
-            for(int j=0;j<numberOfIndicatorsPerLevel[i].length;j++){
-                score+=(numberOfIndicatorsPerLevel[i][j]*multiplicators[i][j]);
-            }
-        }
-        return score;
-    }*/
 
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if(keyCode==event.KEYCODE_BACK){
-            Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
+            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
             intent.putExtra("userEmail",getIntent().getSerializableExtra("userEmail"));
             startActivity(intent);
         }

@@ -141,7 +141,7 @@
     <string name="org_reg_ins">Para registrar una organización evaluada debe rellenar todos los campos correctamente y permitir el tratamiento de dichos datos</string>
     <string name="first_name_user_menu">Nombre: nombre</string>
     <string name="last_name_user_menu">Apellido: apellido</string>
-    <string name="org_name_user_menu">Organización: org</string>
+    <string name="org_name_user_menu">Organización</string>
     <string name="continue_indicators">Continuar con una evaluación de indicadores</string>
     <string name="see_results">Ver evaluaciones de indicadores realizadas</string>
     <string name="generate_report">Generar informe</string>

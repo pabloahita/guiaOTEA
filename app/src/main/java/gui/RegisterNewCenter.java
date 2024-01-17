@@ -735,7 +735,7 @@ public class RegisterNewCenter extends AppCompatActivity {
                             Center center=new Center(idOrganization,orgType,illness, numCenters+1,descriptionEnglish,descriptionSpanish,descriptionFrench,descriptionBasque,descriptionCatalan,descriptionDutch,descriptionGalician,descriptionGerman,descriptionItalian,descriptionPortuguese,address.getIdAddress(),phone[0]+" "+phone[1],email[0]);
                             CentersController.Create(center);
 
-                            Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
+                            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
                             intent.putExtra("user",getIntent().getSerializableExtra("user"));
                             intent.putExtra("org",getIntent().getSerializableExtra("org"));
                             startActivity(intent);
@@ -783,9 +783,8 @@ public class RegisterNewCenter extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if(keyCode==event.KEYCODE_BACK){
-            Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
-            intent.putExtra("user",getIntent().getSerializableExtra("user"));
-            intent.putExtra("org",getIntent().getSerializableExtra("org"));
+            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+            intent.putExtra("userEmail",getIntent().getSerializableExtra("userEmail"));
 
             startActivity(intent);
         }

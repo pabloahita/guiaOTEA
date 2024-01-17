@@ -183,20 +183,37 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
                             }
                             for(int i:subAmbits.keySet()) {
                                 List<SubAmbit> aux=subAmbits.get(i);
+                                int numSubAmbits=-1;
+                                if(aux.size()==1 && aux.get(0).getIdSubAmbit()==-1){
+                                    numSubAmbits=0;
+                                }
+                                else{
+                                    numSubAmbits=aux.size();
+                                }
+                                intent.putExtra("numSubAmbits_ambit"+i,numSubAmbits);
                                 for (SubAmbit s : aux) {
                                     intent.putExtra("subAmbit "+s.getIdSubAmbit()+",ambit " + s.getIdAmbit(), s);
                                 }
                             }
                             for(List<Integer> l:subSubAmbits.keySet()) {
                                 List<SubSubAmbit> aux=subSubAmbits.get(l);
+                                int numSubSubAmbits=-1;
+                                if(aux.size()==1 && aux.get(0).getIdSubSubAmbit()==-1 && aux.get(0).getIdSubAmbit()==-1){
+                                    numSubSubAmbits=0;
+                                }
+                                else{
+                                    numSubSubAmbits=aux.size();
+                                }
+                                intent.putExtra("numSubSubAmbits_subAmbit"+l.get(0)+"_ambit"+l.get(1),numSubSubAmbits);
                                 for (SubSubAmbit s : aux) {
-                                    intent.putExtra("subSubAmbit "+s.getIdSubSubAmbit()+"subAmbit "+s.getIdSubAmbit()+",ambit " + s.getIdAmbit(), s);
+                                    intent.putExtra("subSubAmbit "+s.getIdSubSubAmbit()+",subAmbit "+s.getIdSubAmbit()+",ambit " + s.getIdAmbit(), s);
                                 }
                             }
                             for(Indicator i:indicators){
                                 intent.putExtra("indicator "+i.getIdIndicator(),i);
                             }
                             intent.putExtra("num_indicators",num_indicators);
+                            intent.putExtra("num_ambits",ambits.size());
                             intent.putExtra("evidence_per_indicator",evidences_per_indicator);
                             startActivity(intent);
                         }
@@ -206,7 +223,7 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
                 }
             });
         }else{
-            Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
+            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
             intent.putExtra("userEmail",getIntent().getSerializableExtra("userEmail"));
             startActivity(intent);
             if(organizations.size()==0) {
@@ -223,8 +240,8 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if(keyCode==event.KEYCODE_BACK){
-            Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
-            intent.putExtra("user",getIntent().getSerializableExtra("user"));
+            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+            intent.putExtra("userEmail",getIntent().getSerializableExtra("userEmail"));
             startActivity(intent);
         }
         return super.onKeyDown(keyCode,event);

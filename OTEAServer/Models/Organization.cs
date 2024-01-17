@@ -32,7 +32,8 @@ namespace OTEAServer.Models
         /// <param name="informationItalian">Organization information in Italian</param>
         /// <param name="informationPortuguese">Organization information in Portuguese</param>
         /// <param name="emailOrgPrincipal">Email organization principal</param>
-        public Organization(int idOrganization, string orgType, string illness, string nameOrg, int idAddress, string email, string telephone, string informationSpanish, string informationEnglish, string informationFrench, string informationBasque, string informationCatalan, string informationDutch, string informationGalician, string informationGerman, string informationItalian, string informationPortuguese, string? emailOrgPrincipal) {
+        /// <param name="profilePhoto">Profile photo</param>
+        public Organization(int idOrganization, string orgType, string illness, string nameOrg, int idAddress, string email, string telephone, string informationSpanish, string informationEnglish, string informationFrench, string informationBasque, string informationCatalan, string informationDutch, string informationGalician, string informationGerman, string informationItalian, string informationPortuguese, string? emailOrgPrincipal, string? profilePhoto) {
             this.idOrganization = idOrganization;
             this.orgType = orgType;
             this.illness = illness;
@@ -51,6 +52,7 @@ namespace OTEAServer.Models
             this.informationItalian = informationItalian;
             this.informationPortuguese = informationPortuguese;
             this.emailOrgPrincipal = emailOrgPrincipal;
+            this.profilePhoto = profilePhoto;
 
         }
 
@@ -161,6 +163,12 @@ namespace OTEAServer.Models
         /// </summary>
         [JsonPropertyName("emailOrgPrincipal")]
         public string? emailOrgPrincipal { get; set; }
+
+        /// <summary>
+        /// Profile photo
+        /// </summary>
+        [JsonPropertyName("profilePhoto")]
+        public string? profilePhoto { get; set; }
 
 
     }

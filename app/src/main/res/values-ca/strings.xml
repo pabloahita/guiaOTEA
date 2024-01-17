@@ -183,7 +183,7 @@
     <string name="org_reg_ins">Per registrar una organització avaluada, heu d’omplir tots els camps correctament i permetre el processament d’aquestes dades</string>
     <string name="first_name_user_menu">Nom: nom</string>
     <string name="last_name_user_menu">Cognom: cognom</string>
-    <string name="org_name_user_menu">Organització: organització</string>
+    <string name="org_name_user_menu">Organització</string>
     <string name="continue_indicators">Continua amb una prova d\'indicadors</string>
     <string name="see_results">Veure proves d\'indicadors realitzats</string>
     <string name="generate_report">Generar informe</string>

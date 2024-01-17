@@ -921,7 +921,7 @@ public class RegisterOrganization extends AppCompatActivity {
                             OrganizationsController.getInstance().Update(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),organization);
 
                             CentersController.getInstance().Create(new Center(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),1,"Headquarters","Sede principal","Siège social","Egoitza","Seu principal","Hoofdkwartier","Sede principal","Hauptsitz","Sede principale","Sede principal",idAddress,fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),fields.get("emailOrg")));
-                            Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
+                            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
                             intent.putExtra("userEmail",getIntent().getSerializableExtra("userEmail"));
                             loading.setVisibility(View.GONE);
                             startActivity(intent);
@@ -1015,7 +1015,7 @@ public class RegisterOrganization extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if(keyCode==event.KEYCODE_BACK){
-            Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
+            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
             intent.putExtra("userEmail",getIntent().getSerializableExtra("userEmail"));
             startActivity(intent);
         }

@@ -146,24 +146,9 @@ public class StartSession extends AppCompatActivity {
 
     private void updateUiWithUser(LoggedInUserView model) {
         User user=model.getUser();
-        if(user.getUserType().equals("ADMIN")){
-            //GO TO ADMIN MAIN MENU
-            Intent intent = new Intent(this, gui.mainMenu.admin.MainMenu.class);
-            intent.putExtra("userEmail",user.getEmailUser());
-            startActivity(intent);
-        } else if(user.getUserType().equals("ORGANIZATION")){
-            if(user.getOrganizationType().equals("EVALUATED")){
-                //GO TO EVALUATED MAIN MENU
-                Intent intent = new Intent(this, gui.mainMenu.evaluated.MainMenu.class);
-                intent.putExtra("userEmail",user.getEmailUser());
-                startActivity(intent);
-            }else if(user.getOrganizationType().equals("EVALUATOR")){
-                //GO TO EVALUATOR MAIN MENU
-                Intent intent = new Intent(this, gui.mainMenu.evaluator.MainMenu.class);
-                intent.putExtra("userEmail",user.getEmailUser());
-                startActivity(intent);
-            }
-        }
+        Intent intent = new Intent(this, com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+        intent.putExtra("userEmail",user.getEmailUser());
+        startActivity(intent);
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {

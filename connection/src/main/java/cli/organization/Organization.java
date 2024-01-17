@@ -87,6 +87,10 @@ public class Organization implements Serializable {
     @SerializedName("emailOrgPrincipal")
     public String emailOrgPrincipal;
 
+    /**Profile photo*/
+    @SerializedName("profilePhoto")
+    public String profilePhoto;
+
     /**
      * Class constructor
      *
@@ -108,8 +112,9 @@ public class Organization implements Serializable {
      * @param informationItalian - Organization information in Italian
      * @param informationPortuguese - Organization information in Portuguese
      * @param emailOrgPrincipal - Organization principal email
+     * @param profilePhoto - Profile photo
      * */
-    public Organization(int idOrganization, String orgType, String illness, String nameOrg, int idAddress, String email, String telephone, String informationSpanish, String informationEnglish,String informationFrench, String informationBasque, String informationCatalan, String informationDutch, String informationGalician, String informationGerman, String informationItalian, String informationPortuguese, String emailOrgPrincipal){
+    public Organization(int idOrganization, String orgType, String illness, String nameOrg, int idAddress, String email, String telephone, String informationSpanish, String informationEnglish,String informationFrench, String informationBasque, String informationCatalan, String informationDutch, String informationGalician, String informationGerman, String informationItalian, String informationPortuguese, String emailOrgPrincipal, String profilePhoto){
         setIdOrganization(idOrganization);
         setOrgType(orgType);
         setIllness(illness);
@@ -128,6 +133,7 @@ public class Organization implements Serializable {
         setInformationItalian(informationItalian);
         setInformationPortuguese(informationPortuguese);
         setEmailOrgPrincipal(emailOrgPrincipal);
+        setProfilePhoto(profilePhoto);
     }
 
 
@@ -473,5 +479,22 @@ public class Organization implements Serializable {
         this.nameOrg = nameOrg;
     }
 
+    /**
+     * Method that obtains the profile photo URL
+     *
+     * @return Profile photo
+     * */
+    public String getProfilePhoto() {
+        return profilePhoto;
+    }
+
+    /**
+     * Method that sets the new profile photo URL
+     *
+     * @param profilePhoto - Profile photo
+     * */
+    public void setProfilePhoto(String profilePhoto) {
+        this.profilePhoto = profilePhoto;
+    }
 
 }

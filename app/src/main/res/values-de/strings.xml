@@ -180,7 +180,7 @@
     <string name="org_reg_ins">Um eine bewertete Organisation zu registrieren, müssen Sie alle Felder korrekt ausfüllen und die Verarbeitung dieser Daten zulassen</string>
     <string name="first_name_user_menu">Vorname: Name</string>
     <string name="last_name_user_menu">Nachname: Nachname</string>
-    <string name="org_name_user_menu">Organisation: Organisation</string>
+    <string name="org_name_user_menu">Organisation</string>
     <string name="continue_indicators">Weitermachen mit einem Indikatoren-Test</string>
     <string name="see_results">Sehen Sie realisierte Indikatoren Test</string>
     <string name="generate_report">Bericht generieren</string>

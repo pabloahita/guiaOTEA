@@ -139,7 +139,7 @@
     <string name="org_reg_ins">Pour enregistrer une organisation évaluée, vous devez remplir correctement tous les champs et permettre le traitement desdites données</string>
     <string name="first_name_user_menu">Prénom: prenom</string>
     <string name="last_name_user_menu">Nom: nom</string>
-    <string name="org_name_user_menu">Organisation: org</string>
+    <string name="org_name_user_menu">Organisation</string>
     <string name="continue_indicators">Poursuivre avec un test d\'indicateurs</string>
     <string name="see_results">Voir les tests d\'indicateurs réalisés</string>
     <string name="generate_report">Générer le rapport</string>

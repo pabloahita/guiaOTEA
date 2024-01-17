@@ -539,9 +539,8 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                                 EvaluatorTeamsController.Create(evaluatorTeam);
 
 
-                                Intent intent=new Intent(getApplicationContext(),gui.mainMenu.evaluator.MainMenu.class);
-                                intent.putExtra("user",getIntent().getSerializableExtra("user"));
-                                intent.putExtra("org",getIntent().getSerializableExtra("org"));
+                                Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+                                intent.putExtra("userEmail",getIntent().getSerializableExtra("userEmail"));
                                 finalBackground.setVisibility(View.GONE);
                                 startActivity(intent);
 

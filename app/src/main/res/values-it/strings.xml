@@ -177,7 +177,7 @@
     <string name="org_reg_ins">Per registrare un\'organizzazione valutata è necessario compilare correttamente tutti i campi e consentire l\'elaborazione di tali dati</string>
     <string name="first_name_user_menu">Nome: nome</string>
     <string name="last_name_user_menu">Cognome: cognome</string>
-    <string name="org_name_user_menu">Organizzazione: organizzazione</string>
+    <string name="org_name_user_menu">Organizzazione</string>
     <string name="continue_indicators">Continua con un test degli indicatori</string>
     <string name="see_results">Vedere test di indicatori realizzati</string>
     <string name="generate_report">Generare il rapporto</string>
