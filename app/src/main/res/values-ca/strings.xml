@@ -195,7 +195,7 @@
     <string name="center">Centre de l’organització</string>
     <string name="edit_indicators">Edita els indicadors</string>
     <string name="edit_org">Edita l\'organització avaluada</string>
-    <string name="edit_users">Editar els usuaris</string>
+    <string name="edit_org_center">Editeu un centre de l\'organització avaluada</string>
     <string name="center_info">Informació del centre</string>
     <string name="center_reg_ins">Per registrar un centre d’organització externa, heu d’omplir tots els camps situats a la part inferior d’aquesta pantalla</string>
     <string name="ambit_caption">Descripció de l’àmbit</string>
@@ -208,5 +208,9 @@
     <string name="complete_req">Completar la sol·licitud</string>
     <string name="user_reg">Registre de l\'usuari</string>
     <string name="to_user_reg">Per registrar l\'usuari de forma satisfactòria, ha d\'omplir tots els camps situats a sota</string>
+    <string name="edit_indicator">Editar indicador</string>
+    <string name="add_indicator">Afegir indicador</string>
+    <string name="edit_ambit">Editar àmbit</string>
+    <string name="add_ambit">Afegir àmbit</string>
 
 </resources>

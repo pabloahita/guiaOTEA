@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,6 +24,7 @@ import android.widget.Toast;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
+import java.io.File;
 import java.util.List;
 
 import cli.organization.data.geo.Country;
@@ -44,6 +48,12 @@ public class Register extends AppCompatActivity {
     private List<Country> countries;
 
     PhoneCodeAdapter[] phoneCodeAdapter={null};
+
+    ImageView profilePhoto;
+
+    Uri imageUri;
+
+    String imageUriToString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +85,18 @@ public class Register extends AppCompatActivity {
         EditText emailField=(EditText)findViewById(R.id.email_reg);
         EditText passwordField=(EditText)findViewById(R.id.password_reg);
         EditText telephoneField=(EditText)findViewById(R.id.telephone_reg);
+
+        profilePhoto=findViewById(R.id.profilePhoto);
+
+        Button uploadPhoto=findViewById(R.id.uploadPhoto);
+
+        uploadPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, 100);
+            }
+        });
 
         firstNameField.addTextChangedListener(
                 new TextWatcher() {
@@ -318,7 +340,7 @@ public class Register extends AppCompatActivity {
                             illness[0] ="AUTISM";
                         }
                         if(!first_name.equals("") && !last_name.equals("") && FieldChecker.emailHasCorrectFormat(email) && FieldChecker.passwordHasCorrectFormat(password) && FieldChecker.isACorrectPhone(telephone[0]+telephone[1])){
-                            User user=new User(email,"ORGANIZATION",first_name,last_name, PasswordCodifier.codify(password),telephone[0]+" "+telephone[1],idOrganization[0],orgType[0],illness[0]);
+                            User user=new User(email,"ORGANIZATION",first_name,last_name, PasswordCodifier.codify(password),telephone[0]+" "+telephone[1],idOrganization[0],orgType[0],illness[0],"");
                             UsersController.Create(user);
                             Log.d("USER_REGISTERED","USER REGISTERED");
                             Intent intent=new Intent(getApplicationContext(),gui.MainActivity.class);
@@ -384,6 +406,15 @@ public class Register extends AppCompatActivity {
             countries= CountriesController.GetAll(Locale.getDefault().getLanguage());
         }
         return countries;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == 100) {
+            imageUri = data.getData();
+            profilePhoto.setImageURI(imageUri);
+        }
     }
 
 

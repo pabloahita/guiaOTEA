@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ import otea.connection.controller.IndicatorsController;
 import otea.connection.controller.OrganizationsController;
 import otea.connection.controller.SubAmbitsController;
 import otea.connection.controller.SubSubAmbitsController;
+import session.Session;
 
 public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
 
@@ -135,7 +137,7 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
                 }
             });
 
-            Button button=findViewById(R.id.button);
+            ImageButton button=findViewById(R.id.start);
 
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -148,73 +150,12 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
                     v.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            List<Ambit> ambits= AmbitsController.GetAll();
-                            List<Indicator> indicators=new LinkedList<>();
-                            Map<Integer,List<SubAmbit>> subAmbits=new HashMap<Integer,List<SubAmbit>>();
-                            Map<List<Integer>,List<SubSubAmbit>> subSubAmbits=new HashMap<List<Integer>,List<SubSubAmbit>>();
-                            for (Ambit a : ambits){
-                                List<Indicator> aux=IndicatorsController.GetAllByIdAmbit(a.idAmbit);
-                                indicators.addAll(aux);
-                                List<SubAmbit> aux2=SubAmbitsController.GetAllByAmbit(a.idAmbit);
-                                subAmbits.put(a.idAmbit,aux2);
-                                for(SubAmbit s : aux2){
-                                    List<SubSubAmbit> aux3=SubSubAmbitsController.GetAllBySubAmbit(s.idSubAmbit,a.idAmbit);
-                                    List<Integer> key=new LinkedList<>();
-                                    key.add(s.idSubAmbit);
-                                    key.add(a.idAmbit);
-                                    subSubAmbits.put(key,aux3);
-                                }
-                            }
-                            int num_indicators=indicators.size();
-                            //Indicator i=indicators.get(current_indicator);
-                            for(Indicator i: indicators) {
-                                if (i.getEvidences() == null) {//En caso de que no se hayan descargado las evidencias del indicador actual
-                                    i.setEvidences(EvidencesController.GetAllByIndicator(i.getIdIndicator(), i.getIndicatorType(), i.getIdSubSubAmbit(), i.getIdSubAmbit(), i.getIdAmbit(), i.getIndicatorVersion()));
-                                }
-                            }
-                            int evidences_per_indicator=indicators.get(0).getEvidences().size();
 
                             Intent intent=new Intent(getApplicationContext(),gui.DoIndicatorsEvaluation.class);
-                            intent.putExtra("userEmail",getIntent().getSerializableExtra("userEmail"));
                             intent.putExtra("evaluatorTeam",evaluatorTeam[0]);
                             intent.putExtra("evaluatedOrganization",evaluatedOrganization[0]);
-                            for(Ambit a : ambits){
-                                intent.putExtra("ambit "+a.getIdAmbit(),a);
-                            }
-                            for(int i:subAmbits.keySet()) {
-                                List<SubAmbit> aux=subAmbits.get(i);
-                                int numSubAmbits=-1;
-                                if(aux.size()==1 && aux.get(0).getIdSubAmbit()==-1){
-                                    numSubAmbits=0;
-                                }
-                                else{
-                                    numSubAmbits=aux.size();
-                                }
-                                intent.putExtra("numSubAmbits_ambit"+i,numSubAmbits);
-                                for (SubAmbit s : aux) {
-                                    intent.putExtra("subAmbit "+s.getIdSubAmbit()+",ambit " + s.getIdAmbit(), s);
-                                }
-                            }
-                            for(List<Integer> l:subSubAmbits.keySet()) {
-                                List<SubSubAmbit> aux=subSubAmbits.get(l);
-                                int numSubSubAmbits=-1;
-                                if(aux.size()==1 && aux.get(0).getIdSubSubAmbit()==-1 && aux.get(0).getIdSubAmbit()==-1){
-                                    numSubSubAmbits=0;
-                                }
-                                else{
-                                    numSubSubAmbits=aux.size();
-                                }
-                                intent.putExtra("numSubSubAmbits_subAmbit"+l.get(0)+"_ambit"+l.get(1),numSubSubAmbits);
-                                for (SubSubAmbit s : aux) {
-                                    intent.putExtra("subSubAmbit "+s.getIdSubSubAmbit()+",subAmbit "+s.getIdSubAmbit()+",ambit " + s.getIdAmbit(), s);
-                                }
-                            }
-                            for(Indicator i:indicators){
-                                intent.putExtra("indicator "+i.getIdIndicator(),i);
-                            }
-                            intent.putExtra("num_indicators",num_indicators);
-                            intent.putExtra("num_ambits",ambits.size());
-                            intent.putExtra("evidence_per_indicator",evidences_per_indicator);
+
+                            Session.getInstance().obtainIndicatorsFromDataBase();
                             startActivity(intent);
                         }
                     }, 100);

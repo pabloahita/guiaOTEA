@@ -189,7 +189,7 @@
     <string name="center">Centro dell\'organizzazione</string>
     <string name="edit_indicators">Modificare gli indicatori</string>
     <string name="edit_org">Modifica l\'organizzazione valutata</string>
-    <string name="edit_users">Modifica utenti</string>
+    <string name="edit_org_center">Modifica un centro dell\'organizzazione valutata</string>
     <string name="center_info">Informazioni sul centro</string>
     <string name="center_reg_ins">Per registrare un centro di organizzazione esterno, è necessario compilare tutti i campi situati nella parte inferiore di questa schermata.Se uno qualsiasi dei campi non è riempito, verrà avviato ciò che deve essere riempito.</string>
     <string name="ambit_caption">" Descrizione dell'ambito"</string>
@@ -202,6 +202,10 @@
     <string name="complete_req">Completare la richiesta</string>
     <string name="user_reg">Registrazione dell\'utente</string>
     <string name="to_user_reg">Per registrare l\'utente con successo, devi compilare tutti i campi sottostanti</string>
+    <string name="edit_indicator">Modificare indicatore</string>
+    <string name="add_indicator">Aggiungi indicatore</string>
+    <string name="edit_ambit">Modifica ambito</string>
+    <string name="add_ambit">Aggiungi ambito</string>
 
 
 </resources>

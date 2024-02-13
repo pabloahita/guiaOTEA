@@ -2,11 +2,16 @@ package gui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -16,14 +21,24 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +57,7 @@ import otea.connection.controller.AddressesController;
 import otea.connection.controller.CentersController;
 import otea.connection.controller.CitiesController;
 import otea.connection.controller.CountriesController;
+import otea.connection.controller.ImageUploader;
 import otea.connection.controller.OrganizationsController;
 import otea.connection.controller.ProvincesController;
 import otea.connection.controller.RegionsController;
@@ -77,6 +93,27 @@ public class RegisterOrganization extends AppCompatActivity {
     int currIdRegion;
     int currIdProvince;
     int currIdCity;
+
+    ImageButton imageOrgButton;
+
+    ImageButton imageDirButton;
+
+
+    TextView imageOrgText;
+
+    TextView imageDirText;
+
+
+    InputStream imageOrgStream;
+
+    InputStream imageDirStream;
+
+    int selectedPhoto=-1;
+
+
+    String imgDirBlobUrl="";
+    String imgOrgBlobUrl="";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +162,10 @@ public class RegisterOrganization extends AppCompatActivity {
 
         Drawable correct=ContextCompat.getDrawable(getApplicationContext(),R.drawable.baseline_check_circle_24);
 
+        imageOrgButton=findViewById(R.id.imageOrg);
+        imageDirButton=findViewById(R.id.imageDir);
+        imageOrgText=findViewById(R.id.imageOrgText);
+        imageDirText=findViewById(R.id.imageDirText);
 
         int[] idCity = {-1};
         int[] idProvince = {-1};
@@ -157,6 +198,46 @@ public class RegisterOrganization extends AppCompatActivity {
         fields.put("telephoneDir","");
 
 
+
+        imageOrgButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(RegisterOrganization.this,
+                        Manifest.permission.READ_MEDIA_IMAGES)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(RegisterOrganization.this,
+                            new String[]{Manifest.permission.READ_MEDIA_IMAGES},
+                            33);
+                    onClick(v);
+                }
+                else {
+                    selectedPhoto=0;
+                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.setType("image/*");
+                    startActivityForResult(intent, 100);
+                }
+            }
+        });
+
+        imageDirButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(RegisterOrganization.this,
+                        Manifest.permission.READ_MEDIA_IMAGES)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(RegisterOrganization.this,
+                            new String[]{Manifest.permission.READ_MEDIA_IMAGES},
+                            33);
+                    onClick(v);
+                }
+                else {
+                    selectedPhoto=1;
+                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.setType("image/*");
+                    startActivityForResult(intent, 100);
+                }
+            }
+        });
 
 
         countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -885,9 +966,33 @@ public class RegisterOrganization extends AppCompatActivity {
                     }
 
 
+                    if(imageDirStream!=null) {
+                        try {
+                            String imageDirName="USER_"+(fields.get("emailDir").replace("@","_").replace(".","_"))+".jpg";
+                            imgDirBlobUrl=ImageUploader.uploadToBlobStorage(imageDirStream,"profile-photos",imageDirName);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        } catch (ExecutionException e) {
+                            throw new RuntimeException(e);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    if(imageOrgStream!=null){
+                        try {
+                            String imageDirName="ORG_"+idOrganization+"_"+orgType+"_"+illness+".jpg";
+                            imgOrgBlobUrl=ImageUploader.uploadToBlobStorage(imageOrgStream,"profile-photos",imageDirName);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        } catch (ExecutionException e) {
+                            throw new RuntimeException(e);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
 
-                    Organization organization=new Organization(idOrganization,orgType,illness,fields.get("nameOrg"),idAddress,fields.get("emailOrg"),fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),informationEnglish,informationSpanish,informationFrench,informationBasque,informationCatalan,informationDutch,informationGalician,informationGerman,informationItalian,informationPortuguese,emailDirField.getText().toString());
-                    User directorOrg=new User(fields.get("emailDir"),"ORGANIZATION",fields.get("firstName"),fields.get("lastName"),PasswordCodifier.codify(fields.get("passwordDir")),fields.get("telephoneCodeDir")+" "+fields.get("telephoneDir"),idOrganization,orgType,illness);
+                    Organization organization=new Organization(idOrganization,orgType,illness,fields.get("nameOrg"),idAddress,fields.get("emailOrg"),fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),informationEnglish,informationSpanish,informationFrench,informationBasque,informationCatalan,informationDutch,informationGalician,informationGerman,informationItalian,informationPortuguese,emailDirField.getText().toString(),imgOrgBlobUrl);
+                    User directorOrg=new User(fields.get("emailDir"),"ORGANIZATION",fields.get("firstName"),fields.get("lastName"),PasswordCodifier.codify(fields.get("passwordDir")),fields.get("telephoneCodeDir")+" "+fields.get("telephoneDir"),idOrganization,orgType,illness,imgDirBlobUrl);
 
 
                     nameOrgField.setEnabled(false);
@@ -922,7 +1027,6 @@ public class RegisterOrganization extends AppCompatActivity {
 
                             CentersController.getInstance().Create(new Center(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),1,"Headquarters","Sede principal","Siège social","Egoitza","Seu principal","Hoofdkwartier","Sede principal","Hauptsitz","Sede principale","Sede principal",idAddress,fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),fields.get("emailOrg")));
                             Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-                            intent.putExtra("userEmail",getIntent().getSerializableExtra("userEmail"));
                             loading.setVisibility(View.GONE);
                             startActivity(intent);
                         }
@@ -1016,9 +1120,31 @@ public class RegisterOrganization extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if(keyCode==event.KEYCODE_BACK){
             Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-            intent.putExtra("userEmail",getIntent().getSerializableExtra("userEmail"));
             startActivity(intent);
         }
         return super.onKeyDown(keyCode,event);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == 100) {
+            try{
+                Uri imageUri = data.getData();
+                if(selectedPhoto==0){
+                    imageOrgStream=getContentResolver().openInputStream(imageUri);
+                    imageOrgButton.setImageURI(imageUri);
+                    imageOrgText.setVisibility(View.GONE);
+                }
+                else{
+                    imageDirStream=getContentResolver().openInputStream(imageUri);
+                    imageDirButton.setImageURI(imageUri);
+                    imageDirText.setVisibility(View.GONE);
+                }
+            }catch(FileNotFoundException e){
+                e.printStackTrace();
+            }
+
+        }
     }
 }

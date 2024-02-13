@@ -67,6 +67,12 @@ public class UsersController {
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
+                    if(response.code()==400){
+                        throw new IOException("Bad request");
+                    }
+                    else if(response.code()==401){
+                        throw new IOException("Unauthorized");
+                    }
                     throw new IOException("Error: " + response.code() + " " + response.message());
                 }
             }

@@ -17,21 +17,15 @@ public class LoginDataSource {
     public Result<User> login(String username, String password) {
 
         try {
-            //LoggedInUser user=new LoggedInUser(username,password);
-            //Codificar contraseña
-            String nuevaPassword= PasswordCodifier.codify(password);
-            User user= UsersController.getInstance().GetForLogin(username,nuevaPassword);
-            if(user==null){
-                User aux= UsersController.getInstance().Get(username);
-                if(aux!=null){
-                    return new Result.Error(new PasswordIncorrectException("The password is wrong, please put the correct one"));
-                }
-                else{
-                    return new Result.Error(new UnknownUserException("The user doesn't exists in our database. Please, sign up and try to login again"));
-                }
-            }
+            User user= UsersController.getInstance().GetForLogin(username,PasswordCodifier.codify(password));
             return new Result.Success<>(user);
         } catch (Exception e) {
+            if(e.getMessage().equals("Unauthorized")){
+                return new Result.Error(new PasswordIncorrectException("The password is wrong, please put the correct one"));
+            }
+            else if(e.getMessage().equals("Bad request")){
+                return new Result.Error(new UnknownUserException("The user doesn't exists in our database. Please, sign up and try to login again"));
+            }
             return new Result.Error(new IOException("Error logging in", e));
         }
     }

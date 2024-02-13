@@ -192,7 +192,7 @@
     <string name="center">Zentrum der Organisation</string>
     <string name="edit_indicators">Anzeigen bearbeiten</string>
     <string name="edit_org">Organisation bearbeiten bewertet</string>
-    <string name="edit_users">Benutzer bearbeiten</string>
+    <string name="edit_org_center">Bearbeiten Sie ein Zentrum der bewerteten Organisation</string>
     <string name="center_info">Zentruminformationen</string>
     <string name="center_reg_ins">Um ein externes Organisationszentrum zu registrieren, müssen Sie alle Felder am Ende dieses Bildschirms ausfüllen</string>
     <string name="ambit_caption">Beschreibung des Umfangs</string>
@@ -205,6 +205,10 @@
     <string name="complete_req">Anfrage abschließen</string>
     <string name="user_reg">Benutzerregistrierung</string>
     <string name="to_user_reg">Um den Benutzer erfolgreich zu registrieren, müssen Sie alle unten stehenden Felder ausfüllen</string>
+    <string name="edit_indicator">Indikator bearbeiten</string>
+    <string name="add_indicator">Indikator hinzufügen</string>
+    <string name="edit_ambit">Umfang bearbeiten</string>
+    <string name="add_ambit">Bereich hinzufügen</string>
 
 
 </resources>

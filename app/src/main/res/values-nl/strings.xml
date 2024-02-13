@@ -192,7 +192,7 @@
     <string name="center">Centrum van de organisatie</string>
     <string name="edit_indicators">Bewerk indicatoren</string>
     <string name="edit_org">Bewerk de geëvalueerde organisatie</string>
-    <string name="edit_users">Gebruikers bewerken</string>
+    <string name="edit_org_center">Bewerk een centrum van de geëvalueerde organisatie</string>
     <string name="center_info">Center Informatie</string>
     <string name="center_reg_ins">Om een ​​extern organisatiecentrum te registreren, moet u alle velden onderaan dit scherm invullen</string>
     <string name="ambit_caption">Beschrijving van de reikwijdte</string>
@@ -205,6 +205,10 @@
     <string name="complete_req">Voltooi de aanvraag</string>
     <string name="user_reg">Gebruikersregistratie</string>
     <string name="to_user_reg">Om de gebruiker succesvol te registreren, moet u alle velden hieronder invullen</string>
+    <string name="edit_indicator">Bewerkingsindicator</string>
+    <string name="add_indicator">Indicator toevoegen</string>
+    <string name="edit_ambit">Bereik bewerken</string>
+    <string name="add_ambit">Voeg bereik toe</string>
 
 
 </resources>

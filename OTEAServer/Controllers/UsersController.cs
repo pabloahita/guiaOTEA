@@ -86,9 +86,19 @@ namespace OTEAServer.Controllers
         {
             var user = _context.Users.FirstOrDefault(u => u.emailUser == email && u.passwordUser==password);
 
-            if (user == null)
-                return NotFound();
-
+            if (user == null) {//Finds user in database
+                user = _context.Users.FirstOrDefault(u => u.emailUser == email);
+                if (user == null) { return NotFound(); }
+                else { 
+                    if (user.emailUser != email) {
+                        return BadRequest();
+                    }
+                    if (user.passwordUser != password)
+                    {
+                        return Unauthorized();
+                    }
+                }
+            }
             return user;
         }
 

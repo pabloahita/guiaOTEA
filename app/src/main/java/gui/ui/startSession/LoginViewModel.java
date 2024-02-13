@@ -11,6 +11,7 @@ import com.fundacionmiradas.indicatorsevaluation.R;
 import cli.user.User;
 import gui.data.LoginRepository;
 import gui.data.Result;
+import session.Session;
 
 public class LoginViewModel extends ViewModel {
 
@@ -30,15 +31,16 @@ public class LoginViewModel extends ViewModel {
         return loginResult;
     }
 
-    public void login(String username, String password) {
-        // can be launched in a separate asynchronous job
+    public Session login(String username, String password) {
         Result<User> result = loginRepository.login(username, password);
 
         if (result instanceof Result.Success) {
             User data = ((Result.Success<User>) result).getData();
             loginResult.setValue(new LoginResult(new LoggedInUserView(data)));
+            return Session.createSession(data);
         } else {
             loginResult.setValue(new LoginResult(R.string.login_failed));
+            return null;
         }
     }
 

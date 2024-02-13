@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.fundacionmiradas.indicatorsevaluation.databinding.ActivityStartSessionBinding;
 
 import cli.user.User;
+import session.Session;
 
 
 public class StartSession extends AppCompatActivity {
@@ -145,9 +146,8 @@ public class StartSession extends AppCompatActivity {
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
-        User user=model.getUser();
+        //User user=model.getUser();
         Intent intent = new Intent(this, com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-        intent.putExtra("userEmail",user.getEmailUser());
         startActivity(intent);
     }
 

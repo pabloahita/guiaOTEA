@@ -194,7 +194,7 @@
     <string name="center">Erakundearen Zentroa</string>
     <string name="edit_indicators">Editatu adierazleak</string>
     <string name="edit_org">Editatu Erakundea ebaluatu da</string>
-    <string name="edit_users">Erabiltzaileak editatu</string>
+    <string name="edit_org_center">Editatu ebaluatutako erakundearen zentro bat</string>
     <string name="center_info">Zentroari buruzko informazioa</string>
     <string name="center_reg_ins">Kanpoko antolakuntza zentro bat erregistratzeko, pantaila honen behealdean kokatutako eremu guztiak bete behar dituzu</string>
     <string name="ambit_caption">Esparruaren deskribapena</string>
@@ -207,5 +207,9 @@
     <string name="complete_req">Eskaria osatu</string>
     <string name="user_reg">Erabiltzailearen erregistroa</string>
     <string name="to_user_reg">Erabiltzailea arrakastaz erregistratzeko, beheko eremuei guztiak bete behar zaizkizu</string>
+    <string name="edit_indicator">Editatu adierazlea</string>
+    <string name="add_indicator">Gehitu adierazlea</string>
+    <string name="edit_ambit">Editatu esparrua</string>
+    <string name="add_ambit">Gehitu esparrua</string>
 
 </resources>

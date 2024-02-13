@@ -6,6 +6,7 @@
     android:isolatedSplits="true">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <application
         android:allowBackup="true"
@@ -17,13 +18,25 @@
         android:theme="@style/Theme.TFG2223.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".MainMenu"
+            android:name="gui.EditCenter"
             android:exported="false" />
         <activity
-            android:name="gui.MainMenu"
+            android:name="gui.EditEvaluatedOrganization"
+            android:exported="false" />
+        <activity
+            android:name="gui.SeeRealizedIndicatorsEvaluations"
+            android:exported="false" />
+        <activity
+            android:name="gui.SelectToContinueIndicatorsEvaluations"
+            android:exported="false" />
+        <activity
+            android:name="gui.EditIndicators"
             android:exported="false"
-            android:label="@string/title_activity_main_menu"
+            android:label="@string/title_activity_edit_indicators"
             android:theme="@style/Theme.TFG2223.NoActionBar" />
+        <activity
+            android:name=".MainMenu"
+            android:exported="false" />
         <activity
             android:name="gui.RegisterNewEvaluatorTeam"
             android:exported="false" />
@@ -40,21 +53,6 @@
             android:name="gui.Register"
             android:exported="false"
             android:label="@string/title_activity_register" />
-        <activity
-            android:name="gui.mainMenu.evaluated.MainMenu"
-            android:exported="false"
-            android:label="@string/title_activity_main_menu"
-            android:theme="@style/Theme.TFG2223.NoActionBar.NoActionBar" />
-        <activity
-            android:name="gui.mainMenu.admin.MainMenu"
-            android:exported="false"
-            android:label="@string/title_activity_main_menu"
-            android:theme="@style/Theme.TFG2223.NoActionBar.NoActionBar" />
-        <activity
-            android:name="gui.mainMenu.evaluator.MainMenu"
-            android:exported="false"
-            android:label="@string/title_activity_main_menu"
-            android:theme="@style/Theme.TFG2223.NoActionBar.NoActionBar" />
         <activity
             android:name="gui.settings.SettingsActivity"
             android:exported="false"

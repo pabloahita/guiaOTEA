@@ -1,23 +1,43 @@
 package gui;
 
+import android.Manifest;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import cli.organization.Organization;
 import cli.organization.data.Address;
@@ -51,11 +71,16 @@ public class MainActivity extends AppCompatActivity {
 
     ConstraintLayout final_background;
 
+    ImageView logo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         startCallers();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        logo=findViewById(R.id.miradasLogo);
+        Bitmap logoImg=ImageDownloader.downloadImg("https://bbmiradas.fundacionmiradas.org/wp-content/uploads/2022/02/fundacion-miradas-1.png");
+        logo.setImageBitmap(logoImg);
         sign_in = findViewById(R.id.sign_in);
         sign_up = findViewById(R.id.sign_up);
         request_reg=findViewById(R.id.request_reg);
@@ -73,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         email_req.setVisibility(View.GONE);
         final_background.setVisibility(View.GONE);
 
-
+        //Button aux=findViewById(R.id.aux);
 
         sign_in.setOnClickListener(v -> {
             Intent intent = new Intent(this, gui.ui.startSession.StartSession.class);
@@ -148,9 +173,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /*aux.setOnClickListener(new View.OnClickListener() {
+                                   @Override
+                                   public void onClick(View v) {
+
+                                   }
+                               }
+        );*/
+
     }
 
     public void startCallers(){
+        AmbitsController.getInstance();
+        SubAmbitsController.getInstance();
+        SubSubAmbitsController.getInstance();
         AddressesController.getInstance();
         CentersController.getInstance();
         CitiesController.getInstance();
@@ -166,6 +202,8 @@ public class MainActivity extends AppCompatActivity {
         RequestsController.getInstance();
         UsersController.getInstance();
         TranslatorController.getInstance();
+        ImageDownloader.getInstance();
+        ImageUploader.getInstance();
     }
 
     @Override
@@ -185,4 +223,26 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        /*if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
+            try {
+                InputStream stream=getContentResolver().openInputStream(data.getData());
+                String aux=ImageUploader.uploadToBlobStorage(stream,"profile");
+
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (ExecutionException e) {
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }*/
+    }
+
 }
