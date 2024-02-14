@@ -83,9 +83,7 @@ public class Organization implements Serializable {
     @SerializedName("informationPortuguese")
     public String informationPortuguese;
 
-    /**Organization principal email*/
-    @SerializedName("emailOrgPrincipal")
-    public String emailOrgPrincipal;
+
 
     /**Profile photo*/
     @SerializedName("profilePhoto")
@@ -111,10 +109,9 @@ public class Organization implements Serializable {
      * @param informationGerman - Organization information in German
      * @param informationItalian - Organization information in Italian
      * @param informationPortuguese - Organization information in Portuguese
-     * @param emailOrgPrincipal - Organization principal email
      * @param profilePhoto - Profile photo
      * */
-    public Organization(int idOrganization, String orgType, String illness, String nameOrg, int idAddress, String email, String telephone, String informationSpanish, String informationEnglish,String informationFrench, String informationBasque, String informationCatalan, String informationDutch, String informationGalician, String informationGerman, String informationItalian, String informationPortuguese, String emailOrgPrincipal, String profilePhoto){
+    public Organization(int idOrganization, String orgType, String illness, String nameOrg, int idAddress, String email, String telephone, String informationSpanish, String informationEnglish,String informationFrench, String informationBasque, String informationCatalan, String informationDutch, String informationGalician, String informationGerman, String informationItalian, String informationPortuguese, String profilePhoto){
         setIdOrganization(idOrganization);
         setOrgType(orgType);
         setIllness(illness);
@@ -132,7 +129,6 @@ public class Organization implements Serializable {
         setInformationGerman(informationGerman);
         setInformationItalian(informationItalian);
         setInformationPortuguese(informationPortuguese);
-        setEmailOrgPrincipal(emailOrgPrincipal);
         setProfilePhoto(profilePhoto);
     }
 
@@ -194,14 +190,6 @@ public class Organization implements Serializable {
     }
 
 
-    /**
-     * Method that sets the new organization principal email
-     *
-     * @param emailOrgPrincipal - Organization principal email
-     * */
-    public void setEmailOrgPrincipal(String emailOrgPrincipal) {
-        this.emailOrgPrincipal=emailOrgPrincipal;
-    }
 
     /**
      * Method that obtains the organization information in English
@@ -443,14 +431,6 @@ public class Organization implements Serializable {
         this.illness = illness;
     }
 
-    /**
-     * Method that obtains the organization principal email
-     *
-     * @return Organization principal email
-     * */
-    public String getEmailOrgPrincipal() {
-        return emailOrgPrincipal;
-    }
 
     /**
      * Method that obtains the organization type

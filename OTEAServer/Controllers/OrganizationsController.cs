@@ -130,7 +130,6 @@ namespace OTEAServer.Controllers
             existingOrganization.informationGerman = organization.informationGerman;
             existingOrganization.informationItalian = organization.informationItalian;
             existingOrganization.informationPortuguese = organization.informationPortuguese;
-            existingOrganization.emailOrgPrincipal = organization.emailOrgPrincipal;
             existingOrganization.profilePhoto = organization.profilePhoto;
             _context.SaveChanges();
 

@@ -49,6 +49,9 @@ public class User implements Serializable{
     @SerializedName("illness")
     public String illness;
 
+    @SerializedName("isDirector")
+    public int isDirector;
+
     /**Profile photo*/
     @SerializedName("profilePhoto")
     public String profilePhoto;
@@ -66,9 +69,10 @@ public class User implements Serializable{
      * @param idOrganization - User organization identifier
      * @param orgType - User organization type
      * @param illness - User organization illness or syndrome
+     * @param isDirector - User is the director of its organization or not
      * @param profilePhoto - Profile photo
      * */
-    public User(String emailUser, String userType, String first_name, String last_name, String passwordUser, String telephone, int idOrganization, String orgType, String illness, String profilePhoto){
+    public User(String emailUser, String userType, String first_name, String last_name, String passwordUser, String telephone, int idOrganization, String orgType, String illness, int isDirector, String profilePhoto){
         setEmailUser(emailUser);
         setUserType(userType);
         setFirst_name(first_name);
@@ -78,6 +82,7 @@ public class User implements Serializable{
         setIdOrganization(idOrganization);
         setOrganizationType(orgType);
         setIllness(illness);
+        setIsDirector(isDirector);
         setProfilePhoto(profilePhoto);
     }
 
@@ -259,5 +264,23 @@ public class User implements Serializable{
      * */
     public void setProfilePhoto(String profilePhoto) {
         this.profilePhoto = profilePhoto;
+    }
+
+    /**
+     * Method that obtains if the user is the director of its organization or not
+     *
+     * @return 0 if is not director, 1 if is director
+     * */
+    public int getIsDirector() {
+        return isDirector;
+    }
+
+    /**
+     * Method that obtains if the user is the director of its organization or not
+     *
+     * @param isDirector - 0 if is not director, 1 if is director
+     * */
+    public void setIsDirector(int isDirector) {
+        this.isDirector = isDirector;
     }
 }

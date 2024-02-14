@@ -836,7 +836,26 @@ public class RegisterOrganization extends AppCompatActivity {
                         && FieldChecker.emailHasCorrectFormat(fields.get("emailOrg")) && !fields.get("firstName").equals("") && !fields.get("lastName").equals("") && FieldChecker.emailHasCorrectFormat(fields.get("emailDir")) &&
                         !fields.get("passwordDir").equals("") && (FieldChecker.isACorrectPhone(fields.get("telephoneCodeDir")+fields.get("telephoneDir")))){
 
-                    Address address = new Address(idAddress, fields.get("address"), idCity[0],idProvince[0],idRegion[0],idCountry[0],fields.get("nameCity"),fields.get("nameProvince"),fields.get("nameRegion"));
+                    nameOrgField.setEnabled(false);
+                    addressNameField.setEnabled(false);
+                    orgPhoneField.setEnabled(false);
+                    moreInfoField.setEnabled(false);
+                    countrySpinner.setEnabled(false);
+                    regionSpinner.setEnabled(false);
+                    provinceSpinner.setEnabled(false);
+                    citySpinner.setEnabled(false);
+
+                    nameRegionField.setEnabled(false);
+                    nameProvinceField.setEnabled(false);
+                    nameCityField.setEnabled(false);
+
+                    firstNameField.setEnabled(false);
+                    lastNameField.setEnabled(false);
+                    emailDirField.setEnabled(false);
+                    passwordField.setEnabled(false);
+                    directorPhoneField.setEnabled(false);
+
+                    loading.setVisibility(View.VISIBLE);
 
                     String informationEnglish="";
                     String informationSpanish="";
@@ -965,6 +984,11 @@ public class RegisterOrganization extends AppCompatActivity {
                         }
                     }
 
+                    Address address = new Address(idAddress, fields.get("address"), idCity[0],idProvince[0],idRegion[0],idCountry[0],fields.get("nameCity"),fields.get("nameProvince"),fields.get("nameRegion"));
+
+                    Organization organization=new Organization(idOrganization,orgType,illness,fields.get("nameOrg"),idAddress,fields.get("emailOrg"),fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),informationEnglish,informationSpanish,informationFrench,informationBasque,informationCatalan,informationDutch,informationGalician,informationGerman,informationItalian,informationPortuguese,imgOrgBlobUrl);
+                    User directorOrg=new User(fields.get("emailDir"),"ORGANIZATION",fields.get("firstName"),fields.get("lastName"),PasswordCodifier.codify(fields.get("passwordDir")),fields.get("telephoneCodeDir")+" "+fields.get("telephoneDir"),idOrganization,orgType,illness,1,imgDirBlobUrl);
+
 
                     if(imageDirStream!=null) {
                         try {
@@ -991,30 +1015,7 @@ public class RegisterOrganization extends AppCompatActivity {
                         }
                     }
 
-                    Organization organization=new Organization(idOrganization,orgType,illness,fields.get("nameOrg"),idAddress,fields.get("emailOrg"),fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),informationEnglish,informationSpanish,informationFrench,informationBasque,informationCatalan,informationDutch,informationGalician,informationGerman,informationItalian,informationPortuguese,emailDirField.getText().toString(),imgOrgBlobUrl);
-                    User directorOrg=new User(fields.get("emailDir"),"ORGANIZATION",fields.get("firstName"),fields.get("lastName"),PasswordCodifier.codify(fields.get("passwordDir")),fields.get("telephoneCodeDir")+" "+fields.get("telephoneDir"),idOrganization,orgType,illness,imgDirBlobUrl);
 
-
-                    nameOrgField.setEnabled(false);
-                    addressNameField.setEnabled(false);
-                    orgPhoneField.setEnabled(false);
-                    moreInfoField.setEnabled(false);
-                    countrySpinner.setEnabled(false);
-                    regionSpinner.setEnabled(false);
-                    provinceSpinner.setEnabled(false);
-                    citySpinner.setEnabled(false);
-
-                    nameRegionField.setEnabled(false);
-                    nameProvinceField.setEnabled(false);
-                    nameCityField.setEnabled(false);
-
-                    firstNameField.setEnabled(false);
-                    lastNameField.setEnabled(false);
-                    emailDirField.setEnabled(false);
-                    passwordField.setEnabled(false);
-                    directorPhoneField.setEnabled(false);
-
-                    loading.setVisibility(View.VISIBLE);
 
                     v.postDelayed(new Runnable() {
                         @Override
@@ -1022,8 +1023,6 @@ public class RegisterOrganization extends AppCompatActivity {
                             AddressesController.getInstance().Create(address);
                             OrganizationsController.getInstance().Create(organization);
                             UsersController.getInstance().Create(directorOrg);
-                            organization.setEmailOrgPrincipal(directorOrg.getEmailUser());
-                            OrganizationsController.getInstance().Update(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),organization);
 
                             CentersController.getInstance().Create(new Center(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),1,"Headquarters","Sede principal","Siège social","Egoitza","Seu principal","Hoofdkwartier","Sede principal","Hauptsitz","Sede principale","Sede principal",idAddress,fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),fields.get("emailOrg")));
                             Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);

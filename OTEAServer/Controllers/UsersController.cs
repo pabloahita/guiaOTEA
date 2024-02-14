@@ -140,6 +140,7 @@ namespace OTEAServer.Controllers
             existingUser.idOrganization = user.idOrganization;
             existingUser.orgType = user.orgType;
             existingUser.illness = user.illness;
+            existingUser.isDirector = user.isDirector;
             existingUser.profilePhoto = user.profilePhoto;
             _context.SaveChanges();
 
