@@ -35,7 +35,10 @@ public class Session {
     private Map<List<Integer>,List<SubSubAmbit>> subSubAmbits;
     private Session(User user) {
         setUser(user);
-        setOrganization(OrganizationsController.getInstance().Get(user.getIdOrganization(), user.getOrganizationType(), user.getIllness()));
+        int idOrg=user.getIdOrganization();
+        String orgType=user.getOrganizationType();
+        String illness=user.getIllness();
+        setOrganization(OrganizationsController.getInstance().Get(idOrg, orgType, illness));
     }
 
     public static synchronized Session getInstance(){

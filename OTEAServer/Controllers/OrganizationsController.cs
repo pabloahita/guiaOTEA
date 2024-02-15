@@ -73,12 +73,20 @@ namespace OTEAServer.Controllers
         [HttpGet("get")]
         public ActionResult<Organization> Get([FromQuery] int id,[FromQuery] string orgType,[FromQuery] string illness)
         {
-            var organization = _context.Organizations.FirstOrDefault(o=>o.idOrganization==id && o.orgType==orgType && o.illness==illness);
+            try
+            {
+                var organization = _context.Organizations.FirstOrDefault(o => o.idOrganization == id && o.orgType == orgType && o.illness == illness);
 
-            if (organization == null)
-                return NotFound();
+                if (organization == null)
+                    return NotFound();
 
-            return organization;
+                return organization;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return BadRequest("Ocurrió un error al obtener la organización.");
+            }
         }
 
 
