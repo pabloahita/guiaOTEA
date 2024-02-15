@@ -987,7 +987,7 @@ public class RegisterOrganization extends AppCompatActivity {
                     Address address = new Address(idAddress, fields.get("address"), idCity[0],idProvince[0],idRegion[0],idCountry[0],fields.get("nameCity"),fields.get("nameProvince"),fields.get("nameRegion"));
 
                     Organization organization=new Organization(idOrganization,orgType,illness,fields.get("nameOrg"),idAddress,fields.get("emailOrg"),fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),informationEnglish,informationSpanish,informationFrench,informationBasque,informationCatalan,informationDutch,informationGalician,informationGerman,informationItalian,informationPortuguese,imgOrgBlobUrl);
-                    User directorOrg=new User(fields.get("emailDir"),"ORGANIZATION",fields.get("firstName"),fields.get("lastName"),PasswordCodifier.codify(fields.get("passwordDir")),fields.get("telephoneCodeDir")+" "+fields.get("telephoneDir"),idOrganization,orgType,illness,1,imgDirBlobUrl);
+                    User directorOrg=new User(fields.get("emailDir"),"DIRECTOR",fields.get("firstName"),fields.get("lastName"),PasswordCodifier.codify(fields.get("passwordDir")),fields.get("telephoneCodeDir")+" "+fields.get("telephoneDir"),idOrganization,orgType,illness,imgDirBlobUrl);
 
 
                     if(imageDirStream!=null) {

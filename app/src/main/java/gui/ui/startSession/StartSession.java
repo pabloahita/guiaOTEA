@@ -146,7 +146,6 @@ public class StartSession extends AppCompatActivity {
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
-        //User user=model.getUser();
         Intent intent = new Intent(this, com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
         startActivity(intent);
     }

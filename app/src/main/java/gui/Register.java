@@ -340,7 +340,7 @@ public class Register extends AppCompatActivity {
                             illness[0] ="AUTISM";
                         }
                         if(!first_name.equals("") && !last_name.equals("") && FieldChecker.emailHasCorrectFormat(email) && FieldChecker.passwordHasCorrectFormat(password) && FieldChecker.isACorrectPhone(telephone[0]+telephone[1])){
-                            User user=new User(email,"ORGANIZATION",first_name,last_name, PasswordCodifier.codify(password),telephone[0]+" "+telephone[1],idOrganization[0],orgType[0],illness[0],0,"");
+                            User user=new User(email,"ORGANIZATION",first_name,last_name, PasswordCodifier.codify(password),telephone[0]+" "+telephone[1],idOrganization[0],orgType[0],illness[0],"");
                             UsersController.Create(user);
                             Log.d("USER_REGISTERED","USER REGISTERED");
                             Intent intent=new Intent(getApplicationContext(),gui.MainActivity.class);
