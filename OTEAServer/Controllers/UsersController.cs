@@ -40,8 +40,15 @@ namespace OTEAServer.Controllers
         [HttpGet("all")]
         public IActionResult GetAll()
         {
-            var users = _context.Users.ToList();
-            return Ok(users);
+            try
+            {
+                var users = _context.Users.ToList();
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
@@ -55,8 +62,15 @@ namespace OTEAServer.Controllers
         [HttpGet("allByOrg")]
         public IActionResult GetAllOrgUsersByOrganization([FromQuery] int? idOrganization, [FromQuery] string? orgType, [FromQuery] string? illness)
         {
-            var users = _context.Users.Where(u => u.idOrganization==idOrganization && u.orgType==orgType && u.illness==illness).ToList();
-            return Ok(users);
+            try
+            {
+                var users = _context.Users.Where(u => u.idOrganization == idOrganization && u.orgType == orgType && u.illness == illness).ToList();
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -67,12 +81,19 @@ namespace OTEAServer.Controllers
         [HttpGet("get")]
         public ActionResult<User> Get([FromQuery] string email)
         {
-            var user = _context.Users.FirstOrDefault(u => u.emailUser == email);
+            try
+            {
+                var user = _context.Users.FirstOrDefault(u => u.emailUser == email);
 
-            if (user == null)
-                return NotFound();
+                if (user == null)
+                    return NotFound();
 
-            return user;
+                return user;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -84,22 +105,32 @@ namespace OTEAServer.Controllers
         [HttpGet("login")]
         public ActionResult<User> GetForLogin([FromQuery] string email,[FromQuery] string password)
         {
-            var user = _context.Users.FirstOrDefault(u => u.emailUser == email && u.passwordUser==password);
+            try
+            {
+                var user = _context.Users.FirstOrDefault(u => u.emailUser == email && u.passwordUser == password);
 
-            if (user == null) {//Finds user in database
-                user = _context.Users.FirstOrDefault(u => u.emailUser == email);
-                if (user == null) { return NotFound(); }
-                else { 
-                    if (user.emailUser != email) {
-                        return BadRequest();
-                    }
-                    if (user.passwordUser != password)
+                if (user == null)
+                {//Finds user in database
+                    user = _context.Users.FirstOrDefault(u => u.emailUser == email);
+                    if (user == null) { return NotFound(); }
+                    else
                     {
-                        return Unauthorized();
+                        if (user.emailUser != email)
+                        {
+                            return BadRequest();
+                        }
+                        if (user.passwordUser != password)
+                        {
+                            return Unauthorized();
+                        }
                     }
                 }
+                return user;
             }
-            return user;
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -110,9 +141,16 @@ namespace OTEAServer.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] User user)
         {
-            _context.Users.Add(user);
-            _context.SaveChanges();
-            return CreatedAtAction(nameof(Get), new { email = user.emailUser}, user);
+            try
+            {
+                _context.Users.Add(user);
+                _context.SaveChanges();
+                return CreatedAtAction(nameof(Get), new { email = user.emailUser }, user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -124,26 +162,33 @@ namespace OTEAServer.Controllers
         [HttpPut]
         public IActionResult Update([FromQuery] string email, [FromBody] User user)
         {
-            if (email != user.emailUser)
-                return BadRequest();
+            try
+            {
+                if (email != user.emailUser)
+                    return BadRequest();
 
-            var existingUser = _context.Users.FirstOrDefault(u => u.emailUser == email);
-            if (existingUser is null)
-                return NotFound();
+                var existingUser = _context.Users.FirstOrDefault(u => u.emailUser == email);
+                if (existingUser is null)
+                    return NotFound();
 
-            existingUser.emailUser = email;
-            existingUser.userType = user.userType;
-            existingUser.first_name = user.first_name;
-            existingUser.last_name = user.last_name;
-            existingUser.passwordUser = user.passwordUser;
-            existingUser.telephone = user.telephone;
-            existingUser.idOrganization = user.idOrganization;
-            existingUser.orgType = user.orgType;
-            existingUser.illness = user.illness;
-            existingUser.profilePhoto = user.profilePhoto;
-            _context.SaveChanges();
+                existingUser.emailUser = email;
+                existingUser.userType = user.userType;
+                existingUser.first_name = user.first_name;
+                existingUser.last_name = user.last_name;
+                existingUser.passwordUser = user.passwordUser;
+                existingUser.telephone = user.telephone;
+                existingUser.idOrganization = user.idOrganization;
+                existingUser.orgType = user.orgType;
+                existingUser.illness = user.illness;
+                existingUser.profilePhoto = user.profilePhoto;
+                _context.SaveChanges();
 
-            return Ok(existingUser);
+                return Ok(existingUser);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -154,15 +199,22 @@ namespace OTEAServer.Controllers
         [HttpDelete]
         public IActionResult Delete([FromQuery] string email)
         {
-            var user = _context.Users.FirstOrDefault(u => u.emailUser == email);
+            try
+            {
+                var user = _context.Users.FirstOrDefault(u => u.emailUser == email);
 
-            if (user is null)
-                return NotFound();
+                if (user is null)
+                    return NotFound();
 
-            _context.Users.Remove(user);
-            _context.SaveChanges();
+                _context.Users.Remove(user);
+                _context.SaveChanges();
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

@@ -34,8 +34,15 @@ namespace OTEAServer.Controllers
         [HttpGet("all")]
         public IActionResult GetAll()
         {
-            var requests = _context.Requests.ToList();
-            return Ok(requests);
+            try
+            {
+                var requests = _context.Requests.ToList();
+                return Ok(requests);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -46,12 +53,19 @@ namespace OTEAServer.Controllers
         [HttpGet("get")]
         public ActionResult<Request> Get([FromQuery] string email)
         {
-            var request = _context.Requests.FirstOrDefault(r => r.email == email);
+            try
+            {
+                var request = _context.Requests.FirstOrDefault(r => r.email == email);
 
-            if (request == null)
-                return NotFound();
+                if (request == null)
+                    return NotFound();
 
-            return request;
+                return request;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -62,9 +76,16 @@ namespace OTEAServer.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Request request)
         {
-            _context.Requests.Add(request);
-            _context.SaveChanges();
-            return CreatedAtAction(nameof(Get), new { email = request.email }, request);
+            try
+            {
+                _context.Requests.Add(request);
+                _context.SaveChanges();
+                return CreatedAtAction(nameof(Get), new { email = request.email }, request);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
@@ -76,18 +97,25 @@ namespace OTEAServer.Controllers
         /// <returns>Request if success, null if not</returns>
         [HttpPut]
         public IActionResult Update([FromQuery] string email, [FromBody] Request request){
-            if (email!=request.email)
-                return BadRequest();
-            var existingRequest=_context.Requests.FirstOrDefault(r => r.email==email);
-            if(existingRequest is null)
-                return NotFound();
-            
-            existingRequest.email=email;
-            existingRequest.statusReq=request.statusReq;
-            existingRequest.tempPassword=request.tempPassword;
-            _context.SaveChanges();
+            try
+            {
+                if (email != request.email)
+                    return BadRequest();
+                var existingRequest = _context.Requests.FirstOrDefault(r => r.email == email);
+                if (existingRequest is null)
+                    return NotFound();
 
-            return Ok(existingRequest);
+                existingRequest.email = email;
+                existingRequest.statusReq = request.statusReq;
+                existingRequest.tempPassword = request.tempPassword;
+                _context.SaveChanges();
+
+                return Ok(existingRequest);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -98,14 +126,21 @@ namespace OTEAServer.Controllers
         [HttpDelete]
         public IActionResult Delete([FromQuery] string email)
         {
-            var existingRequest=_context.Requests.FirstOrDefault(r => r.email==email);
-            if(existingRequest is null)
-                return NotFound();
-            
-            _context.Requests.Remove(existingRequest);
-            _context.SaveChanges();
+            try
+            {
+                var existingRequest = _context.Requests.FirstOrDefault(r => r.email == email);
+                if (existingRequest is null)
+                    return NotFound();
 
-            return NoContent();
+                _context.Requests.Remove(existingRequest);
+                _context.SaveChanges();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 

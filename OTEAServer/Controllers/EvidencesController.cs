@@ -38,8 +38,15 @@ namespace OTEAServer.Controllers
         [HttpGet("all")]
         public IActionResult GetAll()
         {
-            var evidences = _context.Evidences.ToList();
-            return Ok(evidences);
+            try
+            {
+                var evidences = _context.Evidences.ToList();
+                return Ok(evidences);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -55,8 +62,15 @@ namespace OTEAServer.Controllers
         [HttpGet("ind")]
         public IActionResult GetAllByIndicator([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion)
         {
-            var evidences = _context.Evidences.Where(e=>e.idIndicator==idIndicator && e.indicatorType==indicatorType && e.idSubSubAmbit == idSubSubAmbit && e.idSubAmbit == idSubAmbit && e.idAmbit==idAmbit && e.indicatorVersion==indicatorVersion).ToList();
-            return Ok(evidences);
+            try
+            {
+                var evidences = _context.Evidences.Where(e => e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.idSubSubAmbit == idSubSubAmbit && e.idSubAmbit == idSubAmbit && e.idAmbit == idAmbit && e.indicatorVersion == indicatorVersion).ToList();
+                return Ok(evidences);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -73,12 +87,19 @@ namespace OTEAServer.Controllers
         [HttpGet("get")]
         public ActionResult<Evidence> Get([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion)
         {
-            var evidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator==idIndicator && e.indicatorType==indicatorType && e.idSubSubAmbit == idSubSubAmbit && e.idSubAmbit == idSubAmbit && e.idAmbit==idAmbit && e.indicatorVersion==indicatorVersion);
+            try
+            {
+                var evidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.idSubSubAmbit == idSubSubAmbit && e.idSubAmbit == idSubAmbit && e.idAmbit == idAmbit && e.indicatorVersion == indicatorVersion);
 
-            if (evidence == null)
-                return NotFound();
+                if (evidence == null)
+                    return NotFound();
 
-            return evidence;
+                return evidence;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
@@ -91,9 +112,16 @@ namespace OTEAServer.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Evidence evidence)
         {
-            _context.Evidences.Add(evidence);
-            _context.SaveChanges();
-            return CreatedAtAction(nameof(Get), new { id = evidence.idEvidence, idIndicator=evidence.idIndicator, type = evidence.indicatorType, idSubSubAmbit = evidence.idSubSubAmbit, idSubAmbit = evidence.idSubAmbit, idAmbit =evidence.idAmbit, version=evidence.indicatorVersion }, evidence);
+            try
+            {
+                _context.Evidences.Add(evidence);
+                _context.SaveChanges();
+                return CreatedAtAction(nameof(Get), new { id = evidence.idEvidence, idIndicator = evidence.idIndicator, type = evidence.indicatorType, idSubSubAmbit = evidence.idSubSubAmbit, idSubAmbit = evidence.idSubAmbit, idAmbit = evidence.idAmbit, version = evidence.indicatorVersion }, evidence);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -111,29 +139,36 @@ namespace OTEAServer.Controllers
         [HttpPut]
         public IActionResult Update([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromBody] Evidence evidence)
         {
+            try
+            {
+                if (idEvidence != evidence.idEvidence || idIndicator != evidence.idIndicator || idSubSubAmbit != evidence.idSubSubAmbit || idSubAmbit != evidence.idSubAmbit || idAmbit != evidence.idAmbit || indicatorType != evidence.indicatorType)
+                    return BadRequest();
 
-            if (idEvidence != evidence.idEvidence || idIndicator != evidence.idIndicator || idSubSubAmbit!= evidence.idSubSubAmbit || idSubAmbit != evidence.idSubAmbit || idAmbit != evidence.idAmbit || indicatorType != evidence.indicatorType)
-                return BadRequest();
+                var existingEvidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.idSubSubAmbit == idSubSubAmbit && e.idSubAmbit == idSubAmbit && e.idAmbit == idAmbit && e.indicatorVersion == indicatorVersion);
+                if (existingEvidence is null)
+                    return NotFound();
 
-            var existingEvidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.idSubSubAmbit==idSubSubAmbit && e.idSubAmbit == idSubAmbit && e.idAmbit == idAmbit && e.indicatorVersion == indicatorVersion);
-            if (existingEvidence is null)
-                return NotFound();
+                existingEvidence.descriptionEnglish = evidence.descriptionEnglish;
+                existingEvidence.descriptionSpanish = evidence.descriptionSpanish;
+                existingEvidence.descriptionFrench = evidence.descriptionFrench;
+                existingEvidence.descriptionBasque = evidence.descriptionBasque;
+                existingEvidence.descriptionCatalan = evidence.descriptionCatalan;
+                existingEvidence.descriptionDutch = evidence.descriptionDutch;
+                existingEvidence.descriptionGalician = evidence.descriptionGalician;
+                existingEvidence.descriptionGerman = evidence.descriptionGerman;
+                existingEvidence.descriptionItalian = evidence.descriptionItalian;
+                existingEvidence.descriptionPortuguese = evidence.descriptionPortuguese;
+                existingEvidence.evidenceValue = evidence.evidenceValue;
 
-            existingEvidence.descriptionEnglish = evidence.descriptionEnglish;
-            existingEvidence.descriptionSpanish = evidence.descriptionSpanish;
-            existingEvidence.descriptionFrench = evidence.descriptionFrench;
-            existingEvidence.descriptionBasque = evidence.descriptionBasque;
-            existingEvidence.descriptionCatalan = evidence.descriptionCatalan;
-            existingEvidence.descriptionDutch = evidence.descriptionDutch;
-            existingEvidence.descriptionGalician = evidence.descriptionGalician;
-            existingEvidence.descriptionGerman = evidence.descriptionGerman;
-            existingEvidence.descriptionItalian = evidence.descriptionItalian;
-            existingEvidence.descriptionPortuguese = evidence.descriptionPortuguese;
-            existingEvidence.evidenceValue = evidence.evidenceValue;
+                _context.SaveChanges();
 
-            _context.SaveChanges();
+                return Ok(existingEvidence);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
-            return Ok(existingEvidence);
         }
 
         /// <summary>
@@ -150,16 +185,23 @@ namespace OTEAServer.Controllers
         [HttpDelete]
         public IActionResult Delete([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion)
         {
+            try
+            {
+                var evidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.idSubSubAmbit == idSubSubAmbit && e.idSubAmbit == idSubAmbit && e.idAmbit == idAmbit && e.indicatorVersion == indicatorVersion);
 
-            var evidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.idSubSubAmbit == idSubSubAmbit && e.idSubAmbit == idSubAmbit && e.idAmbit==idAmbit && e.indicatorVersion == indicatorVersion);
+                if (evidence is null)
+                    return NotFound();
 
-            if (evidence is null)
-                return NotFound();
+                _context.Evidences.Remove(evidence);
+                _context.SaveChanges();
 
-            _context.Evidences.Remove(evidence);
-            _context.SaveChanges();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
-            return NoContent();
         }
     }
 }

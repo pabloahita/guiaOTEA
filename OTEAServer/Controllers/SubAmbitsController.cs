@@ -35,8 +35,15 @@ namespace OTEAServer.Controllers
         [HttpGet("all")]
         public IActionResult GetAll()
         {
-            var subAmbits = _context.SubAmbits.ToList();
-            return Ok(subAmbits);
+            try
+            {
+                var subAmbits = _context.SubAmbits.ToList();
+                return Ok(subAmbits);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -47,8 +54,15 @@ namespace OTEAServer.Controllers
         [HttpGet("allByAmbit")]
         public IActionResult GetAllByAmbit(int idAmbit)
         {
-            var subAmbits = _context.SubAmbits.Where(s=>s.idAmbit==idAmbit).ToList();
-            return Ok(subAmbits);
+            try
+            {
+                var subAmbits = _context.SubAmbits.Where(s => s.idAmbit == idAmbit).ToList();
+                return Ok(subAmbits);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -59,12 +73,19 @@ namespace OTEAServer.Controllers
         [HttpGet("get")]
         public ActionResult<SubAmbit> Get([FromQuery] int id)
         {
-            var subAmbit = _context.SubAmbits.FirstOrDefault(a => a.idSubAmbit == id);
+            try
+            {
+                var subAmbit = _context.SubAmbits.FirstOrDefault(a => a.idSubAmbit == id);
 
-            if (subAmbit == null)
-                return NotFound();
+                if (subAmbit == null)
+                    return NotFound();
 
-            return subAmbit;
+                return subAmbit;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -75,9 +96,16 @@ namespace OTEAServer.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] SubAmbit subAmbit)
         {
-            _context.SubAmbits.Add(subAmbit);
-            _context.SaveChanges();
-            return CreatedAtAction(nameof(Get), new { idSubAmbit = subAmbit.idSubAmbit }, subAmbit);
+            try
+            {
+                _context.SubAmbits.Add(subAmbit);
+                _context.SaveChanges();
+                return CreatedAtAction(nameof(Get), new { idSubAmbit = subAmbit.idSubAmbit }, subAmbit);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
@@ -90,29 +118,36 @@ namespace OTEAServer.Controllers
         [HttpPut]
         public IActionResult Update([FromQuery] int idSubAmbit, [FromBody] SubAmbit subAmbit)
         {
-            if (idSubAmbit != subAmbit.idSubAmbit)
-                return BadRequest();
+            try
+            {
+                if (idSubAmbit != subAmbit.idSubAmbit)
+                    return BadRequest();
 
-            var existingSubAmbit = _context.SubAmbits.FirstOrDefault(a => a.idSubAmbit == idSubAmbit);
-            if (existingSubAmbit is null)
-                return NotFound();
+                var existingSubAmbit = _context.SubAmbits.FirstOrDefault(a => a.idSubAmbit == idSubAmbit);
+                if (existingSubAmbit is null)
+                    return NotFound();
 
 
-            existingSubAmbit.idSubAmbit = subAmbit.idSubAmbit;
-            existingSubAmbit.idAmbit = subAmbit.idAmbit;
-            existingSubAmbit.descriptionEnglish = subAmbit.descriptionEnglish;
-            existingSubAmbit.descriptionSpanish = subAmbit.descriptionSpanish;
-            existingSubAmbit.descriptionFrench = subAmbit.descriptionFrench;
-            existingSubAmbit.descriptionBasque = subAmbit.descriptionBasque;
-            existingSubAmbit.descriptionCatalan = subAmbit.descriptionCatalan;
-            existingSubAmbit.descriptionDutch = subAmbit.descriptionDutch;
-            existingSubAmbit.descriptionGalician = subAmbit.descriptionGalician;
-            existingSubAmbit.descriptionGerman = subAmbit.descriptionGerman;
-            existingSubAmbit.descriptionItalian = subAmbit.descriptionItalian;
-            existingSubAmbit.descriptionPortuguese = subAmbit.descriptionPortuguese;
-            _context.SaveChanges();
+                existingSubAmbit.idSubAmbit = subAmbit.idSubAmbit;
+                existingSubAmbit.idAmbit = subAmbit.idAmbit;
+                existingSubAmbit.descriptionEnglish = subAmbit.descriptionEnglish;
+                existingSubAmbit.descriptionSpanish = subAmbit.descriptionSpanish;
+                existingSubAmbit.descriptionFrench = subAmbit.descriptionFrench;
+                existingSubAmbit.descriptionBasque = subAmbit.descriptionBasque;
+                existingSubAmbit.descriptionCatalan = subAmbit.descriptionCatalan;
+                existingSubAmbit.descriptionDutch = subAmbit.descriptionDutch;
+                existingSubAmbit.descriptionGalician = subAmbit.descriptionGalician;
+                existingSubAmbit.descriptionGerman = subAmbit.descriptionGerman;
+                existingSubAmbit.descriptionItalian = subAmbit.descriptionItalian;
+                existingSubAmbit.descriptionPortuguese = subAmbit.descriptionPortuguese;
+                _context.SaveChanges();
 
-            return Ok(existingSubAmbit);
+                return Ok(existingSubAmbit);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -123,15 +158,22 @@ namespace OTEAServer.Controllers
         [HttpDelete]
         public IActionResult Delete([FromQuery] int id)
         {
-            var subAmbit = _context.SubAmbits.FirstOrDefault(a => a.idSubAmbit == id);
+            try
+            {
+                var subAmbit = _context.SubAmbits.FirstOrDefault(a => a.idSubAmbit == id);
 
-            if (subAmbit is null)
-                return NotFound();
+                if (subAmbit is null)
+                    return NotFound();
 
-            _context.SubAmbits.Remove(subAmbit);
-            _context.SaveChanges();
+                _context.SubAmbits.Remove(subAmbit);
+                _context.SaveChanges();
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

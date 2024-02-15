@@ -36,8 +36,15 @@ namespace OTEAServer.Controllers
         [HttpGet("all")]
         public IActionResult GetAll()
         {
-            var ambits = _context.Ambits.ToList();
-            return Ok(ambits);
+            try
+            {
+                var ambits = _context.Ambits.ToList();
+                return Ok(ambits);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -49,12 +56,19 @@ namespace OTEAServer.Controllers
         [HttpGet("get")]
         public ActionResult<Ambit> Get([FromQuery] int id)
         {
-            var ambit = _context.Ambits.FirstOrDefault(a => a.idAmbit==id);
+            try
+            {
+                var ambit = _context.Ambits.FirstOrDefault(a => a.idAmbit == id);
 
-            if (ambit == null)
-                return NotFound();
+                if (ambit == null)
+                    return NotFound();
 
-            return ambit;
+                return ambit;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -65,9 +79,16 @@ namespace OTEAServer.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Ambit ambit)
         {
-            _context.Ambits.Add(ambit);
-            _context.SaveChanges();
-            return CreatedAtAction(nameof(Get), new { idAmbit = ambit.idAmbit }, ambit);
+            try
+            {
+                _context.Ambits.Add(ambit);
+                _context.SaveChanges();
+                return CreatedAtAction(nameof(Get), new { idAmbit = ambit.idAmbit }, ambit);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
@@ -80,29 +101,35 @@ namespace OTEAServer.Controllers
         [HttpPut]
         public IActionResult Update([FromQuery] int idAmbit, [FromBody] Ambit ambit)
         {
-            // This code will update the mesa and return a result
-            if (idAmbit != ambit.idAmbit)
-                return BadRequest();
+            try
+            {
+                if (idAmbit != ambit.idAmbit)
+                    return BadRequest();
 
-            var existingAmbit = _context.Ambits.FirstOrDefault(a => a.idAmbit == idAmbit);
-            if (existingAmbit is null)
-                return NotFound();
+                var existingAmbit = _context.Ambits.FirstOrDefault(a => a.idAmbit == idAmbit);
+                if (existingAmbit is null)
+                    return NotFound();
 
 
-            existingAmbit.idAmbit = ambit.idAmbit;
-            existingAmbit.descriptionEnglish = ambit.descriptionEnglish;
-            existingAmbit.descriptionSpanish = ambit.descriptionSpanish;
-            existingAmbit.descriptionFrench = ambit.descriptionFrench;
-            existingAmbit.descriptionBasque = ambit.descriptionBasque;
-            existingAmbit.descriptionCatalan = ambit.descriptionCatalan;
-            existingAmbit.descriptionDutch = ambit.descriptionDutch;
-            existingAmbit.descriptionGalician = ambit.descriptionGalician;
-            existingAmbit.descriptionGerman = ambit.descriptionGerman;
-            existingAmbit.descriptionItalian = ambit.descriptionItalian;
-            existingAmbit.descriptionPortuguese = ambit.descriptionPortuguese;
-            _context.SaveChanges();
+                existingAmbit.idAmbit = ambit.idAmbit;
+                existingAmbit.descriptionEnglish = ambit.descriptionEnglish;
+                existingAmbit.descriptionSpanish = ambit.descriptionSpanish;
+                existingAmbit.descriptionFrench = ambit.descriptionFrench;
+                existingAmbit.descriptionBasque = ambit.descriptionBasque;
+                existingAmbit.descriptionCatalan = ambit.descriptionCatalan;
+                existingAmbit.descriptionDutch = ambit.descriptionDutch;
+                existingAmbit.descriptionGalician = ambit.descriptionGalician;
+                existingAmbit.descriptionGerman = ambit.descriptionGerman;
+                existingAmbit.descriptionItalian = ambit.descriptionItalian;
+                existingAmbit.descriptionPortuguese = ambit.descriptionPortuguese;
+                _context.SaveChanges();
 
-            return Ok(existingAmbit);
+                return Ok(existingAmbit);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -113,16 +140,22 @@ namespace OTEAServer.Controllers
         [HttpDelete]
         public IActionResult Delete([FromQuery] int id)
         {
-            // This code will delete the ambit and return a result
-            var ambit = _context.Ambits.FirstOrDefault(a => a.idAmbit == id);
+            try
+            {
+                var ambit = _context.Ambits.FirstOrDefault(a => a.idAmbit == id);
 
-            if (ambit is null)
-                return NotFound();
+                if (ambit is null)
+                    return NotFound();
 
-            _context.Ambits.Remove(ambit);
-            _context.SaveChanges();
+                _context.Ambits.Remove(ambit);
+                _context.SaveChanges();
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

@@ -39,8 +39,14 @@ namespace OTEAServer.Controllers
         [HttpGet("all")]
         public IActionResult GetAll()
         {
-            var addresses = _context.Addresses.ToList();
-            return Ok(addresses);
+            try {
+                var addresses = _context.Addresses.ToList();
+                return Ok(addresses);
+            }
+            catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }
+            
         }
 
         /// <summary>
@@ -51,12 +57,20 @@ namespace OTEAServer.Controllers
         [HttpGet("get")]
         public ActionResult<Address> Get([FromQuery] int id)
         {
-            var address = _context.Addresses.FirstOrDefault(a => a.idAddress == id);
+            try
+            {
+                var address = _context.Addresses.FirstOrDefault(a => a.idAddress == id);
 
-            if (address == null)
-                return NotFound();
+                if (address == null)
+                    return NotFound();
 
-            return address;
+                return address;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
 
         /// <summary>
@@ -67,9 +81,18 @@ namespace OTEAServer.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Address address)
         {
-            _context.Addresses.Add(address);
-            _context.SaveChanges();
-            return CreatedAtAction(nameof(Get), new { idAddress = address.idAddress }, address);
+            try
+            {
+                _context.Addresses.Add(address);
+                _context.SaveChanges();
+                return CreatedAtAction(nameof(Get), new { idAddress = address.idAddress }, address);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
+
         }
 
 
@@ -82,27 +105,35 @@ namespace OTEAServer.Controllers
         [HttpPut]
         public IActionResult Update([FromQuery] int idAddress, [FromBody] Address address)
         {
-            
-            if (idAddress != address.idAddress)
-                return BadRequest();
+            try
+            {
+                if (idAddress != address.idAddress)
+                    return BadRequest();
 
-            var existingAddress = _context.Addresses.FirstOrDefault(a => a.idAddress == idAddress);
-            if (existingAddress is null)
-                return NotFound();
+                var existingAddress = _context.Addresses.FirstOrDefault(a => a.idAddress == idAddress);
+                if (existingAddress is null)
+                    return NotFound();
 
 
-            existingAddress.addressName = address.addressName;
-            existingAddress.idCity = address.idCity;
-            existingAddress.idProvince = address.idProvince;
-            existingAddress.idRegion = address.idRegion;
-            existingAddress.idCountry = address.idCountry;
-            existingAddress.nameCity = address.nameCity;
-            existingAddress.nameProvince = address.nameProvince;
-            existingAddress.nameRegion = address.nameRegion;
+                existingAddress.addressName = address.addressName;
+                existingAddress.idCity = address.idCity;
+                existingAddress.idProvince = address.idProvince;
+                existingAddress.idRegion = address.idRegion;
+                existingAddress.idCountry = address.idCountry;
+                existingAddress.nameCity = address.nameCity;
+                existingAddress.nameProvince = address.nameProvince;
+                existingAddress.nameRegion = address.nameRegion;
 
-            _context.SaveChanges();
+                _context.SaveChanges();
 
-            return Ok(existingAddress); 
+                return Ok(existingAddress);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+           
         }
 
         /// <summary>
@@ -113,16 +144,23 @@ namespace OTEAServer.Controllers
         [HttpDelete]
         public IActionResult Delete([FromQuery] int id)
         {
-            // This code will delete the address and return a result
-            var address = _context.Addresses.FirstOrDefault(a => a.idAddress == id);
+            try
+            {
+                var address = _context.Addresses.FirstOrDefault(a => a.idAddress == id);
 
-            if (address is null)
-                return NotFound();
+                if (address is null)
+                    return NotFound();
 
-            _context.Addresses.Remove(address);
-            _context.SaveChanges();
+                _context.Addresses.Remove(address);
+                _context.SaveChanges();
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
     }
 }

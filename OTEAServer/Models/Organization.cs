@@ -156,11 +156,6 @@ namespace OTEAServer.Models
         [JsonPropertyName("informationPortuguese")]
         public string informationPortuguese { get; set; }
 
-        /// <summary>
-        /// Organization principal email
-        /// </summary>
-        [JsonPropertyName("emailOrgPrincipal")]
-        public string? emailOrgPrincipal { get; set; }
 
         /// <summary>
         /// Profile photo

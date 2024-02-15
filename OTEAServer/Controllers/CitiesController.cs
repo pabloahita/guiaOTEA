@@ -40,8 +40,15 @@ namespace OTEAServer.Controllers
         [HttpGet("allByProvince")]
         public IActionResult GetAllByProvince([FromQuery] int idProvince, [FromQuery] int idRegion, [FromQuery] string idCountry)
         {
-            var cities = _context.Cities.Where(c=>c.idProvince==idProvince && c.idRegion==idRegion && c.idCountry==idCountry).ToList();
-            return Ok(cities);
+            try
+            {
+                var cities = _context.Cities.Where(c => c.idProvince == idProvince && c.idRegion == idRegion && c.idCountry == idCountry).ToList();
+                return Ok(cities);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -55,12 +62,20 @@ namespace OTEAServer.Controllers
         [HttpGet("get")]
         public ActionResult<City> Get([FromQuery] int idCity, [FromQuery] int idProvince, [FromQuery] int idRegion, [FromQuery] string idCountry)
         {
-            var city = _context.Cities.FirstOrDefault(c => c.idCity == idCity && c.idProvince == idProvince && c.idRegion == idRegion && c.idCountry == idCountry);
+            try
+            {
+                var city = _context.Cities.FirstOrDefault(c => c.idCity == idCity && c.idProvince == idProvince && c.idRegion == idRegion && c.idCountry == idCountry);
 
-            if (city == null)
-                return NotFound();
+                if (city == null)
+                    return NotFound();
 
-            return city;
+                return city;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }

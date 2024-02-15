@@ -39,8 +39,16 @@ namespace OTEAServer.Controllers
         /// <returns>Centers list</returns>
         [HttpGet("all")]
         public IActionResult GetAll() {
-            var centers = _context.Centers.ToList();
-            return Ok(centers);
+            try
+            {
+
+                var centers = _context.Centers.ToList();
+                return Ok(centers);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -52,8 +60,16 @@ namespace OTEAServer.Controllers
         /// <returns>All centers of an organization</returns>
         [HttpGet("org")]
         public IActionResult GetAllByOrganization([FromQuery] int idOrganization,[FromQuery] string orgType,[FromQuery] string illness) {
-            var centers = _context.Centers.Where(c=>c.idOrganization== idOrganization && c.orgType==orgType && c.illness==illness).ToList();
-            return Ok(centers);
+            try
+            {
+
+                var centers = _context.Centers.Where(c => c.idOrganization == idOrganization && c.orgType == orgType && c.illness == illness).ToList();
+                return Ok(centers);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
@@ -68,12 +84,20 @@ namespace OTEAServer.Controllers
         [HttpGet("get")]
         public ActionResult<Center> Get([FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness,[FromQuery] int idCenter)
         {
-            var center = _context.Centers.FirstOrDefault(c => c.idOrganization == idOrganization && c.orgType == orgType && c.illness == illness && c.idCenter == idCenter);
-            if(center == null)
+            try
             {
-                return NotFound();
+                var center = _context.Centers.FirstOrDefault(c => c.idOrganization == idOrganization && c.orgType == orgType && c.illness == illness && c.idCenter == idCenter);
+                if (center == null)
+                {
+                    return NotFound();
+                }
+                return center;
             }
-            return center;
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
 
 
@@ -85,9 +109,17 @@ namespace OTEAServer.Controllers
         [HttpPost]
         public ActionResult<Center> Create([FromBody] Center center)
         {
-            _context.Centers.Add(center);
-            _context.SaveChanges();
-            return CreatedAtAction(nameof(Get), new { idOrganization = center.idOrganization, orgType = center.orgType, illness = center.illness, idCenter = center.idCenter }, center);
+            try
+            {
+                _context.Centers.Add(center);
+                _context.SaveChanges();
+                return CreatedAtAction(nameof(Get), new { idOrganization = center.idOrganization, orgType = center.orgType, illness = center.illness, idCenter = center.idCenter }, center);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
 
         /// <summary>
@@ -102,33 +134,41 @@ namespace OTEAServer.Controllers
         [HttpPut]
         public ActionResult<Center> Update([FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness, [FromQuery] int idCenter,[FromBody] Center center)
         {
-            if (idOrganization != center.idOrganization || orgType != center.orgType || illness != center.illness || idCenter != center.idCenter)
+            try
+            {
+                if(idOrganization != center.idOrganization || orgType != center.orgType || illness != center.illness || idCenter != center.idCenter)
                 return BadRequest();
 
-            var existingCenter = _context.Centers.FirstOrDefault(c => c.idOrganization == idOrganization && c.orgType == orgType && c.illness == illness && c.idCenter == idCenter);
-            if (existingCenter is null)
-                return NotFound();
+                var existingCenter = _context.Centers.FirstOrDefault(c => c.idOrganization == idOrganization && c.orgType == orgType && c.illness == illness && c.idCenter == idCenter);
+                if (existingCenter is null)
+                    return NotFound();
 
-            existingCenter.idOrganization = idOrganization;
-            existingCenter.orgType = orgType;
-            existingCenter.illness = illness;
-            existingCenter.idCenter = idCenter;
-            existingCenter.descriptionSpanish = center.descriptionSpanish;
-            existingCenter.descriptionEnglish = center.descriptionEnglish;
-            existingCenter.descriptionFrench = center.descriptionFrench;
-            existingCenter.descriptionBasque = center.descriptionBasque;
-            existingCenter.descriptionCatalan = center.descriptionCatalan;
-            existingCenter.descriptionDutch = center.descriptionDutch;
-            existingCenter.descriptionGalician = center.descriptionGalician;
-            existingCenter.descriptionGerman = center.descriptionGerman;
-            existingCenter.descriptionItalian = center.descriptionItalian;
-            existingCenter.descriptionPortuguese = center.descriptionPortuguese;
-            existingCenter.telephone = center.telephone;
-            existingCenter.idAddress = center.idAddress;
-            existingCenter.email = center.email;
-            _context.SaveChanges();
+                existingCenter.idOrganization = idOrganization;
+                existingCenter.orgType = orgType;
+                existingCenter.illness = illness;
+                existingCenter.idCenter = idCenter;
+                existingCenter.descriptionSpanish = center.descriptionSpanish;
+                existingCenter.descriptionEnglish = center.descriptionEnglish;
+                existingCenter.descriptionFrench = center.descriptionFrench;
+                existingCenter.descriptionBasque = center.descriptionBasque;
+                existingCenter.descriptionCatalan = center.descriptionCatalan;
+                existingCenter.descriptionDutch = center.descriptionDutch;
+                existingCenter.descriptionGalician = center.descriptionGalician;
+                existingCenter.descriptionGerman = center.descriptionGerman;
+                existingCenter.descriptionItalian = center.descriptionItalian;
+                existingCenter.descriptionPortuguese = center.descriptionPortuguese;
+                existingCenter.telephone = center.telephone;
+                existingCenter.idAddress = center.idAddress;
+                existingCenter.email = center.email;
+                _context.SaveChanges();
 
-            return Ok(existingCenter);
+                return Ok(existingCenter);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
 
 
@@ -143,14 +183,22 @@ namespace OTEAServer.Controllers
         [HttpDelete]
         public ActionResult<Center> Delete([FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness, [FromQuery] int idCenter)
         {
-            var center = _context.Centers.FirstOrDefault(c => c.idOrganization == idOrganization && c.orgType == orgType && c.illness == illness && c.idCenter == idCenter);
+            try
+            {
+                var center = _context.Centers.FirstOrDefault(c => c.idOrganization == idOrganization && c.orgType == orgType && c.illness == illness && c.idCenter == idCenter);
 
-            if (center is null)
-                return NotFound();
+                if (center is null)
+                    return NotFound();
 
-            _context.Centers.Remove(center);
-            _context.SaveChanges();
-            return NoContent();
+                _context.Centers.Remove(center);
+                _context.SaveChanges();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
 
     }

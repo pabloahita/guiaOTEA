@@ -36,8 +36,15 @@ namespace OTEAServer.Controllers
         [HttpGet("all")]
         public IActionResult GetAll()
         {
-            var organizations = _context.Organizations.ToList();
-            return Ok(organizations);
+            try
+            {
+                var organizations = _context.Organizations.ToList();
+                return Ok(organizations);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 
@@ -48,8 +55,15 @@ namespace OTEAServer.Controllers
         [HttpGet("allEvaluated")]
         public IActionResult GetAllEvaluatedOrganizations()
         {
-            var organizations = _context.Organizations.Where(o => o.orgType == "EVALUATED").ToList();
-            return Ok(organizations);
+            try
+            {
+                var organizations = _context.Organizations.Where(o => o.orgType == "EVALUATED").ToList();
+                return Ok(organizations);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -59,8 +73,15 @@ namespace OTEAServer.Controllers
         [HttpGet("allEvaluator")]
         public IActionResult GetAllEvaluatorOrganizations()
         {
-            var organizations = _context.Organizations.Where(o => o.orgType == "EVALUATOR").ToList();
-            return Ok(organizations);
+            try
+            {
+                var organizations = _context.Organizations.Where(o => o.orgType == "EVALUATOR").ToList();
+                return Ok(organizations);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -84,8 +105,7 @@ namespace OTEAServer.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                return BadRequest("Ocurrió un error al obtener la organización.");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -98,9 +118,17 @@ namespace OTEAServer.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Organization organization)
         {
-           _context.Organizations.Add(organization);
-           _context.SaveChanges();
-           return CreatedAtAction(nameof(Get), new { id = organization.idOrganization, orgType=organization.orgType, illness=organization.illness }, organization);
+            try
+            {
+                _context.Organizations.Add(organization);
+                _context.SaveChanges();
+                return CreatedAtAction(nameof(Get), new { id = organization.idOrganization, orgType = organization.orgType, illness = organization.illness }, organization);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -114,34 +142,41 @@ namespace OTEAServer.Controllers
         [HttpPut]
         public IActionResult Update([FromQuery] int id, [FromQuery] string orgType, [FromQuery] string illness, [FromBody] Organization organization)
         {
-            if (id != organization.idOrganization || orgType!=organization.orgType || illness!=organization.illness)
-                return BadRequest();
+            try
+            {
+                if (id != organization.idOrganization || orgType != organization.orgType || illness != organization.illness)
+                    return BadRequest();
 
-            var existingOrganization = _context.Organizations.FirstOrDefault(o => o.idOrganization == id && o.orgType == orgType && o.illness == illness);
-            if (existingOrganization is null)
-                return NotFound();
+                var existingOrganization = _context.Organizations.FirstOrDefault(o => o.idOrganization == id && o.orgType == orgType && o.illness == illness);
+                if (existingOrganization is null)
+                    return NotFound();
 
-            existingOrganization.idOrganization = id;
-            existingOrganization.orgType = orgType;
-            existingOrganization.illness = illness;
-            existingOrganization.nameOrg = organization.nameOrg;
-            existingOrganization.idAddress = organization.idAddress;
-            existingOrganization.email = organization.email;
-            existingOrganization.telephone = organization.telephone;
-            existingOrganization.informationSpanish = organization.informationSpanish;
-            existingOrganization.informationEnglish = organization.informationEnglish;
-            existingOrganization.informationFrench = organization.informationFrench;
-            existingOrganization.informationBasque = organization.informationBasque;
-            existingOrganization.informationCatalan = organization.informationCatalan;
-            existingOrganization.informationDutch = organization.informationDutch;
-            existingOrganization.informationGalician = organization.informationGalician;
-            existingOrganization.informationGerman = organization.informationGerman;
-            existingOrganization.informationItalian = organization.informationItalian;
-            existingOrganization.informationPortuguese = organization.informationPortuguese;
-            existingOrganization.profilePhoto = organization.profilePhoto;
-            _context.SaveChanges();
+                existingOrganization.idOrganization = id;
+                existingOrganization.orgType = orgType;
+                existingOrganization.illness = illness;
+                existingOrganization.nameOrg = organization.nameOrg;
+                existingOrganization.idAddress = organization.idAddress;
+                existingOrganization.email = organization.email;
+                existingOrganization.telephone = organization.telephone;
+                existingOrganization.informationSpanish = organization.informationSpanish;
+                existingOrganization.informationEnglish = organization.informationEnglish;
+                existingOrganization.informationFrench = organization.informationFrench;
+                existingOrganization.informationBasque = organization.informationBasque;
+                existingOrganization.informationCatalan = organization.informationCatalan;
+                existingOrganization.informationDutch = organization.informationDutch;
+                existingOrganization.informationGalician = organization.informationGalician;
+                existingOrganization.informationGerman = organization.informationGerman;
+                existingOrganization.informationItalian = organization.informationItalian;
+                existingOrganization.informationPortuguese = organization.informationPortuguese;
+                existingOrganization.profilePhoto = organization.profilePhoto;
+                _context.SaveChanges();
 
-            return Ok(existingOrganization);
+                return Ok(existingOrganization);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -154,16 +189,22 @@ namespace OTEAServer.Controllers
         [HttpDelete]
         public IActionResult Delete([FromQuery] int id, [FromQuery] string orgType, [FromQuery] string illness)
         {
-            // This code will delete the mesa and return a result
-            var organization = _context.Organizations.FirstOrDefault(o => o.idOrganization == id && o.orgType == orgType && o.illness == illness);
+            try
+            {
+                var organization = _context.Organizations.FirstOrDefault(o => o.idOrganization == id && o.orgType == orgType && o.illness == illness);
 
-            if (organization is null)
-                return NotFound();
+                if (organization is null)
+                    return NotFound();
 
-            _context.Organizations.Remove(organization);
-            _context.SaveChanges();
+                _context.Organizations.Remove(organization);
+                _context.SaveChanges();
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

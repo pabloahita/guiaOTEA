@@ -1,5 +1,6 @@
 using GTranslate.Translators;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 namespace OTEAServer.Misc
 {
     /// <summary>
@@ -20,9 +21,16 @@ namespace OTEAServer.Misc
         /// <returns>Translated text</returns>
         [HttpGet("translate")]
         public async Task<string> translate([FromQuery] string text,[FromQuery] string origin, [FromQuery] string target){
-            var translator=new GoogleTranslator();
-            var result = await translator.TranslateAsync(text, target, origin);
-            return result.Translation;
+            try
+            {
+                var translator = new GoogleTranslator();
+                var result = await translator.TranslateAsync(text, target, origin);
+                return result.Translation;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
     }

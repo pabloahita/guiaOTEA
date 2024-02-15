@@ -34,8 +34,15 @@ namespace OTEAServer.Controllers
         [HttpGet("country")]
         public IActionResult GetAllByRegion(string idCountry)
         {
-            var regions = _context.Regions.Where(r=>r.idCountry==idCountry).ToList();
-            return Ok(regions);
+            try
+            {
+                var regions = _context.Regions.Where(r => r.idCountry == idCountry).ToList();
+                return Ok(regions);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>
@@ -47,12 +54,19 @@ namespace OTEAServer.Controllers
         [HttpGet("get")]
         public ActionResult<Region> Get([FromQuery] int idRegion, [FromQuery] string idCountry)
         {
-            var region = _context.Regions.FirstOrDefault(r=>r.idRegion==idRegion && r.idCountry==idCountry);
+            try
+            {
+                var region = _context.Regions.FirstOrDefault(r => r.idRegion == idRegion && r.idCountry == idCountry);
 
-            if (region == null)
-                return NotFound();
+                if (region == null)
+                    return NotFound();
 
-            return region;
+                return region;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
