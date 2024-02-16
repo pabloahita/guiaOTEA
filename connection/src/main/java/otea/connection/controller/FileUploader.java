@@ -51,7 +51,7 @@ public class FileUploader {
     public static String uploadFile(InputStream inputStream, String containerName, String fileName){
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
-        byte[] data=getImageBytes(inputStream);
+        byte[] data=getFileBytes(inputStream);
         Callable<String> callable = new Callable<String>() {
             @Override
             public String call() throws Exception {
@@ -74,7 +74,7 @@ public class FileUploader {
         }
     }
 
-    private static byte[] getImageBytes(InputStream inputStream) {
+    private static byte[] getFileBytes(InputStream inputStream) {
         try{
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
             int nRead;

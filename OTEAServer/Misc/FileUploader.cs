@@ -20,7 +20,7 @@ namespace OTEAServer.Misc
         /// <param name="origin">Origin language</param>
         /// <param name="target">Target language</param>
         /// <returns>Translated text</returns>
-        [HttpGet("upload")]
+        [HttpPut("upload")]
         public async Task<string> uploadFile([FromBody] byte[] data, [FromQuery] string containerName, [FromQuery] string fileName)
         {
             try
