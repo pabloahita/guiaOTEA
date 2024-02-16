@@ -1,22 +1,15 @@
 package gui;
 
-import android.Manifest;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,27 +18,8 @@ import android.widget.TextView;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import cli.organization.Organization;
-import cli.organization.data.Address;
-import cli.organization.data.Center;
 import cli.user.Request;
-import cli.user.User;
 import misc.FieldChecker;
-import misc.PasswordCodifier;
 import otea.connection.controller.*;
 
 public class MainActivity extends AppCompatActivity {
@@ -203,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
         UsersController.getInstance();
         TranslatorController.getInstance();
         ImageDownloader.getInstance();
-        ImageUploader.getInstance();
+        FileUploader.getInstance();
     }
 
     @Override

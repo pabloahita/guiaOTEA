@@ -11,7 +11,6 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -27,18 +26,12 @@ import android.widget.TextView;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,7 +50,7 @@ import otea.connection.controller.AddressesController;
 import otea.connection.controller.CentersController;
 import otea.connection.controller.CitiesController;
 import otea.connection.controller.CountriesController;
-import otea.connection.controller.ImageUploader;
+import otea.connection.controller.FileUploader;
 import otea.connection.controller.OrganizationsController;
 import otea.connection.controller.ProvincesController;
 import otea.connection.controller.RegionsController;
@@ -984,37 +977,21 @@ public class RegisterOrganization extends AppCompatActivity {
                         }
                     }
 
+
+                    if(imageDirStream!=null) {
+                        String imageDirName = "USER_" + (fields.get("emailDir").replace("@", "_").replace(".", "_")) + ".jpg";
+
+                        FileUploader.uploadFile(imageDirStream, "profile-photos", imageDirName);
+                    }
+                    if(imageOrgStream!=null){
+                        String imageOrgName="ORG_"+idOrganization+"_"+orgType+"_"+illness+".jpg";
+                        FileUploader.uploadFile(imageOrgStream, "profile-photos", imageOrgName);
+                    }
+
                     Address address = new Address(idAddress, fields.get("address"), idCity[0],idProvince[0],idRegion[0],idCountry[0],fields.get("nameCity"),fields.get("nameProvince"),fields.get("nameRegion"));
 
                     Organization organization=new Organization(idOrganization,orgType,illness,fields.get("nameOrg"),idAddress,fields.get("emailOrg"),fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),informationEnglish,informationSpanish,informationFrench,informationBasque,informationCatalan,informationDutch,informationGalician,informationGerman,informationItalian,informationPortuguese,imgOrgBlobUrl);
                     User directorOrg=new User(fields.get("emailDir"),"DIRECTOR",fields.get("firstName"),fields.get("lastName"),PasswordCodifier.codify(fields.get("passwordDir")),fields.get("telephoneCodeDir")+" "+fields.get("telephoneDir"),idOrganization,orgType,illness,imgDirBlobUrl);
-
-
-                    if(imageDirStream!=null) {
-                        try {
-                            String imageDirName="USER_"+(fields.get("emailDir").replace("@","_").replace(".","_"))+".jpg";
-                            imgDirBlobUrl=ImageUploader.uploadToBlobStorage(imageDirStream,"profile-photos",imageDirName);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        } catch (ExecutionException e) {
-                            throw new RuntimeException(e);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                    if(imageOrgStream!=null){
-                        try {
-                            String imageDirName="ORG_"+idOrganization+"_"+orgType+"_"+illness+".jpg";
-                            imgOrgBlobUrl=ImageUploader.uploadToBlobStorage(imageOrgStream,"profile-photos",imageDirName);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        } catch (ExecutionException e) {
-                            throw new RuntimeException(e);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-
 
 
                     v.postDelayed(new Runnable() {
@@ -1079,6 +1056,9 @@ public class RegisterOrganization extends AppCompatActivity {
 
 
     }
+
+
+
     public List<Country> getCountries(){
         if(countries==null){
             countries= CountriesController.getInstance().GetAll(Locale.getDefault().getLanguage());

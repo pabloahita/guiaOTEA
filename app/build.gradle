@@ -99,6 +99,7 @@ dependencies {
 
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
+    implementation 'androidx.concurrent:concurrent-futures:1.1.0'
 
     implementation project(path: ':connection')
     debugImplementation 'androidx.compose.ui:ui-tooling'

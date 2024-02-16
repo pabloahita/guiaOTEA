@@ -143,7 +143,7 @@ public class MainMenu extends AppCompatActivity {
             }else{
                 superuser.setVisibility(View.GONE);
                 evaluator.setVisibility(View.GONE);
-                if(user.getUserType().equals("ADMIN")){
+                if(user.getUserType().equals("DIRECTOR")){
                     dirEvaluated.setVisibility(View.VISIBLE);
                     evaluated.setVisibility(View.GONE);
                     addNewOrgCenter=findViewById(R.id.addNewOrgCenterDirEvaluatedButton);
