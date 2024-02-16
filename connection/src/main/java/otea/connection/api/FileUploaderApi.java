@@ -7,7 +7,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
 public interface FileUploaderApi {
-    @PUT("Uploader/upload")
+    @POST("Uploader/upload")
     Call<ResponseBody> uploadFile(
             @Body byte[] data,
             @Query("containerName") String containerName,
