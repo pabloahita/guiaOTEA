@@ -69,8 +69,8 @@ public class FileUploader {
             String result = future.get();
             executor.shutdown();
             return result;
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+        } catch (Throwable t) {
+            throw new RuntimeException(t);
         }
     }
 
