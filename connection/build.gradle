@@ -20,8 +20,7 @@ dependencies{
     implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
     implementation 'com.azure:azure-storage-blob:12.24.0'
     implementation 'com.azure:azure-identity:1.11.2'
-
-
+    implementation 'androidx.media3:media3-common:1.2.1'
 
 
 }

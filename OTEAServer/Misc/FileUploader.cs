@@ -14,27 +14,32 @@ namespace OTEAServer.Misc
     public class FileUploader
     {
         /// <summary>
-        /// Method that translates a text from an origin language to a target language
+        /// Method that uploads a file to blob
         /// </summary>
         /// <param name="text">Text to translate</param>
         /// <param name="origin">Origin language</param>
         /// <param name="target">Target language</param>
         /// <returns>Translated text</returns>
         [HttpPost("upload")]
-        public async Task<string> uploadFile([FromBody] sbyte[] data, [FromQuery] string containerName, [FromQuery] string fileName)
+        public async Task<string> uploadFile([FromForm] IFormFile file, [FromQuery] string containerName)
         {
             try
             {
-                Stream inputStream = new MemoryStream(data);
-                string connectionString = "DefaultEndpointsProtocol=https;AccountName=guiaotea;AccountKey=26jn+aC0S1u3EZCiFRPogNPz73Ot3/qKVHWn+s2OU3gu9Dkb1AHLz//qeI6l8WZ7VyxFV8Kmx+4c+ASt0Y0YKg==;EndpointSuffix=core.windows.net";
-                // Get a reference to a blob
-                BlobContainerClient containerClient = new BlobContainerClient(connectionString, containerName);
-                BlobClient blobClient = containerClient.GetBlobClient(fileName);
+                // Convertir el archivo a un Stream
+                Stream inputStream = file.OpenReadStream();
 
-                // Open the file and upload its data
+                string connectionString = "DefaultEndpointsProtocol=https;AccountName=guiaotea;AccountKey=26jn+aC0S1u3EZCiFRPogNPz73Ot3/qKVHWn+s2OU3gu9Dkb1AHLz//qeI6l8WZ7VyxFV8Kmx+4c+ASt0Y0YKg==;EndpointSuffix=core.windows.net";
+
+                // Obtener una referencia a un blob
+                BlobContainerClient containerClient = new BlobContainerClient(connectionString, containerName);
+                BlobClient blobClient = containerClient.GetBlobClient(file.FileName);
+
+                // Abrir el archivo y subir sus datos
                 await blobClient.UploadAsync(inputStream, true);
-                
-                string blobUrl= blobClient.Uri.AbsoluteUri;
+
+                string blobUrl = blobClient.Uri.AbsoluteUri;
+
+                // Aquí puedes procesar la descripción como necesites
 
                 return blobUrl;
             }

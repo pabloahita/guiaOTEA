@@ -26,8 +26,11 @@ import android.widget.TextView;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -97,9 +100,9 @@ public class RegisterOrganization extends AppCompatActivity {
     TextView imageDirText;
 
 
-    InputStream imageOrgStream;
+    File profilePhotoOrg;
 
-    InputStream imageDirStream;
+    File profilePhotoDir;
 
     int selectedPhoto=-1;
 
@@ -978,14 +981,14 @@ public class RegisterOrganization extends AppCompatActivity {
                     }
 
 
-                    if(imageDirStream!=null) {
+                    if(profilePhotoDir!=null) {
                         String imageDirName = "USER_" + (fields.get("emailDir").replace("@", "_").replace(".", "_")) + ".jpg";
 
-                        FileUploader.uploadFile(imageDirStream, "profile-photos", imageDirName);
+                        FileUploader.uploadFile(profilePhotoDir, "profile-photos", imageDirName,"image","image/jpeg");
                     }
-                    if(imageOrgStream!=null){
+                    if(profilePhotoOrg!=null){
                         String imageOrgName="ORG_"+idOrganization+"_"+orgType+"_"+illness+".jpg";
-                        FileUploader.uploadFile(imageOrgStream, "profile-photos", imageOrgName);
+                        FileUploader.uploadFile(profilePhotoOrg, "profile-photos", imageOrgName,"image","image/jpeg");
                     }
 
                     Address address = new Address(idAddress, fields.get("address"), idCity[0],idProvince[0],idRegion[0],idCountry[0],fields.get("nameCity"),fields.get("nameProvince"),fields.get("nameRegion"));
@@ -1110,18 +1113,19 @@ public class RegisterOrganization extends AppCompatActivity {
         if (resultCode == RESULT_OK && requestCode == 100) {
             try{
                 Uri imageUri = data.getData();
+                URI uri=new URI(imageUri.toString());
                 if(selectedPhoto==0){
-                    imageOrgStream=getContentResolver().openInputStream(imageUri);
+                    profilePhotoOrg=new File(uri);
                     imageOrgButton.setImageURI(imageUri);
                     imageOrgText.setVisibility(View.GONE);
                 }
                 else{
-                    imageDirStream=getContentResolver().openInputStream(imageUri);
+                    profilePhotoDir=new File(uri);
                     imageDirButton.setImageURI(imageUri);
                     imageDirText.setVisibility(View.GONE);
                 }
-            }catch(FileNotFoundException e){
-                e.printStackTrace();
+            }catch(URISyntaxException e){
+                throw new RuntimeException(e);
             }
 
         }

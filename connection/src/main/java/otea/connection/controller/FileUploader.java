@@ -1,12 +1,23 @@
 package otea.connection.controller;
 
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.concurrent.*;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import okio.BufferedSink;
+import okio.Okio;
+import okio.Source;
 import otea.connection.ConnectionClient;
 import otea.connection.api.FileUploaderApi;
 import otea.connection.api.TranslatorApi;
@@ -46,16 +57,23 @@ public class FileUploader {
     /**
      * Uploads a file to Azure Blob Storage
      *
-     * @param inputStream Stream
+     * @param file - File to upload
+     * @param containerName - Container where the file will be hosted
+     * @param fileName - File name
+     * @param fileType - File type
+     * @param fileExtension - File extension
      */
-    public static String uploadFile(InputStream inputStream, String containerName, String fileName){
+    public static String uploadFile(File file, String containerName, String fileName, String fileType, String fileExtension){
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
-        byte[] data=getFileBytes(inputStream);
+        RequestBody description = RequestBody.create(file, MediaType.parse(fileExtension));
+
+        MultipartBody.Part body = MultipartBody.Part.createFormData(fileType, fileName, description);
+
         Callable<String> callable = new Callable<String>() {
             @Override
             public String call() throws Exception {
-                Call<ResponseBody> call = api.uploadFile(data, containerName, fileName);
+                Call<ResponseBody> call = api.uploadFile(body,containerName);
                 Response<ResponseBody> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body().string();
