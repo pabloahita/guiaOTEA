@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import miscClient.FileToolbox;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         logo=findViewById(R.id.miradasLogo);
-        Bitmap logoImg=ImageDownloader.downloadImg("https://bbmiradas.fundacionmiradas.org/wp-content/uploads/2022/02/fundacion-miradas-1.png");
+        Bitmap logoImg= FileToolbox.downloadImg("https://bbmiradas.fundacionmiradas.org/wp-content/uploads/2022/02/fundacion-miradas-1.png");
         logo.setImageBitmap(logoImg);
         sign_in = findViewById(R.id.sign_in);
         sign_up = findViewById(R.id.sign_up);
@@ -176,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
         RequestsController.getInstance();
         UsersController.getInstance();
         TranslatorController.getInstance();
-        ImageDownloader.getInstance();
+        FileToolbox.getInstance(getCacheDir(),getContentResolver());
         FileUploader.getInstance();
     }
 

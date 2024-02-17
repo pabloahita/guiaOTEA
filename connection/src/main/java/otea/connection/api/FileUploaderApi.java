@@ -15,6 +15,6 @@ public interface FileUploaderApi {
     @POST("Uploader/upload")
     Call<ResponseBody> uploadFile(
             @Part MultipartBody.Part file,
-            @Query("containerName") String containerName
+            @Part("containerName") RequestBody containerName
     );
 }

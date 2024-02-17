@@ -70,10 +70,11 @@ public class FileUploader {
 
         MultipartBody.Part body = MultipartBody.Part.createFormData(fileType, fileName, description);
 
+        RequestBody requestContainerName = RequestBody.create(MediaType.parse("text/plain"), containerName);
         Callable<String> callable = new Callable<String>() {
             @Override
             public String call() throws Exception {
-                Call<ResponseBody> call = api.uploadFile(body,containerName);
+                Call<ResponseBody> call = api.uploadFile(body,requestContainerName);
                 Response<ResponseBody> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body().string();

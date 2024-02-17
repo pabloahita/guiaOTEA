@@ -21,7 +21,7 @@ namespace OTEAServer.Misc
         /// <param name="target">Target language</param>
         /// <returns>Translated text</returns>
         [HttpPost("upload")]
-        public async Task<string> uploadFile([FromForm] IFormFile file, [FromQuery] string containerName)
+        public async Task<string> uploadFile([FromForm] IFormFile file, [FromForm] string containerName)
         {
             try
             {

@@ -16,26 +16,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import cli.indicators.Ambit;
-import cli.indicators.Indicator;
-import cli.indicators.SubAmbit;
-import cli.indicators.SubSubAmbit;
 import cli.organization.Organization;
 import cli.user.User;
-import gui.ImageDownloader;
-import gui.data.LoginRepository;
-import otea.connection.controller.AmbitsController;
-import otea.connection.controller.EvidencesController;
-import otea.connection.controller.IndicatorsController;
-import otea.connection.controller.OrganizationsController;
-import otea.connection.controller.SubAmbitsController;
-import otea.connection.controller.SubSubAmbitsController;
-import otea.connection.controller.UsersController;
+import miscClient.FileToolbox;
 import session.Session;
 
 
@@ -158,12 +141,12 @@ public class MainMenu extends AppCompatActivity {
             }
 
             if(!orgUrlPhoto.isEmpty()){
-                imgOrg = ImageDownloader.getInstance().downloadImg(orgUrlPhoto);
+                imgOrg = FileToolbox.getInstance().downloadImg(orgUrlPhoto);
                 vistaImgOrg.setImageBitmap(imgOrg);
             }
 
             if(!userUrlPhoto.isEmpty()){
-                imgUser = ImageDownloader.getInstance().downloadImg(userUrlPhoto);
+                imgUser = FileToolbox.getInstance().downloadImg(userUrlPhoto);
                 vistaImgUser.setImageBitmap(imgUser);
             }
 

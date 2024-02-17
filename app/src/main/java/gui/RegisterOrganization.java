@@ -28,6 +28,7 @@ import com.fundacionmiradas.indicatorsevaluation.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -49,6 +50,7 @@ import cli.user.User;
 import gui.adapters.*;
 import misc.FieldChecker;
 import misc.PasswordCodifier;
+import miscClient.FileToolbox;
 import otea.connection.controller.AddressesController;
 import otea.connection.controller.CentersController;
 import otea.connection.controller.CitiesController;
@@ -1111,20 +1113,20 @@ public class RegisterOrganization extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == 100) {
-            try{
+            try {
                 Uri imageUri = data.getData();
-                URI uri=new URI(imageUri.toString());
+                File file = FileToolbox.createFileFromUri(imageUri);
                 if(selectedPhoto==0){
-                    profilePhotoOrg=new File(uri);
-                    imageOrgButton.setImageURI(imageUri);
+                    profilePhotoOrg = file;
+                    imageOrgButton.setImageURI(Uri.fromFile(file));
                     imageOrgText.setVisibility(View.GONE);
                 }
                 else{
-                    profilePhotoDir=new File(uri);
-                    imageDirButton.setImageURI(imageUri);
+                    profilePhotoDir = file;
+                    imageDirButton.setImageURI(Uri.fromFile(file));
                     imageDirText.setVisibility(View.GONE);
                 }
-            }catch(URISyntaxException e){
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
