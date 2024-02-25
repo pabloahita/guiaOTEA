@@ -152,3 +152,4 @@ C:\Users\Pablo\StudioProjects\guiaOTEA\OTEAServer\obj\Debug\net7.0\ref\OTEAServe
 C:\Users\Pablo\StudioProjects\guiaOTEA\OTEAServer\bin\Debug\net7.0\Azure.Storage.Blobs.dll
 C:\Users\Pablo\StudioProjects\guiaOTEA\OTEAServer\bin\Debug\net7.0\Azure.Storage.Common.dll
 C:\Users\Pablo\StudioProjects\guiaOTEA\OTEAServer\bin\Debug\net7.0\System.IO.Hashing.dll
+C:\Users\Pablo\StudioProjects\guiaOTEA\OTEAServer\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using OTEAServer;
 using OTEAServer.Misc;
 using System.Security.Cryptography;
@@ -28,6 +29,26 @@ using (var rng = new RNGCryptoServiceProvider())
     rng.GetBytes(key);
     string secretKey = Convert.ToBase64String(key);
     builder.Services.AddSingleton<SessionConfig>(new SessionConfig { secret = secretKey });
+
+    var authenticateSchemeBytes=new byte[32];
+    rng.GetBytes(authenticateSchemeBytes);
+    string authenticateScheme=Convert.ToBase64String(authenticateSchemeBytes);
+
+    builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = authenticateScheme;
+        options.DefaultChallengeScheme = authenticateScheme;
+    })
+    .AddJwtBearer(authenticateScheme,options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
 }
 
 

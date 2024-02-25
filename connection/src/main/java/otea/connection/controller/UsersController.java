@@ -84,6 +84,8 @@ public class UsersController {
             return result;
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
+        } catch (Exception e){
+            throw new RuntimeException(e);
         }
     }
 
