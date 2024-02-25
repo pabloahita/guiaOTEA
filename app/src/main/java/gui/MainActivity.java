@@ -13,15 +13,14 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
-import miscClient.FileToolbox;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
 import cli.user.Request;
 import misc.FieldChecker;
 import otea.connection.controller.*;
+import session.FileManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,16 +45,12 @@ public class MainActivity extends AppCompatActivity {
 
     ConstraintLayout final_background;
 
-    ImageView logo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         startCallers();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        logo=findViewById(R.id.miradasLogo);
-        Bitmap logoImg= FileToolbox.downloadImg("https://bbmiradas.fundacionmiradas.org/wp-content/uploads/2022/02/fundacion-miradas-1.png");
-        logo.setImageBitmap(logoImg);
         sign_in = findViewById(R.id.sign_in);
         sign_up = findViewById(R.id.sign_up);
         request_reg=findViewById(R.id.request_reg);
@@ -177,8 +172,7 @@ public class MainActivity extends AppCompatActivity {
         RequestsController.getInstance();
         UsersController.getInstance();
         TranslatorController.getInstance();
-        FileToolbox.getInstance(getCacheDir(),getContentResolver());
-        FileUploader.getInstance();
+        FileManager.getInstance();
     }
 
     @Override

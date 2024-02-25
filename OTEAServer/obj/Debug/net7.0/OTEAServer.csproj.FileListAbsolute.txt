@@ -149,3 +149,6 @@ C:\Users\Pablo\StudioProjects\guiaOTEA\OTEAServer\obj\Debug\net7.0\refint\OTEASe
 C:\Users\Pablo\StudioProjects\guiaOTEA\OTEAServer\obj\Debug\net7.0\OTEAServer.pdb
 C:\Users\Pablo\StudioProjects\guiaOTEA\OTEAServer\obj\Debug\net7.0\OTEAServer.genruntimeconfig.cache
 C:\Users\Pablo\StudioProjects\guiaOTEA\OTEAServer\obj\Debug\net7.0\ref\OTEAServer.dll
+C:\Users\Pablo\StudioProjects\guiaOTEA\OTEAServer\bin\Debug\net7.0\Azure.Storage.Blobs.dll
+C:\Users\Pablo\StudioProjects\guiaOTEA\OTEAServer\bin\Debug\net7.0\Azure.Storage.Common.dll
+C:\Users\Pablo\StudioProjects\guiaOTEA\OTEAServer\bin\Debug\net7.0\System.IO.Hashing.dll

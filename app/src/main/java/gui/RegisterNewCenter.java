@@ -43,6 +43,7 @@ import otea.connection.controller.OrganizationsController;
 import otea.connection.controller.ProvincesController;
 import otea.connection.controller.RegionsController;
 import otea.connection.controller.TranslatorController;
+import session.Session;
 
 public class RegisterNewCenter extends AppCompatActivity {
 
@@ -85,9 +86,17 @@ public class RegisterNewCenter extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_new_center);
 
-        getEvaluatedOrgs();
-        orgAdapter[0]=new OrgsAdapter(RegisterNewCenter.this,organizations);
-        orgAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+        Spinner orgSpinner=findViewById(R.id.spinner_orgs);
+        if(Session.getInstance().getOrganization().getNameOrg().equals("Fundación Miradas")) {
+            getEvaluatedOrgs();
+            orgAdapter[0] = new OrgsAdapter(RegisterNewCenter.this, organizations);
+            orgAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+            orgSpinner.setVisibility(View.VISIBLE);
+        }
+        else{
+            organization[0]=Session.getInstance().getOrganization();
+            orgSpinner.setVisibility(View.GONE);
+        }
 
         getCountries();
         countryAdapter[0]= new CountryAdapter(RegisterNewCenter.this, countries);
@@ -107,7 +116,6 @@ public class RegisterNewCenter extends AppCompatActivity {
         Spinner regionSpinner=findViewById(R.id.spinner_regions_reg);
         Spinner provinceSpinner=findViewById(R.id.spinner_provinces_reg);
         Spinner citySpinner=findViewById(R.id.spinner_cities_reg);
-        Spinner orgSpinner=findViewById(R.id.spinner_orgs);
         Spinner phoneCode1=findViewById(R.id.phonecode1);
         countrySpinner.setAdapter(countryAdapter[0]);
         countrySpinner.setEnabled(true);

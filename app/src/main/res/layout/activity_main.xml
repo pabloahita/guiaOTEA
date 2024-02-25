@@ -128,7 +128,8 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" /><!--Cambiar cuando termine el 10 aniversario-->
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/logo"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"

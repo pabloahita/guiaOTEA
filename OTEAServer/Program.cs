@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using OTEAServer;
 using OTEAServer.Misc;
+using System.Security.Cryptography;
 
 var builder = WebApplication.CreateBuilder(args); // Web app builder
 
@@ -18,6 +20,17 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddRouting();
+
+
+using (var rng = new RNGCryptoServiceProvider())
+{
+    var key = new byte[32];
+    rng.GetBytes(key);
+    string secretKey = Convert.ToBase64String(key);
+    builder.Services.AddSingleton<SessionConfig>(new SessionConfig { secret = secretKey });
+}
+
+
 
 var app = builder.Build();
 
@@ -44,6 +57,7 @@ app.UseEndpoints(endpoints =>
         await context.Response.WriteAsync("¡Hola, mundo!");
     });
 });
+
 
 
 app.MapRazorPages();

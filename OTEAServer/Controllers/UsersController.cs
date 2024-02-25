@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using OTEAServer.Misc;
@@ -24,12 +25,18 @@ namespace OTEAServer.Controllers
         private readonly DatabaseContext _context;
 
         /// <summary>
+        /// Session Configuration
+        /// </summary>
+        private readonly SessionConfig _sessionConfig;
+
+        /// <summary>
         /// Class constructor
         /// </summary>
         /// <param name="context">Database context</param>
-        public UsersController(DatabaseContext context)
+        public UsersController(DatabaseContext context, SessionConfig sessionConfig)
         {
             _context = context;
+            _sessionConfig = sessionConfig;
         }
 
 
@@ -102,8 +109,8 @@ namespace OTEAServer.Controllers
         /// <param name="email">User login</param>
         /// <param name="password">User password</param>
         /// <returns>Login if credentials are true, null if not</returns>
-        [HttpGet("login")]
-        public ActionResult<User> GetForLogin([FromQuery] string email,[FromQuery] string password)
+        [HttpPost("login")]
+        public ActionResult<User> Login([FromQuery] string email,[FromQuery] string password)
         {
             try
             {
@@ -125,7 +132,20 @@ namespace OTEAServer.Controllers
                         }
                     }
                 }
-                return user;
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_sessionConfig.secret);
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim(ClaimTypes.Name, user.emailUser)
+                    }),
+                    Expires = DateTime.UtcNow.AddDays(7),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                };
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                user.token = tokenHandler.WriteToken(token);
+                return Ok(user);
             }
             catch (Exception ex)
             {
@@ -139,6 +159,7 @@ namespace OTEAServer.Controllers
         /// <param name="user">User</param>
         /// <returns>User if success, null if not</returns>
         [HttpPost]
+        [Authorize]
         public IActionResult Create([FromBody] User user)
         {
             try
@@ -160,6 +181,7 @@ namespace OTEAServer.Controllers
         /// <param name="user">User</param>
         /// <returns>User if success, null if not</returns>
         [HttpPut]
+        [Authorize]
         public IActionResult Update([FromQuery] string email, [FromBody] User user)
         {
             try
@@ -197,6 +219,7 @@ namespace OTEAServer.Controllers
         /// <param name="email">User email</param>
         /// <returns>User if success, null if not</returns>
         [HttpDelete]
+        [Authorize]
         public IActionResult Delete([FromQuery] string email)
         {
             try

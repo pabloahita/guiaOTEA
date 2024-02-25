@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,9 +17,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
 import cli.organization.Organization;
 import cli.user.User;
-import miscClient.FileToolbox;
+import session.FileManager;
 import session.Session;
 
 
@@ -45,6 +49,9 @@ public class MainMenu extends AppCompatActivity {
 
     private AlertDialog dialog;
 
+    ByteArrayOutputStream imgOrgStream;
+
+    ByteArrayOutputStream imgUserStream;
     Bitmap imgOrg;
 
     Bitmap imgUser;
@@ -141,12 +148,22 @@ public class MainMenu extends AppCompatActivity {
             }
 
             if(!orgUrlPhoto.isEmpty()){
-                imgOrg = FileToolbox.getInstance().downloadImg(orgUrlPhoto);
+                imgOrgStream= FileManager.downloadPhotoProfile(orgUrlPhoto);
+                imgOrg=getBitmapFromStream(imgOrgStream);
+                try {
+                    imgOrgStream.close();
+                } catch (IOException e) {
+                }
                 vistaImgOrg.setImageBitmap(imgOrg);
             }
 
             if(!userUrlPhoto.isEmpty()){
-                imgUser = FileToolbox.getInstance().downloadImg(userUrlPhoto);
+                imgUserStream = FileManager.downloadPhotoProfile(userUrlPhoto);
+                imgUser=getBitmapFromStream(imgUserStream);
+                try {
+                    imgUserStream.close();
+                } catch (IOException e) {
+                }
                 vistaImgUser.setImageBitmap(imgUser);
             }
 
@@ -332,6 +349,11 @@ public class MainMenu extends AppCompatActivity {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
+    }
+
+    private Bitmap getBitmapFromStream (ByteArrayOutputStream stream){
+        byte[] data=stream.toByteArray();
+        return BitmapFactory.decodeByteArray(data,0,data.length);
     }
 
 

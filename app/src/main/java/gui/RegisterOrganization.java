@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,7 +51,6 @@ import cli.user.User;
 import gui.adapters.*;
 import misc.FieldChecker;
 import misc.PasswordCodifier;
-import miscClient.FileToolbox;
 import otea.connection.controller.AddressesController;
 import otea.connection.controller.CentersController;
 import otea.connection.controller.CitiesController;
@@ -61,6 +61,7 @@ import otea.connection.controller.ProvincesController;
 import otea.connection.controller.RegionsController;
 import otea.connection.controller.TranslatorController;
 import otea.connection.controller.UsersController;
+import session.FileManager;
 
 public class RegisterOrganization extends AppCompatActivity {
 
@@ -102,15 +103,15 @@ public class RegisterOrganization extends AppCompatActivity {
     TextView imageDirText;
 
 
-    File profilePhotoOrg;
+    InputStream profilePhotoOrg;
 
-    File profilePhotoDir;
+    InputStream profilePhotoDir;
 
     int selectedPhoto=-1;
 
 
-    String imgDirBlobUrl="";
-    String imgOrgBlobUrl="";
+    String imgDirName="";
+    String imgOrgName="";
 
 
     @Override
@@ -984,19 +985,29 @@ public class RegisterOrganization extends AppCompatActivity {
 
 
                     if(profilePhotoDir!=null) {
-                        String imageDirName = "USER_" + (fields.get("emailDir").replace("@", "_").replace(".", "_")) + ".jpg";
-
-                        FileUploader.uploadFile(profilePhotoDir, "profile-photos", imageDirName,"image","image/jpeg");
+                        imgDirName = "USER_" + (fields.get("emailDir").replace("@", "_").replace(".", "_")) + ".jpg";
+                        FileManager.uploadFile(profilePhotoDir, "profile-photos", imgDirName);
+                        try{
+                            profilePhotoDir.close();
+                        }catch(IOException e){
+                            e.printStackTrace();
+                        }
                     }
                     if(profilePhotoOrg!=null){
-                        String imageOrgName="ORG_"+idOrganization+"_"+orgType+"_"+illness+".jpg";
-                        FileUploader.uploadFile(profilePhotoOrg, "profile-photos", imageOrgName,"image","image/jpeg");
+                        imgOrgName="ORG_"+idOrganization+"_"+orgType+"_"+illness+".jpg";
+                        FileManager.uploadFile(profilePhotoOrg, "profile-photos", imgOrgName);
+                        try{
+                            profilePhotoOrg.close();
+                        }catch(IOException e){
+                            e.printStackTrace();
+                        }
+
                     }
 
                     Address address = new Address(idAddress, fields.get("address"), idCity[0],idProvince[0],idRegion[0],idCountry[0],fields.get("nameCity"),fields.get("nameProvince"),fields.get("nameRegion"));
 
-                    Organization organization=new Organization(idOrganization,orgType,illness,fields.get("nameOrg"),idAddress,fields.get("emailOrg"),fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),informationEnglish,informationSpanish,informationFrench,informationBasque,informationCatalan,informationDutch,informationGalician,informationGerman,informationItalian,informationPortuguese,imgOrgBlobUrl);
-                    User directorOrg=new User(fields.get("emailDir"),"DIRECTOR",fields.get("firstName"),fields.get("lastName"),PasswordCodifier.codify(fields.get("passwordDir")),fields.get("telephoneCodeDir")+" "+fields.get("telephoneDir"),idOrganization,orgType,illness,imgDirBlobUrl);
+                    Organization organization=new Organization(idOrganization,orgType,illness,fields.get("nameOrg"),idAddress,fields.get("emailOrg"),fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),informationEnglish,informationSpanish,informationFrench,informationBasque,informationCatalan,informationDutch,informationGalician,informationGerman,informationItalian,informationPortuguese,imgOrgName);
+                    User directorOrg=new User(fields.get("emailDir"),"DIRECTOR",fields.get("firstName"),fields.get("lastName"),PasswordCodifier.codify(fields.get("passwordDir")),fields.get("telephoneCodeDir")+" "+fields.get("telephoneDir"),idOrganization,orgType,illness,imgDirName);
 
 
                     v.postDelayed(new Runnable() {
@@ -1115,15 +1126,14 @@ public class RegisterOrganization extends AppCompatActivity {
         if (resultCode == RESULT_OK && requestCode == 100) {
             try {
                 Uri imageUri = data.getData();
-                File file = FileToolbox.createFileFromUri(imageUri);
                 if(selectedPhoto==0){
-                    profilePhotoOrg = file;
-                    imageOrgButton.setImageURI(Uri.fromFile(file));
+                    profilePhotoOrg = getContentResolver().openInputStream(imageUri);
+                    imageOrgButton.setImageURI(imageUri);
                     imageOrgText.setVisibility(View.GONE);
                 }
                 else{
-                    profilePhotoDir = file;
-                    imageDirButton.setImageURI(Uri.fromFile(file));
+                    profilePhotoDir = getContentResolver().openInputStream(imageUri);
+                    imageDirButton.setImageURI(imageUri);
                     imageDirText.setVisibility(View.GONE);
                 }
             } catch (IOException e) {

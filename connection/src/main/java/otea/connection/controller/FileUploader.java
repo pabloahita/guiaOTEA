@@ -1,9 +1,16 @@
 package otea.connection.controller;
 
 
+import com.azure.core.util.BinaryData;
+import com.azure.storage.blob.BlobClient;
+import com.azure.storage.blob.BlobContainerClient;
+import com.azure.storage.blob.BlobServiceClient;
+import com.azure.storage.blob.BlobServiceClientBuilder;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -30,12 +37,12 @@ public class FileUploader {
     private static FileUploader instance;
 
 
-    /**API*/
-    private static FileUploaderApi api;
+
 
     /** Class constructor */
     private FileUploader() {
-        api= ConnectionClient.getInstance().getRetrofit().create(FileUploaderApi.class);
+
+
     }
 
     /**
@@ -57,56 +64,11 @@ public class FileUploader {
     /**
      * Uploads a file to Azure Blob Storage
      *
-     * @param file - File to upload
+     * @param inputStream - File to upload
      * @param containerName - Container where the file will be hosted
      * @param fileName - File name
-     * @param fileType - File type
-     * @param fileExtension - File extension
      */
-    public static String uploadFile(File file, String containerName, String fileName, String fileType, String fileExtension){
-        ExecutorService executor = Executors.newSingleThreadExecutor();
 
-        RequestBody description = RequestBody.create(file, MediaType.parse(fileExtension));
 
-        MultipartBody.Part body = MultipartBody.Part.createFormData(fileType, fileName, description);
-
-        RequestBody requestContainerName = RequestBody.create(MediaType.parse("text/plain"), containerName);
-        Callable<String> callable = new Callable<String>() {
-            @Override
-            public String call() throws Exception {
-                Call<ResponseBody> call = api.uploadFile(body,requestContainerName);
-                Response<ResponseBody> response = call.execute();
-                if (response.isSuccessful()) {
-                    return response.body().string();
-                } else {
-                    throw new IOException("Error: " + response.code() + " " + response.message());
-                }
-            }
-        };
-        try {
-            Future<String> future = executor.submit(callable);
-            String result = future.get();
-            executor.shutdown();
-            return result;
-        } catch (Throwable t) {
-            throw new RuntimeException(t);
-        }
-    }
-
-    private static byte[] getFileBytes(InputStream inputStream) {
-        try{
-            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-            int nRead;
-            byte[] data = new byte[1024];
-            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
-                buffer.write(data, 0, nRead);
-            }
-            buffer.flush();
-            byte[] byteArray = buffer.toByteArray();
-            return byteArray;
-        }catch (Throwable t){
-            return null;
-        }
-    }
 
 }

@@ -96,5 +96,7 @@ namespace OTEAServer.Models
         /// </summary>
         [JsonPropertyName("profilePhoto")]
         public string? profilePhoto { get; set; }
+
+        public string token { get; set; }
     }
 }
