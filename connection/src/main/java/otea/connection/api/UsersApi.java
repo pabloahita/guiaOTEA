@@ -61,6 +61,6 @@ public interface UsersApi {
      * @param email - User email
      * @param password - User password
      * */
-    @GET("Users/login")
+    @POST("Users/login")
     Call<User> GetForLogin(@Query("email") String email, @Query("password") String password);
 }

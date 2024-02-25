@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Misc;
 using OTEAServer.Models;
@@ -92,6 +93,7 @@ namespace OTEAServer.Controllers
         /// <param name="illness">Organization illness or syndrome</param>
         /// <returns>Organization if success, null if not</returns>
         [HttpGet("get")]
+        [Authorize]
         public ActionResult<Organization> Get([FromQuery] int id,[FromQuery] string orgType,[FromQuery] string illness)
         {
             try

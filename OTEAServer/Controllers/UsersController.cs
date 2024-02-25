@@ -144,7 +144,7 @@ namespace OTEAServer.Controllers
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);
-                user.token = tokenHandler.WriteToken(token);
+                _sessionConfig.token = tokenHandler.WriteToken(token);
                 return Ok(user);
             }
             catch (Exception ex)

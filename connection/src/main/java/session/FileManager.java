@@ -40,7 +40,7 @@ public class FileManager {
         }
         return instance;
     }
-    
+
     public static void uploadFile(InputStream inputStream, String containerName, String fileName){
         Runnable task=()->{
 
