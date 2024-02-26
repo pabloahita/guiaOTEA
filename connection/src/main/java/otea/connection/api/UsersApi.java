@@ -1,6 +1,7 @@
 package otea.connection.api;
 
-import org.json.JSONObject;
+import com.google.gson.JsonObject;
+
 
 import java.util.List;
 
@@ -64,5 +65,5 @@ public interface UsersApi {
      * @param password - User password
      * */
     @POST("Users/login")
-    Call<JSONObject> Login(@Query("email") String email, @Query("password") String password);
+    Call<JsonObject> Login(@Query("email") String email, @Query("password") String password);
 }

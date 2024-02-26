@@ -1,7 +1,9 @@
 package gui.data;
 
 
-import org.json.JSONObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import cli.user.User;
 import gui.data.model.PasswordIncorrectException;
@@ -20,11 +22,11 @@ public class LoginDataSource {
     public Result<User> login(String username, String password) {
 
         try {
-            JSONObject response = UsersController.getInstance().Login(username,PasswordCodifier.codify(password));
-            JSONObject jsonUser=response.getJSONObject("user");
-            String token= response.getString("token");
+            JsonObject response = UsersController.getInstance().Login(username,PasswordCodifier.codify(password));
+            String token=response.getAsJsonPrimitive("token").getAsString();
+            JsonObject jsonUser=response.getAsJsonObject("user");
             ConnectionClient.startSessionToWebApp(token);
-            User user=new User(jsonUser.getString("emailUser"), jsonUser.getString("userType"), jsonUser.getString("first_name"), jsonUser.getString("last_name"), jsonUser.getString("passwordUser"), jsonUser.getString("telephone"), jsonUser.getInt("idOrganization"), jsonUser.getString("orgType"), jsonUser.getString("illness"), jsonUser.getString("profilePhoto"));
+            User user=new User(jsonUser.getAsJsonPrimitive("emailUser").getAsString(), jsonUser.getAsJsonPrimitive("userType").getAsString(), jsonUser.getAsJsonPrimitive("first_name").getAsString(), jsonUser.getAsJsonPrimitive("last_name").getAsString(), jsonUser.getAsJsonPrimitive("passwordUser").getAsString(), jsonUser.getAsJsonPrimitive("telephone").getAsString(), jsonUser.getAsJsonPrimitive("idOrganization").getAsInt(), jsonUser.getAsJsonPrimitive("orgType").getAsString(), jsonUser.getAsJsonPrimitive("illness").getAsString(), jsonUser.getAsJsonPrimitive("profilePhoto").getAsString());
             return new Result.Success<>(user);
         } catch (Exception e) {
             if(e.getMessage().equals("Unauthorized")){

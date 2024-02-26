@@ -144,7 +144,7 @@ namespace OTEAServer.Controllers
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);
-                _sessionConfig.token = tokenHandler.WriteToken(token);
+                string sessionToken = tokenHandler.WriteToken(token);
                 var usr = new
                 {
                     emailUser = email,
@@ -161,7 +161,7 @@ namespace OTEAServer.Controllers
                 var response = new
                 {
                     user = usr,
-                    token = token
+                    token = sessionToken
 
                 };
                 return Ok(response);

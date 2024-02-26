@@ -24,7 +24,7 @@ public class ConnectionClient {
     private static final String BASE_URL = "https://guiaotea.azurewebsites.net/";
 
     /**OkHttp Client*/
-    private OkHttpClient client;
+    private static OkHttpClient client;
 
     /**Retrofit instance*/
     private static Retrofit retrofit;
@@ -34,6 +34,7 @@ public class ConnectionClient {
 
     /**Logging interceptor*/
     private static HttpLoggingInterceptor loggingInterceptor;
+
 
     /**Class constructor*/
     private ConnectionClient() {
@@ -71,7 +72,7 @@ public class ConnectionClient {
         retrofit=new Retrofit.Builder().baseUrl(BASE_URL).client(client).addConverterFactory(GsonConverterFactory.create()).build();
     }
 
-    public class InterceptorImpl implements Interceptor{
+    public static class InterceptorImpl implements Interceptor{
 
         private String token;
 

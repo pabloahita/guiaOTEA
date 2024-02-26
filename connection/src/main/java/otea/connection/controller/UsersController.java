@@ -1,7 +1,6 @@
 package otea.connection.controller;
 
 
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,6 +15,7 @@ import otea.connection.ConnectionClient;
 import otea.connection.api.UsersApi;
 import retrofit2.Call;
 import retrofit2.Response;
+import com.google.gson.JsonObject;
 
 /**
  * Controller class for users operations
@@ -59,13 +59,13 @@ public class UsersController {
      * @param password - User password
      * @return Login if credentials are true, null if not
      * */
-    public static JSONObject Login(String email, String password){
+    public static JsonObject Login(String email, String password){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<JSONObject> callable = new Callable<JSONObject>() {
+        Callable<JsonObject> callable = new Callable<JsonObject>() {
             @Override
-            public JSONObject call() throws Exception {
-                Call<JSONObject> call = api.Login(email,password);
-                Response<JSONObject> response = call.execute();
+            public JsonObject call() throws Exception {
+                Call<JsonObject> call = api.Login(email,password);
+                Response<JsonObject> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
@@ -80,8 +80,8 @@ public class UsersController {
             }
         };
         try {
-            Future<JSONObject> future = executor.submit(callable);
-            JSONObject result = future.get();
+            Future<JsonObject> future = executor.submit(callable);
+            JsonObject result = future.get();
             executor.shutdown();
             return result;
         } catch (InterruptedException | ExecutionException e) {
