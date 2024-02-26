@@ -25,27 +25,23 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 builder.Services.AddRouting();
 
 
-using (var rng = new RNGCryptoServiceProvider())
+var rng = new RNGCryptoServiceProvider();
+var key = new byte[32];
+rng.GetBytes(key);
+string secretKey = Convert.ToBase64String(key);
+builder.Services.AddSingleton<SessionConfig>(new SessionConfig { secret = secretKey });
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+.AddJwtBearer(options =>
 {
-    var key = new byte[32];
-    rng.GetBytes(key);
-    string secretKey = Convert.ToBase64String(key);
-    builder.Services.AddSingleton<SessionConfig>(new SessionConfig { secret = secretKey });
-
-    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(key),
-            ValidateIssuer = false,
-            ValidateAudience = false
-        };
-    });
-
-}
-
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
 
 
 
