@@ -43,6 +43,11 @@ public class RegionsController {
         return instance;
     }
 
+    /**Refresh API*/
+    public static void refreshApi(){
+        instance=new RegionsController();
+    }
+
     /**
      * Method that obtains a region from the database
      *

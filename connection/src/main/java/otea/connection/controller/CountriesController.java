@@ -50,6 +50,11 @@ public class CountriesController {
         return instance;
     }
 
+    /**Refresh API*/
+    public static void refreshApi(){
+        instance=new CountriesController();
+    }
+
     /**
      * Method that obtains the country from the database
      *

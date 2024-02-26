@@ -53,6 +53,11 @@ public class CentersController {
         return instance;
     }
 
+    /**Refresh API*/
+    public static void refreshApi(){
+        instance=new CentersController();
+    }
+
     /**
      * Method that obtains all the centers
      *

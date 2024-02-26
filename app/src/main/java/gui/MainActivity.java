@@ -21,6 +21,7 @@ import cli.user.Request;
 import misc.FieldChecker;
 import otea.connection.controller.*;
 import session.FileManager;
+import session.Session;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        startCallers();
+        Session.refreshCallers(false);//The session isn't started
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         sign_in = findViewById(R.id.sign_in);
@@ -151,28 +152,6 @@ public class MainActivity extends AppCompatActivity {
                                }
         );*/
 
-    }
-
-    public void startCallers(){
-        AmbitsController.getInstance();
-        SubAmbitsController.getInstance();
-        SubSubAmbitsController.getInstance();
-        AddressesController.getInstance();
-        CentersController.getInstance();
-        CitiesController.getInstance();
-        CountriesController.getInstance();
-        EvaluatorTeamsController.getInstance();
-        EvidencesController.getInstance();
-        IndicatorsController.getInstance();
-        IndicatorsEvaluationRegsController.getInstance();
-        IndicatorsEvaluationsController.getInstance();
-        OrganizationsController.getInstance();
-        ProvincesController.getInstance();
-        RegionsController.getInstance();
-        RequestsController.getInstance();
-        UsersController.getInstance();
-        TranslatorController.getInstance();
-        FileManager.getInstance();
     }
 
     @Override

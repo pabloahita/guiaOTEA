@@ -52,6 +52,11 @@ public class UsersController {
         return instance;
     }
 
+    /**Refresh API*/
+    public static void refreshApi(){
+        instance=new UsersController();
+    }
+
     /**
      * Method that obtains the login
      *

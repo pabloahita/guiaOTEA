@@ -51,6 +51,11 @@ public class IndicatorsController {
         return instance;
     }
 
+    /**Refresh API*/
+    public static void refreshApi(){
+        instance=new IndicatorsController();
+    }
+
     /**
      * Method that obtains all the indicators of an ambit
      *

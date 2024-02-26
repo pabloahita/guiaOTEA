@@ -48,6 +48,12 @@ public class CitiesController {
         }
         return instance;
     }
+    /**Refresh API*/
+    public static void refreshApi(){
+        instance=new CitiesController();
+    }
+
+
 
     /**
      * Method that obtains a city from the database

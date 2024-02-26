@@ -51,6 +51,11 @@ public class EvaluatorTeamsController {
         return instance;
     }
 
+    /**Refresh API*/
+    public static void refreshApi(){
+        instance=new EvaluatorTeamsController();
+    }
+
 
 
     /**

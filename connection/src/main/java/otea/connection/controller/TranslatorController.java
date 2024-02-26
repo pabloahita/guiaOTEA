@@ -49,6 +49,11 @@ public class TranslatorController {
         }
         return instance;
     }
+    /**Refresh API*/
+    public static void refreshApi(){
+        instance=new TranslatorController();
+    }
+
 
     /**
      * Method that translates a text from an origin language to a target language

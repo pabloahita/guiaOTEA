@@ -44,6 +44,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 });
 
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("otea",
+        builder => builder.AllowAnyOrigin()
+                         .AllowAnyMethod() 
+                         .AllowAnyHeader());
+});
+
+
 
 
 var app = builder.Build();
@@ -61,7 +70,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+
+app.UseAuthentication();
+
 app.UseAuthorization();
+
+app.UseCors("otea");
+
 
 app.UseEndpoints(endpoints =>
 {

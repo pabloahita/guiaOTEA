@@ -11,6 +11,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import otea.connection.controller.RegionsController;
+
 
 public class FileManager {
     private static FileManager instance;
@@ -40,7 +42,10 @@ public class FileManager {
         }
         return instance;
     }
-
+    /**Refresh API*/
+    public static void refreshApi(){
+        instance=new FileManager();
+    }
     public static void uploadFile(InputStream inputStream, String containerName, String fileName){
         Runnable task=()->{
 

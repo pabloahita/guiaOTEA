@@ -49,6 +49,11 @@ public class SubAmbitsController {
         return instance;
     }
 
+    /**Refresh API*/
+    public static void refreshApi(){
+        instance=new SubAmbitsController();
+    }
+
     /**
      * Method that obtains from the database all the subAmbits
      *

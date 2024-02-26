@@ -11,12 +11,24 @@ import cli.indicators.SubAmbit;
 import cli.indicators.SubSubAmbit;
 import cli.organization.Organization;
 import cli.user.User;
+import otea.connection.controller.AddressesController;
 import otea.connection.controller.AmbitsController;
+import otea.connection.controller.CentersController;
+import otea.connection.controller.CitiesController;
+import otea.connection.controller.CountriesController;
+import otea.connection.controller.EvaluatorTeamsController;
 import otea.connection.controller.EvidencesController;
 import otea.connection.controller.IndicatorsController;
+import otea.connection.controller.IndicatorsEvaluationRegsController;
+import otea.connection.controller.IndicatorsEvaluationsController;
 import otea.connection.controller.OrganizationsController;
+import otea.connection.controller.ProvincesController;
+import otea.connection.controller.RegionsController;
+import otea.connection.controller.RequestsController;
 import otea.connection.controller.SubAmbitsController;
 import otea.connection.controller.SubSubAmbitsController;
+import otea.connection.controller.TranslatorController;
+import otea.connection.controller.UsersController;
 
 public class Session {
 
@@ -50,6 +62,50 @@ public class Session {
             instance=new Session(user);
         }
         return instance;
+    }
+
+    public static void refreshCallers(boolean hasSessionToken){
+        if(hasSessionToken==false) {
+            AmbitsController.getInstance();
+            SubAmbitsController.getInstance();
+            SubSubAmbitsController.getInstance();
+            AddressesController.getInstance();
+            CentersController.getInstance();
+            CitiesController.getInstance();
+            CountriesController.getInstance();
+            EvaluatorTeamsController.getInstance();
+            EvidencesController.getInstance();
+            IndicatorsController.getInstance();
+            IndicatorsEvaluationRegsController.getInstance();
+            IndicatorsEvaluationsController.getInstance();
+            OrganizationsController.getInstance();
+            ProvincesController.getInstance();
+            RegionsController.getInstance();
+            RequestsController.getInstance();
+            UsersController.getInstance();
+            TranslatorController.getInstance();
+            FileManager.getInstance();
+        }else{
+            AmbitsController.refreshApi();
+            SubAmbitsController.refreshApi();
+            SubSubAmbitsController.refreshApi();
+            AddressesController.refreshApi();
+            CentersController.refreshApi();
+            CitiesController.refreshApi();
+            CountriesController.refreshApi();
+            EvaluatorTeamsController.refreshApi();
+            EvidencesController.refreshApi();
+            IndicatorsController.refreshApi();
+            IndicatorsEvaluationRegsController.refreshApi();
+            IndicatorsEvaluationsController.refreshApi();
+            OrganizationsController.refreshApi();
+            ProvincesController.refreshApi();
+            RegionsController.refreshApi();
+            RequestsController.refreshApi();
+            UsersController.refreshApi();
+            TranslatorController.refreshApi();
+            FileManager.refreshApi();
+        }
     }
 
     public static void logout(){

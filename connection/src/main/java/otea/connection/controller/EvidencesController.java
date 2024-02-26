@@ -51,6 +51,11 @@ public class EvidencesController {
         return instance;
     }
 
+    /**Refresh API*/
+    public static void refreshApi(){
+        instance=new EvidencesController();
+    }
+
     /**
      * Method that obtains all evidences from the database
      *

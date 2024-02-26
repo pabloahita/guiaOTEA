@@ -52,6 +52,11 @@ public class IndicatorsEvaluationsController {
         return instance;
     }
 
+    /**Refresh API*/
+    public static void refreshApi(){
+        instance=new IndicatorsEvaluationsController();
+    }
+
 
     /**
      * Method that obtains all indicators evaluations

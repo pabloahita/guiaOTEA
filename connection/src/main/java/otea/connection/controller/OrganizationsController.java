@@ -50,6 +50,11 @@ public class OrganizationsController {
         return instance;
     }
 
+    /**Refresh API*/
+    public static void refreshApi(){
+        instance=new OrganizationsController();
+    }
+
     /**
      * Method that obtains an organization from the database
      *

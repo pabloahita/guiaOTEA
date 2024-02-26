@@ -50,6 +50,11 @@ public class AmbitsController {
         return instance;
     }
 
+    /**Refresh API*/
+    public static void refreshApi(){
+        instance=new AmbitsController();
+    }
+
     /**
      * Method that obtains from the database all the ambits
      *

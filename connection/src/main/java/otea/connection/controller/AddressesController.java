@@ -30,6 +30,8 @@ public class AddressesController {
     /**Controller instance*/
     private static AddressesController instance;
 
+    public static boolean hasSessionToken;
+
     /**Class constructor*/
     private AddressesController(){
         api= ConnectionClient.getInstance().getRetrofit().create(AddressesApi.class);
@@ -49,6 +51,11 @@ public class AddressesController {
             }
         }
         return instance;
+    }
+
+    /**Refresh API*/
+    public static void refreshApi(){
+        instance=new AddressesController();
     }
 
     /**

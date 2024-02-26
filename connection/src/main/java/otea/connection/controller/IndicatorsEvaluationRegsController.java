@@ -52,6 +52,11 @@ public class IndicatorsEvaluationRegsController {
         }
         return instance;
     }
+
+    /**Refresh API*/
+    public static void refreshApi(){
+        instance=new IndicatorsEvaluationRegsController();
+    }
     
     /**
      * Method that obtains all the registers

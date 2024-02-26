@@ -50,6 +50,11 @@ public class RequestsController {
         return instance;
     }
 
+    /**Refresh API*/
+    public static void refreshApi(){
+        instance=new RequestsController();
+    }
+
     /**
      * Method that obtains all requests
      *

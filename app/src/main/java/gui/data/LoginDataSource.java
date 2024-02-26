@@ -11,6 +11,7 @@ import gui.data.model.UnknownUserException;
 import misc.PasswordCodifier;
 import otea.connection.ConnectionClient;
 import otea.connection.controller.UsersController;
+import session.Session;
 
 import java.io.IOException;
 

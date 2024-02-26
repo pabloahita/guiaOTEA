@@ -49,6 +49,11 @@ public class ProvincesController {
         return instance;
     }
 
+    /**Refresh API*/
+    public static void refreshApi(){
+        instance=new ProvincesController();
+    }
+
     /**
      * Method that obtains a province from the database
      *
