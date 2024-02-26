@@ -1,6 +1,8 @@
 package otea.connection.controller;
 
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -57,13 +59,13 @@ public class UsersController {
      * @param password - User password
      * @return Login if credentials are true, null if not
      * */
-    public static User GetForLogin(String email, String password){
+    public static JSONObject Login(String email, String password){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<User> callable = new Callable<User>() {
+        Callable<JSONObject> callable = new Callable<JSONObject>() {
             @Override
-            public User call() throws Exception {
-                Call<User> call = api.GetForLogin(email,password);
-                Response<User> response = call.execute();
+            public JSONObject call() throws Exception {
+                Call<JSONObject> call = api.Login(email,password);
+                Response<JSONObject> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
@@ -78,8 +80,8 @@ public class UsersController {
             }
         };
         try {
-            Future<User> future = executor.submit(callable);
-            User result = future.get();
+            Future<JSONObject> future = executor.submit(callable);
+            JSONObject result = future.get();
             executor.shutdown();
             return result;
         } catch (InterruptedException | ExecutionException e) {

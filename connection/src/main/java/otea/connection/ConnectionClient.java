@@ -1,6 +1,13 @@
 package otea.connection;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -59,6 +66,31 @@ public class ConnectionClient {
      * */
     public Retrofit getRetrofit(){return retrofit;}
 
+    public static void startSessionToWebApp(String token){
+        client=new OkHttpClient().newBuilder().addInterceptor(new InterceptorImpl(token)).build();
+        retrofit=new Retrofit.Builder().baseUrl(BASE_URL).client(client).addConverterFactory(GsonConverterFactory.create()).build();
+    }
+
+    public class InterceptorImpl implements Interceptor{
+
+        private String token;
+
+        public InterceptorImpl(String token){
+            this.token="Bearer "+token;
+        }
+
+        @NotNull
+        @Override
+        public Response intercept(@NotNull Chain chain) throws IOException {
+            Request original = chain.request();
+
+            Request.Builder builder = original.newBuilder()
+                    .header("Authorization", token);
+
+            Request request = builder.build();
+            return chain.proceed(request);
+        }
+    }
 
 
 }

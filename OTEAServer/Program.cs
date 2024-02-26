@@ -30,25 +30,6 @@ using (var rng = new RNGCryptoServiceProvider())
     string secretKey = Convert.ToBase64String(key);
     builder.Services.AddSingleton<SessionConfig>(new SessionConfig { secret = secretKey });
 
-    var authenticateSchemeBytes=new byte[32];
-    rng.GetBytes(authenticateSchemeBytes);
-    string authenticateScheme=Convert.ToBase64String(authenticateSchemeBytes);
-
-    builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = authenticateScheme;
-        options.DefaultChallengeScheme = authenticateScheme;
-    })
-    .AddJwtBearer(authenticateScheme,options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(key),
-            ValidateIssuer = false,
-            ValidateAudience = false
-        };
-    });
 }
 
 

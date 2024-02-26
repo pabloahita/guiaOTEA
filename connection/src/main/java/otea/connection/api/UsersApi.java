@@ -1,5 +1,7 @@
 package otea.connection.api;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 import cli.user.User;
@@ -56,11 +58,11 @@ public interface UsersApi {
     Call<User> Delete(@Query("email") String email);
 
     /**
-     * Temporal user obtainer for login
+     * Login method
      *
      * @param email - User email
      * @param password - User password
      * */
     @POST("Users/login")
-    Call<User> GetForLogin(@Query("email") String email, @Query("password") String password);
+    Call<JSONObject> Login(@Query("email") String email, @Query("password") String password);
 }

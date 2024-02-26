@@ -110,7 +110,7 @@ namespace OTEAServer.Controllers
         /// <param name="password">User password</param>
         /// <returns>Login if credentials are true, null if not</returns>
         [HttpPost("login")]
-        public ActionResult<User> Login([FromQuery] string email,[FromQuery] string password)
+        public ActionResult Login([FromQuery] string email,[FromQuery] string password)
         {
             try
             {
@@ -145,7 +145,26 @@ namespace OTEAServer.Controllers
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);
                 _sessionConfig.token = tokenHandler.WriteToken(token);
-                return Ok(user);
+                var usr = new
+                {
+                    emailUser = email,
+                    userType = user.userType,
+                    first_name = user.first_name,
+                    last_name = user.last_name,
+                    passwordUser = password,
+                    telephone = user.telephone,
+                    idOrganization = user.idOrganization,
+                    orgType = user.orgType,
+                    illness = user.illness,
+                    profilePhoto = user.profilePhoto
+                };
+                var response = new
+                {
+                    user = usr,
+                    token = token
+
+                };
+                return Ok(response);
             }
             catch (Exception ex)
             {
