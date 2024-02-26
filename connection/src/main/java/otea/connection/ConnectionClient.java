@@ -86,7 +86,7 @@ public class ConnectionClient {
             Request original = chain.request();
 
             Request.Builder builder = original.newBuilder()
-                    .header("Authorization", token);
+                    .addHeader("Authorization", token);
 
             Request request = builder.build();
             return chain.proceed(request);
