@@ -28,7 +28,7 @@ builder.Services.AddRouting();
 var rng = new RNGCryptoServiceProvider();
 var key = new byte[32];
 rng.GetBytes(key);
-
+builder.Services.AddSingleton<SessionConfig>(new SessionConfig { secret = Convert.ToBase64String(key) });
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
