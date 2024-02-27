@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 import android.util.Patterns;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
+import com.google.gson.JsonObject;
 
 import cli.user.User;
 import gui.data.LoginRepository;
@@ -32,12 +33,12 @@ public class LoginViewModel extends ViewModel {
     }
 
     public Session login(String username, String password) {
-        Result<User> result = loginRepository.login(username, password);
+        Result<JsonObject> result = loginRepository.login(username, password);
 
         if (result instanceof Result.Success) {
-            User data = ((Result.Success<User>) result).getData();
+            JsonObject data = ((Result.Success<JsonObject>) result).getData();
             loginResult.setValue(new LoginResult(new LoggedInUserView(data)));
-            Session.refreshCallers(true);
+            Session.refreshCallers();
             return Session.createSession(data);
         } else {
             loginResult.setValue(new LoginResult(R.string.login_failed));

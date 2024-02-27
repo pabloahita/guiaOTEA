@@ -1,11 +1,12 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using OTEAServer;
 using OTEAServer.Misc;
 using System.Security.Cryptography;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args); // Web app builder
 
@@ -24,17 +25,20 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 
 builder.Services.AddRouting();
 
-
 var rng = new RNGCryptoServiceProvider();
 var key = new byte[32];
 rng.GetBytes(key);
-string secretKey = Convert.ToBase64String(key);
-builder.Services.AddSingleton<SessionConfig>(new SessionConfig { secret = secretKey });
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-.AddJwtBearer(options =>
+builder.Services.AddAuthentication(x =>
 {
-    options.TokenValidationParameters = new TokenValidationParameters
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(x =>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(key),
@@ -42,18 +46,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         ValidateAudience = false
     };
 });
-
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("otea",
-        builder => builder.AllowAnyOrigin()
-                         .AllowAnyMethod() 
-                         .AllowAnyHeader());
-});
-
-
-
 
 var app = builder.Build();
 
@@ -70,13 +62,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-
 app.UseAuthentication();
 
 app.UseAuthorization();
-
-app.UseCors("otea");
-
 
 app.UseEndpoints(endpoints =>
 {
@@ -86,8 +74,6 @@ app.UseEndpoints(endpoints =>
         await context.Response.WriteAsync("¡Hola, mundo!");
     });
 });
-
-
 
 app.MapRazorPages();
 

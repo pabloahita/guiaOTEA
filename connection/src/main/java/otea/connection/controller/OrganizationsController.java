@@ -13,6 +13,7 @@ import otea.connection.ConnectionClient;
 import otea.connection.api.OrganizationsApi;
 import retrofit2.Call;
 import retrofit2.Response;
+import session.Session;
 
 
 /**
@@ -70,7 +71,7 @@ public class OrganizationsController {
         Callable<Organization> callable = new Callable<Organization>() {
             @Override
             public Organization call() throws Exception {
-                Call<Organization> call = api.Get(idOrganization,orgType,illness);
+                Call<Organization> call = api.Get(idOrganization,orgType,illness,Session.getInstance().getToken());
                 Response<Organization> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

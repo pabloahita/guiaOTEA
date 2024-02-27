@@ -1,5 +1,7 @@
 package session;
 
+import com.google.gson.JsonObject;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,6 +36,8 @@ public class Session {
 
     User user;
 
+    String token;
+
     Organization organization;
 
     private static Session instance;
@@ -45,8 +49,10 @@ public class Session {
     private Map<Integer,List<SubAmbit>> subAmbits;
 
     private Map<List<Integer>,List<SubSubAmbit>> subSubAmbits;
-    private Session(User user) {
-        setUser(user);
+    private Session(JsonObject data) {
+        setToken(data.getAsJsonPrimitive("token").getAsString());
+        JsonObject jsonUser=data.getAsJsonObject("user");
+        setUser(new User(jsonUser.getAsJsonPrimitive("emailUser").getAsString(), jsonUser.getAsJsonPrimitive("userType").getAsString(), jsonUser.getAsJsonPrimitive("first_name").getAsString(), jsonUser.getAsJsonPrimitive("last_name").getAsString(), jsonUser.getAsJsonPrimitive("passwordUser").getAsString(), jsonUser.getAsJsonPrimitive("telephone").getAsString(), jsonUser.getAsJsonPrimitive("idOrganization").getAsInt(), jsonUser.getAsJsonPrimitive("orgType").getAsString(), jsonUser.getAsJsonPrimitive("illness").getAsString(), jsonUser.getAsJsonPrimitive("profilePhoto").getAsString()));
         int idOrg=user.getIdOrganization();
         String orgType=user.getOrganizationType();
         String illness=user.getIllness();
@@ -57,56 +63,36 @@ public class Session {
         return instance;
     }
 
-    public static synchronized Session createSession(User user){
+    public static synchronized Session createSession(JsonObject data){
         if(instance==null){
-            instance=new Session(user);
+            instance=new Session(data);
         }
         return instance;
     }
 
-    public static void refreshCallers(boolean hasSessionToken){
-        if(hasSessionToken==false) {
-            AmbitsController.getInstance();
-            SubAmbitsController.getInstance();
-            SubSubAmbitsController.getInstance();
-            AddressesController.getInstance();
-            CentersController.getInstance();
-            CitiesController.getInstance();
-            CountriesController.getInstance();
-            EvaluatorTeamsController.getInstance();
-            EvidencesController.getInstance();
-            IndicatorsController.getInstance();
-            IndicatorsEvaluationRegsController.getInstance();
-            IndicatorsEvaluationsController.getInstance();
-            OrganizationsController.getInstance();
-            ProvincesController.getInstance();
-            RegionsController.getInstance();
-            RequestsController.getInstance();
-            UsersController.getInstance();
-            TranslatorController.getInstance();
-            FileManager.getInstance();
-        }else{
-            AmbitsController.refreshApi();
-            SubAmbitsController.refreshApi();
-            SubSubAmbitsController.refreshApi();
-            AddressesController.refreshApi();
-            CentersController.refreshApi();
-            CitiesController.refreshApi();
-            CountriesController.refreshApi();
-            EvaluatorTeamsController.refreshApi();
-            EvidencesController.refreshApi();
-            IndicatorsController.refreshApi();
-            IndicatorsEvaluationRegsController.refreshApi();
-            IndicatorsEvaluationsController.refreshApi();
-            OrganizationsController.refreshApi();
-            ProvincesController.refreshApi();
-            RegionsController.refreshApi();
-            RequestsController.refreshApi();
-            UsersController.refreshApi();
-            TranslatorController.refreshApi();
-            FileManager.refreshApi();
-        }
+    public static void refreshCallers(){
+        AmbitsController.getInstance();
+        SubAmbitsController.getInstance();
+        SubSubAmbitsController.getInstance();
+        AddressesController.getInstance();
+        CentersController.getInstance();
+        CitiesController.getInstance();
+        CountriesController.getInstance();
+        EvaluatorTeamsController.getInstance();
+        EvidencesController.getInstance();
+        IndicatorsController.getInstance();
+        IndicatorsEvaluationRegsController.getInstance();
+        IndicatorsEvaluationsController.getInstance();
+        OrganizationsController.getInstance();
+        ProvincesController.getInstance();
+        RegionsController.getInstance();
+        RequestsController.getInstance();
+        UsersController.getInstance();
+        TranslatorController.getInstance();
+        FileManager.getInstance();
     }
+
+
 
     public static void logout(){
         instance=null;
@@ -118,6 +104,14 @@ public class Session {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public Organization getOrganization() {

@@ -44,14 +44,6 @@ public class ConnectionClient {
         retrofit=new Retrofit.Builder().baseUrl(BASE_URL).client(client).addConverterFactory(GsonConverterFactory.create()).build();
     }
 
-    /**Class constructor with session token param*/
-    private ConnectionClient(String token) {
-        loggingInterceptor=new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        client=new OkHttpClient().newBuilder().addInterceptor(new InterceptorImpl(token)).build();
-        retrofit=new Retrofit.Builder().baseUrl(BASE_URL).client(client).addConverterFactory(GsonConverterFactory.create()).build();
-    }
-
     /**
      * Singleton instance builder
      *
@@ -75,30 +67,6 @@ public class ConnectionClient {
      * */
     public Retrofit getRetrofit(){return retrofit;}
 
-    public static void startSessionToWebApp(String token){
-        instance=new ConnectionClient(token);
-    }
-
-    public static class InterceptorImpl implements Interceptor{
-
-        private String token;
-
-        public InterceptorImpl(String token){
-            this.token="Bearer "+token;
-        }
-
-        @NotNull
-        @Override
-        public Response intercept(@NotNull Chain chain) throws IOException {
-            Request original = chain.request();
-
-            Request.Builder builder = original.newBuilder()
-                    .header("Authorization", token);
-
-            Request request = builder.build();
-            return chain.proceed(request);
-        }
-    }
 
 
 }

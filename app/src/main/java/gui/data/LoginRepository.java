@@ -1,6 +1,8 @@
 package gui.data;
 
 
+import com.google.gson.JsonObject;
+
 import cli.user.User;
 
 /**
@@ -15,7 +17,7 @@ public class LoginRepository {
 
     // If user credentials will be cached in local storage, it is recommended it be encrypted
     // @see https://developer.android.com/training/articles/keystore
-    private User user = null;
+    private JsonObject data = null;
 
     // private constructor : singleton access
     private LoginRepository(LoginDataSource dataSource) {
@@ -30,23 +32,23 @@ public class LoginRepository {
     }
 
     public boolean isLoggedIn() {
-        return user != null;
+        return data != null;
     }
 
     public void logout() {
-        user = null;
+        data = null;
         dataSource.logout();
     }
 
-    private void setLoggedInUser(User user) {
-        this.user = user;
+    private void setLoggedInUser(JsonObject data) {
+        this.data = data;
     }
 
-    public Result<User> login(String username, String password) {
+    public Result<JsonObject> login(String username, String password) {
         // handle login
-        Result<User> result = dataSource.login(username, password);
+        Result<JsonObject> result = dataSource.login(username, password);
         if (result instanceof Result.Success) {
-            setLoggedInUser(((Result.Success<User>) result).getData());
+            setLoggedInUser(((Result.Success<JsonObject>) result).getData());
         }
         return result;
     }

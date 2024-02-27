@@ -1,19 +1,18 @@
 package gui.ui.startSession;
 
-import cli.user.User;
+import com.google.gson.JsonObject;
+
+//import cli.user.User;
 
 /**
  * Class exposing authenticated user details to the UI.
  */
 class LoggedInUserView {
-    private User user;
+    private JsonObject data;
     //... other data fields that may be accessible to the UI
 
-    LoggedInUserView(User user) {
-        this.user = user;
+    LoggedInUserView(JsonObject data) {
+        this.data=data;
     }
 
-    User getUser() {
-        return user;
-    }
 }

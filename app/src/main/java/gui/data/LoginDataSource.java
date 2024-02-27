@@ -20,15 +20,11 @@ import java.io.IOException;
  */
 public class LoginDataSource {
 
-    public Result<User> login(String username, String password) {
+    public Result<JsonObject> login(String username, String password) {
 
         try {
             JsonObject response = UsersController.getInstance().Login(username,PasswordCodifier.codify(password));
-            String token=response.getAsJsonPrimitive("token").getAsString();
-            JsonObject jsonUser=response.getAsJsonObject("user");
-            ConnectionClient.startSessionToWebApp(token);
-            User user=new User(jsonUser.getAsJsonPrimitive("emailUser").getAsString(), jsonUser.getAsJsonPrimitive("userType").getAsString(), jsonUser.getAsJsonPrimitive("first_name").getAsString(), jsonUser.getAsJsonPrimitive("last_name").getAsString(), jsonUser.getAsJsonPrimitive("passwordUser").getAsString(), jsonUser.getAsJsonPrimitive("telephone").getAsString(), jsonUser.getAsJsonPrimitive("idOrganization").getAsInt(), jsonUser.getAsJsonPrimitive("orgType").getAsString(), jsonUser.getAsJsonPrimitive("illness").getAsString(), jsonUser.getAsJsonPrimitive("profilePhoto").getAsString());
-            return new Result.Success<>(user);
+            return new Result.Success<>(response);
         } catch (Exception e) {
             if(e.getMessage().equals("Unauthorized")){
                 return new Result.Error(new PasswordIncorrectException("The password is wrong, please put the correct one"));
