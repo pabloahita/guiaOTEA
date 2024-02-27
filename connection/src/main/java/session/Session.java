@@ -53,10 +53,6 @@ public class Session {
         setToken("Bearer "+data.getAsJsonPrimitive("token").getAsString());
         JsonObject jsonUser=data.getAsJsonObject("user");
         setUser(new User(jsonUser.getAsJsonPrimitive("emailUser").getAsString(), jsonUser.getAsJsonPrimitive("userType").getAsString(), jsonUser.getAsJsonPrimitive("first_name").getAsString(), jsonUser.getAsJsonPrimitive("last_name").getAsString(), jsonUser.getAsJsonPrimitive("passwordUser").getAsString(), jsonUser.getAsJsonPrimitive("telephone").getAsString(), jsonUser.getAsJsonPrimitive("idOrganization").getAsInt(), jsonUser.getAsJsonPrimitive("orgType").getAsString(), jsonUser.getAsJsonPrimitive("illness").getAsString(), jsonUser.getAsJsonPrimitive("profilePhoto").getAsString()));
-        int idOrg=user.getIdOrganization();
-        String orgType=user.getOrganizationType();
-        String illness=user.getIllness();
-        setOrganization(OrganizationsController.getInstance().Get(idOrg, orgType, illness));
     }
 
     public static synchronized Session getInstance(){
