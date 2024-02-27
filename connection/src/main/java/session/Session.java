@@ -50,7 +50,7 @@ public class Session {
 
     private Map<List<Integer>,List<SubSubAmbit>> subSubAmbits;
     private Session(JsonObject data) {
-        setToken(data.getAsJsonPrimitive("token").getAsString());
+        setToken("Bearer "+data.getAsJsonPrimitive("token").getAsString());
         JsonObject jsonUser=data.getAsJsonObject("user");
         setUser(new User(jsonUser.getAsJsonPrimitive("emailUser").getAsString(), jsonUser.getAsJsonPrimitive("userType").getAsString(), jsonUser.getAsJsonPrimitive("first_name").getAsString(), jsonUser.getAsJsonPrimitive("last_name").getAsString(), jsonUser.getAsJsonPrimitive("passwordUser").getAsString(), jsonUser.getAsJsonPrimitive("telephone").getAsString(), jsonUser.getAsJsonPrimitive("idOrganization").getAsInt(), jsonUser.getAsJsonPrimitive("orgType").getAsString(), jsonUser.getAsJsonPrimitive("illness").getAsString(), jsonUser.getAsJsonPrimitive("profilePhoto").getAsString()));
         int idOrg=user.getIdOrganization();

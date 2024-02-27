@@ -1,9 +1,13 @@
 package otea.connection;
 
+
 import org.jetbrains.annotations.NotNull;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 
+import io.netty.util.internal.logging.Log4J2LoggerFactory;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

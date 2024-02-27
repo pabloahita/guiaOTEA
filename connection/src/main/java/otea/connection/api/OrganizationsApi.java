@@ -35,7 +35,7 @@ public interface OrganizationsApi {
      * @param illness - Organization illness or syndrome
      * */
     @GET("Organizations/get")
-    Call<Organization> Get(@Query("id") int id, @Query("orgType") String orgType, @Query("illness") String illness, @Header("Authentication") String Authentication);
+    Call<Organization> Get(@Query("id") int id, @Query("orgType") String orgType, @Query("illness") String illness, @Header("Authorization") String Authorization);
 
     /**
      * Creates an organization

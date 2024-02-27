@@ -94,7 +94,7 @@ namespace OTEAServer.Controllers
         /// <returns>Organization if success, null if not</returns>
         [HttpGet("get")]
         [Authorize]
-        public ActionResult<Organization> Get([FromQuery] int id,[FromQuery] string orgType,[FromQuery] string illness, [FromHeader] string Authentication)
+        public ActionResult<Organization> Get([FromQuery] int id,[FromQuery] string orgType,[FromQuery] string illness, [FromHeader] string Authorization)
         {
             try
             {

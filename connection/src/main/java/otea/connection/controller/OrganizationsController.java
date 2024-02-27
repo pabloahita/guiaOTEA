@@ -87,7 +87,7 @@ public class OrganizationsController {
             return result;
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
-        } 
+        }
     }
 
     /**
