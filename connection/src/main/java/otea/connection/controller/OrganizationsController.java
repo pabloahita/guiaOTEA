@@ -30,6 +30,7 @@ public class OrganizationsController {
     /**Organizations api to connect to the server*/
     private static OrganizationsApi api;
 
+    /**String token*/
     private static String token;
 
     /**Class constructor*/

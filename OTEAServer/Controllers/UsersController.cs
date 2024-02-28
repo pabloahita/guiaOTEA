@@ -47,7 +47,7 @@ namespace OTEAServer.Controllers
         /// </summary>
         /// <returns>User list</returns>
         [HttpGet("all")]
-        public IActionResult GetAll()
+        public IActionResult GetAll([FromHeader] string Authorization)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace OTEAServer.Controllers
         /// <param name="illness">User organization illness or syndrome</param>
         /// <returns>User list</returns>
         [HttpGet("allByOrg")]
-        public IActionResult GetAllOrgUsersByOrganization([FromQuery] int? idOrganization, [FromQuery] string? orgType, [FromQuery] string? illness)
+        public IActionResult GetAllOrgUsersByOrganization([FromQuery] int? idOrganization, [FromQuery] string? orgType, [FromQuery] string? illness, [FromHeader] string Authorization)
         {
             try
             {
@@ -88,7 +88,7 @@ namespace OTEAServer.Controllers
         /// <param name="email">User email</param>
         /// <returns>User if success, null if not</returns>
         [HttpGet("get")]
-        public ActionResult<User> Get([FromQuery] string email)
+        public ActionResult<User> Get([FromQuery] string email, [FromHeader] string Authorization)
         {
             try
             {
@@ -183,7 +183,7 @@ namespace OTEAServer.Controllers
         /// <param name="user">User</param>
         /// <returns>User if success, null if not</returns>
         [HttpPost]
-        public IActionResult Create([FromBody] User user)
+        public IActionResult Create([FromBody] User user, [FromHeader] string Authorization)
         {
             try
             {
@@ -204,7 +204,7 @@ namespace OTEAServer.Controllers
         /// <param name="user">User</param>
         /// <returns>User if success, null if not</returns>
         [HttpPut]
-        public IActionResult Update([FromQuery] string email, [FromBody] User user)
+        public IActionResult Update([FromQuery] string email, [FromBody] User user, [FromHeader] string Authorization)
         {
             try
             {
@@ -241,7 +241,7 @@ namespace OTEAServer.Controllers
         /// <param name="email">User email</param>
         /// <returns>User if success, null if not</returns>
         [HttpDelete]
-        public IActionResult Delete([FromQuery] string email)
+        public IActionResult Delete([FromQuery] string email, [FromHeader] string Authorization)
         {
             try
             {

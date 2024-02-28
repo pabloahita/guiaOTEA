@@ -15,6 +15,8 @@ import otea.connection.ConnectionClient;
 import otea.connection.api.UsersApi;
 import retrofit2.Call;
 import retrofit2.Response;
+import session.Session;
+
 import com.google.gson.JsonObject;
 
 /**
@@ -31,9 +33,15 @@ public class UsersController {
     /**Controller instance*/
     private static UsersController instance;
 
+    /**String token*/
+    private static String token;
+
     /**Class controller*/
     private UsersController(){
         api= ConnectionClient.getInstance().getRetrofit().create(UsersApi.class);
+        if(Session.getInstance()!=null){
+            token=Session.getInstance().getToken();
+        }
     }
 
     /**
@@ -107,7 +115,7 @@ public class UsersController {
         Callable<User> callable = new Callable<User>() {
             @Override
             public User call() throws Exception {
-                Call<User> call = api.Get(email);
+                Call<User> call = api.Get(email,token);
                 Response<User> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -136,7 +144,7 @@ public class UsersController {
         Callable<List<User>> callable = new Callable<List<User>>() {
             @Override
             public List<User> call() throws Exception {
-                Call<List<User>> call = api.GetAll();
+                Call<List<User>> call = api.GetAll(token);
                 Response<List<User>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -169,7 +177,7 @@ public class UsersController {
         Callable<List<User>> callable = new Callable<List<User>>() {
             @Override
             public List<User> call() throws Exception {
-                Call<List<User>> call = api.GetAllOrgUsersByOrganization(idOrganization,orgType,illness);
+                Call<List<User>> call = api.GetAllOrgUsersByOrganization(idOrganization,orgType,illness,token);
                 Response<List<User>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -199,7 +207,7 @@ public class UsersController {
         Callable<User> callable = new Callable<User>() {
             @Override
             public User call() throws Exception {
-                Call<User> call = api.Create(user);
+                Call<User> call = api.Create(user,token);
                 Response<User> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -230,7 +238,7 @@ public class UsersController {
         Callable<User> callable = new Callable<User>() {
             @Override
             public User call() throws Exception {
-                Call<User> call = api.Update(email,user);
+                Call<User> call = api.Update(email,user,token);
                 Response<User> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -260,7 +268,7 @@ public class UsersController {
         Callable<User> callable = new Callable<User>() {
             @Override
             public User call() throws Exception {
-                Call<User> call = api.Delete(email);
+                Call<User> call = api.Delete(email,token);
                 Response<User> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
