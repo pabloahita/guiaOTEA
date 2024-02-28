@@ -12,7 +12,6 @@ import com.google.gson.JsonObject;
 import cli.user.User;
 import gui.data.LoginRepository;
 import gui.data.Result;
-import otea.connection.controller.OrganizationsController;
 import session.Session;
 
 public class LoginViewModel extends ViewModel {
@@ -40,11 +39,7 @@ public class LoginViewModel extends ViewModel {
             JsonObject data = ((Result.Success<JsonObject>) result).getData();
             loginResult.setValue(new LoginResult(new LoggedInUserView(data)));
             Session.refreshCallers();
-            Session.createSession(data);
-            Session session=Session.getInstance();
-            User user=session.getUser();
-            session.setOrganization(OrganizationsController.Get(user.getIdOrganization(),user.getOrganizationType(),user.getIllness()));
-            return session;
+            return Session.createSession(data);
         } else {
             loginResult.setValue(new LoginResult(R.string.login_failed));
             return null;

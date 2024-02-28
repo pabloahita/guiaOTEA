@@ -25,11 +25,10 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 
 builder.Services.AddRouting();
 
-
-var secret = "Prueba"; //Only for trial purposes
-var key = Encoding.UTF8.GetBytes(secret);
-
-builder.Services.AddSingleton<SessionConfig>(new SessionConfig { secret = secret });
+var rng = new RNGCryptoServiceProvider();
+var key = new byte[32];
+rng.GetBytes(key);
+builder.Services.AddSingleton<SessionConfig>(new SessionConfig { secret = Convert.ToBase64String(key) });
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

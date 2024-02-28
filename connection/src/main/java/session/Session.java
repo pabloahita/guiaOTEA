@@ -62,6 +62,10 @@ public class Session {
     public static synchronized Session createSession(JsonObject data){
         if(instance==null){
             instance=new Session(data);
+            int idOrg=instance.getUser().getIdOrganization();
+            String orgType=instance.getUser().getOrganizationType();
+            String illness=instance.getUser().getIllness();
+            instance.setOrganization(OrganizationsController.getInstance().Get(idOrg, orgType, illness));
         }
         return instance;
     }

@@ -67,11 +67,11 @@ public class OrganizationsController {
     public static Organization Get(int idOrganization, String orgType, String illness) {
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        String token=Session.getInstance().getToken();
+
         Callable<Organization> callable = new Callable<Organization>() {
             @Override
             public Organization call() throws Exception {
-                Call<Organization> call = api.Get(idOrganization,orgType,illness,token);
+                Call<Organization> call = api.Get(idOrganization,orgType,illness,Session.getInstance().getToken());
                 Response<Organization> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
