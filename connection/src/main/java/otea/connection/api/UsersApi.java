@@ -65,5 +65,5 @@ public interface UsersApi {
      * @param password - User password
      * */
     @POST("Users/login")
-    Call<JsonObject> Login(@Query("email") String email, @Query("password") String password);
+    Call<JsonObject> Login(@Body JsonObject credentials);
 }

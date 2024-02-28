@@ -23,7 +23,10 @@ public class LoginDataSource {
     public Result<JsonObject> login(String username, String password) {
 
         try {
-            JsonObject response = UsersController.getInstance().Login(username,PasswordCodifier.codify(password));
+            JsonObject credentials=new JsonObject();
+            credentials.addProperty("email",username);
+            credentials.addProperty("password",PasswordCodifier.codify(password));
+            JsonObject response = UsersController.getInstance().Login(credentials);
             return new Result.Success<>(response);
         } catch (Exception e) {
             if(e.getMessage().equals("Unauthorized")){

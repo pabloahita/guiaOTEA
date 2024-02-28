@@ -64,12 +64,12 @@ public class UsersController {
      * @param password - User password
      * @return Login if credentials are true, null if not
      * */
-    public static JsonObject Login(String email, String password){
+    public static JsonObject Login(JsonObject credentials){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<JsonObject> callable = new Callable<JsonObject>() {
             @Override
             public JsonObject call() throws Exception {
-                Call<JsonObject> call = api.Login(email,password);
+                Call<JsonObject> call = api.Login(credentials);
                 Response<JsonObject> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

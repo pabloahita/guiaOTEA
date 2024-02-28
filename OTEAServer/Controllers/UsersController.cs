@@ -7,6 +7,7 @@ using OTEAServer.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 
 namespace OTEAServer.Controllers
 {
@@ -17,6 +18,7 @@ namespace OTEAServer.Controllers
     /// </summary>
     [ApiController]
     [Route("Users")]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         /// <summary>
@@ -110,10 +112,13 @@ namespace OTEAServer.Controllers
         /// <param name="password">User password</param>
         /// <returns>Login if credentials are true, null if not</returns>
         [HttpPost("login")]
-        public ActionResult Login([FromQuery] string email,[FromQuery] string password)
+        [AllowAnonymous]
+        public ActionResult Login([FromBody] JsonDocument credentials)
         {
             try
             {
+                string email=credentials.RootElement.GetProperty("email").ToString();
+                string password = credentials.RootElement.GetProperty("password").ToString();
                 var user = _context.Users.FirstOrDefault(u => u.emailUser == email && u.passwordUser == password);
 
                 if (user == null)
@@ -178,7 +183,6 @@ namespace OTEAServer.Controllers
         /// <param name="user">User</param>
         /// <returns>User if success, null if not</returns>
         [HttpPost]
-        [Authorize]
         public IActionResult Create([FromBody] User user)
         {
             try
@@ -200,7 +204,6 @@ namespace OTEAServer.Controllers
         /// <param name="user">User</param>
         /// <returns>User if success, null if not</returns>
         [HttpPut]
-        [Authorize]
         public IActionResult Update([FromQuery] string email, [FromBody] User user)
         {
             try
@@ -238,7 +241,6 @@ namespace OTEAServer.Controllers
         /// <param name="email">User email</param>
         /// <returns>User if success, null if not</returns>
         [HttpDelete]
-        [Authorize]
         public IActionResult Delete([FromQuery] string email)
         {
             try
