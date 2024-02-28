@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Session.refreshCallers();
+        Session.refreshCallers(false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         sign_in = findViewById(R.id.sign_in);

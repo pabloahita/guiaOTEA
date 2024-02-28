@@ -30,9 +30,14 @@ public class OrganizationsController {
     /**Organizations api to connect to the server*/
     private static OrganizationsApi api;
 
+    private static String token;
+
     /**Class constructor*/
     private OrganizationsController(){
         api=ConnectionClient.getInstance().getRetrofit().create(OrganizationsApi.class);
+        if(Session.getInstance()!=null){
+            token=Session.getInstance().getToken();
+        }
     }
 
     /**
@@ -67,11 +72,10 @@ public class OrganizationsController {
     public static Organization Get(int idOrganization, String orgType, String illness) {
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
-
         Callable<Organization> callable = new Callable<Organization>() {
             @Override
             public Organization call() throws Exception {
-                Call<Organization> call = api.Get(idOrganization,orgType,illness,Session.getInstance().getToken());
+                Call<Organization> call = api.Get(idOrganization,orgType,illness,token);
                 Response<Organization> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

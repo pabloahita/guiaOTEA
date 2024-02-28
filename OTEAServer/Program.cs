@@ -25,10 +25,11 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 
 builder.Services.AddRouting();
 
-var rng = new RNGCryptoServiceProvider();
+/*var rng = new RNGCryptoServiceProvider();
 var key = new byte[32];
-rng.GetBytes(key);
-builder.Services.AddSingleton<SessionConfig>(new SessionConfig { secret = Convert.ToBase64String(key) });
+rng.GetBytes(key);*/
+var secretaDePrueba = "EstaClaveEsSoloDePruebaNoVaASerLaOficial123"; //Clave secreta de prueba. Tratar de cambiarla mediante Azure Key Vault
+builder.Services.AddSingleton<SessionConfig>(new SessionConfig { secret = secretaDePrueba });
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -41,7 +42,7 @@ builder.Services.AddAuthentication(x =>
     x.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretaDePrueba)),
         ValidateIssuer = false,
         ValidateAudience = false
     };

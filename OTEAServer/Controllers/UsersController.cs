@@ -140,7 +140,7 @@ namespace OTEAServer.Controllers
                     {
                         new Claim(ClaimTypes.Name, user.emailUser)
                     }),
-                    Expires = DateTime.UtcNow.AddDays(7),
+                    Expires = DateTime.UtcNow.AddHours(12),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -161,7 +161,7 @@ namespace OTEAServer.Controllers
                 var response = new
                 {
                     user = usr,
-                    token = sessionToken
+                    token = "Bearer "+sessionToken
 
                 };
                 return Ok(response);

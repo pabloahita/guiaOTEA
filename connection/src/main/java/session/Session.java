@@ -50,7 +50,7 @@ public class Session {
 
     private Map<List<Integer>,List<SubSubAmbit>> subSubAmbits;
     private Session(JsonObject data) {
-        setToken("Bearer "+data.getAsJsonPrimitive("token").getAsString());
+        setToken(data.getAsJsonPrimitive("token").getAsString());
         JsonObject jsonUser=data.getAsJsonObject("user");
         setUser(new User(jsonUser.getAsJsonPrimitive("emailUser").getAsString(), jsonUser.getAsJsonPrimitive("userType").getAsString(), jsonUser.getAsJsonPrimitive("first_name").getAsString(), jsonUser.getAsJsonPrimitive("last_name").getAsString(), jsonUser.getAsJsonPrimitive("passwordUser").getAsString(), jsonUser.getAsJsonPrimitive("telephone").getAsString(), jsonUser.getAsJsonPrimitive("idOrganization").getAsInt(), jsonUser.getAsJsonPrimitive("orgType").getAsString(), jsonUser.getAsJsonPrimitive("illness").getAsString(), jsonUser.getAsJsonPrimitive("profilePhoto").getAsString()));
     }
@@ -62,6 +62,7 @@ public class Session {
     public static synchronized Session createSession(JsonObject data){
         if(instance==null){
             instance=new Session(data);
+            instance.refreshCallers(true);
             int idOrg=instance.getUser().getIdOrganization();
             String orgType=instance.getUser().getOrganizationType();
             String illness=instance.getUser().getIllness();
@@ -70,26 +71,48 @@ public class Session {
         return instance;
     }
 
-    public static void refreshCallers(){
-        AmbitsController.getInstance();
-        SubAmbitsController.getInstance();
-        SubSubAmbitsController.getInstance();
-        AddressesController.getInstance();
-        CentersController.getInstance();
-        CitiesController.getInstance();
-        CountriesController.getInstance();
-        EvaluatorTeamsController.getInstance();
-        EvidencesController.getInstance();
-        IndicatorsController.getInstance();
-        IndicatorsEvaluationRegsController.getInstance();
-        IndicatorsEvaluationsController.getInstance();
-        OrganizationsController.getInstance();
-        ProvincesController.getInstance();
-        RegionsController.getInstance();
-        RequestsController.getInstance();
-        UsersController.getInstance();
-        TranslatorController.getInstance();
-        FileManager.getInstance();
+    public static void refreshCallers(boolean hasToken){
+        if(!hasToken) {
+            AmbitsController.getInstance();
+            SubAmbitsController.getInstance();
+            SubSubAmbitsController.getInstance();
+            AddressesController.getInstance();
+            CentersController.getInstance();
+            CitiesController.getInstance();
+            CountriesController.getInstance();
+            EvaluatorTeamsController.getInstance();
+            EvidencesController.getInstance();
+            IndicatorsController.getInstance();
+            IndicatorsEvaluationRegsController.getInstance();
+            IndicatorsEvaluationsController.getInstance();
+            OrganizationsController.getInstance();
+            ProvincesController.getInstance();
+            RegionsController.getInstance();
+            RequestsController.getInstance();
+            UsersController.getInstance();
+            TranslatorController.getInstance();
+            FileManager.getInstance();
+        }else{
+            AmbitsController.refreshApi();
+            SubAmbitsController.refreshApi();
+            SubSubAmbitsController.refreshApi();
+            AddressesController.refreshApi();
+            CentersController.refreshApi();
+            CitiesController.refreshApi();
+            CountriesController.refreshApi();
+            EvaluatorTeamsController.refreshApi();
+            EvidencesController.refreshApi();
+            IndicatorsController.refreshApi();
+            IndicatorsEvaluationRegsController.refreshApi();
+            IndicatorsEvaluationsController.refreshApi();
+            OrganizationsController.refreshApi();
+            ProvincesController.refreshApi();
+            RegionsController.refreshApi();
+            RequestsController.refreshApi();
+            UsersController.refreshApi();
+            TranslatorController.refreshApi();
+            FileManager.refreshApi();
+        }
     }
 
 

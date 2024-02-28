@@ -38,7 +38,6 @@ public class LoginViewModel extends ViewModel {
         if (result instanceof Result.Success) {
             JsonObject data = ((Result.Success<JsonObject>) result).getData();
             loginResult.setValue(new LoginResult(new LoggedInUserView(data)));
-            Session.refreshCallers();
             return Session.createSession(data);
         } else {
             loginResult.setValue(new LoginResult(R.string.login_failed));
