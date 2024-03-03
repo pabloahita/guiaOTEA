@@ -22,13 +22,11 @@ public interface TranslatorApi {
      *
      * @param text - Text to translate
      * @param origin - Origin language
-     * @param target - Target language
      * */
     @GET("Translator/translate")
-    Call<ResponseBody> translate(
+    Call<List<String>> translate(
             @Query("text") String text,
-            @Query("origin") String origin,
-            @Query("target") String target
+            @Query("origin") String origin
     );
 
 

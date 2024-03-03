@@ -71,5 +71,24 @@ namespace OTEAServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Method that obtains all provinces
+        /// </summary>
+        /// <returns>Provinces list</returns>
+
+        [HttpGet("all")]
+        public IActionResult GetAll()
+        {
+            try
+            {
+                var provinces = _context.Provinces.ToList();
+                return Ok(provinces);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

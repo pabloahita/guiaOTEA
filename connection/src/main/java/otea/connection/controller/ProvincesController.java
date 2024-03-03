@@ -9,6 +9,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import cli.organization.data.geo.Province;
+import cli.organization.data.geo.Province;
 import otea.connection.ConnectionClient;
 import otea.connection.api.ProvincesApi;
 import retrofit2.Call;
@@ -99,6 +100,34 @@ public class ProvincesController {
             @Override
             public List<Province> call() throws Exception {
                 Call<List<Province>> call=api.GetProvincesByRegion(idRegion,idCountry);
+                Response<List<Province>> response = call.execute();
+                if (response.isSuccessful()) {
+                    return response.body();
+                } else {
+                    throw new IOException("Error: " + response.code() + " " + response.message());
+                }
+            }
+        };
+        try {
+            Future<List<Province>> future = executor.submit(callable);
+            List<Province> list = future.get();
+            executor.shutdown();
+            return list;
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Method that obtains from the database all the provinces
+     * @return Province list
+     * */
+    public static List<Province> GetAll(){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Callable<List<Province>> callable = new Callable<List<Province>>() {
+            @Override
+            public List<Province> call() throws Exception {
+                Call<List<Province>> call = api.GetAll();
                 Response<List<Province>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

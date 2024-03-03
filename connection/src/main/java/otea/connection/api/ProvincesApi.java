@@ -34,5 +34,10 @@ public interface ProvincesApi {
      * */
     @GET("Provinces/region")
     Call<List<Province>> GetProvincesByRegion(@Query("idRegion") int idRegion,@Query("idCountry") String idCountry);
-    
+
+    /**
+     * Get all provinces
+     * */
+    @GET("Provinces/all")
+    Call<List<Province>> GetAll();
 }

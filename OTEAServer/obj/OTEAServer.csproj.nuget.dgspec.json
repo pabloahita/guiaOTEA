@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Pablo\\StudioProjects\\guiaOTEA\\OTEAServer\\OTEAServer.csproj": {}
+    "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\OTEAServer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Pablo\\StudioProjects\\guiaOTEA\\OTEAServer\\OTEAServer.csproj": {
+    "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\OTEAServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Pablo\\StudioProjects\\guiaOTEA\\OTEAServer\\OTEAServer.csproj",
+        "projectUniqueName": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\OTEAServer.csproj",
         "projectName": "OTEAServer",
-        "projectPath": "C:\\Users\\Pablo\\StudioProjects\\guiaOTEA\\OTEAServer\\OTEAServer.csproj",
+        "projectPath": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\OTEAServer.csproj",
         "packagesPath": "C:\\Users\\Pablo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Pablo\\StudioProjects\\guiaOTEA\\OTEAServer\\obj\\",
+        "outputPath": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Pablo\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,6 +40,10 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "Azure.Security.KeyVault.Secrets": {
+              "target": "Package",
+              "version": "[4.6.0, )"
+            },
             "Azure.Storage.Blobs": {
               "target": "Package",
               "version": "[12.19.1, )"

@@ -77,5 +77,24 @@ namespace OTEAServer.Controllers
             }
 
         }
+
+        /// <summary>
+        /// Method that obtains all cities
+        /// </summary>
+        /// <returns>City list</returns>
+        
+        [HttpGet("all")]
+        public IActionResult GetAll()
+        {
+            try
+            {
+                var cities = _context.Cities.ToList();
+                return Ok(cities);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

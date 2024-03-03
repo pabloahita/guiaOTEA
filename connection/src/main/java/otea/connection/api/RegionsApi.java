@@ -2,6 +2,7 @@ package otea.connection.api;
 
 import java.util.List;
 
+import cli.organization.data.geo.City;
 import cli.organization.data.geo.Region;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -31,4 +32,10 @@ public interface RegionsApi {
      * */
     @GET("Regions/country")
     Call<List<Region>> GetRegionsByCountry(@Query("idCountry") String idCountry);
+
+    /**
+     * Get all regions
+     * */
+    @GET("Regions/all")
+    Call<List<Region>> GetAll();
 }

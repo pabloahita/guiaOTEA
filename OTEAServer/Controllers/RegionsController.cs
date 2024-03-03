@@ -68,5 +68,24 @@ namespace OTEAServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Method that obtains all regions
+        /// </summary>
+        /// <returns>Region list</returns>
+
+        [HttpGet("all")]
+        public IActionResult GetAll()
+        {
+            try
+            {
+                var regions = _context.Regions.ToList();
+                return Ok(regions);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

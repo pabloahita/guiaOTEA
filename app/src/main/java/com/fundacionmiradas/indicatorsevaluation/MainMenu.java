@@ -221,6 +221,7 @@ public class MainMenu extends AppCompatActivity {
                     v.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            session.obtainGeoDataFromDataBase();
                             Intent intent = new Intent(getApplicationContext(), gui.RegisterOrganization.class);
                             startActivity(intent);
 
@@ -238,6 +239,7 @@ public class MainMenu extends AppCompatActivity {
                     v.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            session.obtainGeoDataFromDataBase();
                             Intent intent = new Intent(getApplicationContext(), gui.RegisterNewCenter.class);
                             startActivity(intent);
 

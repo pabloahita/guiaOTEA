@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "g/WXvsuC/jIBQhOi1NpNbFnh2vfRlADwO3ECelO13ky5+RwvjFxOiMc0xM3/9dkWiEHhTdr5t+55QH+AnB7+gQ==",
+  "dgSpecHash": "zWMg+hWNCp3ehicL865pX3YM8qRefjYAicc7NZ9E6u3pJYOnL1DVtdQKjPBrz0rplxoRY/8gIinZZoWGkkK82A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Pablo\\StudioProjects\\guiaOTEA\\OTEAServer\\OTEAServer.csproj",
+  "projectFilePath": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\OTEAServer.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Pablo\\.nuget\\packages\\azure.core\\1.36.0\\azure.core.1.36.0.nupkg.sha512",
+    "C:\\Users\\Pablo\\.nuget\\packages\\azure.core\\1.37.0\\azure.core.1.37.0.nupkg.sha512",
     "C:\\Users\\Pablo\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
+    "C:\\Users\\Pablo\\.nuget\\packages\\azure.security.keyvault.secrets\\4.6.0\\azure.security.keyvault.secrets.4.6.0.nupkg.sha512",
     "C:\\Users\\Pablo\\.nuget\\packages\\azure.storage.blobs\\12.19.1\\azure.storage.blobs.12.19.1.nupkg.sha512",
     "C:\\Users\\Pablo\\.nuget\\packages\\azure.storage.common\\12.18.1\\azure.storage.common.12.18.1.nupkg.sha512",
     "C:\\Users\\Pablo\\.nuget\\packages\\gtranslate\\2.1.6\\gtranslate.2.1.6.nupkg.sha512",

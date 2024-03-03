@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     "net7.0": {
-      "Azure.Core/1.36.0": {
+      "Azure.Core/1.37.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "1.1.1",
@@ -42,6 +42,25 @@
         },
         "runtime": {
           "lib/netstandard2.0/Azure.Identity.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Azure.Security.KeyVault.Secrets/4.6.0": {
+        "type": "package",
+        "dependencies": {
+          "Azure.Core": "1.37.0",
+          "System.Memory": "4.5.4",
+          "System.Text.Json": "4.7.2",
+          "System.Threading.Tasks.Extensions": "4.5.4"
+        },
+        "compile": {
+          "lib/netstandard2.0/Azure.Security.KeyVault.Secrets.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Azure.Security.KeyVault.Secrets.dll": {
             "related": ".xml"
           }
         }
@@ -1099,28 +1118,24 @@
     }
   },
   "libraries": {
-    "Azure.Core/1.36.0": {
-      "sha512": "vwqFZdHS4dzPlI7FFRkPx9ctA+aGGeRev3gnzG8lntWvKMmBhAmulABi1O9CEvS3/jzYt7yA+0pqVdxkpAd7dQ==",
+    "Azure.Core/1.37.0": {
+      "sha512": "ZSWV/ftBM/c/+Eo2hlzeEWntjqNG+8TWXX/DAKjBSWIf7nEvFILQoJL7JZx5HjypDvdNUMj5J2ji8ZpFFSghSg==",
       "type": "package",
-      "path": "azure.core/1.36.0",
+      "path": "azure.core/1.37.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "CHANGELOG.md",
         "README.md",
-        "azure.core.1.36.0.nupkg.sha512",
+        "azure.core.1.37.0.nupkg.sha512",
         "azure.core.nuspec",
         "azureicon.png",
         "lib/net461/Azure.Core.dll",
         "lib/net461/Azure.Core.xml",
         "lib/net472/Azure.Core.dll",
         "lib/net472/Azure.Core.xml",
-        "lib/net5.0/Azure.Core.dll",
-        "lib/net5.0/Azure.Core.xml",
         "lib/net6.0/Azure.Core.dll",
         "lib/net6.0/Azure.Core.xml",
-        "lib/netcoreapp2.1/Azure.Core.dll",
-        "lib/netcoreapp2.1/Azure.Core.xml",
         "lib/netstandard2.0/Azure.Core.dll",
         "lib/netstandard2.0/Azure.Core.xml"
       ]
@@ -1139,6 +1154,22 @@
         "azureicon.png",
         "lib/netstandard2.0/Azure.Identity.dll",
         "lib/netstandard2.0/Azure.Identity.xml"
+      ]
+    },
+    "Azure.Security.KeyVault.Secrets/4.6.0": {
+      "sha512": "vwPceoznuT6glvirZcXlaCQrh1uzTSxpZUi2hRFNumHiS3hVyqIXI5fgWiLtlBzwqPJMTr0flUoSvGKjXXQlfg==",
+      "type": "package",
+      "path": "azure.security.keyvault.secrets/4.6.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "CHANGELOG.md",
+        "README.md",
+        "azure.security.keyvault.secrets.4.6.0.nupkg.sha512",
+        "azure.security.keyvault.secrets.nuspec",
+        "azureicon.png",
+        "lib/netstandard2.0/Azure.Security.KeyVault.Secrets.dll",
+        "lib/netstandard2.0/Azure.Security.KeyVault.Secrets.xml"
       ]
     },
     "Azure.Storage.Blobs/12.19.1": {
@@ -3010,6 +3041,7 @@
   },
   "projectFileDependencyGroups": {
     "net7.0": [
+      "Azure.Security.KeyVault.Secrets >= 4.6.0",
       "Azure.Storage.Blobs >= 12.19.1",
       "GTranslate >= 2.1.6",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 7.0.16",
@@ -3027,11 +3059,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Pablo\\StudioProjects\\guiaOTEA\\OTEAServer\\OTEAServer.csproj",
+      "projectUniqueName": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\OTEAServer.csproj",
       "projectName": "OTEAServer",
-      "projectPath": "C:\\Users\\Pablo\\StudioProjects\\guiaOTEA\\OTEAServer\\OTEAServer.csproj",
+      "projectPath": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\OTEAServer.csproj",
       "packagesPath": "C:\\Users\\Pablo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Pablo\\StudioProjects\\guiaOTEA\\OTEAServer\\obj\\",
+      "outputPath": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Pablo\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -3060,6 +3092,10 @@
       "net7.0": {
         "targetAlias": "net7.0",
         "dependencies": {
+          "Azure.Security.KeyVault.Secrets": {
+            "target": "Package",
+            "version": "[4.6.0, )"
+          },
           "Azure.Storage.Blobs": {
             "target": "Package",
             "version": "[12.19.1, )"

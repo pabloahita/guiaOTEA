@@ -60,26 +60,25 @@ public class TranslatorController {
      *
      * @param text - Text to translate
      * @param origin - Origin language
-     * @param target - Target language
      * @return Translated text
      * */
-    public String translate(String text, String origin, String target){
+    public List<String> translate(String text, String origin){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<String> callable = new Callable<String>() {
+        Callable<List<String>> callable = new Callable<List<String>>() {
             @Override
-            public String call() throws Exception {
-                Call<ResponseBody> call = api.translate(text, origin, target);
-                Response<ResponseBody> response = call.execute();
+            public List<String> call() throws Exception {
+                Call<List<String>> call = api.translate(text, origin);
+                Response<List<String>> response = call.execute();
                 if (response.isSuccessful()) {
-                    return response.body().string();
+                    return response.body();
                 } else {
                     throw new IOException("Error: " + response.code() + " " + response.message());
                 }
             }
         };
         try {
-            Future<String> future = executor.submit(callable);
-            String result = future.get();
+            Future<List<String>> future = executor.submit(callable);
+            List<String> result = future.get();
             executor.shutdown();
             return result;
         } catch (InterruptedException | ExecutionException e) {

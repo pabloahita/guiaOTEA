@@ -2,9 +2,11 @@ package session;
 
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import cli.indicators.Ambit;
@@ -12,6 +14,10 @@ import cli.indicators.Indicator;
 import cli.indicators.SubAmbit;
 import cli.indicators.SubSubAmbit;
 import cli.organization.Organization;
+import cli.organization.data.geo.City;
+import cli.organization.data.geo.Country;
+import cli.organization.data.geo.Province;
+import cli.organization.data.geo.Region;
 import cli.user.User;
 import otea.connection.controller.AddressesController;
 import otea.connection.controller.AmbitsController;
@@ -49,6 +55,14 @@ public class Session {
     private Map<Integer,List<SubAmbit>> subAmbits;
 
     private Map<List<Integer>,List<SubSubAmbit>> subSubAmbits;
+
+    private List<Country> countries;
+
+    private Map<String,List<Region>> regions;
+
+    private Map<String,List<Province>> provinces;
+
+    private Map<String,List<City>> cities;
     private Session(JsonObject data) {
         setToken(data.getAsJsonPrimitive("token").getAsString());
         JsonObject jsonUser=data.getAsJsonObject("user");
@@ -175,6 +189,74 @@ public class Session {
 
     public void setSubSubAmbits(Map<List<Integer>, List<SubSubAmbit>> subSubAmbits) {
         this.subSubAmbits = subSubAmbits;
+    }
+
+    public List<Country> getCountries() {
+        return countries;
+    }
+
+    public void setCountries(List<Country> countries) {
+        this.countries = countries;
+    }
+
+    public Map<String, List<Region>> getRegions() {
+        return regions;
+    }
+
+    public void setRegions(Map<String, List<Region>> regions) {
+        this.regions = regions;
+    }
+
+    public Map<String, List<Province>> getProvinces() {
+        return provinces;
+    }
+
+    public void setProvinces(Map<String, List<Province>> provinces) {
+        this.provinces = provinces;
+    }
+
+    public Map<String, List<City>> getCities() {
+        return cities;
+    }
+
+    public void setCities(Map<String, List<City>> cities) {
+        this.cities = cities;
+    }
+
+    public void obtainGeoDataFromDataBase(){
+        if(countries==null){
+            countries=CountriesController.getInstance().GetAll(Locale.getDefault().getLanguage());
+            List<Region> allRegions=RegionsController.getInstance().GetAll();
+            List<Province> allProvinces=ProvincesController.getInstance().GetAll();
+            List<City> allCities=CitiesController.getInstance().GetAll();
+            regions=new HashMap<>();
+            for(Region r:allRegions){
+                if(!regions.containsKey(r.getIdCountry())){
+                    regions.put(r.getIdCountry(),new ArrayList<>());
+                }
+                List<Region> aux1=regions.get(r.getIdCountry());
+                aux1.add(r);
+                regions.put(r.getIdCountry(),aux1);
+            }
+            provinces=new HashMap<>();
+            for(Province p:allProvinces){
+                if(!provinces.containsKey(p.getIdRegion()+"-"+p.getIdCountry())){
+                    provinces.put(p.getIdRegion()+"-"+p.getIdCountry(),new ArrayList<>());
+                }
+                List<Province> aux2=provinces.get(p.getIdRegion()+"-"+p.getIdCountry());
+                aux2.add(p);
+                provinces.put(p.getIdRegion()+"-"+p.getIdCountry(),aux2);
+            }
+            cities=new HashMap<>();
+            for(City c:allCities){
+                if(!cities.containsKey(c.getIdProvince()+"-"+c.getIdRegion()+"-"+c.getIdCountry())){
+                    cities.put(c.getIdProvince()+"-"+c.getIdRegion()+"-"+c.getIdCountry(),new ArrayList<>());
+                }
+                List<City> aux3=cities.get(c.getIdProvince()+"-"+c.getIdRegion()+"-"+c.getIdCountry());
+                aux3.add(c);
+                cities.put(c.getIdProvince()+"-"+c.getIdRegion()+"-"+c.getIdCountry(),aux3);
+            }
+        }
     }
 
     public void obtainIndicatorsFromDataBase(){
