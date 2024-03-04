@@ -19,9 +19,11 @@ import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Locale;
 
 import cli.organization.Organization;
 import cli.user.User;
+import otea.connection.controller.CountriesController;
 import session.FileManager;
 import session.Session;
 
@@ -217,10 +219,10 @@ public class MainMenu extends AppCompatActivity {
             if(addNewOrg!=null) {
                 addNewOrg.setOnClickListener(v -> {
                     chargingScreen.setVisibility(View.VISIBLE);
-
                     v.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            while(session.IsGeoDataCharged()==false){}
                             Intent intent = new Intent(getApplicationContext(), gui.RegisterOrganization.class);
                             startActivity(intent);
 
@@ -234,10 +236,10 @@ public class MainMenu extends AppCompatActivity {
             if(addNewOrgCenter!=null) {
                 addNewOrgCenter.setOnClickListener(v -> {
                     chargingScreen.setVisibility(View.VISIBLE);
-
                     v.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            while(session.IsGeoDataCharged()==false){}
                             Intent intent = new Intent(getApplicationContext(), gui.RegisterNewCenter.class);
                             startActivity(intent);
 

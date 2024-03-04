@@ -186,8 +186,6 @@ public class RegisterNewCenter extends AppCompatActivity {
 
                 idCountry[0] = country[0].getIdCountry();
                 if (FieldChecker.isPrecharged(idCountry[0])) {
-                    Session.getInstance().changeCountry(idCountry[0]);
-                    regions=Session.getInstance().getRegions();
                     if(regions.size()>1){
                         regionSpinner.setVisibility(View.VISIBLE);
                         regionAdapter[0] = new RegionAdapter(RegisterNewCenter.this, regions);
@@ -260,7 +258,6 @@ public class RegisterNewCenter extends AppCompatActivity {
                 }else{
                     fields.replace("nameRegion",region[0].getNameEnglish());
                 }
-                provinces=Session.getInstance().getProvinces();
                 provinceAdapter[0] = new ProvinceAdapter(RegisterNewCenter.this, provinces.stream().filter(new Predicate<Province>() {
                     @Override
                     public boolean test(Province province) {
@@ -304,7 +301,6 @@ public class RegisterNewCenter extends AppCompatActivity {
                 }else{
                     fields.replace("nameProvince",province[0].getNameEnglish());
                 }
-                cities=Session.getInstance().getCities();
                 cityAdapter[0] = new CityAdapter(RegisterNewCenter.this, cities.stream().filter(new Predicate<City>() {
                     @Override
                     public boolean test(City city) {

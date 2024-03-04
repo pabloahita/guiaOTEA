@@ -69,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
         email_req.setVisibility(View.GONE);
         final_background.setVisibility(View.GONE);
 
+
+        Session.callback=()->{};
+        Session.startGeoChargement();
+
         //Button aux=findViewById(R.id.aux);
 
         sign_in.setOnClickListener(v -> {

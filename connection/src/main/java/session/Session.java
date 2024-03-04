@@ -12,6 +12,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReference;
 
 import cli.indicators.Ambit;
@@ -61,17 +63,22 @@ public class Session {
 
     private Map<List<Integer>,List<SubSubAmbit>> subSubAmbits;
 
-    private List<Country> countries;
+    private static List<Country> countries;
 
-    private List<Region> regions;
+    private static List<Region> regions;
 
-    private List<Province> provinces;
+    private static List<Province> provinces;
 
-    private List<City> cities;
+    private static List<City> cities;
+
+    public static Callback callback;
+
+    private static boolean isGeoDataCharged=false;
+
     private Session(JsonObject data) {
         setToken(data.getAsJsonPrimitive("token").getAsString());
         JsonObject jsonUser = data.getAsJsonObject("user");
-        JsonObject jsonOrg = data.getAsJsonObject("org");
+        JsonObject jsonOrg = data.getAsJsonObject("organization");
         setUser(new User(jsonUser.getAsJsonPrimitive("emailUser").getAsString(), jsonUser.getAsJsonPrimitive("userType").getAsString(), jsonUser.getAsJsonPrimitive("first_name").getAsString(), jsonUser.getAsJsonPrimitive("last_name").getAsString(), jsonUser.getAsJsonPrimitive("passwordUser").getAsString(), jsonUser.getAsJsonPrimitive("telephone").getAsString(), jsonUser.getAsJsonPrimitive("idOrganization").getAsInt(), jsonUser.getAsJsonPrimitive("orgType").getAsString(), jsonUser.getAsJsonPrimitive("illness").getAsString(), jsonUser.getAsJsonPrimitive("profilePhoto").getAsString()));
         setOrganization(new Organization(jsonOrg.getAsJsonPrimitive("idOrganization").getAsInt(), jsonOrg.getAsJsonPrimitive("orgType").getAsString(), jsonOrg.getAsJsonPrimitive("illness").getAsString(), jsonOrg.getAsJsonPrimitive("nameOrg").getAsString(), jsonOrg.getAsJsonPrimitive("idAddress").getAsInt(), jsonOrg.getAsJsonPrimitive("email").getAsString(), jsonOrg.getAsJsonPrimitive("telephone").getAsString(), jsonOrg.getAsJsonPrimitive("informationSpanish").getAsString(), jsonOrg.getAsJsonPrimitive("informationEnglish").getAsString(), jsonOrg.getAsJsonPrimitive("informationFrench").getAsString(), jsonOrg.getAsJsonPrimitive("informationBasque").getAsString(), jsonOrg.getAsJsonPrimitive("informationCatalan").getAsString(), jsonOrg.getAsJsonPrimitive("informationDutch").getAsString(), jsonOrg.getAsJsonPrimitive("informationGalician").getAsString(), jsonOrg.getAsJsonPrimitive("informationGerman").getAsString(), jsonOrg.getAsJsonPrimitive("informationItalian").getAsString(), jsonOrg.getAsJsonPrimitive("informationPortuguese").getAsString(), jsonOrg.getAsJsonPrimitive("profilePhoto").getAsString()));
     }
@@ -131,8 +138,6 @@ public class Session {
             FileManager.refreshApi();
         }
     }
-
-
 
     public static void logout(){
         instance=null;
@@ -226,27 +231,30 @@ public class Session {
         this.cities = cities;
     }
 
-
-    public void changeCountry(String idCountry){
-        try {
-            CompletableFuture<Void> futureRegions=CompletableFuture.runAsync(()->{
-                regions=RegionsController.GetRegionsByCountry(idCountry);
-            });
-            CompletableFuture<Void> futureProvinces=CompletableFuture.runAsync(()->{
-                provinces=ProvincesController.GetProvincesByCountry(idCountry);
-            });
-            CompletableFuture<Void> futureCities=CompletableFuture.runAsync(()->{
-                cities=CitiesController.GetCitiesByCountry(idCountry);
-            });
-            CompletableFuture.allOf(futureRegions,futureProvinces,futureCities).get();
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
+    public static boolean IsGeoDataCharged() {
+        return isGeoDataCharged;
     }
 
-    public void startGeoChargement(){
-        if(countries==null){
-            countries=CountriesController.GetAll(Locale.getDefault().getLanguage());
+    public static void startGeoChargement(){
+        if(instance.getCountries()==null){
+            CompletableFuture<Void> futureCountries = CompletableFuture.runAsync(() -> {
+                countries = CountriesController.GetAll(Locale.getDefault().getLanguage());
+            });
+            CompletableFuture<Void> futureRegions = CompletableFuture.runAsync(() -> {
+                regions = RegionsController.GetAll();
+            });
+            CompletableFuture<Void> futureProvinces = CompletableFuture.runAsync(() -> {
+                provinces = ProvincesController.GetAll();
+            });
+            CompletableFuture<Void> futureCities = CompletableFuture.runAsync(() -> {
+                cities = CitiesController.GetAll();
+            });
+            CompletableFuture.allOf(futureCountries, futureRegions, futureProvinces, futureCities).thenRun(() -> {
+                if (callback != null) {
+                    callback.onDataReady();
+                }
+            });
+            isGeoDataCharged=true;
         }
     }
 
@@ -275,5 +283,10 @@ public class Session {
                 }
             }
         }
+    }
+
+
+    public interface Callback{
+        void onDataReady();
     }
 }

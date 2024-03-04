@@ -9,7 +9,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import cli.organization.data.geo.City;
-import cli.organization.data.geo.Province;
 import otea.connection.ConnectionClient;
 import otea.connection.api.CitiesApi;
 import retrofit2.Call;
@@ -92,15 +91,45 @@ public class CitiesController {
     /**
      * Method that obtains from the database all the cities of a province
      *
+     * @param idProvince - Province identifier
+     * @param idRegion - Region identifier
      * @param idCountry - Country identifier
      * @return Cities of the province
      * */
-    public static List<City> GetCitiesByCountry(String idCountry){
+    /*public static List<City> GetCitiesByProvince(int idProvince, int idRegion, String idCountry){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Callable<List<City>> callable = new Callable<List<City>>() {
+            @Override
+            public List<City> call() throws Exception {
+                Call<List<City>> call = api.GetCitiesByProvince(idProvince,idRegion,idCountry);
+                Response<List<City>> response = call.execute();
+                if (response.isSuccessful()) {
+                    return response.body();
+                } else {
+                    throw new IOException("Error: " + response.code() + " " + response.message());
+                }
+            }
+        };
         try {
-            Call<List<City>> call = api.GetCitiesByCountry(idCountry);
+            Future<List<City>> future = executor.submit(callable);
+            List<City> list = future.get();
+            executor.shutdown();
+            return list;
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+    } */
+
+    /**
+     * Method that obtains from the database all the cities
+     * @return City list
+     * */
+    public static List<City> GetAll(){
+        try {
+            Call<List<City>> call = api.GetAll();
             Response<List<City>> response = call.execute();
             return response.body();
-        }catch(IOException e){
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

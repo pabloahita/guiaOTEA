@@ -117,9 +117,9 @@ public class RegisterOrganization extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        countries=Session.getInstance().getCountries();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_organization);
+
 
 
         phoneCodeAdapter=new PhoneCodeAdapter[2];
@@ -254,11 +254,14 @@ public class RegisterOrganization extends AppCompatActivity {
 
                 idCountry[0] = country[0].getIdCountry();
                 if (FieldChecker.isPrecharged(idCountry[0])) {
-                    Session.getInstance().changeCountry(idCountry[0]);
-                    regions=Session.getInstance().getRegions();
                     if(regions.size()>1){
                         regionSpinner.setVisibility(View.VISIBLE);
-                        regionAdapter[0] = new RegionAdapter(RegisterOrganization.this, regions);
+                        regionAdapter[0] = new RegionAdapter(RegisterOrganization.this, regions.stream().filter(new Predicate<Region>() {
+                            @Override
+                            public boolean test(Region region) {
+                                return region.getIdCountry().equals(idCountry[0]);
+                            }
+                        }).collect(Collectors.toList()));
                         regionAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
                         regionSpinner.setAdapter(regionAdapter[0]);
                         regionSpinner.setEnabled(true);
@@ -268,8 +271,12 @@ public class RegisterOrganization extends AppCompatActivity {
                         if(regionSpinner.getVisibility()==View.VISIBLE){
                             regionSpinner.setVisibility(View.GONE);
                         }
-                        provinces=Session.getInstance().getProvinces();
-                        provinceAdapter[0] = new ProvinceAdapter(RegisterOrganization.this, provinces);
+                        provinceAdapter[0] = new ProvinceAdapter(RegisterOrganization.this, provinces.stream().filter(new Predicate<Province>() {
+                            @Override
+                            public boolean test(Province province) {
+                                return province.getIdCountry().equals(idCountry[0]);
+                            }
+                        }).collect(Collectors.toList()));
                         provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
                         provinceSpinner.setAdapter(provinceAdapter[0]);
                         provinceSpinner.setEnabled(true);
@@ -328,11 +335,10 @@ public class RegisterOrganization extends AppCompatActivity {
                 }else{
                     fields.replace("nameRegion",region[0].getNameEnglish());
                 }
-                provinces=Session.getInstance().getProvinces();
                 provinceAdapter[0] = new ProvinceAdapter(RegisterOrganization.this, provinces.stream().filter(new Predicate<Province>() {
                     @Override
                     public boolean test(Province province) {
-                        return province.getIdRegion()==idRegion[0];
+                        return province.getIdRegion()==idRegion[0] && province.getIdCountry().equals(idCountry[0]);
                     }
                 }).collect(Collectors.toList()));
                 provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
@@ -372,11 +378,10 @@ public class RegisterOrganization extends AppCompatActivity {
                 }else{
                     fields.replace("nameProvince",province[0].getNameEnglish());
                 }
-                cities=Session.getInstance().getCities();
                 cityAdapter[0] = new CityAdapter(RegisterOrganization.this, cities.stream().filter(new Predicate<City>() {
                     @Override
                     public boolean test(City city) {
-                        return city.getIdProvince()==idProvince[0] && city.getIdRegion()==idRegion[0];
+                        return city.getIdProvince()==idProvince[0] && city.getIdRegion()==idRegion[0] && city.getIdCountry().equals(idCountry[0]);
                     }
                 }).collect(Collectors.toList()));
                 cityAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
