@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using OTEAServer.Misc;
 using OTEAServer.Models;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
@@ -163,9 +164,34 @@ namespace OTEAServer.Controllers
                     illness = user.illness,
                     profilePhoto = user.profilePhoto
                 };
+                var organization= _context.Organizations.FirstOrDefault(o => o.idOrganization == user.idOrganization && o.orgType == user.orgType && o.illness == user.illness);
+                if (organization == null) {
+                    return BadRequest();
+                }
+                var org = new {
+                    idOrganization = organization.idOrganization,
+                    orgType = organization.orgType,
+                    illness = organization.illness,
+                    nameOrg = organization.nameOrg,
+                    idAddress = organization.idAddress,
+                    email = organization.email,
+                    telephone = organization.telephone,
+                    informationSpanish = organization.informationSpanish,
+                    informationEnglish = organization.informationEnglish,
+                    informationFrench = organization.informationFrench,
+                    informationBasque = organization.informationBasque,
+                    informationCatalan = organization.informationCatalan,
+                    informationDutch = organization.informationDutch,
+                    informationGalician = organization.informationGalician,
+                    informationGerman = organization.informationGerman,
+                    informationItalian = organization.informationItalian,
+                    informationPortuguese = organization.informationPortuguese,
+                    profilePhoto = organization.profilePhoto
+                };
                 var response = new
                 {
                     user = usr,
+                    organization = org,
                     token = "Bearer "+sessionToken
 
                 };

@@ -33,12 +33,12 @@ namespace OTEAServer.Controllers
         /// <param name="idRegion">Region identifier</param>
         /// <param name="idCountry">Country identifier</param>
         /// <returns>Provinces list</returns>
-        [HttpGet("region")]
-        public IActionResult GetAllByRegion([FromQuery] int idRegion, [FromQuery] string idCountry)
+        [HttpGet("allByCountry")]
+        public IActionResult GetAllByCountry([FromQuery] string idCountry)
         {
             try
             {
-                var provinces = _context.Provinces.Where(p => p.idRegion == idRegion && p.idCountry == idCountry).ToList();
+                var provinces = _context.Provinces.Where(p => p.idCountry == idCountry).ToList();
                 return Ok(provinces);
             }
             catch (Exception ex)

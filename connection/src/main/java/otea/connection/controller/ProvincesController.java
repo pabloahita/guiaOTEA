@@ -91,30 +91,15 @@ public class ProvincesController {
     /**
      * Method that obtains all provinces of a region
      *
-     * @param idRegion - Region identifier
      * @param idCountry - Country identifier
      * @return Provinces list
      * */
-    public static List<Province> GetProvincesByRegion(int idRegion, String idCountry){
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<Province>> callable = new Callable<List<Province>>() {
-            @Override
-            public List<Province> call() throws Exception {
-                Call<List<Province>> call=api.GetProvincesByRegion(idRegion,idCountry);
-                Response<List<Province>> response = call.execute();
-                if (response.isSuccessful()) {
-                    return response.body();
-                } else {
-                    throw new IOException("Error: " + response.code() + " " + response.message());
-                }
-            }
-        };
+    public static List<Province> GetProvincesByCountry(String idCountry){
         try {
-            Future<List<Province>> future = executor.submit(callable);
-            List<Province> list = future.get();
-            executor.shutdown();
-            return list;
-        } catch (InterruptedException | ExecutionException e) {
+            Call<List<Province>> call = api.GetProvincesByCountry(idCountry);
+            Response<List<Province>> response = call.execute();
+            return response.body();
+        }catch(IOException e){
             throw new RuntimeException(e);
         }
     }

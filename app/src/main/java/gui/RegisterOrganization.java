@@ -32,6 +32,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,11 +53,8 @@ import misc.FieldChecker;
 import misc.PasswordCodifier;
 import otea.connection.controller.AddressesController;
 import otea.connection.controller.CentersController;
-import otea.connection.controller.CitiesController;
 import otea.connection.controller.CountriesController;
 import otea.connection.controller.OrganizationsController;
-import otea.connection.controller.ProvincesController;
-import otea.connection.controller.RegionsController;
 import otea.connection.controller.TranslatorController;
 import otea.connection.controller.UsersController;
 import session.FileManager;
@@ -117,12 +117,9 @@ public class RegisterOrganization extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        countries=Session.getInstance().getCountries();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_organization);
-        countries=Session.getInstance().getCountries();
-        regions=Session.getInstance().getRegions();
-        provinces=Session.getInstance().getProvinces();
-        cities=Session.getInstance().getCities();
 
 
         phoneCodeAdapter=new PhoneCodeAdapter[2];
@@ -257,14 +254,11 @@ public class RegisterOrganization extends AppCompatActivity {
 
                 idCountry[0] = country[0].getIdCountry();
                 if (FieldChecker.isPrecharged(idCountry[0])) {
+                    Session.getInstance().changeCountry(idCountry[0]);
+                    regions=Session.getInstance().getRegions();
                     if(regions.size()>1){
                         regionSpinner.setVisibility(View.VISIBLE);
-                        regionAdapter[0] = new RegionAdapter(RegisterOrganization.this, regions.stream().filter(new Predicate<Region>() {
-                            @Override
-                            public boolean test(Region region) {
-                                return region.getIdCountry().equals(idCountry[0]);
-                            }
-                        }).collect(Collectors.toList()));
+                        regionAdapter[0] = new RegionAdapter(RegisterOrganization.this, regions);
                         regionAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
                         regionSpinner.setAdapter(regionAdapter[0]);
                         regionSpinner.setEnabled(true);
@@ -274,12 +268,8 @@ public class RegisterOrganization extends AppCompatActivity {
                         if(regionSpinner.getVisibility()==View.VISIBLE){
                             regionSpinner.setVisibility(View.GONE);
                         }
-                        provinceAdapter[0] = new ProvinceAdapter(RegisterOrganization.this, provinces.stream().filter(new Predicate<Province>() {
-                            @Override
-                            public boolean test(Province province) {
-                                return province.getIdRegion()==-1 && province.getIdCountry().equals(idCountry[0]);
-                            }
-                        }).collect(Collectors.toList()));
+                        provinces=Session.getInstance().getProvinces();
+                        provinceAdapter[0] = new ProvinceAdapter(RegisterOrganization.this, provinces);
                         provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
                         provinceSpinner.setAdapter(provinceAdapter[0]);
                         provinceSpinner.setEnabled(true);
@@ -338,10 +328,11 @@ public class RegisterOrganization extends AppCompatActivity {
                 }else{
                     fields.replace("nameRegion",region[0].getNameEnglish());
                 }
+                provinces=Session.getInstance().getProvinces();
                 provinceAdapter[0] = new ProvinceAdapter(RegisterOrganization.this, provinces.stream().filter(new Predicate<Province>() {
                     @Override
                     public boolean test(Province province) {
-                        return province.getIdRegion()==idRegion[0] && province.getIdCountry().equals(idCountry[0]);
+                        return province.getIdRegion()==idRegion[0];
                     }
                 }).collect(Collectors.toList()));
                 provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
@@ -358,7 +349,6 @@ public class RegisterOrganization extends AppCompatActivity {
         provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ;
                 province[0] = provinceAdapter[0].getItem(position);
                 idProvince[0] = province[0].getIdProvince();
                 if(Locale.getDefault().getLanguage().equals("es")) {
@@ -382,10 +372,11 @@ public class RegisterOrganization extends AppCompatActivity {
                 }else{
                     fields.replace("nameProvince",province[0].getNameEnglish());
                 }
+                cities=Session.getInstance().getCities();
                 cityAdapter[0] = new CityAdapter(RegisterOrganization.this, cities.stream().filter(new Predicate<City>() {
                     @Override
                     public boolean test(City city) {
-                        return city.getIdProvince()==idProvince[0] && city.getIdRegion()==idRegion[0] && city.getIdCountry().equals(idCountry[0]);
+                        return city.getIdProvince()==idProvince[0] && city.getIdRegion()==idRegion[0];
                     }
                 }).collect(Collectors.toList()));
                 cityAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
@@ -891,123 +882,13 @@ public class RegisterOrganization extends AppCompatActivity {
 
                     String informationText=fields.get("information");
 
-                    if(!informationText.equals("")){
-                        List<String> translations=TranslatorController.getInstance().translate(informationText,Locale.getDefault().getLanguage());
-                        if(Locale.getDefault().getLanguage().equals("es")){
-                            informationEnglish= translations.get(0);
-                            informationSpanish=translations.get(1);
-                            informationFrench=translations.get(1);
-                            informationBasque=translations.get(2);
-                            informationCatalan=translations.get(3);
-                            informationDutch=translations.get(4);
-                            informationGalician=translations.get(5);
-                            informationGerman=translations.get(6);
-                            informationItalian=translations.get(7);
-                            informationPortuguese=translations.get(8);
-                        }else if(Locale.getDefault().getLanguage().equals("fr")){
-                            informationEnglish= translations.get(0);
-                            informationSpanish=translations.get(1);
-                            informationFrench=informationText;
-                            informationBasque=translations.get(2);
-                            informationCatalan=translations.get(3);
-                            informationDutch=translations.get(4);
-                            informationGalician=translations.get(5);
-                            informationGerman=translations.get(6);
-                            informationItalian=translations.get(7);
-                            informationPortuguese=translations.get(8);
-                        }else if(Locale.getDefault().getLanguage().equals("eu")){
-                            informationEnglish= translations.get(0);
-                            informationSpanish=translations.get(1);
-                            informationFrench=translations.get(2);
-                            informationBasque=informationText;
-                            informationCatalan=translations.get(3);
-                            informationDutch=translations.get(4);
-                            informationGalician=translations.get(5);
-                            informationGerman=translations.get(6);
-                            informationItalian=translations.get(7);
-                            informationPortuguese=translations.get(8);
-                        }else if(Locale.getDefault().getLanguage().equals("ca")){
-                            informationEnglish= translations.get(0);
-                            informationSpanish=translations.get(1);
-                            informationFrench=translations.get(2);
-                            informationBasque=translations.get(3);
-                            informationCatalan=informationText;
-                            informationDutch=translations.get(4);
-                            informationGalician=translations.get(5);
-                            informationGerman=translations.get(6);
-                            informationItalian=translations.get(7);
-                            informationPortuguese=translations.get(8);
-                        }else if(Locale.getDefault().getLanguage().equals("nl")){
-                            informationEnglish= translations.get(0);
-                            informationSpanish=translations.get(1);
-                            informationFrench=translations.get(2);
-                            informationBasque=translations.get(3);
-                            informationCatalan=translations.get(4);
-                            informationDutch=informationText;
-                            informationGalician=translations.get(5);
-                            informationGerman=translations.get(6);
-                            informationItalian=translations.get(7);
-                            informationPortuguese=translations.get(8);
-                        }else if(Locale.getDefault().getLanguage().equals("gl")){
-                            informationEnglish= translations.get(0);
-                            informationSpanish=translations.get(1);
-                            informationFrench=translations.get(2);
-                            informationBasque=translations.get(3);
-                            informationCatalan=translations.get(4);
-                            informationDutch=translations.get(5);
-                            informationGalician=informationText;
-                            informationGerman=translations.get(6);
-                            informationItalian=translations.get(7);
-                            informationPortuguese=translations.get(8);
-                        }else if(Locale.getDefault().getLanguage().equals("de")){
-                            informationEnglish= translations.get(0);
-                            informationSpanish=translations.get(1);
-                            informationFrench=translations.get(2);
-                            informationBasque=translations.get(3);
-                            informationCatalan=translations.get(4);
-                            informationDutch=translations.get(5);
-                            informationGalician=translations.get(6);
-                            informationGerman=informationText;
-                            informationItalian=translations.get(7);
-                            informationPortuguese=translations.get(8);
-                        }else if(Locale.getDefault().getLanguage().equals("it")){
-                            informationEnglish= translations.get(0);
-                            informationSpanish=translations.get(1);
-                            informationFrench=translations.get(2);
-                            informationBasque=translations.get(3);
-                            informationCatalan=translations.get(4);
-                            informationDutch=translations.get(5);
-                            informationGalician=translations.get(6);
-                            informationGerman=translations.get(7);
-                            informationItalian=informationText;
-                            informationPortuguese=translations.get(8);
-                        }else if(Locale.getDefault().getLanguage().equals("pt")){
-                            informationEnglish= translations.get(0);
-                            informationSpanish=translations.get(1);
-                            informationFrench=translations.get(2);
-                            informationBasque=translations.get(3);
-                            informationCatalan=translations.get(4);
-                            informationDutch=translations.get(5);
-                            informationGalician=translations.get(6);
-                            informationGerman=translations.get(7);
-                            informationItalian=translations.get(8);
-                            informationPortuguese=informationText;
-                        }else{
-                            informationEnglish= informationText;
-                            informationSpanish=translations.get(0);
-                            informationFrench=translations.get(1);
-                            informationBasque=translations.get(2);
-                            informationCatalan=translations.get(3);
-                            informationDutch=translations.get(4);
-                            informationGalician=translations.get(5);
-                            informationGerman=translations.get(6);
-                            informationItalian=translations.get(7);
-                            informationPortuguese=translations.get(8);
-                        }
-                    }
+                    AtomicReference<List<String>> translations=new AtomicReference<>();
 
+                    CompletableFuture<Void> taskInformation= CompletableFuture.runAsync(() -> {
+                        translations.set(TranslatorController.getInstance().translate(informationText, Locale.getDefault().getLanguage()));
+                    });
 
-                    if(profilePhotoDir!=null) {
+                    CompletableFuture<Void> taskPhotoDir = CompletableFuture.runAsync(() -> {
                         imgDirName = "USER_" + (fields.get("emailDir").replace("@", "_").replace(".", "_")) + ".jpg";
                         FileManager.uploadFile(profilePhotoDir, "profile-photos", imgDirName);
                         try{
@@ -1015,8 +896,9 @@ public class RegisterOrganization extends AppCompatActivity {
                         }catch(IOException e){
                             e.printStackTrace();
                         }
-                    }
-                    if(profilePhotoOrg!=null){
+                    });
+
+                    CompletableFuture<Void> taskPhotoOrg = CompletableFuture.runAsync(() -> {
                         imgOrgName="ORG_"+idOrganization+"_"+orgType+"_"+illness+".jpg";
                         FileManager.uploadFile(profilePhotoOrg, "profile-photos", imgOrgName);
                         try{
@@ -1024,8 +906,160 @@ public class RegisterOrganization extends AppCompatActivity {
                         }catch(IOException e){
                             e.printStackTrace();
                         }
+                    });
 
+                    try{
+                        if(!informationText.equals("")){
+                            if(profilePhotoDir!=null){
+                                if(profilePhotoOrg!=null) {
+                                    CompletableFuture.allOf(taskInformation,taskPhotoDir,taskPhotoOrg).get();
+                                }
+                                else{
+                                    CompletableFuture.allOf(taskInformation,taskPhotoDir).get();
+                                }
+                            }
+                            else{
+                                if(profilePhotoOrg!=null){
+                                    CompletableFuture.allOf(taskInformation,taskPhotoOrg).get();
+                                }
+                                else{
+                                    CompletableFuture.allOf(taskInformation).get();
+                                }
+                            }
+                            if(Locale.getDefault().getLanguage().equals("es")){
+                                informationEnglish= translations.get().get(0);
+                                informationSpanish= translations.get().get(1);
+                                informationFrench= translations.get().get(1);
+                                informationBasque= translations.get().get(2);
+                                informationCatalan= translations.get().get(3);
+                                informationDutch= translations.get().get(4);
+                                informationGalician= translations.get().get(5);
+                                informationGerman= translations.get().get(6);
+                                informationItalian= translations.get().get(7);
+                                informationPortuguese= translations.get().get(8);
+                            }else if(Locale.getDefault().getLanguage().equals("fr")){
+                                informationEnglish= translations.get().get(0);
+                                informationSpanish= translations.get().get(1);
+                                informationFrench=informationText;
+                                informationBasque= translations.get().get(2);
+                                informationCatalan= translations.get().get(3);
+                                informationDutch= translations.get().get(4);
+                                informationGalician= translations.get().get(5);
+                                informationGerman= translations.get().get(6);
+                                informationItalian= translations.get().get(7);
+                                informationPortuguese= translations.get().get(8);
+                            }else if(Locale.getDefault().getLanguage().equals("eu")){
+                                informationEnglish= translations.get().get(0);
+                                informationSpanish= translations.get().get(1);
+                                informationFrench= translations.get().get(2);
+                                informationBasque=informationText;
+                                informationCatalan= translations.get().get(3);
+                                informationDutch= translations.get().get(4);
+                                informationGalician= translations.get().get(5);
+                                informationGerman= translations.get().get(6);
+                                informationItalian= translations.get().get(7);
+                                informationPortuguese= translations.get().get(8);
+                            }else if(Locale.getDefault().getLanguage().equals("ca")){
+                                informationEnglish= translations.get().get(0);
+                                informationSpanish= translations.get().get(1);
+                                informationFrench= translations.get().get(2);
+                                informationBasque= translations.get().get(3);
+                                informationCatalan=informationText;
+                                informationDutch= translations.get().get(4);
+                                informationGalician= translations.get().get(5);
+                                informationGerman= translations.get().get(6);
+                                informationItalian= translations.get().get(7);
+                                informationPortuguese= translations.get().get(8);
+                            }else if(Locale.getDefault().getLanguage().equals("nl")){
+                                informationEnglish= translations.get().get(0);
+                                informationSpanish= translations.get().get(1);
+                                informationFrench= translations.get().get(2);
+                                informationBasque= translations.get().get(3);
+                                informationCatalan= translations.get().get(4);
+                                informationDutch=informationText;
+                                informationGalician= translations.get().get(5);
+                                informationGerman= translations.get().get(6);
+                                informationItalian= translations.get().get(7);
+                                informationPortuguese= translations.get().get(8);
+                            }else if(Locale.getDefault().getLanguage().equals("gl")){
+                                informationEnglish= translations.get().get(0);
+                                informationSpanish= translations.get().get(1);
+                                informationFrench= translations.get().get(2);
+                                informationBasque= translations.get().get(3);
+                                informationCatalan= translations.get().get(4);
+                                informationDutch= translations.get().get(5);
+                                informationGalician=informationText;
+                                informationGerman= translations.get().get(6);
+                                informationItalian= translations.get().get(7);
+                                informationPortuguese= translations.get().get(8);
+                            }else if(Locale.getDefault().getLanguage().equals("de")){
+                                informationEnglish= translations.get().get(0);
+                                informationSpanish= translations.get().get(1);
+                                informationFrench= translations.get().get(2);
+                                informationBasque= translations.get().get(3);
+                                informationCatalan= translations.get().get(4);
+                                informationDutch= translations.get().get(5);
+                                informationGalician= translations.get().get(6);
+                                informationGerman=informationText;
+                                informationItalian= translations.get().get(7);
+                                informationPortuguese= translations.get().get(8);
+                            }else if(Locale.getDefault().getLanguage().equals("it")){
+                                informationEnglish= translations.get().get(0);
+                                informationSpanish= translations.get().get(1);
+                                informationFrench= translations.get().get(2);
+                                informationBasque= translations.get().get(3);
+                                informationCatalan= translations.get().get(4);
+                                informationDutch= translations.get().get(5);
+                                informationGalician= translations.get().get(6);
+                                informationGerman= translations.get().get(7);
+                                informationItalian=informationText;
+                                informationPortuguese= translations.get().get(8);
+                            }else if(Locale.getDefault().getLanguage().equals("pt")){
+                                informationEnglish= translations.get().get(0);
+                                informationSpanish= translations.get().get(1);
+                                informationFrench= translations.get().get(2);
+                                informationBasque= translations.get().get(3);
+                                informationCatalan= translations.get().get(4);
+                                informationDutch= translations.get().get(5);
+                                informationGalician= translations.get().get(6);
+                                informationGerman= translations.get().get(7);
+                                informationItalian= translations.get().get(8);
+                                informationPortuguese=informationText;
+                            }else{
+                                informationEnglish= informationText;
+                                informationSpanish= translations.get().get(0);
+                                informationFrench= translations.get().get(1);
+                                informationBasque= translations.get().get(2);
+                                informationCatalan= translations.get().get(3);
+                                informationDutch= translations.get().get(4);
+                                informationGalician= translations.get().get(5);
+                                informationGerman= translations.get().get(6);
+                                informationItalian= translations.get().get(7);
+                                informationPortuguese= translations.get().get(8);
+                            }
+
+                        }
+                        else{
+                            if(profilePhotoDir!=null){
+                                if(profilePhotoOrg!=null) {
+                                    CompletableFuture.allOf(taskPhotoDir,taskPhotoOrg).get();
+                                }
+                                else{
+                                    CompletableFuture.allOf(taskPhotoDir).get();
+                                }
+                            }
+                            else{
+                                if(profilePhotoOrg!=null) {
+                                    CompletableFuture.allOf(taskPhotoOrg).get();
+                                }
+                            }
+                        }
+                    }catch(InterruptedException | ExecutionException e){
+                        throw new RuntimeException(e);
                     }
+
+
+
 
                     Address address = new Address(idAddress, fields.get("address"), idCity[0],idProvince[0],idRegion[0],idCountry[0],fields.get("nameCity"),fields.get("nameProvince"),fields.get("nameRegion"));
 

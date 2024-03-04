@@ -29,19 +29,10 @@ public interface CitiesApi {
     /**
      * Get all cities of a province
      *
-     * @param idProvince - Province identifier
-     * @param idRegion - Region identifier
      * @param idCountry - Country identifier
      * */
-    @GET("Cities/allByProvince")
-    Call<List<City>> GetCitiesByProvince(@Query("idProvince") int idProvince, @Query("idRegion") int idRegion, @Query("idCountry") String idCountry);
+    @GET("Cities/allByCountry")
+    Call<List<City>> GetCitiesByCountry(@Query("idCountry") String idCountry);
 
-    /**
-     * Get all cities
-     * @param numPage - Page number
-     * @param pageSize - Page size
-     * */
-    @GET("Cities/all")
-    Call<List<City>> GetAll(@Query("numPage") int numPage, @Query("pageSize") int pageSize);
 
 }

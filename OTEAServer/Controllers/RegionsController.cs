@@ -31,8 +31,8 @@ namespace OTEAServer.Controllers
         /// </summary>
         /// <param name="idCountry">Country identifier</param>
         /// <returns>Regions list</returns>
-        [HttpGet("country")]
-        public IActionResult GetAllByRegion(string idCountry)
+        [HttpGet("allByCountry")]
+        public IActionResult GetAllByCountry([FromQuery] string idCountry)
         {
             try
             {

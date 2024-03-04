@@ -70,8 +70,10 @@ public class Session {
     private List<City> cities;
     private Session(JsonObject data) {
         setToken(data.getAsJsonPrimitive("token").getAsString());
-        JsonObject jsonUser=data.getAsJsonObject("user");
+        JsonObject jsonUser = data.getAsJsonObject("user");
+        JsonObject jsonOrg = data.getAsJsonObject("org");
         setUser(new User(jsonUser.getAsJsonPrimitive("emailUser").getAsString(), jsonUser.getAsJsonPrimitive("userType").getAsString(), jsonUser.getAsJsonPrimitive("first_name").getAsString(), jsonUser.getAsJsonPrimitive("last_name").getAsString(), jsonUser.getAsJsonPrimitive("passwordUser").getAsString(), jsonUser.getAsJsonPrimitive("telephone").getAsString(), jsonUser.getAsJsonPrimitive("idOrganization").getAsInt(), jsonUser.getAsJsonPrimitive("orgType").getAsString(), jsonUser.getAsJsonPrimitive("illness").getAsString(), jsonUser.getAsJsonPrimitive("profilePhoto").getAsString()));
+        setOrganization(new Organization(jsonOrg.getAsJsonPrimitive("idOrganization").getAsInt(), jsonOrg.getAsJsonPrimitive("orgType").getAsString(), jsonOrg.getAsJsonPrimitive("illness").getAsString(), jsonOrg.getAsJsonPrimitive("nameOrg").getAsString(), jsonOrg.getAsJsonPrimitive("idAddress").getAsInt(), jsonOrg.getAsJsonPrimitive("email").getAsString(), jsonOrg.getAsJsonPrimitive("telephone").getAsString(), jsonOrg.getAsJsonPrimitive("informationSpanish").getAsString(), jsonOrg.getAsJsonPrimitive("informationEnglish").getAsString(), jsonOrg.getAsJsonPrimitive("informationFrench").getAsString(), jsonOrg.getAsJsonPrimitive("informationBasque").getAsString(), jsonOrg.getAsJsonPrimitive("informationCatalan").getAsString(), jsonOrg.getAsJsonPrimitive("informationDutch").getAsString(), jsonOrg.getAsJsonPrimitive("informationGalician").getAsString(), jsonOrg.getAsJsonPrimitive("informationGerman").getAsString(), jsonOrg.getAsJsonPrimitive("informationItalian").getAsString(), jsonOrg.getAsJsonPrimitive("informationPortuguese").getAsString(), jsonOrg.getAsJsonPrimitive("profilePhoto").getAsString()));
     }
 
     public static synchronized Session getInstance(){
@@ -82,10 +84,6 @@ public class Session {
         if(instance==null){
             instance=new Session(data);
             instance.refreshCallers(true);
-            int idOrg=instance.getUser().getIdOrganization();
-            String orgType=instance.getUser().getOrganizationType();
-            String illness=instance.getUser().getIllness();
-            instance.setOrganization(OrganizationsController.getInstance().Get(idOrg, orgType, illness));
         }
         return instance;
     }
@@ -228,43 +226,27 @@ public class Session {
         this.cities = cities;
     }
 
-    public void obtainGeoDataFromDataBase(){
-        try{
-            if(countries==null){
-                cities=new ArrayList<>();
-                CompletableFuture<Void> future1 = CompletableFuture.runAsync(() -> {
-                    countries=CountriesController.getInstance().GetAll(Locale.getDefault().getLanguage());
-                });
 
-                CompletableFuture<Void> future2 = CompletableFuture.runAsync(() -> {
-                    regions=RegionsController.getInstance().GetAll();
-                });
-
-                CompletableFuture<Void> future3 = CompletableFuture.runAsync(() -> {
-                    provinces=ProvincesController.getInstance().GetAll();
-                });
-
-                CompletableFuture<Void> future4 = CompletableFuture.runAsync(() -> {
-                    cities.addAll(CitiesController.getInstance().GetAll(1,116892)); //There are 467568 cities. Pagination
-                });
-
-                CompletableFuture<Void> future5 = CompletableFuture.runAsync(() -> {
-                    cities.addAll(CitiesController.getInstance().GetAll(2,116892)); //There are 467568 cities. Pagination
-                });
-
-                CompletableFuture<Void> future6 = CompletableFuture.runAsync(() -> {
-                    cities.addAll(CitiesController.getInstance().GetAll(3,116892)); //There are 467568 cities. Pagination
-                });
-
-                CompletableFuture<Void> future7 = CompletableFuture.runAsync(() -> {
-                    cities.addAll(CitiesController.getInstance().GetAll(4,116892)); //There are 467568 cities. Pagination
-                });
-
-                CompletableFuture.allOf(future1, future2, future3, future4, future5, future6, future7).get();
-
-            }
-        }catch(InterruptedException | ExecutionException e){
+    public void changeCountry(String idCountry){
+        try {
+            CompletableFuture<Void> futureRegions=CompletableFuture.runAsync(()->{
+                regions=RegionsController.GetRegionsByCountry(idCountry);
+            });
+            CompletableFuture<Void> futureProvinces=CompletableFuture.runAsync(()->{
+                provinces=ProvincesController.GetProvincesByCountry(idCountry);
+            });
+            CompletableFuture<Void> futureCities=CompletableFuture.runAsync(()->{
+                cities=CitiesController.GetCitiesByCountry(idCountry);
+            });
+            CompletableFuture.allOf(futureRegions,futureProvinces,futureCities).get();
+        } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void startGeoChargement(){
+        if(countries==null){
+            countries=CountriesController.GetAll(Locale.getDefault().getLanguage());
         }
     }
 

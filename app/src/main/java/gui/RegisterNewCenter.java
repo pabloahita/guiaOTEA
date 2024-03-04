@@ -90,6 +90,7 @@ public class RegisterNewCenter extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        countries=Session.getInstance().getCountries();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_new_center);
 
@@ -180,20 +181,16 @@ public class RegisterNewCenter extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 country[0] = countryAdapter[0].getItem(position);
-                fields.replace("telephoneCodeOrg",phoneCodeAdapter[0].getItem(position).getPhone_code());
-                fields.replace("telephoneCodeDir",phoneCodeAdapter[1].getItem(position).getPhone_code());
+                fields.replace("telephoneCode",phoneCodeAdapter[0].getItem(position).getPhone_code());
                 phoneCode1.setSelection(position);
 
                 idCountry[0] = country[0].getIdCountry();
                 if (FieldChecker.isPrecharged(idCountry[0])) {
+                    Session.getInstance().changeCountry(idCountry[0]);
+                    regions=Session.getInstance().getRegions();
                     if(regions.size()>1){
                         regionSpinner.setVisibility(View.VISIBLE);
-                        regionAdapter[0] = new RegionAdapter(RegisterNewCenter.this, regions.stream().filter(new Predicate<Region>() {
-                            @Override
-                            public boolean test(Region region) {
-                                return region.getIdCountry().equals(idCountry[0]);
-                            }
-                        }).collect(Collectors.toList()));
+                        regionAdapter[0] = new RegionAdapter(RegisterNewCenter.this, regions);
                         regionAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
                         regionSpinner.setAdapter(regionAdapter[0]);
                         regionSpinner.setEnabled(true);
@@ -203,12 +200,8 @@ public class RegisterNewCenter extends AppCompatActivity {
                         if(regionSpinner.getVisibility()==View.VISIBLE){
                             regionSpinner.setVisibility(View.GONE);
                         }
-                        provinceAdapter[0] = new ProvinceAdapter(RegisterNewCenter.this, provinces.stream().filter(new Predicate<Province>() {
-                            @Override
-                            public boolean test(Province province) {
-                                return province.getIdRegion()==-1 && province.getIdCountry().equals(idCountry[0]);
-                            }
-                        }).collect(Collectors.toList()));
+                        provinces=Session.getInstance().getProvinces();
+                        provinceAdapter[0] = new ProvinceAdapter(RegisterNewCenter.this, provinces);
                         provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
                         provinceSpinner.setAdapter(provinceAdapter[0]);
                         provinceSpinner.setEnabled(true);
@@ -267,10 +260,11 @@ public class RegisterNewCenter extends AppCompatActivity {
                 }else{
                     fields.replace("nameRegion",region[0].getNameEnglish());
                 }
+                provinces=Session.getInstance().getProvinces();
                 provinceAdapter[0] = new ProvinceAdapter(RegisterNewCenter.this, provinces.stream().filter(new Predicate<Province>() {
                     @Override
                     public boolean test(Province province) {
-                        return province.getIdRegion()==idRegion[0] && province.getIdCountry().equals(idCountry[0]);
+                        return province.getIdRegion()==idRegion[0];
                     }
                 }).collect(Collectors.toList()));
                 provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
@@ -287,7 +281,6 @@ public class RegisterNewCenter extends AppCompatActivity {
         provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ;
                 province[0] = provinceAdapter[0].getItem(position);
                 idProvince[0] = province[0].getIdProvince();
                 if(Locale.getDefault().getLanguage().equals("es")) {
@@ -311,15 +304,50 @@ public class RegisterNewCenter extends AppCompatActivity {
                 }else{
                     fields.replace("nameProvince",province[0].getNameEnglish());
                 }
+                cities=Session.getInstance().getCities();
                 cityAdapter[0] = new CityAdapter(RegisterNewCenter.this, cities.stream().filter(new Predicate<City>() {
                     @Override
                     public boolean test(City city) {
-                        return city.getIdProvince()==idProvince[0] && city.getIdRegion()==idRegion[0] && city.getIdCountry().equals(idCountry[0]);
+                        return city.getIdProvince()==idProvince[0] && city.getIdRegion()==idRegion[0];
                     }
                 }).collect(Collectors.toList()));
                 cityAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
                 citySpinner.setAdapter(cityAdapter[0]);
                 citySpinner.setEnabled(true);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                city[0] = cityAdapter[0].getItem(position);
+                idCity[0] = city[0].getIdProvince();
+                if(Locale.getDefault().getLanguage().equals("es")) {
+                    fields.replace("nameCity",city[0].getNameSpanish());
+                }else if(Locale.getDefault().getLanguage().equals("fr")){
+                    fields.replace("nameCity",city[0].getNameFrench());
+                }else if(Locale.getDefault().getLanguage().equals("eu")) {
+                    fields.replace("nameCity",city[0].getNameBasque());
+                }else if(Locale.getDefault().getLanguage().equals("ca")){
+                    fields.replace("nameCity",city[0].getNameCatalan());
+                }else if(Locale.getDefault().getLanguage().equals("nl")) {
+                    fields.replace("nameCity",city[0].getNameDutch());
+                }else if(Locale.getDefault().getLanguage().equals("gl")){
+                    fields.replace("nameCity",city[0].getNameGalician());
+                }else if(Locale.getDefault().getLanguage().equals("de")) {
+                    fields.replace("nameCity",city[0].getNameGerman());
+                }else if(Locale.getDefault().getLanguage().equals("it")){
+                    fields.replace("nameCity",city[0].getNameItalian());
+                }else if(Locale.getDefault().getLanguage().equals("pt")) {
+                    fields.replace("nameCity",city[0].getNamePortuguese());
+                }else{
+                    fields.replace("nameCity",city[0].getNameEnglish());
+                }
             }
 
             @Override

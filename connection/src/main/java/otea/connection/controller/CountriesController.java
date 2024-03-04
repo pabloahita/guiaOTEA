@@ -92,11 +92,26 @@ public class CountriesController {
      * @return Country list
      * */
     public static List<Country> GetAll(String language){
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Callable<List<Country>> callable = new Callable<List<Country>>() {
+            @Override
+            public List<Country> call() throws Exception {
+                Call<List<Country>> call = api.GetAll(language);
+                Response<List<Country>> response = call.execute();
+                if (response.isSuccessful()) {
+                    return response.body();
+                } else {
+                    throw new IOException("Error: " + response.code() + " " + response.message());
+                }
+            }
+        };
         try {
-            Call<List<Country>> call = api.GetAll(language);
-            Response<List<Country>> response = call.execute();
-            return response.body();
-        } catch (IOException e) {
+            Future<List<Country>> future = executor.submit(callable);
+            List<Country> result = future.get();
+            executor.shutdown();
+            return result;
+        } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
     }
