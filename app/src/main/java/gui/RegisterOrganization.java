@@ -32,8 +32,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import cli.organization.Organization;
 import cli.organization.data.Address;
@@ -60,19 +62,13 @@ import session.Session;
 
 public class RegisterOrganization extends AppCompatActivity {
 
-    List<Country> countries;
+    private List<Country> countries;
 
-    private Map<String,List<Region>> regions;
+    private List<Region> regions;
 
-    private Map<String,List<Province>> provinces;
+    private List<Province> provinces;
 
-    private Map<String,List<City>> cities;
-
-    List<Region> regionsCurrCountry;
-
-    List<Province> provincesCurrRegion;
-
-    List<City> citiesCurrProvince;
+    private List<City> cities;
 
 
     CountryAdapter[] countryAdapter={null};
@@ -261,10 +257,14 @@ public class RegisterOrganization extends AppCompatActivity {
 
                 idCountry[0] = country[0].getIdCountry();
                 if (FieldChecker.isPrecharged(idCountry[0])) {
-                    regionsCurrCountry=regions.get(country[0].getIdCountry());
                     if(regions.size()>1){
                         regionSpinner.setVisibility(View.VISIBLE);
-                        regionAdapter[0] = new RegionAdapter(RegisterOrganization.this, regionsCurrCountry);
+                        regionAdapter[0] = new RegionAdapter(RegisterOrganization.this, regions.stream().filter(new Predicate<Region>() {
+                            @Override
+                            public boolean test(Region region) {
+                                return region.getIdCountry().equals(idCountry[0]);
+                            }
+                        }).collect(Collectors.toList()));
                         regionAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
                         regionSpinner.setAdapter(regionAdapter[0]);
                         regionSpinner.setEnabled(true);
@@ -274,8 +274,12 @@ public class RegisterOrganization extends AppCompatActivity {
                         if(regionSpinner.getVisibility()==View.VISIBLE){
                             regionSpinner.setVisibility(View.GONE);
                         }
-                        provincesCurrRegion=provinces.get(-1+"-"+idCountry[0]);
-                        provinceAdapter[0] = new ProvinceAdapter(RegisterOrganization.this, provincesCurrRegion);
+                        provinceAdapter[0] = new ProvinceAdapter(RegisterOrganization.this, provinces.stream().filter(new Predicate<Province>() {
+                            @Override
+                            public boolean test(Province province) {
+                                return province.getIdRegion()==-1 && province.getIdCountry().equals(idCountry[0]);
+                            }
+                        }).collect(Collectors.toList()));
                         provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
                         provinceSpinner.setAdapter(provinceAdapter[0]);
                         provinceSpinner.setEnabled(true);
@@ -334,8 +338,12 @@ public class RegisterOrganization extends AppCompatActivity {
                 }else{
                     fields.replace("nameRegion",region[0].getNameEnglish());
                 }
-                provincesCurrRegion=provinces.get(region[0].getIdRegion()+"-"+region[0].getIdCountry());
-                provinceAdapter[0] = new ProvinceAdapter(RegisterOrganization.this, provincesCurrRegion);
+                provinceAdapter[0] = new ProvinceAdapter(RegisterOrganization.this, provinces.stream().filter(new Predicate<Province>() {
+                    @Override
+                    public boolean test(Province province) {
+                        return province.getIdRegion()==idRegion[0] && province.getIdCountry().equals(idCountry[0]);
+                    }
+                }).collect(Collectors.toList()));
                 provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
                 provinceSpinner.setAdapter(provinceAdapter[0]);
                 provinceSpinner.setEnabled(true);
@@ -374,8 +382,12 @@ public class RegisterOrganization extends AppCompatActivity {
                 }else{
                     fields.replace("nameProvince",province[0].getNameEnglish());
                 }
-                citiesCurrProvince=cities.get(province[0].getIdProvince()+"-"+province[0].getIdRegion()+"-"+province[0].getIdCountry());
-                cityAdapter[0] = new CityAdapter(RegisterOrganization.this, citiesCurrProvince);
+                cityAdapter[0] = new CityAdapter(RegisterOrganization.this, cities.stream().filter(new Predicate<City>() {
+                    @Override
+                    public boolean test(City city) {
+                        return city.getIdProvince()==idProvince[0] && city.getIdRegion()==idRegion[0] && city.getIdCountry().equals(idCountry[0]);
+                    }
+                }).collect(Collectors.toList()));
                 cityAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
                 citySpinner.setAdapter(cityAdapter[0]);
                 citySpinner.setEnabled(true);

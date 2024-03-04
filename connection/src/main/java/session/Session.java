@@ -8,6 +8,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicReference;
 
 import cli.indicators.Ambit;
 import cli.indicators.Indicator;
@@ -58,11 +63,11 @@ public class Session {
 
     private List<Country> countries;
 
-    private Map<String,List<Region>> regions;
+    private List<Region> regions;
 
-    private Map<String,List<Province>> provinces;
+    private List<Province> provinces;
 
-    private Map<String,List<City>> cities;
+    private List<City> cities;
     private Session(JsonObject data) {
         setToken(data.getAsJsonPrimitive("token").getAsString());
         JsonObject jsonUser=data.getAsJsonObject("user");
@@ -199,63 +204,67 @@ public class Session {
         this.countries = countries;
     }
 
-    public Map<String, List<Region>> getRegions() {
+    public List<Region> getRegions() {
         return regions;
     }
 
-    public void setRegions(Map<String, List<Region>> regions) {
+    public void setRegions(List<Region> regions) {
         this.regions = regions;
     }
 
-    public Map<String, List<Province>> getProvinces() {
+    public List<Province> getProvinces() {
         return provinces;
     }
 
-    public void setProvinces(Map<String, List<Province>> provinces) {
+    public void setProvinces(List<Province> provinces) {
         this.provinces = provinces;
     }
 
-    public Map<String, List<City>> getCities() {
+    public List<City> getCities() {
         return cities;
     }
 
-    public void setCities(Map<String, List<City>> cities) {
+    public void setCities(List<City> cities) {
         this.cities = cities;
     }
 
     public void obtainGeoDataFromDataBase(){
-        if(countries==null){
-            countries=CountriesController.getInstance().GetAll(Locale.getDefault().getLanguage());
-            List<Region> allRegions=RegionsController.getInstance().GetAll();
-            List<Province> allProvinces=ProvincesController.getInstance().GetAll();
-            List<City> allCities=CitiesController.getInstance().GetAll();
-            regions=new HashMap<>();
-            for(Region r:allRegions){
-                if(!regions.containsKey(r.getIdCountry())){
-                    regions.put(r.getIdCountry(),new ArrayList<>());
-                }
-                List<Region> aux1=regions.get(r.getIdCountry());
-                aux1.add(r);
-                regions.put(r.getIdCountry(),aux1);
+        try{
+            if(countries==null){
+                cities=new ArrayList<>();
+                CompletableFuture<Void> future1 = CompletableFuture.runAsync(() -> {
+                    countries=CountriesController.getInstance().GetAll(Locale.getDefault().getLanguage());
+                });
+
+                CompletableFuture<Void> future2 = CompletableFuture.runAsync(() -> {
+                    regions=RegionsController.getInstance().GetAll();
+                });
+
+                CompletableFuture<Void> future3 = CompletableFuture.runAsync(() -> {
+                    provinces=ProvincesController.getInstance().GetAll();
+                });
+
+                CompletableFuture<Void> future4 = CompletableFuture.runAsync(() -> {
+                    cities.addAll(CitiesController.getInstance().GetAll(1,116892)); //There are 467568 cities. Pagination
+                });
+
+                CompletableFuture<Void> future5 = CompletableFuture.runAsync(() -> {
+                    cities.addAll(CitiesController.getInstance().GetAll(2,116892)); //There are 467568 cities. Pagination
+                });
+
+                CompletableFuture<Void> future6 = CompletableFuture.runAsync(() -> {
+                    cities.addAll(CitiesController.getInstance().GetAll(3,116892)); //There are 467568 cities. Pagination
+                });
+
+                CompletableFuture<Void> future7 = CompletableFuture.runAsync(() -> {
+                    cities.addAll(CitiesController.getInstance().GetAll(4,116892)); //There are 467568 cities. Pagination
+                });
+
+                CompletableFuture.allOf(future1, future2, future3, future4, future5, future6, future7).get();
+
             }
-            provinces=new HashMap<>();
-            for(Province p:allProvinces){
-                if(!provinces.containsKey(p.getIdRegion()+"-"+p.getIdCountry())){
-                    provinces.put(p.getIdRegion()+"-"+p.getIdCountry(),new ArrayList<>());
-                }
-                List<Province> aux2=provinces.get(p.getIdRegion()+"-"+p.getIdCountry());
-                aux2.add(p);
-                provinces.put(p.getIdRegion()+"-"+p.getIdCountry(),aux2);
-            }
-            cities=new HashMap<>();
-            for(City c:allCities){
-                if(!cities.containsKey(c.getIdProvince()+"-"+c.getIdRegion()+"-"+c.getIdCountry())){
-                    cities.put(c.getIdProvince()+"-"+c.getIdRegion()+"-"+c.getIdCountry(),new ArrayList<>());
-                }
-                List<City> aux3=cities.get(c.getIdProvince()+"-"+c.getIdRegion()+"-"+c.getIdCountry());
-                aux3.add(c);
-                cities.put(c.getIdProvince()+"-"+c.getIdRegion()+"-"+c.getIdCountry(),aux3);
-            }
+        }catch(InterruptedException | ExecutionException e){
+            throw new RuntimeException(e);
         }
     }
 

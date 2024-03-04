@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import cli.organization.Organization;
 import cli.organization.data.Address;
@@ -50,13 +52,13 @@ import session.Session;
 public class RegisterNewCenter extends AppCompatActivity {
 
     List<Organization> organizations;
-    List<Country> countries;
+    private List<Country> countries;
 
-    private Map<String,List<Region>> regions;
+    private List<Region> regions;
 
-    private Map<String,List<Province>> provinces;
+    private List<Province> provinces;
 
-    private Map<String,List<City>> cities;
+    private List<City> cities;
 
     List<Region> regionsCurrCountry;
 
@@ -184,10 +186,14 @@ public class RegisterNewCenter extends AppCompatActivity {
 
                 idCountry[0] = country[0].getIdCountry();
                 if (FieldChecker.isPrecharged(idCountry[0])) {
-                    regionsCurrCountry=regions.get(country[0].getIdCountry());
                     if(regions.size()>1){
                         regionSpinner.setVisibility(View.VISIBLE);
-                        regionAdapter[0] = new RegionAdapter(RegisterNewCenter.this, regionsCurrCountry);
+                        regionAdapter[0] = new RegionAdapter(RegisterNewCenter.this, regions.stream().filter(new Predicate<Region>() {
+                            @Override
+                            public boolean test(Region region) {
+                                return region.getIdCountry().equals(idCountry[0]);
+                            }
+                        }).collect(Collectors.toList()));
                         regionAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
                         regionSpinner.setAdapter(regionAdapter[0]);
                         regionSpinner.setEnabled(true);
@@ -197,8 +203,12 @@ public class RegisterNewCenter extends AppCompatActivity {
                         if(regionSpinner.getVisibility()==View.VISIBLE){
                             regionSpinner.setVisibility(View.GONE);
                         }
-                        provincesCurrRegion=provinces.get(-1+"-"+idCountry[0]);
-                        provinceAdapter[0] = new ProvinceAdapter(RegisterNewCenter.this, provincesCurrRegion);
+                        provinceAdapter[0] = new ProvinceAdapter(RegisterNewCenter.this, provinces.stream().filter(new Predicate<Province>() {
+                            @Override
+                            public boolean test(Province province) {
+                                return province.getIdRegion()==-1 && province.getIdCountry().equals(idCountry[0]);
+                            }
+                        }).collect(Collectors.toList()));
                         provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
                         provinceSpinner.setAdapter(provinceAdapter[0]);
                         provinceSpinner.setEnabled(true);
@@ -257,8 +267,12 @@ public class RegisterNewCenter extends AppCompatActivity {
                 }else{
                     fields.replace("nameRegion",region[0].getNameEnglish());
                 }
-                provincesCurrRegion=provinces.get(region[0].getIdRegion()+"-"+region[0].getIdCountry());
-                provinceAdapter[0] = new ProvinceAdapter(RegisterNewCenter.this, provincesCurrRegion);
+                provinceAdapter[0] = new ProvinceAdapter(RegisterNewCenter.this, provinces.stream().filter(new Predicate<Province>() {
+                    @Override
+                    public boolean test(Province province) {
+                        return province.getIdRegion()==idRegion[0] && province.getIdCountry().equals(idCountry[0]);
+                    }
+                }).collect(Collectors.toList()));
                 provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
                 provinceSpinner.setAdapter(provinceAdapter[0]);
                 provinceSpinner.setEnabled(true);
@@ -297,8 +311,12 @@ public class RegisterNewCenter extends AppCompatActivity {
                 }else{
                     fields.replace("nameProvince",province[0].getNameEnglish());
                 }
-                citiesCurrProvince=cities.get(province[0].getIdProvince()+"-"+province[0].getIdRegion()+"-"+province[0].getIdCountry());
-                cityAdapter[0] = new CityAdapter(RegisterNewCenter.this, citiesCurrProvince);
+                cityAdapter[0] = new CityAdapter(RegisterNewCenter.this, cities.stream().filter(new Predicate<City>() {
+                    @Override
+                    public boolean test(City city) {
+                        return city.getIdProvince()==idProvince[0] && city.getIdRegion()==idRegion[0] && city.getIdCountry().equals(idCountry[0]);
+                    }
+                }).collect(Collectors.toList()));
                 cityAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
                 citySpinner.setAdapter(cityAdapter[0]);
                 citySpinner.setEnabled(true);
@@ -309,41 +327,6 @@ public class RegisterNewCenter extends AppCompatActivity {
 
             }
         });
-
-        citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                city[0] = cityAdapter[0].getItem(position);
-                idCity[0] = city[0].getIdProvince();
-                if(Locale.getDefault().getLanguage().equals("es")) {
-                    fields.replace("nameCity",city[0].getNameSpanish());
-                }else if(Locale.getDefault().getLanguage().equals("fr")){
-                    fields.replace("nameCity",city[0].getNameFrench());
-                }else if(Locale.getDefault().getLanguage().equals("eu")) {
-                    fields.replace("nameCity",city[0].getNameBasque());
-                }else if(Locale.getDefault().getLanguage().equals("ca")){
-                    fields.replace("nameCity",city[0].getNameCatalan());
-                }else if(Locale.getDefault().getLanguage().equals("nl")) {
-                    fields.replace("nameCity",city[0].getNameDutch());
-                }else if(Locale.getDefault().getLanguage().equals("gl")){
-                    fields.replace("nameCity",city[0].getNameGalician());
-                }else if(Locale.getDefault().getLanguage().equals("de")) {
-                    fields.replace("nameCity",city[0].getNameGerman());
-                }else if(Locale.getDefault().getLanguage().equals("it")){
-                    fields.replace("nameCity",city[0].getNameItalian());
-                }else if(Locale.getDefault().getLanguage().equals("pt")) {
-                    fields.replace("nameCity",city[0].getNamePortuguese());
-                }else{
-                    fields.replace("nameCity",city[0].getNameEnglish());
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
 
 
         descriptionCenterField.addTextChangedListener(new TextWatcher() {

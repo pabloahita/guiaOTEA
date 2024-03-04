@@ -122,28 +122,16 @@ public class CitiesController {
 
     /**
      * Method that obtains from the database all the cities
+     * @param numPage - Page number
+     * @param pageSize - Page size
      * @return City list
      * */
-    public static List<City> GetAll(){
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<City>> callable = new Callable<List<City>>() {
-            @Override
-            public List<City> call() throws Exception {
-                Call<List<City>> call = api.GetAll();
-                Response<List<City>> response = call.execute();
-                if (response.isSuccessful()) {
-                    return response.body();
-                } else {
-                    throw new IOException("Error: " + response.code() + " " + response.message());
-                }
-            }
-        };
+    public static List<City> GetAll(int numPage, int pageSize){
         try {
-            Future<List<City>> future = executor.submit(callable);
-            List<City> list = future.get();
-            executor.shutdown();
-            return list;
-        } catch (InterruptedException | ExecutionException e) {
+            Call<List<City>> call = api.GetAll(numPage,pageSize);
+            Response<List<City>> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import cli.organization.data.geo.Country;
 import cli.organization.data.geo.Province;
 import cli.organization.data.geo.Province;
 import otea.connection.ConnectionClient;
@@ -123,25 +124,11 @@ public class ProvincesController {
      * @return Province list
      * */
     public static List<Province> GetAll(){
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<Province>> callable = new Callable<List<Province>>() {
-            @Override
-            public List<Province> call() throws Exception {
-                Call<List<Province>> call = api.GetAll();
-                Response<List<Province>> response = call.execute();
-                if (response.isSuccessful()) {
-                    return response.body();
-                } else {
-                    throw new IOException("Error: " + response.code() + " " + response.message());
-                }
-            }
-        };
         try {
-            Future<List<Province>> future = executor.submit(callable);
-            List<Province> list = future.get();
-            executor.shutdown();
-            return list;
-        } catch (InterruptedException | ExecutionException e) {
+            Call<List<Province>> call = api.GetAll();
+            Response<List<Province>> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

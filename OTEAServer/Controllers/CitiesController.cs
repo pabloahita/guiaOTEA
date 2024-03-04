@@ -79,16 +79,19 @@ namespace OTEAServer.Controllers
         }
 
         /// <summary>
-        /// Method that obtains all cities
+        /// Method that obtains all cities, by pagination due of huge quantity of registries
         /// </summary>
+        /// <param name="numPage">Page number</param>
+        /// <param name="pageSize">Page size</param>
         /// <returns>City list</returns>
         
         [HttpGet("all")]
-        public IActionResult GetAll()
+        public IActionResult GetAll([FromQuery] int numPage, [FromQuery] int pageSize)
         {
             try
             {
-                var cities = _context.Cities.ToList();
+                var skip = (numPage - 1) * pageSize;
+                var cities = _context.Cities.Skip(skip).Take(pageSize).ToList();
                 return Ok(cities);
             }
             catch (Exception ex)

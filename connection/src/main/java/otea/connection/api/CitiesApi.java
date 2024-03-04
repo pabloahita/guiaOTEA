@@ -38,8 +38,10 @@ public interface CitiesApi {
 
     /**
      * Get all cities
+     * @param numPage - Page number
+     * @param pageSize - Page size
      * */
     @GET("Cities/all")
-    Call<List<City>> GetAll();
+    Call<List<City>> GetAll(@Query("numPage") int numPage, @Query("pageSize") int pageSize);
 
 }
