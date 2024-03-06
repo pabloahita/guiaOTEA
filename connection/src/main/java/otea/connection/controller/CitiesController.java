@@ -96,7 +96,7 @@ public class CitiesController {
      * @param idCountry - Country identifier
      * @return Cities of the province
      * */
-    /*public static List<City> GetCitiesByProvince(int idProvince, int idRegion, String idCountry){
+    public static List<City> GetCitiesByProvince(int idProvince, int idRegion, String idCountry){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<City>> callable = new Callable<List<City>>() {
             @Override
@@ -116,20 +116,6 @@ public class CitiesController {
             executor.shutdown();
             return list;
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
-    } */
-
-    /**
-     * Method that obtains from the database all the cities
-     * @return City list
-     * */
-    public static List<City> GetAll(){
-        try {
-            Call<List<City>> call = api.GetAll();
-            Response<List<City>> response = call.execute();
-            return response.body();
-        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

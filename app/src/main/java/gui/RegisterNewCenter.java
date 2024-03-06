@@ -22,8 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import cli.organization.Organization;
 import cli.organization.data.Address;
@@ -52,19 +50,13 @@ import session.Session;
 public class RegisterNewCenter extends AppCompatActivity {
 
     List<Organization> organizations;
-    private List<Country> countries;
+    List<Country> countries;
 
-    private List<Region> regions;
+    List<Region> regions;
 
-    private List<Province> provinces;
+    List<Province> provinces;
 
-    private List<City> cities;
-
-    List<Region> regionsCurrCountry;
-
-    List<Province> provincesCurrRegion;
-
-    List<City> citiesCurrProvince;
+    List<City> cities;
     CountryAdapter[] countryAdapter={null};
 
     RegionAdapter[] regionAdapter={null};
@@ -94,10 +86,6 @@ public class RegisterNewCenter extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_new_center);
 
-        countries=Session.getInstance().getCountries();
-        regions=Session.getInstance().getRegions();
-        provinces=Session.getInstance().getProvinces();
-        cities=Session.getInstance().getCities();
 
         Spinner orgSpinner=findViewById(R.id.spinner_orgs);
         if(Session.getInstance().getOrganization().getNameOrg().equals("Fundación Miradas")) {
@@ -185,41 +173,62 @@ public class RegisterNewCenter extends AppCompatActivity {
                 phoneCode1.setSelection(position);
 
                 idCountry[0] = country[0].getIdCountry();
-                if (FieldChecker.isPrecharged(idCountry[0])) {
-                    if(regions.size()>1){
-                        regionSpinner.setVisibility(View.VISIBLE);
-                        regionAdapter[0] = new RegionAdapter(RegisterNewCenter.this, regions);
-                        regionAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-                        regionSpinner.setAdapter(regionAdapter[0]);
-                        regionSpinner.setEnabled(true);
-                        provinceSpinner.setEnabled(false);
-                    }
-                    else{
-                        if(regionSpinner.getVisibility()==View.VISIBLE){
-                            regionSpinner.setVisibility(View.GONE);
+                if(position!=0) {
+                    if (FieldChecker.isPrecharged(idCountry[0])) {
+                        regions=Session.getInstance().getRegionsByCountry(idCountry[0]);
+                        if(regions.size()>1){
+                            regionSpinner.setVisibility(View.VISIBLE);
+
+                            regionAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                            regionSpinner.setAdapter(regionAdapter[0]);
+                            regionSpinner.setEnabled(true);
+                            provinceSpinner.setEnabled(false);
                         }
-                        provinces=Session.getInstance().getProvinces();
-                        provinceAdapter[0] = new ProvinceAdapter(RegisterNewCenter.this, provinces);
-                        provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-                        provinceSpinner.setAdapter(provinceAdapter[0]);
-                        provinceSpinner.setEnabled(true);
+                        else{
+                            if(regionSpinner.getVisibility()==View.VISIBLE){
+                                regionSpinner.setVisibility(View.GONE);
+                            }
+
+                            provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                            provinceSpinner.setAdapter(provinceAdapter[0]);
+                            provinceSpinner.setEnabled(true);
+                        }
+                        provinceSpinner.setEnabled(false);
+                        provinceSpinner.setAlpha(0.5f);
+                        citySpinner.setEnabled(false);
+                        citySpinner.setAlpha(0.5f);
+                        nameProvinceField.setVisibility(View.GONE);
+                        nameRegionField.setVisibility(View.GONE);
+                        nameCityField.setVisibility(View.GONE);
+                    } else {
+                        regionSpinner.setVisibility(View.GONE);
+                        provinceSpinner.setVisibility(View.GONE);
+                        citySpinner.setVisibility(View.GONE);
+                        nameProvinceField.setVisibility(View.VISIBLE);
+                        nameRegionField.setVisibility(View.VISIBLE);
+                        nameCityField.setVisibility(View.VISIBLE);
+                        nameProvinceField.setEnabled(true);
+                        nameRegionField.setEnabled(true);
+                        nameCityField.setEnabled(true);
                     }
+                }
+                else{
+                    regionSpinner.setVisibility(View.VISIBLE);
+                    regionSpinner.setSelection(0);
+                    regionSpinner.setEnabled(false);
+                    regionSpinner.setAlpha(0.5f);
                     provinceSpinner.setVisibility(View.VISIBLE);
+                    provinceSpinner.setSelection(0);
+                    provinceSpinner.setEnabled(false);
+                    provinceSpinner.setAlpha(0.5f);
                     citySpinner.setVisibility(View.VISIBLE);
+                    citySpinner.setSelection(0);
                     citySpinner.setEnabled(false);
+                    citySpinner.setAlpha(0.5f);
                     nameProvinceField.setVisibility(View.GONE);
                     nameRegionField.setVisibility(View.GONE);
                     nameCityField.setVisibility(View.GONE);
-                } else {
-                    regionSpinner.setVisibility(View.GONE);
-                    provinceSpinner.setVisibility(View.GONE);
-                    citySpinner.setVisibility(View.GONE);
-                    nameProvinceField.setVisibility(View.VISIBLE);
-                    nameRegionField.setVisibility(View.VISIBLE);
-                    nameCityField.setVisibility(View.VISIBLE);
-                    nameProvinceField.setEnabled(true);
-                    nameRegionField.setEnabled(true);
-                    nameCityField.setEnabled(true);
+
                 }
 
             }
@@ -237,36 +246,45 @@ public class RegisterNewCenter extends AppCompatActivity {
 
                 region[0] = regionAdapter[0].getItem(position);
                 idRegion[0] = region[0].getIdRegion();
-                if(Locale.getDefault().getLanguage().equals("es")) {
-                    fields.replace("nameRegion",region[0].getNameSpanish());
-                }else if(Locale.getDefault().getLanguage().equals("fr")){
-                    fields.replace("nameRegion",region[0].getNameFrench());
-                }else if(Locale.getDefault().getLanguage().equals("eu")) {
-                    fields.replace("nameRegion",region[0].getNameBasque());
-                }else if(Locale.getDefault().getLanguage().equals("ca")){
-                    fields.replace("nameRegion",region[0].getNameCatalan());
-                }else if(Locale.getDefault().getLanguage().equals("nl")) {
-                    fields.replace("nameRegion",region[0].getNameDutch());
-                }else if(Locale.getDefault().getLanguage().equals("gl")){
-                    fields.replace("nameRegion",region[0].getNameGalician());
-                }else if(Locale.getDefault().getLanguage().equals("de")) {
-                    fields.replace("nameRegion",region[0].getNameGerman());
-                }else if(Locale.getDefault().getLanguage().equals("it")){
-                    fields.replace("nameRegion",region[0].getNameItalian());
-                }else if(Locale.getDefault().getLanguage().equals("pt")) {
-                    fields.replace("nameRegion",region[0].getNamePortuguese());
-                }else{
-                    fields.replace("nameRegion",region[0].getNameEnglish());
-                }
-                provinceAdapter[0] = new ProvinceAdapter(RegisterNewCenter.this, provinces.stream().filter(new Predicate<Province>() {
-                    @Override
-                    public boolean test(Province province) {
-                        return province.getIdRegion()==idRegion[0];
+                if(position!=0){
+                    if(Locale.getDefault().getLanguage().equals("es")) {
+                        fields.replace("nameRegion",region[0].getNameSpanish());
+                    }else if(Locale.getDefault().getLanguage().equals("fr")){
+                        fields.replace("nameRegion",region[0].getNameFrench());
+                    }else if(Locale.getDefault().getLanguage().equals("eu")) {
+                        fields.replace("nameRegion",region[0].getNameBasque());
+                    }else if(Locale.getDefault().getLanguage().equals("ca")){
+                        fields.replace("nameRegion",region[0].getNameCatalan());
+                    }else if(Locale.getDefault().getLanguage().equals("nl")) {
+                        fields.replace("nameRegion",region[0].getNameDutch());
+                    }else if(Locale.getDefault().getLanguage().equals("gl")){
+                        fields.replace("nameRegion",region[0].getNameGalician());
+                    }else if(Locale.getDefault().getLanguage().equals("de")) {
+                        fields.replace("nameRegion",region[0].getNameGerman());
+                    }else if(Locale.getDefault().getLanguage().equals("it")){
+                        fields.replace("nameRegion",region[0].getNameItalian());
+                    }else if(Locale.getDefault().getLanguage().equals("pt")) {
+                        fields.replace("nameRegion",region[0].getNamePortuguese());
+                    }else{
+                        fields.replace("nameRegion",region[0].getNameEnglish());
                     }
-                }).collect(Collectors.toList()));
-                provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-                provinceSpinner.setAdapter(provinceAdapter[0]);
-                provinceSpinner.setEnabled(true);
+
+                    provinces=Session.getInstance().getProvincesByRegion(idRegion[0],idCountry[0]);
+                    provinceAdapter[0] = new ProvinceAdapter(RegisterNewCenter.this, provinces);
+
+                    provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                    provinceSpinner.setAdapter(provinceAdapter[0]);
+                    provinceSpinner.setEnabled(true);
+                }else{
+                    provinceSpinner.setVisibility(View.VISIBLE);
+                    provinceSpinner.setSelection(0);
+                    provinceSpinner.setEnabled(false);
+                    provinceSpinner.setAlpha(0.5f);
+                    citySpinner.setVisibility(View.VISIBLE);
+                    citySpinner.setSelection(0);
+                    citySpinner.setEnabled(false);
+                    citySpinner.setAlpha(0.5f);
+                }
             }
 
             @Override
@@ -280,36 +298,41 @@ public class RegisterNewCenter extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 province[0] = provinceAdapter[0].getItem(position);
                 idProvince[0] = province[0].getIdProvince();
-                if(Locale.getDefault().getLanguage().equals("es")) {
-                    fields.replace("nameProvince", province[0].getNameSpanish());
-                }else if(Locale.getDefault().getLanguage().equals("fr")){
-                    fields.replace("nameProvince",province[0].getNameFrench());
-                }else if(Locale.getDefault().getLanguage().equals("eu")) {
-                    fields.replace("nameProvince", province[0].getNameBasque());
-                }else if(Locale.getDefault().getLanguage().equals("ca")){
-                    fields.replace("nameProvince",province[0].getNameCatalan());
-                }else if(Locale.getDefault().getLanguage().equals("nl")) {
-                    fields.replace("nameProvince", province[0].getNameDutch());
-                }else if(Locale.getDefault().getLanguage().equals("gl")){
-                    fields.replace("nameProvince",province[0].getNameGalician());
-                }else if(Locale.getDefault().getLanguage().equals("de")) {
-                    fields.replace("nameProvince", province[0].getNameGerman());
-                }else if(Locale.getDefault().getLanguage().equals("it")){
-                    fields.replace("nameProvince",province[0].getNameItalian());
-                }else if(Locale.getDefault().getLanguage().equals("pt")) {
-                    fields.replace("nameProvince",province[0].getNamePortuguese());
-                }else{
-                    fields.replace("nameProvince",province[0].getNameEnglish());
-                }
-                cityAdapter[0] = new CityAdapter(RegisterNewCenter.this, cities.stream().filter(new Predicate<City>() {
-                    @Override
-                    public boolean test(City city) {
-                        return city.getIdProvince()==idProvince[0] && city.getIdRegion()==idRegion[0];
+                if(position!=0) {
+                    if (Locale.getDefault().getLanguage().equals("es")) {
+                        fields.replace("nameProvince", province[0].getNameSpanish());
+                    } else if (Locale.getDefault().getLanguage().equals("fr")) {
+                        fields.replace("nameProvince", province[0].getNameFrench());
+                    } else if (Locale.getDefault().getLanguage().equals("eu")) {
+                        fields.replace("nameProvince", province[0].getNameBasque());
+                    } else if (Locale.getDefault().getLanguage().equals("ca")) {
+                        fields.replace("nameProvince", province[0].getNameCatalan());
+                    } else if (Locale.getDefault().getLanguage().equals("nl")) {
+                        fields.replace("nameProvince", province[0].getNameDutch());
+                    } else if (Locale.getDefault().getLanguage().equals("gl")) {
+                        fields.replace("nameProvince", province[0].getNameGalician());
+                    } else if (Locale.getDefault().getLanguage().equals("de")) {
+                        fields.replace("nameProvince", province[0].getNameGerman());
+                    } else if (Locale.getDefault().getLanguage().equals("it")) {
+                        fields.replace("nameProvince", province[0].getNameItalian());
+                    } else if (Locale.getDefault().getLanguage().equals("pt")) {
+                        fields.replace("nameProvince", province[0].getNamePortuguese());
+                    } else {
+                        fields.replace("nameProvince", province[0].getNameEnglish());
                     }
-                }).collect(Collectors.toList()));
-                cityAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-                citySpinner.setAdapter(cityAdapter[0]);
-                citySpinner.setEnabled(true);
+
+                    cities = Session.getInstance().getCitiesByProvince(idProvince[0], idRegion[0], idCountry[0]);
+                    cityAdapter[0] = new CityAdapter(RegisterNewCenter.this, cities);
+
+                    cityAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                    citySpinner.setAdapter(cityAdapter[0]);
+                    citySpinner.setEnabled(true);
+                }else{
+                    citySpinner.setVisibility(View.VISIBLE);
+                    citySpinner.setSelection(0);
+                    citySpinner.setEnabled(false);
+                    citySpinner.setAlpha(0.5f);
+                }
             }
 
             @Override
@@ -351,6 +374,7 @@ public class RegisterNewCenter extends AppCompatActivity {
 
             }
         });
+
 
 
         descriptionCenterField.addTextChangedListener(new TextWatcher() {
@@ -576,7 +600,7 @@ public class RegisterNewCenter extends AppCompatActivity {
                     public void run() {
 
 
-                        if(!fields.get("centerDescription").equals("") && !fields.get("address").equals("") && !fields.get("nameProvince").equals("") && !fields.get("nameRegion").equals("") && !fields.get("nameCity").equals("")
+                        if(!fields.get("centerDescription").equals("") && !fields.get("address").equals("") && idCountry[0]!="-1" && !fields.get("nameProvince").equals("") && !fields.get("nameRegion").equals("") && !fields.get("nameCity").equals("")
                                 && FieldChecker.isACorrectPhone(fields.get("telephoneCode")+fields.get("telephone"))){
 
                             int numCenters= CentersController.GetAllByOrganization(organization[0]).size();

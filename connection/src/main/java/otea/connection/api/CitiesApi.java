@@ -33,8 +33,8 @@ public interface CitiesApi {
      * @param idRegion - Region identifier
      * @param idCountry - Country identifier
      * */
-    @GET("Cities/allByCountry")
-    Call<List<City>> GetCitiesByCountry(@Query("idCountry") String idCountry);
+    @GET("Cities/allByProvince")
+    Call<List<City>> GetCitiesByProvince(@Query("idProvince") int idProvince, @Query("idRegion") int idRegion, @Query("idCountry") String idCountry);
 
     /**
      * Get all cities

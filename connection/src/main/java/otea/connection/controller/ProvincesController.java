@@ -8,7 +8,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import cli.organization.data.geo.Country;
 import cli.organization.data.geo.Province;
 import cli.organization.data.geo.Province;
 import otea.connection.ConnectionClient;
@@ -94,26 +93,12 @@ public class ProvincesController {
      * @param idCountry - Country identifier
      * @return Provinces list
      * */
-    public static List<Province> GetProvincesByCountry(String idCountry){
+    public static List<Province> GetProvincesByRegion(int idRegion, String idCountry){
         try {
-            Call<List<Province>> call = api.GetProvincesByCountry(idCountry);
+            Call<List<Province>> call = api.GetProvincesByRegion(idRegion,idCountry);
             Response<List<Province>> response = call.execute();
             return response.body();
         }catch(IOException e){
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Method that obtains from the database all the provinces
-     * @return Province list
-     * */
-    public static List<Province> GetAll(){
-        try {
-            Call<List<Province>> call = api.GetAll();
-            Response<List<Province>> response = call.execute();
-            return response.body();
-        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

@@ -92,7 +92,13 @@ public class CountriesController {
      * @return Country list
      * */
     public static List<Country> GetAll(String language){
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 796aa41 (Paginación en obtención de todas las ciudades)
+=======
+>>>>>>> parent of 796aa41 (Paginación en obtención de todas las ciudades)
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<Country>> callable = new Callable<List<Country>>() {
             @Override
@@ -108,9 +114,21 @@ public class CountriesController {
         };
         try {
             Future<List<Country>> future = executor.submit(callable);
+<<<<<<< HEAD
+<<<<<<< HEAD
             List<Country> result = future.get();
             executor.shutdown();
             return result;
+=======
+            List<Country> list = future.get();
+            executor.shutdown();
+            return list;
+>>>>>>> parent of 796aa41 (Paginación en obtención de todas las ciudades)
+=======
+            List<Country> list = future.get();
+            executor.shutdown();
+            return list;
+>>>>>>> parent of 796aa41 (Paginación en obtención de todas las ciudades)
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }

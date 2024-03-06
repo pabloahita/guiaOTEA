@@ -8,13 +8,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 
 import cli.indicators.Ambit;
 import cli.indicators.Indicator;
@@ -71,7 +67,6 @@ public class Session {
 
     private static List<City> cities;
 
-    public static Callback callback;
 
     private static boolean isGeoDataCharged=false;
 
@@ -200,6 +195,10 @@ public class Session {
     }
 
     public List<Country> getCountries() {
+        if(countries==null){
+            countries=CountriesController.GetAll(Locale.getDefault().getLanguage());
+            countries.add(0,new Country("-1","País","Country","Pays","Herrialdea","País","Land","País","Land","Paese","País","-","-"));//Country object for non selected
+        }
         return countries;
     }
 
@@ -207,56 +206,109 @@ public class Session {
         this.countries = countries;
     }
 
-    public List<Region> getRegions() {
-        return regions;
-    }
-
-    public void setRegions(List<Region> regions) {
-        this.regions = regions;
-    }
-
-    public List<Province> getProvinces() {
-        return provinces;
-    }
-
-    public void setProvinces(List<Province> provinces) {
-        this.provinces = provinces;
-    }
-
-    public List<City> getCities() {
-        return cities;
-    }
-
-    public void setCities(List<City> cities) {
-        this.cities = cities;
-    }
-
-    public static boolean IsGeoDataCharged() {
-        return isGeoDataCharged;
-    }
-
-    public static void startGeoChargement(){
-        if(instance.getCountries()==null){
-            CompletableFuture<Void> futureCountries = CompletableFuture.runAsync(() -> {
-                countries = CountriesController.GetAll(Locale.getDefault().getLanguage());
-            });
-            CompletableFuture<Void> futureRegions = CompletableFuture.runAsync(() -> {
-                regions = RegionsController.GetAll();
-            });
-            CompletableFuture<Void> futureProvinces = CompletableFuture.runAsync(() -> {
-                provinces = ProvincesController.GetAll();
-            });
-            CompletableFuture<Void> futureCities = CompletableFuture.runAsync(() -> {
-                cities = CitiesController.GetAll();
-            });
-            CompletableFuture.allOf(futureCountries, futureRegions, futureProvinces, futureCities).thenRun(() -> {
-                if (callback != null) {
-                    callback.onDataReady();
-                }
-            });
-            isGeoDataCharged=true;
+    public List<Region> getRegionsByCountry(String idCountry){
+        Predicate<Region> regionsOfThatCountryExist=new Predicate<Region>() {
+            @Override
+            public boolean test(Region region) {
+                return region.getIdCountry().equals(idCountry);
+            }
+        };
+        Predicate<Region> regionNoneWasCreated=new Predicate<Region>() {
+            @Override
+            public boolean test(Region region) {
+                return region.getIdRegion()==-2;
+            }
+        };
+        if(regions==null){
+            regions=RegionsController.GetRegionsByCountry(idCountry);
+        }else if(!regions.stream().anyMatch(regionsOfThatCountryExist)){
+            regions.addAll(RegionsController.GetRegionsByCountry(idCountry));
         }
+        Region region=null;
+
+        if(regions.stream().anyMatch(regionNoneWasCreated)){
+            region=regions.get(0);
+            region.setIdCountry(idCountry);
+            regions.remove(0);
+        }
+        else{
+            region=new Region(-2,idCountry,"Región","Region","Région","Eskualdea","Regió","Regio","Rexión","Region","Regione","Região");
+        }
+        regions.add(0,region);
+        return regions.stream().filter(regionsOfThatCountryExist).collect(Collectors.toList());
     }
+
+    public List<Province> getProvincesByRegion(int idRegion, String idCountry){
+        Predicate<Province> provincesOfThatRegionExist=new Predicate<Province>() {
+            @Override
+            public boolean test(Province province) {
+                return province.getIdRegion()==idRegion && province.getIdCountry().equals(idCountry);
+            }
+        };
+
+        Predicate<Province> provinceNoneWasCreated=new Predicate<Province>() {
+            @Override
+            public boolean test(Province province) {
+                return province.idProvince==-2;
+            }
+        };
+        if(provinces==null){
+            provinces=ProvincesController.GetProvincesByRegion(idRegion,idCountry);
+        }else if(!provinces.stream().anyMatch(provincesOfThatRegionExist)){
+            provinces.addAll(ProvincesController.GetProvincesByRegion(idRegion,idCountry));
+        }
+        Province province;
+
+        if(provinces.stream().anyMatch(provinceNoneWasCreated)){
+            province=provinces.get(0);
+            province.setIdRegion(idRegion);
+            province.setIdCountry(idCountry);
+            provinces.remove(0);
+        }
+        else{
+            province=new Province(-2,idRegion,idCountry,"Provincia","Province","Province","Probintzia","Província","Provincie","Provincia","Provinz","Provincia","Província");
+        }
+        provinces.add(province);
+        return provinces.stream().filter(provincesOfThatRegionExist).collect(Collectors.toList());
+    }
+
+
+    public List<City> getCitiesByProvince(int idProvince, int idRegion, String idCountry){
+        Predicate<City> citiesOfThatProvinceExist=new Predicate<City>() {
+            @Override
+            public boolean test(City city) {
+                return city.getIdProvince()==idProvince && city.getIdRegion()==idRegion && city.getIdCountry().equals(idCountry);
+            }
+        };
+
+        Predicate<City> cityNoneWasCreated=new Predicate<City>() {
+            @Override
+            public boolean test(City city) {
+                return city.getIdCity()==-2;
+            }
+        };
+        if(cities==null){
+            cities=CitiesController.GetCitiesByProvince(idProvince,idRegion,idCountry);
+        }else if(!cities.stream().anyMatch(citiesOfThatProvinceExist)){
+            cities.addAll(CitiesController.GetCitiesByProvince(idProvince,idRegion,idCountry));
+        }
+
+        City city;
+
+        if(cities.stream().anyMatch(cityNoneWasCreated)){
+            city=cities.get(0);
+            city.setIdProvince(idProvince);
+            city.setIdRegion(idRegion);
+            city.setIdCountry(idCountry);
+            cities.remove(0);
+        }
+        else{
+            city=new City(-2,idProvince,idRegion,idCountry,"Ciudad","City","Ville","Hiri","Ciutat","Stad","Cidade","Stad","Città","Cidade");
+        }
+        cities.add(city);
+        return cities.stream().filter(citiesOfThatProvinceExist).collect(Collectors.toList());
+    }
+
 
     public void obtainIndicatorsFromDataBase(){
         if(indicators==null) {
@@ -285,8 +337,4 @@ public class Session {
         }
     }
 
-
-    public interface Callback{
-        void onDataReady();
-    }
 }

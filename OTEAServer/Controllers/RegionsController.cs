@@ -74,12 +74,12 @@ namespace OTEAServer.Controllers
         /// </summary>
         /// <returns>Region list</returns>
 
-        [HttpGet("all")]
-        public IActionResult GetAll()
+        [HttpGet("allByCountry")]
+        public IActionResult GetAllByRegion([FromQuery] string idCountry)
         {
             try
             {
-                var regions = _context.Regions.ToList();
+                var regions = _context.Regions.Where(r => r.idCountry == idCountry).ToList();
                 return Ok(regions);
             }
             catch (Exception ex)

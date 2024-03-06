@@ -115,11 +115,25 @@ public class RegionsController {
      * @return Region list
      * */
     public static List<Region> GetAll(){
-        try{
-            Call<List<Region>> call = api.GetAll();
-            Response<List<Region>> response = call.execute();
-            return response.body();
-        }catch(IOException e){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Callable<List<Region>> callable = new Callable<List<Region>>() {
+            @Override
+            public List<Region> call() throws Exception {
+                Call<List<Region>> call = api.GetAll();
+                Response<List<Region>> response = call.execute();
+                if (response.isSuccessful()) {
+                    return response.body();
+                } else {
+                    throw new IOException("Error: " + response.code() + " " + response.message());
+                }
+            }
+        };
+        try {
+            Future<List<Region>> future = executor.submit(callable);
+            List<Region> list = future.get();
+            executor.shutdown();
+            return list;
+        } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
     }

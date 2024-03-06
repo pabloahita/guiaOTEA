@@ -77,12 +77,16 @@ namespace OTEAServer.Controllers
 
         }
 
-        [HttpGet("all")]
-        public IActionResult GetAll()
+        /// <summary>
+        /// Method that obtains all cities
+        /// </summary>
+        /// <returns>City list</returns>
+        [HttpGet("allByProvince")]
+        public IActionResult GetAllByProvince([FromQuery] int idProvince, [FromQuery] int idRegion, [FromQuery] string idCountry)
         {
             try
             {
-                var cities = _context.Cities.ToList();
+                var cities = _context.Cities.Where(c=>c.idProvince==idProvince && c.idRegion==idRegion && c.idCountry==idCountry).ToList();
                 return Ok(cities);
             }
             catch (Exception ex)

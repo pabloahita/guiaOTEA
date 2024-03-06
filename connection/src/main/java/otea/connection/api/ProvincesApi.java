@@ -29,10 +29,11 @@ public interface ProvincesApi {
     /**
      * Gets all provinces of a region
      *
+     * @param idRegion - Region identifier
      * @param idCountry - Country identifier
      * */
-    @GET("Provinces/allByCountry")
-    Call<List<Province>> GetProvincesByCountry(@Query("idCountry") String idCountry);
+    @GET("Provinces/allByRegion")
+    Call<List<Province>> GetProvincesByRegion(@Query("idRegion") int idRegion, @Query("idCountry") String idCountry);
 
     /**
      * Get all provinces
