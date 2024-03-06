@@ -30,7 +30,7 @@ public interface RegionsApi {
      *
      * @param idCountry - Country identifier
      * */
-    @GET("Regions/country")
+    @GET("Regions/allByCountry")
     Call<List<Region>> GetRegionsByCountry(@Query("idCountry") String idCountry);
 
     /**

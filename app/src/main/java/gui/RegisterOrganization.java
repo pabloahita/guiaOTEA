@@ -305,6 +305,9 @@ public class RegisterOrganization extends AppCompatActivity {
                     nameProvinceField.setVisibility(View.GONE);
                     nameRegionField.setVisibility(View.GONE);
                     nameCityField.setVisibility(View.GONE);
+                    fields.replace("nameCity","");
+                    fields.replace("nameProvince","");
+                    fields.replace("nameRegion","");
 
                 }
 
@@ -361,6 +364,9 @@ public class RegisterOrganization extends AppCompatActivity {
                     citySpinner.setSelection(0);
                     citySpinner.setEnabled(false);
                     citySpinner.setAlpha(0.5f);
+                    fields.replace("nameCity","");
+                    fields.replace("nameProvince","");
+                    fields.replace("nameRegion","");
                 }
             }
 
@@ -409,6 +415,8 @@ public class RegisterOrganization extends AppCompatActivity {
                     citySpinner.setSelection(0);
                     citySpinner.setEnabled(false);
                     citySpinner.setAlpha(0.5f);
+                    fields.replace("nameCity","");
+                    fields.replace("nameProvince","");
                 }
             }
 
@@ -422,26 +430,30 @@ public class RegisterOrganization extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 city[0] = cityAdapter[0].getItem(position);
                 idCity[0] = city[0].getIdProvince();
-                if(Locale.getDefault().getLanguage().equals("es")) {
-                    fields.replace("nameCity",city[0].getNameSpanish());
-                }else if(Locale.getDefault().getLanguage().equals("fr")){
-                    fields.replace("nameCity",city[0].getNameFrench());
-                }else if(Locale.getDefault().getLanguage().equals("eu")) {
-                    fields.replace("nameCity",city[0].getNameBasque());
-                }else if(Locale.getDefault().getLanguage().equals("ca")){
-                    fields.replace("nameCity",city[0].getNameCatalan());
-                }else if(Locale.getDefault().getLanguage().equals("nl")) {
-                    fields.replace("nameCity",city[0].getNameDutch());
-                }else if(Locale.getDefault().getLanguage().equals("gl")){
-                    fields.replace("nameCity",city[0].getNameGalician());
-                }else if(Locale.getDefault().getLanguage().equals("de")) {
-                    fields.replace("nameCity",city[0].getNameGerman());
-                }else if(Locale.getDefault().getLanguage().equals("it")){
-                    fields.replace("nameCity",city[0].getNameItalian());
-                }else if(Locale.getDefault().getLanguage().equals("pt")) {
-                    fields.replace("nameCity",city[0].getNamePortuguese());
+                if(position!=0){
+                    if(Locale.getDefault().getLanguage().equals("es")) {
+                        fields.replace("nameCity",city[0].getNameSpanish());
+                    }else if(Locale.getDefault().getLanguage().equals("fr")){
+                        fields.replace("nameCity",city[0].getNameFrench());
+                    }else if(Locale.getDefault().getLanguage().equals("eu")) {
+                        fields.replace("nameCity",city[0].getNameBasque());
+                    }else if(Locale.getDefault().getLanguage().equals("ca")){
+                        fields.replace("nameCity",city[0].getNameCatalan());
+                    }else if(Locale.getDefault().getLanguage().equals("nl")) {
+                        fields.replace("nameCity",city[0].getNameDutch());
+                    }else if(Locale.getDefault().getLanguage().equals("gl")){
+                        fields.replace("nameCity",city[0].getNameGalician());
+                    }else if(Locale.getDefault().getLanguage().equals("de")) {
+                        fields.replace("nameCity",city[0].getNameGerman());
+                    }else if(Locale.getDefault().getLanguage().equals("it")){
+                        fields.replace("nameCity",city[0].getNameItalian());
+                    }else if(Locale.getDefault().getLanguage().equals("pt")) {
+                        fields.replace("nameCity",city[0].getNamePortuguese());
+                    }else{
+                        fields.replace("nameCity",city[0].getNameEnglish());
+                    }
                 }else{
-                    fields.replace("nameCity",city[0].getNameEnglish());
+                    fields.replace("nameCity","");
                 }
             }
 

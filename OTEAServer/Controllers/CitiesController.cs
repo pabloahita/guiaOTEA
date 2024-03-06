@@ -36,12 +36,12 @@ namespace OTEAServer.Controllers
         /// </summary>
         /// <param name="idCountry"></param>
         /// <returns>Cities of the province</returns>
-        [HttpGet("allByCountry")]
-        public IActionResult GetAllByCountry([FromQuery] string idCountry)
+        [HttpGet("allByProvince")]
+        public IActionResult GetAllByProvince([FromQuery] int idProvince, [FromQuery] int idRegion, [FromQuery] string idCountry)
         {
             try
             {
-                var cities = _context.Cities.Where(c => c.idCountry == idCountry).ToList();
+                var cities = _context.Cities.Where(c => c.idProvince == idProvince && c.idRegion == idRegion && c.idCountry == idCountry).ToList();
                 return Ok(cities);
             }
             catch (Exception ex)
@@ -81,18 +81,6 @@ namespace OTEAServer.Controllers
         /// Method that obtains all cities
         /// </summary>
         /// <returns>City list</returns>
-        [HttpGet("allByProvince")]
-        public IActionResult GetAllByProvince([FromQuery] int idProvince, [FromQuery] int idRegion, [FromQuery] string idCountry)
-        {
-            try
-            {
-                var cities = _context.Cities.Where(c=>c.idProvince==idProvince && c.idRegion==idRegion && c.idCountry==idCountry).ToList();
-                return Ok(cities);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        
     }
 }
