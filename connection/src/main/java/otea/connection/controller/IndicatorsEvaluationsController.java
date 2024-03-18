@@ -2,6 +2,7 @@ package otea.connection.controller;
 
 import java.io.IOException;
 ;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -11,6 +12,7 @@ import java.util.concurrent.Future;
 
 import cli.indicators.Indicator;
 import cli.indicators.IndicatorsEvaluation;
+import cli.indicators.IndicatorsEvaluationReg;
 import otea.connection.ConnectionClient;
 import otea.connection.api.IndicatorsEvaluationsApi;
 import retrofit2.Call;
@@ -267,22 +269,15 @@ public class IndicatorsEvaluationsController {
     /**
      * Method that obtains the finished indicator evaluation with its results
      *
-     * @param evaluationDate - Evaluation date in timestamp
-     * @param idEvaluatorTeam - Evaluator team identifier
-     * @param idEvaluatedOrganization - Identifier of the evaluator organization that will do the indicators evaluation
-     * @param orgTypeEvaluator - Organization type of the evaluator organization that will do the indicators evaluation. It will be always "EVALUATOR"
-     * @param idEvaluatorOrganization - Identifier of the external organization that will recieve the indicators evaluation
-     * @param orgTypeEvaluated - Organization type of the external organization that will recieve the indicators evaluation. It will be always "EVALUATED"
-     * @param illness - Illness of the external organization that will recieve the indicators evaluation. In case of Fundación Miradas, it will be "AUTISM"
-     * @param idCenter - Center identifier of the external organization
+     * @param indicatorsEvaluation - Indicators evaluation
      * @return Indicators evaluation if success, null if not
      * */
-    public static IndicatorsEvaluation calculateResults(long evaluationDate, int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator, int idEvaluatedOrganization, String orgTypeEvaluated, String illness, int idCenter){
+    public static IndicatorsEvaluation calculateResults(IndicatorsEvaluation indicatorsEvaluation){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<IndicatorsEvaluation> callable = new Callable<IndicatorsEvaluation>() {
             @Override
             public IndicatorsEvaluation call() throws Exception {
-                Call<IndicatorsEvaluation> call=api.calculateResults(evaluationDate,idEvaluatorTeam,idEvaluatorOrganization,orgTypeEvaluator,idEvaluatedOrganization,orgTypeEvaluated,illness,idCenter);
+                Call<IndicatorsEvaluation> call=api.calculateResults(indicatorsEvaluation);
                 Response<IndicatorsEvaluation> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

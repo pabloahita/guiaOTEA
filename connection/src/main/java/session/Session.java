@@ -2,6 +2,8 @@ package session;
 
 import com.google.gson.JsonObject;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -13,10 +15,14 @@ import java.util.stream.Collectors;
 
 
 import cli.indicators.Ambit;
+import cli.indicators.Evidence;
 import cli.indicators.Indicator;
+import cli.indicators.IndicatorsEvaluation;
 import cli.indicators.SubAmbit;
 import cli.indicators.SubSubAmbit;
 import cli.organization.Organization;
+import cli.organization.data.Center;
+import cli.organization.data.EvaluatorTeam;
 import cli.organization.data.geo.City;
 import cli.organization.data.geo.Country;
 import cli.organization.data.geo.Province;
@@ -55,9 +61,11 @@ public class Session {
 
     private List<Ambit> ambits;
 
-    private Map<Integer,List<SubAmbit>> subAmbits;
+    private List<Evidence> evidences;
 
-    private Map<List<Integer>,List<SubSubAmbit>> subSubAmbits;
+    private List<SubAmbit> subAmbits;
+
+    private List<SubSubAmbit> subSubAmbits;
 
     private static List<Country> countries;
 
@@ -67,8 +75,22 @@ public class Session {
 
     private static List<City> cities;
 
+    private static List<Organization> evaluatedOrganizations;
 
-    private static boolean isGeoDataCharged=false;
+    private static List<User> evaluatorUsers;
+
+    private static List<User> evaluatedUsers;
+
+    private static List<Center> centers;
+
+    private static List<EvaluatorTeam> evaluatorTeams;
+
+    private ByteArrayOutputStream orgPhoto;
+
+    private ByteArrayOutputStream usrPhoto;
+
+    private IndicatorsEvaluation currEvaluation;
+
 
     private Session(JsonObject data) {
         setToken(data.getAsJsonPrimitive("token").getAsString());
@@ -85,57 +107,42 @@ public class Session {
     public static synchronized Session createSession(JsonObject data){
         if(instance==null){
             instance=new Session(data);
-            instance.refreshCallers(true);
         }
         return instance;
     }
 
-    public static void refreshCallers(boolean hasToken){
-        if(!hasToken) {
-            AmbitsController.getInstance();
-            SubAmbitsController.getInstance();
-            SubSubAmbitsController.getInstance();
-            AddressesController.getInstance();
-            CentersController.getInstance();
-            CitiesController.getInstance();
-            CountriesController.getInstance();
-            EvaluatorTeamsController.getInstance();
-            EvidencesController.getInstance();
-            IndicatorsController.getInstance();
-            IndicatorsEvaluationRegsController.getInstance();
-            IndicatorsEvaluationsController.getInstance();
-            OrganizationsController.getInstance();
-            ProvincesController.getInstance();
-            RegionsController.getInstance();
-            RequestsController.getInstance();
-            UsersController.getInstance();
-            TranslatorController.getInstance();
-            FileManager.getInstance();
-        }else{
-            AmbitsController.refreshApi();
-            SubAmbitsController.refreshApi();
-            SubSubAmbitsController.refreshApi();
-            AddressesController.refreshApi();
-            CentersController.refreshApi();
-            CitiesController.refreshApi();
-            CountriesController.refreshApi();
-            EvaluatorTeamsController.refreshApi();
-            EvidencesController.refreshApi();
-            IndicatorsController.refreshApi();
-            IndicatorsEvaluationRegsController.refreshApi();
-            IndicatorsEvaluationsController.refreshApi();
-            OrganizationsController.refreshApi();
-            ProvincesController.refreshApi();
-            RegionsController.refreshApi();
-            RequestsController.refreshApi();
-            UsersController.refreshApi();
-            TranslatorController.refreshApi();
-            FileManager.refreshApi();
-        }
+    public static void refreshCallers(){
+        AmbitsController.getInstance();
+        SubAmbitsController.getInstance();
+        SubSubAmbitsController.getInstance();
+        AddressesController.getInstance();
+        CentersController.getInstance();
+        CitiesController.getInstance();
+        CountriesController.getInstance();
+        EvaluatorTeamsController.getInstance();
+        EvidencesController.getInstance();
+        IndicatorsController.getInstance();
+        IndicatorsEvaluationRegsController.getInstance();
+        IndicatorsEvaluationsController.getInstance();
+        OrganizationsController.getInstance();
+        ProvincesController.getInstance();
+        RegionsController.getInstance();
+        RequestsController.getInstance();
+        UsersController.getInstance();
+        TranslatorController.getInstance();
+        FileManager.getInstance();
     }
 
     public static void logout(){
         instance=null;
+    }
+
+    public IndicatorsEvaluation getCurrEvaluation() {
+        return currEvaluation;
+    }
+
+    public void setCurrEvaluation(IndicatorsEvaluation currEvaluation) {
+        this.currEvaluation = currEvaluation;
     }
 
     public User getUser() {
@@ -178,33 +185,61 @@ public class Session {
         this.ambits = ambits;
     }
 
-    public Map<Integer, List<SubAmbit>> getSubAmbits() {
+    public List<Evidence> getEvidences() {
+        return evidences;
+    }
+
+    public void setEvidences(List<Evidence> evidences) {
+        this.evidences = evidences;
+    }
+
+    public List<SubAmbit> getSubAmbits() {
         return subAmbits;
     }
 
-    public void setSubAmbits(Map<Integer, List<SubAmbit>> subAmbits) {
+    public void setSubAmbits(List<SubAmbit> subAmbits) {
         this.subAmbits = subAmbits;
     }
 
-    public Map<List<Integer>, List<SubSubAmbit>> getSubSubAmbits() {
+    public List<SubSubAmbit> getSubSubAmbits() {
         return subSubAmbits;
     }
 
-    public void setSubSubAmbits(Map<List<Integer>, List<SubSubAmbit>> subSubAmbits) {
+    public void setSubSubAmbits(List<SubSubAmbit> subSubAmbits) {
         this.subSubAmbits = subSubAmbits;
+    }
+
+    public static List<Organization> getEvaluatedOrganizations() {
+        return evaluatedOrganizations;
+    }
+
+    public static void setEvaluatedOrganizations(List<Organization> evaluatedOrganizations) {
+        Session.evaluatedOrganizations = evaluatedOrganizations;
+    }
+
+    public static List<User> getEvaluatorUsers() {
+        return evaluatorUsers;
+    }
+
+    public static void setEvaluatorUsers(List<User> evaluatorUsers) {
+        Session.evaluatorUsers = evaluatorUsers;
+    }
+
+    public static List<EvaluatorTeam> getEvaluatorTeams() {
+        return evaluatorTeams;
+    }
+
+    public static void setEvaluatorTeams(List<EvaluatorTeam> evaluatorTeams) {
+        Session.evaluatorTeams = evaluatorTeams;
     }
 
     public List<Country> getCountries() {
         if(countries==null){
             countries=CountriesController.GetAll(Locale.getDefault().getLanguage());
-            countries.add(0,new Country("-1","País","Country","Pays","Herrialdea","País","Land","País","Land","Paese","País","-","-"));//Country object for non selected
         }
         return countries;
     }
 
-    public void setCountries(List<Country> countries) {
-        this.countries = countries;
-    }
 
     public List<Region> getRegionsByCountry(String idCountry){
         Predicate<Region> regionsOfThatCountryExist=new Predicate<Region>() {
@@ -213,28 +248,11 @@ public class Session {
                 return region.getIdCountry().equals(idCountry);
             }
         };
-        Predicate<Region> regionNoneWasCreated=new Predicate<Region>() {
-            @Override
-            public boolean test(Region region) {
-                return region.getIdRegion()==-2;
-            }
-        };
         if(regions==null){
             regions=RegionsController.GetRegionsByCountry(idCountry);
-        }else if(!regions.stream().anyMatch(regionsOfThatCountryExist)){
+        }else if(regions.stream().noneMatch(regionsOfThatCountryExist)){
             regions.addAll(RegionsController.GetRegionsByCountry(idCountry));
         }
-        Region region=null;
-
-        if(regions.stream().anyMatch(regionNoneWasCreated)){
-            region=regions.get(0);
-            region.setIdCountry(idCountry);
-            regions.remove(0);
-        }
-        else{
-            region=new Region(-2,idCountry,"Región","Region","Région","Eskualdea","Regió","Regio","Rexión","Region","Regione","Região");
-        }
-        regions.add(0,region);
         return regions.stream().filter(regionsOfThatCountryExist).collect(Collectors.toList());
     }
 
@@ -245,96 +263,161 @@ public class Session {
                 return province.getIdRegion()==idRegion && province.getIdCountry().equals(idCountry);
             }
         };
-
-        Predicate<Province> provinceNoneWasCreated=new Predicate<Province>() {
-            @Override
-            public boolean test(Province province) {
-                return province.idProvince==-2;
-            }
-        };
         if(provinces==null){
             provinces=ProvincesController.GetProvincesByRegion(idRegion,idCountry);
-        }else if(!provinces.stream().anyMatch(provincesOfThatRegionExist)){
+        }else if(provinces.stream().noneMatch(provincesOfThatRegionExist)){
             provinces.addAll(ProvincesController.GetProvincesByRegion(idRegion,idCountry));
         }
-        Province province;
-
-        if(provinces.stream().anyMatch(provinceNoneWasCreated)){
-            province=provinces.get(0);
-            province.setIdRegion(idRegion);
-            province.setIdCountry(idCountry);
-            provinces.remove(0);
-        }
-        else{
-            province=new Province(-2,idRegion,idCountry,"Provincia","Province","Province","Probintzia","Província","Provincie","Provincia","Provinz","Provincia","Província");
-        }
-        provinces.add(province);
         return provinces.stream().filter(provincesOfThatRegionExist).collect(Collectors.toList());
     }
 
 
-    public List<City> getCitiesByProvince(int idProvince, int idRegion, String idCountry){
-        Predicate<City> citiesOfThatProvinceExist=new Predicate<City>() {
+    public List<City> getCitiesByProvince(int idProvince, int idRegion, String idCountry) {
+        Predicate<City> citiesOfThatProvinceExist = new Predicate<City>() {
             @Override
             public boolean test(City city) {
-                return city.getIdProvince()==idProvince && city.getIdRegion()==idRegion && city.getIdCountry().equals(idCountry);
+                return city.getIdProvince() == idProvince && city.getIdRegion() == idRegion && city.getIdCountry().equals(idCountry);
             }
         };
-
-        Predicate<City> cityNoneWasCreated=new Predicate<City>() {
-            @Override
-            public boolean test(City city) {
-                return city.getIdCity()==-2;
-            }
-        };
-        if(cities==null){
-            cities=CitiesController.GetCitiesByProvince(idProvince,idRegion,idCountry);
-        }else if(!cities.stream().anyMatch(citiesOfThatProvinceExist)){
-            cities.addAll(CitiesController.GetCitiesByProvince(idProvince,idRegion,idCountry));
+        if (cities == null) {
+            cities = CitiesController.GetCitiesByProvince(idProvince, idRegion, idCountry);
+        } else if (cities.stream().noneMatch(citiesOfThatProvinceExist)) {
+            cities.addAll(CitiesController.GetCitiesByProvince(idProvince, idRegion, idCountry));
         }
-
-        City city;
-
-        if(cities.stream().anyMatch(cityNoneWasCreated)){
-            city=cities.get(0);
-            city.setIdProvince(idProvince);
-            city.setIdRegion(idRegion);
-            city.setIdCountry(idCountry);
-            cities.remove(0);
-        }
-        else{
-            city=new City(-2,idProvince,idRegion,idCountry,"Ciudad","City","Ville","Hiri","Ciutat","Stad","Cidade","Stad","Città","Cidade");
-        }
-        cities.add(city);
         return cities.stream().filter(citiesOfThatProvinceExist).collect(Collectors.toList());
     }
 
+    public List<User> getOrgUsersByOrganization(Organization organization){
+        Predicate<User> usersOfThatOrganizationExist=new Predicate<User>() {
+            @Override
+            public boolean test(User user) {
+                return user.getIdOrganization()==organization.getIdOrganization() &&
+                        user.getOrganizationType().equals(organization.getOrganizationType()) &&
+                        user.getIllness().equals(organization.getIllness());
+            }
+        };
+        if(evaluatedUsers==null){
+            evaluatedUsers=UsersController.GetAllOrgUsersByOrganization(organization.getIdOrganization(), organization.getOrganizationType(), organization.getIllness());
+        }else if(evaluatedUsers.stream().noneMatch(usersOfThatOrganizationExist)){
+            evaluatedUsers.addAll(UsersController.GetAllOrgUsersByOrganization(organization.getIdOrganization(), organization.getOrganizationType(), organization.getIllness()));
+        }
+        return evaluatedUsers.stream().filter(usersOfThatOrganizationExist).collect(Collectors.toList());
+    }
+
+    public List<Center> getCentersByOrganization(Organization organization){
+        Predicate<Center> centersOfThatOrganizationExist=new Predicate<Center>() {
+            @Override
+            public boolean test(Center center) {
+                return center.getIdOrganization()==organization.getIdOrganization() &&
+                        center.getOrgType().equals(organization.getOrganizationType()) &&
+                        center.getIllness().equals(organization.getIllness());
+            }
+        };
+        if(centers==null){
+            centers=CentersController.GetAllByOrganization(organization);
+        }else if(centers.stream().noneMatch(centersOfThatOrganizationExist)){
+            centers.addAll(CentersController.GetAllByOrganization(organization));
+        }
+        return centers.stream().filter(centersOfThatOrganizationExist).collect(Collectors.toList());
+    }
+
+    public Ambit getAmbit(int idAmbit){
+        Predicate<Ambit> ambitExist=new Predicate<Ambit>() {
+            @Override
+            public boolean test(Ambit ambit) {
+                return ambit.getIdAmbit()==idAmbit;
+            }
+        };
+        return ambits.stream().filter(ambitExist).collect(Collectors.toList()).get(0);
+    }
+
+    public SubAmbit getSubAmbit(int idSubAmbit, int idAmbit){
+        Predicate<SubAmbit> subAmbitExist=new Predicate<SubAmbit>() {
+            @Override
+            public boolean test(SubAmbit subAmbit) {
+                return subAmbit.getIdSubAmbit()==idSubAmbit && subAmbit.getIdAmbit()==idAmbit;
+            }
+        };
+        return subAmbits.stream().filter(subAmbitExist).collect(Collectors.toList()).get(0);
+    }
+
+    public SubSubAmbit getSubSubAmbit(int idSubSubAmbit, int idSubAmbit, int idAmbit){
+        Predicate<SubSubAmbit> subSubAmbitExist=new Predicate<SubSubAmbit>() {
+            @Override
+            public boolean test(SubSubAmbit subSubAmbit) {
+                return subSubAmbit.getIdSubSubAmbit()==idSubSubAmbit &&
+                        subSubAmbit.getIdSubAmbit()==idSubAmbit && subSubAmbit.getIdAmbit()==idAmbit;
+            }
+        };
+        return subSubAmbits.stream().filter(subSubAmbitExist).collect(Collectors.toList()).get(0);
+    }
+
+    public List<Evidence> getEvidencesByIndicator(int idSubSubAmbit,int idSubAmbit, int idAmbit, int idIndicator, String indicatorType, int indicatorVersion){
+        Predicate<Evidence> evidenceOfThatIndicatorExist=new Predicate<Evidence>() {
+            @Override
+            public boolean test(Evidence evidence) {
+                return evidence.getIdSubSubAmbit()==idSubSubAmbit && evidence.getIdSubAmbit()==idSubAmbit &&
+                        evidence.getIdAmbit()==idAmbit && evidence.getIdIndicator()==idIndicator &&
+                        evidence.getIndicatorType().equals(indicatorType) &&
+                        evidence.getIndicatorVersion()==indicatorVersion;
+            }
+        };
+        return evidences.stream().filter(evidenceOfThatIndicatorExist).collect(Collectors.toList());
+    }
+
+    public List<EvaluatorTeam> getEvaluatorTeamsByCenter(Center center){
+        Predicate<EvaluatorTeam> evaluatorTeamOfThatCenterExist=new Predicate<EvaluatorTeam>() {
+            @Override
+            public boolean test(EvaluatorTeam evaluatorTeam) {
+                return evaluatorTeam.getIdEvaluatedOrganization()==center.getIdOrganization() &&
+                        evaluatorTeam.getOrgTypeEvaluated().equals(center.getOrgType()) &&
+                        evaluatorTeam.getIdCenter()==center.getIdCenter() &&
+                        evaluatorTeam.getIllness().equals(center.getIllness());
+            }
+        };
+        return evaluatorTeams.stream().filter(evaluatorTeamOfThatCenterExist).collect(Collectors.toList());
+    }
 
     public void obtainIndicatorsFromDataBase(){
         if(indicators==null) {
             ambits = AmbitsController.GetAll();
-            indicators = new LinkedList<>();
-            subAmbits = new HashMap<Integer, List<SubAmbit>>();
-            subSubAmbits = new HashMap<List<Integer>, List<SubSubAmbit>>();
-            for (Ambit a : ambits) {
-                List<Indicator> aux = IndicatorsController.GetAllByIdAmbit(a.idAmbit);
-                indicators.addAll(aux);
-                List<SubAmbit> aux2 = SubAmbitsController.GetAllByAmbit(a.idAmbit);
-                subAmbits.put(a.idAmbit, aux2);
-                for (SubAmbit s : aux2) {
-                    List<SubSubAmbit> aux3 = SubSubAmbitsController.GetAllBySubAmbit(s.idSubAmbit, a.idAmbit);
-                    List<Integer> key = new LinkedList<>();
-                    key.add(s.idSubAmbit);
-                    key.add(a.idAmbit);
-                    subSubAmbits.put(key, aux3);
-                }
-            }
-            for (Indicator i : indicators) {
-                if (i.getEvidences() == null) {//En caso de que no se hayan descargado las evidencias del indicador actual
-                    i.setEvidences(EvidencesController.GetAllByIndicator(i.getIdIndicator(), i.getIndicatorType(), i.getIdSubSubAmbit(), i.getIdSubAmbit(), i.getIdAmbit(), i.getIndicatorVersion()));
-                }
-            }
+            subAmbits= SubAmbitsController.GetAll();
+            subSubAmbits = SubSubAmbitsController.GetAll();
+            indicators = IndicatorsController.GetAll();
+            evidences=EvidencesController.GetAll();
         }
     }
 
+
+
+    public void obtainOrgsAndEvalUsers(){
+        if(evaluatedOrganizations==null){
+            evaluatedOrganizations=OrganizationsController.GetAllEvaluatedOrganizations();
+        }
+        if(evaluatorUsers==null){
+            evaluatorUsers=UsersController.GetAllOrgUsersByOrganization(1, "EVALUATOR", "AUTISM");
+        }
+    }
+
+    public void obtainOrgsAndEvalTeams(){
+        if(evaluatedOrganizations==null){
+            evaluatedOrganizations=OrganizationsController.GetAllEvaluatedOrganizations();
+        }
+        if(evaluatorTeams==null){
+            evaluatorTeams=EvaluatorTeamsController.GetAll();
+        }
+    }
+
+    public ByteArrayOutputStream getProfilePhoto(boolean isUser){
+        if(isUser){
+            if(usrPhoto==null && !user.getProfilePhoto().isEmpty()) {
+                usrPhoto = FileManager.downloadPhotoProfile(user.getProfilePhoto());
+            }
+            return usrPhoto;
+        }
+        if(orgPhoto==null) {
+            orgPhoto = FileManager.downloadPhotoProfile(organization.getProfilePhoto());
+        }
+        return orgPhoto;
+    }
 }

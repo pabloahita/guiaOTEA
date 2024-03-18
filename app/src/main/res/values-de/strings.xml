@@ -209,6 +209,9 @@
     <string name="add_indicator">Indikator hinzufügen</string>
     <string name="edit_ambit">Umfang bearbeiten</string>
     <string name="add_ambit">Bereich hinzufügen</string>
+    <string name="camera">Kamera</string>
+    <string name="gallery">Galerie</string>
+    <string name="select_source">Quelle auswählen</string>
 
 
 </resources>

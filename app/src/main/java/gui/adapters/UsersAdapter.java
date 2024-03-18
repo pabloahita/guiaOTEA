@@ -35,7 +35,12 @@ public class UsersAdapter extends ArrayAdapter<User> {
 
         User user = getItem(position);
         TextView textView = view.findViewById(android.R.id.text1);
-        text= user.getFirst_name()+", "+user.getLast_name()+" ("+user.getEmailUser()+")";
+        if(user.getEmailUser().equals("-1")){//For auxiliar spinners
+            text=user.getFirst_name();
+        }
+        else {
+            text = user.getFirst_name() + ", " + user.getLast_name() + " (" + user.getEmailUser() + ")";
+        }
         textView.setText(text);
 
         return view;

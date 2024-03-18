@@ -3,6 +3,7 @@ package otea.connection.controller;
 
 import java.io.IOException;
 ;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -191,6 +192,40 @@ public class IndicatorsEvaluationRegsController {
         try {
             Future<IndicatorsEvaluationReg> future = executor.submit(callable);
             IndicatorsEvaluationReg result = future.get();
+            executor.shutdown();
+            return result;
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Method that appends new indicators evaluation register
+     *
+     * @param regs - Indicators evaluation register
+     * @return Register if success, null if not
+     * */
+    public static List<IndicatorsEvaluationReg> CreateRegs(List<List<IndicatorsEvaluationReg>> regs){
+        List<IndicatorsEvaluationReg> allRegs=new ArrayList<>();
+        for(List<IndicatorsEvaluationReg> aux:regs){
+            allRegs.addAll(aux);
+        }
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Callable<List<IndicatorsEvaluationReg>> callable = new Callable<List<IndicatorsEvaluationReg>>() {
+            @Override
+            public List<IndicatorsEvaluationReg> call() throws Exception {
+                Call<List<IndicatorsEvaluationReg>> call = api.CreateRegs(allRegs);
+                Response<List<IndicatorsEvaluationReg>> response = call.execute();
+                if (response.isSuccessful()) {
+                    return response.body();
+                } else {
+                    throw new IOException("Error: " + response.code() + " " + response.message());
+                }
+            }
+        };
+        try {
+            Future<List<IndicatorsEvaluationReg>> future = executor.submit(callable);
+            List<IndicatorsEvaluationReg> result = future.get();
             executor.shutdown();
             return result;
         } catch (InterruptedException | ExecutionException e) {

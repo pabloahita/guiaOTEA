@@ -92,18 +92,11 @@ public interface IndicatorsEvaluationsApi {
     /**
      * Gets the finished indicator evaluation with its results
      *
-     * @param evaluationDate - Evaluation date in timestamp
-     * @param idEvaluatorTeam - Evaluator team identifier
-     * @param idEvaluatedOrganization - Identifier of the evaluator organization that will do the indicators evaluation
-     * @param orgTypeEvaluator - Organization type of the evaluator organization that will do the indicators evaluation. It will be always "EVALUATOR"
-     * @param idEvaluatorOrganization - Identifier of the external organization that will recieve the indicators evaluation
-     * @param orgTypeEvaluated - Organization type of the external organization that will recieve the indicators evaluation. It will be always "EVALUATED"
-     * @param illness - Illness of the external organization that will recieve the indicators evaluation. In case of Fundación Miradas, it will be "AUTISM"
-     * @param idCenter - Center identifier of the external organization
+     *
+     * @param indicatorsEvaluation - Indicators evaluation
      * */
     @PUT("IndicatorsEvaluations/result")
-    Call<IndicatorsEvaluation> calculateResults(@Query("evaluationDate") long evaluationDate,@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter);
-
+    Call<IndicatorsEvaluation> calculateResults(@Body IndicatorsEvaluation indicatorsEvaluation);
     /**
      * Deletes an indicator evaluation
      *

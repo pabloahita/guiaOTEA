@@ -90,14 +90,6 @@ public class MainMenu extends AppCompatActivity {
 
         if(user!=null && org!=null) {
 
-            String userUrlPhoto="";
-            if(user.getProfilePhoto()!=null){
-                userUrlPhoto=user.getProfilePhoto();
-            }
-            String orgUrlPhoto="";
-            if(org.getProfilePhoto()!=null){
-                orgUrlPhoto=org.getProfilePhoto();
-            }
             TextView first_name = findViewById(R.id.val_fn);
             TextView last_name = findViewById(R.id.val_ln);
             TextView organizationName = findViewById(R.id.val_org);
@@ -149,26 +141,17 @@ public class MainMenu extends AppCompatActivity {
                 }
             }
 
-            if(!orgUrlPhoto.isEmpty()){
-                imgOrgStream= FileManager.downloadPhotoProfile(orgUrlPhoto);
-                imgOrg=getBitmapFromStream(imgOrgStream);
-                try {
-                    imgOrgStream.close();
-                } catch (IOException e) {
-                }
+            imgOrgStream=session.getProfilePhoto(false);
+            if(imgOrgStream!=null) {
+                imgOrg = getBitmapFromStream(imgOrgStream);
                 vistaImgOrg.setImageBitmap(imgOrg);
             }
 
-            if(!userUrlPhoto.isEmpty()){
-                imgUserStream = FileManager.downloadPhotoProfile(userUrlPhoto);
-                imgUser=getBitmapFromStream(imgUserStream);
-                try {
-                    imgUserStream.close();
-                } catch (IOException e) {
-                }
+            imgUserStream = session.getProfilePhoto(true);
+            if(imgUserStream!=null) {
+                imgUser = getBitmapFromStream(imgUserStream);
                 vistaImgUser.setImageBitmap(imgUser);
             }
-
 
 
             if(addNewIndicatorsTest!=null) {
@@ -177,6 +160,7 @@ public class MainMenu extends AppCompatActivity {
                     v.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            session.obtainOrgsAndEvalTeams();
                             Intent intent = new Intent(getApplicationContext(), gui.SelectToDoIndicatorsEvaluations.class);
                             startActivity(intent);
                             chargingScreen.setVisibility(View.GONE);
@@ -251,7 +235,7 @@ public class MainMenu extends AppCompatActivity {
             if(addNewEvalTeam!=null) {
                 addNewEvalTeam.setOnClickListener(v -> {
                     chargingScreen.setVisibility(View.VISIBLE);
-
+                    session.obtainOrgsAndEvalUsers();
                     v.postDelayed(new Runnable() {
                         @Override
                         public void run() {

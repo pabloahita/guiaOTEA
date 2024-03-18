@@ -30,15 +30,9 @@ public class OrganizationsController {
     /**Organizations api to connect to the server*/
     private static OrganizationsApi api;
 
-    /**String token*/
-    private static String token;
-
     /**Class constructor*/
     private OrganizationsController(){
         api=ConnectionClient.getInstance().getRetrofit().create(OrganizationsApi.class);
-        if(Session.getInstance()!=null){
-            token=Session.getInstance().getToken();
-        }
     }
 
     /**
@@ -76,7 +70,7 @@ public class OrganizationsController {
         Callable<Organization> callable = new Callable<Organization>() {
             @Override
             public Organization call() throws Exception {
-                Call<Organization> call = api.Get(idOrganization,orgType,illness,token);
+                Call<Organization> call = api.Get(idOrganization,orgType,illness,Session.getInstance().getToken());
                 Response<Organization> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

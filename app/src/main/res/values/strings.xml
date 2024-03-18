@@ -206,6 +206,11 @@
     <string name="add_indicator">Add indicator</string>
     <string name="edit_ambit">Edit ambit</string>
     <string name="add_ambit">Add ambit</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="select_source">Select source</string>
+    <string name="select_org">Select organization</string>
+    <string name="select_center">Select center</string>
 
 
 </resources>

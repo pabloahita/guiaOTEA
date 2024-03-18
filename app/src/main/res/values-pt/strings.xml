@@ -207,4 +207,7 @@
     <string name="add_indicator">Adicionar indicador</string>
     <string name="edit_ambit">Editar escopo</string>
     <string name="add_ambit">Adicionar escopo</string>
+    <string name="camera">Câmera</string>
+    <string name="gallery">Galeria</string>
+    <string name="select_source">Selecionar fonte</string>
 </resources>

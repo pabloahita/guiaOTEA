@@ -22,13 +22,7 @@ public class DateFormatter {
         }
     }
 
-    public static long formatDateTime(String date){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            return dateFormat.parse(date).getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return -1;
-        }
+    public static long formaUtilDateToTimestamp(Date date){
+        return date.getTime();
     }
 }

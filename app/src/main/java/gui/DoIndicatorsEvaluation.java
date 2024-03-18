@@ -56,15 +56,11 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
 
     int num_evidences_reached = 0;
 
-    int[][] switches_values;
+    //int[][] switches_values;
 
     List<Indicator> indicators;
 
-    List<Ambit> ambits;
-
-    Map<Integer, List<SubAmbit>> subAmbits;
-
-    Map<List<Integer>, List<SubSubAmbit>> subSubAmbits;
+    List<Evidence> evidences;
 
     IndicatorsEvaluation current_evaluation;
 
@@ -76,7 +72,9 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
 
     EvaluatorTeam evaluatorTeam;
 
-    List<IndicatorsEvaluationReg> regs;
+    List<List<IndicatorsEvaluationReg>> regs;
+
+    List<IndicatorsEvaluationReg> values;
 
     ConstraintLayout background;
 
@@ -98,22 +96,14 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
         background = findViewById(R.id.background);
         background.setVisibility(View.GONE);
 
-        Session session = Session.getInstance();
 
-        indicators = session.getIndicators();
-        ambits = session.getAmbits();
-        subAmbits = session.getSubAmbits();
-        subSubAmbits = session.getSubSubAmbits();
-
-        int evidences_per_indicator = indicators.get(0).getEvidences().size();
+        indicators=Session.getInstance().getIndicators().subList(0,9); //Prueba Grand Chelem
+        num_indicators=indicators.size();
 
 
-        switches_values = new int[num_indicators][evidences_per_indicator];
-        for (int i = 0; i < num_indicators; i++) {
-            for (int j = 0; j < evidences_per_indicator; j++) {
-                switches_values[i][j] = 0;
-            }
-        }
+        current_evaluation=Session.getInstance().getCurrEvaluation();
+        regs=new ArrayList<>();
+
         evidence1 = (Switch) findViewById(R.id.evidence1);
         evidence2 = (Switch) findViewById(R.id.evidence2);
         evidence3 = (Switch) findViewById(R.id.evidence3);
@@ -123,11 +113,10 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
         ImageButton previous_indicator = findViewById(R.id.previous_indicatorButton);
         ImageButton next_indicator = findViewById(R.id.next_indicatorButton);
 
-        evaluatedOrganization = (Organization) getIntent().getSerializableExtra("evaluatedOrganization");
-        evaluatorTeam = (EvaluatorTeam) getIntent().getSerializableExtra("evaluatorTeam");
 
 
         changeIndicator();
+
 
         evidence1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,13 +124,13 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                 if (evidence1.isChecked()) {
                     if (num_evidences_reached >= 0 && num_evidences_reached < 4) {
                         num_evidences_reached++;
-                        switches_values[current_indicator][0] = 1;
+                        values.get(0).setIsMarked(1);
                     }
                     Log.d("SW1T", "Switch1 true with " + num_evidences_reached + " reached evidences");
                 } else {
                     if (num_evidences_reached > 0 && num_evidences_reached <= 4) {
                         num_evidences_reached--;
-                        switches_values[current_indicator][0] = 0;
+                        values.get(0).setIsMarked(0);
                     }
                     Log.d("SW1F", "Switch1 false with " + num_evidences_reached + " reached evidences");
                 }
@@ -153,13 +142,13 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                 if (evidence2.isChecked()) {
                     if (num_evidences_reached >= 0 && num_evidences_reached < 4) {
                         num_evidences_reached++;
-                        switches_values[current_indicator][1] = 1;
+                        values.get(1).setIsMarked(1);
                     }
                     Log.d("SW2T", "Switch2 true with " + num_evidences_reached + " reached evidences");
                 } else {
                     if (num_evidences_reached > 0 && num_evidences_reached <= 4) {
                         num_evidences_reached--;
-                        switches_values[current_indicator][1] = 0;
+                        values.get(1).setIsMarked(0);
                     }
                     Log.d("SW2F", "Switch2 false with " + num_evidences_reached + " reached evidences");
                 }
@@ -171,13 +160,13 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                 if (evidence3.isChecked()) {
                     if (num_evidences_reached >= 0 && num_evidences_reached < 4) {
                         num_evidences_reached++;
-                        switches_values[current_indicator][2] = 1;
+                        values.get(2).setIsMarked(1);
                     }
                     Log.d("SW3T", "Switch3 true with " + num_evidences_reached + " reached evidences");
                 } else {
                     if (num_evidences_reached > 0 && num_evidences_reached <= 4) {
                         num_evidences_reached--;
-                        switches_values[current_indicator][2] = 0;
+                        values.get(2).setIsMarked(0);
                     }
                     Log.d("SW3F", "Switch3 false with " + num_evidences_reached + " reached evidences");
                 }
@@ -189,13 +178,13 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                 if (evidence4.isChecked()) {
                     if (num_evidences_reached >= 0 && num_evidences_reached < 4) {
                         num_evidences_reached++;
-                        switches_values[current_indicator][3] = 1;
+                        values.get(3).setIsMarked(1);
                     }
                     Log.d("SW4T", "Switch4 true with " + num_evidences_reached + " reached evidences");
                 } else {
                     if (num_evidences_reached > 0 && num_evidences_reached <= 4) {
                         num_evidences_reached--;
-                        switches_values[current_indicator][3] = 0;
+                        values.get(3).setIsMarked(0);
                     }
                     Log.d("SW4F", "Switch4 false with " + num_evidences_reached + " reached evidences");
                 }
@@ -281,35 +270,11 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                     view.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-                            try {
-                                // Obtener la fecha actual en formato de cadena
-                                String dateString = dateFormat.format(new java.util.Date());
-                                Date date = dateFormat.parse(dateString);
-                                long evaluationDate = date.getTime();
-
-                                current_evaluation = new IndicatorsEvaluation(evaluationDate, evaluatorTeam.getIdEvaluatedOrganization(), evaluatorTeam.getOrgTypeEvaluated(), evaluatorTeam.getIdEvaluatorTeam(), evaluatorTeam.getIdEvaluatorOrganization(), evaluatorTeam.getOrgTypeEvaluator(), evaluatorTeam.getIllness(), evaluatorTeam.getIdCenter(), "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", 0, 0, 0, 0, 0, 0, 0, 1);
-                                regs = new LinkedList<>();
-                                for (int i = 0; i < switches_values.length; i++) {
-                                    for (int j = 0; j < switches_values[i].length; j++) {
-                                        regs.add(new IndicatorsEvaluationReg(evaluationDate, evaluatorTeam.getIdEvaluatorTeam(), evaluatorTeam.getIdEvaluatorOrganization(), evaluatorTeam.getOrgTypeEvaluator(), evaluatorTeam.getIdEvaluatedOrganization(), evaluatorTeam.getOrgTypeEvaluated(), evaluatorTeam.getIllness(), evaluatorTeam.getIdCenter(), indicators.get(i).getIdSubSubAmbit(), indicators.get(i).getIdSubAmbit(), indicators.get(i).getIdAmbit(), indicators.get(i).getIdIndicator(), indicators.get(i).getEvidences().get(j).getIdEvidence(), switches_values[i][j], indicators.get(i).getIndicatorVersion()));
-                                    }
-                                }
-                                IndicatorsEvaluationsController.Create(current_evaluation);
-                                for (IndicatorsEvaluationReg reg : regs) {
-                                    IndicatorsEvaluationRegsController.Create(reg);
-                                }
-                                IndicatorsEvaluation results = IndicatorsEvaluationsController.calculateResults(evaluationDate, evaluatorTeam.getIdEvaluatorTeam(), evaluatorTeam.getIdEvaluatorOrganization(), evaluatorTeam.getOrgTypeEvaluator(), evaluatorTeam.getIdEvaluatedOrganization(), evaluatorTeam.getOrgTypeEvaluated(), evaluatorTeam.getIllness(), evaluatorTeam.getIdCenter());
-                                /*
-                                Intent intent = new Intent(getApplicationContext(), com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-                                intent.putExtra("userEmail",getIntent().getSerializableExtra("userEmail"));
-                                startActivity(intent);*/
-
-                            } catch (ParseException e) {
-                                throw new RuntimeException(e);
-                            }
-
+                            IndicatorsEvaluationsController.Create(current_evaluation);
+                            IndicatorsEvaluationRegsController.CreateRegs(regs);
+                            IndicatorsEvaluationsController.calculateResults(current_evaluation);
+                            Intent intent = new Intent(getApplicationContext(), com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+                            startActivity(intent);
 
                         }
                     }, 100);
@@ -358,42 +323,69 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                 subSubAmbitCaption = (TextView) findViewById(R.id.subSubAmbit_caption);
             }
         }
-        List<Integer> aux = null;
-        if (current_subAmbit != -1 && current_subSubAmbit != -1) {
-            aux = new ArrayList<>();
-            aux.add(current_subAmbit);
-            aux.add(current_ambit);
-        }
+
 
         Indicator i = indicators.get(current_indicator);
-        List<Evidence> evidences = i.getEvidences();
+        evidences=Session.getInstance().getEvidencesByIndicator(current_subSubAmbit,current_subAmbit,current_ambit,current_indicator+1,i.getIndicatorType(),i.getIndicatorVersion());
+
+        if(current_indicator==regs.size()) {
+            List<IndicatorsEvaluationReg> aux = new ArrayList<>();
+            for (Evidence e : evidences) {
+                aux.add(new IndicatorsEvaluationReg(current_evaluation.getEvaluationDate(), current_evaluation.getIdEvaluatorTeam(),
+                current_evaluation.getIdEvaluatorOrganization(), current_evaluation.getOrgTypeEvaluator(),
+                current_evaluation.getIdEvaluatedOrganization(), current_evaluation.getOrgTypeEvaluated(), current_evaluation.getIllness(),
+                current_evaluation.getIdCenter(), current_subSubAmbit, current_subAmbit, current_ambit,
+                        current_indicator+1, e.getIdEvidence(), 0, e.getIndicatorVersion()));
+            }
+            regs.add(aux);
+        }
+
+        values=regs.get(current_indicator);
+        if(values.get(0).getIsMarked()==1){
+            evidence1.setChecked(true);
+        }else{
+            evidence1.setChecked(false);
+        }if(values.get(1).getIsMarked()==1){
+            evidence2.setChecked(true);
+        }else{
+            evidence2.setChecked(false);
+        }if(values.get(2).getIsMarked()==1){
+            evidence3.setChecked(true);
+        }else{
+            evidence3.setChecked(false);
+        }if(values.get(3).getIsMarked()==1){
+            evidence4.setChecked(true);
+        }else{
+            evidence4.setChecked(false);
+        }
+
         if (Locale.getDefault().getLanguage().equals("es")) {//Español
             indicatorCaption.setText("Indicador " + i.getIdIndicator() + ": " + i.getDescriptionSpanish());
             switch (current_ambit) {
                 case 1:
-                    ambitCaption.setText("PRIMER ÁMBITO: " + ambits.get(current_ambit - 1).getDescriptionSpanish());
+                    ambitCaption.setText("PRIMER ÁMBITO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionSpanish());
                     break;
                 case 2:
-                    ambitCaption.setText("SEGUNDO ÁMBITO: " + ambits.get(current_ambit - 1).getDescriptionSpanish());
+                    ambitCaption.setText("SEGUNDO ÁMBITO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionSpanish());
                     break;
                 case 3:
-                    ambitCaption.setText("TERCER ÁMBITO: " + ambits.get(current_ambit - 1).getDescriptionSpanish());
+                    ambitCaption.setText("TERCER ÁMBITO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionSpanish());
                     break;
                 case 4:
-                    ambitCaption.setText("CUARTO ÁMBITO: " + ambits.get(current_ambit - 1).getDescriptionSpanish());
+                    ambitCaption.setText("CUARTO ÁMBITO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionSpanish());
                     break;
                 case 5:
-                    ambitCaption.setText("QUINTO ÁMBITO: " + ambits.get(current_ambit - 1).getDescriptionSpanish());
+                    ambitCaption.setText("QUINTO ÁMBITO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionSpanish());
                     break;
                 default:
-                    ambitCaption.setText("SEXTO ÁMBITO: " + ambits.get(current_ambit - 1).getDescriptionSpanish());
+                    ambitCaption.setText("SEXTO ÁMBITO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionSpanish());
                     break;
             }
             if (current_subAmbit != -1) {
                 if (current_subSubAmbit != -1) {
-                    subSubAmbitCaption.setText(current_ambit + "." + current_subAmbit + "." + current_subSubAmbit + " " + subSubAmbits.get(aux).get(current_subSubAmbit - 1).getDescriptionSpanish());
+                    subSubAmbitCaption.setText(current_ambit + "." + current_subAmbit + "." + current_subSubAmbit + " " + Session.getInstance().getSubSubAmbit(current_subSubAmbit,current_subAmbit,current_ambit).getDescriptionSpanish());
                 }
-                subAmbitCaption.setText(current_ambit + "." + current_subAmbit + " " + subAmbits.get(current_ambit).get(current_subAmbit - 1).getDescriptionSpanish());
+                subAmbitCaption.setText(current_ambit + "." + current_subAmbit + " " + Session.getInstance().getSubAmbit(current_subAmbit,current_ambit).getDescriptionSpanish());
             }
 
             evidence1.setText("Evidencia 1: " + evidences.get(0).getDescriptionSpanish());
@@ -405,29 +397,29 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
 
             switch (current_ambit) {
                 case 1:
-                    ambitCaption.setText("PREMIÈRE PORTÉE: " + ambits.get(current_ambit - 1).getDescriptionFrench());
+                    ambitCaption.setText("PREMIÈRE PORTÉE: " + Session.getInstance().getAmbit(current_ambit).getDescriptionFrench());
                     break;
                 case 2:
-                    ambitCaption.setText("DEUXIÈME PORTÉE: " + ambits.get(current_ambit - 1).getDescriptionFrench());
+                    ambitCaption.setText("DEUXIÈME PORTÉE: " + Session.getInstance().getAmbit(current_ambit).getDescriptionFrench());
                     break;
                 case 3:
-                    ambitCaption.setText("TROISIÈME PORTÉE: " + ambits.get(current_ambit - 1).getDescriptionFrench());
+                    ambitCaption.setText("TROISIÈME PORTÉE: " + Session.getInstance().getAmbit(current_ambit).getDescriptionFrench());
                     break;
                 case 4:
-                    ambitCaption.setText("QUATRIÈME PORTÉE: " + ambits.get(current_ambit - 1).getDescriptionFrench());
+                    ambitCaption.setText("QUATRIÈME PORTÉE: " + Session.getInstance().getAmbit(current_ambit).getDescriptionFrench());
                     break;
                 case 5:
-                    ambitCaption.setText("CINQUIÈME PORTÉE: " + ambits.get(current_ambit - 1).getDescriptionFrench());
+                    ambitCaption.setText("CINQUIÈME PORTÉE: " + Session.getInstance().getAmbit(current_ambit).getDescriptionFrench());
                     break;
                 default:
-                    ambitCaption.setText("SIXIÈME PORTÉE: " + ambits.get(current_ambit - 1).getDescriptionFrench());
+                    ambitCaption.setText("SIXIÈME PORTÉE: " + Session.getInstance().getAmbit(current_ambit).getDescriptionFrench());
                     break;
             }
             if (current_subAmbit != -1) {
                 if (current_subSubAmbit != -1) {
-                    subSubAmbitCaption.setText(current_ambit + "." + current_subAmbit + "." + current_subSubAmbit + " " + subSubAmbits.get(aux).get(current_subSubAmbit - 1).getDescriptionFrench());
+                    subSubAmbitCaption.setText(current_ambit + "." + current_subAmbit + "." + current_subSubAmbit + " " + Session.getInstance().getSubSubAmbit(current_subSubAmbit,current_subAmbit,current_ambit).getDescriptionFrench());
                 }
-                subAmbitCaption.setText(current_ambit + "." + current_subAmbit + " " + subAmbits.get(current_ambit).get(current_subAmbit - 1).getDescriptionFrench());
+                subAmbitCaption.setText(current_ambit + "." + current_subAmbit + " " + Session.getInstance().getSubAmbit(current_subAmbit,current_ambit).getDescriptionFrench());
             }
             evidence1.setText("Preuve 1: " + evidences.get(0).getDescriptionFrench());
             evidence2.setText("Preuve 2: " + evidences.get(1).getDescriptionFrench());
@@ -437,29 +429,29 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
             indicatorCaption.setText(i.getIdIndicator() + ". adierazlea: " + i.getDescriptionBasque());
             switch (current_ambit) {
                 case 1:
-                    ambitCaption.setText("LEHEN IRISMENA: " + ambits.get(current_ambit - 1).getDescriptionBasque());
+                    ambitCaption.setText("LEHEN IRISMENA: " + Session.getInstance().getAmbit(current_ambit).getDescriptionBasque());
                     break;
                 case 2:
-                    ambitCaption.setText("BIGARREN IRISMENA: " + ambits.get(current_ambit - 1).getDescriptionBasque());
+                    ambitCaption.setText("BIGARREN IRISMENA: " + Session.getInstance().getAmbit(current_ambit).getDescriptionBasque());
                     break;
                 case 3:
-                    ambitCaption.setText("HIRUGARREN IRISMENA: " + ambits.get(current_ambit - 1).getDescriptionBasque());
+                    ambitCaption.setText("HIRUGARREN IRISMENA: " + Session.getInstance().getAmbit(current_ambit).getDescriptionBasque());
                     break;
                 case 4:
-                    ambitCaption.setText("LAUGARREN IRISMENA: " + ambits.get(current_ambit - 1).getDescriptionBasque());
+                    ambitCaption.setText("LAUGARREN IRISMENA: " + Session.getInstance().getAmbit(current_ambit).getDescriptionBasque());
                     break;
                 case 5:
-                    ambitCaption.setText("BOSTGARREN IRISMENA: " + ambits.get(current_ambit - 1).getDescriptionBasque());
+                    ambitCaption.setText("BOSTGARREN IRISMENA: " + Session.getInstance().getAmbit(current_ambit).getDescriptionBasque());
                     break;
                 default:
-                    ambitCaption.setText("SEIGARREN IRISMENA: " + ambits.get(current_ambit - 1).getDescriptionBasque());
+                    ambitCaption.setText("SEIGARREN IRISMENA: " + Session.getInstance().getAmbit(current_ambit).getDescriptionBasque());
                     break;
             }
             if (current_subAmbit != -1) {
                 if (current_subSubAmbit != -1) {
-                    subSubAmbitCaption.setText(current_ambit + "." + current_subAmbit + "." + current_subSubAmbit + " " + subSubAmbits.get(aux).get(current_subSubAmbit - 1).getDescriptionSpanish());
+                    subSubAmbitCaption.setText(current_ambit + "." + current_subAmbit + "." + current_subSubAmbit + " " + Session.getInstance().getSubSubAmbit(current_subSubAmbit,current_subAmbit,current_ambit).getDescriptionSpanish());
                 }
-                subAmbitCaption.setText(current_ambit + "." + current_subAmbit + " " + subAmbits.get(current_ambit).get(current_subAmbit - 1).getDescriptionSpanish());
+                subAmbitCaption.setText(current_ambit + "." + current_subAmbit + " " + Session.getInstance().getSubAmbit(current_subAmbit,current_ambit).getDescriptionSpanish());
             }
 
             evidence1.setText("1. froga: " + evidences.get(0).getDescriptionBasque());
@@ -470,29 +462,29 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
             indicatorCaption.setText("Indicador " + i.getIdIndicator() + ": " + i.getDescriptionCatalan());
             switch (current_ambit) {
                 case 1:
-                    ambitCaption.setText("PRIMER ÀMBIT: " + ambits.get(current_ambit - 1).getDescriptionCatalan());
+                    ambitCaption.setText("PRIMER ÀMBIT: " + Session.getInstance().getAmbit(current_ambit).getDescriptionCatalan());
                     break;
                 case 2:
-                    ambitCaption.setText("SEGON ÀMBIT: " + ambits.get(current_ambit - 1).getDescriptionCatalan());
+                    ambitCaption.setText("SEGON ÀMBIT: " + Session.getInstance().getAmbit(current_ambit).getDescriptionCatalan());
                     break;
                 case 3:
-                    ambitCaption.setText("TERCER ÀMBIT: " + ambits.get(current_ambit - 1).getDescriptionCatalan());
+                    ambitCaption.setText("TERCER ÀMBIT: " + Session.getInstance().getAmbit(current_ambit).getDescriptionCatalan());
                     break;
                 case 4:
-                    ambitCaption.setText("QUART ÀMBIT: " + ambits.get(current_ambit - 1).getDescriptionCatalan());
+                    ambitCaption.setText("QUART ÀMBIT: " + Session.getInstance().getAmbit(current_ambit).getDescriptionCatalan());
                     break;
                 case 5:
-                    ambitCaption.setText("CINQUÈ ÀMBIT: " + ambits.get(current_ambit - 1).getDescriptionCatalan());
+                    ambitCaption.setText("CINQUÈ ÀMBIT: " + Session.getInstance().getAmbit(current_ambit).getDescriptionCatalan());
                     break;
                 default:
-                    ambitCaption.setText("SISÈ ÀMBIT: " + ambits.get(current_ambit - 1).getDescriptionCatalan());
+                    ambitCaption.setText("SISÈ ÀMBIT: " + Session.getInstance().getAmbit(current_ambit).getDescriptionCatalan());
                     break;
             }
             if (current_subAmbit != -1) {
                 if (current_subSubAmbit != -1) {
-                    subSubAmbitCaption.setText(current_ambit + "." + current_subAmbit + "." + current_subSubAmbit + " " + subSubAmbits.get(aux).get(current_subSubAmbit - 1).getDescriptionCatalan());
+                    subSubAmbitCaption.setText(current_ambit + "." + current_subAmbit + "." + current_subSubAmbit + " " + Session.getInstance().getSubSubAmbit(current_subSubAmbit,current_subAmbit,current_ambit).getDescriptionCatalan());
                 }
-                subAmbitCaption.setText(current_ambit + "." + current_subAmbit + " " + subAmbits.get(current_ambit).get(current_subAmbit - 1).getDescriptionCatalan());
+                subAmbitCaption.setText(current_ambit + "." + current_subAmbit + " " + Session.getInstance().getSubAmbit(current_subAmbit,current_ambit).getDescriptionCatalan());
             }
 
             evidence1.setText("Evidència 1: " + evidences.get(0).getDescriptionCatalan());
@@ -503,29 +495,29 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
             indicatorCaption.setText("Indicator " + i.getIdIndicator() + ": " + i.getDescriptionDutch());
             switch (current_ambit) {
                 case 1:
-                    ambitCaption.setText("EERSTE TOEPASSINGSGEBIED: " + ambits.get(current_ambit - 1).getDescriptionDutch());
+                    ambitCaption.setText("EERSTE TOEPASSINGSGEBIED: " + Session.getInstance().getAmbit(current_ambit).getDescriptionDutch());
                     break;
                 case 2:
-                    ambitCaption.setText("TWEEDE TOEPASSINGSGEBIED: " + ambits.get(current_ambit - 1).getDescriptionDutch());
+                    ambitCaption.setText("TWEEDE TOEPASSINGSGEBIED: " + Session.getInstance().getAmbit(current_ambit).getDescriptionDutch());
                     break;
                 case 3:
-                    ambitCaption.setText("DERDE TOEPASSINGSGEBIED: " + ambits.get(current_ambit - 1).getDescriptionDutch());
+                    ambitCaption.setText("DERDE TOEPASSINGSGEBIED: " + Session.getInstance().getAmbit(current_ambit).getDescriptionDutch());
                     break;
                 case 4:
-                    ambitCaption.setText("VIERDE TOEPASSINGSGEBIED: " + ambits.get(current_ambit - 1).getDescriptionDutch());
+                    ambitCaption.setText("VIERDE TOEPASSINGSGEBIED: " + Session.getInstance().getAmbit(current_ambit).getDescriptionDutch());
                     break;
                 case 5:
-                    ambitCaption.setText("VIJFDE TOEPASSINGSGEBIED: " + ambits.get(current_ambit - 1).getDescriptionDutch());
+                    ambitCaption.setText("VIJFDE TOEPASSINGSGEBIED: " + Session.getInstance().getAmbit(current_ambit).getDescriptionDutch());
                     break;
                 default:
-                    ambitCaption.setText("ZESDE TOEPASSINGSGEBIED: " + ambits.get(current_ambit - 1).getDescriptionDutch());
+                    ambitCaption.setText("ZESDE TOEPASSINGSGEBIED: " + Session.getInstance().getAmbit(current_ambit).getDescriptionDutch());
                     break;
             }
             if (current_subAmbit != -1) {
                 if (current_subSubAmbit != -1) {
-                    subSubAmbitCaption.setText(current_ambit + "." + current_subAmbit + "." + current_subSubAmbit + " " + subSubAmbits.get(aux).get(current_subSubAmbit - 1).getDescriptionDutch());
+                    subSubAmbitCaption.setText(current_ambit + "." + current_subAmbit + "." + current_subSubAmbit + " " + Session.getInstance().getSubSubAmbit(current_subSubAmbit,current_subAmbit,current_ambit).getDescriptionDutch());
                 }
-                subAmbitCaption.setText(current_ambit + "." + current_subAmbit + " " + subAmbits.get(current_ambit).get(current_subAmbit - 1).getDescriptionDutch());
+                subAmbitCaption.setText(current_ambit + "." + current_subAmbit + " " + Session.getInstance().getSubAmbit(current_subAmbit,current_ambit).getDescriptionDutch());
             }
 
             evidence1.setText("Bewijs 1: " + evidences.get(0).getDescriptionDutch());
@@ -536,29 +528,29 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
             indicatorCaption.setText("Indicador " + i.getIdIndicator() + ": " + i.getDescriptionGalician());
             switch (current_ambit) {
                 case 1:
-                    ambitCaption.setText("PRIMEIRO ÁMBITO: " + ambits.get(current_ambit - 1).getDescriptionGalician());
+                    ambitCaption.setText("PRIMEIRO ÁMBITO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionGalician());
                     break;
                 case 2:
-                    ambitCaption.setText("SEGUNDO ÁMBITO: " + ambits.get(current_ambit - 1).getDescriptionGalician());
+                    ambitCaption.setText("SEGUNDO ÁMBITO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionGalician());
                     break;
                 case 3:
-                    ambitCaption.setText("TERCEIRO ÁMBITO: " + ambits.get(current_ambit - 1).getDescriptionGalician());
+                    ambitCaption.setText("TERCEIRO ÁMBITO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionGalician());
                     break;
                 case 4:
-                    ambitCaption.setText("CUARTO ÁMBITO: " + ambits.get(current_ambit - 1).getDescriptionGalician());
+                    ambitCaption.setText("CUARTO ÁMBITO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionGalician());
                     break;
                 case 5:
-                    ambitCaption.setText("QUINTO ÁMBITO: " + ambits.get(current_ambit - 1).getDescriptionGalician());
+                    ambitCaption.setText("QUINTO ÁMBITO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionGalician());
                     break;
                 default:
-                    ambitCaption.setText("SEXTO ÁMBITO: " + ambits.get(current_ambit - 1).getDescriptionGalician());
+                    ambitCaption.setText("SEXTO ÁMBITO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionGalician());
                     break;
             }
             if (current_subAmbit != -1) {
                 if (current_subSubAmbit != -1) {
-                    subSubAmbitCaption.setText(current_ambit + "." + current_subAmbit + "." + current_subSubAmbit + " " + subSubAmbits.get(aux).get(current_subSubAmbit - 1).getDescriptionGalician());
+                    subSubAmbitCaption.setText(current_ambit + "." + current_subAmbit + "." + current_subSubAmbit + " " + Session.getInstance().getSubSubAmbit(current_subSubAmbit,current_subAmbit,current_ambit).getDescriptionGalician());
                 }
-                subAmbitCaption.setText(current_ambit + "." + current_subAmbit + " " + subAmbits.get(current_ambit).get(current_subAmbit - 1).getDescriptionGalician());
+                subAmbitCaption.setText(current_ambit + "." + current_subAmbit + " " + Session.getInstance().getSubAmbit(current_subAmbit,current_ambit).getDescriptionGalician());
             }
 
 
@@ -570,29 +562,29 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
             indicatorCaption.setText("Indikator " + i.getIdIndicator() + ": " + i.getDescriptionGerman());
             switch (current_ambit) {
                 case 1:
-                    ambitCaption.setText("ERSTER UMFANG: " + ambits.get(current_ambit - 1).getDescriptionGerman());
+                    ambitCaption.setText("ERSTER UMFANG: " + Session.getInstance().getAmbit(current_ambit).getDescriptionGerman());
                     break;
                 case 2:
-                    ambitCaption.setText("ZWEITER UMFANG: " + ambits.get(current_ambit - 1).getDescriptionGerman());
+                    ambitCaption.setText("ZWEITER UMFANG: " + Session.getInstance().getAmbit(current_ambit).getDescriptionGerman());
                     break;
                 case 3:
-                    ambitCaption.setText("DRITTER UMFANG: " + ambits.get(current_ambit - 1).getDescriptionGerman());
+                    ambitCaption.setText("DRITTER UMFANG: " + Session.getInstance().getAmbit(current_ambit).getDescriptionGerman());
                     break;
                 case 4:
-                    ambitCaption.setText("VIERTER UMFANG: " + ambits.get(current_ambit - 1).getDescriptionGerman());
+                    ambitCaption.setText("VIERTER UMFANG: " + Session.getInstance().getAmbit(current_ambit).getDescriptionGerman());
                     break;
                 case 5:
-                    ambitCaption.setText("FÜNFTER UMFANG: " + ambits.get(current_ambit - 1).getDescriptionGerman());
+                    ambitCaption.setText("FÜNFTER UMFANG: " + Session.getInstance().getAmbit(current_ambit).getDescriptionGerman());
                     break;
                 default:
-                    ambitCaption.setText("SECHSTER UMFANG: " + ambits.get(current_ambit - 1).getDescriptionGerman());
+                    ambitCaption.setText("SECHSTER UMFANG: " + Session.getInstance().getAmbit(current_ambit).getDescriptionGerman());
                     break;
             }
             if (current_subAmbit != -1) {
                 if (current_subSubAmbit != -1) {
-                    subSubAmbitCaption.setText(current_ambit + "." + current_subAmbit + "." + current_subSubAmbit + " " + subSubAmbits.get(aux).get(current_subSubAmbit - 1).getDescriptionGerman());
+                    subSubAmbitCaption.setText(current_ambit + "." + current_subAmbit + "." + current_subSubAmbit + " " + Session.getInstance().getSubSubAmbit(current_subSubAmbit,current_subAmbit,current_ambit).getDescriptionGerman());
                 }
-                subAmbitCaption.setText(current_ambit + "." + current_subAmbit + " " + subAmbits.get(current_ambit).get(current_subAmbit - 1).getDescriptionGerman());
+                subAmbitCaption.setText(current_ambit + "." + current_subAmbit + " " + Session.getInstance().getSubAmbit(current_subAmbit,current_ambit).getDescriptionGerman());
             }
 
             evidence1.setText("Beweis 1: " + evidences.get(0).getDescriptionGerman());
@@ -603,29 +595,29 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
             indicatorCaption.setText("Indicatore " + i.getIdIndicator() + ": " + i.getDescriptionItalian());
             switch (current_ambit) {
                 case 1:
-                    ambitCaption.setText("PRIMO AMBITO: " + ambits.get(current_ambit - 1).getDescriptionItalian());
+                    ambitCaption.setText("PRIMO AMBITO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionItalian());
                     break;
                 case 2:
-                    ambitCaption.setText("SECONDO AMBITO: " + ambits.get(current_ambit - 1).getDescriptionItalian());
+                    ambitCaption.setText("SECONDO AMBITO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionItalian());
                     break;
                 case 3:
-                    ambitCaption.setText("TERZO AMBITO: " + ambits.get(current_ambit - 1).getDescriptionItalian());
+                    ambitCaption.setText("TERZO AMBITO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionItalian());
                     break;
                 case 4:
-                    ambitCaption.setText("QUARTO AMBITO: " + ambits.get(current_ambit - 1).getDescriptionItalian());
+                    ambitCaption.setText("QUARTO AMBITO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionItalian());
                     break;
                 case 5:
-                    ambitCaption.setText("QUINTO AMBITO: " + ambits.get(current_ambit - 1).getDescriptionItalian());
+                    ambitCaption.setText("QUINTO AMBITO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionItalian());
                     break;
                 default:
-                    ambitCaption.setText("SESTO AMBITO: " + ambits.get(current_ambit - 1).getDescriptionItalian());
+                    ambitCaption.setText("SESTO AMBITO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionItalian());
                     break;
             }
             if (current_subAmbit != -1) {
                 if (current_subSubAmbit != -1) {
-                    subSubAmbitCaption.setText(current_ambit + "." + current_subAmbit + "." + current_subSubAmbit + " " + subSubAmbits.get(aux).get(current_subSubAmbit - 1).getDescriptionItalian());
+                    subSubAmbitCaption.setText(current_ambit + "." + current_subAmbit + "." + current_subSubAmbit + " " + Session.getInstance().getSubSubAmbit(current_subSubAmbit,current_subAmbit,current_ambit).getDescriptionItalian());
                 }
-                subAmbitCaption.setText(current_ambit + "." + current_subAmbit + " " + subAmbits.get(current_ambit).get(current_subAmbit - 1).getDescriptionItalian());
+                subAmbitCaption.setText(current_ambit + "." + current_subAmbit + " " + Session.getInstance().getSubAmbit(current_subAmbit,current_ambit).getDescriptionItalian());
             }
 
 
@@ -637,29 +629,29 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
             indicatorCaption.setText("Indicador " + i.getIdIndicator() + ": " + i.getDescriptionPortuguese());
             switch (current_ambit) {
                 case 1:
-                    ambitCaption.setText("PRIMEIRO ESCOPO: " + ambits.get(current_ambit - 1).getDescriptionPortuguese());
+                    ambitCaption.setText("PRIMEIRO ESCOPO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionPortuguese());
                     break;
                 case 2:
-                    ambitCaption.setText("SEGUNDO ESCOPO: " + ambits.get(current_ambit - 1).getDescriptionPortuguese());
+                    ambitCaption.setText("SEGUNDO ESCOPO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionPortuguese());
                     break;
                 case 3:
-                    ambitCaption.setText("TERCEIRO ESCOPO: " + ambits.get(current_ambit - 1).getDescriptionPortuguese());
+                    ambitCaption.setText("TERCEIRO ESCOPO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionPortuguese());
                     break;
                 case 4:
-                    ambitCaption.setText("QUARTO ESCOPO: " + ambits.get(current_ambit - 1).getDescriptionPortuguese());
+                    ambitCaption.setText("QUARTO ESCOPO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionPortuguese());
                     break;
                 case 5:
-                    ambitCaption.setText("QUINTO ESCOPO: " + ambits.get(current_ambit - 1).getDescriptionPortuguese());
+                    ambitCaption.setText("QUINTO ESCOPO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionPortuguese());
                     break;
                 default:
-                    ambitCaption.setText("SEXTO ESCOPO: " + ambits.get(current_ambit - 1).getDescriptionPortuguese());
+                    ambitCaption.setText("SEXTO ESCOPO: " + Session.getInstance().getAmbit(current_ambit).getDescriptionPortuguese());
                     break;
             }
             if (current_subAmbit != -1) {
                 if (current_subSubAmbit != -1) {
-                    subSubAmbitCaption.setText(current_ambit + "." + current_subAmbit + "." + current_subSubAmbit + " " + subSubAmbits.get(aux).get(current_subSubAmbit - 1).getDescriptionPortuguese());
+                    subSubAmbitCaption.setText(current_ambit + "." + current_subAmbit + "." + current_subSubAmbit + " " + Session.getInstance().getSubSubAmbit(current_subSubAmbit,current_subAmbit,current_ambit).getDescriptionPortuguese());
                 }
-                subAmbitCaption.setText(current_ambit + "." + current_subAmbit + " " + subAmbits.get(current_ambit).get(current_subAmbit - 1).getDescriptionPortuguese());
+                subAmbitCaption.setText(current_ambit + "." + current_subAmbit + " " + Session.getInstance().getSubAmbit(current_subAmbit,current_ambit).getDescriptionPortuguese());
             }
 
 
@@ -671,29 +663,29 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
             indicatorCaption.setText("Indicator " + i.getIdIndicator() + ": " + i.getDescriptionEnglish());
             switch (current_ambit) {
                 case 1:
-                    ambitCaption.setText("FIRST AMBIT: " + ambits.get(current_ambit - 1).getDescriptionEnglish());
+                    ambitCaption.setText("FIRST AMBIT: " + Session.getInstance().getAmbit(current_ambit).getDescriptionEnglish());
                     break;
                 case 2:
-                    ambitCaption.setText("SECOND AMBIT: " + ambits.get(current_ambit - 1).getDescriptionEnglish());
+                    ambitCaption.setText("SECOND AMBIT: " + Session.getInstance().getAmbit(current_ambit).getDescriptionEnglish());
                     break;
                 case 3:
-                    ambitCaption.setText("THIRD AMBIT: " + ambits.get(current_ambit - 1).getDescriptionEnglish());
+                    ambitCaption.setText("THIRD AMBIT: " + Session.getInstance().getAmbit(current_ambit).getDescriptionEnglish());
                     break;
                 case 4:
-                    ambitCaption.setText("FOURTH AMBIT: " + ambits.get(current_ambit - 1).getDescriptionEnglish());
+                    ambitCaption.setText("FOURTH AMBIT: " + Session.getInstance().getAmbit(current_ambit).getDescriptionEnglish());
                     break;
                 case 5:
-                    ambitCaption.setText("FIFTH AMBIT: " + ambits.get(current_ambit - 1).getDescriptionEnglish());
+                    ambitCaption.setText("FIFTH AMBIT: " + Session.getInstance().getAmbit(current_ambit).getDescriptionEnglish());
                     break;
                 default:
-                    ambitCaption.setText("SIXTH AMBIT: " + ambits.get(current_ambit - 1).getDescriptionEnglish());
+                    ambitCaption.setText("SIXTH AMBIT: " + Session.getInstance().getAmbit(current_ambit).getDescriptionEnglish());
                     break;
             }
             if (current_subAmbit != -1) {
                 if (current_subSubAmbit != -1) {
-                    subSubAmbitCaption.setText(current_ambit + "." + current_subAmbit + "." + current_subSubAmbit + " " + subSubAmbits.get(aux).get(current_subSubAmbit - 1).getDescriptionEnglish());
+                    subSubAmbitCaption.setText(current_ambit + "." + current_subAmbit + "." + current_subSubAmbit + " " + Session.getInstance().getSubSubAmbit(current_subSubAmbit,current_subAmbit,current_ambit).getDescriptionEnglish());
                 }
-                subAmbitCaption.setText(current_ambit + "." + current_subAmbit + " " + subAmbits.get(current_ambit).get(current_subAmbit - 1).getDescriptionEnglish());
+                subAmbitCaption.setText(current_ambit + "." + current_subAmbit + " " + Session.getInstance().getSubAmbit(current_subAmbit,current_ambit).getDescriptionEnglish());
             }
 
             evidence1.setText("Evidence 1: " + evidences.get(0).getDescriptionEnglish());

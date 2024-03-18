@@ -141,6 +141,29 @@ namespace OTEAServer.Controllers
             }
         }
 
+        /// <summary>
+        /// Method that appends new indicators evaluation register
+        /// </summary>
+        /// <param name="regs">Indicators evaluation registers</param>
+        /// <returns>Register if success, null if not</returns>
+        [HttpPost("fromList")]
+        public IActionResult CreateRegs([FromBody] List<IndicatorsEvaluationReg> regs)
+        {
+            try
+            {
+                foreach (IndicatorsEvaluationReg reg in regs)
+                {
+                    _context.IndicatorsEvaluationsRegs.Add(reg);
+                }
+                _context.SaveChanges();
+                return Ok(regs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
 
         /// <summary>

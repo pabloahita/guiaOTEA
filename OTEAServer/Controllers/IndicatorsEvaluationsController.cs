@@ -266,11 +266,10 @@ namespace OTEAServer.Controllers
         /// <param name="idCenter">Center identifier of the external organization</param>
         /// <returns>Indicators evaluation if success, null if not</returns>
         [HttpPut("result")]
-        public IActionResult calculateResults([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter) {
+        public IActionResult calculateResults([FromBody] IndicatorsEvaluation indicatorsEvaluation) {
             try
             {
-                var indicatorsEvaluation = _context.IndicatorsEvaluations.FirstOrDefault(e => e.evaluationDate == evaluationDate && e.idEvaluatorTeam == idEvaluatorTeam && e.idEvaluatorOrganization == idEvaluatorOrganization && e.orgTypeEvaluator == orgTypeEvaluator && e.idEvaluatedOrganization == idEvaluatedOrganization && e.orgTypeEvaluated == orgTypeEvaluated && e.illness == illness);
-                List<IndicatorsEvaluationReg> regs = _context.IndicatorsEvaluationsRegs.Where(r => r.evaluationDate == evaluationDate && r.idEvaluatorTeam == idEvaluatorTeam && r.idEvaluatorOrganization == idEvaluatorOrganization && r.orgTypeEvaluator == orgTypeEvaluator && r.idEvaluatedOrganization == idEvaluatedOrganization && r.orgTypeEvaluated == orgTypeEvaluated && r.illness == illness && r.idCenter == idCenter).ToList();
+                List<IndicatorsEvaluationReg> regs = _context.IndicatorsEvaluationsRegs.Where(r => r.evaluationDate == indicatorsEvaluation.evaluationDate && r.idEvaluatorTeam == indicatorsEvaluation.idEvaluatorTeam && r.idEvaluatorOrganization == indicatorsEvaluation.idEvaluatorOrganization && r.orgTypeEvaluator == indicatorsEvaluation.orgTypeEvaluator && r.idEvaluatedOrganization == indicatorsEvaluation.idEvaluatedOrganization && r.orgTypeEvaluated == indicatorsEvaluation.orgTypeEvaluated && r.illness == indicatorsEvaluation.illness && r.idCenter == indicatorsEvaluation.idCenter).ToList();
                 int lastAmbit = -1;
                 int totalScore = 0;
                 int numEvidencesInAnIndicator = 0;
@@ -316,6 +315,8 @@ namespace OTEAServer.Controllers
                 indicatorsEvaluation.scoreLevel6 = results[5];
                 indicatorsEvaluation.totalScore = results[6];
                 indicatorsEvaluation.isFinished = 1;
+
+                _context.SaveChanges();
 
                 return Ok(indicatorsEvaluation);
             }

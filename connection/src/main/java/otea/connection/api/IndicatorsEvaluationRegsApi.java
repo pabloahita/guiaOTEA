@@ -69,6 +69,14 @@ public interface IndicatorsEvaluationRegsApi {
     Call<IndicatorsEvaluationReg> Create(@Body IndicatorsEvaluationReg indicatorsEvaluationReg);
 
     /**
+     * Creates a new indicators evaluation register
+     *
+     * @param regs - Indicators evaluation register
+     * */
+    @POST("IndicatorsEvaluationsRegs/fromList")
+    Call<List<IndicatorsEvaluationReg>> CreateRegs(@Body List<IndicatorsEvaluationReg> regs);
+
+    /**
      * Updates an indicators evaluation register
      *
      * @param evaluationDate - Evaluation date in timestamp

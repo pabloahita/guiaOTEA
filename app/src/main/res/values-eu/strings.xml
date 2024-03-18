@@ -211,5 +211,8 @@
     <string name="add_indicator">Gehitu adierazlea</string>
     <string name="edit_ambit">Editatu esparrua</string>
     <string name="add_ambit">Gehitu esparrua</string>
+    <string name="camera">Kamera</string>
+    <string name="gallery">Galeria</string>
+    <string name="select_source">Iturria hautatu</string>
 
 </resources>

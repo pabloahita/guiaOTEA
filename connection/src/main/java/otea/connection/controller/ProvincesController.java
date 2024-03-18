@@ -94,11 +94,26 @@ public class ProvincesController {
      * @return Provinces list
      * */
     public static List<Province> GetProvincesByRegion(int idRegion, String idCountry){
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Callable<List<Province>> callable = new Callable<List<Province>>() {
+            @Override
+            public List<Province> call() throws Exception {
+                Call<List<Province>> call = api.GetProvincesByRegion(idRegion,idCountry);
+                Response<List<Province>> response = call.execute();
+                if (response.isSuccessful()) {
+                    return response.body();
+                } else {
+                    throw new IOException("Error: " + response.code() + " " + response.message());
+                }
+            }
+        };
         try {
-            Call<List<Province>> call = api.GetProvincesByRegion(idRegion,idCountry);
-            Response<List<Province>> response = call.execute();
-            return response.body();
-        }catch(IOException e){
+            Future<List<Province>> future = executor.submit(callable);
+            List<Province> result = future.get();
+            executor.shutdown();
+            return result;
+        } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
     }

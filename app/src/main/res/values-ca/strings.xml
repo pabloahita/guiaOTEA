@@ -212,5 +212,8 @@
     <string name="add_indicator">Afegir indicador</string>
     <string name="edit_ambit">Editar àmbit</string>
     <string name="add_ambit">Afegir àmbit</string>
+    <string name="camera">Camèra</string>
+    <string name="gallery">Galeria</string>
+    <string name="select_source">Seleccionar font</string>
 
 </resources>

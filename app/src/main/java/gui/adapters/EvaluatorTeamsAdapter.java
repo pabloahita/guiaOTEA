@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import com.fundacionmiradas.indicatorsevaluation.R;
 
 import java.util.List;
+import java.util.Locale;
 
 import cli.organization.data.EvaluatorTeam;
 
@@ -36,7 +37,32 @@ public class EvaluatorTeamsAdapter extends ArrayAdapter<EvaluatorTeam> {
 
         EvaluatorTeam evaluatorTeam = getItem(position);
         TextView textView = view.findViewById(android.R.id.text1);
-        text= evaluatorTeam.getPatient_name()+", "+evaluatorTeam.getRelative_name();
+        if(evaluatorTeam.getIdEvaluatorTeam()==-1){
+            text=evaluatorTeam.getEmailProfessional();
+        }
+        else{
+            if(Locale.getDefault().getLanguage().equals("es")){
+                text= "Persona TEA: "+evaluatorTeam.getPatient_name()+", Familiar:"+evaluatorTeam.getRelative_name();
+            }else if(Locale.getDefault().getLanguage().equals("fr")){
+                text= "Personne TSA: "+evaluatorTeam.getPatient_name()+", Membre de la famille"+evaluatorTeam.getRelative_name();
+            }else if(Locale.getDefault().getLanguage().equals("eu")){
+                text= "TEA pertsona: "+evaluatorTeam.getPatient_name()+", Familia-kide:"+evaluatorTeam.getRelative_name();
+            }else if(Locale.getDefault().getLanguage().equals("ca")){
+                text= "Persona TEA: "+evaluatorTeam.getPatient_name()+", Familiar:"+evaluatorTeam.getRelative_name();
+            }else if(Locale.getDefault().getLanguage().equals("nl")){
+                text= "Persoon ASS: "+evaluatorTeam.getPatient_name()+", Familielid:"+evaluatorTeam.getRelative_name();
+            }else if(Locale.getDefault().getLanguage().equals("gl")){
+                text= "Persoa TEA: "+evaluatorTeam.getPatient_name()+", Familiar:"+evaluatorTeam.getRelative_name();
+            }else if(Locale.getDefault().getLanguage().equals("de")){
+                text= "Person ASS: "+evaluatorTeam.getPatient_name()+", Familienmitglied:"+evaluatorTeam.getRelative_name();
+            }else if(Locale.getDefault().getLanguage().equals("it")){
+                text= "Persona DSA: "+evaluatorTeam.getPatient_name()+", Familiare:"+evaluatorTeam.getRelative_name();
+            }else if(Locale.getDefault().getLanguage().equals("pt")){
+                text= "Pessoa TEA: "+evaluatorTeam.getPatient_name()+", Familiar:"+evaluatorTeam.getRelative_name();
+            }else{//Default: English
+                text= "ASD person: "+evaluatorTeam.getPatient_name()+", Family member:"+evaluatorTeam.getRelative_name();
+            }
+        }
         textView.setText(text);
 
         return view;

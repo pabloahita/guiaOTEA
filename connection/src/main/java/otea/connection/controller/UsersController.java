@@ -33,15 +33,9 @@ public class UsersController {
     /**Controller instance*/
     private static UsersController instance;
 
-    /**String token*/
-    private static String token;
-
     /**Class controller*/
     private UsersController(){
         api= ConnectionClient.getInstance().getRetrofit().create(UsersApi.class);
-        if(Session.getInstance()!=null){
-            token=Session.getInstance().getToken();
-        }
     }
 
     /**
@@ -115,7 +109,7 @@ public class UsersController {
         Callable<User> callable = new Callable<User>() {
             @Override
             public User call() throws Exception {
-                Call<User> call = api.Get(email,token);
+                Call<User> call = api.Get(email,Session.getInstance().getToken());
                 Response<User> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -144,7 +138,7 @@ public class UsersController {
         Callable<List<User>> callable = new Callable<List<User>>() {
             @Override
             public List<User> call() throws Exception {
-                Call<List<User>> call = api.GetAll(token);
+                Call<List<User>> call = api.GetAll(Session.getInstance().getToken());
                 Response<List<User>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -177,7 +171,7 @@ public class UsersController {
         Callable<List<User>> callable = new Callable<List<User>>() {
             @Override
             public List<User> call() throws Exception {
-                Call<List<User>> call = api.GetAllOrgUsersByOrganization(idOrganization,orgType,illness,token);
+                Call<List<User>> call = api.GetAllOrgUsersByOrganization(idOrganization,orgType,illness,Session.getInstance().getToken());
                 Response<List<User>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -207,7 +201,7 @@ public class UsersController {
         Callable<User> callable = new Callable<User>() {
             @Override
             public User call() throws Exception {
-                Call<User> call = api.Create(user,token);
+                Call<User> call = api.Create(user,Session.getInstance().getToken());
                 Response<User> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -238,7 +232,7 @@ public class UsersController {
         Callable<User> callable = new Callable<User>() {
             @Override
             public User call() throws Exception {
-                Call<User> call = api.Update(email,user,token);
+                Call<User> call = api.Update(email,user,Session.getInstance().getToken());
                 Response<User> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -268,7 +262,7 @@ public class UsersController {
         Callable<User> callable = new Callable<User>() {
             @Override
             public User call() throws Exception {
-                Call<User> call = api.Delete(email,token);
+                Call<User> call = api.Delete(email,Session.getInstance().getToken());
                 Response<User> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

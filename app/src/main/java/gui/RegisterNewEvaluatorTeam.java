@@ -18,11 +18,13 @@ import android.widget.Toast;
 import com.fundacionmiradas.indicatorsevaluation.R;
 
 ;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Predicate;
 
 import cli.organization.Organization;
 import cli.organization.data.Center;
@@ -37,6 +39,7 @@ import otea.connection.controller.EvaluatorTeamsController;
 import otea.connection.controller.OrganizationsController;
 import otea.connection.controller.TranslatorController;
 import otea.connection.controller.UsersController;
+import session.Session;
 
 public class RegisterNewEvaluatorTeam extends AppCompatActivity {
 
@@ -47,20 +50,57 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
     TextView evalDate3;
     TextView evalDate4;
 
+    List<Organization> evaluatedOrganizations;
+
+    List<User> evaluatorUsers;
+
+    List<User> evaluatedUsers;
+
+    List<String> otherMembers;
+
+    User professional;
+
+    User responsible;
+
+    String consultant;
+
+    List<Center> centers;
+
+    Center centerSelected;
+
+    Organization organizationSelected;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_new_evaluator_team);
 
-        List<Organization> organizations = OrganizationsController.GetAllEvaluatedOrganizations();
-        List<User> usersEvaluator = UsersController.GetAllOrgUsersByOrganization(1, "EVALUATOR", "AUTISM");
+        evaluatedOrganizations = Session.getEvaluatedOrganizations();
+        evaluatorUsers = Session.getEvaluatorUsers();
 
-        if (organizations.size() > 0 && usersEvaluator.size()>0) {
+        if (!evaluatedOrganizations.isEmpty() && !evaluatorUsers.isEmpty()) {
 
+            evaluatedOrganizations.add(0,new Organization(-1,"-","-",getString(R.string.evaluated_org),-1,"-","-","-","-","-","-","-","-","-","-","-","-","-"));
             Spinner orgSpinner = findViewById(R.id.spinner_select_organization);
             Spinner centerSpinner = findViewById(R.id.spinner_select_center);
+            Spinner centerSpinnerAux = findViewById(R.id.spinner_select_center_aux);
             Spinner responsibleSpinner = findViewById(R.id.spinner_select_responsible);
             Spinner professionalSpinner = findViewById(R.id.spinner_select_professional);
+            Spinner professionalSpinnerAux = findViewById(R.id.spinner_select_professional_aux);
+
+            List<User> userAuxList=new ArrayList<>();
+            userAuxList.add(new User("-1","-",getString(R.string.responsible),"-","","",-1,"-","-","-"));
+            userAuxList.add(new User("-1","-",getString(R.string.professional),"-","","",-1,"-","-","-"));
+
+            List<Center> centerAuxList=new ArrayList<>();
+            centerAuxList.add(new Center(-1,"-","-",-1,"Center of the organization","Centro de la organización","Centre de l'organisation","Erakundearen Zentroa","Centre de l’organització","Centrum van de organisatie","Centro da organización","Zentrum der Organisation","Centro dell'organizzazione","Centro da organização",-1,"-","-1"));
+
+
+            evaluatorUsers.add(0,userAuxList.get(0));
+
+            otherMembers=new ArrayList<>();
+
+
 
             TextView otherMembers = findViewById(R.id.other_members);
 
@@ -77,30 +117,23 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
 
             TextView observations=findViewById(R.id.observations);
 
-            OrgsAdapter[] orgsAdapter={new OrgsAdapter(getApplicationContext(),organizations)};
-            UsersAdapter[] usersAdapter=new UsersAdapter[3];
-            CenterAdapter[] centerAdapters=new CenterAdapter[1];
-            final List<Center>[] centers = new List[1];
+            OrgsAdapter[] orgsAdapter={new OrgsAdapter(getApplicationContext(),evaluatedOrganizations)};
+            UsersAdapter[] usersAdapter=new UsersAdapter[2];
+            CenterAdapter[] centerAdapters=new CenterAdapter[2];
+            centerAdapters[1]=new CenterAdapter(getApplicationContext(),centerAuxList);
+            centerSpinnerAux.setAdapter(centerAdapters[1]);
 
             orgsAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
             orgSpinner.setAdapter(orgsAdapter[0]);
 
-            usersAdapter[1]=new UsersAdapter(getApplicationContext(),usersEvaluator);
+            usersAdapter[1]=new UsersAdapter(getApplicationContext(),evaluatorUsers);
             usersAdapter[1].setDropDownViewResource(R.layout.spinner_item_layout);
             responsibleSpinner.setAdapter(usersAdapter[1]);
 
-            usersAdapter[2]=new UsersAdapter(getApplicationContext(),usersEvaluator);
-            usersAdapter[2].setDropDownViewResource(R.layout.spinner_item_layout);
-            professionalSpinner.setAdapter(usersAdapter[2]);
+            usersAdapter[0]=new UsersAdapter(getApplicationContext(),userAuxList.subList(1,2));
+            usersAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+            professionalSpinnerAux.setAdapter(usersAdapter[0]);
 
-            Organization[] organizationSelected=new Organization[1];
-
-            Center[] centerSelected=new Center[1];
-
-
-            final List<User>[] users = new List[]{new LinkedList<>()};
-
-            User[] membersSelected=new User[3];
 
 
             ConstraintLayout finalBackground=findViewById(R.id.final_background);
@@ -111,13 +144,32 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
             orgSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    organizationSelected[0]= (Organization) parent.getItemAtPosition(position);
-                    users[0] = UsersController.GetAllOrgUsersByOrganization(organizationSelected[0].getIdOrganization(), organizationSelected[0].getOrganizationType(), organizationSelected[0].getIllness());
-                    usersAdapter[0] = new UsersAdapter(getApplicationContext(), users[0]);
-                    usersAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-                    centers[0] = CentersController.GetAllByOrganization(organizationSelected[0]);
-                    centerAdapters[0]=new CenterAdapter(getApplicationContext(),centers[0]);
-                    centerAdapters[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                    organizationSelected= (Organization) parent.getItemAtPosition(position);
+                    if(position>0){
+                        evaluatedUsers=Session.getInstance().getOrgUsersByOrganization(organizationSelected);
+                        evaluatedUsers.add(0,userAuxList.get(1));
+                        usersAdapter[0] = new UsersAdapter(getApplicationContext(), evaluatedUsers);
+                        usersAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                        centers = Session.getInstance().getCentersByOrganization(organizationSelected);
+                        centers.add(0,centerAuxList.get(0));
+                        centerAdapters[0]=new CenterAdapter(getApplicationContext(),centers);
+                        centerAdapters[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                        centerSpinner.setAdapter(centerAdapters[0]);
+                        professionalSpinner.setAdapter(usersAdapter[0]);
+                        centerSpinner.setVisibility(View.VISIBLE);
+                        centerSpinnerAux.setVisibility(View.GONE);
+                        professionalSpinner.setVisibility(View.VISIBLE);
+                        professionalSpinnerAux.setVisibility(View.GONE);
+                    }else{
+                        centerSpinner.setVisibility(View.GONE);
+                        centerSpinnerAux.setVisibility(View.VISIBLE);
+                        centerSpinnerAux.setEnabled(false);
+                        centerSpinnerAux.setAlpha(0.5f);
+                        professionalSpinner.setVisibility(View.GONE);
+                        professionalSpinnerAux.setVisibility(View.VISIBLE);
+                        professionalSpinnerAux.setEnabled(false);
+                        professionalSpinnerAux.setAlpha(0.5f);
+                    }
                 }
 
                 @Override
@@ -129,7 +181,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
             centerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    centerSelected[0]= (Center) parent.getItemAtPosition(position);
+                    centerSelected= (Center) parent.getItemAtPosition(position);
 
                 }
 
@@ -144,8 +196,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
             responsibleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    membersSelected[1]=(User) parent.getItemAtPosition(position);
-
+                    responsible=(User) parent.getItemAtPosition(position);
                 }
 
                 @Override
@@ -157,8 +208,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
             professionalSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    membersSelected[2]=(User) parent.getItemAtPosition(position);
-
+                    professional=(User) parent.getItemAtPosition(position);
                 }
 
                 @Override
@@ -176,7 +226,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     String input=s.toString();
-                    if(input.equals("")){
+                    if(input.isEmpty()){
                         patient.setError(getString(R.string.please_patient_name));
                     }
                     else{
@@ -199,7 +249,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     String input=s.toString();
-                    if(input.equals("")){
+                    if(input.isEmpty()){
                         relative.setError(getString(R.string.please_relative_name));
                     }
                     else{
@@ -222,7 +272,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     String input=s.toString();
-                    if(input.equals("")){
+                    if(input.isEmpty()){
                         consultant.setError(getString(R.string.please_consultant));
                     }
                     else{
@@ -236,6 +286,24 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                 }
             });
 
+
+
+            otherMembers.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                }
+            });
+
             creationDate.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -245,7 +313,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     String input=s.toString();
-                    if(input.equals("")){
+                    if(input.isEmpty()){
                         creationDate.setError(getString(R.string.please_date));
                     }
                     else{
@@ -268,7 +336,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     String input=s.toString();
-                    if(input.equals("")){
+                    if(input.isEmpty()){
                         evalDate2.setError(getString(R.string.please_date));
                     }
                     else{
@@ -291,7 +359,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     String input=s.toString();
-                    if(input.equals("")){
+                    if(input.isEmpty()){
                         evalDate2.setError(getString(R.string.please_date));
                     }
                     else{
@@ -314,7 +382,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     String input=s.toString();
-                    if(input.equals("")){
+                    if(input.isEmpty()){
                         evalDate3.setError(getString(R.string.please_date));
                     }
                     else{
@@ -337,7 +405,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     String input=s.toString();
-                    if(input.equals("")){
+                    if(input.isEmpty()){
                         evalDate4.setError(getString(R.string.please_date));
                     }
                     else{
@@ -391,10 +459,9 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                     v.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if(organizationSelected[0]!=null && membersSelected[0]!=null && membersSelected[1]!=null && membersSelected[2]!=null && !patient.getText().toString().equals("") && !relative.getText().toString().equals("") && !creationDate.getText().toString().equals("") && !evalDate1.getText().toString().equals("") && !evalDate2.getText().toString().equals("") && !evalDate3.getText().toString().equals("") && !evalDate4.getText().toString().equals("") && !consultant.toString().equals("")){
+                            if(organizationSelected!=evaluatedOrganizations.get(0) && !userAuxList.contains(professional) && !userAuxList.contains(responsible) && !patient.getText().toString().isEmpty() && !relative.getText().toString().isEmpty() && !creationDate.getText().toString().isEmpty() && !evalDate1.getText().toString().isEmpty() && !evalDate2.getText().toString().isEmpty() && !evalDate3.getText().toString().isEmpty() && !evalDate4.getText().toString().isEmpty() && !consultant.toString().isEmpty()){
                                 int idEvaluatorTeam= EvaluatorTeamsController.GetAllByOrganization(1,"EVALUATOR","AUTISM").size()+1;
 
-                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                                 long creation_date= DateFormatter.formatDate(creationDate.getText().toString());
                                 long eval_date1= DateFormatter.formatDate(evalDate1.getText().toString());
@@ -415,11 +482,11 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
 
                                 String observationsText=observations.getText().toString();
 
-                                if(!observationsText.equals("")){
+                                if(!observationsText.isEmpty()){
                                     List<String> translations=TranslatorController.getInstance().translate(observationsText,Locale.getDefault().getLanguage());
                                     if(Locale.getDefault().getLanguage().equals("es")){
                                         observationsEnglish= translations.get(0);
-                                        observationsSpanish=translations.get(1);
+                                        observationsSpanish=observationsText;
                                         observationsFrench=translations.get(1);
                                         observationsBasque=translations.get(2);
                                         observationsCatalan=translations.get(3);
@@ -531,17 +598,14 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                                 }
 
 
-                                EvaluatorTeam evaluatorTeam=new EvaluatorTeam(idEvaluatorTeam,creation_date,membersSelected[2].getEmailUser(),membersSelected[1].getEmailUser(),"",1,"EVALUATOR",organizationSelected[0].getIdOrganization(),organizationSelected[0].getOrgType(),centerSelected[0].getIdCenter(),organizationSelected[0].getIllness(),consultant.getText().toString(),patient.getText().toString(),relative.getText().toString(),eval_date1,eval_date2,eval_date3,eval_date4,observationsEnglish,observationsSpanish,observationsFrench,observationsBasque,observationsCatalan,observationsDutch,observationsGalician,observationsGerman,observationsItalian,observationsPortuguese);
-
-
-
+                                EvaluatorTeam evaluatorTeam=new EvaluatorTeam(idEvaluatorTeam,creation_date,professional.getEmailUser(),responsible.getEmailUser(),otherMembers.getText().toString(),1,"EVALUATOR",organizationSelected.getIdOrganization(),organizationSelected.getOrgType(),centerSelected.getIdCenter(),organizationSelected.getIllness(),consultant.getText().toString(),patient.getText().toString(),relative.getText().toString(),eval_date1,eval_date2,eval_date3,eval_date4,observationsEnglish,observationsSpanish,observationsFrench,observationsBasque,observationsCatalan,observationsDutch,observationsGalician,observationsGerman,observationsItalian,observationsPortuguese);
 
 
                                 EvaluatorTeamsController.Create(evaluatorTeam);
 
 
                                 Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-                                intent.putExtra("userEmail",getIntent().getSerializableExtra("userEmail"));
+
                                 finalBackground.setVisibility(View.GONE);
                                 startActivity(intent);
 
@@ -558,40 +622,37 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
 
                                 finalBackground.setVisibility(View.GONE);
 
-                                if(organizationSelected[0]==null){
+                                if(organizationSelected==evaluatedOrganizations.get(0)){
                                     Toast.makeText(getApplicationContext(),getString(R.string.please_evaluated_org),Toast.LENGTH_SHORT).show();
                                 }
-                                if(membersSelected[0]==null){
-                                    Toast.makeText(getApplicationContext(),getString(R.string.please_consultant),Toast.LENGTH_SHORT).show();
-                                }
-                                if(membersSelected[1]==null){
+                                if(userAuxList.contains(responsible)){
                                     Toast.makeText(getApplicationContext(),getString(R.string.please_responsible),Toast.LENGTH_SHORT).show();
                                 }
-                                if(membersSelected[2]==null){
+                                if(userAuxList.contains(professional)){
                                     Toast.makeText(getApplicationContext(),getString(R.string.please_professional),Toast.LENGTH_SHORT).show();
                                 }
-                                if(patient.getText().toString().equals("")){
+                                if(patient.getText().toString().isEmpty()){
                                     patient.setError(getString(R.string.please_relative_name));
                                 }
-                                if(relative.getText().toString().equals("")){
+                                if(relative.getText().toString().isEmpty()){
                                     relative.setError(getString(R.string.please_relative_name));
                                 }
-                                if(creationDate.getText().toString().equals("")){
+                                if(creationDate.getText().toString().isEmpty()){
                                     creationDate.setError(getString(R.string.please_date));
                                 }
-                                if(evalDate1.getText().toString().equals("")){
+                                if(evalDate1.getText().toString().isEmpty()){
                                     evalDate1.setError(getString(R.string.please_date));
                                 }
-                                if(evalDate2.getText().toString().equals("")){
+                                if(evalDate2.getText().toString().isEmpty()){
                                     evalDate2.setError(getString(R.string.please_date));
                                 }
-                                if(evalDate3.getText().toString().equals("")){
+                                if(evalDate3.getText().toString().isEmpty()){
                                     evalDate3.setError(getString(R.string.please_date));
                                 }
-                                if(evalDate4.getText().toString().equals("")){
+                                if(evalDate4.getText().toString().isEmpty()){
                                     evalDate4.setError(getString(R.string.please_date));
                                 }
-                                if(consultant.getText().toString().equals("")){
+                                if(consultant.getText().toString().isEmpty()){
                                     consultant.setError(getString(R.string.please_consultant));
                                 }
                             }
