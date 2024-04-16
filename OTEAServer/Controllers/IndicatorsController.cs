@@ -38,7 +38,10 @@ namespace OTEAServer.Controllers
         {
             try
             {
-                var indicators = _context.Indicators.Where(i => i.evaluationType==evaluationType && i.isActive == 1).ToList();
+                var indicators = _context.Indicators
+                    .Where(i => i.evaluationType==evaluationType && i.isActive == 1)
+                    .OrderBy(i => i.idIndicator)
+                    .ToList();
                 return Ok(indicators);
             }
             catch (Exception ex)

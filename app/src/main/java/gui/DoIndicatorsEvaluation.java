@@ -106,13 +106,13 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
         background.setVisibility(View.GONE);
 
 
-        indicators=Session.getInstance().getIndicators();//.subList(0,9);
+        current_evaluation=Session.getInstance().getCurrEvaluation();
+
+        indicators=Session.getInstance().getIndicators(current_evaluation.getEvaluationType());//.subList(0,9);
         num_indicators=indicators.size();
 
 
-        current_evaluation=Session.getInstance().getCurrEvaluation();
-
-        int num_evidences=Session.getInstance().getEvidencesByIndicator(indicators.get(0).getIdSubSubAmbit(),indicators.get(0).getIdSubAmbit(),indicators.get(0).getIdAmbit(),indicators.get(0).getIdIndicator(),indicators.get(0).getIndicatorType(),indicators.get(0).getIndicatorVersion()).size();
+        int num_evidences=Session.getInstance().getEvidencesByIndicator(indicators.get(0).getIdSubSubAmbit(),indicators.get(0).getIdSubAmbit(),indicators.get(0).getIdAmbit(),indicators.get(0).getIdIndicator(),indicators.get(0).getIndicatorType(),indicators.get(0).getIndicatorVersion(),current_evaluation.getEvaluationType()).size();
 
         indicatorRegs=new IndicatorsEvaluationIndicatorReg[num_indicators];
         evidenceRegs=new IndicatorsEvaluationEvidenceReg[num_indicators][num_evidences];
@@ -124,7 +124,7 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
         }
 
 
-        if(IndicatorsEvaluationsController.Get(current_evaluation.getEvaluationDate(),current_evaluation.getIdEvaluatorTeam(),current_evaluation.getIdEvaluatorOrganization(),current_evaluation.getOrgTypeEvaluator(),current_evaluation.getIdEvaluatedOrganization(),current_evaluation.getOrgTypeEvaluated(),current_evaluation.getIllness(),current_evaluation.getIdCenter())!=null){
+        if(IndicatorsEvaluationsController.Get(current_evaluation.getEvaluationDate(),current_evaluation.getIdEvaluatorTeam(),current_evaluation.getIdEvaluatorOrganization(),current_evaluation.getOrgTypeEvaluator(),current_evaluation.getIdEvaluatedOrganization(),current_evaluation.getOrgTypeEvaluated(),current_evaluation.getIllness(),current_evaluation.getIdCenter(),current_evaluation.getEvaluationType())!=null){
             storedEvidencesRegs=IndicatorsEvaluationEvidenceRegsController.GetAllByIndicatorsEvaluation(current_evaluation.getEvaluationDate(),current_evaluation.getIdEvaluatorTeam(),current_evaluation.getIdEvaluatorOrganization(),current_evaluation.getOrgTypeEvaluator(),current_evaluation.getIdEvaluatedOrganization(),current_evaluation.getOrgTypeEvaluated(),current_evaluation.getIllness(),current_evaluation.getIdCenter(),current_evaluation.getEvaluationType());
             for (IndicatorsEvaluationEvidenceReg evidenceReg:storedEvidencesRegs){
                 evidenceRegs[evidenceReg.getIdIndicator()-1][evidenceReg.getIdEvidence()-1]=evidenceReg;
@@ -409,7 +409,7 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
 
 
         Indicator i = indicators.get(current_indicator);
-        evidences=Session.getInstance().getEvidencesByIndicator(current_subSubAmbit,current_subAmbit,current_ambit,current_indicator+1,i.getIndicatorType(),i.getIndicatorVersion());
+        evidences=Session.getInstance().getEvidencesByIndicator(current_subSubAmbit,current_subAmbit,current_ambit,current_indicator+1,i.getIndicatorType(),i.getIndicatorVersion(),i.getEvaluationType());
 
         if(indicatorRegs[current_indicator]==null){
             indicatorRegs[current_indicator]=new IndicatorsEvaluationIndicatorReg(current_evaluation.getEvaluationDate(),
@@ -788,10 +788,10 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
     private void addToDatabase(int isFinished){
         Session.getInstance().setCurrEvaluation(null);
         current_evaluation.setIsFinished(isFinished);
-        if(IndicatorsEvaluationsController.Get(current_evaluation.getEvaluationDate(),current_evaluation.getIdEvaluatorTeam(),current_evaluation.getIdEvaluatorOrganization(),current_evaluation.getOrgTypeEvaluator(),current_evaluation.getIdEvaluatedOrganization(),current_evaluation.getOrgTypeEvaluated(),current_evaluation.getIllness(),current_evaluation.getIdCenter())==null) {
+        if(IndicatorsEvaluationsController.Get(current_evaluation.getEvaluationDate(),current_evaluation.getIdEvaluatorTeam(),current_evaluation.getIdEvaluatorOrganization(),current_evaluation.getOrgTypeEvaluator(),current_evaluation.getIdEvaluatedOrganization(),current_evaluation.getOrgTypeEvaluated(),current_evaluation.getIllness(),current_evaluation.getIdCenter(),current_evaluation.getEvaluationType())==null) {
             IndicatorsEvaluationsController.Create(current_evaluation);
         }else{
-            IndicatorsEvaluationsController.Update(current_evaluation.getEvaluationDate(),current_evaluation.getIdEvaluatorTeam(),current_evaluation.getIdEvaluatorOrganization(),current_evaluation.getOrgTypeEvaluator(),current_evaluation.getIdEvaluatedOrganization(),current_evaluation.getOrgTypeEvaluated(),current_evaluation.getIllness(),current_evaluation.getIdCenter(),current_evaluation);
+            IndicatorsEvaluationsController.Update(current_evaluation.getEvaluationDate(),current_evaluation.getIdEvaluatorTeam(),current_evaluation.getIdEvaluatorOrganization(),current_evaluation.getOrgTypeEvaluator(),current_evaluation.getIdEvaluatedOrganization(),current_evaluation.getOrgTypeEvaluated(),current_evaluation.getIllness(),current_evaluation.getIdCenter(),current_evaluation.getEvaluationType(),current_evaluation);
         }
         IndicatorsEvaluationEvidenceRegsController.CreateRegs(evidenceRegs);
         IndicatorsEvaluationIndicatorRegsController.CreateRegs(indicatorRegs);

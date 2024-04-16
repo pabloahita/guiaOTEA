@@ -171,8 +171,15 @@ public class Session {
         this.organization = organization;
     }
 
-    public List<Indicator> getIndicators() {
-        return indicators;
+    public List<Indicator> getIndicators(String evaluationType) {
+
+        Predicate<Indicator> indicatorsOfThatEvaluationTypeExist=new Predicate<Indicator>() {
+            @Override
+            public boolean test(Indicator indicator) {
+                return indicator.getEvaluationType().equals(evaluationType);
+            }
+        };
+        return indicators.stream().filter(indicatorsOfThatEvaluationTypeExist).collect(Collectors.toList());
     }
 
     public void setIndicators(List<Indicator> indicators) {
@@ -362,14 +369,14 @@ public class Session {
         return subSubAmbits.stream().filter(subSubAmbitExist).collect(Collectors.toList()).get(0);
     }
 
-    public List<Evidence> getEvidencesByIndicator(int idSubSubAmbit,int idSubAmbit, int idAmbit, int idIndicator, String indicatorType, int indicatorVersion){
+    public List<Evidence> getEvidencesByIndicator(int idSubSubAmbit,int idSubAmbit, int idAmbit, int idIndicator, String indicatorType, int indicatorVersion, String evaluationType){
         Predicate<Evidence> evidenceOfThatIndicatorExist=new Predicate<Evidence>() {
             @Override
             public boolean test(Evidence evidence) {
                 return evidence.getIdSubSubAmbit()==idSubSubAmbit && evidence.getIdSubAmbit()==idSubAmbit &&
                         evidence.getIdAmbit()==idAmbit && evidence.getIdIndicator()==idIndicator &&
                         evidence.getIndicatorType().equals(indicatorType) &&
-                        evidence.getIndicatorVersion()==indicatorVersion;
+                        evidence.getIndicatorVersion()==indicatorVersion && evidence.getEvaluationType().equals(evaluationType);
             }
         };
         return evidences.stream().filter(evidenceOfThatIndicatorExist).collect(Collectors.toList());

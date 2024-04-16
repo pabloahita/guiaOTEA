@@ -41,7 +41,11 @@ namespace OTEAServer.Controllers
         {
             try
             {
-                var evidences = _context.Evidences.Where(e=>e.evaluationType==evaluationType).ToList();
+                var evidences = _context.Evidences
+                    .Where(e=>e.evaluationType==evaluationType)
+                    .OrderBy(e=>e.idIndicator)
+                    .ThenBy(e=>e.idEvidence)
+                    .ToList();
                 return Ok(evidences);
             }
             catch (Exception ex)

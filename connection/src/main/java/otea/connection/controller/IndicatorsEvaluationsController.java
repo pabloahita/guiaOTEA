@@ -99,12 +99,12 @@ public class IndicatorsEvaluationsController {
      * @param illness - Illness of the external organization that will recieve the indicators evaluation. In case of Fundación Miradas, it will be "AUTISM"
      * @return Indicators evaluations list
      * */
-    public static List<IndicatorsEvaluation> GetAllByEvaluatorTeam(int idEvaluatorTeam, int idEvaluatorOrg, String orgTypeEvaluator, int idEvaluatedOrg, String orgTypeEvaluated, int idCenter, String illness){
+    public static List<IndicatorsEvaluation> GetAllByEvaluatorTeam(int idEvaluatorTeam, int idEvaluatorOrg, String orgTypeEvaluator, int idEvaluatedOrg, String orgTypeEvaluated, int idCenter, String illness, String evaluationType){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<IndicatorsEvaluation>> callable = new Callable<List<IndicatorsEvaluation>>() {
             @Override
             public List<IndicatorsEvaluation> call() throws Exception {
-                Call<List<IndicatorsEvaluation>> call=api.GetAllByEvaluatorTeam(idEvaluatorTeam, idEvaluatorOrg, orgTypeEvaluator, idEvaluatedOrg, orgTypeEvaluated, idCenter,illness);
+                Call<List<IndicatorsEvaluation>> call=api.GetAllByEvaluatorTeam(idEvaluatorTeam, idEvaluatorOrg, orgTypeEvaluator, idEvaluatedOrg, orgTypeEvaluated, idCenter,illness, evaluationType);
                 Response<List<IndicatorsEvaluation>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -171,12 +171,12 @@ public class IndicatorsEvaluationsController {
      * @param idCenter - Center identifier of the external organization
      * @return Indicators evaluation if success, null if not
      * */
-    public static IndicatorsEvaluation Get(long evaluationDate, int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator, int idEvaluatedOrganization, String orgTypeEvaluated, String illness, int idCenter){
+    public static IndicatorsEvaluation Get(long evaluationDate, int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator, int idEvaluatedOrganization, String orgTypeEvaluated, String illness, int idCenter, String evaluationType){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<IndicatorsEvaluation> callable = new Callable<IndicatorsEvaluation>() {
             @Override
             public IndicatorsEvaluation call() throws Exception {
-                Call<IndicatorsEvaluation> call = api.Get(evaluationDate,idEvaluatorTeam,idEvaluatorOrganization,orgTypeEvaluator,idEvaluatedOrganization,orgTypeEvaluated,illness,idCenter);
+                Call<IndicatorsEvaluation> call = api.Get(evaluationDate,idEvaluatorTeam,idEvaluatorOrganization,orgTypeEvaluator,idEvaluatedOrganization,orgTypeEvaluated,illness,idCenter,evaluationType);
                 Response<IndicatorsEvaluation> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -242,12 +242,12 @@ public class IndicatorsEvaluationsController {
      * @param indicatorsEvaluation - Indicators evaluation
      * @return Indicators evaluation if success, null if not
      * */
-    public static IndicatorsEvaluation Update(long evaluationDate, int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator, int idEvaluatedOrganization, String orgTypeEvaluated, String illness, int idCenter,IndicatorsEvaluation indicatorsEvaluation){
+    public static IndicatorsEvaluation Update(long evaluationDate, int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator, int idEvaluatedOrganization, String orgTypeEvaluated, String illness, int idCenter, String evaluationType,IndicatorsEvaluation indicatorsEvaluation){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<IndicatorsEvaluation> callable = new Callable<IndicatorsEvaluation>() {
             @Override
             public IndicatorsEvaluation call() throws Exception {
-                Call<IndicatorsEvaluation> call=api.Update(evaluationDate,idEvaluatorTeam,idEvaluatorOrganization,orgTypeEvaluator,idEvaluatedOrganization,orgTypeEvaluated,illness,idCenter,indicatorsEvaluation);
+                Call<IndicatorsEvaluation> call=api.Update(evaluationDate,idEvaluatorTeam,idEvaluatorOrganization,orgTypeEvaluator,idEvaluatedOrganization,orgTypeEvaluated,illness,idCenter,evaluationType,indicatorsEvaluation);
                 Response<IndicatorsEvaluation> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -307,12 +307,12 @@ public class IndicatorsEvaluationsController {
      * @param idCenter - Center identifier of the external organization
      * @return Indicators evaluation if success, null if not
      * */
-    public static IndicatorsEvaluation Delete(long evaluationDate, int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator, int idEvaluatedOrganization, String orgTypeEvaluated, String illness, int idCenter){
+    public static IndicatorsEvaluation Delete(long evaluationDate, int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator, int idEvaluatedOrganization, String orgTypeEvaluated, String illness, int idCenter, String evaluationType){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<IndicatorsEvaluation> callable = new Callable<IndicatorsEvaluation>() {
             @Override
             public IndicatorsEvaluation call() throws Exception {
-                Call<IndicatorsEvaluation> call = api.Delete(evaluationDate,idEvaluatorTeam,idEvaluatorOrganization,orgTypeEvaluator,idEvaluatedOrganization,orgTypeEvaluated,illness,idCenter);
+                Call<IndicatorsEvaluation> call = api.Delete(evaluationDate,idEvaluatorTeam,idEvaluatorOrganization,orgTypeEvaluator,idEvaluatedOrganization,orgTypeEvaluated,illness,idCenter,evaluationType);
                 Response<IndicatorsEvaluation> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

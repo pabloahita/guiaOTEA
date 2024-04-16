@@ -76,7 +76,7 @@ public class EditIndicators extends AppCompatActivity{
 
         Session session= Session.getInstance();
 
-        indicators=session.getIndicators();
+        indicators=session.getIndicators(""); //Cambiar
         num_indicators=indicators.size();
 
         TextView indicatorCaption = (TextView) findViewById(R.id.indicator_caption);
@@ -191,7 +191,7 @@ public class EditIndicators extends AppCompatActivity{
         }
 
         Indicator i=indicators.get(current_indicator);
-        List<Evidence> evidences=Session.getInstance().getEvidencesByIndicator(current_subSubAmbit,current_subAmbit,current_ambit,current_indicator+1,i.getIndicatorType(),i.getIndicatorVersion());
+        List<Evidence> evidences=Session.getInstance().getEvidencesByIndicator(current_subSubAmbit,current_subAmbit,current_ambit,current_indicator+1,i.getIndicatorType(),i.getIndicatorVersion(),i.getEvaluationType());
 
         if (Locale.getDefault().getLanguage().equals("es")) {//Español
             indicatorCaption.setText("Indicador " + i.getIdIndicator() + ": " + i.getDescriptionSpanish());

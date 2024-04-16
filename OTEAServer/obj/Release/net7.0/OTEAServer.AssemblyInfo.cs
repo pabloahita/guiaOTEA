@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OTEAServer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+752ee29bb04894b82655975e7a0c504e916fa82d")]
 [assembly: System.Reflection.AssemblyProductAttribute("OTEAServer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OTEAServer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
