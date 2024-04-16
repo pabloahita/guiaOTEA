@@ -3,6 +3,7 @@ package otea.connection.api;
 import java.util.List;
 
 import cli.indicators.IndicatorsEvaluation;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -96,7 +97,8 @@ public interface IndicatorsEvaluationsApi {
      * @param indicatorsEvaluation - Indicators evaluation
      * */
     @PUT("IndicatorsEvaluations/result")
-    Call<IndicatorsEvaluation> calculateResults(@Body IndicatorsEvaluation indicatorsEvaluation);
+    Call<ResponseBody> calculateResults(@Body IndicatorsEvaluation indicatorsEvaluation);
+
     /**
      * Deletes an indicator evaluation
      *

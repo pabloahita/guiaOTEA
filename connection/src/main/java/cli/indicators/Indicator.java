@@ -101,6 +101,10 @@ public class Indicator implements Serializable {
     @SerializedName("multiplierOneOrZeroFilled")
     public int multiplierOneOrZeroFilled;
 
+    /**Evaluation type*/
+    @SerializedName("evaluationType")
+    public String evaluationType;
+
 
 
     /**
@@ -127,8 +131,9 @@ public class Indicator implements Serializable {
      * @param multiplierFourFilled - Multiplier used if the indicator has four evidences filled
      * @param multiplierTwoOrThreeField - Multiplier used if the indicator has two or three filled
      * @param multiplierOneOrZeroFilled - Multiplier used if the indicator has zero or one evidences filled
+     * @param evaluationType - Evaluation type
      * */
-    public Indicator(int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, String descriptionEnglish, String descriptionSpanish, String descriptionFrench, String descriptionBasque, String descriptionCatalan, String descriptionDutch, String descriptionGalician, String descriptionGerman, String descriptionItalian, String descriptionPortuguese, int indicatorPriority, int indicatorVersion, int isActive, int multiplierFourFilled, int multiplierTwoOrThreeField, int multiplierOneOrZeroFilled) {
+    public Indicator(int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, String descriptionEnglish, String descriptionSpanish, String descriptionFrench, String descriptionBasque, String descriptionCatalan, String descriptionDutch, String descriptionGalician, String descriptionGerman, String descriptionItalian, String descriptionPortuguese, int indicatorPriority, int indicatorVersion, int isActive, int multiplierFourFilled, int multiplierTwoOrThreeField, int multiplierOneOrZeroFilled, String evaluationType) {
         setIdIndicator(idIndicator);
         setIndicatorType(indicatorType);
         setIdSubSubAmbit(idSubSubAmbit);
@@ -151,7 +156,7 @@ public class Indicator implements Serializable {
         setMultiplierFourFilled(multiplierFourFilled);
         setMultiplierTwoOrThreeFilled(multiplierTwoOrThreeField);
         setMultiplierOneOrZeroFilled(multiplierOneOrZeroFilled);
-
+        setEvaluationType(evaluationType);
     }
 
     /**
@@ -566,5 +571,24 @@ public class Indicator implements Serializable {
      * */
     public void setMultiplierOneOrZeroFilled(int multiplierOneOrZeroFilled) {
         this.multiplierOneOrZeroFilled = multiplierOneOrZeroFilled;
+    }
+
+    /**
+     * Method that obtains the evaluation type
+     *
+     * @return Evaluation type
+     * */
+
+    public String getEvaluationType() {
+        return evaluationType;
+    }
+
+    /**
+     * Method that sets the new evaluation type
+     *
+     * @param evaluationType - Evaluation type
+     * */
+    public void setEvaluationType(String evaluationType) {
+        this.evaluationType = evaluationType;
     }
 }

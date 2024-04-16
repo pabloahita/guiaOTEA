@@ -84,6 +84,10 @@ public class Evidence implements Serializable {
     @SerializedName("indicatorVersion")
     public int indicatorVersion;
 
+    /**Evaluation type*/
+    @SerializedName("evaluationType")
+    public String evaluationType;
+
     /**
      * Class constructor
      *
@@ -105,8 +109,9 @@ public class Evidence implements Serializable {
      * @param descriptionPortuguese - Evidence description in Portuguese
      * @param evidenceValue - Evidence value
      * @param indicatorVersion - Indicator version
+     * @param evaluationType - Evaluation type
      * */
-    public Evidence(int idEvidence, int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, String descriptionEnglish, String descriptionSpanish, String descriptionFrench, String descriptionBasque, String descriptionCatalan, String descriptionDutch, String descriptionGalician, String descriptionGerman, String descriptionItalian, String descriptionPortuguese, int evidenceValue, int indicatorVersion){
+    public Evidence(int idEvidence, int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, String descriptionEnglish, String descriptionSpanish, String descriptionFrench, String descriptionBasque, String descriptionCatalan, String descriptionDutch, String descriptionGalician, String descriptionGerman, String descriptionItalian, String descriptionPortuguese, int evidenceValue, int indicatorVersion, String evaluationType){
         setIdEvidence(idEvidence);
         setIdIndicator(idIndicator);
         setIndicatorType(indicatorType);
@@ -125,6 +130,7 @@ public class Evidence implements Serializable {
         setDescriptionPortuguese(descriptionPortuguese);
         setEvidenceValue(evidenceValue);
         setIndicatorVersion(indicatorVersion);
+        setEvaluationType(evaluationType);
     }
 
     /**
@@ -449,5 +455,24 @@ public class Evidence implements Serializable {
      * */
     public void setIdAmbit(int idAmbit) {
         this.idAmbit = idAmbit;
+    }
+
+    /**
+     * Method that obtains the evaluation type
+     *
+     * @return Evaluation type
+     * */
+
+    public String getEvaluationType() {
+        return evaluationType;
+    }
+
+    /**
+     * Method that sets the new evaluation type
+     *
+     * @param evaluationType - Evaluation type
+     * */
+    public void setEvaluationType(String evaluationType) {
+        this.evaluationType = evaluationType;
     }
 }

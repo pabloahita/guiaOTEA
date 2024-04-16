@@ -33,7 +33,8 @@ namespace OTEAServer.Models
         /// <param name="multiplierFourFilled">Multiplier used if the indicator has four evidences filled</param>
         /// <param name="multiplierTwoOrThreeFilled">Multiplier used if the indicator has two or three filled</param>
         /// <param name="multiplierOneOrZeroFilled">Multiplier used if the indicator has zero or one evidences filled</param>
-        public Indicator(int idIndicator, string indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, string descriptionBasque, string descriptionCatalan, string descriptionDutch, string descriptionGalician, string descriptionGerman, string descriptionItalian, string descriptionPortuguese, int indicatorPriority, int indicatorVersion, int isActive, int multiplierFourFilled, int multiplierTwoOrThreeFilled, int multiplierOneOrZeroFilled)
+        /// <param name="evaluationType">Evaluation type</param>
+        public Indicator(int idIndicator, string indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, string descriptionBasque, string descriptionCatalan, string descriptionDutch, string descriptionGalician, string descriptionGerman, string descriptionItalian, string descriptionPortuguese, int indicatorPriority, int indicatorVersion, int isActive, int multiplierFourFilled, int multiplierTwoOrThreeFilled, int multiplierOneOrZeroFilled, string evaluationType)
         {
             this.idIndicator = idIndicator;
             this.indicatorType = indicatorType;
@@ -56,6 +57,7 @@ namespace OTEAServer.Models
             this.multiplierFourFilled =multiplierFourFilled;
             this.multiplierTwoOrThreeFilled =multiplierTwoOrThreeFilled;
             this.multiplierOneOrZeroFilled =multiplierOneOrZeroFilled;
+            this.evaluationType = evaluationType;
         }
 
         /// <summary>
@@ -184,5 +186,11 @@ namespace OTEAServer.Models
         /// </summary>
         [JsonPropertyName("multiplierOneOrZeroFilled")]
         public int multiplierOneOrZeroFilled { get; set; }
+
+        /// <summary>
+        /// Evaluation type
+        /// </summary>
+        [JsonPropertyName("evaluationType")]
+        public string evaluationType { get; set; }
     }
 }

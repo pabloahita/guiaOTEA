@@ -199,7 +199,6 @@
     <string name="eval_type">Type evaluatie</string>
     <string name="simple">Eenvoudige evaluatie</string>
     <string name="complete">Volledige evaluatie</string>
-    <string name="request_reg">Verzoek om registratie</string>
     <string name="complete_reg">Registratie voltooien (na aanvraag)</string>
     <string name="please_email_req">Om de aanvraag te voltooien, typ alstublieft uw e-mail hieronder:</string>
     <string name="complete_req">Voltooi de aanvraag</string>
@@ -212,6 +211,22 @@
     <string name="camera">Camera</string>
     <string name="gallery">Galerij</string>
     <string name="select_source">Bron selecteren</string>
+    <string name="email_not_in_db">Het ingevoerde e-mailadres komt niet voor in onze database. Voer alstublieft een ander e-mailadres in of vraag registratie aan door uw e-mailadres in te voeren in het registratieverzoekgedeelte.</string>
+    <string name="create_account">Account aanmaken</string>
+    <string name="send_request">Verzoek verzenden</string>
+    <string name="check_request">Verzoek controleren</string>
+    <string name="req_ins">Als eerste moet u een geldig e-mailadres invoeren in het daarvoor bestemde veld. Door op \'Verzoek controleren\' te drukken, afhankelijk van of het verzoek eerder is gedaan of dat de gebruiker is geregistreerd, wordt een van de volgende opties weergegeven:</string>
+    <string name="req_ins1">Als dit de eerste keer is dat een verzoek wordt gedaan met dit e-mailadres, wordt er een keuzelijst weergegeven met de verschillende organisaties waarmee \'Fundación Miradas\' samenwerkt, inclusief \'Fundación Miradas\' zelf, om het verzoek te voltooien door het e-mailadres toe te wijzen aan een specifieke organisatie. Zodra het verzoek is voltooid, stuurt \'Fundación Miradas\' u per e-mail het resultaat van uw verzoek samen met een tijdelijk toegangswachtwoord in geval van acceptatie.</string>
+    <string name="req_ins2">Als uw verzoek is geaccepteerd, moet u het tijdelijke toegangswachtwoord invoeren in het overeenkomstige vak om toegang te krijgen tot het registratieformulier.</string>
+    <string name="req_ins3">Als de gebruiker al geregistreerd is, wordt hij/zij doorgestuurd naar het inlogformulier.</string>
+    <string name="user_already_registered">Gebruiker al geregistreerd</string>
+    <string name="registration_request">Registratieverzoek</string>
+    <string name="unanswered_request">Onbeantwoorde aanvraag</string>
+    <string name="checking_req">Controleren of het verzoek bestaat...</string>
+    <string name="do_you_want_save_changes">Wilt u de wijzigingen in deze prestatiebeoordeling opslaan om later door te gaan?</string>
+    <string name="accept">Accepteren</string>
+    <string name="ind_obs">Indicatorobservaties</string>
+    <string name="ev_obs">Waarnemingen van bewijsmateriaal</string>
 
 
 </resources>

@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,13 +71,16 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
 
         organizations= Session.getEvaluatedOrganizations();
         List<String> evaluationTypes=new LinkedList<String>();
-        evaluationTypes.add(getString(R.string.eval_type));
-        evaluationTypes.add(getString(R.string.complete));
-        evaluationTypes.add(getString(R.string.simple));
+        evaluationTypes.add(Html.fromHtml("<b><i>"+getString(R.string.eval_type)+"</i></b>",0).toString());
+        evaluationTypes.add(Html.fromHtml("<i>"+getString(R.string.complete)+"</i>",0).toString());
+        evaluationTypes.add(Html.fromHtml("<i>"+getString(R.string.simple)+"</i>",0).toString());
         EvalTypesAdapter[] evalTypesAdapter={new EvalTypesAdapter(SelectToDoIndicatorsEvaluations.this,evaluationTypes)};
         evalTypesAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
         if(!organizations.isEmpty() && !Session.getEvaluatorTeams().isEmpty()){
-            organizations.add(0,new Organization(-1,"-","-",getString(R.string.evaluated_org),-1,"-","-","-","-","-","-","-","-","-","-","-","-","-"));
+            Organization aux=new Organization(-1,"-","-",getString(R.string.evaluated_org),-1,"-","-","-","-","-","-","-","-","-","-","-","-","-");
+            if(organizations.get(0).getIdOrganization()!=-1) {
+                organizations.add(0,aux);
+            }
             Spinner spinnerEvaluatedOrganization=findViewById(R.id.spinner_select_organization);
             Spinner spinnerCenter=findViewById(R.id.spinner_select_center);
             Spinner spinnerCenterAux=findViewById(R.id.spinner_select_center_aux);
@@ -193,7 +197,13 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
             evaluationTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    evaluationType[0] = (String) typeAdapter[0].getItem(position);
+                    if(position==0){
+                        evaluationType[0]="";
+                    }else if(position==1){
+                        evaluationType[0]="COMPLETE";
+                    }else{
+                        evaluationType[0]="SIMPLE";
+                    }
                 }
 
                 @Override
@@ -219,16 +229,15 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
                             Intent intent=new Intent(getApplicationContext(),gui.DoIndicatorsEvaluation.class);
 
                             Session.getInstance().setCurrEvaluation(new IndicatorsEvaluation(DateFormatter.formaUtilDateToTimestamp(new Date()),evaluatedOrganization[0].getIdOrganization(),evaluatedOrganization[0].getOrgType(),
-                            evaluatorTeam[0].getIdEvaluatorTeam(), evaluatorTeam[0].getIdEvaluatorOrganization(), evaluatorTeam[0].getOrgTypeEvaluator(), evaluatorTeam[0].getIllness(), evaluatorTeam[0].getIdCenter(), "",
+                            evaluatorTeam[0].getIdEvaluatorTeam(), evaluatorTeam[0].getIdEvaluatorOrganization(), evaluatorTeam[0].getOrgTypeEvaluator(), evaluatorTeam[0].getIllness(), evaluatorTeam[0].getIdCenter(),
+                                    0, 0,
+                                    0, 0, 0, 0, 0,"",
                                     "", "", "",
                                     "", "", "",
                                     "", "", "",
-                                    "", "", "", "",
-                                    "", "", "", "",
-                                    "", "", 0, 0,
-                            0, 0, 0, 0, 0, 0));
+                                     0,evaluationType[0]));
 
-                            Session.getInstance().obtainIndicatorsFromDataBase();
+                            Session.getInstance().obtainIndicatorsFromDataBase(evaluationType[0]);
                             startActivity(intent);
                         }
                     }, 100);

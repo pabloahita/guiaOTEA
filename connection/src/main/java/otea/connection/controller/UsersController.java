@@ -3,6 +3,7 @@ package otea.connection.controller;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -62,8 +63,7 @@ public class UsersController {
     /**
      * Method that obtains the login
      *
-     * @param email - User login
-     * @param password - User password
+     * @param credentials - Credentials
      * @return Login if credentials are true, null if not
      * */
     public static JsonObject Login(JsonObject credentials){
@@ -76,8 +76,8 @@ public class UsersController {
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
-                    if(response.code()==400){
-                        throw new IOException("Bad request");
+                    if(response.code()==404){
+                        throw new IOException("Not found");
                     }
                     else if(response.code()==401){
                         throw new IOException("Unauthorized");
@@ -92,8 +92,18 @@ public class UsersController {
             executor.shutdown();
             return result;
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        } catch (Exception e){
+            if(e.getMessage().equals("java.io.IOException: Not found") || e.getMessage().equals("java.io.IOException: Unauthorized")){
+                JsonObject response=new JsonObject();
+                int code=-1;
+                if(e.getMessage().equals("java.io.IOException: Not found")){
+                    code=404;
+                }
+                else{
+                    code=401;
+                }
+                response.addProperty("errorCode",code);
+                return response;
+            }
             throw new RuntimeException(e);
         }
     }
@@ -106,24 +116,30 @@ public class UsersController {
      * */
     public static User Get(String email){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<User> callable = new Callable<User>() {
+        Callable<JsonObject> callable = new Callable<JsonObject>() {
             @Override
-            public User call() throws Exception {
-                Call<User> call = api.Get(email,Session.getInstance().getToken());
-                Response<User> response = call.execute();
+            public JsonObject call() throws Exception {
+                Call<JsonObject> call = api.Get(email);
+                Response<JsonObject> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
+                    if(response.code()==404){
+                        throw new IOException("Not found");
+                    }
                     throw new IOException("Error: " + response.code() + " " + response.message());
                 }
             }
         };
         try {
-            Future<User> future = executor.submit(callable);
-            User result = future.get();
+            Future<JsonObject> future = executor.submit(callable);
+            JsonObject jsonUser = future.get();
             executor.shutdown();
-            return result;
+            return new User(jsonUser.getAsJsonPrimitive("emailUser").getAsString(), jsonUser.getAsJsonPrimitive("userType").getAsString(), jsonUser.getAsJsonPrimitive("first_name").getAsString(), jsonUser.getAsJsonPrimitive("last_name").getAsString(), "", jsonUser.getAsJsonPrimitive("telephone").getAsString(), jsonUser.getAsJsonPrimitive("idOrganization").getAsInt(), jsonUser.getAsJsonPrimitive("orgType").getAsString(), jsonUser.getAsJsonPrimitive("illness").getAsString(), jsonUser.getAsJsonPrimitive("profilePhoto").getAsString());
         } catch (InterruptedException | ExecutionException e) {
+            if(e.getMessage().equals("java.io.IOException: Not found")){
+                return null;
+            }
             throw new RuntimeException(e);
         }
     }
@@ -135,11 +151,11 @@ public class UsersController {
      * */
     public static List<User> GetAll(){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<User>> callable = new Callable<List<User>>() {
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
-            public List<User> call() throws Exception {
-                Call<List<User>> call = api.GetAll(Session.getInstance().getToken());
-                Response<List<User>> response = call.execute();
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call = api.GetAll(Session.getInstance().getToken());
+                Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
@@ -148,8 +164,12 @@ public class UsersController {
             }
         };
         try {
-            Future<List<User>> future = executor.submit(callable);
-            List<User> list = future.get();
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> jsonList = future.get();
+            List<User> list=new ArrayList<>();
+            for(JsonObject jsonUser:jsonList){
+                list.add(new User(jsonUser.getAsJsonPrimitive("emailUser").getAsString(), jsonUser.getAsJsonPrimitive("userType").getAsString(), jsonUser.getAsJsonPrimitive("first_name").getAsString(), jsonUser.getAsJsonPrimitive("last_name").getAsString(), "", jsonUser.getAsJsonPrimitive("telephone").getAsString(), jsonUser.getAsJsonPrimitive("idOrganization").getAsInt(), jsonUser.getAsJsonPrimitive("orgType").getAsString(), jsonUser.getAsJsonPrimitive("illness").getAsString(), jsonUser.getAsJsonPrimitive("profilePhoto").getAsString()));
+            }
             executor.shutdown();
             return list;
         } catch (InterruptedException | ExecutionException e) {
@@ -168,11 +188,11 @@ public class UsersController {
      * */
     public static List<User> GetAllOrgUsersByOrganization(int idOrganization,String orgType, String illness){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<User>> callable = new Callable<List<User>>() {
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
-            public List<User> call() throws Exception {
-                Call<List<User>> call = api.GetAllOrgUsersByOrganization(idOrganization,orgType,illness,Session.getInstance().getToken());
-                Response<List<User>> response = call.execute();
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call = api.GetAllOrgUsersByOrganization(idOrganization,orgType,illness,Session.getInstance().getToken());
+                Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
@@ -181,8 +201,12 @@ public class UsersController {
             }
         };
         try {
-            Future<List<User>> future = executor.submit(callable);
-            List<User> list = future.get();
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> jsonList = future.get();
+            List<User> list=new ArrayList<>();
+            for(JsonObject jsonUser:jsonList){
+                list.add(new User(jsonUser.getAsJsonPrimitive("emailUser").getAsString(), jsonUser.getAsJsonPrimitive("userType").getAsString(), jsonUser.getAsJsonPrimitive("first_name").getAsString(), jsonUser.getAsJsonPrimitive("last_name").getAsString(), "", jsonUser.getAsJsonPrimitive("telephone").getAsString(), jsonUser.getAsJsonPrimitive("idOrganization").getAsInt(), jsonUser.getAsJsonPrimitive("orgType").getAsString(), jsonUser.getAsJsonPrimitive("illness").getAsString(), jsonUser.getAsJsonPrimitive("profilePhoto").getAsString()));
+            }
             executor.shutdown();
             return list;
         } catch (InterruptedException | ExecutionException e) {
@@ -201,7 +225,7 @@ public class UsersController {
         Callable<User> callable = new Callable<User>() {
             @Override
             public User call() throws Exception {
-                Call<User> call = api.Create(user,Session.getInstance().getToken());
+                Call<User> call = api.Create(user);
                 Response<User> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

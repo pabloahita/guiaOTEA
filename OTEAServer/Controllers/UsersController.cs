@@ -53,7 +53,20 @@ namespace OTEAServer.Controllers
             try
             {
                 var users = _context.Users.ToList();
-                return Ok(users);
+                List<JsonDocument> result = new List<JsonDocument>();
+                foreach(var user in users) {
+                    String usr = "{\"emailUser\":\"" + user.emailUser + "\"," +
+                    "\"userType\":\"" + user.userType + "\"," +
+                        "\"first_name\":\"" + user.first_name + "\"," +
+                        "\"last_name\":\"" + user.last_name + "\"," +
+                        "\"telephone\":\"" + user.telephone + "\"," +
+                        "\"idOrganization\":" + user.idOrganization + "," +
+                        "\"orgType\":\"" + user.orgType + "\"," +
+                        "\"illness\":\"" + user.illness + "\"," +
+                        "\"profilePhoto\":\"" + user.profilePhoto + "\"}";
+                    result.Add(JsonDocument.Parse(usr));
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -75,7 +88,21 @@ namespace OTEAServer.Controllers
             try
             {
                 var users = _context.Users.Where(u => u.idOrganization == idOrganization && u.orgType == orgType && u.illness == illness).ToList();
-                return Ok(users);
+                List<JsonDocument> result = new List<JsonDocument>();
+                foreach (var user in users)
+                {
+                    String usr = "{\"emailUser\":\"" + user.emailUser + "\"," +
+                    "\"userType\":\"" + user.userType + "\"," +
+                        "\"first_name\":\"" + user.first_name + "\"," +
+                        "\"last_name\":\"" + user.last_name + "\"," +
+                        "\"telephone\":\"" + user.telephone + "\"," +
+                        "\"idOrganization\":" + user.idOrganization + "," +
+                        "\"orgType\":\"" + user.orgType + "\"," +
+                        "\"illness\":\"" + user.illness + "\"," +
+                        "\"profilePhoto\":\"" + user.profilePhoto + "\"}";
+                    result.Add(JsonDocument.Parse(usr));
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -89,7 +116,8 @@ namespace OTEAServer.Controllers
         /// <param name="email">User email</param>
         /// <returns>User if success, null if not</returns>
         [HttpGet("get")]
-        public ActionResult<User> Get([FromQuery] string email, [FromHeader] string Authorization)
+        [AllowAnonymous]
+        public ActionResult<JsonDocument> Get([FromQuery] string email)
         {
             try
             {
@@ -97,8 +125,16 @@ namespace OTEAServer.Controllers
 
                 if (user == null)
                     return NotFound();
-
-                return user;
+                String usr = "{\"emailUser\":\"" + user.emailUser + "\"," +
+                    "\"userType\":\"" + user.userType + "\"," +
+                        "\"first_name\":\"" + user.first_name + "\"," +
+                        "\"last_name\":\"" + user.last_name + "\"," +
+                        "\"telephone\":\"" + user.telephone + "\"," +
+                        "\"idOrganization\":" + user.idOrganization + "," +
+                        "\"orgType\":\"" + user.orgType + "\"," +
+                        "\"illness\":\"" + user.illness + "\"," +
+                        "\"profilePhoto\":\"" + user.profilePhoto + "\"}";
+                return JsonDocument.Parse(usr);
             }
             catch (Exception ex)
             {
@@ -128,10 +164,6 @@ namespace OTEAServer.Controllers
                     if (user == null) { return NotFound(); }
                     else
                     {
-                        if (user.emailUser != email)
-                        {
-                            return BadRequest();
-                        }
                         if (user.passwordUser != password)
                         {
                             return Unauthorized();
@@ -157,7 +189,6 @@ namespace OTEAServer.Controllers
                     userType = user.userType,
                     first_name = user.first_name,
                     last_name = user.last_name,
-                    passwordUser = password,
                     telephone = user.telephone,
                     idOrganization = user.idOrganization,
                     orgType = user.orgType,
@@ -209,7 +240,8 @@ namespace OTEAServer.Controllers
         /// <param name="user">User</param>
         /// <returns>User if success, null if not</returns>
         [HttpPost]
-        public IActionResult Create([FromBody] User user, [FromHeader] string Authorization)
+        [AllowAnonymous]
+        public IActionResult Create([FromBody] User user)//, [FromHeader] string Authorization)
         {
             try
             {

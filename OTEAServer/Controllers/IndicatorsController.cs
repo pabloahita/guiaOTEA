@@ -31,13 +31,14 @@ namespace OTEAServer.Controllers
         /// <summary>
         /// Method that obtains all the indicators
         /// </summary>
+        /// <param name="evaluationType">Evaluation type</param>
         /// <returns>Indicators list</returns>
         [HttpGet("all")]
-        public IActionResult GetAll()
+        public IActionResult GetAll([FromQuery] string evaluationType)
         {
             try
             {
-                var indicators = _context.Indicators.Where(i => i.isActive == 1).ToList();
+                var indicators = _context.Indicators.Where(i => i.evaluationType==evaluationType && i.isActive == 1).ToList();
                 return Ok(indicators);
             }
             catch (Exception ex)
@@ -74,14 +75,15 @@ namespace OTEAServer.Controllers
         /// <param name="idSubAmbit">First level division of the ambit</param>
         /// <param name="idAmbit">Ambit identifier</param>
         /// <param name="indicatorVersion">Indicator version</param>
+        /// <param name="evaluationType">Evaluation type</param>
         /// <returns>Indicator if success, null if not</returns>
 
         [HttpGet("get")]
-        public ActionResult<Indicator> Get([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion)
+        public ActionResult<Indicator> Get([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType)
         {
             try
             {
-                var indicator = _context.Indicators.FirstOrDefault(i => i.idIndicator == idIndicator && i.indicatorType == indicatorType && i.idSubSubAmbit == idSubSubAmbit && i.idSubAmbit == idSubAmbit && i.idAmbit == idAmbit && i.indicatorVersion == indicatorVersion);
+                var indicator = _context.Indicators.FirstOrDefault(i => i.idIndicator == idIndicator && i.indicatorType == indicatorType && i.idSubSubAmbit == idSubSubAmbit && i.idSubAmbit == idSubAmbit && i.idAmbit == idAmbit && i.indicatorVersion == indicatorVersion && i.evaluationType==evaluationType);
 
                 if (indicator == null)
                     return NotFound();
@@ -108,7 +110,7 @@ namespace OTEAServer.Controllers
             {
                 _context.Indicators.Add(indicator);
                 _context.SaveChanges();
-                return CreatedAtAction(nameof(Get), new { id = indicator.idIndicator, type = indicator.indicatorType }, indicator);
+                return CreatedAtAction(nameof(Get), new { id = indicator.idIndicator, type = indicator.indicatorType, idSubSubAmbit = indicator.idSubSubAmbit, idSubAmbit = indicator.idSubAmbit, idAmbit = indicator.idAmbit, version = indicator.indicatorVersion, evaluationType =indicator.evaluationType }, indicator);
             }
             catch (Exception ex)
             {
@@ -125,16 +127,17 @@ namespace OTEAServer.Controllers
         /// <param name="idSubAmbit">First level division of the ambit</param>
         /// <param name="idAmbit">Ambit identifier</param>
         /// <param name="indicatorVersion">Indicator version</param>
+        /// <param name="evaluationType">Evaluation type</param>
         /// <param name="indicator">Indicator</param>
         /// <returns>Indicator if success, null if not</returns>
         [HttpPut]
-        public IActionResult Update([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromBody] Indicator indicator)
+        public IActionResult Update([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType, [FromBody] Indicator indicator)
         {
             try
             {
-                if (idIndicator != indicator.idIndicator || indicatorType != indicator.indicatorType || indicatorVersion != indicator.indicatorVersion - 1 || idSubSubAmbit != indicator.idSubSubAmbit || idSubAmbit != indicator.idSubAmbit || idAmbit != indicator.idAmbit)
+                if (idIndicator != indicator.idIndicator || indicatorType != indicator.indicatorType || indicatorVersion != indicator.indicatorVersion - 1 || idSubSubAmbit != indicator.idSubSubAmbit || idSubAmbit != indicator.idSubAmbit || idAmbit != indicator.idAmbit || evaluationType!=indicator.evaluationType)
                     return BadRequest();
-                var existingIndicator = _context.Indicators.FirstOrDefault(i => i.idIndicator == idIndicator && i.indicatorType == indicatorType && i.idSubSubAmbit == idSubSubAmbit && i.idSubAmbit == idSubAmbit && i.idAmbit == idAmbit && i.indicatorVersion == indicatorVersion);
+                var existingIndicator = _context.Indicators.FirstOrDefault(i => i.idIndicator == idIndicator && i.indicatorType == indicatorType && i.idSubSubAmbit == idSubSubAmbit && i.idSubAmbit == idSubAmbit && i.idAmbit == idAmbit && i.indicatorVersion == indicatorVersion && i.evaluationType == evaluationType);
                 if (existingIndicator is null)
                     return NotFound();
 
@@ -158,14 +161,15 @@ namespace OTEAServer.Controllers
         /// <param name="idSubSubAmbit">Second level division of the ambit</param>
         /// <param name="idSubAmbit">First level division of the ambit</param>
         /// <param name="idAmbit">Ambit identifier</param>
-        /// <param name="indicatorVersion">Indicator version</param>>
+        /// <param name="indicatorVersion">Indicator version</param>
+        /// <param name="evaluationType">Evaluation type</param>
         /// <returns>Indicator if success, null if not</returns>
         [HttpDelete]
-        public IActionResult Delete([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion)
+        public IActionResult Delete([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType)
         {
             try
             {
-                var indicator = _context.Indicators.FirstOrDefault(i => i.idIndicator == idIndicator && i.indicatorType == indicatorType && i.idSubSubAmbit == idSubSubAmbit && i.idSubAmbit == idSubAmbit && i.idAmbit == idAmbit && i.indicatorVersion == indicatorVersion);
+                var indicator = _context.Indicators.FirstOrDefault(i => i.idIndicator == idIndicator && i.indicatorType == indicatorType && i.idSubSubAmbit == idSubSubAmbit && i.idSubAmbit == idSubAmbit && i.idAmbit == idAmbit && i.indicatorVersion == indicatorVersion && i.evaluationType == evaluationType);
 
                 if (indicator is null)
                     return NotFound();

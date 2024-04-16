@@ -100,7 +100,10 @@ public class RequestsController {
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
-                    throw new IOException("Error: " + response.code() + " " + response.message());
+                    if(response.code()==404){
+                        throw new IOException("Not found");
+                    }
+                    throw new IOException("Error: " + response.code() + " " + response.message()+ " ");
                 }
             }
         };
@@ -110,6 +113,9 @@ public class RequestsController {
             executor.shutdown();
             return result;
         } catch (InterruptedException | ExecutionException e) {
+            if(e.getMessage().equals("java.io.IOException: Not found")){
+                return null;
+            }
             throw new RuntimeException(e);
         }
     }

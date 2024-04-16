@@ -46,72 +46,32 @@ public class IndicatorsEvaluation implements Serializable {
     public int idCenter;
 
     /**Total score of ambit 1*/
-    @SerializedName("scoreLevel1")
-    public int scoreLevel1=0;
+    @SerializedName("scoreAmbit1")
+    public int scoreAmbit1=0;
 
     /**Total score of ambit 2*/
-    @SerializedName("scoreLevel2")
-    public int scoreLevel2=0;
+    @SerializedName("scoreAmbit2")
+    public int scoreAmbit2=0;
 
     /**Total score of ambit 3*/
-    @SerializedName("scoreLevel3")
-    public int scoreLevel3=0;
+    @SerializedName("scoreAmbit3")
+    public int scoreAmbit3=0;
 
     /**Total score of ambit 4*/
-    @SerializedName("scoreLevel4")
-    public int scoreLevel4=0;
+    @SerializedName("scoreAmbit4")
+    public int scoreAmbit4=0;
 
     /**Total score of ambit 5*/
-    @SerializedName("scoreLevel5")
-    public int scoreLevel5=0;
+    @SerializedName("scoreAmbit5")
+    public int scoreAmbit5=0;
 
     /**Total score of ambit 6*/
-    @SerializedName("scoreLevel6")
-    public int scoreLevel6=0;
+    @SerializedName("scoreAmbit6")
+    public int scoreAmbit6=0;
 
     /**Total score of the indicators evaluation*/
     @SerializedName("totalScore")
     public int totalScore=0;
-
-    /**Evaluation's observations in English*/
-    @SerializedName("observationsEnglish")
-    public String observationsEnglish;
-
-    /**Evaluation's observations in Spanish*/
-    @SerializedName("observationsSpanish")
-    public String observationsSpanish;
-
-    /**Evaluation's observations in French*/
-    @SerializedName("observationsFrench")
-    public String observationsFrench;
-
-    /**Evaluation's observations in Basque*/
-    @SerializedName("observationsBasque")
-    public String observationsBasque;
-
-    /**Evaluation's observations in Catalan*/
-    @SerializedName("observationsCatalan")
-    public String observationsCatalan;
-
-    /**Evaluation's observations in Dutch*/
-    @SerializedName("observationsDutch")
-    public String observationsDutch;
-
-    /**Evaluation's observations in Galician*/
-    @SerializedName("observationsGalician")
-    public String observationsGalician;
-
-    /**Evaluation's observations in German*/
-    @SerializedName("observationsGerman")
-    public String observationsGerman;
-
-    /**Evaluation's observations in Italian*/
-    @SerializedName("observationsItalian")
-    public String observationsItalian;
-
-    /**Evaluation's observations in Portuguese*/
-    @SerializedName("observationsPortuguese")
-    public String observationsPortuguese;
 
     /**Evaluation's conclusions in English*/
     @SerializedName("conclusionsEnglish")
@@ -157,6 +117,11 @@ public class IndicatorsEvaluation implements Serializable {
     @SerializedName("isFinished")
     public int isFinished=0;
 
+    /**Evaluation type*/
+    @SerializedName("evaluationType")
+    public String evaluationType;
+
+
     /**Class constructor
      *
      * @param evaluationDate - Evaluation date in timestamp
@@ -167,16 +132,6 @@ public class IndicatorsEvaluation implements Serializable {
      * @param orgTypeEvaluated - Organization type of the external organization that will recieve the indicators evaluation. It will be always "EVALUATED"
      * @param illness - Illness of the external organization that will recieve the indicators evaluation. In case of Fundación Miradas, it will be "AUTISM"
      * @param idCenter - Center identifier of the external organization
-     * @param observationsEnglish - Evaluation's observations in English
-     * @param observationsSpanish - Evaluation's observations in Spanish
-     * @param observationsFrench - Evaluation's observations in French
-     * @param observationsBasque - Evaluation's observations in Basque
-     * @param observationsCatalan - Evaluation's observations in Catalan
-     * @param observationsDutch - Evaluation's observations in Dutch
-     * @param observationsGalician - Evaluation's observations in Galician
-     * @param observationsGerman - Evaluation's observations in German
-     * @param observationsItalian - Evaluation's observations in Italian
-     * @param observationsPortuguese - Evaluation's observations in Portuguese
      * @param conclusionsEnglish - Evaluation's conclusions in English
      * @param conclusionsSpanish - Evaluation's conclusions in Spanish
      * @param conclusionsFrench - Evaluation's conclusions in French
@@ -187,16 +142,17 @@ public class IndicatorsEvaluation implements Serializable {
      * @param conclusionsGerman - Evaluation's conclusions in German
      * @param conclusionsItalian - Evaluation's conclusions in Italian
      * @param conclusionsPortuguese - Evaluation's conclusions in Portuguese
-     * @param scoreLevel1 - Total score of ambit 1
-     * @param scoreLevel2 - Total score of ambit 2
-     * @param scoreLevel3 - Total score of ambit 3
-     * @param scoreLevel4 - Total score of ambit 4
-     * @param scoreLevel5 - Total score of ambit 5
-     * @param scoreLevel6 - Total score of ambit 6
+     * @param scoreAmbit1 - Total score of ambit 1
+     * @param scoreAmbit2 - Total score of ambit 2
+     * @param scoreAmbit3 - Total score of ambit 3
+     * @param scoreAmbit4 - Total score of ambit 4
+     * @param scoreAmbit5 - Total score of ambit 5
+     * @param scoreAmbit6 - Total score of ambit 6
      * @param totalScore - Total score
      * @param isFinished - 1 if is finished, 0 if not
+     * @param evaluationType - Evaluation type
      * */
-    public IndicatorsEvaluation(long evaluationDate,int idEvaluatedOrganization,String orgTypeEvaluated,int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator, String illness, int idCenter, String observationsEnglish, String observationsSpanish, String observationsFrench, String observationsBasque, String observationsCatalan, String observationsDutch, String observationsGalician, String observationsGerman, String observationsItalian, String observationsPortuguese,String conclusionsEnglish, String conclusionsSpanish, String conclusionsFrench, String conclusionsBasque, String conclusionsCatalan, String conclusionsDutch, String conclusionsGalician, String conclusionsGerman, String conclusionsItalian, String conclusionsPortuguese, int scoreLevel1, int scoreLevel2, int scoreLevel3, int scoreLevel4, int scoreLevel5, int scoreLevel6, int totalScore, int isFinished){
+    public IndicatorsEvaluation(long evaluationDate,int idEvaluatedOrganization,String orgTypeEvaluated,int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator, String illness, int idCenter, int scoreAmbit1, int scoreAmbit2, int scoreAmbit3, int scoreAmbit4, int scoreAmbit5, int scoreAmbit6, int totalScore, String conclusionsSpanish, String conclusionsEnglish, String conclusionsFrench, String conclusionsBasque, String conclusionsCatalan, String conclusionsDutch, String conclusionsGalician, String conclusionsGerman, String conclusionsItalian, String conclusionsPortuguese, int isFinished, String evaluationType){
         setEvaluationDate(evaluationDate);
         setIdEvaluatedOrganization(idEvaluatedOrganization);
         setOrgTypeEvaluated(orgTypeEvaluated);
@@ -205,16 +161,6 @@ public class IndicatorsEvaluation implements Serializable {
         setOrgTypeEvaluator(orgTypeEvaluator);
         setIllness(illness);
         setIdCenter(idCenter);
-        setObservationsEnglish(observationsEnglish);
-        setObservationsSpanish(observationsSpanish);
-        setObservationsFrench(observationsFrench);
-        setObservationsBasque(observationsBasque);
-        setObservationsCatalan(observationsCatalan);
-        setObservationsDutch(observationsDutch);
-        setObservationsGalician(observationsGalician);
-        setObservationsGerman(observationsGerman);
-        setObservationsItalian(observationsItalian);
-        setObservationsPortuguese(observationsPortuguese);
         setConclusionsEnglish(conclusionsEnglish);
         setConclusionsSpanish(conclusionsSpanish);
         setConclusionsFrench(conclusionsFrench);
@@ -225,14 +171,15 @@ public class IndicatorsEvaluation implements Serializable {
         setConclusionsGerman(conclusionsGerman);
         setConclusionsItalian(conclusionsItalian);
         setConclusionsPortuguese(conclusionsPortuguese);
-        setScoreLevel1(scoreLevel1);
-        setScoreLevel2(scoreLevel2);
-        setScoreLevel3(scoreLevel3);
-        setScoreLevel4(scoreLevel4);
-        setScoreLevel5(scoreLevel5);
-        setScoreLevel6(scoreLevel6);
+        setScoreAmbit1(scoreAmbit1);
+        setScoreAmbit2(scoreAmbit2);
+        setScoreAmbit3(scoreAmbit3);
+        setScoreAmbit4(scoreAmbit4);
+        setScoreAmbit5(scoreAmbit5);
+        setScoreAmbit6(scoreAmbit6);
         setTotalScore(totalScore);
         setIsFinished(isFinished);
+        setEvaluationType(evaluationType);
     }
 
 
@@ -387,17 +334,17 @@ public class IndicatorsEvaluation implements Serializable {
      *
      * @return Total score of the ambit 1
      * */
-    public int getScoreLevel1() {
-        return scoreLevel1;
+    public int getScoreAmbit1() {
+        return scoreAmbit1;
     }
 
     /**
      * Method that sets a new total score for the ambit 1
      *
-     * @param scoreLevel1 - Total score of the ambit 1
+     * @param scoreAmbit1 - Total score of the ambit 1
      * */
-    public void setScoreLevel1(int scoreLevel1) {
-        this.scoreLevel1 = scoreLevel1;
+    public void setScoreAmbit1(int scoreAmbit1) {
+        this.scoreAmbit1 = scoreAmbit1;
     }
 
     /**
@@ -405,17 +352,17 @@ public class IndicatorsEvaluation implements Serializable {
      *
      * @return Total score of the ambit 2
      * */
-    public int getScoreLevel2() {
-        return scoreLevel2;
+    public int getScoreAmbit2() {
+        return scoreAmbit2;
     }
 
     /**
      * Method that sets a new total score for the ambit 2
      *
-     * @param scoreLevel2 - Total score of the ambit 2
+     * @param scoreAmbit2 - Total score of the ambit 2
      * */
-    public void setScoreLevel2(int scoreLevel2) {
-        this.scoreLevel2 = scoreLevel2;
+    public void setScoreAmbit2(int scoreAmbit2) {
+        this.scoreAmbit2 = scoreAmbit2;
     }
 
     /**
@@ -423,17 +370,17 @@ public class IndicatorsEvaluation implements Serializable {
      *
      * @return Total score of the ambit 3
      * */
-    public int getScoreLevel3() {
-        return scoreLevel3;
+    public int getScoreAmbit3() {
+        return scoreAmbit3;
     }
 
     /**
      * Method that sets a new total score for the ambit 3
      *
-     * @param scoreLevel3 - Total score of the ambit 3
+     * @param scoreAmbit3 - Total score of the ambit 3
      * */
-    public void setScoreLevel3(int scoreLevel3) {
-        this.scoreLevel3 = scoreLevel3;
+    public void setScoreAmbit3(int scoreAmbit3) {
+        this.scoreAmbit3 = scoreAmbit3;
     }
 
     /**
@@ -441,17 +388,17 @@ public class IndicatorsEvaluation implements Serializable {
      *
      * @return Total score of the ambit 4
      * */
-    public int getScoreLevel4() {
-        return scoreLevel4;
+    public int getScoreAmbit4() {
+        return scoreAmbit4;
     }
 
     /**
      * Method that sets a new total score for the ambit 4
      *
-     * @param scoreLevel4 - Total score of the ambit 4
+     * @param scoreAmbit4 - Total score of the ambit 4
      * */
-    public void setScoreLevel4(int scoreLevel4) {
-        this.scoreLevel4 = scoreLevel4;
+    public void setScoreAmbit4(int scoreAmbit4) {
+        this.scoreAmbit4 = scoreAmbit4;
     }
 
     /**
@@ -459,17 +406,17 @@ public class IndicatorsEvaluation implements Serializable {
      *
      * @return Total score of the ambit 5
      * */
-    public int getScoreLevel5() {
-        return scoreLevel5;
+    public int getScoreAmbit5() {
+        return scoreAmbit5;
     }
 
     /**
      * Method that sets a new total score for the ambit 5
      *
-     * @param scoreLevel5 - Total score of the ambit 5
+     * @param scoreAmbit5 - Total score of the ambit 5
      * */
-    public void setScoreLevel5(int scoreLevel5) {
-        this.scoreLevel5 = scoreLevel5;
+    public void setScoreAmbit5(int scoreAmbit5) {
+        this.scoreAmbit5 = scoreAmbit5;
     }
 
     /**
@@ -477,17 +424,17 @@ public class IndicatorsEvaluation implements Serializable {
      *
      * @return Total score of the ambit 6
      * */
-    public int getScoreLevel6() {
-        return scoreLevel6;
+    public int getScoreAmbit6() {
+        return scoreAmbit6;
     }
 
     /**
      * Method that sets a new total score for the ambit 6
      *
-     * @param scoreLevel6 - Total score of the ambit 6
+     * @param scoreAmbit6 - Total score of the ambit 6
      * */
-    public void setScoreLevel6(int scoreLevel6) {
-        this.scoreLevel6 = scoreLevel6;
+    public void setScoreAmbit6(int scoreAmbit6) {
+        this.scoreAmbit6 = scoreAmbit6;
     }
 
     /**
@@ -508,184 +455,6 @@ public class IndicatorsEvaluation implements Serializable {
         this.isFinished = isFinished;
     }
 
-    /**
-     * Method that obtains the observations in English
-     *
-     * @return Evaluation's observations in English
-     * */
-    public String getObservationsEnglish() {
-        return observationsEnglish;
-    }
-
-    /**
-     * Method that sets the new observations in English
-     *
-     * @param observationsEnglish - Evaluation's observations in English
-     * */
-    public void setObservationsEnglish(String observationsEnglish) {
-        this.observationsEnglish = observationsEnglish;
-    }
-    /**
-     * Method that obtains the observations in Spanish
-     *
-     * @return Evaluation's observations in Spanish
-     * */
-    public String getObservationsSpanish() {
-        return observationsSpanish;
-    }
-
-    /**
-     * Method that sets the new observations in Spanish
-     *
-     * @param observationsSpanish - Evaluation's observations in Spanish
-     * */
-    public void setObservationsSpanish(String observationsSpanish) {
-        this.observationsSpanish = observationsSpanish;
-    }
-
-    /**
-     * Method that obtains the observations in French
-     *
-     * @return Evaluation's observations in French
-     * */
-    public String getObservationsFrench() {
-        return observationsFrench;
-    }
-
-    /**
-     * Method that sets the new observations in French
-     *
-     * @param observationsFrench - Evaluation's observations in French
-     * */
-    public void setObservationsFrench(String observationsFrench) {
-        this.observationsFrench = observationsFrench;
-    }
-
-    /**
-     * Method that obtains the observations in Basque
-     *
-     * @return Evaluation's observations in Basque
-     * */
-    public String getObservationsBasque() {
-        return observationsBasque;
-    }
-
-    /**
-     * Method that sets the new observations in Basque
-     *
-     * @param observationsBasque - Evaluation's observations in Basque
-     * */
-    public void setObservationsBasque(String observationsBasque) {
-        this.observationsBasque = observationsBasque;
-    }
-
-    /**
-     * Method that obtains the observations in Catalan
-     *
-     * @return Evaluation's observations in Catalan
-     * */
-    public String getObservationsCatalan() {
-        return observationsCatalan;
-    }
-
-    /**
-     * Method that sets the new observations in Catalan
-     *
-     * @param observationsCatalan - Evaluation's observations in Catalan
-     * */
-    public void setObservationsCatalan(String observationsCatalan) {
-        this.observationsCatalan = observationsCatalan;
-    }
-
-    /**
-     * Method that obtains the observations in Dutch
-     *
-     * @return Evaluation's observations in Dutch
-     * */
-    public String getObservationsDutch() {
-        return observationsDutch;
-    }
-
-    /**
-     * Method that sets the new observations in Dutch
-     *
-     * @param observationsDutch - Evaluation's observations in Dutch
-     * */
-    public void setObservationsDutch(String observationsDutch) {
-        this.observationsDutch = observationsDutch;
-    }
-
-    /**
-     * Method that obtains the observations in Galician
-     *
-     * @return Evaluation's observations in Galician
-     * */
-    public String getObservationsGalician() {
-        return observationsGalician;
-    }
-
-    /**
-     * Method that sets the new observations in Galician
-     *
-     * @param observationsGalician - Evaluation's observations in Galician
-     * */
-    public void setObservationsGalician(String observationsGalician) {
-        this.observationsGalician = observationsGalician;
-    }
-
-    /**
-     * Method that obtains the observations in German
-     *
-     * @return Evaluation's observations in German
-     * */
-    public String getObservationsGerman() {
-        return observationsGerman;
-    }
-
-    /**
-     * Method that sets the new observations in German
-     *
-     * @param observationsGerman - Evaluation's observations in German
-     * */
-    public void setObservationsGerman(String observationsGerman) {
-        this.observationsGerman = observationsGerman;
-    }
-
-    /**
-     * Method that obtains the observations in Italian
-     *
-     * @return Evaluation's observations in Italian
-     * */
-    public String getObservationsItalian() {
-        return observationsItalian;
-    }
-
-    /**
-     * Method that sets the new observations in Italian
-     *
-     * @param observationsItalian - Evaluation's observations in Italian
-     * */
-    public void setObservationsItalian(String observationsItalian) {
-        this.observationsItalian = observationsItalian;
-    }
-
-    /**
-     * Method that obtains the observations in Portuguese
-     *
-     * @return Evaluation's observations in Spanish
-     * */
-    public String getObservationsPortuguese() {
-        return observationsPortuguese;
-    }
-
-    /**
-     * Method that sets the new observations in Portuguese
-     *
-     * @param observationsPortuguese - Evaluation's observations in Portuguese
-     * */
-    public void setObservationsPortuguese(String observationsPortuguese) {
-        this.observationsPortuguese = observationsPortuguese;
-    }
 
     /**
      * Method that obtains the conclusions in English
@@ -883,5 +652,24 @@ public class IndicatorsEvaluation implements Serializable {
      * */
     public void setIdCenter(int idCenter) {
         this.idCenter = idCenter;
+    }
+
+    /**
+     * Method that obtains the evaluation type
+     *
+     * @return Evaluation type
+     * */
+
+    public String getEvaluationType() {
+        return evaluationType;
+    }
+
+    /**
+     * Method that sets the new evaluation type
+     *
+     * @param evaluationType - Evaluation type
+     * */
+    public void setEvaluationType(String evaluationType) {
+        this.evaluationType = evaluationType;
     }
 }

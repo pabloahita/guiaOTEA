@@ -13,7 +13,7 @@
     <string name="evidence4">Evidência 4</string>
     <string name="previous_indicator">Indicador Anterior</string>
     <string name="next_indicator">Próximo Indicador</string>
-    <string name="sign_in">Entrar</string>
+    <string name="sign_in">Iniciar sessão</string>
     <string name="sign_up">Cadastrar-se</string>
     <string name="users_email">E-mail do Usuário</string>
     <string name="users_password">Senha do Usuário</string>
@@ -197,7 +197,6 @@
     <string name="eval_type">Tipo de avaliação</string>
     <string name="simple">Avaliação simples</string>
     <string name="complete">Avaliação completa</string>
-    <string name="request_reg">Solicitação de registro</string>
     <string name="complete_reg">Completar o registo (após solicitação)</string>
     <string name="please_email_req">" Para completar o pedido, por favor, digite seu email abaixo:"</string>
     <string name="complete_req">Completar o pedido</string>
@@ -210,4 +209,20 @@
     <string name="camera">Câmera</string>
     <string name="gallery">Galeria</string>
     <string name="select_source">Selecionar fonte</string>
+    <string name="email_not_in_db">O email introduzido não consta em nossa base de dados. Por favor, insira um email diferente ou solicite o registro inserindo seu email na seção de solicitação de registro.</string>
+    <string name="create_account">Criar conta</string>
+    <string name="send_request">Enviar solicitação</string>
+    <string name="check_request">Verificar solicitação</string>
+    <string name="req_ins">Primeiro, você deve inserir um email válido no campo correspondente. Ao pressionar \'Verificar solicitação\', dependendo se a solicitação foi feita anteriormente ou se o usuário está registrado, uma das seguintes opções será exibida:</string>
+    <string name="req_ins1">Se é a primeira vez que é feito um pedido com este email, será exibido um menu suspenso com as diferentes organizações com as quais a \'Fundación Miradas\' trabalha, incluindo a própria \'Fundación Miradas\', para completar o pedido, atribuindo o email a uma organização específica. Uma vez completado o pedido, a \'Fundación Miradas\' enviará por e-mail o resultado do seu pedido juntamente com uma senha temporária de acesso no caso de ter sido aceito.</string>
+    <string name="req_ins2">Se o seu pedido for aceito, você precisará inserir a senha de acesso temporária na caixa correspondente para acessar o formulário de registro.</string>
+    <string name="req_ins3">Se o usuário já estiver registrado, será redirecionado para o formulário de login.</string>
+    <string name="user_already_registered">Usuário já registrado</string>
+    <string name="registration_request">Solicitação de registro</string>
+    <string name="unanswered_request">Solicitação não respondida</string>
+    <string name="checking_req">Verificando se o pedido existe...</string>
+    <string name="do_you_want_save_changes">Deseja salvar as alterações desta avaliação de indicadores para continuar mais tarde?</string>
+    <string name="accept">Aceitar</string>
+    <string name="ind_obs">Observações do indicador</string>
+    <string name="ev_obs">Observações das evidências</string>
 </resources>

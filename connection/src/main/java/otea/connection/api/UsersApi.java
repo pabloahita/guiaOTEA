@@ -13,7 +13,7 @@ public interface UsersApi {
 
     /**Gets all users*/
     @GET("Users/all")
-    Call<List<User>> GetAll(@Header("Authorization") String Authorization);
+    Call<List<JsonObject>> GetAll(@Header("Authorization") String Authorization);
 
     /**
      * Gets all organization users of an organization
@@ -23,7 +23,7 @@ public interface UsersApi {
      * @param illness - User organization illness or syndrome
      * */
     @GET("Users/allByOrg")
-    Call<List<User>> GetAllOrgUsersByOrganization(@Query("idOrganization") int idOrganization, @Query("orgType") String orgType, @Query("illness") String illness, @Header("Authorization") String Authorization);
+    Call<List<JsonObject>> GetAllOrgUsersByOrganization(@Query("idOrganization") int idOrganization, @Query("orgType") String orgType, @Query("illness") String illness, @Header("Authorization") String Authorization);
     
     /**
      * Gets an user
@@ -31,7 +31,7 @@ public interface UsersApi {
      * @param email - User email
      * */
     @GET("Users/get")
-    Call<User> Get(@Query("email") String email, @Header("Authorization") String Authorization);
+    Call<JsonObject> Get(@Query("email") String email);//, @Header("Authorization") String Authorization);
 
     /**
      * Creates an user
@@ -39,7 +39,7 @@ public interface UsersApi {
      * @param user - User
      * */
     @POST("Users")
-    Call<User> Create(@Body User user, @Header("Authorization") String Authorization);
+    Call<User> Create(@Body User user);
 
     /**
      * Updates an user
@@ -61,8 +61,7 @@ public interface UsersApi {
     /**
      * Login method
      *
-     * @param email - User email
-     * @param password - User password
+     * @param credentials - Login credentials
      * */
     @POST("Users/login")
     Call<JsonObject> Login(@Body JsonObject credentials);

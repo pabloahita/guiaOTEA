@@ -34,13 +34,14 @@ namespace OTEAServer.Controllers
         /// <summary>
         /// Method that obtains all the evidences
         /// </summary>
+        /// <param name="evaluationType">Evaluation type</param>
         /// <returns>Evidences list</returns>
         [HttpGet("all")]
-        public IActionResult GetAll()
+        public IActionResult GetAll([FromQuery] string evaluationType)
         {
             try
             {
-                var evidences = _context.Evidences.ToList();
+                var evidences = _context.Evidences.Where(e=>e.evaluationType==evaluationType).ToList();
                 return Ok(evidences);
             }
             catch (Exception ex)
@@ -58,13 +59,14 @@ namespace OTEAServer.Controllers
         /// <param name="idSubAmbit">First level division of the ambit</param>
         /// <param name="idAmbit">Ambit identifier</param>
         /// <param name="indicatorVersion">Indicator version</param>
+        /// <param name="evaluationType">Evaluation type</param>
         /// <returns>Evidences list</returns>
         [HttpGet("ind")]
-        public IActionResult GetAllByIndicator([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion)
+        public IActionResult GetAllByIndicator([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType)
         {
             try
             {
-                var evidences = _context.Evidences.Where(e => e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.idSubSubAmbit == idSubSubAmbit && e.idSubAmbit == idSubAmbit && e.idAmbit == idAmbit && e.indicatorVersion == indicatorVersion).ToList();
+                var evidences = _context.Evidences.Where(e => e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.idSubSubAmbit == idSubSubAmbit && e.idSubAmbit == idSubAmbit && e.idAmbit == idAmbit && e.indicatorVersion == indicatorVersion && e.evaluationType==evaluationType).ToList();
                 return Ok(evidences);
             }
             catch (Exception ex)
@@ -83,13 +85,14 @@ namespace OTEAServer.Controllers
         /// <param name="idSubAmbit">First level division of the ambit</param>
         /// <param name="idAmbit">Ambit identifier</param>
         /// <param name="indicatorVersion">Indicator version</param>
+        /// <param name="evaluationType">Evaluation type</param>
         /// <returns>Evidence if success, null if not</returns>
         [HttpGet("get")]
-        public ActionResult<Evidence> Get([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion)
+        public ActionResult<Evidence> Get([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType)
         {
             try
             {
-                var evidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.idSubSubAmbit == idSubSubAmbit && e.idSubAmbit == idSubAmbit && e.idAmbit == idAmbit && e.indicatorVersion == indicatorVersion);
+                var evidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.idSubSubAmbit == idSubSubAmbit && e.idSubAmbit == idSubAmbit && e.idAmbit == idAmbit && e.indicatorVersion == indicatorVersion && e.evaluationType==evaluationType);
 
                 if (evidence == null)
                     return NotFound();
@@ -116,7 +119,7 @@ namespace OTEAServer.Controllers
             {
                 _context.Evidences.Add(evidence);
                 _context.SaveChanges();
-                return CreatedAtAction(nameof(Get), new { id = evidence.idEvidence, idIndicator = evidence.idIndicator, type = evidence.indicatorType, idSubSubAmbit = evidence.idSubSubAmbit, idSubAmbit = evidence.idSubAmbit, idAmbit = evidence.idAmbit, version = evidence.indicatorVersion }, evidence);
+                return CreatedAtAction(nameof(Get), new { id = evidence.idEvidence, idIndicator = evidence.idIndicator, type = evidence.indicatorType, idSubSubAmbit = evidence.idSubSubAmbit, idSubAmbit = evidence.idSubAmbit, idAmbit = evidence.idAmbit, version = evidence.indicatorVersion , evaluationType = evidence.evaluationType}, evidence);
             }
             catch (Exception ex)
             {
@@ -134,17 +137,18 @@ namespace OTEAServer.Controllers
         /// <param name="idSubAmbit">First level division of the ambit</param>
         /// <param name="idAmbit">Ambit identifier</param>
         /// <param name="indicatorVersion">Indicator version</param>
+        /// <param name="evaluationType">Evaluation type</param>
         /// <param name="evidence">Evidence</param>
         /// <returns>Updated evidence if success, null if not</returns>
         [HttpPut]
-        public IActionResult Update([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromBody] Evidence evidence)
+        public IActionResult Update([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType, [FromBody] Evidence evidence)
         {
             try
             {
-                if (idEvidence != evidence.idEvidence || idIndicator != evidence.idIndicator || idSubSubAmbit != evidence.idSubSubAmbit || idSubAmbit != evidence.idSubAmbit || idAmbit != evidence.idAmbit || indicatorType != evidence.indicatorType)
+                if (idEvidence != evidence.idEvidence || idIndicator != evidence.idIndicator || idSubSubAmbit != evidence.idSubSubAmbit || idSubAmbit != evidence.idSubAmbit || idAmbit != evidence.idAmbit || indicatorType != evidence.indicatorType || evaluationType!=evidence.evaluationType)
                     return BadRequest();
 
-                var existingEvidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.idSubSubAmbit == idSubSubAmbit && e.idSubAmbit == idSubAmbit && e.idAmbit == idAmbit && e.indicatorVersion == indicatorVersion);
+                var existingEvidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.idSubSubAmbit == idSubSubAmbit && e.idSubAmbit == idSubAmbit && e.idAmbit == idAmbit && e.indicatorVersion == indicatorVersion && e.evaluationType==evaluationType);
                 if (existingEvidence is null)
                     return NotFound();
 
@@ -159,6 +163,7 @@ namespace OTEAServer.Controllers
                 existingEvidence.descriptionItalian = evidence.descriptionItalian;
                 existingEvidence.descriptionPortuguese = evidence.descriptionPortuguese;
                 existingEvidence.evidenceValue = evidence.evidenceValue;
+                existingEvidence.evaluationType = evaluationType;
 
                 _context.SaveChanges();
 
@@ -183,11 +188,11 @@ namespace OTEAServer.Controllers
         /// <param name="indicatorVersion">Indicator version</param>
         /// <returns>Deleted evidence if success, null if not</returns>
         [HttpDelete]
-        public IActionResult Delete([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion)
+        public IActionResult Delete([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType)
         {
             try
             {
-                var evidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.idSubSubAmbit == idSubSubAmbit && e.idSubAmbit == idSubAmbit && e.idAmbit == idAmbit && e.indicatorVersion == indicatorVersion);
+                var evidence = _context.Evidences.FirstOrDefault(e => e.idEvidence == idEvidence && e.idIndicator == idIndicator && e.indicatorType == indicatorType && e.idSubSubAmbit == idSubSubAmbit && e.idSubAmbit == idSubAmbit && e.idAmbit == idAmbit && e.indicatorVersion == indicatorVersion && e.evaluationType == evaluationType);
 
                 if (evidence is null)
                     return NotFound();

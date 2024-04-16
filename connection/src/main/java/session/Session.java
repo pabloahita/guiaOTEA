@@ -36,7 +36,7 @@ import otea.connection.controller.CountriesController;
 import otea.connection.controller.EvaluatorTeamsController;
 import otea.connection.controller.EvidencesController;
 import otea.connection.controller.IndicatorsController;
-import otea.connection.controller.IndicatorsEvaluationRegsController;
+import otea.connection.controller.IndicatorsEvaluationEvidenceRegsController;
 import otea.connection.controller.IndicatorsEvaluationsController;
 import otea.connection.controller.OrganizationsController;
 import otea.connection.controller.ProvincesController;
@@ -77,6 +77,8 @@ public class Session {
 
     private static List<Organization> evaluatedOrganizations;
 
+    private static List<Organization> evaluatorOrganizations;
+
     private static List<User> evaluatorUsers;
 
     private static List<User> evaluatedUsers;
@@ -96,7 +98,7 @@ public class Session {
         setToken(data.getAsJsonPrimitive("token").getAsString());
         JsonObject jsonUser = data.getAsJsonObject("user");
         JsonObject jsonOrg = data.getAsJsonObject("organization");
-        setUser(new User(jsonUser.getAsJsonPrimitive("emailUser").getAsString(), jsonUser.getAsJsonPrimitive("userType").getAsString(), jsonUser.getAsJsonPrimitive("first_name").getAsString(), jsonUser.getAsJsonPrimitive("last_name").getAsString(), jsonUser.getAsJsonPrimitive("passwordUser").getAsString(), jsonUser.getAsJsonPrimitive("telephone").getAsString(), jsonUser.getAsJsonPrimitive("idOrganization").getAsInt(), jsonUser.getAsJsonPrimitive("orgType").getAsString(), jsonUser.getAsJsonPrimitive("illness").getAsString(), jsonUser.getAsJsonPrimitive("profilePhoto").getAsString()));
+        setUser(new User(jsonUser.getAsJsonPrimitive("emailUser").getAsString(), jsonUser.getAsJsonPrimitive("userType").getAsString(), jsonUser.getAsJsonPrimitive("first_name").getAsString(), jsonUser.getAsJsonPrimitive("last_name").getAsString(), "", jsonUser.getAsJsonPrimitive("telephone").getAsString(), jsonUser.getAsJsonPrimitive("idOrganization").getAsInt(), jsonUser.getAsJsonPrimitive("orgType").getAsString(), jsonUser.getAsJsonPrimitive("illness").getAsString(), jsonUser.getAsJsonPrimitive("profilePhoto").getAsString()));
         setOrganization(new Organization(jsonOrg.getAsJsonPrimitive("idOrganization").getAsInt(), jsonOrg.getAsJsonPrimitive("orgType").getAsString(), jsonOrg.getAsJsonPrimitive("illness").getAsString(), jsonOrg.getAsJsonPrimitive("nameOrg").getAsString(), jsonOrg.getAsJsonPrimitive("idAddress").getAsInt(), jsonOrg.getAsJsonPrimitive("email").getAsString(), jsonOrg.getAsJsonPrimitive("telephone").getAsString(), jsonOrg.getAsJsonPrimitive("informationSpanish").getAsString(), jsonOrg.getAsJsonPrimitive("informationEnglish").getAsString(), jsonOrg.getAsJsonPrimitive("informationFrench").getAsString(), jsonOrg.getAsJsonPrimitive("informationBasque").getAsString(), jsonOrg.getAsJsonPrimitive("informationCatalan").getAsString(), jsonOrg.getAsJsonPrimitive("informationDutch").getAsString(), jsonOrg.getAsJsonPrimitive("informationGalician").getAsString(), jsonOrg.getAsJsonPrimitive("informationGerman").getAsString(), jsonOrg.getAsJsonPrimitive("informationItalian").getAsString(), jsonOrg.getAsJsonPrimitive("informationPortuguese").getAsString(), jsonOrg.getAsJsonPrimitive("profilePhoto").getAsString()));
     }
 
@@ -122,7 +124,7 @@ public class Session {
         EvaluatorTeamsController.getInstance();
         EvidencesController.getInstance();
         IndicatorsController.getInstance();
-        IndicatorsEvaluationRegsController.getInstance();
+        IndicatorsEvaluationEvidenceRegsController.getInstance();
         IndicatorsEvaluationsController.getInstance();
         OrganizationsController.getInstance();
         ProvincesController.getInstance();
@@ -207,6 +209,14 @@ public class Session {
 
     public void setSubSubAmbits(List<SubSubAmbit> subSubAmbits) {
         this.subSubAmbits = subSubAmbits;
+    }
+
+    public static List<Organization> getEvaluatorOrganizations() {
+        return evaluatorOrganizations;
+    }
+
+    public static void setEvaluatorOrganizations(List<Organization> evaluatorOrganizations) {
+        Session.evaluatorOrganizations = evaluatorOrganizations;
     }
 
     public static List<Organization> getEvaluatedOrganizations() {
@@ -378,13 +388,13 @@ public class Session {
         return evaluatorTeams.stream().filter(evaluatorTeamOfThatCenterExist).collect(Collectors.toList());
     }
 
-    public void obtainIndicatorsFromDataBase(){
+    public void obtainIndicatorsFromDataBase(String evaluationType){
         if(indicators==null) {
             ambits = AmbitsController.GetAll();
             subAmbits= SubAmbitsController.GetAll();
             subSubAmbits = SubSubAmbitsController.GetAll();
-            indicators = IndicatorsController.GetAll();
-            evidences=EvidencesController.GetAll();
+            indicators = IndicatorsController.GetAll(evaluationType);
+            evidences=EvidencesController.GetAll(evaluationType);
         }
     }
 
@@ -397,6 +407,24 @@ public class Session {
         if(evaluatorUsers==null){
             evaluatorUsers=UsersController.GetAllOrgUsersByOrganization(1, "EVALUATOR", "AUTISM");
         }
+    }
+
+
+
+    public static void obtainAllOrgs(){
+        List<Organization> orgs=OrganizationsController.GetAll();
+        evaluatedOrganizations=orgs.stream().filter(new Predicate<Organization>() {
+            @Override
+            public boolean test(Organization organization) {
+                return organization.getOrganizationType().equals("EVALUATED");
+            }
+        }).collect(Collectors.toList());
+        evaluatorOrganizations=orgs.stream().filter(new Predicate<Organization>() {
+            @Override
+            public boolean test(Organization organization) {
+                return organization.getOrganizationType().equals("EVALUATOR");
+            }
+        }).collect(Collectors.toList());
     }
 
     public void obtainOrgsAndEvalTeams(){

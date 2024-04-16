@@ -160,7 +160,6 @@
     <string name="eval_type">Tipo de evaluación</string>
     <string name="simple">Evaluación simple</string>
     <string name="complete">Evaluación completa</string>
-    <string name="request_reg">Solicitud de registro</string>
     <string name="complete_reg">Completar el registro (después de solicitarlo)</string>
     <string name="please_email_req">Para completar la solicitud, por favor, escriba su correo electrónico a continuación:</string>
     <string name="complete_req">Completar la solicitud</string>
@@ -173,5 +172,21 @@
     <string name="camera">Cámara</string>
     <string name="gallery">Galería</string>
     <string name="select_source">Seleccionar fuente</string>
+    <string name="email_not_in_db">El email introducido no aparece en nuestra base de datos. Por favor, introduzca un email diferente o solicite el registro introduciendo su email en el apartado de solicitud de registro.</string>
+    <string name="create_account">Crear cuenta</string>
+    <string name="send_request">Enviar solicitud</string>
+    <string name="check_request">Comprobar solicitud</string>
+    <string name="req_ins">En primer lugar debe introducir un email válido en el campo correspondiente. Al presionar sobre \'Comprobar solicitud\', dependiendo de si se ha realizado previamente la solicitud o de si el usuario está registrado, se le mostrará alguna de las siguientes opciones:</string>
+    <string name="req_ins1">Si es la primera vez que se realiza una solicitud con este email, se mostrará un desplegable con las diferentes organizaciones con las que trabaja \'Fundación Miradas\', incluyendo la propia \'Fundación Miradas\', para completar la solicitud asignando el correo a una organización en concreto. Al completarse la solicitud, \'Fundación Miradas\' le enviará por correo el resultado de su solicitud junto con una contraseña temporal de acceso en caso de que haya sido aceptada.</string>
+    <string name="req_ins2">En caso de que su solicitud haya sido aceptada, tendrá que introducir la contraseña temporal de acceso en el recuadro correspondiente para acceder al formulario de registro.</string>
+    <string name="req_ins3">En caso de que el usuario ya esté registrado, se le redirigirá al formulario de inicio de sesión.</string>
+    <string name="user_already_registered">Usuario ya registrado</string>
+    <string name="registration_request">Solicitud de registro</string>
+    <string name="unanswered_request">Solicitud no respondida</string>
+    <string name="checking_req">"Comprobando si existe la solicitud...  "</string>
+    <string name="do_you_want_save_changes">¿Desea guardar los cambios de esta evaluación de indicadores para continuar más adelante?</string>
+    <string name="accept">Aceptar</string>
+    <string name="ind_obs">Observaciones del indicador</string>
+    <string name="ev_obs">Observaciones de las evidencias</string>
 
 </resources>

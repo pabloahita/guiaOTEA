@@ -28,7 +28,7 @@ public interface RequestsApi {
      *
      * @param email - Email of the register request
      * */
-    @POST("Requests/get")
+    @GET("Requests/get")
     Call<Request> Get(@Query("email") String email);
 
     /**

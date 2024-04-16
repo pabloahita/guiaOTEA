@@ -5,37 +5,23 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
-import cli.indicators.Ambit;
 import cli.indicators.Evidence;
 import cli.indicators.Indicator;
-import cli.indicators.IndicatorsEvaluation;
-import cli.indicators.IndicatorsEvaluationReg;
-import cli.indicators.SubAmbit;
-import cli.indicators.SubSubAmbit;
 import cli.organization.Organization;
 import cli.organization.data.EvaluatorTeam;
-import otea.connection.controller.IndicatorsEvaluationRegsController;
-import otea.connection.controller.IndicatorsEvaluationsController;
 import session.Session;
 
 public class EditIndicators extends AppCompatActivity{

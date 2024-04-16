@@ -2,7 +2,6 @@ package otea.connection.controller;
 
 import java.io.IOException;
 ;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -10,14 +9,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import cli.indicators.Indicator;
 import cli.indicators.IndicatorsEvaluation;
-import cli.indicators.IndicatorsEvaluationReg;
+import okhttp3.ResponseBody;
 import otea.connection.ConnectionClient;
 import otea.connection.api.IndicatorsEvaluationsApi;
 import retrofit2.Call;
 import retrofit2.Response;
-import retrofit2.http.Query;
 
 /**
  * Controller class for indicators evaluations operations
@@ -183,7 +180,10 @@ public class IndicatorsEvaluationsController {
                 Response<IndicatorsEvaluation> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
-                } else {
+                }else if(response.code()==404){
+                    return null;
+                }
+                else {
                     throw new IOException("Error: " + response.code() + " " + response.message());
                 }
             }
@@ -270,15 +270,14 @@ public class IndicatorsEvaluationsController {
      * Method that obtains the finished indicator evaluation with its results
      *
      * @param indicatorsEvaluation - Indicators evaluation
-     * @return Indicators evaluation if success, null if not
-     * */
-    public static IndicatorsEvaluation calculateResults(IndicatorsEvaluation indicatorsEvaluation){
+     */
+    public static void calculateResults(IndicatorsEvaluation indicatorsEvaluation){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<IndicatorsEvaluation> callable = new Callable<IndicatorsEvaluation>() {
+        Callable<ResponseBody> callable = new Callable<ResponseBody>() {
             @Override
-            public IndicatorsEvaluation call() throws Exception {
-                Call<IndicatorsEvaluation> call=api.calculateResults(indicatorsEvaluation);
-                Response<IndicatorsEvaluation> response = call.execute();
+            public ResponseBody call() throws Exception {
+                Call<ResponseBody> call=api.calculateResults(indicatorsEvaluation);
+                Response<ResponseBody> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
@@ -287,10 +286,9 @@ public class IndicatorsEvaluationsController {
             }
         };
         try {
-            Future<IndicatorsEvaluation> future = executor.submit(callable);
-            IndicatorsEvaluation result = future.get();
+            Future<ResponseBody> future = executor.submit(callable);
+            future.get();
             executor.shutdown();
-            return result;
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }

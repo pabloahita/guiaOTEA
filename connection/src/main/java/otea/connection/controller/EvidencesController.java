@@ -61,12 +61,12 @@ public class EvidencesController {
      *
      * @return Evidences list
      * */
-    public static List<Evidence> GetAll(){
+    public static List<Evidence> GetAll(String evaluationType){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<Evidence>> callable = new Callable<List<Evidence>>() {
             @Override
             public List<Evidence> call() throws Exception {
-                Call<List<Evidence>> call = api.GetAll();
+                Call<List<Evidence>> call = api.GetAll(evaluationType);
                 Response<List<Evidence>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -97,12 +97,12 @@ public class EvidencesController {
      * @param indicatorVersion - Indicator version
      * @return Evidences list
      * */
-    public static List<Evidence> GetAllByIndicator(int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion){
+    public static List<Evidence> GetAllByIndicator(int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion, String evaluationType){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<Evidence>> callable = new Callable<List<Evidence>>() {
             @Override
             public List<Evidence> call() throws Exception {
-                Call<List<Evidence>> call = api.GetAllByIndicator(idIndicator, indicatorType, idSubSubAmbit, idSubAmbit, idAmbit, indicatorVersion);
+                Call<List<Evidence>> call = api.GetAllByIndicator(idIndicator, indicatorType, idSubSubAmbit, idSubAmbit, idAmbit, indicatorVersion, evaluationType);
                 Response<List<Evidence>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -133,12 +133,12 @@ public class EvidencesController {
      * @param indicatorVersion - Indicator version
      * @return Evidence if success, null if not
      * */
-    public static Evidence Get(int idEvidence, int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion){
+    public static Evidence Get(int idEvidence, int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion, String evaluationType){
     ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Evidence> callable = new Callable<Evidence>() {
             @Override
             public Evidence call() throws Exception {
-                Call<Evidence> call = api.Get(idEvidence,idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion);
+                Call<Evidence> call = api.Get(idEvidence,idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion,evaluationType);
                 Response<Evidence> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -200,12 +200,12 @@ public class EvidencesController {
      * @param evidence - Evidence
      * @return Updated evidence if success, null if not
      * */
-    public static Evidence Update(int idEvidence, int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion, Evidence evidence) {
+    public static Evidence Update(int idEvidence, int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion, String evaluationType, Evidence evidence) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Evidence> callable = new Callable<Evidence>() {
             @Override
             public Evidence call() throws Exception {
-                Call<Evidence> call = api.Update(idEvidence,idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion,evidence);
+                Call<Evidence> call = api.Update(idEvidence,idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion,evaluationType,evidence);
                 Response<Evidence> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -236,12 +236,12 @@ public class EvidencesController {
      * @param indicatorVersion - Indicator version
      * @return Deleted evidence if success, null if not
      * */
-    public static Evidence Delete(int idEvidence, int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion) {
+    public static Evidence Delete(int idEvidence, int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion, String evaluationType) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Evidence> callable = new Callable<Evidence>() {
             @Override
             public Evidence call() throws Exception {
-                Call<Evidence> call = api.Delete(idEvidence,idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion);
+                Call<Evidence> call = api.Delete(idEvidence,idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion,evaluationType);
                 Response<Evidence> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

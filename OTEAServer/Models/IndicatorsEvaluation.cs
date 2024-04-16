@@ -15,16 +15,6 @@ namespace OTEAServer.Models
         /// <param name="orgTypeEvaluated">Organization type of the external organization that will receive the indicators evaluation. It will be always "EVALUATED"</param>
         /// <param name="illness">Illness of the external organization that will receive the indicators evaluation. In the case of Fundación Miradas, it will be "AUTISM"</param>
         /// <param name="idCenter">Center identifier of the external organization</param>
-        /// <param name="observationsEnglish">Evaluation's observations in English</param>
-        /// <param name="observationsSpanish">Evaluation's observations in Spanish</param>
-        /// <param name="observationsFrench">Evaluation's observations in French</param>
-        /// <param name="observationsBasque">Evaluation's observations in Basque</param>
-        /// <param name="observationsCatalan">Evaluation's observations in Catalan</param>
-        /// <param name="observationsDutch">Evaluation's observations in Dutch</param>
-        /// <param name="observationsGalician">Evaluation's observations in Galician</param>
-        /// <param name="observationsGerman">Evaluation's observations in German</param>
-        /// <param name="observationsItalian">Evaluation's observations in Italian</param>
-        /// <param name="observationsPortuguese">Evaluation's observations in Portuguese</param>
         /// <param name="conclusionsEnglish">Evaluation's conclusions in English</param>
         /// <param name="conclusionsSpanish">Evaluation's conclusions in Spanish</param>
         /// <param name="conclusionsFrench">Evaluation's conclusions in French</param>
@@ -35,15 +25,18 @@ namespace OTEAServer.Models
         /// <param name="conclusionsGerman">Evaluation's conclusions in German</param>
         /// <param name="conclusionsItalian">Evaluation's conclusions in Italian</param>
         /// <param name="conclusionsPortuguese">Evaluation's conclusions in Portuguese</param>
-        /// <param name="scoreLevel1">Total score of ambit 1</param>
-        /// <param name="scoreLevel2">Total score of ambit 2</param>
-        /// <param name="scoreLevel3">Total score of ambit 3</param>
-        /// <param name="scoreLevel4">Total score of ambit 4</param>
-        /// <param name="scoreLevel5">Total score of ambit 5</param>
-        /// <param name="scoreLevel6">Total score of ambit 6</param>
+        /// <param name="scoreAmbit1">Total score of ambit 1</param>
+        /// <param name="scoreAmbit2">Total score of ambit 2</param>
+        /// <param name="scoreAmbit3">Total score of ambit 3</param>
+        /// <param name="scoreAmbit4">Total score of ambit 4</param>
+        /// <param name="scoreAmbit5">Total score of ambit 5</param>
+        /// <param name="scoreAmbit6">Total score of ambit 6</param>
         /// <param name="totalScore">Total score</param>
         /// <param name="isFinished">1 if is finished, 0 if not</param>
-        public IndicatorsEvaluation(long evaluationDate, int idEvaluatedOrganization, string orgTypeEvaluated, int idEvaluatorTeam, int idEvaluatorOrganization, string orgTypeEvaluator, string illness, int idCenter, string observationsSpanish, string observationsEnglish, string observationsFrench, string observationsBasque, string observationsCatalan, string observationsDutch, string observationsGalician, string observationsGerman, string observationsItalian, string observationsPortuguese, string conclusionsSpanish, string conclusionsEnglish, string conclusionsFrench, string conclusionsBasque, string conclusionsCatalan, string conclusionsDutch, string conclusionsGalician, string conclusionsGerman, string conclusionsItalian, string conclusionsPortuguese, int scoreLevel1, int scoreLevel2, int scoreLevel3, int scoreLevel4, int scoreLevel5, int scoreLevel6, int totalScore, int isFinished)
+        /// <param name="evaluationType">Evaluation type</param>
+        public IndicatorsEvaluation(long evaluationDate, int idEvaluatedOrganization, string orgTypeEvaluated, 
+            int idEvaluatorTeam, int idEvaluatorOrganization, string orgTypeEvaluator, string illness, int idCenter, 
+            int scoreAmbit1, int scoreAmbit2, int scoreAmbit3, int scoreAmbit4, int scoreAmbit5, int scoreAmbit6, int totalScore, string conclusionsEnglish, string conclusionsSpanish, string conclusionsFrench, string conclusionsBasque, string conclusionsCatalan, string conclusionsDutch, string conclusionsGalician, string conclusionsGerman, string conclusionsItalian, string conclusionsPortuguese, int isFinished, string evaluationType)
         {
             this.evaluationDate= evaluationDate;
             this.idEvaluatedOrganization = idEvaluatedOrganization;
@@ -53,16 +46,6 @@ namespace OTEAServer.Models
             this.orgTypeEvaluator = orgTypeEvaluator;
             this.illness = illness;
             this.idCenter=idCenter;
-            this.observationsSpanish = observationsSpanish;
-            this.observationsEnglish = observationsEnglish;
-            this.observationsFrench = observationsFrench;
-            this.observationsBasque = observationsBasque;
-            this.observationsCatalan = observationsCatalan;
-            this.observationsDutch = observationsDutch;
-            this.observationsGalician = observationsGalician;
-            this.observationsGerman = observationsGerman;
-            this.observationsItalian = observationsItalian;
-            this.observationsPortuguese = observationsPortuguese;
             this.conclusionsSpanish = conclusionsSpanish;
             this.conclusionsEnglish = conclusionsEnglish;
             this.conclusionsFrench = conclusionsFrench;
@@ -73,14 +56,15 @@ namespace OTEAServer.Models
             this.conclusionsGerman = conclusionsGerman;
             this.conclusionsItalian = conclusionsItalian;
             this.conclusionsPortuguese = conclusionsPortuguese;
-            this.scoreLevel1 = scoreLevel1;
-            this.scoreLevel2 = scoreLevel2;
-            this.scoreLevel3 = scoreLevel3;
-            this.scoreLevel4 = scoreLevel4;
-            this.scoreLevel5 = scoreLevel5;
-            this.scoreLevel6 = scoreLevel6;
+            this.scoreAmbit1 = scoreAmbit1;
+            this.scoreAmbit2 = scoreAmbit2;
+            this.scoreAmbit3 = scoreAmbit3;
+            this.scoreAmbit4 = scoreAmbit4;
+            this.scoreAmbit5 = scoreAmbit5;
+            this.scoreAmbit6 = scoreAmbit6;
             this.totalScore = totalScore;
             this.isFinished = isFinished;
+            this.evaluationType = evaluationType;
         }
 
         /// <summary>
@@ -116,7 +100,7 @@ namespace OTEAServer.Models
         /// <summary>
         /// Organization type of the evaluator organization that will do the indicators evaluation. It will be always "EVALUATOR"
         /// </summary>
-        [JsonPropertyName("orgTypeEvaluated")]
+        [JsonPropertyName("orgTypeEvaluator")]
         public string orgTypeEvaluator { get; set; }
 
         /// <summary>
@@ -134,105 +118,44 @@ namespace OTEAServer.Models
         /// <summary>
         /// Total score of ambit 1
         /// </summary>
-        [JsonPropertyName("scoreLevel1")]
-        public int scoreLevel1 { get; set; }
+        [JsonPropertyName("scoreAmbit1")]
+        public int scoreAmbit1 { get; set; }
 
         /// <summary>
         /// Total score of ambit 2
         /// </summary>
-        [JsonPropertyName("scoreLevel2")]
-        public int scoreLevel2 { get; set; }
+        [JsonPropertyName("scoreAmbit2")]
+        public int scoreAmbit2 { get; set; }
 
         /// <summary>
         /// Total score of ambit 3
         /// </summary>
-        [JsonPropertyName("scoreLevel3")]
-        public int scoreLevel3 { get; set; }
+        [JsonPropertyName("scoreAmbit3")]
+        public int scoreAmbit3 { get; set; }
 
         /// <summary>
         /// Total score of ambit 4
         /// </summary>
-        [JsonPropertyName("scoreLevel4")]
-        public int scoreLevel4 { get; set; }
+        [JsonPropertyName("scoreAmbit4")]
+        public int scoreAmbit4 { get; set; }
 
         /// <summary>
         /// Total score of ambit 5
         /// </summary>
-        [JsonPropertyName("scoreLevel5")]
-        public int scoreLevel5 { get; set; }
+        [JsonPropertyName("scoreAmbit5")]
+        public int scoreAmbit5 { get; set; }
 
         /// <summary>
         /// Total score of ambit 6
         /// </summary>
-        [JsonPropertyName("scoreLevel6")]
-        public int scoreLevel6 { get; set; }
+        [JsonPropertyName("scoreAmbit6")]
+        public int scoreAmbit6 { get; set; }
         
         /// <summary>
         /// Total score
         /// </summary>
         [JsonPropertyName("totalScore")]
         public int totalScore { get; set; }
-
-        /// <summary>
-        /// Evaluation's observations in Spanish
-        /// </summary>
-        [JsonPropertyName("observationsSpanish")]
-        public string observationsSpanish { get; set; }
-
-        /// <summary>
-        /// Evaluation's observations in English
-        /// </summary>
-        [JsonPropertyName("observationsEnglish")]
-        public string observationsEnglish { get; set; }
-
-        /// <summary>
-        /// Evaluation's observations in French
-        /// </summary>
-        [JsonPropertyName("observationsFrench")]
-        public string observationsFrench { get; set; }
-
-        /// <summary>
-        /// Evaluation's observations in Basque
-        /// </summary>
-        [JsonPropertyName("observationsBasque")]
-        public string observationsBasque { get; set; }
-
-        /// <summary>
-        /// Evaluation's observations in Catalan
-        /// </summary>
-        [JsonPropertyName("observationsCatalan")]
-        public string observationsCatalan { get; set; }
-
-
-        /// <summary>
-        /// Evaluation's observations in Dutch
-        /// </summary>
-        [JsonPropertyName("observationsDutch")]
-        public string observationsDutch { get; set; }
-
-        /// <summary>
-        /// Evaluation's observations in Galician
-        /// </summary>
-        [JsonPropertyName("observationsGalician")]
-        public string observationsGalician { get; set; }
-
-        /// <summary>
-        /// Evaluation's observations in German
-        /// </summary>
-        [JsonPropertyName("observationsGerman")]
-        public string observationsGerman { get; set; }
-
-        /// <summary>
-        /// Evaluation's observations in Italian
-        /// </summary>
-        [JsonPropertyName("observationsItalian")]
-        public string observationsItalian { get; set; }
-
-        /// <summary>
-        /// Evaluation's observations in Portuguese
-        /// </summary>
-        [JsonPropertyName("observationsPortuguese")]
-        public string observationsPortuguese { get; set; }
 
         /// <summary>
         /// Evaluation's conclusions in Spanish
@@ -299,6 +222,12 @@ namespace OTEAServer.Models
         /// </summary>
         [JsonPropertyName("isFinished")]
         public int isFinished { get; set; }
+
+        /// <summary>
+        /// Evaluation type
+        /// </summary>
+        [JsonPropertyName("evaluationType")]
+        public string evaluationType { get; set; }
 
 
     }

@@ -15,7 +15,7 @@
     <string name="evidence4">Nachweis 4</string>
     <string name="previous_indicator">Vorheriger Indikator</string>
     <string name="next_indicator">Nächster Indikator</string>
-    <string name="sign_in">Anmelden</string>
+    <string name="sign_in">Einloggen</string>
     <string name="sign_up">Registrieren</string>
     <string name="users_email">Benutzer-E-Mail</string>
     <string name="users_password">Benutzerpasswort</string>
@@ -199,7 +199,6 @@
     <string name="eval_type">Art der Bewertung</string>
     <string name="simple">Einfache Bewertung</string>
     <string name="complete">Vollständige Bewertung</string>
-    <string name="request_reg">Anforderung der Registrierung</string>
     <string name="complete_reg">Registrierung abschließen (nach der Anfrage)</string>
     <string name="please_email_req">Um die Anfrage abzuschließen, geben Sie bitte Ihre E-Mail-Adresse unten ein:</string>
     <string name="complete_req">Anfrage abschließen</string>
@@ -212,6 +211,22 @@
     <string name="camera">Kamera</string>
     <string name="gallery">Galerie</string>
     <string name="select_source">Quelle auswählen</string>
+    <string name="email_not_in_db">Die eingegebene E-Mail-Adresse ist nicht in unserer Datenbank vorhanden. Bitte geben Sie eine andere E-Mail-Adresse ein oder fordern Sie eine Registrierung an, indem Sie Ihre E-Mail-Adresse im Registrierungsanforderungsabschnitt eingeben.</string>
+    <string name="create_account">Konto erstellen</string>
+    <string name="send_request">Anfrage senden</string>
+    <string name="check_request">Anfrage überprüfen</string>
+    <string name="req_ins">Zuerst müssen Sie eine gültige E-Mail-Adresse im entsprechenden Feld eingeben. Beim Drücken von \'Anfrage überprüfen\' wird je nachdem, ob die Anfrage bereits gestellt wurde oder der Benutzer registriert ist, eine der folgenden Optionen angezeigt:</string>
+    <string name="req_ins1">Wenn dies das erste Mal ist, dass eine Anfrage mit dieser E-Mail-Adresse gestellt wird, wird ein Dropdown-Menü mit den verschiedenen Organisationen angezeigt, mit denen \'Fundación Miradas\' zusammenarbeitet, einschließlich \'Fundación Miradas\' selbst, um die Anfrage zu vervollständigen, indem die E-Mail-Adresse einer bestimmten Organisation zugewiesen wird. Sobald die Anfrage abgeschlossen ist, sendet \'Fundación Miradas\' Ihnen das Ergebnis Ihrer Anfrage per E-Mail zusammen mit einem temporären Zugangspasswort im Falle einer Annahme.</string>
+    <string name="req_ins2">Wenn Ihre Anfrage akzeptiert wurde, müssen Sie das temporäre Zugangspasswort in das entsprechende Feld eingeben, um auf das Anmeldeformular zugreifen zu können.</string>
+    <string name="req_ins3">Wenn der Benutzer bereits registriert ist, wird er zum Anmeldeformular weitergeleitet.</string>
+    <string name="user_already_registered">Benutzer bereits registriert</string>
+    <string name="registration_request">Registrierungsanfrage</string>
+    <string name="unanswered_request">Unbeantwortete Anfrage</string>
+    <string name="checking_req">Überprüfen, ob die Anfrage existiert...</string>
+    <string name="do_you_want_save_changes">Möchten Sie die Änderungen an dieser Leistungsbewertung speichern, um später fortzufahren?</string>
+    <string name="accept">Akzeptieren</string>
+    <string name="ind_obs">Beobachtungen des Indikators</string>
+    <string name="ev_obs">Beobachtungen des Nachweises</string>
 
 
 </resources>

@@ -12,7 +12,7 @@
     <string name="evidence4">Preuve 4</string>
     <string name="previous_indicator">Indicateur précédent</string>
     <string name="next_indicator">Indicateur suivant</string>
-    <string name="sign_in">Commencer le session</string>
+    <string name="sign_in">Se connecter</string>
     <string name="sign_up">Enregistrement</string>
     <string name="users_email">Email de l\'utilisateur</string>
     <string name="users_password">Mot de passe de l\'utilisateur</string>
@@ -158,7 +158,6 @@
     <string name="eval_type">Type d\'évaluation</string>
     <string name="simple">Évaluation simple</string>
     <string name="complete">Évaluation complète</string>
-    <string name="request_reg">Demande d\'inscription</string>
     <string name="complete_reg">Compléter l\'inscription (après l\'avoir demandée)</string>
     <string name="please_email_req">Pour compléter la demande, veuillez saisir votre adresse e-mail ci-dessous :</string>
     <string name="complete_req">Compléter la demande</string>
@@ -171,4 +170,20 @@
     <string name="camera">Caméra</string>
     <string name="gallery">Galerie</string>
     <string name="select_source">Sélectionner la source</string>
+    <string name="email_not_in_db">L\'email saisi ne figure pas dans notre base de données. Veuillez saisir une autre adresse e-mail ou demander l\'inscription en saisissant votre adresse e-mail dans la section de demande d\'inscription.</string>
+    <string name="create_account">Créer un compte</string>
+    <string name="send_request">Envoyer une demande</string>
+    <string name="check_request">Vérifier la demande</string>
+    <string name="req_ins">Tout d\'abord, vous devez entrer une adresse e-mail valide dans le champ correspondant. En appuyant sur \'Vérifier la demande\', selon que la demande a été précédemment faite ou si l\'utilisateur est enregistré, l\'une des options suivantes sera affichée :</string>
+    <string name="req_ins1">Si c\'est la première fois qu\'une demande est faite avec cet e-mail, un menu déroulant affichera les différentes organisations avec lesquelles \'Fundación Miradas\' travaille, y compris \'Fundación Miradas\' elle-même, pour compléter la demande en attribuant l\'e-mail à une organisation spécifique. Une fois la demande terminée, \'Fundación Miradas\' vous enverra par e-mail le résultat de votre demande ainsi qu\'un mot de passe d\'accès temporaire en cas d\'acceptation.</string>
+    <string name="req_ins2">Si votre demande a été acceptée, vous devrez saisir le mot de passe d\'accès temporaire dans la case correspondante pour accéder au formulaire d\'inscription.</string>
+    <string name="req_ins3">Si l\'utilisateur est déjà enregistré, il sera redirigé vers le formulaire de connexion.</string>
+    <string name="user_already_registered">Utilisateur déjà enregistré</string>
+    <string name="registration_request">Demande d\'inscription</string>
+    <string name="unanswered_request">Demande non répondue</string>
+    <string name="checking_req">Vérification de l\'existence de la demande...</string>
+    <string name="do_you_want_save_changes">Souhaitez-vous enregistrer les modifications de cette évaluation de performance pour continuer plus tard?</string>
+    <string name="accept">Accepter</string>
+    <string name="ind_obs">Observations de l\'indicateur</string>
+    <string name="ev_obs">Observations des preuves</string>
 </resources>

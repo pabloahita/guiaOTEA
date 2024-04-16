@@ -202,7 +202,6 @@
     <string name="eval_type">Tipus d\'avaluació</string>
     <string name="simple">Avaluació senzilla</string>
     <string name="complete">Avaluació completa</string>
-    <string name="request_reg">Sol·licitud de registre</string>
     <string name="complete_reg">Completar el registre (després de sol·licitar-ho)</string>
     <string name="please_email_req">Per completar la sol·licitud, si us plau, escrigui el seu correu electrònic a continuació:</string>
     <string name="complete_req">Completar la sol·licitud</string>
@@ -215,5 +214,21 @@
     <string name="camera">Camèra</string>
     <string name="gallery">Galeria</string>
     <string name="select_source">Seleccionar font</string>
+    <string name="email_not_in_db">L\'email introduït no apareix a la nostra base de dades. Si us plau, introdueixi un email diferent o sol·liciti el registre introduint el seu email a l\'apartat de sol·licitud de registre.</string>
+    <string name="create_account">Crear compte</string>
+    <string name="send_request">Enviar sol·licitud</string>
+    <string name="check_request">Comprovar sol·licitud</string>
+    <string name="req_ins">En primer lloc, cal que introdueixis un correu electrònic vàlid en el camp corresponent. En prémer \'Comprovar sol·licitud\', depenent de si la sol·licitud s\'ha fet prèviament o si l\'usuari està registrat, es mostrarà una de les següents opcions:</string>
+    <string name="req_ins1">Si és la primera vegada que es fa una sol·licitud amb aquest correu electrònic, es mostrarà un desplegable amb les diferents organitzacions amb les quals \'Fundación Miradas\' treballa, incloent \'Fundación Miradas\' mateixa, per completar la sol·licitud assignant el correu electrònic a una organització específica. Un cop completada la sol·licitud, \'Fundación Miradas\' et enviarà per correu electrònic el resultat de la teva sol·licitud juntament amb una contrasenya d\'accés temporal en cas que hagi estat acceptada.</string>
+    <string name="req_ins2">Si la teva sol·licitud ha estat acceptada, hauràs d\'introduir la contrasenya d\'accés temporal al quadre corresponent per accedir al formulari d\'inscripció.</string>
+    <string name="req_ins3">Si l\'usuari ja està registrat, serà redirigit al formulari d\'inici de sessió.</string>
+    <string name="user_already_registered">Usuari ja registrat</string>
+    <string name="registration_request">Solicitud de registre</string>
+    <string name="unanswered_request">Sol·licitud no respondida</string>
+    <string name="checking_req">Comprovant si existeix la sol·licitud...</string>
+    <string name="do_you_want_save_changes">Voleu desar els canvis d\'aquesta avaluació de rendiment per continuar més endavant?</string>
+    <string name="accept">Acceptar</string>
+    <string name="ind_obs">Observacions de l\'indicador</string>
+    <string name="ev_obs">Observacions de les evidències</string>
 
 </resources>

@@ -25,6 +25,18 @@ public class Request implements Serializable {
     @SerializedName("tempPassword")
     public String tempPassword;
 
+    /**Organization identifier*/
+    @SerializedName("idOrganization")
+    public int idOrganization;
+
+    /**Organization type*/
+    @SerializedName("orgType")
+    public String orgType;
+
+    /**Organization illness or syndrome*/
+    @SerializedName("illness")
+    public String illness;
+
     /**
      * Class constructor
      *
@@ -32,10 +44,13 @@ public class Request implements Serializable {
      * @param statusReq - Request status
      * @param tempPassword - Temporary password to access to the registration
      * */
-    public Request(String email, int statusReq, String tempPassword) {
+    public Request(String email, int statusReq, String tempPassword, int idOrganization, String orgType, String illness) {
         setEmail(email);
         setStatusReq(statusReq);
         setTempPassword(tempPassword);
+        setIdOrganization(idOrganization);
+        setOrgType(orgType);
+        setIllness(illness);
     }
 
     /**
@@ -90,5 +105,59 @@ public class Request implements Serializable {
      * */
     public void setTempPassword(String tempPassword) {
         this.tempPassword = tempPassword;
+    }
+
+    /**
+     * Method that obtains the organization identifier
+     *
+     * @return Organization identifier
+     * */
+    public int getIdOrganization() {
+        return idOrganization;
+    }
+
+    /**
+     * Method that sets the new organization identifier
+     *
+     * @param idOrganization - Organization identifier
+     * */
+    public void setIdOrganization(int idOrganization) {
+        this.idOrganization = idOrganization;
+    }
+
+    /**
+     * Method that obtains the organization type
+     *
+     * @return Organization type
+     * */
+    public String getOrgType() {
+        return orgType;
+    }
+
+    /**
+     * Method that sets the new organization type
+     *
+     * @param orgType - Organization type
+     * */
+    public void setOrgType(String orgType) {
+        this.orgType = orgType;
+    }
+
+    /**
+     * Method that obtains the organization identifier
+     *
+     * @return Organization identifier
+     * */
+    public String getIllness() {
+        return illness;
+    }
+
+    /**
+     * Method that sets the new organization illness or syndrome
+     *
+     * @param illness - Organization illness or syndrome
+     * */
+    public void setIllness(String illness) {
+        this.illness = illness;
     }
 }

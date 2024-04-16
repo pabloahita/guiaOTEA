@@ -100,12 +100,12 @@ public class IndicatorsController {
      * @param indicator - Indicator
      * @return Updated indicator if success, null if not
      * */
-    public static Indicator Update(int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion, Indicator indicator){
+    public static Indicator Update(int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion, String evaluationType, Indicator indicator){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Indicator> callable = new Callable<Indicator>() {
             @Override
             public Indicator call() throws Exception {
-                Call<Indicator> call = api.Update(idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion,indicator);
+                Call<Indicator> call = api.Update(idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion,evaluationType,indicator);
                 Response<Indicator> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -165,12 +165,12 @@ public class IndicatorsController {
      * @param indicatorVersion - Indicator version
      * @return Indicator if success, null if not
      * */
-    public static Indicator Get(int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion){
+    public static Indicator Get(int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion, String evaluationType){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Indicator> callable = new Callable<Indicator>() {
             @Override
             public Indicator call() throws Exception {
-                Call<Indicator> call = api.Get(idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion);
+                Call<Indicator> call = api.Get(idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion,evaluationType);
                 Response<Indicator> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -194,12 +194,12 @@ public class IndicatorsController {
      *
      * @return Indicators list
      * */
-    public static List<Indicator> GetAll(){
+    public static List<Indicator> GetAll(String evaluationType){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<Indicator>> callable = new Callable<List<Indicator>>() {
             @Override
             public List<Indicator> call() throws Exception {
-                Call<List<Indicator>> call = api.GetAll();
+                Call<List<Indicator>> call = api.GetAll(evaluationType);
                 Response<List<Indicator>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -229,12 +229,12 @@ public class IndicatorsController {
      * @param indicatorVersion - Indicator version
      * @return Indicator if success, null if not
      * */
-    public static Indicator Delete(int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion){
+    public static Indicator Delete(int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion, String evaluationType){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<Indicator> callable = new Callable<Indicator>() {
             @Override
             public Indicator call() throws Exception {
-                Call<Indicator> call = api.Get(idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion);
+                Call<Indicator> call = api.Get(idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion,evaluationType);
                 Response<Indicator> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

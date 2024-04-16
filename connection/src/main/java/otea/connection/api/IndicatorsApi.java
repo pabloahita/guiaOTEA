@@ -27,7 +27,7 @@ public interface IndicatorsApi {
      * @param indicator - Indicator
      * */
     @PUT("Indicators")
-    Call<Indicator> Update(@Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Body Indicator indicator);
+    Call<Indicator> Update(@Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType, @Body Indicator indicator);
 
     /**
      * Creates an indicator
@@ -48,11 +48,11 @@ public interface IndicatorsApi {
      * @param indicatorVersion - Indicator version
      * */
     @GET("Indicators/get")
-    Call<Indicator> Get(@Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion);
+    Call<Indicator> Get(@Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType);
 
     /**Gets all indicators*/
     @GET("Indicators/all")
-    Call<List<Indicator>> GetAll();
+    Call<List<Indicator>> GetAll(@Query("evaluationType") String evaluationType);
 
     /**
      * Gets all ambits by ambit identifier
@@ -73,5 +73,5 @@ public interface IndicatorsApi {
      * @param indicatorVersion - Indicator version
      * */
     @DELETE("Indicators")
-    Call<Indicator> Delete(@Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion);
+    Call<Indicator> Delete(@Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType);
 }

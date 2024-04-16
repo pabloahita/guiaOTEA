@@ -195,7 +195,6 @@
     <string name="eval_type">Type of evaluation</string>
     <string name="simple">Simple evaluation</string>
     <string name="complete">Complete evaluation</string>
-    <string name="request_reg">Request registration</string>
     <string name="complete_reg">Complete registration (after requesting it)</string>
     <string name="please_email_req">To complete the request, please type your email below</string>
     <string name="complete_req">Complete request</string>
@@ -211,6 +210,22 @@
     <string name="select_source">Select source</string>
     <string name="select_org">Select organization</string>
     <string name="select_center">Select center</string>
+    <string name="email_not_in_db">The email entered does not appear in our database. Please enter a different email or request registration by entering your email in the registration request section.</string>
+    <string name="create_account">Create account</string>
+    <string name="send_request">Send Request</string>
+    <string name="check_request">Check request</string>
+    <string name="req_ins">First, you must enter a valid email in the corresponding field. Upon pressing \'Check request\', depending on whether the request has been previously made or if the user is registered, one of the following options will be displayed:</string>
+    <string name="req_ins1">If it is the first time a request is made with this email, a dropdown menu will be displayed with the different organizations that \'Fundación Miradas\' works with, including \'Fundación Miradas\' itself, to complete the request by assigning the email to a specific organization. Once the request is completed, \'Fundación Miradas\' will email you the result of your request along with a temporary access password in case it has been accepted.</string>
+    <string name="req_ins2">If your request has been accepted, you will need to enter the temporary access password in the corresponding box to access the registration form.</string>
+    <string name="req_ins3">If the user is already registered, they will be redirected to the login form.</string>
+    <string name="user_already_registered">User already registered</string>
+    <string name="registration_request">Registration request</string>
+    <string name="unanswered_request">Unanswered request</string>
+    <string name="checking_req">Checking if the request exists...</string>
+    <string name="do_you_want_save_changes">Do you want to save the changes to this performance evaluation to continue later?</string>
+    <string name="accept">Accept</string>
+    <string name="ind_obs">Indicator observations</string>
+    <string name="ev_obs">Evidence observations</string>
 
 
 </resources>

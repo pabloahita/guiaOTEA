@@ -15,7 +15,7 @@
     <string name="evidence4">Frogak 4</string>
     <string name="previous_indicator">Aurreko Azterketa Adierazlea</string>
     <string name="next_indicator">Hurrengo Azterketa Adierazlea</string>
-    <string name="sign_in">Sartu</string>
+    <string name="sign_in">Saioa hasi</string>
     <string name="sign_up">Erregistratu</string>
     <string name="users_email">Erabiltzailearen emaila</string>
     <string name="users_password">Erabiltzailearen pasahitza</string>
@@ -201,7 +201,6 @@
     <string name="eval_type">Ebaluazio mota</string>
     <string name="simple">Ebaluazio sinplea</string>
     <string name="complete">Ebaluazio osoa</string>
-    <string name="request_reg">Segurtasun eskaera</string>
     <string name="complete_reg">Erregistratzea osatu (eskatu ondoren)</string>
     <string name="please_email_req">Eskaria osatzeko, mesedez, hemen idatzi zure posta elektronikoa:</string>
     <string name="complete_req">Eskaria osatu</string>
@@ -214,5 +213,21 @@
     <string name="camera">Kamera</string>
     <string name="gallery">Galeria</string>
     <string name="select_source">Iturria hautatu</string>
+    <string name="email_not_in_db">Sartutako emaila ez dago gure datu-basean. Mesedez, sartu email ezberdin bat edo eskatu erregistroa emaila sartuz erregistro-eskaera atalean.</string>
+    <string name="create_account">Kontu bat sortu</string>
+    <string name="send_request">Eskaria bidali</string>
+    <string name="check_request">Eskaria egiaztatu</string>
+    <string name="req_ins">Lehenik eta behin, e-posta baliogarria sartu behar duzu eremu zehatz batean. \'Eskaria egiaztatu\' sakatzen denean, aurreikusia izan bada eskaria edo erabiltzailea erregistratuta bada, hurrengo aukerak erakutsiko zaizkio:</string>
+    <string name="req_ins1">Lehenengoa da email honekin eskaria egitea, \"Fundación Miradas\"-ekin lan egiten duten hainbat erakunde izango dituen desplegable bat agertuko da, \"Fundación Miradas\"-en barruan, eskaria osatzeko eta posta elektronikoaren zehaztasunak erakutsiz. Eskaria amaituta, \"Fundación Miradas\"-ek eskainiko dizu eskariaren emaitzak eta onartzean, sarbideko pasahitz batera irakatsiko dizu.</string>
+    <string name="req_ins2">Zure eskaria onartuta izan baldin bada, sarbideko pasahitz temporala sartu beharko duzu koadro zehatz horretan erregistro-formulariora sartzeko.</string>
+    <string name="req_ins3">Egindako bada, erabiltzailea saio-hasiera formularioa bideratuko zaio.</string>
+    <string name="user_already_registered">Erabiltzailea dagoeneko erregistratuta dago</string>
+    <string name="registration_request">Izen-emate eskaria</string>
+    <string name="unanswered_request">Eskaria ez da erantzun</string>
+    <string name="checking_req">Eskaria existitzen den egiaztatzen...</string>
+    <string name="do_you_want_save_changes">Aldaketak gordetzeko erabakitzen duzu errendimenduaren ebaluazio hau etorkizunera jarraitu ahal izateko?</string>
+    <string name="accept">Onartu</string>
+    <string name="ind_obs">Adierazlearen Oharrak</string>
+    <string name="ev_obs">Egiaztapenen Oharrak</string>
 
 </resources>

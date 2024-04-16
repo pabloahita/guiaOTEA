@@ -21,7 +21,7 @@ public interface EvidencesApi {
 
     /**Gets all evidences*/
     @GET("Evidences/all")
-    Call<List<Evidence>> GetAll();
+    Call<List<Evidence>> GetAll(@Query("evaluationType") String evaluationType);
 
     /**
      * Gets all evidences by indicator
@@ -35,7 +35,7 @@ public interface EvidencesApi {
      *
      * */
     @GET("Evidences/ind")
-    Call<List<Evidence>> GetAllByIndicator(@Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion);
+    Call<List<Evidence>> GetAllByIndicator(@Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType);
 
     /**
      * Gets an evidence
@@ -49,7 +49,7 @@ public interface EvidencesApi {
      * @param indicatorVersion - Indicator version
      * */
     @GET("Evidences/get")
-    Call<Evidence> Get(@Query("idEvidence") int idEvidence, @Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion);
+    Call<Evidence> Get(@Query("idEvidence") int idEvidence, @Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType);
 
     /**
      * Creates new evidence
@@ -72,7 +72,7 @@ public interface EvidencesApi {
      * @param evidence - Evidence
      * */
     @PUT("Evidences")
-    Call<Evidence> Update(@Query("idEvidence") int idEvidence, @Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Body Evidence evidence);
+    Call<Evidence> Update(@Query("idEvidence") int idEvidence, @Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType, @Body Evidence evidence);
 
     /**
      * Deletes an evidence
@@ -86,5 +86,5 @@ public interface EvidencesApi {
      * @param indicatorVersion - Indicator version
      * */
     @DELETE("Evidences")
-    Call<Evidence> Delete(@Query("idEvidence") int idEvidence,@Query("idIndicator") int idIndicator,@Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion);
+    Call<Evidence> Delete(@Query("idEvidence") int idEvidence,@Query("idIndicator") int idIndicator,@Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType);
 }

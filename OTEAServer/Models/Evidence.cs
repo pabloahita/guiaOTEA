@@ -30,7 +30,9 @@ namespace OTEAServer.Models
         /// <param name="descriptionPortuguese">Evidence description in Portuguese</param>
         /// <param name="evidenceValue">Evidence value</param>
         /// <param name="indicatorVersion">Indicator version</param>
-        public Evidence(int idEvidence, int idIndicator, string indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, string descriptionBasque, string descriptionCatalan, string descriptionDutch, string descriptionGalician, string descriptionGerman, string descriptionItalian, string descriptionPortuguese, int evidenceValue, int indicatorVersion) {
+        /// <param name="evaluationType">Evaluation type</param>
+        public Evidence(int idEvidence, int idIndicator, string indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, string descriptionBasque, string descriptionCatalan, string descriptionDutch, string descriptionGalician, string descriptionGerman, string descriptionItalian, string descriptionPortuguese, int evidenceValue, int indicatorVersion, string evaluationType)
+        {
             this.idEvidence = idEvidence;
             this.idIndicator = idIndicator;
             this.indicatorType = indicatorType;
@@ -49,6 +51,7 @@ namespace OTEAServer.Models
             this.descriptionPortuguese = descriptionPortuguese;
             this.evidenceValue = evidenceValue;
             this.indicatorVersion = indicatorVersion;
+            this.evaluationType = evaluationType;
         }
 
         /// <summary>
@@ -159,5 +162,11 @@ namespace OTEAServer.Models
         /// </summary>
         [JsonPropertyName("indicatorVersion")]
         public int indicatorVersion { get; set; }
+
+        /// <summary>
+        /// Evaluation type
+        /// </summary>
+        [JsonPropertyName("evaluationType")]
+        public string evaluationType { get; set; }
     }
 }

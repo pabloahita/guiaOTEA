@@ -19,14 +19,14 @@ public class CustomCheckBox extends androidx.appcompat.widget.AppCompatCheckBox 
     }
     @Override
     protected void onDraw(Canvas canvas) {
-        int checkboxWidth = getWidth();
+        /*int checkboxWidth = getWidth();
         int checkboxHeight = getHeight();
 
         float textSize =  Math.min(checkboxWidth, checkboxHeight)  / 10f;
 
         // Configurar el tamaño de texto
         setTextSize(textSize);
-
+*/
         super.onDraw(canvas);
     }
 }

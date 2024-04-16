@@ -196,7 +196,6 @@
     <string name="eval_type">Tipo di valutazione</string>
     <string name="simple">Valutazione semplice</string>
     <string name="complete">Valutazione completa</string>
-    <string name="request_reg">Richiesta di registrazione</string>
     <string name="complete_reg">Completare la registrazione (dopo averla richiesta)</string>
     <string name="please_email_req">Per completare la richiesta, si prega di digitare il proprio indirizzo email di seguito:</string>
     <string name="complete_req">Completare la richiesta</string>
@@ -209,6 +208,22 @@
     <string name="camera">Camara</string>
     <string name="gallery">Galleria</string>
     <string name="select_source">Seleziona fonte</string>
+    <string name="email_not_in_db">L\'email inserita non compare nel nostro database. Per favore, inserisci un\'email diversa o richiedi la registrazione inserendo la tua email nella sezione di richiesta di registrazione.</string>
+    <string name="create_account">Creare account</string>
+    <string name="send_request">Inviare richiesta</string>
+    <string name="check_request">Controlla richiesta</string>
+    <string name="req_ins">Prima di tutto, devi inserire un\'email valida nel campo corrispondente. Premendo su \'Controlla richiesta\', a seconda che la richiesta sia stata fatta in precedenza o se l\'utente è registrato, verrà visualizzata una delle seguenti opzioni:</string>
+    <string name="req_ins1">Se è la prima volta che viene effettuata una richiesta con questa email, verrà visualizzato un menu a discesa con le diverse organizzazioni con cui \'Fundación Miradas\' collabora, inclusa \'Fundación Miradas\' stessa, per completare la richiesta assegnando l\'email a un\'organizzazione specifica. Una volta completata la richiesta, \'Fundación Miradas\' ti invierà via email il risultato della tua richiesta insieme a una password di accesso temporanea nel caso in cui sia stata accettata.</string>
+    <string name="req_ins2">Se la tua richiesta è stata accettata, dovrai inserire la password di accesso temporanea nella casella corrispondente per accedere al modulo di registrazione.</string>
+    <string name="req_ins3">Se l\'utente è già registrato, verrà reindirizzato al modulo di accesso.</string>
+    <string name="user_already_registered">Utente già registrato</string>
+    <string name="registration_request">Richiesta di registrazione</string>
+    <string name="unanswered_request">Richiesta non risposta</string>
+    <string name="checking_req">Controllo dell\'esistenza della richiesta...</string>
+    <string name="do_you_want_save_changes">Desideri salvare le modifiche a questa valutazione delle prestazioni per continuare più tardi?</string>
+    <string name="accept">Accettare</string>
+    <string name="ind_obs">Osservazioni dell\'indicatore</string>
+    <string name="ev_obs">Osservazioni delle prove</string>
 
 
 </resources>

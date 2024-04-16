@@ -19,10 +19,16 @@ namespace OTEAServer.Models
         /// <param name="email">Email of the possible new user</param>
         /// <param name="statusReq">Request status</param>
         /// <param name="tempPassword">Temporary password to access to the registration</param>
-        public Request(string email, int statusReq, string tempPassword){
+        /// <param name="idOrganization">Organization identifier</param>
+        /// <param name="orgType">Organization type</param>
+        /// <param name="illness">Organization illness or syndrome</param>
+        public Request(string email, int statusReq, string? tempPassword, int idOrganization, string orgType, string illness){
             this.email=email;
             this.statusReq=statusReq;
             this.tempPassword=tempPassword;
+            this.idOrganization=idOrganization;
+            this.orgType=orgType;
+            this.illness=illness;
         }
 
         /// <summary>
@@ -41,7 +47,25 @@ namespace OTEAServer.Models
         /// Temporary password to access to the registration
         /// </summary>
         [JsonPropertyName("tempPassword")]
-        public string tempPassword {get;set;}
-        
+        public string? tempPassword {get;set;}
+
+        /// <summary>
+        /// Organization identifier
+        /// </summary>
+        [JsonPropertyName("idOrganization")]
+        public int idOrganization { get; set; }
+
+        /// <summary>
+        /// Organization type
+        /// </summary>
+        [JsonPropertyName("orgType")]
+        public string orgType { get; set; }
+
+        /// <summary>
+        /// Organization illness or syndrome
+        /// </summary>
+        [JsonPropertyName("illness")]
+        public string illness { get; set; }
+
     }
 }

@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -95,10 +96,10 @@ public class MainMenu extends AppCompatActivity {
             TextView organizationName = findViewById(R.id.val_org);
             TextView email = findViewById(R.id.val_email);
 
-            first_name.setText(user.getFirst_name());
-            last_name.setText(user.getLast_name());
-            organizationName.setText(org.getNameOrg());
-            email.setText(user.getEmailUser());
+            first_name.setText(Html.fromHtml("<i>"+user.getFirst_name()+"</i>",0));
+            last_name.setText(Html.fromHtml("<i>"+user.getLast_name()+"</i>",0));
+            organizationName.setText(Html.fromHtml("<i>"+org.getNameOrg()+"</i>",0));
+            email.setText(Html.fromHtml("<i>"+user.getEmailUser()+"</i>",0));
 
             if(org.getIdOrganization()==1 && org.getOrgType().equals("EVALUATOR") && org.getIllness().equals("AUTISM")){
                 dirEvaluated.setVisibility(View.GONE);
@@ -192,9 +193,8 @@ public class MainMenu extends AppCompatActivity {
                         @Override
                         public void run() {
                             Intent intent = new Intent(getApplicationContext(), gui.EditIndicators.class);
-                            session.obtainIndicatorsFromDataBase();
+                            //session.obtainIndicatorsFromDataBase();
                             startActivity(intent);
-                            chargingScreen.setVisibility(View.GONE);
                         }
                     }, 200);
                 });
