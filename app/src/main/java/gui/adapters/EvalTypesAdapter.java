@@ -1,6 +1,7 @@
 package gui.adapters;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,8 +35,17 @@ public class EvalTypesAdapter extends ArrayAdapter<String> {
 
         String string = getItem(position);
         TextView textView = view.findViewById(android.R.id.text1);
-        text= string;
-        textView.setText(text);
+        String lblBeg="";
+        String lblEnd="";
+        if(position==0){
+            lblBeg="<b>";
+            lblEnd="</b>";
+        }else{
+            lblBeg="<i>";
+            lblEnd="</i>";
+        }
+        text=lblBeg+string+lblEnd;
+        textView.setText(Html.fromHtml(text,0));
 
         return view;
     }

@@ -36,6 +36,7 @@ public class ProvinceAdapter extends ArrayAdapter<Province> {
 
         Province province = getItem(position);
         TextView textView = view.findViewById(android.R.id.text1);
+
         if(Locale.getDefault().getLanguage().equals("es")) {
             text = province.getNameSpanish();
         }else if(Locale.getDefault().getLanguage().equals("fr")){

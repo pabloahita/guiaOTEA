@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Misc;
 using OTEAServer.Models;
 using System.Security.Policy;
@@ -153,12 +153,15 @@ namespace OTEAServer.Controllers
         [HttpPost("fromList")]
         public IActionResult CreateRegs([FromBody] List<IndicatorsEvaluationEvidenceReg> regs)
         {
+            if (regs == null) {
+                return BadRequest();
+            }
             try
             {
                 foreach (IndicatorsEvaluationEvidenceReg reg in regs)
                 {
-                    var aux=_context.IndicatorsEvaluationsEvidencesRegs.FirstOrDefault(r => r.evaluationDate == reg.evaluationDate && r.idEvaluatorTeam == reg.idEvaluatorTeam && r.idEvaluatorOrganization == reg.idEvaluatorOrganization && r.orgTypeEvaluator == reg.orgTypeEvaluator && r.idEvaluatedOrganization == reg.idEvaluatedOrganization && r.orgTypeEvaluated == reg.orgTypeEvaluated && r.illness == reg.illness && r.idCenter == reg.idCenter && r.idSubSubAmbit == reg.idSubSubAmbit && r.idSubAmbit == reg.idSubAmbit && r.idAmbit == reg.idAmbit && r.idIndicator == reg.idIndicator && r.idEvidence == reg.idEvidence && r.indicatorVersion == reg.indicatorVersion && r.evaluationType == reg.evaluationType);
-
+                    if (reg == null) { continue; }
+                    IndicatorsEvaluationEvidenceReg aux=_context.IndicatorsEvaluationsEvidencesRegs.FirstOrDefault(r => r.evaluationDate == reg.evaluationDate && r.idEvaluatorTeam == reg.idEvaluatorTeam && r.idEvaluatorOrganization == reg.idEvaluatorOrganization && r.orgTypeEvaluator == reg.orgTypeEvaluator && r.idEvaluatedOrganization == reg.idEvaluatedOrganization && r.orgTypeEvaluated == reg.orgTypeEvaluated && r.illness == reg.illness && r.idCenter == reg.idCenter && r.idSubSubAmbit == reg.idSubSubAmbit && r.idSubAmbit == reg.idSubAmbit && r.idAmbit == reg.idAmbit && r.idIndicator == reg.idIndicator && r.idEvidence == reg.idEvidence && r.indicatorVersion == reg.indicatorVersion && r.evaluationType == reg.evaluationType);
                     if (aux == null) {
                         _context.IndicatorsEvaluationsEvidencesRegs.Add(reg);
                     }

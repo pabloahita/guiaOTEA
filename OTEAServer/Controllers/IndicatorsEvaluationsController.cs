@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Misc;
 using OTEAServer.Models;
@@ -195,12 +195,18 @@ namespace OTEAServer.Controllers
                 existingIndicatorsEvaluation.conclusionsGerman = indicatorsEvaluation.conclusionsGerman;
                 existingIndicatorsEvaluation.conclusionsItalian = indicatorsEvaluation.conclusionsItalian;
                 existingIndicatorsEvaluation.conclusionsPortuguese = indicatorsEvaluation.conclusionsPortuguese;
-                existingIndicatorsEvaluation.scoreAmbit1 = indicatorsEvaluation.scoreAmbit1;
-                existingIndicatorsEvaluation.scoreAmbit2 = indicatorsEvaluation.scoreAmbit2;
-                existingIndicatorsEvaluation.scoreAmbit3 = indicatorsEvaluation.scoreAmbit3;
-                existingIndicatorsEvaluation.scoreAmbit4 = indicatorsEvaluation.scoreAmbit4;
-                existingIndicatorsEvaluation.scoreAmbit5 = indicatorsEvaluation.scoreAmbit5;
-                existingIndicatorsEvaluation.scoreAmbit6 = indicatorsEvaluation.scoreAmbit6;
+                existingIndicatorsEvaluation.scorePriorityZeroColourRed = indicatorsEvaluation.scorePriorityZeroColourRed;
+                existingIndicatorsEvaluation.scorePriorityZeroColourYellow = indicatorsEvaluation.scorePriorityZeroColourYellow;
+                existingIndicatorsEvaluation.scorePriorityZeroColourGreen = indicatorsEvaluation.scorePriorityZeroColourGreen;
+                existingIndicatorsEvaluation.scorePriorityOneColourRed = indicatorsEvaluation.scorePriorityOneColourRed;
+                existingIndicatorsEvaluation.scorePriorityOneColourYellow = indicatorsEvaluation.scorePriorityOneColourYellow;
+                existingIndicatorsEvaluation.scorePriorityOneColourGreen = indicatorsEvaluation.scorePriorityOneColourGreen;
+                existingIndicatorsEvaluation.scorePriorityTwoColourRed = indicatorsEvaluation.scorePriorityTwoColourRed;
+                existingIndicatorsEvaluation.scorePriorityTwoColourYellow = indicatorsEvaluation.scorePriorityTwoColourYellow;
+                existingIndicatorsEvaluation.scorePriorityTwoColourGreen = indicatorsEvaluation.scorePriorityTwoColourGreen;
+                existingIndicatorsEvaluation.scorePriorityThreeColourRed = indicatorsEvaluation.scorePriorityThreeColourRed;
+                existingIndicatorsEvaluation.scorePriorityThreeColourYellow = indicatorsEvaluation.scorePriorityThreeColourYellow;
+                existingIndicatorsEvaluation.scorePriorityThreeColourGreen = indicatorsEvaluation.scorePriorityThreeColourGreen;
                 existingIndicatorsEvaluation.totalScore = indicatorsEvaluation.totalScore;
                 existingIndicatorsEvaluation.isFinished = indicatorsEvaluation.isFinished;
                 existingIndicatorsEvaluation.evaluationType = indicatorsEvaluation.evaluationType;
@@ -250,65 +256,93 @@ namespace OTEAServer.Controllers
         /// <summary>
         /// Method that obtains the finished indicator evaluation with its results
         /// </summary>
-        /// <param name="evaluationDate">Evaluation date in timestamp</param>
-        /// <param name="idEvaluatorTeam">Evaluator team identifier</param>
-        /// <param name="idEvaluatorOrganization">Identifier of the evaluator organization that will do the indicators evaluation</param>
-        /// <param name="orgTypeEvaluator">Organization type of the evaluator organization that will do the indicators evaluation. It will be always "EVALUATOR"</param>
-        /// <param name="idEvaluatedOrganization">Identifier of the external organization that will recieve the indicators evaluation</param>
-        /// <param name="orgTypeEvaluated">Organization type of the external organization that will recieve the indicators evaluation. It will be always "EVALUATED"</param>
-        /// <param name="illness">Illness of the external organization that will recieve the indicators evaluation. In case of Fundación Miradas, it will be "AUTISM"</param>
-        /// <param name="idCenter">Center identifier of the external organization</param>
+        /// <param name="indicatorsEvaluation">Indicator evaluation with no results</param>
         /// <returns>Indicators evaluation if success, null if not</returns>
         [HttpPut("result")]
         public IActionResult calculateResults([FromBody] IndicatorsEvaluation indicatorsEvaluation) {
             try
             {
-                List<IndicatorsEvaluationEvidenceReg> regs = _context.IndicatorsEvaluationsEvidencesRegs.Where(r => r.evaluationDate == indicatorsEvaluation.evaluationDate && r.idEvaluatorTeam == indicatorsEvaluation.idEvaluatorTeam && r.idEvaluatorOrganization == indicatorsEvaluation.idEvaluatorOrganization && r.orgTypeEvaluator == indicatorsEvaluation.orgTypeEvaluator && r.idEvaluatedOrganization == indicatorsEvaluation.idEvaluatedOrganization && r.orgTypeEvaluated == indicatorsEvaluation.orgTypeEvaluated && r.illness == indicatorsEvaluation.illness && r.idCenter == indicatorsEvaluation.idCenter && r.evaluationType==indicatorsEvaluation.evaluationType).ToList();
-                int lastAmbit = -1;
+                
                 int totalScore = 0;
-                int numEvidencesInAnIndicator = 0;
-                List<int> results = new List<int>();
-                for (int i = 0; i < regs.Count; i++)
-                {
-                    if (i == 0 || lastAmbit != regs[i].idAmbit) { lastAmbit = regs[i].idAmbit; }
-                    if (results.Count < lastAmbit) { results.Add(0); }
-                    if (regs[i].isMarked == 1) { results[lastAmbit - 1]++; }
-                    numEvidencesInAnIndicator++;
-                    if (numEvidencesInAnIndicator == 4)
-                    {
-                        var indicator = _context.Indicators.FirstOrDefault(ind => ind.idIndicator == regs[i].idIndicator && ind.indicatorType == regs[i].indicatorType && ind.idSubSubAmbit == regs[i].idSubSubAmbit && ind.idSubAmbit == regs[i].idSubAmbit && ind.idAmbit == regs[i].idAmbit && ind.indicatorVersion == regs[i].indicatorVersion);
-                        int mul = -1;
-                        if (results[lastAmbit - 1] == 0 || results[lastAmbit - 1] == 1)
-                        {
-                            mul = indicator.multiplierOneOrZeroFilled;
-                        }
-                        if (results[lastAmbit - 1] == 2 || results[lastAmbit - 1] == 3)
-                        {
-                            mul = indicator.multiplierTwoOrThreeFilled;
-                        }
-                        if (results[lastAmbit - 1] == 4)
-                        {
-                            mul = indicator.multiplierFourFilled;
-                        }
-                        results[lastAmbit - 1] = mul * results[lastAmbit - 1];
-                        totalScore += results[lastAmbit - 1];
-                        numEvidencesInAnIndicator = 0;
+                int numPriorities = 4;
+                int numColours = 3;
+                int[,] numIndicatorsPerPriorityPerColour = new int[numPriorities, numColours];
+                int[,] results = new int[4,3];
+                for (int i = 0; i < numPriorities; i++) {//Number of priorities
+                    for (int j = 0; j < numColours; j++) {//Number of possible colours
+                        results[i, j] = 0;
+                        numIndicatorsPerPriorityPerColour[i, j] = 0;
                     }
                 }
-                results.Add(totalScore);
+                
+                for (int i=0;i<numPriorities;i++) {
+                    List<Indicator> indicators = _context.Indicators
+                    .Where(ind => ind.evaluationType == indicatorsEvaluation.evaluationType && ind.isActive == 1 && ind.indicatorPriority==i)
+                    .OrderBy(ind => ind.idIndicator)
+                    .ToList();
+                    List<int> idsIndicators=indicators.Select(ind => ind.idIndicator).ToList();
+                    List<IndicatorsEvaluationIndicatorReg> regs = _context.IndicatorsEvaluationsIndicatorsRegs
+                        .Where(r => r.evaluationDate == indicatorsEvaluation.evaluationDate && r.idEvaluatorTeam == indicatorsEvaluation.idEvaluatorTeam && r.idEvaluatorOrganization == indicatorsEvaluation.idEvaluatorOrganization && r.orgTypeEvaluator == indicatorsEvaluation.orgTypeEvaluator && r.idEvaluatedOrganization == indicatorsEvaluation.idEvaluatedOrganization && r.orgTypeEvaluated == indicatorsEvaluation.orgTypeEvaluated && r.illness == indicatorsEvaluation.illness && r.idCenter == indicatorsEvaluation.idCenter && r.evaluationType == indicatorsEvaluation.evaluationType && idsIndicators.Contains(r.idIndicator)).ToList();
+                    foreach (IndicatorsEvaluationIndicatorReg reg in regs)
+                    {
+                        int colour = -1;
+                        if (reg.numEvidencesMarked == 0 || reg.numEvidencesMarked == 1)
+                        {
+                            colour = 0;
+                        }
+                        if (reg.numEvidencesMarked == 2 || reg.numEvidencesMarked == 3)
+                        {
+                            colour = 1;
+                        }
+                        if (reg.numEvidencesMarked == 4)
+                        {
+                            colour = 2;
+                        }
+                        numIndicatorsPerPriorityPerColour[i, colour]++;
+                    }
+                    for (int j = 1; j < numColours; j++)
+                    {
+                        int mul = i+j;
+                        results[i, j] = numIndicatorsPerPriorityPerColour[i, j] * mul;
+                        totalScore += results[i, j];
+                    }
+                }
 
-                indicatorsEvaluation.scoreAmbit1 = results[0];
-                indicatorsEvaluation.scoreAmbit2 = results[1];
-                indicatorsEvaluation.scoreAmbit3 = results[2];
-                indicatorsEvaluation.scoreAmbit4 = results[3];
-                indicatorsEvaluation.scoreAmbit5 = results[4];
-                indicatorsEvaluation.scoreAmbit6 = results[5];
-                indicatorsEvaluation.totalScore = results[6];
-                indicatorsEvaluation.isFinished = 1;
+
+                var existingIndicatorsEvaluation = _context.IndicatorsEvaluations.FirstOrDefault(e => e.evaluationDate == indicatorsEvaluation.evaluationDate && e.idEvaluatorTeam == indicatorsEvaluation.idEvaluatorTeam && e.idEvaluatorOrganization == indicatorsEvaluation.idEvaluatorOrganization && e.orgTypeEvaluator == indicatorsEvaluation.orgTypeEvaluator && e.idEvaluatedOrganization == indicatorsEvaluation.idEvaluatedOrganization && e.orgTypeEvaluated == indicatorsEvaluation.orgTypeEvaluated && e.illness == indicatorsEvaluation.illness && e.idCenter == indicatorsEvaluation.idCenter && e.evaluationType == indicatorsEvaluation.evaluationType);
+                if (existingIndicatorsEvaluation is null)
+                    return NotFound();
+
+                int[,] foo1 = numIndicatorsPerPriorityPerColour;
+                int[,] foo2 = results;
+                existingIndicatorsEvaluation.conclusionsSpanish = indicatorsEvaluation.conclusionsSpanish;
+                existingIndicatorsEvaluation.conclusionsEnglish = indicatorsEvaluation.conclusionsEnglish;
+                existingIndicatorsEvaluation.conclusionsFrench = indicatorsEvaluation.conclusionsFrench;
+                existingIndicatorsEvaluation.conclusionsBasque = indicatorsEvaluation.conclusionsBasque;
+                existingIndicatorsEvaluation.conclusionsCatalan = indicatorsEvaluation.conclusionsCatalan;
+                existingIndicatorsEvaluation.conclusionsDutch = indicatorsEvaluation.conclusionsDutch;
+                existingIndicatorsEvaluation.conclusionsGalician = indicatorsEvaluation.conclusionsGalician;
+                existingIndicatorsEvaluation.conclusionsGerman = indicatorsEvaluation.conclusionsGerman;
+                existingIndicatorsEvaluation.conclusionsItalian = indicatorsEvaluation.conclusionsItalian;
+                existingIndicatorsEvaluation.conclusionsPortuguese = indicatorsEvaluation.conclusionsPortuguese;
+                existingIndicatorsEvaluation.scorePriorityZeroColourRed = results[0,0];
+                existingIndicatorsEvaluation.scorePriorityZeroColourYellow = results[0,1];
+                existingIndicatorsEvaluation.scorePriorityZeroColourGreen = results[0,2];
+                existingIndicatorsEvaluation.scorePriorityOneColourRed = results[1,0];
+                existingIndicatorsEvaluation.scorePriorityOneColourYellow = results[1,1];
+                existingIndicatorsEvaluation.scorePriorityOneColourGreen = results[1,2];
+                existingIndicatorsEvaluation.scorePriorityTwoColourRed = results[2,0];
+                existingIndicatorsEvaluation.scorePriorityTwoColourYellow = results[2,1];
+                existingIndicatorsEvaluation.scorePriorityTwoColourGreen = results[2,2];
+                existingIndicatorsEvaluation.scorePriorityThreeColourRed = results[3,0];
+                existingIndicatorsEvaluation.scorePriorityThreeColourYellow = results[3,1];
+                existingIndicatorsEvaluation.scorePriorityThreeColourGreen = results[3,2];
+                existingIndicatorsEvaluation.totalScore = totalScore;
+                existingIndicatorsEvaluation.isFinished = 1;
 
                 _context.SaveChanges();
 
-                return Ok(indicatorsEvaluation);
+                return Ok(existingIndicatorsEvaluation);
             }
             catch (Exception ex)
             {

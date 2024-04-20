@@ -89,18 +89,6 @@ public class Indicator implements Serializable {
     @SerializedName("isActive")
     public int isActive;
 
-    /**Multiplier used if the indicator has four evidences filled*/
-    @SerializedName("multiplierFourFilled")
-    public int multiplierFourFilled;
-
-    /**Multiplier used if the indicator has two or three filled*/
-    @SerializedName("multiplierTwoOrThreeFilled")
-    public int multiplierTwoOrThreeFilled;
-
-    /**Multiplier used if the indicator has zero or one evidences filled*/
-    @SerializedName("multiplierOneOrZeroFilled")
-    public int multiplierOneOrZeroFilled;
-
     /**Evaluation type*/
     @SerializedName("evaluationType")
     public String evaluationType;
@@ -128,12 +116,9 @@ public class Indicator implements Serializable {
      * @param indicatorPriority - Indicator priority
      * @param indicatorVersion - Indicator version
      * @param isActive - Boolean that determines if the indicator is or not is activated. 1 if is, 0 if not
-     * @param multiplierFourFilled - Multiplier used if the indicator has four evidences filled
-     * @param multiplierTwoOrThreeField - Multiplier used if the indicator has two or three filled
-     * @param multiplierOneOrZeroFilled - Multiplier used if the indicator has zero or one evidences filled
      * @param evaluationType - Evaluation type
      * */
-    public Indicator(int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, String descriptionEnglish, String descriptionSpanish, String descriptionFrench, String descriptionBasque, String descriptionCatalan, String descriptionDutch, String descriptionGalician, String descriptionGerman, String descriptionItalian, String descriptionPortuguese, int indicatorPriority, int indicatorVersion, int isActive, int multiplierFourFilled, int multiplierTwoOrThreeField, int multiplierOneOrZeroFilled, String evaluationType) {
+    public Indicator(int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, String descriptionEnglish, String descriptionSpanish, String descriptionFrench, String descriptionBasque, String descriptionCatalan, String descriptionDutch, String descriptionGalician, String descriptionGerman, String descriptionItalian, String descriptionPortuguese, int indicatorPriority, int indicatorVersion, int isActive, String evaluationType) {
         setIdIndicator(idIndicator);
         setIndicatorType(indicatorType);
         setIdSubSubAmbit(idSubSubAmbit);
@@ -153,9 +138,6 @@ public class Indicator implements Serializable {
         setPriority(indicatorPriority);
         setIndicatorVersion(indicatorVersion);
         setIsActive(isActive);
-        setMultiplierFourFilled(multiplierFourFilled);
-        setMultiplierTwoOrThreeFilled(multiplierTwoOrThreeField);
-        setMultiplierOneOrZeroFilled(multiplierOneOrZeroFilled);
         setEvaluationType(evaluationType);
     }
 
@@ -520,58 +502,6 @@ public class Indicator implements Serializable {
         this.isActive = isActive;
     }
 
-    /**
-     * Method that obtains the multiplier used if the indicator has four evidences filled
-     *
-     * @return Multiplier used if the indicator has four evidences filled
-     * */
-    public int getMultiplierFourFilled() {
-        return multiplierFourFilled;
-    }
-
-    /**
-     * Method that sets the new multiplier used if the indicator has four evidences filled
-     *
-     * @param multiplierFourFilled - Multiplier used if the indicator has four evidences filled
-     * */
-    public void setMultiplierFourFilled(int multiplierFourFilled) {
-        this.multiplierFourFilled = multiplierFourFilled;
-    }
-
-    /**
-     * Method that obtains the multiplier used if the indicator has two or three evidences filled
-     *
-     * @return Multiplier used if the indicator has two or three evidences filled
-     * */
-    public int getMultiplierTwoOrThreeFilled() {
-        return multiplierTwoOrThreeFilled;
-    }
-
-    /**
-     * Method that sets the new multiplier used if the indicator has two or three evidences filled
-     *
-     * @param multiplierTwoOrThreeFilled - Multiplier used if the indicator has two or three evidences filled
-     * */
-    public void setMultiplierTwoOrThreeFilled(int multiplierTwoOrThreeFilled) {
-        this.multiplierTwoOrThreeFilled = multiplierTwoOrThreeFilled;
-    }
-    /**
-     * Method that obtains the multiplier used if the indicator has zero or one evidences filled
-     *
-     * @return Multiplier used if the indicator has zero or one evidences filled
-     * */
-    public int getMultiplierOneOrZeroFilled() {
-        return multiplierOneOrZeroFilled;
-    }
-
-    /**
-     * Method that sets the new multiplier used if the indicator has zero or one evidences filled
-     *
-     * @param multiplierOneOrZeroFilled - Multiplier used if the indicator has zero or one evidences filled
-     * */
-    public void setMultiplierOneOrZeroFilled(int multiplierOneOrZeroFilled) {
-        this.multiplierOneOrZeroFilled = multiplierOneOrZeroFilled;
-    }
 
     /**
      * Method that obtains the evaluation type

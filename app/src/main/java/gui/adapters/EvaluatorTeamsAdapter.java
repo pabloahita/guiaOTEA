@@ -43,25 +43,25 @@ public class EvaluatorTeamsAdapter extends ArrayAdapter<EvaluatorTeam> {
         }
         else{
             if(Locale.getDefault().getLanguage().equals("es")){
-                text= "<b>Persona TEA: </b>"+evaluatorTeam.getPatient_name()+",<b> Familiar: </b>"+evaluatorTeam.getRelative_name();
+                text= "<b>Persona TEA: </b><i>"+evaluatorTeam.getPatient_name()+"</i>,<b> Familiar: </b><i>"+evaluatorTeam.getRelative_name()+"</i>";
             }else if(Locale.getDefault().getLanguage().equals("fr")){
-                text= "<b>Personne TSA: </b>"+evaluatorTeam.getPatient_name()+",<b> Membre de la famille: </b>"+evaluatorTeam.getRelative_name();
+                text= "<b>Personne TSA: </b><i>"+evaluatorTeam.getPatient_name()+"</i>,<b> Membre de la famille: </b><i>"+evaluatorTeam.getRelative_name()+"</i>";
             }else if(Locale.getDefault().getLanguage().equals("eu")){
-                text= "<b>TEA pertsona: </b>"+evaluatorTeam.getPatient_name()+",<b> Familia-kide: </b>"+evaluatorTeam.getRelative_name();
+                text= "<b>TEA pertsona: </b><i>"+evaluatorTeam.getPatient_name()+"</i>,<b> Familia-kide: </b><i>"+evaluatorTeam.getRelative_name()+"</i>";
             }else if(Locale.getDefault().getLanguage().equals("ca")){
-                text= "<b>Persona TEA: </b>"+evaluatorTeam.getPatient_name()+",<b> Familiar: </b>"+evaluatorTeam.getRelative_name();
+                text= "<b>Persona TEA: </b><i>"+evaluatorTeam.getPatient_name()+"</i>,<b> Familiar: </b><i>"+evaluatorTeam.getRelative_name()+"</i>";
             }else if(Locale.getDefault().getLanguage().equals("nl")){
-                text= "<b>Persoon ASS: </b>"+evaluatorTeam.getPatient_name()+",<b> Familielid: </b>"+evaluatorTeam.getRelative_name();
+                text= "<b>Persoon ASS: </b><i>"+evaluatorTeam.getPatient_name()+"</i>,<b> Familielid: </b><i>"+evaluatorTeam.getRelative_name()+"</i>";
             }else if(Locale.getDefault().getLanguage().equals("gl")){
-                text= "<b>Persoa TEA: </b>"+evaluatorTeam.getPatient_name()+",<b> Familiar: </b>"+evaluatorTeam.getRelative_name();
+                text= "<b>Persoa TEA: </b><i>"+evaluatorTeam.getPatient_name()+"</i>,<b> Familiar: </b><i>"+evaluatorTeam.getRelative_name()+"</i>";
             }else if(Locale.getDefault().getLanguage().equals("de")){
-                text= "<b>Person ASS: </b>"+evaluatorTeam.getPatient_name()+",<b> Familienmitglied: </b>"+evaluatorTeam.getRelative_name();
+                text= "<b>Person ASS: </b><i>"+evaluatorTeam.getPatient_name()+"</i>,<b> Familienmitglied: </b><i>"+evaluatorTeam.getRelative_name()+"</i>";
             }else if(Locale.getDefault().getLanguage().equals("it")){
-                text= "<b>Persona DSA: </b>"+evaluatorTeam.getPatient_name()+",<b> Familiare: </b>"+evaluatorTeam.getRelative_name();
+                text= "<b>Persona DSA: </b><i>"+evaluatorTeam.getPatient_name()+"</i>,<b> Familiare: </b><i>"+evaluatorTeam.getRelative_name()+"</i>";
             }else if(Locale.getDefault().getLanguage().equals("pt")){
-                text= "<b>Pessoa TEA: </b>"+evaluatorTeam.getPatient_name()+",<b> Familiar: </b>"+evaluatorTeam.getRelative_name();
+                text= "<b>Pessoa TEA: </b><i>"+evaluatorTeam.getPatient_name()+"</i>,<b> Familiar: </b><i>"+evaluatorTeam.getRelative_name()+"</i>";
             }else{//Default: English
-                text= "<b>ASD person: </b>"+evaluatorTeam.getPatient_name()+",<b> Family member: </b>"+evaluatorTeam.getRelative_name();
+                text= "<b>ASD person: </b><i>"+evaluatorTeam.getPatient_name()+"</i>,<b> Family member: </b><i>"+evaluatorTeam.getRelative_name()+"</i>";
             }
         }
         textView.setText(Html.fromHtml(text,0));

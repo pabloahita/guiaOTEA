@@ -15,8 +15,21 @@ namespace OTEAServer.Models
         /// <param name="orgTypeEvaluated">Organization type of the external organization that will receive the indicators evaluation. It will be always "EVALUATED"</param>
         /// <param name="illness">Illness of the external organization that will receive the indicators evaluation. In the case of Fundación Miradas, it will be "AUTISM"</param>
         /// <param name="idCenter">Center identifier of the external organization</param>
-        /// <param name="conclusionsEnglish">Evaluation's conclusions in English</param>
+        /// <param name="scorePriorityZeroColourRed">Total score of the priority zero and colour red</param>
+        /// <param name="scorePriorityZeroColourYellow">Total score of the priority zero and colour yellow</param>
+        /// <param name="scorePriorityZeroColourGreen">Total score of the priority zero and colour green</param>
+        /// <param name="scorePriorityOneColourRed">Total score of the priority one and colour red</param>
+        /// <param name="scorePriorityOneColourYellow">Total score of the priority one and colour yellow</param>
+        /// <param name="scorePriorityOneColourGreen">Total score of the priority one and colour green</param>
+        /// <param name="scorePriorityTwoColourRed">Total score of the priority two and colour red</param>
+        /// <param name="scorePriorityTwoColourYellow">Total score of the priority two and colour yellow</param>
+        /// <param name="scorePriorityTwoColourGreen">Total score of the priority two and colour green</param>
+        /// <param name="scorePriorityThreeColourRed">Total score of the priority three and colour red</param>
+        /// <param name="scorePriorityThreeColourYellow">Total score of the priority three and colour yellow</param>
+        /// <param name="scorePriorityThreeColourGreen">Total score of the priority three and colour green</param>
+        /// <param name="totalScore">Total score</param>
         /// <param name="conclusionsSpanish">Evaluation's conclusions in Spanish</param>
+        /// <param name="conclusionsEnglish">Evaluation's conclusions in English</param>
         /// <param name="conclusionsFrench">Evaluation's conclusions in French</param>
         /// <param name="conclusionsBasque">Evaluation's conclusions in Basque</param>
         /// <param name="conclusionsCatalan">Evaluation's conclusions in Catalan</param>
@@ -25,18 +38,17 @@ namespace OTEAServer.Models
         /// <param name="conclusionsGerman">Evaluation's conclusions in German</param>
         /// <param name="conclusionsItalian">Evaluation's conclusions in Italian</param>
         /// <param name="conclusionsPortuguese">Evaluation's conclusions in Portuguese</param>
-        /// <param name="scoreAmbit1">Total score of ambit 1</param>
-        /// <param name="scoreAmbit2">Total score of ambit 2</param>
-        /// <param name="scoreAmbit3">Total score of ambit 3</param>
-        /// <param name="scoreAmbit4">Total score of ambit 4</param>
-        /// <param name="scoreAmbit5">Total score of ambit 5</param>
-        /// <param name="scoreAmbit6">Total score of ambit 6</param>
-        /// <param name="totalScore">Total score</param>
         /// <param name="isFinished">1 if is finished, 0 if not</param>
         /// <param name="evaluationType">Evaluation type</param>
         public IndicatorsEvaluation(long evaluationDate, int idEvaluatedOrganization, string orgTypeEvaluated, 
             int idEvaluatorTeam, int idEvaluatorOrganization, string orgTypeEvaluator, string illness, int idCenter, 
-            int scoreAmbit1, int scoreAmbit2, int scoreAmbit3, int scoreAmbit4, int scoreAmbit5, int scoreAmbit6, int totalScore, string conclusionsEnglish, string conclusionsSpanish, string conclusionsFrench, string conclusionsBasque, string conclusionsCatalan, string conclusionsDutch, string conclusionsGalician, string conclusionsGerman, string conclusionsItalian, string conclusionsPortuguese, int isFinished, string evaluationType)
+            int scorePriorityZeroColourRed, int scorePriorityZeroColourYellow, int scorePriorityZeroColourGreen,
+            int scorePriorityOneColourRed, int scorePriorityOneColourYellow, int scorePriorityOneColourGreen,
+            int scorePriorityTwoColourRed, int scorePriorityTwoColourYellow, int scorePriorityTwoColourGreen,
+            int scorePriorityThreeColourRed, int scorePriorityThreeColourYellow, int scorePriorityThreeColourGreen, int totalScore, 
+            string conclusionsSpanish, string conclusionsEnglish, string conclusionsFrench, string conclusionsBasque, 
+            string conclusionsCatalan, string conclusionsDutch, string conclusionsGalician, string conclusionsGerman, 
+            string conclusionsItalian, string conclusionsPortuguese, int isFinished, string evaluationType)
         {
             this.evaluationDate= evaluationDate;
             this.idEvaluatedOrganization = idEvaluatedOrganization;
@@ -56,12 +68,18 @@ namespace OTEAServer.Models
             this.conclusionsGerman = conclusionsGerman;
             this.conclusionsItalian = conclusionsItalian;
             this.conclusionsPortuguese = conclusionsPortuguese;
-            this.scoreAmbit1 = scoreAmbit1;
-            this.scoreAmbit2 = scoreAmbit2;
-            this.scoreAmbit3 = scoreAmbit3;
-            this.scoreAmbit4 = scoreAmbit4;
-            this.scoreAmbit5 = scoreAmbit5;
-            this.scoreAmbit6 = scoreAmbit6;
+            this.scorePriorityZeroColourRed = scorePriorityZeroColourRed;
+            this.scorePriorityZeroColourYellow = scorePriorityZeroColourYellow; 
+            this.scorePriorityZeroColourGreen = scorePriorityZeroColourGreen;
+            this.scorePriorityOneColourRed = scorePriorityOneColourRed;
+            this.scorePriorityOneColourYellow = scorePriorityOneColourYellow;
+            this.scorePriorityOneColourGreen = scorePriorityOneColourGreen;
+            this.scorePriorityTwoColourRed = scorePriorityTwoColourRed;
+            this.scorePriorityTwoColourYellow = scorePriorityTwoColourYellow;
+            this.scorePriorityTwoColourGreen = scorePriorityTwoColourGreen;
+            this.scorePriorityThreeColourRed = scorePriorityThreeColourRed;
+            this.scorePriorityThreeColourYellow = scorePriorityThreeColourYellow;
+            this.scorePriorityThreeColourGreen = scorePriorityThreeColourGreen;
             this.totalScore = totalScore;
             this.isFinished = isFinished;
             this.evaluationType = evaluationType;
@@ -116,41 +134,78 @@ namespace OTEAServer.Models
         public int idCenter { get; set; }
 
         /// <summary>
-        /// Total score of ambit 1
+        /// Total score of the priority zero and colour red
         /// </summary>
-        [JsonPropertyName("scoreAmbit1")]
-        public int scoreAmbit1 { get; set; }
+        [JsonPropertyName("scorePriorityZeroColourRed")]
+        public int scorePriorityZeroColourRed { get; set; }
 
         /// <summary>
-        /// Total score of ambit 2
+        /// Total score of the priority zero and colour yellow
         /// </summary>
-        [JsonPropertyName("scoreAmbit2")]
-        public int scoreAmbit2 { get; set; }
+        [JsonPropertyName("scorePriorityZeroColourYellow")]
+        public int scorePriorityZeroColourYellow { get; set; }
 
         /// <summary>
-        /// Total score of ambit 3
+        /// Total score of the priority zero and colour green
         /// </summary>
-        [JsonPropertyName("scoreAmbit3")]
-        public int scoreAmbit3 { get; set; }
+        [JsonPropertyName("scorePriorityZeroColourGreen")]
+        public int scorePriorityZeroColourGreen { get; set; }
 
         /// <summary>
-        /// Total score of ambit 4
+        /// Total score of the priority one and colour red
         /// </summary>
-        [JsonPropertyName("scoreAmbit4")]
-        public int scoreAmbit4 { get; set; }
+        [JsonPropertyName("scorePriorityOneColourRed")]
+        public int scorePriorityOneColourRed { get; set; }
 
         /// <summary>
-        /// Total score of ambit 5
+        /// Total score of the priority one and colour yellow
         /// </summary>
-        [JsonPropertyName("scoreAmbit5")]
-        public int scoreAmbit5 { get; set; }
+        [JsonPropertyName("scorePriorityOneColourYellow")]
+        public int scorePriorityOneColourYellow { get; set; }
 
         /// <summary>
-        /// Total score of ambit 6
+        /// Total score of the priority one and colour green
         /// </summary>
-        [JsonPropertyName("scoreAmbit6")]
-        public int scoreAmbit6 { get; set; }
-        
+        [JsonPropertyName("scorePriorityOneColourGreen")]
+        public int scorePriorityOneColourGreen { get; set; }
+
+        /// <summary>
+        /// Total score of the priority two and colour red
+        /// </summary>
+        [JsonPropertyName("scorePriorityTwoColourRed")]
+        public int scorePriorityTwoColourRed { get; set; }
+
+        /// <summary>
+        /// Total score of the priority two and colour yellow
+        /// </summary>
+        [JsonPropertyName("scorePriorityTwoColourYellow")]
+        public int scorePriorityTwoColourYellow { get; set; }
+
+        /// <summary>
+        /// Total score of the priority two and colour green
+        /// </summary>
+        [JsonPropertyName("scorePriorityTwoColourGreen")]
+        public int scorePriorityTwoColourGreen { get; set; }
+
+        /// <summary>
+        /// Total score of the priority three and colour red
+        /// </summary>
+        [JsonPropertyName("scorePriorityThreeColourRed")]
+        public int scorePriorityThreeColourRed { get; set; }
+
+        /// <summary>
+        /// Total score of the priority three and colour yellow
+        /// </summary>
+        [JsonPropertyName("scorePriorityThreeColourYellow")]
+        public int scorePriorityThreeColourYellow { get; set; }
+
+        /// <summary>
+        /// Total score of the priority three and colour green
+        /// </summary>
+        [JsonPropertyName("scorePriorityThreeColourGreen")]
+        public int scorePriorityThreeColourGreen { get; set; }
+
+
         /// <summary>
         /// Total score
         /// </summary>

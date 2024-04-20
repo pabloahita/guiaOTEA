@@ -230,5 +230,15 @@
     <string name="accept">Acceptar</string>
     <string name="ind_obs">Observacions de l\'indicador</string>
     <string name="ev_obs">Observacions de les evidències</string>
+    <string name="obs_on_ev_1">Observacions de l\'evidència 1</string>
+    <string name="obs_on_ev_2">Observacions de l\'evidència 2</string>
+    <string name="obs_on_ev_3">Observacions de l\'evidència 3</string>
+    <string name="obs_on_ev_4">Observacions de l\'evidència 4</string>
+    <string name="fulfilled_evidence">Evidència complerta</string>
+    <string name="unfulfilled_evidence">Evidència no complerta</string>
+    <string name="help_ind_eval1">A la part superior de la pantalla apareixerà el títol de l\'indicador junt amb l\'àmbit i les subdivisions a les quals pertany. A sota apareixeran tres evidències (si es tracta d\'una avaluació simple de l\'indicador) o quatre evidències (si es tracta d\'una avaluació completa de l\'indicador), les quals poden estar complertes o no complertes:</string>
+    <string name="conclusions">Conclusions de l\'avaluació dels indicadors</string>
+    <string name="finish">Finalitzar l\'avaluació dels indicadors</string>
+    <string name="saving_eval_ind_changes">Guardant els canvis de l\'avaluació dels indicadors. Si us plau, esperi uns segons...</string>
 
 </resources>

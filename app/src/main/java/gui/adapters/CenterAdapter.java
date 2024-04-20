@@ -1,6 +1,7 @@
 package gui.adapters;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,28 +38,37 @@ public class CenterAdapter extends ArrayAdapter<Center> {
 
         Center center = getItem(position);
         TextView textView = view.findViewById(android.R.id.text1);
-        if(Locale.getDefault().getLanguage().equals("es")){
-            text=center.getDescriptionSpanish();
-        }else if(Locale.getDefault().getLanguage().equals("fr")){
-            text=center.getDescriptionFrench();
-        }else if(Locale.getDefault().getLanguage().equals("eu")){
-            text=center.getDescriptionBasque();
-        }else if(Locale.getDefault().getLanguage().equals("ca")){
-            text=center.getDescriptionCatalan();
-        }else if(Locale.getDefault().getLanguage().equals("nl")){
-            text=center.getDescriptionDutch();
-        }else if(Locale.getDefault().getLanguage().equals("gl")){
-            text=center.getDescriptionGalician();
-        }else if(Locale.getDefault().getLanguage().equals("de")){
-            text=center.getDescriptionGerman();
-        }else if(Locale.getDefault().getLanguage().equals("it")){
-            text=center.getDescriptionItalian();
-        }else if(Locale.getDefault().getLanguage().equals("pt")){
-            text=center.getDescriptionPortuguese();
-        }else{ //Valor por defecto
-            text=center.getDescriptionEnglish();
+        String textBegin="";
+        String textEnd="";
+        if(center.getIdCenter()==-1){
+            textBegin="<b>";
+            textEnd="</b>";
+        }else{
+            textBegin="<i>";
+            textEnd="</i>";
         }
-        textView.setText(text);
+        if(Locale.getDefault().getLanguage().equals("es")){
+            text=textBegin+center.getDescriptionSpanish()+textEnd;
+        }else if(Locale.getDefault().getLanguage().equals("fr")){
+            text=textBegin+center.getDescriptionFrench()+textEnd;
+        }else if(Locale.getDefault().getLanguage().equals("eu")){
+            text=textBegin+center.getDescriptionBasque()+textEnd;
+        }else if(Locale.getDefault().getLanguage().equals("ca")){
+            text=textBegin+center.getDescriptionCatalan()+textEnd;
+        }else if(Locale.getDefault().getLanguage().equals("nl")){
+            text=textBegin+center.getDescriptionDutch()+textEnd;
+        }else if(Locale.getDefault().getLanguage().equals("gl")){
+            text=textBegin+center.getDescriptionGalician()+textEnd;
+        }else if(Locale.getDefault().getLanguage().equals("de")){
+            text=textBegin+center.getDescriptionGerman()+textEnd;
+        }else if(Locale.getDefault().getLanguage().equals("it")){
+            text=textBegin+center.getDescriptionItalian()+textEnd;
+        }else if(Locale.getDefault().getLanguage().equals("pt")){
+            text=textBegin+center.getDescriptionPortuguese()+textEnd;
+        }else{ //Valor por defecto
+            text=textBegin+center.getDescriptionEnglish()+textEnd;
+        }
+        textView.setText(Html.fromHtml(text,0));
 
         return view;
     }

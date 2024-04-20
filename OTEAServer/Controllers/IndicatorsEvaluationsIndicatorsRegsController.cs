@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Misc;
 using OTEAServer.Models;
 namespace OTEAServer.Controllers
@@ -154,11 +154,16 @@ namespace OTEAServer.Controllers
         [HttpPost("fromList")]
         public IActionResult CreateRegs([FromBody] List<IndicatorsEvaluationIndicatorReg> regs)
         {
+            if (regs == null)
+            {
+                return BadRequest();
+            }
             try
             {
                 foreach (IndicatorsEvaluationIndicatorReg reg in regs)
                 {
-                    var aux = _context.IndicatorsEvaluationsIndicatorsRegs.FirstOrDefault(r => r.evaluationDate == reg.evaluationDate && r.idEvaluatorTeam == reg.idEvaluatorTeam && r.idEvaluatorOrganization == reg.idEvaluatorOrganization && r.orgTypeEvaluator == reg.orgTypeEvaluator && r.idEvaluatedOrganization == reg.idEvaluatedOrganization && r.orgTypeEvaluated == reg.orgTypeEvaluated && r.illness == reg.illness && r.idCenter == reg.idCenter && r.idSubSubAmbit == reg.idSubSubAmbit && r.idSubAmbit == reg.idSubAmbit && r.idAmbit == reg.idAmbit && r.idIndicator == reg.idIndicator && r.indicatorVersion == reg.indicatorVersion && r.evaluationType == reg.evaluationType);
+                    if (reg == null) { continue; }
+                    IndicatorsEvaluationIndicatorReg aux = _context.IndicatorsEvaluationsIndicatorsRegs.FirstOrDefault(r => r.evaluationDate == reg.evaluationDate && r.idEvaluatorTeam == reg.idEvaluatorTeam && r.idEvaluatorOrganization == reg.idEvaluatorOrganization && r.orgTypeEvaluator == reg.orgTypeEvaluator && r.idEvaluatedOrganization == reg.idEvaluatedOrganization && r.orgTypeEvaluated == reg.orgTypeEvaluated && r.illness == reg.illness && r.idCenter == reg.idCenter && r.idSubSubAmbit == reg.idSubSubAmbit && r.idSubAmbit == reg.idSubAmbit && r.idAmbit == reg.idAmbit && r.idIndicator == reg.idIndicator && r.indicatorVersion == reg.indicatorVersion && r.evaluationType == reg.evaluationType);
 
                     if (aux == null)
                     {
@@ -190,6 +195,7 @@ namespace OTEAServer.Controllers
                         aux.observationsGerman = reg.observationsGerman;
                         aux.observationsItalian = reg.observationsItalian;
                         aux.observationsPortuguese = reg.observationsPortuguese;
+                        aux.numEvidencesMarked = reg.numEvidencesMarked;
                     }
                     
                 }
@@ -257,7 +263,7 @@ namespace OTEAServer.Controllers
                 existingIndicatorsEvaluationIndicatorReg.observationsGerman = indicatorsEvaluationIndicatorReg.observationsGerman;
                 existingIndicatorsEvaluationIndicatorReg.observationsItalian = indicatorsEvaluationIndicatorReg.observationsItalian;
                 existingIndicatorsEvaluationIndicatorReg.observationsPortuguese = indicatorsEvaluationIndicatorReg.observationsPortuguese;
-
+                existingIndicatorsEvaluationIndicatorReg.numEvidencesMarked = indicatorsEvaluationIndicatorReg.numEvidencesMarked;
                 _context.SaveChanges();
                 return Ok(existingIndicatorsEvaluationIndicatorReg);
             }

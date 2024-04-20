@@ -226,6 +226,16 @@
     <string name="accept">Accept</string>
     <string name="ind_obs">Indicator observations</string>
     <string name="ev_obs">Evidence observations</string>
+    <string name="obs_on_ev_1">Observations on Evidence 1</string>
+    <string name="obs_on_ev_2">Observations on Evidence 2</string>
+    <string name="obs_on_ev_3">Observations on Evidence 3</string>
+    <string name="obs_on_ev_4">Observations on Evidence 4</string>
+    <string name="fulfilled_evidence">Fulfilled Evidence</string>
+    <string name="unfulfilled_evidence">Unfulfilled Evidence</string>
+    <string name="help_ind_eval1">At the top of your screen, you will see the title of the indicator along with the scope and subdivisions to which it belongs. Below, there will be three evidences (if it is a simple indicator evaluation) or four evidences (if it is a comprehensive indicator evaluation), which can be fulfilled or not fulfilled:</string>
+    <string name="conclusions">Conclusions of the indicators evaluation</string>
+    <string name="finish">Finish indicators evaluation</string>
+    <string name="saving_eval_ind_changes">Saving changes to the indicators evaluation. Please wait a few seconds...</string>
 
 
 </resources>

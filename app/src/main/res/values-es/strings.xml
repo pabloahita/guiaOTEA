@@ -188,5 +188,15 @@
     <string name="accept">Aceptar</string>
     <string name="ind_obs">Observaciones del indicador</string>
     <string name="ev_obs">Observaciones de las evidencias</string>
+    <string name="obs_on_ev_1">Observaciones de la evidencia 1</string>
+    <string name="obs_on_ev_2">Observaciones de la evidencia 2</string>
+    <string name="obs_on_ev_3">Observaciones de la evidencia 3</string>
+    <string name="obs_on_ev_4">Observaciones de la evidencia 4</string>
+    <string name="fulfilled_evidence">Evidencia cumplida</string>
+    <string name="unfulfilled_evidence">Evidencia no cumplida</string>
+    <string name="help_ind_eval1">En la parte superior de su pantalla aparecerá el título del indicador junto con el ámbito y subdivisiones a las que pertenece. Debajo aparecerán tres evidencias (si se trata de una evaluación simple de indicadores) o cuatro evidencias (si se trata de una evaluación completa de indicadores), las cuales pueden ser cumplidas o no cumplidas:</string>
+    <string name="conclusions">Conclusiones de la evaluación de indicadores</string>
+    <string name="finish">Finalizar evaluación de indicadores</string>
+    <string name="saving_eval_ind_changes">Guardando cambios de la evaluación de indicadores. Por favor, espere unos segundos...</string>
 
 </resources>

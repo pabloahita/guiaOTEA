@@ -22,9 +22,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Locale;
 
+import cli.indicators.IndicatorsEvaluation;
 import cli.organization.Organization;
 import cli.user.User;
 import otea.connection.controller.CountriesController;
+import otea.connection.controller.IndicatorsEvaluationsController;
 import session.FileManager;
 import session.Session;
 
@@ -177,9 +179,11 @@ public class MainMenu extends AppCompatActivity {
                     v.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Intent intent = new Intent(getApplicationContext(), gui.SelectToContinueIndicatorsEvaluations.class);
+                            //Intent intent = new Intent(getApplicationContext(), gui.SelectToContinueIndicatorsEvaluations.class);
+                            Session.getInstance().obtainIndicatorsFromDataBase("COMPLETE");
+                            Session.getInstance().setCurrEvaluation(IndicatorsEvaluationsController.GetNonFinishedByCenter(1,"EVALUATOR",1,"EVALUATED","AUTISM",2).get(0));
+                            Intent intent=new Intent(getApplicationContext(), gui.DoIndicatorsEvaluation.class);
                             startActivity(intent);
-                            chargingScreen.setVisibility(View.GONE);
                         }
                     }, 200);
                 });

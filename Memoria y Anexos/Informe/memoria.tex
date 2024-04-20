@@ -1,0 +1,586 @@
+\documentclass[a4paper,12pt,twoside]{memoir}
+
+% Castellano
+\usepackage[spanish,es-tabla]{babel}
+\selectlanguage{spanish}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern} % Scalable font
+\usepackage{microtype}
+\usepackage{placeins}
+\usepackage{float}
+
+\RequirePackage{booktabs}
+\RequirePackage[table]{xcolor}
+\RequirePackage{xtab}
+\RequirePackage{multirow}
+
+%LSTLISTING
+\usepackage{listings}
+
+\lstset{language=Java,
+        basicstyle=\small\ttfamily, 
+        keywordstyle=\bfseries\color{blue},
+        commentstyle=\itshape\color{gray},
+        stringstyle=\color{purple},
+        numbers=left,
+        numberstyle=\tiny,
+        stepnumber=1,
+        breaklines=true,
+        postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+        showstringspaces=false
+}
+
+% Links
+\PassOptionsToPackage{hyphens}{url}\usepackage[colorlinks]{hyperref}
+\hypersetup{
+	allcolors = {red}
+}
+
+% Ecuaciones
+\usepackage{amsmath}
+
+% Rutas de fichero / paquete
+\newcommand{\ruta}[1]{{\sffamily #1}}
+
+% Párrafos
+\nonzeroparskip
+
+% Huérfanas y viudas
+\widowpenalty100000
+\clubpenalty100000
+
+% Imágenes
+
+% Comando para insertar una imagen en un lugar concreto.
+% Los parámetros son:
+% 1 --> Ruta absoluta/relativa de la figura
+% 2 --> Texto a pie de figura
+% 3 --> Tamaño en tanto por uno relativo al ancho de página
+\usepackage{graphicx}
+\newcommand{\imagen}[3]{
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width=#3\textwidth]{#1}
+		\caption{#2}\label{fig:#1}
+	\end{figure}
+	\FloatBarrier
+}
+
+% Comando para insertar una imagen sin posición.
+% Los parámetros son:
+% 1 --> Ruta absoluta/relativa de la figura
+% 2 --> Texto a pie de figura
+% 3 --> Tamaño en tanto por uno relativo al ancho de página
+\newcommand{\imagenflotante}[3]{
+	\begin{figure}
+		\centering
+		\includegraphics[width=#3\textwidth]{#1}
+		\caption{#2}\label{fig:#1}
+	\end{figure}
+}
+
+% El comando \figura nos permite insertar figuras comodamente, y utilizando
+% siempre el mismo formato. Los parametros son:
+% 1 --> Porcentaje del ancho de página que ocupará la figura (de 0 a 1)
+% 2 --> Fichero de la imagen
+% 3 --> Texto a pie de imagen
+% 4 --> Etiqueta (label) para referencias
+% 5 --> Opciones que queramos pasarle al \includegraphics
+% 6 --> Opciones de posicionamiento a pasarle a \begin{figure}
+\newcommand{\figuraConPosicion}[6]{%
+  \setlength{\anchoFloat}{#1\textwidth}%
+  \addtolength{\anchoFloat}{-4\fboxsep}%
+  \setlength{\anchoFigura}{\anchoFloat}%
+  \begin{figure}[#6]
+    \begin{center}%
+      \Ovalbox{%
+        \begin{minipage}{\anchoFloat}%
+          \begin{center}%
+            \includegraphics[width=\anchoFigura,#5]{#2}%
+            \caption{#3}%
+            \label{#4}%
+          \end{center}%
+        \end{minipage}
+      }%
+    \end{center}%
+  \end{figure}%
+}
+
+%
+% Comando para incluir imágenes en formato apaisado (sin marco).
+\newcommand{\figuraApaisadaSinMarco}[5]{%
+  \begin{figure}%
+    \begin{center}%
+    \includegraphics[angle=90,height=#1\textheight,#5]{#2}%
+    \caption{#3}%
+    \label{#4}%
+    \end{center}%
+  \end{figure}%
+}
+% Para las tablas
+\newcommand{\otoprule}{\midrule [\heavyrulewidth]}
+%
+% Nuevo comando para tablas pequeñas (menos de una página).
+\newcommand{\tablaSmall}[5]{%
+ \begin{table}[H]
+  \begin{center}
+   \rowcolors {2}{gray!35}{}
+   \begin{tabular}{#2}
+    \toprule
+    #4
+    \otoprule
+    #5
+    \bottomrule
+   \end{tabular}
+   \caption{#1}
+   \label{tabla:#3}
+  \end{center}
+ \end{table}
+}
+
+%
+% Nuevo comando para tablas pequeñas (menos de una página).
+\newcommand{\tablaSmallSinColores}[5]{%
+ \begin{table}[H]
+  \begin{center}
+   \begin{tabular}{#2}
+    \toprule
+    #4
+    \otoprule
+    #5
+    \bottomrule
+   \end{tabular}
+   \caption{#1}
+   \label{tabla:#3}
+  \end{center}
+ \end{table}
+}
+
+\newcommand{\tablaApaisadaSmall}[5]{%
+\begin{landscape}
+  \begin{table}
+   \begin{center}
+    \rowcolors {2}{gray!35}{}
+    \begin{tabular}{#2}
+     \toprule
+     #4
+     \otoprule
+     #5
+     \bottomrule
+    \end{tabular}
+    \caption{#1}
+    \label{tabla:#3}
+   \end{center}
+  \end{table}
+\end{landscape}
+}
+
+%
+% Nuevo comando para tablas grandes con cabecera y filas alternas coloreadas en gris.
+\newcommand{\tabla}[6]{%
+  \begin{center}
+    \tablefirsthead{
+      \toprule
+      #5
+      \otoprule
+    }
+    \tablehead{
+      \multicolumn{#3}{l}{\small\sl continúa desde la página anterior}\\
+      \toprule
+      #5
+      \otoprule
+    }
+    \tabletail{
+      \hline
+      \multicolumn{#3}{r}{\small\sl continúa en la página siguiente}\\
+    }
+    \tablelasttail{
+      \hline
+    }
+    \bottomcaption{#1}
+    \rowcolors {2}{gray!35}{}
+    \begin{xtabular}{#2}
+      #6
+      \bottomrule
+    \end{xtabular}
+    \label{tabla:#4}
+  \end{center}
+}
+
+%
+% Nuevo comando para tablas grandes con cabecera.
+\newcommand{\tablaSinColores}[6]{%
+  \begin{center}
+    \tablefirsthead{
+      \toprule
+      #5
+      \otoprule
+    }
+    \tablehead{
+      \multicolumn{#3}{l}{\small\sl continúa desde la página anterior}\\
+      \toprule
+      #5
+      \otoprule
+    }
+    \tabletail{
+      \hline
+      \multicolumn{#3}{r}{\small\sl continúa en la página siguiente}\\
+    }
+    \tablelasttail{
+      \hline
+    }
+    \bottomcaption{#1}
+    \begin{xtabular}{#2}
+      #6
+      \bottomrule
+    \end{xtabular}
+    \label{tabla:#4}
+  \end{center}
+}
+
+%
+% Nuevo comando para tablas grandes sin cabecera.
+\newcommand{\tablaSinCabecera}[5]{%
+  \begin{center}
+    \tablefirsthead{
+      \toprule
+    }
+    \tablehead{
+      \multicolumn{#3}{l}{\small\sl continúa desde la página anterior}\\
+      \hline
+    }
+    \tabletail{
+      \hline
+      \multicolumn{#3}{r}{\small\sl continúa en la página siguiente}\\
+    }
+    \tablelasttail{
+      \hline
+    }
+    \bottomcaption{#1}
+  \begin{xtabular}{#2}
+    #5
+   \bottomrule
+  \end{xtabular}
+  \label{tabla:#4}
+  \end{center}
+}
+
+
+
+\definecolor{cgoLight}{HTML}{EEEEEE}
+\definecolor{cgoExtralight}{HTML}{FFFFFF}
+
+%
+% Nuevo comando para tablas grandes sin cabecera.
+\newcommand{\tablaSinCabeceraConBandas}[5]{%
+  \begin{center}
+    \tablefirsthead{
+      \toprule
+    }
+    \tablehead{
+      \multicolumn{#3}{l}{\small\sl continúa desde la página anterior}\\
+      \hline
+    }
+    \tabletail{
+      \hline
+      \multicolumn{#3}{r}{\small\sl continúa en la página siguiente}\\
+    }
+    \tablelasttail{
+      \hline
+    }
+    \bottomcaption{#1}
+    \rowcolors[]{1}{cgoExtralight}{cgoLight}
+
+  \begin{xtabular}{#2}
+    #5
+   \bottomrule
+  \end{xtabular}
+  \label{tabla:#4}
+  \end{center}
+}
+
+
+
+\graphicspath{ {./img/} }
+
+% Capítulos
+\chapterstyle{bianchi}
+\newcommand{\capitulo}[2]{
+	\setcounter{chapter}{#1}
+	\setcounter{section}{0}
+	\setcounter{figure}{0}
+	\setcounter{table}{0}
+	\chapter*{#2}
+	\addcontentsline{toc}{chapter}{#2}
+	\markboth{#2}{#2}
+}
+
+% Apéndices
+\renewcommand{\appendixname}{Apéndice}
+\renewcommand*\cftappendixname{\appendixname}
+
+\newcommand{\apendice}[1]{
+	%\renewcommand{\thechapter}{A}
+	\chapter{#1}
+}
+
+\renewcommand*\cftappendixname{\appendixname\ }
+
+% Formato de portada
+\makeatletter
+\usepackage{xcolor}
+\newcommand{\tutor}[1]{\def\@tutor{#1}}
+\newcommand{\course}[1]{\def\@course{#1}}
+\definecolor{cpardoBox}{HTML}{E6E6FF}
+\def\maketitle{
+  \null
+  \thispagestyle{empty}
+  % Cabecera ----------------
+\noindent\includegraphics[width=\textwidth]{cabecera}\vspace{1cm}%
+  \vfill
+  % Título proyecto y escudo informática ----------------
+  \colorbox{cpardoBox}{%
+    \begin{minipage}{.8\textwidth}
+      \vspace{.5cm}\Large
+      \begin{center}
+      \textbf{TFG del Grado en Ingeniería Informática}\vspace{.6cm}\\
+      \textbf{\LARGE\@title{}}
+      \end{center}
+      \vspace{.2cm}
+    \end{minipage}
+
+  }%
+  \hfill\begin{minipage}{.20\textwidth}
+    \includegraphics[width=\textwidth]{escudoInfor}
+  \end{minipage}
+  \vfill
+  % Datos de alumno, curso y tutores ------------------
+  \begin{center}%
+  {%
+    \noindent\LARGE
+    Presentado por \@author{}\\ 
+    en Universidad de Burgos --- \@date{}\\
+    Tutor: \@tutor{}\\
+  }%
+  \end{center}%
+  \null
+  \cleardoublepage
+  }
+\makeatother
+
+\newcommand{\nombre}{Pablo Ahíta del Barrio} %%% cambio de comando
+\newcommand{\dni}{71566290L}
+
+% Datos de portada
+\title{ Seguimiento de requerimientos para gestionar, medir, evaluar y mejorar}
+\author{\nombre}
+\tutor{Pedro Luis Sánchez Ortega}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+
+\newpage\null\thispagestyle{empty}\newpage
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\thispagestyle{empty}
+
+
+\noindent\includegraphics[width=\textwidth]{cabecera}\vspace{1cm}
+
+\noindent D. Pedro Luis Sánchez Ortega, profesor del departamento de Ingeniería Electromecánica, área de Tecnología Electrónica.
+
+\noindent Expone:
+
+\noindent Que el alumno D. \nombre, con DNI \dni, ha realizado el Trabajo final de Grado en Ingeniería Informática titulado título de TFG. 
+
+\noindent Y que dicho trabajo ha sido realizado por el alumno bajo la dirección del que suscribe, en virtud de lo cual se autoriza su presentación y defensa.
+
+\begin{center} %\large
+En Burgos, {\large \today}
+\end{center}
+
+\vfill\vfill\vfill
+
+% Author and supervisor
+\begin{minipage}{0.45\textwidth}
+\begin{flushleft} %\large
+Vº. Bº. del Tutor:\\[2cm]
+D. nombre tutor
+\end{flushleft}
+\end{minipage}
+\hfill
+\begin{minipage}{0.45\textwidth}
+\begin{flushleft} %\large
+Vº. Bº. del co-tutor:\\[2cm]
+D. nombre co-tutor
+\end{flushleft}
+\end{minipage}
+\hfill
+
+\vfill
+
+% para casos con solo un tutor comentar lo anterior
+% y descomentar lo siguiente
+%Vº. Bº. del Tutor:\\[2cm]
+%D. nombre tutor
+
+
+\newpage\null\thispagestyle{empty}\newpage
+
+
+
+
+\frontmatter
+
+% Abstract en castellano
+\renewcommand*\abstractname{Resumen}
+\begin{abstract}
+  En este proyecto de final de grado se ha desarrollado una aplicación Android
+  con el objetivo de sustituir a un antiguo script de nombre \textit{OTEA}, que
+  almacena localmente en cada ordenador la información sobre los test de
+  indicadores o características de calidad de vida realizados por la
+  \textit{Fundación Miradas}. \\ La forma en la que se trasladaba el programa
+  entre diferentes computadores era mediante un CD-ROM que tenía que llevar a
+  mano siempre la persona encargada de hacer el test de indicadores, tecnología
+  que se ha sustituido por una arquitectura cliente-servidor,  por lo que la
+  funcionalidad de esta aplicación Access se traslade a una aplicación para
+  Android que se conecta a una aplicación web desplegada en Azure que a su vez
+  se comunica con la base de datos para realizar todas las consultas que se le
+  solicitan. \\ En cuanto a la arquitectura, el cliente es la propia aplicación
+  de Android desarrollada en \textit{Java}, con su interfaz gráfica y su código
+  interno para manejar las peticiones HTTP al servidor mediante
+  \textit{Retrofit} y \textit{OkHttp} con la ayuda de \textit{ASyncTask} que
+  ejecuta esas órdenes en un hilo diferente al de la propia aplicación y para
+  realizar toda la funcionalidad esperada dependiendo del tipo de usuario que
+  maneje dicha aplicación. Mientras tanto el servidor se ha desarrollado en
+  \textit{C\#}, utilizando para el manejo de las peticiones HTTP la API de
+  \textit{ASP.NET}, la cual se encarga de recibir las peticiones por parte del
+  cliente y de enviar la respuesta del endpoint solicitado, utilizando el
+  paquete \textit{System.Data.SqlClient} para comunicarse con la base de datos y
+  el paquete \textit{Newtosnsoft.Json} para transformar a JSON el objeto y
+  serializar sus parámetros para que el cliente mediante \textit{Retrofit} los
+  deserialice y los utilice para crear las instancias correspondientes. \\
+  Los tipos de usuarios distinguidos por la aplicación ayudan a distinguir
+  correctamente las acciones que cada uno de ellos puede realizar en la
+  aplicación. En primer lugar tenemos los \textbf{administradores} que controlan
+  las tablas de la base de datos, los \textbf{usuarios de organización evaluada}
+  que reciben los test de indicadores para luego mostrar su evolución y los
+  \textbf{usuarios de la \textit{Fundación Miradas}}, que se encargan de
+  realizar diferentes evaluaciones de indicadores a cualquier organización
+  evaluada y de añadir las nuevas organizaciones evaluadas. 
+  
+\end{abstract}
+
+\renewcommand*\abstractname{Descriptores}
+\begin{abstract}
+Android, Azure, Azure SQL, C\#, cliente-servidor, evidencias, indicadores, JSON, SQL-Server, servicio web. 
+\end{abstract}
+
+\clearpage
+
+% Abstract en inglés
+\renewcommand*\abstractname{Abstract}
+\begin{abstract}
+  In this final degree project an Android app has been developed with the goal
+  of subsituting an old Access Script named \textit{OTEA}, that stores locally
+  in every computer all the information about indicators or life quality
+  features realized by \textit{Fundación Miradas}. \\ The way used to move the
+  softwares between computers was using a CD-ROM that the person that realizes
+  the indicator test had to take that with him, technology substituted by an
+  architecture client-server, so the old Access application funcionality was
+  finally to an Android app that comnunicates with an web-app deployed in Azure
+  that communicates with a Azure SQL database to realize all the queries ordered
+  by the client. \\ Regarding the architecture, the client is the proper Android
+  app developed in \textit{Java}, including its graphic interface and the
+  internal code that controls the HTTP requests using \textit{Retrofit} and
+  \textit{OkHttp}, both being helped by \textit{ASyncTask} that runs all the
+  calls to the server in an app-separated thread, becaming in a huge help to
+  realize all the funcionality depending of the user's type. Meanwhile the
+  server was developed using \textit{C\#}, using \textit{ASP.NET} to control all
+  the HTTP requests that are received from the client and then sending the
+  requested endpoint's response, using for that the
+  \textit{System.Data.SQLClient} package to communicate with the database and
+  the \textit{Newtonsoft.Json} to convert to Json the object and serialice its
+  parameters before the client deserialices it using \textit{Retrofit} and then
+  uses it to build the corresponding instances.\\
+  The types of users distinguished by the application help to distinguish
+  correctly the actions that each one of them can carry out in the
+  application. First of all we have the \textbf{administrators} who control
+  the database tables, the \textbf{evaluated organization users}
+  that receive the indicator tests to later show their evolution and the
+  \textbf{\textit{Fundación Miradas}'s users}, who are in charge of
+  carry out different evaluations of indicators to any organization
+  evaluated and to add the new organizations evaluated.
+\end{abstract}
+\renewcommand*\abstractname{Keywords}
+\begin{abstract}
+  Android, Azure, Azure SQL, C\#, client-server, evidences, indicators, JSON, SQL-Server, web-service.
+\end{abstract}
+\clearpage
+\clearpage
+\renewcommand*\abstractname{Agradecimientos}
+\begin{abstract}
+
+En primer lugar agradezco a mi familia, en especial a mis padres \textbf{Diego y
+Yolanda} y a mis \textbf{abuelos Lola y Salva}, por ser el principal motor de mi
+vida en todo momento gracias a su constante apoyo y cariño, en el que también
+están mis mejores amigos de toda la vida \textbf{Antonio y Adrián}, con quienes
+he aprendido el significado de la verdadera amistad. \\Asimismo quiero expresar
+mi gratitud a los docentes que me han apoyado a lo largo de mi etapa
+universitaria, a mi tutor \textbf{Pedro Luis Sánchez} por su constante guía y
+apoyo en este proyecto y al profesor \textbf{Raúl Marticorena} por aportarme
+desde su experiencia los conceptos necesarios para un mejor desarrollo del
+mismo. \\También agradezco a la \textit{Fundación Miradas} su plena confianza en
+mí y su involucración en el proyecto, a su director \textbf{Miguel Gómez}, a su
+analista \textbf{Fernando Terradillos} y \textbf{Jose Luis Cuesta}, director de
+la \textit{Cátedra Miradas por el Autismo}. \\A su vez quiero agradecer a
+\textbf{Sonia Rodríguez} su apoyo en todo momento y por acompañarme y guiarme a
+lo largo de mi vida académica y personal. \\Asimismo muestro mi agradecimiento a
+los docentes que me han apoyado y me han animado a lo largo de todas las etapas
+educativas que he ido superando hasta la fecha. \\También muestro mi
+agradecimiento a \textbf{Natividad de Juan} su constante orientación, respaldo y
+asesoramiento durante toda mi etapa universitaria. \\A su vez muestro mi
+agradecimiento a \textbf{Cristina Barriuso} por su fe en mí y a \textbf{Jennifer
+Terceño} por su constante apoyo durante todos estos años. \\Por último, quiero
+recordar y agradecer al profesor \textbf{Joaquín Seco} por haberme aportado sus
+conocimientos y experiencia para este proyecto.
+
+\end{abstract}
+
+\clearpage
+
+\include{./tex/0_Agradecimientos.tex}
+
+\clearpage
+
+% Indices
+\tableofcontents
+
+\clearpage
+
+\listoffigures
+
+\clearpage
+
+\listoftables
+\clearpage
+
+\mainmatter
+\include{./tex/1_Introduccion}
+\include{./tex/2_Objetivos_del_proyecto}
+\include{./tex/3_Conceptos_teoricos}
+\include{./tex/4_Tecnicas_y_herramientas}
+\include{./tex/5_Aspectos_relevantes_del_desarrollo_del_proyecto}
+\include{./tex/6_Trabajos_relacionados}
+\include{./tex/7_Conclusiones_Lineas_de_trabajo_futuras}
+
+
+\bibliographystyle{plain}
+\bibliography{bibliografia}
+
+\end{document}

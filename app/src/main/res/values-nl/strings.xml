@@ -227,6 +227,16 @@
     <string name="accept">Accepteren</string>
     <string name="ind_obs">Indicatorobservaties</string>
     <string name="ev_obs">Waarnemingen van bewijsmateriaal</string>
+    <string name="obs_on_ev_1">Opmerkingen over bewijs 1</string>
+    <string name="obs_on_ev_2">Opmerkingen over bewijs 2</string>
+    <string name="obs_on_ev_3">Opmerkingen over bewijs 3</string>
+    <string name="obs_on_ev_4">Opmerkingen over bewijs 4</string>
+    <string name="fulfilled_evidence">Voltooid bewijs</string>
+    <string name="unfulfilled_evidence">Niet-voltooid bewijs</string>
+    <string name="help_ind_eval1">Aan de bovenkant van uw scherm ziet u de titel van de indicator samen met het bereik en de onderverdelingen waartoe het behoort. Hieronder staan drie bewijzen (indien het om een eenvoudige indicatorevaluatie gaat) of vier bewijzen (indien het om een uitgebreide indicatorevaluatie gaat), die al dan niet zijn vervuld:</string>
+    <string name="conclusions">Conclusies van de evaluatie van indicatoren</string>
+    <string name="finish">Evaluatie van indicatoren afronden</string>
+    <string name="saving_eval_ind_changes">Bezig met het opslaan van wijzigingen in de evaluatie van indicatoren. Even geduld aub...</string>
 
 
 </resources>

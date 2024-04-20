@@ -227,6 +227,16 @@
     <string name="accept">Akzeptieren</string>
     <string name="ind_obs">Beobachtungen des Indikators</string>
     <string name="ev_obs">Beobachtungen des Nachweises</string>
+    <string name="obs_on_ev_1">Beobachtungen zur Evidenz 1</string>
+    <string name="obs_on_ev_2">Beobachtungen zur Evidenz 2</string>
+    <string name="obs_on_ev_3">Beobachtungen zur Evidenz 3</string>
+    <string name="obs_on_ev_4">Beobachtungen zur Evidenz 4</string>
+    <string name="fulfilled_evidence">Erfüllte Evidenz</string>
+    <string name="unfulfilled_evidence">Nicht erfüllte Evidenz</string>
+    <string name="help_ind_eval1">Oben auf Ihrem Bildschirm sehen Sie den Titel des Indikators zusammen mit dem Anwendungsbereich und den Unterteilungen, zu denen er gehört. Darunter befinden sich drei Nachweise (wenn es sich um eine einfache Indikatorenbewertung handelt) oder vier Nachweise (wenn es sich um eine umfassende Indikatorenbewertung handelt), die erfüllt oder nicht erfüllt sein können:</string>
+    <string name="conclusions">Schlussfolgerungen der Bewertung von Indikatoren</string>
+    <string name="finish">Bewertung von Indikatoren abschließen</string>
+    <string name="saving_eval_ind_changes">Änderungen an der Bewertung von Indikatoren werden gespeichert. Bitte warten Sie einige Sekunden...</string>
 
 
 </resources>

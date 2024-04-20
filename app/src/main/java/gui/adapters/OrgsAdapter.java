@@ -1,6 +1,7 @@
 package gui.adapters;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +36,13 @@ public class OrgsAdapter extends ArrayAdapter<Organization> {
 
         Organization evaluatedOrganization = getItem(position);
         TextView textView = view.findViewById(android.R.id.text1);
-        text = evaluatedOrganization.getNameOrg();
-        textView.setText(text);
+
+        if(evaluatedOrganization.getIdOrganization()==-1){
+            text = "<b>"+evaluatedOrganization.getNameOrg()+"</b>";
+        }else{
+            text = "<i>"+evaluatedOrganization.getNameOrg()+"</i>";
+        }
+        textView.setText(Html.fromHtml(text,0));
 
         return view;
     }

@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>5</zoom_level>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>55</x>
+      <y>5</y>
+      <w>370</w>
+      <h>225</h>
+    </coordinates>
+    <panel_attributes>Models
+--
+fg=BLACK
+bg=GREEN
+layer=0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>0</x>
+      <y>325</y>
+      <w>470</w>
+      <h>195</h>
+    </coordinates>
+    <panel_attributes>Services
+--
+fg=BLACK
+layer=1
+bg=CYAN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>80</x>
+      <y>535</y>
+      <w>510</w>
+      <h>175</h>
+    </coordinates>
+    <panel_attributes>Controller
+--
+fg=BLACK
+bg=MAGENTA
+layer=0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>325</x>
+      <y>200</y>
+      <w>55</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;300.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>340</x>
+      <y>500</y>
+      <w>20</w>
+      <h>95</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>20.0;170.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>645</x>
+      <y>265</y>
+      <w>150</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>Cloud Server
+_umletcode=
+//cloud
+
+//DrawConfig Parameters (bg: bgColor?, fg: fgColor?, lt: lineType?, lw: lineWidth?, transparency: transparencyValue?)
+var cloudConfig = {fg: '#00BFFF', lt: '-', lw: 2}
+
+//Parameters (x, y, width, height, start, extent, open, drawConfig?)
+drawArc(60,70,50,50,30,130,true, cloudConfig)
+drawArc(36,83,49,50,70,100,true, cloudConfig)
+drawArc(73,83,50,30,-100,180,true, cloudConfig)
+drawArc(36,84,60,40,180,180,true, cloudConfig)
+var innerCloudConfig= {fg: '#87CEFA', lt: '-', lw: 2}
+drawArc(45,87,40,30,170,180,true, innerCloudConfig)
+drawArc(75,79,20,20,30,130,true, innerCloudConfig)
+
+//server
+//Parameters (x, y, width, height, radius, drawConfig?)
+drawRectangleRound(140,50,60,90,5, {bg: 'gray', fg: 'black', lt: '-', lw: 2})
+
+//Parameters (x, y, width, height, drawConfig?)
+drawRectangle(150,60,40,8)
+drawRectangle(150,80,40,8)
+drawRectangle(150,100,40,8)
+
+//Parameters (x, y, radius, drawConfig?)
+drawCircle(170,125,5)
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>470</x>
+      <y>320</y>
+      <w>250</w>
+      <h>275</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;530.0;480.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>850</x>
+      <y>515</y>
+      <w>170</w>
+      <h>85</h>
+    </coordinates>
+    <panel_attributes>apis
+--
+fg=BLACK
+bg=MAGENTA
+layer=0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>875</x>
+      <y>565</y>
+      <w>120</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>IndicatorsEvaluationsApi</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>865</x>
+      <y>305</y>
+      <w>140</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>callers
+--
+fg=BLACK
+layer=1
+bg=CYAN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>880</x>
+      <y>355</y>
+      <w>110</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>IndicatorsEvaluationsCaller
+layer=2
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>930</x>
+      <y>380</y>
+      <w>35</w>
+      <h>195</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>50.0;370.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>860</x>
+      <y>0</y>
+      <w>365</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>indicators
+--
+fg=BLACK
+bg=GREEN
+layer=0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>935</x>
+      <y>195</y>
+      <w>100</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>180.0;10.0;10.0;320.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>740</x>
+      <y>330</y>
+      <w>145</w>
+      <h>250</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;270.0;480.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>90</x>
+      <y>585</y>
+      <w>460</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>IndicatorsEvaluationsController
+--
+- _logger: ILogger&lt;IndicatorsEvaluationsController&gt;
+- _indicatorsEvaluationsService: IndicatorsEvaluationsService
+--
++ IndicatorsEvaluationsController(_logger: ILogger&lt;IndicatorsEvaluationsController&gt;, indicatorsEvaluationsService: IndicatorsEvaluationsService)
++ GetAll(): IActionResult
++ GetAllByEvaluatorOrganization(idEvaluatorOrganization: int, orgType: string, illness: string): IActionResult
++ GetAllByEvaluatedOrganization(idEvaluatedOrganization: int, orgType: string, illness: string): IActionResult
++ Get(evaluationDate: long, idEvaluatedOrganization: int, orgTypeEvaluated: string, illness: string): ActionResult&lt;IndicatorsEvaluation&gt;
++ Create(indicatorsEvaluation: IndicatorsEvaluation): IActionResult
++ Update(evaluationDate: long, idEvaluatedOrganization: int, orgTypeEvaluated: string, illness: string, 
+indicatorsEvaluation: IndicatorsEvaluation): IActionResult
++ Delete(evaluationDate: long, idEvaluatedOrganization: int, orgTypeEvaluated: string, illness: string): IActionResult
+
+layer=2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>15</x>
+      <y>350</y>
+      <w>445</w>
+      <h>155</h>
+    </coordinates>
+    <panel_attributes>IndicatorsEvaluationsService
+--
+- _configuration: IConfiguration
+--
++ IndicatorsEvaluationsService(_configuration: IConfiguration)
++ GetAll(): List&lt;IndicatorsEvaluation&gt;
++GetAllByEvaluatorOrganization(idEvaluatorOrganization: int, orgType: string, illness: string): List&lt;IndicatorsEvaluation&gt;
++ GetAllByEvaluatedOrganization(idEvaluatedOrganization: int, orgType: string, illness: string): List&lt;IndicatorsEvaluation&gt;
++ Get(evaluationDate: long, idEvaluatedOrganization: int, orgTypeEvaluated: string, illness: string): IndicatorsEvaluation
++ Add(evaluationDate: long, idEvaluatedOrganization: int, orgTypeEvaluated: string, idEvaluatorTeam: int, idEvaluatorOrganization: int, 
+orgTypeEvaluator: string, illness: string, scoreLevel1: int, scoreLevel2: int, scoreLevel3: int, 
+scoreLevel4: int, scoreLevel5: int, scoreLevel6: int, totalScore: int): void
++ Delete(evaluationDate: long, idEvaluatedOrganization: int, orgTypeEvaluated: string, illness: string): void
++ Update(evaluationDate: long, idEvaluatedOrganization: int, orgTypeEvaluated: string,
+illness: string, indicatorsEvaluation: IndicatorsEvaluation): void
+
+layer=2
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>95</x>
+      <y>25</y>
+      <w>255</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>IndicatorsEvaluation
+--
++ evaluationDate: Timestamp
++ idEvaluatedOrganization: int
++ orgTypeEvaluated: String
++ idEvaluatorTeam: int
++ idEvaluatorOrganization: int
++ orgTypeEvaluator: String
++ illness: String
++ scoreLevel1: int
++ scoreLevel2: int
++ scoreLevel3: int
++ scoreLevel4: int
++ scoreLevel5: int
++ scoreLevel6: int
++ total_score: int
+
+--
++IndicatorsEvaluation(evaluationDate: Timestamp, idEvaluatedOrganization: int, 
+orgTypeEvaluated: String, idEvaluatorTeam: int, idEvaluatorOrganization: int,
+orgTypeEvaluator: String, illness: String, scoreLevel1: int, scoreLevel2: int,
+scoreLevel3: int, scoreLevel4: int, scoreLevel 5: int, scoreLevel 6:int, 
+total_score: int)
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>880</x>
+      <y>20</y>
+      <w>255</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>IndicatorsEvaluation
+--
++ evaluationDate: Timestamp
++ idEvaluatedOrganization: int
++ orgTypeEvaluated: String
++ idEvaluatorTeam: int
++ idEvaluatorOrganization: int
++ orgTypeEvaluator: String
++ illness: String
++ scoreLevel1: int
++ scoreLevel2: int
++ scoreLevel3: int
++ scoreLevel4: int
++ scoreLevel5: int
++ scoreLevel6: int
++ total_score: int
+
+--
++IndicatorsEvaluation(evaluationDate: Timestamp, idEvaluatedOrganization: int, 
+orgTypeEvaluated: String, idEvaluatorTeam: int, idEvaluatorOrganization: int,
+orgTypeEvaluator: String, illness: String, scoreLevel1: int, scoreLevel2: int,
+scoreLevel3: int, scoreLevel4: int, scoreLevel 5: int, scoreLevel 6:int, 
+total_score: int)
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

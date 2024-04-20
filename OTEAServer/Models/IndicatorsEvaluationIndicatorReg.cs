@@ -32,7 +32,8 @@ namespace OTEAServer.Models
         /// <param name="observationsGerman">Observations in German</param>
         /// <param name="observationsItalian">Observations in Italian</param>
         /// <param name="observationsPortuguese">Observations in Portuguese</param>
-        public IndicatorsEvaluationIndicatorReg(long evaluationDate, int idEvaluatedOrganization, string orgTypeEvaluated, int idEvaluatorTeam, int idEvaluatorOrganization, string orgTypeEvaluator, string illness, int idCenter, int idIndicator, string indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion, string evaluationType,
+        /// /// <param name="numEvidencesMarked">Number of marked evidences</param>
+        public IndicatorsEvaluationIndicatorReg(long evaluationDate, int idEvaluatedOrganization, string orgTypeEvaluated, int idEvaluatorTeam, int idEvaluatorOrganization, string orgTypeEvaluator, string illness, int idCenter, int idIndicator, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion, string evaluationType,
             string observationsSpanish, string observationsEnglish, string observationsFrench, string observationsBasque, string observationsCatalan,
             string observationsDutch, string observationsGalician, string observationsGerman, string observationsItalian, string observationsPortuguese, int numEvidencesMarked)
         {
@@ -48,7 +49,6 @@ namespace OTEAServer.Models
             this.idSubAmbit = idSubAmbit;
             this.idAmbit = idAmbit;
             this.idIndicator = idIndicator;
-            this.indicatorType = indicatorType;
             this.indicatorVersion = indicatorVersion;
             this.evaluationType = evaluationType;
             this.observationsSpanish = observationsSpanish;
@@ -120,12 +120,6 @@ namespace OTEAServer.Models
         public int idIndicator { get; set; }
 
         /// <summary>
-        /// Indicator type
-        /// </summary>
-        [JsonPropertyName("indicatorType")]
-        public string indicatorType { get; set; }
-
-        /// <summary>
         /// Second level division of the ambit
         /// </summary>
         [JsonPropertyName("idSubSubAmbit")]
@@ -142,12 +136,6 @@ namespace OTEAServer.Models
         /// </summary>
         [JsonPropertyName("idAmbit")]
         public int idAmbit { get; set; }
-
-        /// <summary>
-        /// Boolean that is 1 if the indicator is marked and 0 if not
-        /// </summary>
-        [JsonPropertyName("isMarked")]
-        public int isMarked { get; set; }
 
         /// <summary>
         /// Indicator version

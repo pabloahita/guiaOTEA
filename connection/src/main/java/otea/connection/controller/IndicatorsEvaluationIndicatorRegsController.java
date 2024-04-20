@@ -196,7 +196,11 @@ public class IndicatorsEvaluationIndicatorRegsController {
      * @param regs - Indicators evaluation register
      */
     public static void CreateRegs(IndicatorsEvaluationIndicatorReg[] regs){
-        List<IndicatorsEvaluationIndicatorReg> registers=List.of(regs);
+        List<IndicatorsEvaluationIndicatorReg> registers=new ArrayList<>();
+        for(IndicatorsEvaluationIndicatorReg reg:regs){
+            if(reg==null){break;}
+            registers.add(reg);
+        }
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<ResponseBody> callable = new Callable<ResponseBody>() {
             @Override

@@ -105,6 +105,10 @@ public class IndicatorsEvaluationIndicatorReg {
     @SerializedName("observationsPortuguese")
     public String observationsPortuguese;
 
+    /**Number of marked evidences*/
+    @SerializedName("numEvidencesMarked")
+    public int numEvidencesMarked;
+
     /**Class constructor
      *
      * @param evaluationDate - Evaluation date in timestamp
@@ -131,10 +135,11 @@ public class IndicatorsEvaluationIndicatorReg {
      * @param observationsGerman - Observations in German
      * @param observationsItalian - Observations in Italian
      * @param observationsPortuguese - Observations in Portuguese
+     * @param numEvidenciesMarked - Number of marked evidences
      * */
 
     public IndicatorsEvaluationIndicatorReg(long evaluationDate, int idEvaluatedOrganization, String orgTypeEvaluated, int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator, String illness, int idCenter, int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion, String evaluationType, String observationsSpanish, String observationsEnglish, String observationsFrench, String observationsBasque, String observationsCatalan,
-                                            String observationsDutch, String observationsGalician, String observationsGerman, String observationsItalian, String observationsPortuguese) {
+                                            String observationsDutch, String observationsGalician, String observationsGerman, String observationsItalian, String observationsPortuguese, int numEvidenciesMarked) {
         setEvaluationDate(evaluationDate);
         setIdEvaluatorTeam(idEvaluatorTeam);
         setIdEvaluatorOrganization(idEvaluatorOrganization);
@@ -160,6 +165,7 @@ public class IndicatorsEvaluationIndicatorReg {
         setObservationsItalian(observationsItalian);
         setObservationsPortuguese(observationsPortuguese);
         setObservationsSpanish(observationsSpanish);
+        setNumEvidencesMarked(numEvidenciesMarked);
     }
 
     /**
@@ -617,5 +623,23 @@ public class IndicatorsEvaluationIndicatorReg {
      * */
     public void setEvaluationType(String evaluationType) {
         this.evaluationType = evaluationType;
+    }
+
+    /**
+     * Method that obtains the number of marked evidences
+     *
+     * @return number of marked evidences
+     */
+    public int getNumEvidencesMarked() {
+        return numEvidencesMarked;
+    }
+
+    /**
+     * Method that sets a new number of marked evidences
+     *
+     * @param numEvidencesMarked - new number of marked evidences
+     */
+    public void setNumEvidencesMarked(int numEvidencesMarked) {
+        this.numEvidencesMarked = numEvidencesMarked;
     }
 }

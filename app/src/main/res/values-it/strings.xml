@@ -224,6 +224,16 @@
     <string name="accept">Accettare</string>
     <string name="ind_obs">Osservazioni dell\'indicatore</string>
     <string name="ev_obs">Osservazioni delle prove</string>
+    <string name="obs_on_ev_1">Osservazioni sulla prova 1</string>
+    <string name="obs_on_ev_2">Osservazioni sulla prova 2</string>
+    <string name="obs_on_ev_3">Osservazioni sulla prova 3</string>
+    <string name="obs_on_ev_4">Osservazioni sulla prova 4</string>
+    <string name="fulfilled_evidence">Evidenza soddisfatta</string>
+    <string name="unfulfilled_evidence">Evidenza non soddisfatta</string>
+    <string name="help_ind_eval1">In alto dello schermo apparirà il titolo dell\'indicatore insieme allo scopo e alle suddivisioni a cui appartiene. Sotto ci saranno tre evidenze (se si tratta di una valutazione semplice dell\'indicatore) o quattro evidenze (se si tratta di una valutazione completa dell\'indicatore), che possono essere soddisfatte o non soddisfatte:</string>
+    <string name="conclusions">Conclusioni della valutazione degli indicatori</string>
+    <string name="finish">Concludi la valutazione degli indicatori</string>
+    <string name="saving_eval_ind_changes">Salvataggio delle modifiche alla valutazione degli indicatori. Si prega di attendere qualche secondo...</string>
 
 
 </resources>

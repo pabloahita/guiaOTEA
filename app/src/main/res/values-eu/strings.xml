@@ -229,5 +229,15 @@
     <string name="accept">Onartu</string>
     <string name="ind_obs">Adierazlearen Oharrak</string>
     <string name="ev_obs">Egiaztapenen Oharrak</string>
+    <string name="obs_on_ev_1">Evidentziaren 1.aren oharrak</string>
+    <string name="obs_on_ev_2">Evidentziaren 2.aren oharrak</string>
+    <string name="obs_on_ev_3">Evidentziaren 3.aren oharrak</string>
+    <string name="obs_on_ev_4">Evidentziaren 4.aren oharrak</string>
+    <string name="fulfilled_evidence">Osagarria beteta</string>
+    <string name="unfulfilled_evidence">Osagarria ez beteta</string>
+    <string name="help_ind_eval1">Zure pantailaren goiko aldean, adierazlearen izenburua agertuko da, batera zer dauden ikusiz, eta izapidetzeko eta azpidivisioetan agertuko diren eremuak. Behean, hiru froga agertuko dira (adierazlearen ebaluazio sinple baten kasuan) edo lau froga (adierazlearen ebaluazio osoaren kasuan), beteta edo ez beteta izan daitezke:</string>
+    <string name="conclusions">Adierazleen ebaluazioaren ondorioak</string>
+    <string name="finish">Ebaluazioa bukatu adierazleak</string>
+    <string name="saving_eval_ind_changes">Aldaketak adierazleak ebaluatu. Mesedez, itxaron hurrengo segundo batzuk...</string>
 
 </resources>

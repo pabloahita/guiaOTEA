@@ -45,29 +45,77 @@ public class IndicatorsEvaluation implements Serializable {
     @SerializedName("idCenter")
     public int idCenter;
 
-    /**Total score of ambit 1*/
-    @SerializedName("scoreAmbit1")
-    public int scoreAmbit1=0;
+    /**
+     * Total score of the priority zero and colour red
+     */
+    @SerializedName("scorePriorityZeroColourRed")
+    public int scorePriorityZeroColourRed=0;
 
-    /**Total score of ambit 2*/
-    @SerializedName("scoreAmbit2")
-    public int scoreAmbit2=0;
+    /**
+     * Total score of the priority zero and colour yellow
+     */
+    @SerializedName("scorePriorityZeroColourYellow")
+    public int scorePriorityZeroColourYellow=0;
 
-    /**Total score of ambit 3*/
-    @SerializedName("scoreAmbit3")
-    public int scoreAmbit3=0;
+    /**
+     * Total score of the priority zero and colour green
+     */
+    @SerializedName("scorePriorityZeroColourGreen")
+    public int scorePriorityZeroColourGreen=0;
 
-    /**Total score of ambit 4*/
-    @SerializedName("scoreAmbit4")
-    public int scoreAmbit4=0;
+    /**
+     * Total score of the priority one and colour red
+     */
+    @SerializedName("scorePriorityOneColourRed")
+    public int scorePriorityOneColourRed=0;
 
-    /**Total score of ambit 5*/
-    @SerializedName("scoreAmbit5")
-    public int scoreAmbit5=0;
+    /**
+     * Total score of the priority one and colour yellow
+     */
+    @SerializedName("scorePriorityOneColourYellow")
+    public int scorePriorityOneColourYellow=0;
 
-    /**Total score of ambit 6*/
-    @SerializedName("scoreAmbit6")
-    public int scoreAmbit6=0;
+    /**
+     * Total score of the priority one and colour green
+     */
+    @SerializedName("scorePriorityOneColourGreen")
+    public int scorePriorityOneColourGreen=0;
+
+    /**
+     * Total score of the priority two and colour red
+     */
+    @SerializedName("scorePriorityTwoColourRed")
+    public int scorePriorityTwoColourRed=0;
+
+    /**
+     * Total score of the priority two and colour yellow
+     */
+    @SerializedName("scorePriorityTwoColourYellow")
+    public int scorePriorityTwoColourYellow=0;
+
+    /**
+     * Total score of the priority two and colour green
+     */
+    @SerializedName("scorePriorityTwoColourGreen")
+    public int scorePriorityTwoColourGreen=0;
+
+    /**
+     * Total score of the priority three and colour red
+     */
+    @SerializedName("scorePriorityThreeColourRed")
+    public int scorePriorityThreeColourRed=0;
+
+    /**
+     * Total score of the priority three and colour yellow
+     */
+    @SerializedName("scorePriorityThreeColourYellow")
+    public int scorePriorityThreeColourYellow=0;
+
+    /**
+     * Total score of the priority three and colour green
+     */
+    @SerializedName("scorePriorityThreeColourGreen")
+    public int scorePriorityThreeColourGreen=0;
 
     /**Total score of the indicators evaluation*/
     @SerializedName("totalScore")
@@ -142,17 +190,28 @@ public class IndicatorsEvaluation implements Serializable {
      * @param conclusionsGerman - Evaluation's conclusions in German
      * @param conclusionsItalian - Evaluation's conclusions in Italian
      * @param conclusionsPortuguese - Evaluation's conclusions in Portuguese
-     * @param scoreAmbit1 - Total score of ambit 1
-     * @param scoreAmbit2 - Total score of ambit 2
-     * @param scoreAmbit3 - Total score of ambit 3
-     * @param scoreAmbit4 - Total score of ambit 4
-     * @param scoreAmbit5 - Total score of ambit 5
-     * @param scoreAmbit6 - Total score of ambit 6
+     * @param scorePriorityZeroColourRed - Total score of the priority zero and colour red
+     * @param scorePriorityZeroColourYellow - Total score of the priority zero and colour yellow
+     * @param scorePriorityZeroColourGreen - Total score of the priority zero and colour green
+     * @param scorePriorityOneColourRed - Total score of the priority one and colour red
+     * @param scorePriorityOneColourYellow - Total score of the priority one and colour yellow
+     * @param scorePriorityOneColourGreen - Total score of the priority one and colour green
+     * @param scorePriorityTwoColourRed - Total score of the priority two and colour red
+     * @param scorePriorityTwoColourYellow - Total score of the priority two and colour yellow
+     * @param scorePriorityTwoColourGreen - Total score of the priority two and colour green
+     * @param scorePriorityThreeColourRed - Total score of the priority three and colour red
+     * @param scorePriorityThreeColourYellow - Total score of the priority three and colour yellow
+     * @param scorePriorityThreeColourGreen - Total score of the priority three and colour green
      * @param totalScore - Total score
      * @param isFinished - 1 if is finished, 0 if not
      * @param evaluationType - Evaluation type
      * */
-    public IndicatorsEvaluation(long evaluationDate,int idEvaluatedOrganization,String orgTypeEvaluated,int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator, String illness, int idCenter, int scoreAmbit1, int scoreAmbit2, int scoreAmbit3, int scoreAmbit4, int scoreAmbit5, int scoreAmbit6, int totalScore, String conclusionsSpanish, String conclusionsEnglish, String conclusionsFrench, String conclusionsBasque, String conclusionsCatalan, String conclusionsDutch, String conclusionsGalician, String conclusionsGerman, String conclusionsItalian, String conclusionsPortuguese, int isFinished, String evaluationType){
+    public IndicatorsEvaluation(long evaluationDate,int idEvaluatedOrganization,String orgTypeEvaluated,int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator, String illness, int idCenter,
+                                int scorePriorityZeroColourRed, int scorePriorityZeroColourYellow, int scorePriorityZeroColourGreen,
+                                int scorePriorityOneColourRed, int scorePriorityOneColourYellow, int scorePriorityOneColourGreen,
+                                int scorePriorityTwoColourRed, int scorePriorityTwoColourYellow, int scorePriorityTwoColourGreen,
+                                int scorePriorityThreeColourRed, int scorePriorityThreeColourYellow, int scorePriorityThreeColourGreen, int totalScore,
+                                String conclusionsSpanish, String conclusionsEnglish, String conclusionsFrench, String conclusionsBasque, String conclusionsCatalan, String conclusionsDutch, String conclusionsGalician, String conclusionsGerman, String conclusionsItalian, String conclusionsPortuguese, int isFinished, String evaluationType){
         setEvaluationDate(evaluationDate);
         setIdEvaluatedOrganization(idEvaluatedOrganization);
         setOrgTypeEvaluated(orgTypeEvaluated);
@@ -171,12 +230,18 @@ public class IndicatorsEvaluation implements Serializable {
         setConclusionsGerman(conclusionsGerman);
         setConclusionsItalian(conclusionsItalian);
         setConclusionsPortuguese(conclusionsPortuguese);
-        setScoreAmbit1(scoreAmbit1);
-        setScoreAmbit2(scoreAmbit2);
-        setScoreAmbit3(scoreAmbit3);
-        setScoreAmbit4(scoreAmbit4);
-        setScoreAmbit5(scoreAmbit5);
-        setScoreAmbit6(scoreAmbit6);
+        setScorePriorityZeroColourRed(scorePriorityZeroColourRed);
+        setScorePriorityZeroColourYellow(scorePriorityZeroColourYellow);
+        setScorePriorityZeroColourGreen(scorePriorityZeroColourGreen);
+        setScorePriorityOneColourRed(scorePriorityOneColourRed);
+        setScorePriorityOneColourYellow(scorePriorityOneColourYellow);
+        setScorePriorityOneColourGreen(scorePriorityOneColourGreen);
+        setScorePriorityTwoColourRed(scorePriorityTwoColourRed);
+        setScorePriorityTwoColourYellow(scorePriorityTwoColourYellow);
+        setScorePriorityTwoColourGreen(scorePriorityTwoColourGreen);
+        setScorePriorityThreeColourRed(scorePriorityThreeColourRed);
+        setScorePriorityThreeColourYellow(scorePriorityThreeColourYellow);
+        setScorePriorityThreeColourGreen(scorePriorityThreeColourGreen);
         setTotalScore(totalScore);
         setIsFinished(isFinished);
         setEvaluationType(evaluationType);
@@ -312,6 +377,234 @@ public class IndicatorsEvaluation implements Serializable {
 
 
     /**
+     * Method that obtains the score of the priority zero colour red
+     *
+     * @return score of the priority zero colour red
+     *
+     * */
+    public int getScorePriorityZeroColourRed() {
+        return scorePriorityZeroColourRed;
+    }
+
+    /**
+     * Method that sets the new score of the priority zero colour red
+     *
+     * @param scorePriorityZeroColourRed - score of the priority zero colour red
+     * */
+    public void setScorePriorityZeroColourRed(int scorePriorityZeroColourRed) {
+        this.scorePriorityZeroColourRed = scorePriorityZeroColourRed;
+    }
+
+    /**
+     * Method that obtains the score of the priority zero colour yellow
+     *
+     * @return score of the priority zero colour yellow
+     *
+     * */
+    public int getScorePriorityZeroColourYellow() {
+        return scorePriorityZeroColourYellow;
+    }
+
+    /**
+     * Method that sets the new score of the priority zero colour yellow
+     *
+     * @param scorePriorityZeroColourYellow - score of the priority zero colour yellow
+     * */
+    public void setScorePriorityZeroColourYellow(int scorePriorityZeroColourYellow) {
+        this.scorePriorityZeroColourYellow = scorePriorityZeroColourYellow;
+    }
+
+    /**
+     * Method that obtains the score of the priority zero colour green
+     *
+     * @return score of the priority zero colour green
+     *
+     * */
+    public int getScorePriorityZeroColourGreen() {
+        return scorePriorityZeroColourGreen;
+    }
+
+    /**
+     * Method that sets the new score of the priority zero colour green
+     *
+     * @param scorePriorityZeroColourGreen - score of the priority zero colour green
+     * */
+    public void setScorePriorityZeroColourGreen(int scorePriorityZeroColourGreen) {
+        this.scorePriorityZeroColourGreen = scorePriorityZeroColourGreen;
+    }
+
+    /**
+     * Method that obtains the score of the priority one colour red
+     *
+     * @return score of the priority one colour red
+     *
+     * */
+    public int getScorePriorityOneColourRed() {
+        return scorePriorityOneColourRed;
+    }
+
+    /**
+     * Method that sets the new score of the priority one colour red
+     *
+     * @param scorePriorityOneColourRed - score of the priority one colour red
+     * */
+    public void setScorePriorityOneColourRed(int scorePriorityOneColourRed) {
+        this.scorePriorityOneColourRed = scorePriorityOneColourRed;
+    }
+
+    /**
+     * Method that obtains the score of the priority one colour yellow
+     *
+     * @return score of the priority one colour yellow
+     *
+     * */
+    public int getScorePriorityOneColourYellow() {
+        return scorePriorityOneColourYellow;
+    }
+
+    /**
+     * Method that sets the new score of the priority one colour yellow
+     *
+     * @param scorePriorityOneColourYellow - score of the priority one colour yellow
+     * */
+    public void setScorePriorityOneColourYellow(int scorePriorityOneColourYellow) {
+        this.scorePriorityOneColourYellow = scorePriorityOneColourYellow;
+    }
+
+    /**
+     * Method that obtains the score of the priority one colour green
+     *
+     * @return score of the priority one colour green
+     *
+     * */
+    public int getScorePriorityOneColourGreen() {
+        return scorePriorityOneColourGreen;
+    }
+
+    /**
+     * Method that sets the new score of the priority one colour green
+     *
+     * @param scorePriorityOneColourGreen - score of the priority one colour green
+     * */
+    public void setScorePriorityOneColourGreen(int scorePriorityOneColourGreen) {
+        this.scorePriorityOneColourGreen = scorePriorityOneColourGreen;
+    }
+
+    /**
+     * Method that obtains the score of the priority two colour red
+     *
+     * @return score of the priority two colour red
+     *
+     * */
+    public int getScorePriorityTwoColourRed() {
+        return scorePriorityTwoColourRed;
+    }
+
+    /**
+     * Method that sets the new score of the priority two colour red
+     *
+     * @param scorePriorityTwoColourRed - score of the priority two colour red
+     * */
+    public void setScorePriorityTwoColourRed(int scorePriorityTwoColourRed) {
+        this.scorePriorityTwoColourRed = scorePriorityTwoColourRed;
+    }
+
+    /**
+     * Method that obtains the score of the priority two colour yellow
+     *
+     * @return score of the priority two colour yellow
+     *
+     * */
+    public int getScorePriorityTwoColourYellow() {
+        return scorePriorityTwoColourYellow;
+    }
+
+    /**
+     * Method that sets the new score of the priority two colour yellow
+     *
+     * @param scorePriorityTwoColourYellow - score of the priority two colour yellow
+     * */
+    public void setScorePriorityTwoColourYellow(int scorePriorityTwoColourYellow) {
+        this.scorePriorityTwoColourYellow = scorePriorityTwoColourYellow;
+    }
+
+    /**
+     * Method that obtains the score of the priority two colour green
+     *
+     * @return score of the priority two colour green
+     *
+     * */
+    public int getScorePriorityTwoColourGreen() {
+        return scorePriorityTwoColourGreen;
+    }
+
+    /**
+     * Method that sets the new score of the priority two colour green
+     *
+     * @param scorePriorityTwoColourGreen - score of the priority two colour green
+     * */
+    public void setScorePriorityTwoColourGreen(int scorePriorityTwoColourGreen) {
+        this.scorePriorityTwoColourGreen = scorePriorityTwoColourGreen;
+    }
+
+    /**
+     * Method that obtains the score of the priority three colour red
+     *
+     * @return score of the priority three colour red
+     *
+     * */
+    public int getScorePriorityThreeColourRed() {
+        return scorePriorityThreeColourRed;
+    }
+
+    /**
+     * Method that sets the new score of the priority three colour red
+     *
+     * @param scorePriorityThreeColourRed - score of the priority three colour red
+     * */
+    public void setScorePriorityThreeColourRed(int scorePriorityThreeColourRed) {
+        this.scorePriorityThreeColourRed = scorePriorityThreeColourRed;
+    }
+
+    /**
+     * Method that obtains the score of the priority three colour yellow
+     *
+     * @return score of the priority three colour yellow
+     *
+     * */
+    public int getScorePriorityThreeColourYellow() {
+        return scorePriorityThreeColourYellow;
+    }
+
+    /**
+     * Method that sets the new score of the priority three colour yellow
+     *
+     * @param scorePriorityThreeColourYellow - score of the priority three colour yellow
+     * */
+    public void setScorePriorityThreeColourYellow(int scorePriorityThreeColourYellow) {
+        this.scorePriorityThreeColourYellow = scorePriorityThreeColourYellow;
+    }
+
+    /**
+     * Method that obtains the score of the priority three colour green
+     *
+     * @return score of the priority three colour green
+     *
+     * */
+    public int getScorePriorityThreeColourGreen() {
+        return scorePriorityThreeColourGreen;
+    }
+
+    /**
+     * Method that sets the new score of the priority three colour green
+     *
+     * @param scorePriorityThreeColourGreen - score of the priority three colour green
+     * */
+    public void setScorePriorityThreeColourGreen(int scorePriorityThreeColourGreen) {
+        this.scorePriorityThreeColourGreen = scorePriorityThreeColourGreen;
+    }
+
+    /**
      * Method that obtains the total score of the evaluation
      *
      * @return Total score of the indicators evaluation
@@ -329,113 +622,7 @@ public class IndicatorsEvaluation implements Serializable {
         this.totalScore = totalScore;
     }
 
-    /**
-     * Method that obtains the total score of the ambit 1
-     *
-     * @return Total score of the ambit 1
-     * */
-    public int getScoreAmbit1() {
-        return scoreAmbit1;
-    }
 
-    /**
-     * Method that sets a new total score for the ambit 1
-     *
-     * @param scoreAmbit1 - Total score of the ambit 1
-     * */
-    public void setScoreAmbit1(int scoreAmbit1) {
-        this.scoreAmbit1 = scoreAmbit1;
-    }
-
-    /**
-     * Method that obtains the total score of the ambit 2
-     *
-     * @return Total score of the ambit 2
-     * */
-    public int getScoreAmbit2() {
-        return scoreAmbit2;
-    }
-
-    /**
-     * Method that sets a new total score for the ambit 2
-     *
-     * @param scoreAmbit2 - Total score of the ambit 2
-     * */
-    public void setScoreAmbit2(int scoreAmbit2) {
-        this.scoreAmbit2 = scoreAmbit2;
-    }
-
-    /**
-     * Method that obtains the total score of the ambit 3
-     *
-     * @return Total score of the ambit 3
-     * */
-    public int getScoreAmbit3() {
-        return scoreAmbit3;
-    }
-
-    /**
-     * Method that sets a new total score for the ambit 3
-     *
-     * @param scoreAmbit3 - Total score of the ambit 3
-     * */
-    public void setScoreAmbit3(int scoreAmbit3) {
-        this.scoreAmbit3 = scoreAmbit3;
-    }
-
-    /**
-     * Method that obtains the total score of the ambit 4
-     *
-     * @return Total score of the ambit 4
-     * */
-    public int getScoreAmbit4() {
-        return scoreAmbit4;
-    }
-
-    /**
-     * Method that sets a new total score for the ambit 4
-     *
-     * @param scoreAmbit4 - Total score of the ambit 4
-     * */
-    public void setScoreAmbit4(int scoreAmbit4) {
-        this.scoreAmbit4 = scoreAmbit4;
-    }
-
-    /**
-     * Method that obtains the total score of the ambit 5
-     *
-     * @return Total score of the ambit 5
-     * */
-    public int getScoreAmbit5() {
-        return scoreAmbit5;
-    }
-
-    /**
-     * Method that sets a new total score for the ambit 5
-     *
-     * @param scoreAmbit5 - Total score of the ambit 5
-     * */
-    public void setScoreAmbit5(int scoreAmbit5) {
-        this.scoreAmbit5 = scoreAmbit5;
-    }
-
-    /**
-     * Method that obtains the total score of the ambit 6
-     *
-     * @return Total score of the ambit 6
-     * */
-    public int getScoreAmbit6() {
-        return scoreAmbit6;
-    }
-
-    /**
-     * Method that sets a new total score for the ambit 6
-     *
-     * @param scoreAmbit6 - Total score of the ambit 6
-     * */
-    public void setScoreAmbit6(int scoreAmbit6) {
-        this.scoreAmbit6 = scoreAmbit6;
-    }
 
     /**
      * Method that obtains if the evaluation is finished

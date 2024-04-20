@@ -225,4 +225,14 @@
     <string name="accept">Aceitar</string>
     <string name="ind_obs">Observações do indicador</string>
     <string name="ev_obs">Observações das evidências</string>
+    <string name="obs_on_ev_1">Observações da evidência 1</string>
+    <string name="obs_on_ev_2">Observações da evidência 2</string>
+    <string name="obs_on_ev_3">Observações da evidência 3</string>
+    <string name="obs_on_ev_4">Observações da evidência 4</string>
+    <string name="fulfilled_evidence">Evidência cumprida</string>
+    <string name="unfulfilled_evidence">Evidência não cumprida</string>
+    <string name="help_ind_eval1">No topo da tela, você verá o título do indicador juntamente com o escopo e as subdivisões às quais pertence. Abaixo, haverá três evidências (se for uma avaliação simples do indicador) ou quatro evidências (se for uma avaliação completa do indicador), que podem ser cumpridas ou não cumpridas:</string>
+    <string name="conclusions">Conclusões da avaliação dos indicadores</string>
+    <string name="finish">Finalizar avaliação dos indicadores</string>
+    <string name="saving_eval_ind_changes">Salvando alterações na avaliação dos indicadores. Por favor, aguarde alguns segundos...</string>
 </resources>

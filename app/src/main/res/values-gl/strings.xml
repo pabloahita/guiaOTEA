@@ -226,6 +226,16 @@
     <string name="accept">Aceptar</string>
     <string name="ind_obs">Observacións do indicador</string>
     <string name="ev_obs">Observacións das evidencias</string>
+    <string name="obs_on_ev_1">Observacións da evidencia 1</string>
+    <string name="obs_on_ev_2">Observacións da evidencia 2</string>
+    <string name="obs_on_ev_3">Observacións da evidencia 3</string>
+    <string name="obs_on_ev_4">Observacións da evidencia 4</string>
+    <string name="fulfilled_evidence">Evidencia cumprida</string>
+    <string name="unfulfilled_evidence">Evidencia non cumprida</string>
+    <string name="help_ind_eval1">Na parte superior da súa pantalla aparecerá o título do indicador xunto co ámbito e as subdivisións ás que pertence. A continuación, haberá tres probas (se se trata dunha avaliación simple do indicador) ou catro probas (se se trata dunha avaliación completa do indicador), as cales poden estar cumpridas ou non cumpridas:</string>
+    <string name="conclusions">Conclusións da avaliación dos indicadores</string>
+    <string name="finish">Finalizar a avaliación dos indicadores</string>
+    <string name="saving_eval_ind_changes">Gardando os cambios da avaliación dos indicadores. Por favor, agarde uns segundos...</string>
 
 
 </resources>

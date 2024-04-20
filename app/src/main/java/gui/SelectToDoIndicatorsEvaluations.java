@@ -71,22 +71,32 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
 
         organizations= Session.getEvaluatedOrganizations();
         List<String> evaluationTypes=new LinkedList<String>();
-        evaluationTypes.add(Html.fromHtml("<b><i>"+getString(R.string.eval_type)+"</i></b>",0).toString());
-        evaluationTypes.add(Html.fromHtml("<i>"+getString(R.string.complete)+"</i>",0).toString());
-        evaluationTypes.add(Html.fromHtml("<i>"+getString(R.string.simple)+"</i>",0).toString());
-        EvalTypesAdapter[] evalTypesAdapter={new EvalTypesAdapter(SelectToDoIndicatorsEvaluations.this,evaluationTypes)};
+        evaluationTypes.add(getString(R.string.eval_type));
+        evaluationTypes.add(getString(R.string.complete));
+        evaluationTypes.add(getString(R.string.simple));
+        EvalTypesAdapter[] evalTypesAdapter=new EvalTypesAdapter[1];
+        evalTypesAdapter[0]=new EvalTypesAdapter(SelectToDoIndicatorsEvaluations.this,evaluationTypes);
         evalTypesAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+
         if(!organizations.isEmpty() && !Session.getEvaluatorTeams().isEmpty()){
             Organization aux=new Organization(-1,"-","-",getString(R.string.evaluated_org),-1,"-","-","-","-","-","-","-","-","-","-","-","-","-");
             if(organizations.get(0).getIdOrganization()!=-1) {
                 organizations.add(0,aux);
             }
             Spinner spinnerEvaluatedOrganization=findViewById(R.id.spinner_select_organization);
+            Spinner spinnerEvaluatedOrganizationAux=findViewById(R.id.spinner_select_organization_aux);
             Spinner spinnerCenter=findViewById(R.id.spinner_select_center);
             Spinner spinnerCenterAux=findViewById(R.id.spinner_select_center_aux);
             Spinner spinnerEvaluatorTeam=findViewById(R.id.spinner_select_eval_team);
             Spinner spinnerEvaluatorTeamAux=findViewById(R.id.spinner_select_eval_team_aux);
             Spinner evaluationTypeSpinner=findViewById(R.id.spinner_select_eval_type);
+
+
+
+
+
+            List<Organization> orgsAux=new ArrayList<>();
+            orgsAux.add(aux);
 
             List<Center> centerAuxList=new ArrayList<>();
             centerAuxList.add(new Center(-1,"-","-",-1,"Center of the organization","Centro de la organización","Centre de l'organisation","Erakundearen Zentroa","Centre de l’organització","Centrum van de organisatie","Centro da organización","Zentrum der Organisation","Centro dell'organizzazione","Centro da organização",-1,"-","-1"));
@@ -95,10 +105,17 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
             evaluatorTeamAuxList.add(new EvaluatorTeam(-1, -1, getString(R.string.evaluator_team), "-", "-", -1, "-", -1, "-", -1, "-", "-", "-", "-", -1, -1, -1, -1, "-","-","-","-","-","-","-","-","-","-"));
 
 
-            OrgsAdapter[] orgsAdapter= {new OrgsAdapter(SelectToDoIndicatorsEvaluations.this, organizations)};
+            OrgsAdapter[] orgsAdapter= new OrgsAdapter[2];
+            orgsAdapter[0]=new OrgsAdapter(SelectToDoIndicatorsEvaluations.this, organizations);
             orgsAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+            orgsAdapter[1]=new OrgsAdapter(SelectToDoIndicatorsEvaluations.this, orgsAux);
+            orgsAdapter[1].setDropDownViewResource(R.layout.spinner_item_layout);
 
             spinnerEvaluatedOrganization.setAdapter(orgsAdapter[0]);
+            spinnerEvaluatedOrganizationAux.setAdapter(orgsAdapter[1]);
+
+            spinnerEvaluatedOrganizationAux.setEnabled(false);
+            spinnerEvaluatedOrganizationAux.setAlpha(0.5f);
 
             CenterAdapter[] centerAdapter=new CenterAdapter[2];
 
@@ -123,6 +140,34 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
             EvaluatorTeam[] evaluatorTeam = new EvaluatorTeam[1];
 
             String[] evaluationType = new String[1];
+
+            evaluationTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if(position==0){
+                        evaluationType[0]="";
+                        spinnerEvaluatedOrganizationAux.setVisibility(View.VISIBLE);
+                        spinnerEvaluatedOrganization.setVisibility(View.GONE);
+                        spinnerCenterAux.setVisibility(View.VISIBLE);
+                        spinnerCenter.setVisibility(View.GONE);
+                        spinnerEvaluatorTeamAux.setVisibility(View.VISIBLE);
+                        spinnerEvaluatorTeam.setVisibility(View.GONE);
+                    }else{
+                        spinnerEvaluatedOrganizationAux.setVisibility(View.GONE);
+                        spinnerEvaluatedOrganization.setVisibility(View.VISIBLE);
+                        if(position==1){
+                            evaluationType[0]="COMPLETE";
+                        }else{
+                            evaluationType[0]="SIMPLE";
+                        }
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
 
             spinnerEvaluatedOrganization.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -194,23 +239,7 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
                 }
             });
 
-            evaluationTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if(position==0){
-                        evaluationType[0]="";
-                    }else if(position==1){
-                        evaluationType[0]="COMPLETE";
-                    }else{
-                        evaluationType[0]="SIMPLE";
-                    }
-                }
 
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
 
             ImageButton button=findViewById(R.id.start);
 
@@ -230,9 +259,10 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
 
                             Session.getInstance().setCurrEvaluation(new IndicatorsEvaluation(DateFormatter.formaUtilDateToTimestamp(new Date()),evaluatedOrganization[0].getIdOrganization(),evaluatedOrganization[0].getOrgType(),
                             evaluatorTeam[0].getIdEvaluatorTeam(), evaluatorTeam[0].getIdEvaluatorOrganization(), evaluatorTeam[0].getOrgTypeEvaluator(), evaluatorTeam[0].getIllness(), evaluatorTeam[0].getIdCenter(),
-                                    0, 0,
-                                    0, 0, 0, 0, 0,"",
-                                    "", "", "",
+                                    0, 0, 0, 0,
+                                    0, 0, 0, 0,
+                                    0,0,0,0,0,
+                                    "","", "", "",
                                     "", "", "",
                                     "", "", "",
                                      0,evaluationType[0]));
@@ -246,9 +276,7 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
                 }
             });
         }else{
-            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-            intent.putExtra("userEmail",getIntent().getSerializableExtra("userEmail"));
-            startActivity(intent);
+            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);startActivity(intent);
             if(organizations.isEmpty()) {
                 Toast.makeText(getApplicationContext(),getString(R.string.non_existing_evaluated_organization),Toast.LENGTH_LONG).show();
             }
