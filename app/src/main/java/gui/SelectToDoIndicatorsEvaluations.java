@@ -2,7 +2,10 @@ package gui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
@@ -66,7 +69,9 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
         setContentView(R.layout.activity_select_to_do_indicators_evaluations);
 
         CardView final_background=findViewById(R.id.cardView2);
+        ConstraintLayout base=findViewById(R.id.base);
 
+        base.setVisibility(View.VISIBLE);
         final_background.setVisibility(View.GONE);
 
         organizations= Session.getEvaluatedOrganizations();
@@ -78,7 +83,7 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
         evalTypesAdapter[0]=new EvalTypesAdapter(SelectToDoIndicatorsEvaluations.this,evaluationTypes);
         evalTypesAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
 
-        if(!organizations.isEmpty() && !Session.getEvaluatorTeams().isEmpty()){
+        if(!organizations.isEmpty()){
             Organization aux=new Organization(-1,"-","-",getString(R.string.evaluated_org),-1,"-","-","-","-","-","-","-","-","-","-","-","-","-");
             if(organizations.get(0).getIdOrganization()!=-1) {
                 organizations.add(0,aux);
@@ -91,10 +96,6 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
             Spinner spinnerEvaluatorTeamAux=findViewById(R.id.spinner_select_eval_team_aux);
             Spinner evaluationTypeSpinner=findViewById(R.id.spinner_select_eval_type);
 
-
-
-
-
             List<Organization> orgsAux=new ArrayList<>();
             orgsAux.add(aux);
 
@@ -102,7 +103,7 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
             centerAuxList.add(new Center(-1,"-","-",-1,"Center of the organization","Centro de la organización","Centre de l'organisation","Erakundearen Zentroa","Centre de l’organització","Centrum van de organisatie","Centro da organización","Zentrum der Organisation","Centro dell'organizzazione","Centro da organização",-1,"-","-1"));
 
             List<EvaluatorTeam> evaluatorTeamAuxList=new ArrayList<>();
-            evaluatorTeamAuxList.add(new EvaluatorTeam(-1, -1, getString(R.string.evaluator_team), "-", "-", -1, "-", -1, "-", -1, "-", "-", "-", "-", -1, -1, -1, -1, "-","-","-","-","-","-","-","-","-","-"));
+            evaluatorTeamAuxList.add(new EvaluatorTeam(-1, -1, getString(R.string.evaluator_team), "-", "-", -1, "-", -1, "-", -1, "-", "-", "-", "-",  "-","-","-","-","-","-","-","-","-","-","-",-1,-1));
 
 
             OrgsAdapter[] orgsAdapter= new OrgsAdapter[2];
@@ -213,6 +214,18 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
                         spinnerEvaluatorTeam.setAdapter(evaluatorTeamsAdapter[0]);
                         spinnerEvaluatorTeam.setVisibility(View.VISIBLE);
                         spinnerEvaluatorTeamAux.setVisibility(View.GONE);
+                        if(evaluatorTeams.size()==1){
+                            new AlertDialog.Builder(SelectToDoIndicatorsEvaluations.this)
+                                    .setTitle(getString(R.string.error))
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .setMessage(Html.fromHtml("<b>"+getString(R.string.no_eval_team)+"</b>",0))
+                                    .setPositiveButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    }).create().show();
+                        }
                     }else{
                         spinnerEvaluatorTeam.setVisibility(View.GONE);
                         spinnerEvaluatorTeamAux.setVisibility(View.VISIBLE);
@@ -247,42 +260,84 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     final_background.setVisibility(View.VISIBLE);
-                    spinnerEvaluatorTeam.setEnabled(false);
-                    spinnerEvaluatedOrganization.setEnabled(false);
-                    button.setEnabled(false);
-
-                    v.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            Intent intent=new Intent(getApplicationContext(),gui.DoIndicatorsEvaluation.class);
-
-                            Session.getInstance().setCurrEvaluation(new IndicatorsEvaluation(DateFormatter.formaUtilDateToTimestamp(new Date()),evaluatedOrganization[0].getIdOrganization(),evaluatedOrganization[0].getOrgType(),
-                            evaluatorTeam[0].getIdEvaluatorTeam(), evaluatorTeam[0].getIdEvaluatorOrganization(), evaluatorTeam[0].getOrgTypeEvaluator(), evaluatorTeam[0].getIllness(), evaluatorTeam[0].getIdCenter(),
-                                    0, 0, 0, 0,
-                                    0, 0, 0, 0,
-                                    0,0,0,0,0,
-                                    "","", "", "",
-                                    "", "", "",
-                                    "", "", "",
-                                     0,evaluationType[0]));
-
-                            Session.getInstance().obtainIndicatorsFromDataBase(evaluationType[0]);
-                            startActivity(intent);
+                    base.setVisibility(View.GONE);
+                    if(evaluationType[0].isEmpty() || evaluatedOrganization[0]==null || evaluatedOrganization[0].getIdOrganization()==-1 || center[0]==null || center[0].getIdCenter()==-1 || evaluatorTeam[0]==null || evaluatorTeam[0].getIdEvaluatorTeam()==-1){
+                        final_background.setVisibility(View.GONE);
+                        base.setVisibility(View.VISIBLE);
+                        String msg="<ul>";
+                        int numErrors=0;
+                        if(evaluationType[0].isEmpty()){
+                            msg+="<li><b>"+getString(R.string.please_select_eval_type)+"</b></li>";
                         }
-                    }, 100);
+                        if(evaluatedOrganization[0]==null || evaluatedOrganization[0].getIdOrganization()==-1){
+                            msg+="<li><b>"+getString(R.string.please_select_org)+"</b></li>";
+                            numErrors++;
+                        }
+                        if(center[0]==null || center[0].getIdCenter()==-1){
+                            msg+="<li><b>"+getString(R.string.please_select_center)+"</b></li>";
+                            numErrors++;
+                        }
+                        if(evaluatorTeam[0]==null || evaluatorTeam[0].getIdEvaluatorTeam()==-1){
+                            msg+="<li><b>"+getString(R.string.please_select_eval_team)+"</b></li>";
+                            numErrors++;
+                        }
+                        msg+="</ul>";
+                        int idTitle=-1;
+                        if(numErrors>1){
+                            idTitle=R.string.errors;
+                        }
+                        else{
+                            idTitle=R.string.error;
+                        }
+                        new AlertDialog.Builder(SelectToDoIndicatorsEvaluations.this)
+                                .setTitle(getString(idTitle))
+                                .setMessage(Html.fromHtml(msg,0))
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .setPositiveButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .create().show();
+                    }else {
+                        v.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(getApplicationContext(), gui.DoIndicatorsEvaluation.class);
 
+                                Session.getInstance().setCurrEvaluation(new IndicatorsEvaluation(DateFormatter.formaUtilDateToTimestamp(new Date()), evaluatedOrganization[0].getIdOrganization(), evaluatedOrganization[0].getOrgType(),
+                                        evaluatorTeam[0].getIdEvaluatorTeam(), evaluatorTeam[0].getIdEvaluatorOrganization(), evaluatorTeam[0].getOrgTypeEvaluator(), evaluatorTeam[0].getIllness(), evaluatorTeam[0].getIdCenter(),
+                                        0, 0, 0, 0,
+                                        0, 0, 0, 0,
+                                        0, 0, 0, 0, 0,
+                                        "", "", "", "",
+                                        "", "", "",
+                                        "", "", "",
+                                        0, evaluationType[0]));
+
+                                Session.getInstance().obtainIndicatorsFromDataBase(evaluationType[0]);
+                                startActivity(intent);
+                            }
+                        }, 100);
+                    }
 
                 }
             });
         }else{
-            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);startActivity(intent);
-            if(organizations.isEmpty()) {
-                Toast.makeText(getApplicationContext(),getString(R.string.non_existing_evaluated_organization),Toast.LENGTH_LONG).show();
-            }
-            if(evaluatorTeams.isEmpty()){
-                Toast.makeText(getApplicationContext(),getString(R.string.non_existing_evaluator_team),Toast.LENGTH_LONG).show();
-            }
+            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+            startActivity(intent);
+            new AlertDialog.Builder(SelectToDoIndicatorsEvaluations.this)
+                    .setTitle(getString(R.string.error))
+                    .setMessage(getString(R.string.non_existing_evaluated_organization))
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create().show();
         }
 
 
@@ -292,7 +347,6 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if(keyCode==event.KEYCODE_BACK){
             Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-            intent.putExtra("userEmail",getIntent().getSerializableExtra("userEmail"));
             startActivity(intent);
         }
         return super.onKeyDown(keyCode,event);

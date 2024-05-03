@@ -1,6 +1,7 @@
 package gui;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import android.text.style.ClickableSpan;
 import android.text.style.StyleSpan;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;

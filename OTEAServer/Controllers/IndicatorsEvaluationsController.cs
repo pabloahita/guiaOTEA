@@ -77,6 +77,7 @@ namespace OTEAServer.Controllers
         /// <summary>
         /// Method that obtains all the non finished indicators evaluations of a center
         /// </summary>
+        /// <param name="idEvaluatorTeam">Evaluator team identifier</param>
         /// <param name="idEvaluatorOrganization">Identifier of the evaluator organization that will do the indicators evaluation</param>
         /// <param name="orgTypeEvaluator">Organization type of the evaluator organization that will do the indicators evaluation. It will be always "EVALUATOR"</param>
         /// <param name="idEvaluatedOrganization">Identifier of the external organization that will recieve the indicators evaluation</param>
@@ -85,11 +86,11 @@ namespace OTEAServer.Controllers
         /// <param name="idCenter">Center identifier</param>
         /// <returns>Indicators evaluations list</returns>
         [HttpGet("nonFinished")]
-        public IActionResult GetNonFinishedByCenter([FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter)
+        public IActionResult GetNonFinishedByEvaluatorTeam([FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter)
         {
             try
             {
-                var indicatorsEvaluations = _context.IndicatorsEvaluations.Where(e => e.idEvaluatorOrganization == idEvaluatorOrganization && e.orgTypeEvaluator == orgTypeEvaluator && e.idEvaluatedOrganization == idEvaluatedOrganization && e.orgTypeEvaluated == orgTypeEvaluated && e.illness == illness && e.idCenter == idCenter && e.isFinished == 0).ToList();
+                var indicatorsEvaluations = _context.IndicatorsEvaluations.Where(e => e.idEvaluatorTeam==idEvaluatorTeam && e.idEvaluatorOrganization == idEvaluatorOrganization && e.orgTypeEvaluator == orgTypeEvaluator && e.idEvaluatedOrganization == idEvaluatedOrganization && e.orgTypeEvaluated == orgTypeEvaluated && e.illness == illness && e.idCenter == idCenter && e.isFinished == 0).ToList();
                 return Ok(indicatorsEvaluations);
             }
             catch (Exception ex)

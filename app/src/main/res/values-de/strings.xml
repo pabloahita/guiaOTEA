@@ -237,6 +237,28 @@
     <string name="conclusions">Schlussfolgerungen der Bewertung von Indikatoren</string>
     <string name="finish">Bewertung von Indikatoren abschließen</string>
     <string name="saving_eval_ind_changes">Änderungen an der Bewertung von Indikatoren werden gespeichert. Bitte warten Sie einige Sekunden...</string>
+    <string name="understood">Verstanden</string>
+    <string name="error">Fehler</string>
+    <string name="errors">Fehler</string>
+    <string name="no_eval_team">Keine Bewertungsteams für das ausgewählte Zentrum und die Organisation zugewiesen. Bitte wählen Sie ein anderes Zentrum oder eine andere Organisation aus oder bitten Sie die externe Organisation, ein Bewertungsteam zu erstellen.</string>
+    <string name="please_select_org">Sie müssen eine Organisation auswählen</string>
+    <string name="please_select_center">Sie müssen ein Zentrum auswählen</string>
+    <string name="please_select_ind_eval">Sie müssen eine Bewertung von Indikatoren auswählen</string>
+    <string name="please_select_eval_team">Sie müssen ein Bewertungsteam auswählen</string>
+    <string name="indicators_evaluation">Indikatorbewertung</string>
+    <string name="please_select_eval_type">Sie müssen eine Bewertungsart auswählen</string>
+    <string name="no_ind_eval">Es wurden keine ausstehenden Indikatorenbewertungen für dieses Bewertungsteam gefunden. Bitte wählen Sie ein anderes Bewertungsteam</string>
+    <string name="add_eval_dates">Bewertungsdaten</string>
+    <string name="action_today">HEUTE</string>
+    <string name="action_cancel">ABBRECHEN</string>
+    <string name="action_select">AUSWÄHLEN</string>
+    <string name="prime_date_picker_selected_day">Ausgewählter Tag</string>
+    <string name="prime_date_picker_from">Von</string>
+    <string name="prime_date_picker_to">Bis zum</string>
+    <string name="no_range_is_selected">Kein Datumsbereich ausgewählt!</string>
+    <string name="no_day_is_selected">Kein Tag ausgewählt!</string>
+    <string name="must_select_three_eval_dates">Sie müssen mindestens drei Bewertungsdaten innerhalb eines Zeitraums von höchstens einem Monat auswählen</string>
+    <string name="difference_between_dates_is_equal_or_greater_than_a_month">Der Unterschied zwischen dem ersten und dem letzten ausgewählten Datum beträgt ein Monat oder mehr</string>
 
 
 </resources>

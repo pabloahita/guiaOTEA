@@ -237,6 +237,28 @@
     <string name="conclusions">Conclusies van de evaluatie van indicatoren</string>
     <string name="finish">Evaluatie van indicatoren afronden</string>
     <string name="saving_eval_ind_changes">Bezig met het opslaan van wijzigingen in de evaluatie van indicatoren. Even geduld aub...</string>
+    <string name="understood">Begrepen</string>
+    <string name="error">Fout</string>
+    <string name="errors">Fouten</string>
+    <string name="no_eval_team">Geen evaluatieteams toegewezen aan het geselecteerde centrum en de organisatie. Selecteer alstublieft een ander centrum of organisatie, of vraag de externe organisatie om een evaluatieteam te creëren.</string>
+    <string name="please_select_org">U moet een organisatie selecteren</string>
+    <string name="please_select_center">U moet een centrum selecteren</string>
+    <string name="please_select_ind_eval">U moet een evaluatie van indicatoren selecteren</string>
+    <string name="please_select_eval_team">U moet een evaluatieteam selecteren</string>
+    <string name="indicators_evaluation">Indicator evaluatie</string>
+    <string name="please_select_eval_type">U moet een evaluatietype selecteren</string>
+    <string name="no_ind_eval">Geen uitstaande indicatorbeoordelingen gevonden voor dit evaluatieteam. Selecteer alstublieft een ander evaluatieteam</string>
+    <string name="add_eval_dates">Evaluatiedata</string>
+    <string name="action_today">VANDAAG</string>
+    <string name="action_cancel">ANNULEREN</string>
+    <string name="action_select">SELECTEREN</string>
+    <string name="prime_date_picker_selected_day">Geselecteerde Dag</string>
+    <string name="prime_date_picker_from">Van</string>
+    <string name="prime_date_picker_to">Tot</string>
+    <string name="no_range_is_selected">Geen datumbereik geselecteerd!</string>
+    <string name="no_day_is_selected">Geen dag geselecteerd!</string>
+    <string name="must_select_three_eval_dates">U moet ten minste drie evaluatiedata selecteren binnen een periode van niet meer dan een maand</string>
+    <string name="difference_between_dates_is_equal_or_greater_than_a_month">Het verschil tussen de eerste en laatste geselecteerde data is gelijk aan of groter dan één maand</string>
 
 
 </resources>

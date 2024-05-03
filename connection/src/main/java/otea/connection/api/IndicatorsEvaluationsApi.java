@@ -39,8 +39,9 @@ public interface IndicatorsEvaluationsApi {
     Call<List<IndicatorsEvaluation>> GetAllByEvaluatorTeam(@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("idCenter") int idCenter, @Query("illness") String illness, @Query("evaluationType") String evaluatorType);
 
     /**
-     * Get all non finished indicators evaluations by center
+     * Get all non finished indicators evaluations by evaluator team
      *
+     * @param idEvaluatorTeam - Identifier of the evaluator team
      * @param idEvaluatorOrganization - Identifier of the evaluator organization that will do the indicators evaluation
      * @param orgTypeEvaluator - Organization type of the evaluator organization that will do the indicators evaluation. It will be always "EVALUATOR"
      * @param idEvaluatedOrganization - Identifier of the external organization that will recieve the indicators evaluation
@@ -49,7 +50,7 @@ public interface IndicatorsEvaluationsApi {
      * @param idCenter - Center identifier
      * */
     @GET("IndicatorsEvaluations/nonFinished")
-    Call<List<IndicatorsEvaluation>> GetNonFinishedByCenter(@Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter);
+    Call<List<IndicatorsEvaluation>> GetNonFinishedByEvaluatorTeam(@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter);
 
     /**
      * Gets an indicators evaluation

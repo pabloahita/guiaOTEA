@@ -107,6 +107,7 @@ dependencies {
     implementation project(path: ':connection')
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
-
+    implementation 'com.aminography:primedatepicker:3.6.0'
+    implementation 'com.aminography:primecalendar:1.7.0'
 
 }

@@ -236,6 +236,28 @@
     <string name="conclusions">Conclusions of the indicators evaluation</string>
     <string name="finish">Finish indicators evaluation</string>
     <string name="saving_eval_ind_changes">Saving changes to the indicators evaluation. Please wait a few seconds...</string>
+    <string name="understood">Understood</string>
+    <string name="error">Error</string>
+    <string name="errors">Errors</string>
+    <string name="no_eval_team">No evaluation teams assigned to the selected center and organization. Please select another center or organization, or request the external organization to create an evaluation team.</string>
+    <string name="please_select_org">You must select an organization</string>
+    <string name="please_select_center">You must select a center</string>
+    <string name="please_select_ind_eval">You must select an indicators evaluation</string>
+    <string name="please_select_eval_team">You must select an evaluation team</string>
+    <string name="indicators_evaluation">Indicators evaluation</string>
+    <string name="please_select_eval_type">You must select an evaluation type</string>
+    <string name="no_ind_eval">No pending indicator evaluations found for this evaluation team. Please choose a different evaluation team</string>
+    <string name="add_eval_dates">Evaluation dates</string>
+    <string name="action_today">TODAY</string>
+    <string name="action_cancel">CANCEL</string>
+    <string name="action_select">SELECT</string>
+    <string name="prime_date_picker_selected_day">Selected Day</string>
+    <string name="prime_date_picker_from">From</string>
+    <string name="prime_date_picker_to">To</string>
+    <string name="no_range_is_selected">No date range selected!</string>
+    <string name="no_day_is_selected">No day is selected!</string>
+    <string name="must_select_three_eval_dates">You must select at least three evaluation dates within a period not exceeding one month</string>
+    <string name="difference_between_dates_is_equal_or_greater_than_a_month">The difference between the first and last selected dates is equal to or greater than one month</string>
 
 
 </resources>

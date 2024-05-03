@@ -22,6 +22,11 @@ public class DateFormatter {
         }
     }
 
+    public static String timeStampToStrDate(long timestamp){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(new Date(timestamp));
+    }
+
     public static long formaUtilDateToTimestamp(Date date){
         return date.getTime();
     }

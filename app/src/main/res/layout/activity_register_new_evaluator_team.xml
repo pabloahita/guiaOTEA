@@ -135,14 +135,21 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <EditText
-            android:id="@+id/consultant"
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:hint="@string/consultant"
-            android:inputType="text"
             android:layout_rowWeight="1"
-            android:layout_columnWeight="1" />
+            android:layout_columnWeight="1"
+            app:hintTextAppearance="@style/HelperTextAppearance">
+
+            <EditText
+                android:id="@+id/consultant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/consultant"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout_select_professional"
@@ -195,140 +202,100 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"  />
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <EditText
-            android:id="@+id/other_members"
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:hint="@string/other_members"
-            android:inputType="text" />
-
-
-        <EditText
-            android:id="@+id/patientName"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:ems="10"
-            android:hint="@string/patient_name"
-            android:inputType="textPersonName" />
-
-        <EditText
-            android:id="@+id/relativeName"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:ems="10"
-            android:hint="@string/relative_name"
-            android:inputType="textPersonName" />
-
-        <EditText
-            android:id="@+id/creation_date"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:ems="10"
-            android:focusable="false"
-            android:hint="@string/creation_date"
-            android:inputType="none"
-            android:onClick="changeCreationDate"/>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout_eval_date_1_and_2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1">
-                <EditText
-                    android:id="@+id/eval_date_1"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:ems="10"
-                    android:focusable="false"
-                    android:hint="@string/eval_date_1"
-                    android:inputType="none"
-                    android:onClick="changeEvalDate1"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/guideline4"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            app:hintTextAppearance="@style/HelperTextAppearance">
 
             <EditText
-                android:id="@+id/eval_date_2"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:ems="10"
-                android:focusable="false"
-                android:hint="@string/eval_date_2"
-                android:inputType="none"
-                android:onClick="changeEvalDate2"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline4"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline4"
-                android:layout_width="wrap_content"
+                android:id="@+id/other_members"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:hint="@string/other_members"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout_eval_date_3_and_4"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_rowWeight="1"
-            android:layout_columnWeight="1">
-
-            <EditText
-                android:id="@+id/eval_date_3"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:ems="10"
-                android:focusable="false"
-                android:hint="@string/eval_date_3"
-                android:inputType="none"
-                android:onClick="changeEvalDate3"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/guideline3"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/eval_date_4"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:ems="10"
-                android:focusable="false"
-                android:hint="@string/eval_date_4"
-                android:inputType="none"
-                android:onClick="changeEvalDate4"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline3"
-                app:layout_constraintTop_toTopOf="parent" />
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <EditText
-            android:id="@+id/observations"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:hint="@string/observations" />
+            app:hintTextAppearance="@style/HelperTextAppearance">
+
+            <EditText
+                android:id="@+id/patientName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/patient_name"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            app:hintTextAppearance="@style/HelperTextAppearance">
+
+            <EditText
+                android:id="@+id/relativeName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/relative_name"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            app:hintTextAppearance="@style/HelperTextAppearance">
+
+            <EditText
+                android:id="@+id/creation_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/creation_date"
+                android:focusable="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            app:hintTextAppearance="@style/HelperTextAppearance">
+
+            <EditText
+                android:id="@+id/eval_dates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/add_eval_dates"
+                android:focusable="false"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            app:hintTextAppearance="@style/HelperTextAppearance">
+
+            <EditText
+                android:id="@+id/observations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/observations"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <CheckBox
             android:id="@+id/accept_LOPD"
@@ -347,12 +314,10 @@
             android:layout_height="0dp"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:autoSizeMaxTextSize="22sp"
-            android:autoSizeMinTextSize="5sp"
-            android:autoSizeTextType="uniform"
-            android:background="@color/miradas_color"
+            android:textSize="20sp"
+            android:background="@drawable/round_button_background"
             android:text="@string/add_new_evaluator_team"
-            android:textColor="@color/white" />
+            android:textColor="@color/black" />
 
 
     </GridLayout>

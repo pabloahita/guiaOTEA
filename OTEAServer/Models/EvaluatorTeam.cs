@@ -26,10 +26,6 @@ namespace OTEAServer.Models
         /// <param name="externalConsultant">External consultant name</param>
         /// <param name="patientName">Patient name or names</param>
         /// <param name="relativeName">Patient relatives names</param>
-        /// <param name="evaluationDate1">First evaluation date in timestamp</param>
-        /// <param name="evaluationDate2">Second evaluation date in timestamp</param>
-        /// <param name="evaluationDate3">Third evaluation date in timestamp</param>
-        /// <param name="evaluationDate4">Fourth evaluation date in timestamp</param>
         /// <param name="observationsEnglish">Evaluator team observations in English</param>
         /// <param name="observationsSpanish">Evaluator team observations in Spanish</param>
         /// <param name="observationsFrench">Evaluator team observations in French</param>
@@ -40,7 +36,10 @@ namespace OTEAServer.Models
         /// <param name="observationsGerman">Evaluator team observations in German</param>
         /// <param name="observationsItalian">Evaluator team observations in Italian</param>
         /// <param name="observationsPortuguese">Evaluator team observations in Portuguese</param>
-        public EvaluatorTeam(int idEvaluatorTeam, long creationDate, string emailProfessional, string emailResponsible, string otherMembers, int idEvaluatorOrganization, string orgTypeEvaluator, int idEvaluatedOrganization, string orgTypeEvaluated, int idCenter, string illness, string externalConsultant, string patientName, string relativeName, long evaluationDate1, long evaluationDate2, long evaluationDate3, long evaluationDate4, string observationsEnglish, string observationsSpanish, string observationsFrench, string observationsBasque, string observationsCatalan, string observationsDutch, string observationsGalician, string observationsGerman, string observationsItalian, string observationsPortuguese) {
+        /// <param name="evaluationDates">Evaluation dates sepparated by commas</param>
+        /// <param name="completedEvaluationDates">Number of completed evaluation dates</param>
+        /// <param name="totalEvaluationDates">Number of total evaluation dates</param>
+        public EvaluatorTeam(int idEvaluatorTeam, long creationDate, string emailProfessional, string emailResponsible, string otherMembers, int idEvaluatorOrganization, string orgTypeEvaluator, int idEvaluatedOrganization, string orgTypeEvaluated, int idCenter, string illness, string externalConsultant, string patientName, string relativeName, string observationsEnglish, string observationsSpanish, string observationsFrench, string observationsBasque, string observationsCatalan, string observationsDutch, string observationsGalician, string observationsGerman, string observationsItalian, string observationsPortuguese, string evaluationDates, int completedEvaluationDates, int totalEvaluationDates) {
             this.idEvaluatorTeam = idEvaluatorTeam;
             this.creationDate = creationDate;
             this.emailProfessional = emailProfessional;
@@ -55,10 +54,6 @@ namespace OTEAServer.Models
             this.externalConsultant = externalConsultant;
             this.patientName = patientName;
             this.relativeName = relativeName;
-            this.evaluationDate1 = evaluationDate1;
-            this.evaluationDate2 = evaluationDate2;
-            this.evaluationDate3 = evaluationDate3;
-            this.evaluationDate4 = evaluationDate4;
             this.observationsSpanish = observationsSpanish;
             this.observationsEnglish = observationsEnglish;
             this.observationsFrench = observationsFrench;
@@ -69,6 +64,9 @@ namespace OTEAServer.Models
             this.observationsGerman = observationsGerman;
             this.observationsItalian = observationsItalian;
             this.observationsPortuguese = observationsPortuguese;
+            this.evaluationDates = evaluationDates;
+            this.completedEvaluationDates= completedEvaluationDates;
+            this.totalEvaluationDates= totalEvaluationDates;
         }
 
         /// <summary>
@@ -155,29 +153,6 @@ namespace OTEAServer.Models
         [JsonPropertyName("relativeName")]
         public string relativeName { get; set; }
 
-        /// <summary>
-        /// First evaluation date in timestamp
-        /// </summary>
-        [JsonPropertyName("evaluationDate1")]
-        public long evaluationDate1 { get; set; }
-
-        /// <summary>
-        /// Second evaluation date in timestamp
-        /// </summary>
-        [JsonPropertyName("evaluationDate2")]
-        public long evaluationDate2 { get; set; }
-
-        /// <summary>
-        /// Third evaluation date in timestamp
-        /// </summary>
-        [JsonPropertyName("evaluationDate3")]
-        public long evaluationDate3 { get; set; }
-
-        /// <summary>
-        /// Fourth evaluation date in timestamp
-        /// </summary>
-        [JsonPropertyName("evaluationDate4")]
-        public long evaluationDate4 { get; set; }
 
         /// <summary>
         /// Evaluator team observations in Spanish
@@ -238,6 +213,30 @@ namespace OTEAServer.Models
         /// </summary>
         [JsonPropertyName("observationsPortuguese")]
         public string observationsPortuguese { get; set; }
+
+        /// <summary>
+        /// Evaluation dates sepparated by commas
+        /// </summary>
+
+        [JsonPropertyName("evaluationDates")]
+        public string evaluationDates { get; set; }
+
+        /// <summary>
+        /// Number of completed evaluation dates
+        /// </summary>
+
+        [JsonPropertyName("completedEvaluationDates")]
+        public int completedEvaluationDates { get; set; }
+
+        /// <summary>
+        /// Number of total evaluation dates
+        /// </summary>
+
+        [JsonPropertyName("totalEvaluationDates")]
+        public int totalEvaluationDates { get; set; }
+    }
+
+
 
     }
 }

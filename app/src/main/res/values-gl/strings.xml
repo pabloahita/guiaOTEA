@@ -236,6 +236,28 @@
     <string name="conclusions">Conclusións da avaliación dos indicadores</string>
     <string name="finish">Finalizar a avaliación dos indicadores</string>
     <string name="saving_eval_ind_changes">Gardando os cambios da avaliación dos indicadores. Por favor, agarde uns segundos...</string>
+    <string name="understood">Entendido</string>
+    <string name="error">Erro</string>
+    <string name="errors">Erros</string>
+    <string name="no_eval_team">Non hai equipos avaliadores asignados ao centro e organización seleccionados. Por favor, seleccione outro centro ou organización, ou solicite á organización externa crear un equipo avaliador.</string>
+    <string name="please_select_org">Debe seleccionar unha organización</string>
+    <string name="please_select_center">Debe seleccionar un centro</string>
+    <string name="please_select_ind_eval">Debe seleccionar unha avaliación dos indicadores</string>
+    <string name="please_select_eval_team">Debe seleccionar un equipo avaliador</string>
+    <string name="indicators_evaluation">Avaliación de indicadores</string>
+    <string name="please_select_eval_type">Debe seleccionar un tipo de avaliación</string>
+    <string name="no_ind_eval">Non se atopou ningunha avaliación de indicadores pendente para este equipo avaliador. Escolla outro equipo avaliador diferente</string>
+    <string name="add_eval_dates">Datas de avaliación</string>
+    <string name="action_today">HOXE</string>
+    <string name="action_cancel">CANCELAR</string>
+    <string name="action_select">SELECCIONAR</string>
+    <string name="prime_date_picker_selected_day">Día Seleccionado</string>
+    <string name="prime_date_picker_from">Desde o</string>
+    <string name="prime_date_picker_to">Ata o</string>
+    <string name="no_range_is_selected">¡Non se seleccionou ningún rango de datas!</string>
+    <string name="no_day_is_selected">¡Non se seleccionou ningún día!</string>
+    <string name="must_select_three_eval_dates">Debe seleccionar polo menos tres datas de avaliación nun período non superior a un mes</string>
+    <string name="difference_between_dates_is_equal_or_greater_than_a_month">A diferenza entre a primeira e a última data seleccionada é igual ou superior a un mes</string>
 
 
 </resources>

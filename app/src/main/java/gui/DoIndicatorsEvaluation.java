@@ -1235,7 +1235,7 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                 }).create().show();
     }
     private void addToDatabase(){
-        //Session.getInstance().setCurrEvaluation(null);
+        Session.getInstance().setCurrEvaluation(null);
         if(IndicatorsEvaluationsController.Get(current_evaluation.getEvaluationDate(),current_evaluation.getIdEvaluatorTeam(),current_evaluation.getIdEvaluatorOrganization(),current_evaluation.getOrgTypeEvaluator(),current_evaluation.getIdEvaluatedOrganization(),current_evaluation.getOrgTypeEvaluated(),current_evaluation.getIllness(),current_evaluation.getIdCenter(),current_evaluation.getEvaluationType())==null) {
             IndicatorsEvaluationsController.Create(current_evaluation);
         }else{

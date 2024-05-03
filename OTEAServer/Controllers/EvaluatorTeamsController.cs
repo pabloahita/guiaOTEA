@@ -49,19 +49,41 @@ namespace OTEAServer.Controllers
         }
 
         /// <summary>
-        /// Method that obtains all the evaluator teams by center
+        /// Method that obtains all the non finished evaluator teams by center
         /// </summary>
         /// <param name="id">Organization identifier</param>
         /// <param name="orgType">Organization type</param>
         /// <param name="idCenter">Organization center</param>
         /// <param name="illness">Organization illness or syndrome</param>
         /// <returns>Evaluator teams list</returns>
-        [HttpGet("allByCenter")]
-        public IActionResult GetAllByCenter([FromQuery] int id, [FromQuery] string orgType, [FromQuery] int idCenter, [FromQuery] string illness)
+        [HttpGet("allNonFinishedByCenter")]
+        public IActionResult GetAllNonFinishedByCenter([FromQuery] int id, [FromQuery] string orgType, [FromQuery] int idCenter, [FromQuery] string illness)
         {
             try
             {
-                var evaluatorTeams = _context.EvaluatorTeams.Where(e => e.idEvaluatedOrganization == id && e.orgTypeEvaluated == orgType && e.idCenter == idCenter && e.illness == illness).ToList();
+                var evaluatorTeams = _context.EvaluatorTeams.Where(e => e.idEvaluatedOrganization == id && e.orgTypeEvaluated == orgType && e.idCenter == idCenter && e.illness == illness && e.completedEvaluationDates<e.totalEvaluationDates).ToList();
+                return Ok(evaluatorTeams);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Method that obtains all the finished evaluator teams by center
+        /// </summary>
+        /// <param name="id">Organization identifier</param>
+        /// <param name="orgType">Organization type</param>
+        /// <param name="idCenter">Organization center</param>
+        /// <param name="illness">Organization illness or syndrome</param>
+        /// <returns>Evaluator teams list</returns>
+        [HttpGet("allFinishedByCenter")]
+        public IActionResult GetAllFinishedByCenter([FromQuery] int id, [FromQuery] string orgType, [FromQuery] int idCenter, [FromQuery] string illness)
+        {
+            try
+            {
+                var evaluatorTeams = _context.EvaluatorTeams.Where(e => e.idEvaluatedOrganization == id && e.orgTypeEvaluated == orgType && e.idCenter == idCenter && e.illness == illness && e.completedEvaluationDates == e.totalEvaluationDates).ToList();
                 return Ok(evaluatorTeams);
             }
             catch (Exception ex)
@@ -190,10 +212,6 @@ namespace OTEAServer.Controllers
                 existingEvaluatorTeam.otherMembers = evaluatorTeam.otherMembers;
                 existingEvaluatorTeam.patientName = evaluatorTeam.patientName;
                 existingEvaluatorTeam.relativeName = evaluatorTeam.relativeName;
-                existingEvaluatorTeam.evaluationDate1 = evaluatorTeam.evaluationDate1;
-                existingEvaluatorTeam.evaluationDate2 = evaluatorTeam.evaluationDate2;
-                existingEvaluatorTeam.evaluationDate3 = evaluatorTeam.evaluationDate3;
-                existingEvaluatorTeam.evaluationDate4 = evaluatorTeam.evaluationDate4;
                 existingEvaluatorTeam.observationsSpanish = evaluatorTeam.observationsSpanish;
                 existingEvaluatorTeam.observationsEnglish = evaluatorTeam.observationsEnglish;
                 existingEvaluatorTeam.observationsFrench = evaluatorTeam.observationsFrench;
@@ -204,6 +222,9 @@ namespace OTEAServer.Controllers
                 existingEvaluatorTeam.observationsGerman = evaluatorTeam.observationsGerman;
                 existingEvaluatorTeam.observationsItalian = evaluatorTeam.observationsItalian;
                 existingEvaluatorTeam.observationsPortuguese = evaluatorTeam.observationsPortuguese;
+                existingEvaluatorTeam.evaluationDates = evaluatorTeam.evaluationDates;
+                existingEvaluatorTeam.completedEvaluationDates = evaluatorTeam.completedEvaluationDates;
+                existingEvaluatorTeam.totalEvaluationDates = evaluatorTeam.totalEvaluationDates;
 
                 _context.SaveChanges();
 

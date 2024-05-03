@@ -240,5 +240,27 @@
     <string name="conclusions">Conclusions de l\'avaluació dels indicadors</string>
     <string name="finish">Finalitzar l\'avaluació dels indicadors</string>
     <string name="saving_eval_ind_changes">Guardant els canvis de l\'avaluació dels indicadors. Si us plau, esperi uns segons...</string>
+    <string name="understood">Entès</string>
+    <string name="error">Error</string>
+    <string name="errors">Errors</string>
+    <string name="no_eval_team">No hi ha equips d\'avaluació assignats al centre i a l\'organització seleccionats. Si us plau, seleccioneu un altre centre o organització, o sol·liciteu a l\'organització externa crear un equip d\'avaluació.</string>
+    <string name="please_select_org">Cal seleccionar una organització</string>
+    <string name="please_select_center">Ha de seleccionar un centre</string>
+    <string name="please_select_ind_eval">Cal seleccionar una avaluació dels indicadors</string>
+    <string name="please_select_eval_team">Ha de seleccionar un equip d\'avaluació</string>
+    <string name="indicators_evaluation">Avaluació d\'indicadors</string>
+    <string name="please_select_eval_type">Cal seleccionar un tipus d\'avaluació</string>
+    <string name="no_ind_eval">No s\'ha trobat cap avaluació d\'indicadors pendent per a aquest equip d\'avaluació. Si us plau, escolliu un altre equip d\'avaluació</string>
+    <string name="add_eval_dates">Dates d\'avaluació</string>
+    <string name="action_today">AVUI</string>
+    <string name="action_cancel">CANCEL·LAR</string>
+    <string name="action_select">SELECCIONAR</string>
+    <string name="prime_date_picker_selected_day">Dia Seleccionat</string>
+    <string name="prime_date_picker_from">Des del</string>
+    <string name="prime_date_picker_to">Fins el</string>
+    <string name="no_range_is_selected">No s\'ha seleccionat cap rang de dates!</string>
+    <string name="no_day_is_selected">No s\'ha seleccionat cap dia!</string>
+    <string name="must_select_three_eval_dates">Cal seleccionar com a mínim tres dates d\'avaluació en un període no superior a un mes</string>
+    <string name="difference_between_dates_is_equal_or_greater_than_a_month">La diferència entre la primera i l\'última data seleccionada és igual o superior a un mes</string>
 
 </resources>

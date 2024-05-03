@@ -235,4 +235,26 @@
     <string name="conclusions">Conclusões da avaliação dos indicadores</string>
     <string name="finish">Finalizar avaliação dos indicadores</string>
     <string name="saving_eval_ind_changes">Salvando alterações na avaliação dos indicadores. Por favor, aguarde alguns segundos...</string>
+    <string name="understood">Entendido</string>
+    <string name="error">Erro</string>
+    <string name="errors">Erros</string>
+    <string name="no_eval_team">Não há equipes de avaliação atribuídas ao centro e à organização selecionados. Por favor, selecione outro centro ou organização, ou solicite à organização externa que crie uma equipe de avaliação.</string>
+    <string name="please_select_org">Você deve selecionar uma organização</string>
+    <string name="please_select_center">Você deve selecionar um centro</string>
+    <string name="please_select_ind_eval">Você deve selecionar uma avaliação dos indicadores</string>
+    <string name="please_select_eval_team">Você deve selecionar uma equipe de avaliação</string>
+    <string name="indicators_evaluation">Avaliação de indicadores</string>
+    <string name="please_select_eval_type">Você deve selecionar um tipo de avaliação</string>
+    <string name="no_ind_eval">Não foram encontradas avaliações pendentes de indicadores para esta equipe de avaliação. Por favor, escolha outra equipe de avaliação</string>
+    <string name="add_eval_dates">Datas de avaliação</string>
+    <string name="action_today">HOJE</string>
+    <string name="action_cancel">CANCELAR</string>
+    <string name="action_select">SELECIONAR</string>
+    <string name="prime_date_picker_selected_day">Dia Selecionado</string>
+    <string name="prime_date_picker_from">De</string>
+    <string name="prime_date_picker_to">Até</string>
+    <string name="no_range_is_selected">Nenhum intervalo de datas selecionado!</string>
+    <string name="no_day_is_selected">Nenhum dia selecionado!</string>
+    <string name="must_select_three_eval_dates">Você deve selecionar pelo menos três datas de avaliação em um período não superior a um mês</string>
+    <string name="difference_between_dates_is_equal_or_greater_than_a_month">A diferença entre a primeira e a última data selecionada é igual ou superior a um mês</string>
 </resources>

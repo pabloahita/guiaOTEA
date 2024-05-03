@@ -95,6 +95,8 @@ public class Session {
 
     private IndicatorsEvaluation currEvaluation;
 
+    private List<IndicatorsEvaluation> indicatorsEvaluations;
+
 
     private Session(JsonObject data) {
         setToken(data.getAsJsonPrimitive("token").getAsString());
@@ -398,6 +400,27 @@ public class Session {
         return evaluatorTeams.stream().filter(evaluatorTeamOfThatCenterExist).collect(Collectors.toList());
     }
 
+    public List<IndicatorsEvaluation> getNonFinishedByEvaluatorTeam(EvaluatorTeam evaluatorTeam) {
+        if(indicatorsEvaluations==null){
+            indicatorsEvaluations=new ArrayList<>();
+        }
+        Predicate<IndicatorsEvaluation> indicatorEvaluationNonFinishedOfThatEvalTeamExist=new Predicate<IndicatorsEvaluation>() {
+            @Override
+            public boolean test(IndicatorsEvaluation indicatorsEvaluation) {
+                return indicatorsEvaluation.getIdEvaluatorTeam()==evaluatorTeam.getIdEvaluatorTeam()
+                        && indicatorsEvaluation.getIdEvaluatedOrganization()==evaluatorTeam.getIdEvaluatedOrganization()
+                        && indicatorsEvaluation.getOrgTypeEvaluated().equals(evaluatorTeam.getOrgTypeEvaluated())
+                        && indicatorsEvaluation.getIllness().equals(evaluatorTeam.getIllness())
+                        && indicatorsEvaluation.getIdCenter()==evaluatorTeam.getIdCenter();
+            }
+        };
+        List<IndicatorsEvaluation> aux=indicatorsEvaluations.stream().filter(indicatorEvaluationNonFinishedOfThatEvalTeamExist).collect(Collectors.toList());
+        if(aux.isEmpty()){
+            indicatorsEvaluations.addAll(IndicatorsEvaluationsController.GetNonFinishedByEvaluatorTeam(evaluatorTeam.getIdEvaluatorTeam(),evaluatorTeam.getIdEvaluatorOrganization(),evaluatorTeam.getOrgTypeEvaluator(),evaluatorTeam.getIdEvaluatedOrganization(),evaluatorTeam.getOrgTypeEvaluated(),evaluatorTeam.getIllness(),evaluatorTeam.getIdCenter()));
+        }
+        return indicatorsEvaluations.stream().filter(indicatorEvaluationNonFinishedOfThatEvalTeamExist).collect(Collectors.toList());
+    }
+
     public void obtainIndicatorsFromDataBase(String evaluationType){
         if(indicators==null) {
             ambits = AmbitsController.GetAll();
@@ -458,4 +481,6 @@ public class Session {
         }
         return orgPhoto;
     }
+
+
 }

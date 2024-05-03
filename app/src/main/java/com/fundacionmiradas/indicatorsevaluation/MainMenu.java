@@ -166,7 +166,6 @@ public class MainMenu extends AppCompatActivity {
                             session.obtainOrgsAndEvalTeams();
                             Intent intent = new Intent(getApplicationContext(), gui.SelectToDoIndicatorsEvaluations.class);
                             startActivity(intent);
-                            chargingScreen.setVisibility(View.GONE);
                         }
                     }, 200);
 
@@ -179,10 +178,8 @@ public class MainMenu extends AppCompatActivity {
                     v.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            //Intent intent = new Intent(getApplicationContext(), gui.SelectToContinueIndicatorsEvaluations.class);
-                            Session.getInstance().obtainIndicatorsFromDataBase("COMPLETE");
-                            Session.getInstance().setCurrEvaluation(IndicatorsEvaluationsController.GetNonFinishedByCenter(1,"EVALUATOR",1,"EVALUATED","AUTISM",2).get(0));
-                            Intent intent=new Intent(getApplicationContext(), gui.DoIndicatorsEvaluation.class);
+                            session.obtainOrgsAndEvalTeams();
+                            Intent intent = new Intent(getApplicationContext(), gui.SelectToContinueIndicatorsEvaluations.class);
                             startActivity(intent);
                         }
                     }, 200);

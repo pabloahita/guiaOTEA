@@ -69,22 +69,6 @@ public class EvaluatorTeam implements Serializable {
     @SerializedName("idCenter")
     public int idCenter;
 
-    /**First evaluation date in timestamp*/
-    @SerializedName("evaluationDate1")
-    public long evaluationDate1;
-
-    /**Second evaluation date in timestamp*/
-    @SerializedName("evaluationDate2")
-    public long evaluationDate2;
-
-    /**Third evaluation date in timestamp*/
-    @SerializedName("evaluationDate3")
-    public long evaluationDate3;
-
-    /**Fourth evaluation date in timestamp*/
-    @SerializedName("evaluationDate4")
-    public long evaluationDate4;
-
     /**Evaluator team observations in English*/
     @SerializedName("observationsEnglish")
     public String observationsEnglish;
@@ -125,6 +109,18 @@ public class EvaluatorTeam implements Serializable {
     @SerializedName("observationsPortuguese")
     public String observationsPortuguese;
 
+    /**Evaluation dates sepparated by commas*/
+    @SerializedName("evaluationDates")
+    public String evaluationDates;
+
+    /**Number of completed evaluation dates*/
+    @SerializedName("completedEvaluationDates")
+    public int completedEvaluationDates;
+
+    /**Number of total evaluation dates*/
+    @SerializedName("totalEvaluationDates")
+    public int totalEvaluationDates;
+
 
     /**
      * Class constructor
@@ -143,10 +139,6 @@ public class EvaluatorTeam implements Serializable {
      * @param externalConsultant - External consultant name
      * @param patientName - Patient name or names
      * @param relativeName - Patient relatives names
-     * @param evaluationDate1 - First evaluation date in timestamp
-     * @param evaluationDate2 - Second evaluation date in timestamp
-     * @param evaluationDate3 - Third evaluation date in timestamp
-     * @param evaluationDate4 - Fourth evaluation date in timestamp
      * @param observationsEnglish - Evaluator team observations in English
      * @param observationsSpanish - Evaluator team observations in Spanish
      * @param observationsFrench - Evaluator team observations in French
@@ -157,8 +149,11 @@ public class EvaluatorTeam implements Serializable {
      * @param observationsGerman - Evaluator team observations in German
      * @param observationsItalian - Evaluator team observations in Italian
      * @param observationsPortuguese - Evaluator team observations in Portuguese
+     * @param evaluationDates - Evaluation dates sepparated by commas
+     * @param completedEvaluationDates - Number of completed evaluation dates
+     * @param totalEvaluationDates - Number of total evaluation dates
      * */
-    public EvaluatorTeam(int idEvaluatorTeam, long creationDate, String emailProfessional, String emailResponsible, String otherMembers, int idEvaluatorOrganization, String orgTypeEvaluator, int idEvaluatedOrganization, String orgTypeEvaluated, int idCenter, String illness, String externalConsultant, String patientName, String relativeName, long evaluationDate1, long evaluationDate2, long evaluationDate3, long evaluationDate4, String observationsEnglish, String observationsSpanish, String observationsFrench, String observationsBasque, String observationsCatalan, String observationsDutch, String observationsGalician, String observationsGerman, String observationsItalian, String observationsPortuguese){
+    public EvaluatorTeam(int idEvaluatorTeam, long creationDate, String emailProfessional, String emailResponsible, String otherMembers, int idEvaluatorOrganization, String orgTypeEvaluator, int idEvaluatedOrganization, String orgTypeEvaluated, int idCenter, String illness, String externalConsultant, String patientName, String relativeName, String observationsEnglish, String observationsSpanish, String observationsFrench, String observationsBasque, String observationsCatalan, String observationsDutch, String observationsGalician, String observationsGerman, String observationsItalian, String observationsPortuguese, String evaluationDates, int completedEvaluationDates, int totalEvaluationDates){
         setIdEvaluatorTeam(idEvaluatorTeam);
         setCreationDate(creationDate);
         setEmailProfessional(emailProfessional);
@@ -173,10 +168,6 @@ public class EvaluatorTeam implements Serializable {
         setExternalConsultant(externalConsultant);
         setPatient_name(patientName);
         setRelative_name(relativeName);
-        setEvaluationDate1(evaluationDate1);
-        setEvaluationDate2(evaluationDate2);
-        setEvaluationDate3(evaluationDate3);
-        setEvaluationDate4(evaluationDate4);
         setObservationsEnglish(observationsEnglish);
         setObservationsSpanish(observationsSpanish);
         setObservationsFrench(observationsFrench);
@@ -187,6 +178,9 @@ public class EvaluatorTeam implements Serializable {
         setObservationsGerman(observationsGerman);
         setObservationsItalian(observationsItalian);
         setObservationsPortuguese(observationsPortuguese);
+        setEvaluationDates(evaluationDates);
+        setCompletedEvaluationDates(completedEvaluationDates);
+        setTotalEvaluationDates(totalEvaluationDates);
     }
 
     /**
@@ -441,77 +435,7 @@ public class EvaluatorTeam implements Serializable {
         this.idCenter = idCenter;
     }
 
-    /**
-     * Method that obtains the first evaluation date in timestamp
-     *
-     * @return First evaluation date in timestamp
-     * */
-    public long getEvaluationDate1() {
-        return evaluationDate1;
-    }
 
-    /**
-     * Method that sets the new first evaluation date in timestamp
-     *
-     * @param evaluationDate1 - First evaluation date in timestamp
-     * */
-    public void setEvaluationDate1(long evaluationDate1) {
-        this.evaluationDate1 = evaluationDate1;
-    }
-
-    /**
-     * Method that obtains the second evaluation date in timestamp
-     *
-     * @return Second evaluation date in timestamp
-     * */
-    public long getEvaluationDate2() {
-        return evaluationDate2;
-    }
-
-    /**
-     * Method that sets the new second evaluation date in timestamp
-     *
-     * @param evaluationDate2 - Second evaluation date in timestamp
-     * */
-    public void setEvaluationDate2(long evaluationDate2) {
-        this.evaluationDate2 = evaluationDate2;
-    }
-
-    /**
-     * Method that obtains the third evaluation date in timestamp
-     *
-     * @return Third evaluation date in timestamp
-     * */
-    public long getEvaluationDate3() {
-        return evaluationDate3;
-    }
-
-    /**
-     * Method that sets the new third evaluation date in timestamp
-     *
-     * @param evaluationDate3 - Third evaluation date in timestamp
-     * */
-    public void setEvaluationDate3(long evaluationDate3) {
-        this.evaluationDate3 = evaluationDate3;
-    }
-
-    /**
-     * Method that obtains the fourth evaluation date in timestamp
-     *
-     * @return Fourth evaluation date in timestamp
-     * */
-    public long getEvaluationDate4() {
-        return evaluationDate4;
-    }
-
-    /**
-     * Method that sets the new fourth evaluation date in timestamp
-     *
-     * @param evaluationDate4 - Fourth evaluation date in timestamp
-     * */
-    public void setEvaluationDate4(long evaluationDate4) {
-        this.evaluationDate4 = evaluationDate4;
-    }
 
     /**
      * Method that obtains the observations in English
@@ -691,5 +615,59 @@ public class EvaluatorTeam implements Serializable {
      * */
     public void setObservationsPortuguese(String observationsPortuguese) {
         this.observationsPortuguese = observationsPortuguese;
+    }
+
+    /**
+     * Method that obtains the evaluation dates sepparated by commas
+     *
+     * @return Evaluation dates sepparated by commas
+     * */
+    public String getEvaluationDates() {
+        return evaluationDates;
+    }
+
+    /**
+     * Method that sets the new evaluation dates sepparated by commas
+     *
+     * @param evaluationDates - Evaluation dates sepparated by commas
+     * */
+    public void setEvaluationDates(String evaluationDates) {
+        this.evaluationDates = evaluationDates;
+    }
+
+    /**
+     * Method that obtains the number of completed evaluation dates
+     *
+     * @return Number of completed evaluation dates
+     * */
+    public int getCompletedEvaluationDates() {
+        return completedEvaluationDates;
+    }
+
+    /**
+     * Method that sets the new number of completed evaluation dates
+     *
+     * @param completedEvaluationDates - Number of completed evaluation dates
+     * */
+    public void setCompletedEvaluationDates(int completedEvaluationDates) {
+        this.completedEvaluationDates = completedEvaluationDates;
+    }
+
+    /**
+     * Method that obtains the number of total evaluation dates
+     *
+     * @return Number of total evaluation dates
+     * */
+    public int getTotalEvaluationDates() {
+        return totalEvaluationDates;
+    }
+
+    /**
+     * Method that sets the new number of total evaluation dates
+     *
+     * @param totalEvaluationDates - Number of total evaluation dates
+     * */
+    public void setTotalEvaluationDates(int totalEvaluationDates) {
+        this.totalEvaluationDates = totalEvaluationDates;
     }
 }

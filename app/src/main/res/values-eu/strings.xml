@@ -239,5 +239,27 @@
     <string name="conclusions">Adierazleen ebaluazioaren ondorioak</string>
     <string name="finish">Ebaluazioa bukatu adierazleak</string>
     <string name="saving_eval_ind_changes">Aldaketak adierazleak ebaluatu. Mesedez, itxaron hurrengo segundo batzuk...</string>
+    <string name="understood">Ulertuta</string>
+    <string name="error">Errorea</string>
+    <string name="errors">Erroreak</string>
+    <string name="no_eval_team">Ez dago hautatutako zentro eta erakundean balorazio taldeak esleituta. Mesedez, aukeratu beste erakunde bat edo eskatu kanpoko erakundeari balorazio taldea sortu.</string>
+    <string name="please_select_org">Erakunde bat hautatu behar duzu</string>
+    <string name="please_select_center">Zentru bat hautatu behar duzu</string>
+    <string name="please_select_ind_eval">Adierazleak ebaluatu behar duzu</string>
+    <string name="please_select_eval_team">Ebaluazio taldea hautatu behar duzu</string>
+    <string name="indicators_evaluation">Adierazleen ebaluazioa</string>
+    <string name="please_select_eval_type">Ebaluazio mota bat hautatu behar duzu</string>
+    <string name="no_ind_eval">Adierazlearen ebaluazioa itxaroten ez dago talde ebaluatzailerentzat. Mesedez, aukeratu beste talde ebaluatzailer bat</string>
+    <string name="add_eval_dates">Ebaluazio egunak</string>
+    <string name="action_today">GAUR</string>
+    <string name="action_cancel">UTZI</string>
+    <string name="action_select">HAUTATU</string>
+    <string name="prime_date_picker_selected_day">Hautatutako Eguna</string>
+    <string name="prime_date_picker_from">-tik</string>
+    <string name="prime_date_picker_to">-ra</string>
+    <string name="no_range_is_selected">Ez da data-lerroa hautatu!</string>
+    <string name="no_day_is_selected">Ez da egunik hautatu!</string>
+    <string name="must_select_three_eval_dates">Txosteneko gutxienez hiru egun hautatu behar dituzu hilabete bateko perioduan ez</string>
+    <string name="difference_between_dates_is_equal_or_greater_than_a_month">Hautatutako lehenengo eta azkenengo egunen arteko diferentzia hilabeteko edo gehiagoko da</string>
 
 </resources>

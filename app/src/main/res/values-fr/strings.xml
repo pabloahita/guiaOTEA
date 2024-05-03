@@ -196,4 +196,26 @@
     <string name="conclusions">Conclusions de l\'évaluation des indicateurs</string>
     <string name="finish">Terminer l\'évaluation des indicateurs</string>
     <string name="saving_eval_ind_changes">Enregistrement des modifications de l\'évaluation des indicateurs. Veuillez patienter quelques instants...</string>
+    <string name="understood">Compris</string>
+    <string name="error">Erreur</string>
+    <string name="errors">Erreurs</string>
+    <string name="no_eval_team">Aucune équipe d\'évaluation n\'est attribuée au centre et à l\'organisation sélectionnés. Veuillez sélectionner un autre centre ou une autre organisation, ou demander à l\'organisation externe de créer une équipe d\'évaluation.</string>
+    <string name="please_select_org">Vous devez sélectionner une organisation</string>
+    <string name="please_select_center">Vous devez sélectionner un centre</string>
+    <string name="please_select_ind_eval">Vous devez sélectionner une évaluation des indicateurs</string>
+    <string name="please_select_eval_team">Vous devez sélectionner une équipe d\'évaluation</string>
+    <string name="indicators_evaluation">Évaluation des indicateurs</string>
+    <string name="please_select_eval_type">Vous devez sélectionner un type d\'évaluation</string>
+    <string name="no_ind_eval">Aucune évaluation d\'indicateur en attente n\'a été trouvée pour cette équipe d\'évaluation. Veuillez choisir une autre équipe d\'évaluation</string>
+    <string name="add_eval_dates">Dates d\'évaluation</string>
+    <string name="action_today">AUJOURD\'HUI</string>
+    <string name="action_cancel">ANNULER</string>
+    <string name="action_select">SÉLECTIONNER</string>
+    <string name="prime_date_picker_selected_day">Jour Sélectionné</string>
+    <string name="prime_date_picker_from">Du</string>
+    <string name="prime_date_picker_to">Au</string>
+    <string name="no_range_is_selected">Aucune plage de dates sélectionnée!</string>
+    <string name="no_day_is_selected">Aucun jour sélectionné!</string>
+    <string name="must_select_three_eval_dates">Vous devez sélectionner au moins trois dates d\'évaluation dans une période n\'excédant pas un mois</string>
+    <string name="difference_between_dates_is_equal_or_greater_than_a_month">La différence entre la première et la dernière date sélectionnée est égale ou supérieure à un mois</string>
 </resources>

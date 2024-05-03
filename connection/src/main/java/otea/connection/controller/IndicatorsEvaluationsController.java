@@ -124,8 +124,9 @@ public class IndicatorsEvaluationsController {
     }
 
     /**
-     * Method that obtains all the non finished indicators evaluations of a center
+     * Method that obtains all the non finished indicators evaluations of a evaluator team
      *
+     * @param idEvaluatorTeam - Identifier of the evaluator team
      * @param idEvaluatorOrganization - Identifier of the evaluator organization that will do the indicators evaluation
      * @param orgTypeEvaluator - Organization type of the evaluator organization that will do the indicators evaluation. It will be always "EVALUATOR"
      * @param idEvaluatedOrganization - Identifier of the external organization that will recieve the indicators evaluation
@@ -134,12 +135,12 @@ public class IndicatorsEvaluationsController {
      * @param idCenter - Center identifier
      * @return Indicators evaluations list
      * */
-    public static List<IndicatorsEvaluation> GetNonFinishedByCenter(int idEvaluatorOrganization, String orgTypeEvaluator, int idEvaluatedOrganization, String orgTypeEvaluated, String illness, int idCenter){
+    public static List<IndicatorsEvaluation> GetNonFinishedByEvaluatorTeam(int idEvaluatorTeam,int idEvaluatorOrganization, String orgTypeEvaluator, int idEvaluatedOrganization, String orgTypeEvaluated, String illness, int idCenter){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<IndicatorsEvaluation>> callable = new Callable<List<IndicatorsEvaluation>>() {
             @Override
             public List<IndicatorsEvaluation> call() throws Exception {
-                Call<List<IndicatorsEvaluation>> call=api.GetNonFinishedByCenter(idEvaluatorOrganization, orgTypeEvaluator, idEvaluatedOrganization, orgTypeEvaluated, illness, idCenter);
+                Call<List<IndicatorsEvaluation>> call=api.GetNonFinishedByEvaluatorTeam(idEvaluatorTeam,idEvaluatorOrganization, orgTypeEvaluator, idEvaluatedOrganization, orgTypeEvaluated, illness, idCenter);
                 Response<List<IndicatorsEvaluation>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

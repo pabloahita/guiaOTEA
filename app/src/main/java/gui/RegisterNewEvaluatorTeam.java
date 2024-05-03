@@ -3,28 +3,38 @@ package gui;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
+import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import com.aminography.primecalendar.PrimeCalendar;
+import com.aminography.primecalendar.civil.CivilCalendar;
+import com.aminography.primedatepicker.picker.PrimeDatePicker;
+import com.aminography.primedatepicker.picker.callback.MultipleDaysPickCallback;
+import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback;
 import com.fundacionmiradas.indicatorsevaluation.R;
 
 ;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.text.SimpleDateFormat;
-import java.util.LinkedList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.Predicate;
 
 import cli.organization.Organization;
 import cli.organization.data.Center;
@@ -34,21 +44,15 @@ import gui.adapters.CenterAdapter;
 import gui.adapters.OrgsAdapter;
 import gui.adapters.UsersAdapter;
 import misc.DateFormatter;
-import otea.connection.controller.CentersController;
 import otea.connection.controller.EvaluatorTeamsController;
-import otea.connection.controller.OrganizationsController;
 import otea.connection.controller.TranslatorController;
-import otea.connection.controller.UsersController;
 import session.Session;
 
 public class RegisterNewEvaluatorTeam extends AppCompatActivity {
 
-    TextView creationDate;
+    EditText creationDateEditText;
 
-    TextView evalDate1;
-    TextView evalDate2;
-    TextView evalDate3;
-    TextView evalDate4;
+    EditText evaluationDatesEditText;
 
     List<Organization> evaluatedOrganizations;
 
@@ -69,6 +73,14 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
     Center centerSelected;
 
     Organization organizationSelected;
+    
+    static int MIN_NUM_EVAL_DATES=3;
+
+    static int MAX_NUM_EVAL_DATES=30;
+
+    PrimeCalendar creationDate;
+
+    List<PrimeCalendar> evaluationDates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,22 +112,17 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
 
             otherMembers=new ArrayList<>();
 
+            EditText otherMembers = findViewById(R.id.other_members);
 
+            EditText consultant = findViewById(R.id.consultant);
 
-            TextView otherMembers = findViewById(R.id.other_members);
+            EditText patient = findViewById(R.id.patientName);
+            EditText relative = findViewById(R.id.relativeName);
 
-            TextView consultant = findViewById(R.id.consultant);
+            creationDateEditText=findViewById(R.id.creation_date);
+            evaluationDatesEditText=findViewById(R.id.eval_dates);
 
-            TextView patient = findViewById(R.id.patientName);
-            TextView relative = findViewById(R.id.relativeName);
-
-            creationDate=findViewById(R.id.creation_date);
-            evalDate1=findViewById(R.id.eval_date_1);
-            evalDate2=findViewById(R.id.eval_date_2);
-            evalDate3=findViewById(R.id.eval_date_3);
-            evalDate4=findViewById(R.id.eval_date_4);
-
-            TextView observations=findViewById(R.id.observations);
+            EditText observations=findViewById(R.id.observations);
 
             OrgsAdapter[] orgsAdapter={new OrgsAdapter(getApplicationContext(),evaluatedOrganizations)};
             UsersAdapter[] usersAdapter=new UsersAdapter[2];
@@ -304,120 +311,104 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                 }
             });
 
-            creationDate.addTextChangedListener(new TextWatcher() {
+            creationDateEditText.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    creationDate.setError(null);
-                }
+                public void onClick(View v) {
+                    PrimeCalendar today = new CivilCalendar();
 
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    String input=s.toString();
-                    if(input.isEmpty()){
-                        creationDate.setError(getString(R.string.please_date));
-                    }
-                    else{
-                        creationDate.setError(null);
-                    }
-                }
+                    PrimeDatePicker datePicker = PrimeDatePicker.Companion.dialogWith(today)
+                            .pickSingleDay(new SingleDayPickCallback() {
+                                @Override
+                                public void onSingleDayPicked(PrimeCalendar singleDay) {
+                                    creationDate=singleDay;
+                                    creationDateEditText.setText(creationDate.getLongDateString());
+                                }
+                            })
+                            .minPossibleDate(today)
+                            .build();
 
-                @Override
-                public void afterTextChanged(Editable s) {
-
+                    datePicker.show(getSupportFragmentManager(), "CREATION_DATE");
                 }
             });
 
-            evalDate1.addTextChangedListener(new TextWatcher() {
+            evaluationDatesEditText.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    evalDate1.setError(null);
-                }
+                public void onClick(View v) {
+                    PrimeCalendar today = new CivilCalendar();
 
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    String input=s.toString();
-                    if(input.isEmpty()){
-                        evalDate2.setError(getString(R.string.please_date));
+                    if(evaluationDates==null){
+                        evaluationDates=new ArrayList<>();
                     }
-                    else{
-                        evalDate1.setError(null);
-                    }
-                }
+                    PrimeDatePicker datePicker = PrimeDatePicker.Companion.dialogWith(today)
+                            .pickMultipleDays(new MultipleDaysPickCallback() {
+                                @Override
+                                public void onMultipleDaysPicked(List<PrimeCalendar> list) {
+                                    if(!evaluationDates.isEmpty()) {
+                                        evaluationDates.clear();
+                                    }
+                                    evaluationDates.addAll(list);
+                                    String text="";
+                                    Collections.sort(evaluationDates, new Comparator<PrimeCalendar>() {
+                                        @Override
+                                        public int compare(PrimeCalendar o1, PrimeCalendar o2) {
+                                            if(o1.getTimeInMillis() < o2.getTimeInMillis()){
+                                                return -1;
+                                            } else if(o1.getTimeInMillis() > o2.getTimeInMillis()){
+                                                return 1;
+                                            }
+                                            return 0;
+                                        }
+                                    });
+                                    if(evaluationDates.size()>=MIN_NUM_EVAL_DATES && evaluationDates.get(evaluationDates.size()-1).getTimeInMillis()-evaluationDates.get(0).getTimeInMillis()<2629800000L){
+                                        StringBuilder sb=new StringBuilder();
+                                        for(int i=0;i<evaluationDates.size();i++){
+                                            sb.append(evaluationDates.get(i).getLongDateString().split(", ")[1]);
+                                            if(i<evaluationDates.size()-1){
+                                                sb.append(", ");
+                                            }
+                                        }
+                                        text=sb.toString();
+                                    }else{
+                                        if(!evaluationDates.isEmpty()) {
+                                            evaluationDates.clear();
+                                        }
+                                        String msg="";
+                                        if(evaluationDates.size()<MIN_NUM_EVAL_DATES){
+                                            msg="<b>"+getString(R.string.must_select_three_eval_dates)+"</b>";
+                                        }
+                                        else if(evaluationDates.get(evaluationDates.size()-1).getTimeInMillis()-evaluationDates.get(0).getTimeInMillis()>=2629800000L){
+                                            msg="<b>"+getString(R.string.difference_between_dates_is_equal_or_greater_than_a_month)+"</b>";
+                                        }
+                                        new AlertDialog.Builder(RegisterNewEvaluatorTeam.this)
+                                                .setTitle(getString(R.string.error))
+                                                .setMessage(Html.fromHtml(msg,0))
+                                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                                .setPositiveButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                    }
+                                                })
+                                                .create().show();
 
-                @Override
-                public void afterTextChanged(Editable s) {
+                                    }
+                                    evaluationDatesEditText.setText(text);
 
+                                }
+                            })
+                            .initiallyPickedMultipleDays(evaluationDates)
+                            .minPossibleDate(today)
+                            .build();
+                    datePicker.show(getSupportFragmentManager(), "EVALUATION_DATES");
                 }
             });
-
-            evalDate2.addTextChangedListener(new TextWatcher() {
+            /*addEvaluationDates.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    evalDate2.setError(null);
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    String input=s.toString();
-                    if(input.isEmpty()){
-                        evalDate2.setError(getString(R.string.please_date));
-                    }
-                    else{
-                        evalDate2.setError(null);
-                    }
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
+                public void onClick(View v) {
+                    //Minimo 3 Maximo 30 (en maximo 1 mes)
 
                 }
-            });
-
-            evalDate3.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    evalDate3.setError(null);
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    String input=s.toString();
-                    if(input.isEmpty()){
-                        evalDate3.setError(getString(R.string.please_date));
-                    }
-                    else{
-                        evalDate3.setError(null);
-                    }
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-
-                }
-            });
-
-            evalDate4.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    evalDate4.setError(null);
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    String input=s.toString();
-                    if(input.isEmpty()){
-                        evalDate4.setError(getString(R.string.please_date));
-                    }
-                    else{
-                        evalDate4.setError(null);
-                    }
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-
-                }
-            });
+            });*/
 
             observations.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -446,11 +437,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                     professionalSpinner.setEnabled(false);
                     patient.setEnabled(false);
                     relative.setEnabled(false);
-                    creationDate.setEnabled(false);
-                    evalDate1.setEnabled(false);
-                    evalDate2.setEnabled(false);
-                    evalDate3.setEnabled(false);
-                    evalDate4.setEnabled(false);
+                    creationDateEditText.setEnabled(false);
                     observations.setEnabled(false);
                     consultant.setEnabled(false);
 
@@ -459,15 +446,12 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                     v.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if(organizationSelected!=evaluatedOrganizations.get(0) && !userAuxList.contains(professional) && !userAuxList.contains(responsible) && !patient.getText().toString().isEmpty() && !relative.getText().toString().isEmpty() && !creationDate.getText().toString().isEmpty() && !evalDate1.getText().toString().isEmpty() && !evalDate2.getText().toString().isEmpty() && !evalDate3.getText().toString().isEmpty() && !evalDate4.getText().toString().isEmpty() && !consultant.toString().isEmpty()){
+                            if(organizationSelected!=evaluatedOrganizations.get(0) && !userAuxList.contains(professional) && !userAuxList.contains(responsible) && !patient.getText().toString().isEmpty() && !relative.getText().toString().isEmpty() && !creationDateEditText.getText().toString().isEmpty() && !consultant.toString().isEmpty()){
                                 int idEvaluatorTeam= EvaluatorTeamsController.GetAllByOrganization(1,"EVALUATOR","AUTISM").size()+1;
 
 
-                                long creation_date= DateFormatter.formatDate(creationDate.getText().toString());
-                                long eval_date1= DateFormatter.formatDate(evalDate1.getText().toString());
-                                long eval_date2= DateFormatter.formatDate(evalDate2.getText().toString());
-                                long eval_date3= DateFormatter.formatDate(evalDate3.getText().toString());
-                                long eval_date4= DateFormatter.formatDate(evalDate4.getText().toString());
+                                long creation_date= DateFormatter.formatDate(creationDateEditText.getText().toString());
+
 
                                 String observationsEnglish="";
                                 String observationsSpanish="";
@@ -598,7 +582,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                                 }
 
 
-                                EvaluatorTeam evaluatorTeam=new EvaluatorTeam(idEvaluatorTeam,creation_date,professional.getEmailUser(),responsible.getEmailUser(),otherMembers.getText().toString(),1,"EVALUATOR",organizationSelected.getIdOrganization(),organizationSelected.getOrgType(),centerSelected.getIdCenter(),organizationSelected.getIllness(),consultant.getText().toString(),patient.getText().toString(),relative.getText().toString(),eval_date1,eval_date2,eval_date3,eval_date4,observationsEnglish,observationsSpanish,observationsFrench,observationsBasque,observationsCatalan,observationsDutch,observationsGalician,observationsGerman,observationsItalian,observationsPortuguese);
+                                EvaluatorTeam evaluatorTeam=new EvaluatorTeam(idEvaluatorTeam,creation_date,professional.getEmailUser(),responsible.getEmailUser(),otherMembers.getText().toString(),1,"EVALUATOR",organizationSelected.getIdOrganization(),organizationSelected.getOrgType(),centerSelected.getIdCenter(),organizationSelected.getIllness(),consultant.getText().toString(),patient.getText().toString(),relative.getText().toString(),observationsEnglish,observationsSpanish,observationsFrench,observationsBasque,observationsCatalan,observationsDutch,observationsGalician,observationsGerman,observationsItalian,observationsPortuguese,"evalDates",0,evaluationDates.size());
 
 
                                 EvaluatorTeamsController.Create(evaluatorTeam);
@@ -615,11 +599,6 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                                 orgSpinner.setEnabled(true);
                                 responsibleSpinner.setEnabled(true);
                                 professionalSpinner.setEnabled(true);
-                                evalDate1.setEnabled(true);
-                                evalDate2.setEnabled(true);
-                                evalDate3.setEnabled(true);
-                                evalDate4.setEnabled(true);
-
                                 finalBackground.setVisibility(View.GONE);
 
                                 if(organizationSelected==evaluatedOrganizations.get(0)){
@@ -637,21 +616,10 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                                 if(relative.getText().toString().isEmpty()){
                                     relative.setError(getString(R.string.please_relative_name));
                                 }
-                                if(creationDate.getText().toString().isEmpty()){
-                                    creationDate.setError(getString(R.string.please_date));
+                                if(creationDateEditText.getText().toString().isEmpty()){
+                                    creationDateEditText.setError(getString(R.string.please_date));
                                 }
-                                if(evalDate1.getText().toString().isEmpty()){
-                                    evalDate1.setError(getString(R.string.please_date));
-                                }
-                                if(evalDate2.getText().toString().isEmpty()){
-                                    evalDate2.setError(getString(R.string.please_date));
-                                }
-                                if(evalDate3.getText().toString().isEmpty()){
-                                    evalDate3.setError(getString(R.string.please_date));
-                                }
-                                if(evalDate4.getText().toString().isEmpty()){
-                                    evalDate4.setError(getString(R.string.please_date));
-                                }
+
                                 if(consultant.getText().toString().isEmpty()){
                                     consultant.setError(getString(R.string.please_consultant));
                                 }
@@ -664,47 +632,6 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
         }
     }
 
-    private void changeDate(String type, View view) {
-        final Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                this,
-                (datePicker, yearSelected, monthOfYear, dayOfMonth) -> {
-                    // Aquí obtienes la fecha seleccionada
-                    String selectedDate = dayOfMonth + "/" + (monthOfYear + 1) + "/" + yearSelected;
-                    if(type.equals("CREATION")) {
-                        creationDate.setText(selectedDate);
-                    }
-                    if(type.equals("EVALDATE1")) {
-                        evalDate1.setText(selectedDate);
-                    }
-                    if(type.equals("EVALDATE2")) {
-                        evalDate2.setText(selectedDate);
-                    }
-                    if(type.equals("EVALDATE3")) {
-                        evalDate3.setText(selectedDate);
-                    }
-                    if(type.equals("EVALDATE4")) {
-                        evalDate4.setText(selectedDate);
-                    }
-                },
-                year, month, day
-        );
-
-        datePickerDialog.show();
-    }
-
-    public void changeCreationDate(View view){changeDate("CREATION",view);}
-
-    public void changeEvalDate1(View view){changeDate("EVALDATE1",view);}
-
-    public void changeEvalDate2(View view){changeDate("EVALDATE2",view);}
-
-    public void changeEvalDate3(View view){changeDate("EVALDATE3",view);}
-
-    public void changeEvalDate4(View view){changeDate("EVALDATE4",view);}
 
 }
