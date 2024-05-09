@@ -399,12 +399,10 @@
                 android:layout_height="0dp"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
-                android:autoSizeMaxTextSize="22sp"
-                android:autoSizeMinTextSize="5sp"
-                android:autoSizeTextType="uniform"
-                android:background="@color/miradas_color"
-                android:text="@string/sign_up"
-                android:textColor="@color/white" />
+                android:textSize="17sp"
+                android:background="@drawable/round_button_background"
+                android:text="@string/add_new_evaluated_org"
+                android:textColor="@color/black" />
 
 
         </GridLayout>

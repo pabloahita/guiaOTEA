@@ -1,6 +1,7 @@
 package gui.adapters;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,12 +37,12 @@ public class UsersAdapter extends ArrayAdapter<User> {
         User user = getItem(position);
         TextView textView = view.findViewById(android.R.id.text1);
         if(user.getEmailUser().equals("-1")){//For auxiliar spinners
-            text=user.getFirst_name();
+            text="<b>"+user.getFirst_name()+"</b>";
         }
         else {
-            text = user.getFirst_name() + ", " + user.getLast_name() + " (" + user.getEmailUser() + ")";
+            text = "<i>"+user.getFirst_name() + " " + user.getLast_name() + " <b>" + user.getEmailUser() + "</b></i>";
         }
-        textView.setText(text);
+        textView.setText(Html.fromHtml(text,0));
 
         return view;
     }

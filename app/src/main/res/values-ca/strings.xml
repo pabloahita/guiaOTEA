@@ -17,7 +17,7 @@
     <string name="next_indicator">Indicador següent</string>
     <string name="sign_in">Iniciar sessió</string>
     <string name="sign_up">Registrar-se</string>
-    <string name="users_email">Correu electrònic de l\'usuari</string>
+    <string name="users_email">Correu electrònic</string>
     <string name="users_password">Contrasenya de l\'usuari</string>
     <string name="invalid_username">No és un correu electrònic vàlid</string>
     <string name="invalid_password">La contrasenya ha de tenir més de 5 caràcters</string>
@@ -106,7 +106,7 @@
     <string name="add_new_evaluator_team">Afegir nou equip d\'avaluació</string>
     <string name="add_new_center">Afegir nou centre de l\'organització avaluada</string>
     <string name="add_new_indicators_evaluation">Afegir nova avaluació d\'indicadors</string>
-    <string name="add_new_evaluated_organization">Afegir nova organització avaluada</string>
+    <string name="add_new_evaluated_organization">Afegir organització o servei</string>
     <string name="org_name">Nom de l\'organització</string>
     <string name="org_address">Adreça</string>
     <string name="org_zipcode">Codi postal</string>
@@ -159,7 +159,7 @@
     <string name="please_evaluated_org">Si us plau, seleccioneu una organització avaluadora</string>
     <string name="please_consultant">Si us plau, seleccioneu un consultor extern</string>
     <string name="please_responsible">Si us plau, seleccioneu un responsable</string>
-    <string name="evaluated_org">Organització avaluadora</string>
+    <string name="evaluated_org">Organització o servei</string>
     <string name="consultant">Consultor extern</string>
     <string name="professional">Professional d\'assistència directa</string>
     <string name="responsible">Responsable</string>
@@ -194,8 +194,8 @@
     <string name="save_changes">Desa els canvis</string>
     <string name="center">Centre de l’organització</string>
     <string name="edit_indicators">Edita els indicadors</string>
-    <string name="edit_org">Edita l\'organització avaluada</string>
-    <string name="edit_org_center">Editeu un centre de l\'organització avaluada</string>
+    <string name="edit_org">Editar organització</string>
+    <string name="edit_org_center">Editar centres</string>
     <string name="center_info">Informació del centre</string>
     <string name="center_reg_ins">Per registrar un centre d’organització externa, heu d’omplir tots els camps situats a la part inferior d’aquesta pantalla</string>
     <string name="ambit_caption">Descripció de l’àmbit</string>
@@ -262,5 +262,7 @@
     <string name="no_day_is_selected">No s\'ha seleccionat cap dia!</string>
     <string name="must_select_three_eval_dates">Cal seleccionar com a mínim tres dates d\'avaluació en un període no superior a un mes</string>
     <string name="difference_between_dates_is_equal_or_greater_than_a_month">La diferència entre la primera i l\'última data seleccionada és igual o superior a un mes</string>
+    <string name="manage_reg_reqs">Gestionar les sol·licituds de registre</string>
+    <string name="you_must_LOPD">Cal que accepti que la Fundación Miradas emmagatzemi les dades d\'acord amb la Llei Orgànica de Protecció de Dades</string>
 
 </resources>

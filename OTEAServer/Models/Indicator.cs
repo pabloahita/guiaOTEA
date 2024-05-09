@@ -31,7 +31,7 @@ namespace OTEAServer.Models
         /// <param name="indicatorVersion">Indicator version</param>
         /// <param name="isActive">Boolean that determines if the indicator is or not is activated. 1 if is, 0 if not</param>
         /// <param name="evaluationType">Evaluation type</param>
-        public Indicator(int idIndicator, string indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, string descriptionBasque, string descriptionCatalan, string descriptionDutch, string descriptionGalician, string descriptionGerman, string descriptionItalian, string descriptionPortuguese, int indicatorPriority, int indicatorVersion, int isActive, string evaluationType)
+        public Indicator(int idIndicator, string indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, string descriptionEnglish, string descriptionSpanish, string descriptionFrench, string descriptionBasque, string descriptionCatalan, string descriptionDutch, string descriptionGalician, string descriptionGerman, string descriptionItalian, string descriptionPortuguese, string indicatorPriority, int indicatorVersion, int isActive, string evaluationType)
         {
             this.idIndicator = idIndicator;
             this.indicatorType = indicatorType;
@@ -149,7 +149,7 @@ namespace OTEAServer.Models
         /// Indicator priority
         /// </summary>
         [JsonPropertyName("indicatorPriority")]
-        public int indicatorPriority { get; set; }
+        public string indicatorPriority { get; set; }
 
         /// <summary>
         /// Indicator version

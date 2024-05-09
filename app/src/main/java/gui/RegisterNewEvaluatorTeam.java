@@ -3,11 +3,13 @@ package gui;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
@@ -17,6 +19,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -71,44 +75,35 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
     List<Center> centers;
 
     Center centerSelected;
-
-    Organization organizationSelected;
     
     static int MIN_NUM_EVAL_DATES=3;
-
-    static int MAX_NUM_EVAL_DATES=30;
 
     PrimeCalendar creationDate;
 
     List<PrimeCalendar> evaluationDates;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_new_evaluator_team);
 
-        evaluatedOrganizations = Session.getEvaluatedOrganizations();
         evaluatorUsers = Session.getEvaluatorUsers();
+        evaluatedUsers=Session.getEvaluatedUsers();
 
-        if (!evaluatedOrganizations.isEmpty() && !evaluatorUsers.isEmpty()) {
+        if (!evaluatedUsers.isEmpty() && !evaluatorUsers.isEmpty()) {
 
-            evaluatedOrganizations.add(0,new Organization(-1,"-","-",getString(R.string.evaluated_org),-1,"-","-","-","-","-","-","-","-","-","-","-","-","-"));
-            Spinner orgSpinner = findViewById(R.id.spinner_select_organization);
             Spinner centerSpinner = findViewById(R.id.spinner_select_center);
-            Spinner centerSpinnerAux = findViewById(R.id.spinner_select_center_aux);
             Spinner responsibleSpinner = findViewById(R.id.spinner_select_responsible);
             Spinner professionalSpinner = findViewById(R.id.spinner_select_professional);
-            Spinner professionalSpinnerAux = findViewById(R.id.spinner_select_professional_aux);
 
             List<User> userAuxList=new ArrayList<>();
             userAuxList.add(new User("-1","-",getString(R.string.responsible),"-","","",-1,"-","-","-"));
             userAuxList.add(new User("-1","-",getString(R.string.professional),"-","","",-1,"-","-","-"));
 
-            List<Center> centerAuxList=new ArrayList<>();
-            centerAuxList.add(new Center(-1,"-","-",-1,"Center of the organization","Centro de la organización","Centre de l'organisation","Erakundearen Zentroa","Centre de l’organització","Centrum van de organisatie","Centro da organización","Zentrum der Organisation","Centro dell'organizzazione","Centro da organização",-1,"-","-1"));
-
-
             evaluatorUsers.add(0,userAuxList.get(0));
+            evaluatedUsers.add(0,userAuxList.get(1));
 
             otherMembers=new ArrayList<>();
 
@@ -124,66 +119,32 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
 
             EditText observations=findViewById(R.id.observations);
 
-            OrgsAdapter[] orgsAdapter={new OrgsAdapter(getApplicationContext(),evaluatedOrganizations)};
             UsersAdapter[] usersAdapter=new UsersAdapter[2];
-            CenterAdapter[] centerAdapters=new CenterAdapter[2];
-            centerAdapters[1]=new CenterAdapter(getApplicationContext(),centerAuxList);
-            centerSpinnerAux.setAdapter(centerAdapters[1]);
+            CenterAdapter[] centerAdapters=new CenterAdapter[1];
+            centers = Session.getInstance().getCentersByOrganization(Session.getInstance().getOrganization());
+            centers.add(0,new Center(-1,"-","-",-1,"Center of the organization","Centro de la organización","Centre de l'organisation","Erakundearen Zentroa","Centre de l’organització","Centrum van de organisatie","Centro da organización","Zentrum der Organisation","Centro dell'organizzazione","Centro da organização",-1,"-","-1"));
+            centerAdapters[0]=new CenterAdapter(getApplicationContext(),centers);
+            centerAdapters[0].setDropDownViewResource(R.layout.spinner_item_layout);
+            centerSpinner.setAdapter(centerAdapters[0]);
 
-            orgsAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-            orgSpinner.setAdapter(orgsAdapter[0]);
 
             usersAdapter[1]=new UsersAdapter(getApplicationContext(),evaluatorUsers);
             usersAdapter[1].setDropDownViewResource(R.layout.spinner_item_layout);
             responsibleSpinner.setAdapter(usersAdapter[1]);
 
-            usersAdapter[0]=new UsersAdapter(getApplicationContext(),userAuxList.subList(1,2));
+            usersAdapter[0]=new UsersAdapter(getApplicationContext(),evaluatedUsers);
             usersAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-            professionalSpinnerAux.setAdapter(usersAdapter[0]);
+            professionalSpinner.setAdapter(usersAdapter[0]);
 
 
 
             ConstraintLayout finalBackground=findViewById(R.id.final_background);
 
+            ConstraintLayout base=findViewById(R.id.base);
+
+            base.setVisibility(View.VISIBLE);
             finalBackground.setVisibility(View.GONE);
 
-
-            orgSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    organizationSelected= (Organization) parent.getItemAtPosition(position);
-                    if(position>0){
-                        evaluatedUsers=Session.getInstance().getOrgUsersByOrganization(organizationSelected);
-                        evaluatedUsers.add(0,userAuxList.get(1));
-                        usersAdapter[0] = new UsersAdapter(getApplicationContext(), evaluatedUsers);
-                        usersAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-                        centers = Session.getInstance().getCentersByOrganization(organizationSelected);
-                        centers.add(0,centerAuxList.get(0));
-                        centerAdapters[0]=new CenterAdapter(getApplicationContext(),centers);
-                        centerAdapters[0].setDropDownViewResource(R.layout.spinner_item_layout);
-                        centerSpinner.setAdapter(centerAdapters[0]);
-                        professionalSpinner.setAdapter(usersAdapter[0]);
-                        centerSpinner.setVisibility(View.VISIBLE);
-                        centerSpinnerAux.setVisibility(View.GONE);
-                        professionalSpinner.setVisibility(View.VISIBLE);
-                        professionalSpinnerAux.setVisibility(View.GONE);
-                    }else{
-                        centerSpinner.setVisibility(View.GONE);
-                        centerSpinnerAux.setVisibility(View.VISIBLE);
-                        centerSpinnerAux.setEnabled(false);
-                        centerSpinnerAux.setAlpha(0.5f);
-                        professionalSpinner.setVisibility(View.GONE);
-                        professionalSpinnerAux.setVisibility(View.VISIBLE);
-                        professionalSpinnerAux.setEnabled(false);
-                        professionalSpinnerAux.setAlpha(0.5f);
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
 
             centerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -321,7 +282,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                                 @Override
                                 public void onSingleDayPicked(PrimeCalendar singleDay) {
                                     creationDate=singleDay;
-                                    creationDateEditText.setText(creationDate.getLongDateString());
+                                    creationDateEditText.setText(creationDate.getLongDateString().split(", ")[1]);
                                 }
                             })
                             .minPossibleDate(today)
@@ -402,13 +363,6 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                     datePicker.show(getSupportFragmentManager(), "EVALUATION_DATES");
                 }
             });
-            /*addEvaluationDates.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //Minimo 3 Maximo 30 (en maximo 1 mes)
-
-                }
-            });*/
 
             observations.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -429,29 +383,39 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
 
             Button add=findViewById(R.id.add);
 
+            CheckBox acceptLOPD=findViewById(R.id.accept_LOPD);
+
+            boolean[] checked={false};
+
+            acceptLOPD.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    checked[0]=isChecked;
+                }
+            });
+
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    orgSpinner.setEnabled(false);
-                    responsibleSpinner.setEnabled(false);
-                    professionalSpinner.setEnabled(false);
-                    patient.setEnabled(false);
-                    relative.setEnabled(false);
-                    creationDateEditText.setEnabled(false);
-                    observations.setEnabled(false);
-                    consultant.setEnabled(false);
-
+                    base.setVisibility(View.GONE);
                     finalBackground.setVisibility(View.VISIBLE);
-
+                    if(!userAuxList.contains(professional) && !userAuxList.contains(responsible) && !patient.getText().toString().isEmpty() && !relative.getText().toString().isEmpty() && !creationDateEditText.getText().toString().isEmpty() && !consultant.toString().isEmpty() && checked[0]){
                     v.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if(organizationSelected!=evaluatedOrganizations.get(0) && !userAuxList.contains(professional) && !userAuxList.contains(responsible) && !patient.getText().toString().isEmpty() && !relative.getText().toString().isEmpty() && !creationDateEditText.getText().toString().isEmpty() && !consultant.toString().isEmpty()){
+
                                 int idEvaluatorTeam= EvaluatorTeamsController.GetAllByOrganization(1,"EVALUATOR","AUTISM").size()+1;
 
 
-                                long creation_date= DateFormatter.formatDate(creationDateEditText.getText().toString());
+                                long creation_date= creationDate.getTimeInMillis();
+                                StringBuilder evaluationDatesStr=new StringBuilder();
 
+                                for(int i=0;i<evaluationDates.size();i++){
+                                    evaluationDatesStr.append(evaluationDates.get(i).getTimeInMillis());
+                                    if(i<evaluationDates.size()-1){
+                                        evaluationDatesStr.append(",");
+                                    }
+                                }
 
                                 String observationsEnglish="";
                                 String observationsSpanish="";
@@ -582,7 +546,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                                 }
 
 
-                                EvaluatorTeam evaluatorTeam=new EvaluatorTeam(idEvaluatorTeam,creation_date,professional.getEmailUser(),responsible.getEmailUser(),otherMembers.getText().toString(),1,"EVALUATOR",organizationSelected.getIdOrganization(),organizationSelected.getOrgType(),centerSelected.getIdCenter(),organizationSelected.getIllness(),consultant.getText().toString(),patient.getText().toString(),relative.getText().toString(),observationsEnglish,observationsSpanish,observationsFrench,observationsBasque,observationsCatalan,observationsDutch,observationsGalician,observationsGerman,observationsItalian,observationsPortuguese,"evalDates",0,evaluationDates.size());
+                                EvaluatorTeam evaluatorTeam=new EvaluatorTeam(idEvaluatorTeam,creation_date,professional.getEmailUser(),responsible.getEmailUser(),otherMembers.getText().toString(),1,"EVALUATOR",centerSelected.getIdOrganization(),centerSelected.getOrgType(),centerSelected.getIdCenter(),centerSelected.getIllness(),consultant.getText().toString(),patient.getText().toString(),relative.getText().toString(),observationsEnglish,observationsSpanish,observationsFrench,observationsBasque,observationsCatalan,observationsDutch,observationsGalician,observationsGerman,observationsItalian,observationsPortuguese,evaluationDatesStr.toString(),0,evaluationDates.size());
 
 
                                 EvaluatorTeamsController.Create(evaluatorTeam);
@@ -590,45 +554,104 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
 
                                 Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
 
-                                finalBackground.setVisibility(View.GONE);
                                 startActivity(intent);
 
 
-                            }
-                            else{
-                                orgSpinner.setEnabled(true);
-                                responsibleSpinner.setEnabled(true);
-                                professionalSpinner.setEnabled(true);
-                                finalBackground.setVisibility(View.GONE);
 
-                                if(organizationSelected==evaluatedOrganizations.get(0)){
-                                    Toast.makeText(getApplicationContext(),getString(R.string.please_evaluated_org),Toast.LENGTH_SHORT).show();
-                                }
-                                if(userAuxList.contains(responsible)){
-                                    Toast.makeText(getApplicationContext(),getString(R.string.please_responsible),Toast.LENGTH_SHORT).show();
-                                }
-                                if(userAuxList.contains(professional)){
-                                    Toast.makeText(getApplicationContext(),getString(R.string.please_professional),Toast.LENGTH_SHORT).show();
-                                }
-                                if(patient.getText().toString().isEmpty()){
-                                    patient.setError(getString(R.string.please_relative_name));
-                                }
-                                if(relative.getText().toString().isEmpty()){
-                                    relative.setError(getString(R.string.please_relative_name));
-                                }
-                                if(creationDateEditText.getText().toString().isEmpty()){
-                                    creationDateEditText.setError(getString(R.string.please_date));
-                                }
-
-                                if(consultant.getText().toString().isEmpty()){
-                                    consultant.setError(getString(R.string.please_consultant));
-                                }
-                            }
                         }
                     }, 100);
-                }
+                } else{
+                    base.setVisibility(View.VISIBLE);
+                    finalBackground.setVisibility(View.GONE);
+                    String msg="<ul>";
+                    int numErrors=0;
+                    if(centerSelected==centers.get(0)){
+                        msg+="<li><b>"+getString(R.string.please_select_center)+"</b></li>";
+                        numErrors++;
+                    }
+                    if(responsible.getEmailUser().equals("-")){
+                        msg+="<li><b>"+getString(R.string.please_responsible)+"</b></li>";
+                        numErrors++;
+                    }
+                    if(!professional.getEmailUser().equals("-")){
+                        msg+="<li><b>"+getString(R.string.please_professional)+"</b></li>";
+                        numErrors++;
+                    }
+                    if(patient.getText().toString().isEmpty()){
+                        msg+="<li><b>"+getString(R.string.please_relative_name)+"</b></li>";
+                        numErrors++;
+                    }
+                    if(relative.getText().toString().isEmpty()){
+                        msg+="<li><b>"+getString(R.string.please_relative_name)+"</b></li>";
+                        numErrors++;
+                    }
+                    if(creationDateEditText.getText().toString().isEmpty()){
+                        msg+="<li><b>"+getString(R.string.please_date)+"</b></li>";
+                        numErrors++;
+                    }
+                    if(evaluationDatesEditText.getText().toString().isEmpty()){
+                        msg+="<li><b>"+getString(R.string.must_select_three_eval_dates)+"</b></li>";
+                        numErrors++;
+                    }
+                    if(consultant.getText().toString().isEmpty()){
+                        msg+="<li><b>"+getString(R.string.please_consultant)+"</b></li>";
+                        numErrors++;
+                    }
+                    if(!checked[0]){
+                        msg+="<li><b>"+getString(R.string.you_must_LOPD)+"</b></li>";
+                        numErrors++;
+                    }
+                    msg+="</ul>";
+                    int idTitle=-1;
+                    if(numErrors>1){
+                        idTitle=R.string.errors;
+                    }else{
+                        idTitle=R.string.error;
+                    }
+                    new AlertDialog.Builder(RegisterNewEvaluatorTeam.this)
+                            .setTitle(getString(idTitle))
+                            .setMessage(Html.fromHtml(msg,0))
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setPositiveButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .create().show();
+                }}
             });
 
+        }
+        else{
+            String msg="<ul>";
+            int numErrors=0;
+            if(evaluatedUsers.isEmpty()){
+                msg+="<li><b>"+getString(R.string.please_select_center)+"</b></li>";
+                numErrors++;
+            }
+            if(evaluatorUsers.isEmpty()){
+                msg+="<li><b>"+getString(R.string.please_select_center)+"</b></li>";
+                numErrors++;
+            }
+            msg+="</ul>";
+            int idTitle=-1;
+            if(numErrors>1){
+                idTitle=R.string.errors;
+            }else{
+                idTitle=R.string.error;
+            }
+            new AlertDialog.Builder(RegisterNewEvaluatorTeam.this)
+                    .setTitle(getString(idTitle))
+                    .setMessage(Html.fromHtml(msg,0))
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create().show();
         }
     }
 

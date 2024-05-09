@@ -17,7 +17,7 @@
     <string name="next_indicator">Nächster Indikator</string>
     <string name="sign_in">Einloggen</string>
     <string name="sign_up">Registrieren</string>
-    <string name="users_email">Benutzer-E-Mail</string>
+    <string name="users_email">E-Mail</string>
     <string name="users_password">Benutzerpasswort</string>
     <string name="invalid_username">Keine gültige E-Mail-Adresse</string>
     <string name="invalid_password">Passwort muss >5 Zeichen lang sein</string>
@@ -103,7 +103,7 @@
     <string name="add_new_evaluator_team">Neues Evaluatoren-Team hinzufügen</string>
     <string name="add_new_center">Neues Zentrum der bewerteten Organisation hinzufügen</string>
     <string name="add_new_indicators_evaluation">Neue Indikatoren-Bewertung hinzufügen</string>
-    <string name="add_new_evaluated_organization">Neue bewertete Organisation hinzufügen</string>
+    <string name="add_new_evaluated_organization">Organisation oder Dienst hinzufügen</string>
     <string name="org_name">Organisationsname</string>
     <string name="org_address">Adresse</string>
     <string name="org_zipcode">PLZ</string>
@@ -156,7 +156,7 @@
     <string name="please_evaluated_org">Bitte wählen Sie eine bewertete Organisation aus</string>
     <string name="please_consultant">Bitte wählen Sie einen externen Berater aus</string>
     <string name="please_responsible">Bitte wählen Sie einen Verantwortlichen aus</string>
-    <string name="evaluated_org">Bewertete Organisation</string>
+    <string name="evaluated_org">Organisation oder Dienst</string>
     <string name="consultant">Externer Berater</string>
     <string name="professional">Direkte Betreuungsfachkraft</string>
     <string name="responsible">Verantwortlicher</string>
@@ -191,8 +191,8 @@
     <string name="save_changes">Änderungen speichern</string>
     <string name="center">Zentrum der Organisation</string>
     <string name="edit_indicators">Anzeigen bearbeiten</string>
-    <string name="edit_org">Organisation bearbeiten bewertet</string>
-    <string name="edit_org_center">Bearbeiten Sie ein Zentrum der bewerteten Organisation</string>
+    <string name="edit_org">Organisation bearbeiten</string>
+    <string name="edit_org_center">Zentren bearbeiten</string>
     <string name="center_info">Zentruminformationen</string>
     <string name="center_reg_ins">Um ein externes Organisationszentrum zu registrieren, müssen Sie alle Felder am Ende dieses Bildschirms ausfüllen</string>
     <string name="ambit_caption">Beschreibung des Umfangs</string>
@@ -259,6 +259,8 @@
     <string name="no_day_is_selected">Kein Tag ausgewählt!</string>
     <string name="must_select_three_eval_dates">Sie müssen mindestens drei Bewertungsdaten innerhalb eines Zeitraums von höchstens einem Monat auswählen</string>
     <string name="difference_between_dates_is_equal_or_greater_than_a_month">Der Unterschied zwischen dem ersten und dem letzten ausgewählten Datum beträgt ein Monat oder mehr</string>
+    <string name="manage_reg_reqs">Registrierungsanfragen verwalten</string>
+    <string name="you_must_LOPD">Sie müssen zustimmen, dass die Fundación Miradas die Daten gemäß dem Organischen Gesetz über den Datenschutz speichert</string>
 
 
 </resources>

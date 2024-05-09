@@ -2,7 +2,9 @@ package cli.indicators;
 
 import com.google.gson.annotations.SerializedName;
 
-public class IndicatorsEvaluationIndicatorReg {
+import java.io.Serializable;
+
+public class IndicatorsEvaluationIndicatorReg implements Serializable {
 
     /**Evaluation date in timestamp*/
     @SerializedName("evaluationDate")
@@ -109,6 +111,10 @@ public class IndicatorsEvaluationIndicatorReg {
     @SerializedName("numEvidencesMarked")
     public int numEvidencesMarked;
 
+    /**Indicator status*/
+    @SerializedName("status")
+    public String status;
+
     /**Class constructor
      *
      * @param evaluationDate - Evaluation date in timestamp
@@ -136,10 +142,11 @@ public class IndicatorsEvaluationIndicatorReg {
      * @param observationsItalian - Observations in Italian
      * @param observationsPortuguese - Observations in Portuguese
      * @param numEvidenciesMarked - Number of marked evidences
+     * @param status - Indicator status
      * */
 
     public IndicatorsEvaluationIndicatorReg(long evaluationDate, int idEvaluatedOrganization, String orgTypeEvaluated, int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator, String illness, int idCenter, int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion, String evaluationType, String observationsSpanish, String observationsEnglish, String observationsFrench, String observationsBasque, String observationsCatalan,
-                                            String observationsDutch, String observationsGalician, String observationsGerman, String observationsItalian, String observationsPortuguese, int numEvidenciesMarked) {
+                                            String observationsDutch, String observationsGalician, String observationsGerman, String observationsItalian, String observationsPortuguese, int numEvidenciesMarked, String status) {
         setEvaluationDate(evaluationDate);
         setIdEvaluatorTeam(idEvaluatorTeam);
         setIdEvaluatorOrganization(idEvaluatorOrganization);
@@ -166,6 +173,7 @@ public class IndicatorsEvaluationIndicatorReg {
         setObservationsPortuguese(observationsPortuguese);
         setObservationsSpanish(observationsSpanish);
         setNumEvidencesMarked(numEvidenciesMarked);
+        setStatus(status);
     }
 
     /**
@@ -641,5 +649,23 @@ public class IndicatorsEvaluationIndicatorReg {
      */
     public void setNumEvidencesMarked(int numEvidencesMarked) {
         this.numEvidencesMarked = numEvidencesMarked;
+    }
+
+    /**
+     * Method that obtains the indicator status
+     *
+     * @return Indicator status
+     * */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * Method that sets the new indicator status
+     *
+     * @param status - Indicator status
+     * */
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

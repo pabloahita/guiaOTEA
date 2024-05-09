@@ -656,6 +656,58 @@
           }
         }
       },
+      "NRules/0.9.4": {
+        "type": "package",
+        "dependencies": {
+          "NRules.Fluent": "0.9.4",
+          "NRules.Runtime": "0.9.4"
+        }
+      },
+      "NRules.Fluent/0.9.4": {
+        "type": "package",
+        "dependencies": {
+          "NRules.RuleModel": "0.9.4"
+        },
+        "compile": {
+          "lib/netstandard2.1/NRules.Fluent.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/NRules.Fluent.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "NRules.RuleModel/0.9.4": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/NRules.RuleModel.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/NRules.RuleModel.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "NRules.Runtime/0.9.4": {
+        "type": "package",
+        "dependencies": {
+          "NRules.RuleModel": "0.9.4"
+        },
+        "compile": {
+          "lib/netstandard2.1/NRules.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/NRules.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Swashbuckle.AspNetCore/6.5.0": {
         "type": "package",
         "dependencies": {
@@ -2207,6 +2259,62 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "NRules/0.9.4": {
+      "sha512": "KLQbXIOMz7eDL9+ZFp3hFLibCgO11NHuJRjTQP8BkTyPpVsYRX3Kjbs6LkKAkcXo9Wip4nbbjU0YLkNhQnpqQQ==",
+      "type": "package",
+      "path": "nrules/0.9.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "nrules.0.9.4.nupkg.sha512",
+        "nrules.nuspec"
+      ]
+    },
+    "NRules.Fluent/0.9.4": {
+      "sha512": "Dnc7zzijfWzGSqh2nrf3yJodvPr6KC4/J4jeGh7VlnKz4qInw+40/906upfGbT0hRFUvIcnCcnuOaK2GJ4V0GQ==",
+      "type": "package",
+      "path": "nrules.fluent/0.9.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/NRules.Fluent.dll",
+        "lib/netstandard2.0/NRules.Fluent.xml",
+        "lib/netstandard2.1/NRules.Fluent.dll",
+        "lib/netstandard2.1/NRules.Fluent.xml",
+        "nrules.fluent.0.9.4.nupkg.sha512",
+        "nrules.fluent.nuspec"
+      ]
+    },
+    "NRules.RuleModel/0.9.4": {
+      "sha512": "/Rons42/UiTihUVTysI6CWRExFDsrpxqm7KfUvlz7+mizAizBqkANQ9AouElqCkQwqzfR6/eSdDXTh8eSfru6A==",
+      "type": "package",
+      "path": "nrules.rulemodel/0.9.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/NRules.RuleModel.dll",
+        "lib/netstandard2.0/NRules.RuleModel.xml",
+        "lib/netstandard2.1/NRules.RuleModel.dll",
+        "lib/netstandard2.1/NRules.RuleModel.xml",
+        "nrules.rulemodel.0.9.4.nupkg.sha512",
+        "nrules.rulemodel.nuspec"
+      ]
+    },
+    "NRules.Runtime/0.9.4": {
+      "sha512": "xRtOPDVbpaBAnqB+5HT8juxmyoiPmc0L9zROc8idJdpHhBUiJyDDfZiXyUk592sR5pOTEVupMPA3GPfRWkgP0g==",
+      "type": "package",
+      "path": "nrules.runtime/0.9.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/NRules.dll",
+        "lib/netstandard2.0/NRules.xml",
+        "lib/netstandard2.1/NRules.dll",
+        "lib/netstandard2.1/NRules.xml",
+        "nrules.runtime.0.9.4.nupkg.sha512",
+        "nrules.runtime.nuspec"
+      ]
+    },
     "Swashbuckle.AspNetCore/6.5.0": {
       "sha512": "FK05XokgjgwlCI6wCT+D4/abtQkL1X1/B9Oas6uIwHFmYrIO9WUD5aLC9IzMs9GnHfUXOtXZ2S43gN1mhs5+aA==",
       "type": "package",
@@ -3048,6 +3156,7 @@
       "Microsoft.AspNetCore.OpenApi >= 7.0.13",
       "Microsoft.EntityFrameworkCore >= 7.0.13",
       "Microsoft.EntityFrameworkCore.SqlServer >= 7.0.13",
+      "NRules >= 0.9.4",
       "Swashbuckle.AspNetCore >= 6.5.0",
       "System.IdentityModel.Tokens.Jwt >= 7.2.0",
       "System.Text.Json >= 8.0.0-rc.1.23419.4"
@@ -3119,6 +3228,10 @@
           "Microsoft.EntityFrameworkCore.SqlServer": {
             "target": "Package",
             "version": "[7.0.13, )"
+          },
+          "NRules": {
+            "target": "Package",
+            "version": "[0.9.4, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",

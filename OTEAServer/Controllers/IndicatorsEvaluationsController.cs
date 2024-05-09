@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NRules;
+using NRules.Fluent;
+using OTEAServer.ExpertSystem;
 using OTEAServer.Misc;
 using OTEAServer.Models;
 using System.Net.NetworkInformation;
@@ -264,58 +267,36 @@ namespace OTEAServer.Controllers
             try
             {
                 
-                int totalScore = 0;
-                int numPriorities = 4;
-                int numColours = 3;
-                int[,] numIndicatorsPerPriorityPerColour = new int[numPriorities, numColours];
-                int[,] results = new int[4,3];
-                for (int i = 0; i < numPriorities; i++) {//Number of priorities
-                    for (int j = 0; j < numColours; j++) {//Number of possible colours
-                        results[i, j] = 0;
-                        numIndicatorsPerPriorityPerColour[i, j] = 0;
-                    }
-                }
-                
-                for (int i=0;i<numPriorities;i++) {
-                    List<Indicator> indicators = _context.Indicators
-                    .Where(ind => ind.evaluationType == indicatorsEvaluation.evaluationType && ind.isActive == 1 && ind.indicatorPriority==i)
-                    .OrderBy(ind => ind.idIndicator)
-                    .ToList();
-                    List<int> idsIndicators=indicators.Select(ind => ind.idIndicator).ToList();
-                    List<IndicatorsEvaluationIndicatorReg> regs = _context.IndicatorsEvaluationsIndicatorsRegs
-                        .Where(r => r.evaluationDate == indicatorsEvaluation.evaluationDate && r.idEvaluatorTeam == indicatorsEvaluation.idEvaluatorTeam && r.idEvaluatorOrganization == indicatorsEvaluation.idEvaluatorOrganization && r.orgTypeEvaluator == indicatorsEvaluation.orgTypeEvaluator && r.idEvaluatedOrganization == indicatorsEvaluation.idEvaluatedOrganization && r.orgTypeEvaluated == indicatorsEvaluation.orgTypeEvaluated && r.illness == indicatorsEvaluation.illness && r.idCenter == indicatorsEvaluation.idCenter && r.evaluationType == indicatorsEvaluation.evaluationType && idsIndicators.Contains(r.idIndicator)).ToList();
-                    foreach (IndicatorsEvaluationIndicatorReg reg in regs)
-                    {
-                        int colour = -1;
-                        if (reg.numEvidencesMarked == 0 || reg.numEvidencesMarked == 1)
-                        {
-                            colour = 0;
-                        }
-                        if (reg.numEvidencesMarked == 2 || reg.numEvidencesMarked == 3)
-                        {
-                            colour = 1;
-                        }
-                        if (reg.numEvidencesMarked == 4)
-                        {
-                            colour = 2;
-                        }
-                        numIndicatorsPerPriorityPerColour[i, colour]++;
-                    }
-                    for (int j = 1; j < numColours; j++)
-                    {
-                        int mul = i+j;
-                        results[i, j] = numIndicatorsPerPriorityPerColour[i, j] * mul;
-                        totalScore += results[i, j];
-                    }
-                }
+                Dictionary<string, Dictionary<string, int>> numIndicatorsPerPriority = new Dictionary<string, Dictionary<string, int>>();
+                List<IndicatorsEvaluationIndicatorReg> regs = _context.IndicatorsEvaluationsIndicatorsRegs
+                        .Where(r => r.evaluationDate == indicatorsEvaluation.evaluationDate && r.idEvaluatorTeam == indicatorsEvaluation.idEvaluatorTeam && r.idEvaluatorOrganization == indicatorsEvaluation.idEvaluatorOrganization && r.orgTypeEvaluator == indicatorsEvaluation.orgTypeEvaluator && r.idEvaluatedOrganization == indicatorsEvaluation.idEvaluatedOrganization && r.orgTypeEvaluated == indicatorsEvaluation.orgTypeEvaluated && r.illness == indicatorsEvaluation.illness &&
+                        r.idCenter == indicatorsEvaluation.idCenter && r.evaluationType == indicatorsEvaluation.evaluationType).ToList();
 
-
+                foreach (IndicatorsEvaluationIndicatorReg reg in regs)
+                {
+                    var indicator = _context.Indicators.FirstOrDefault(i => i.idIndicator == reg.idIndicator && i.indicatorType == reg.illness && i.idSubSubAmbit == reg.idSubSubAmbit && i.idSubAmbit == reg.idSubAmbit && i.idAmbit == reg.idAmbit && i.indicatorVersion == reg.indicatorVersion && i.evaluationType == reg.evaluationType);
+                    
+                    if (indicator != null) {
+                        if (!numIndicatorsPerPriority.ContainsKey(indicator.indicatorPriority)) {
+                            numIndicatorsPerPriority[indicator.indicatorPriority] = new Dictionary<string, int>();
+                        }
+                        if (!numIndicatorsPerPriority[indicator.indicatorPriority].ContainsKey(reg.status))
+                        {
+                            numIndicatorsPerPriority[indicator.indicatorPriority][reg.status] = 1;
+                        }
+                        else {
+                            numIndicatorsPerPriority[indicator.indicatorPriority][reg.status] += 1;
+                        }
+                    }
+                    else
+                    {
+                        return NotFound();
+                    }
+                    
+                }
                 var existingIndicatorsEvaluation = _context.IndicatorsEvaluations.FirstOrDefault(e => e.evaluationDate == indicatorsEvaluation.evaluationDate && e.idEvaluatorTeam == indicatorsEvaluation.idEvaluatorTeam && e.idEvaluatorOrganization == indicatorsEvaluation.idEvaluatorOrganization && e.orgTypeEvaluator == indicatorsEvaluation.orgTypeEvaluator && e.idEvaluatedOrganization == indicatorsEvaluation.idEvaluatedOrganization && e.orgTypeEvaluated == indicatorsEvaluation.orgTypeEvaluated && e.illness == indicatorsEvaluation.illness && e.idCenter == indicatorsEvaluation.idCenter && e.evaluationType == indicatorsEvaluation.evaluationType);
                 if (existingIndicatorsEvaluation is null)
                     return NotFound();
-
-                int[,] foo1 = numIndicatorsPerPriorityPerColour;
-                int[,] foo2 = results;
                 existingIndicatorsEvaluation.conclusionsSpanish = indicatorsEvaluation.conclusionsSpanish;
                 existingIndicatorsEvaluation.conclusionsEnglish = indicatorsEvaluation.conclusionsEnglish;
                 existingIndicatorsEvaluation.conclusionsFrench = indicatorsEvaluation.conclusionsFrench;
@@ -326,19 +307,22 @@ namespace OTEAServer.Controllers
                 existingIndicatorsEvaluation.conclusionsGerman = indicatorsEvaluation.conclusionsGerman;
                 existingIndicatorsEvaluation.conclusionsItalian = indicatorsEvaluation.conclusionsItalian;
                 existingIndicatorsEvaluation.conclusionsPortuguese = indicatorsEvaluation.conclusionsPortuguese;
-                existingIndicatorsEvaluation.scorePriorityZeroColourRed = results[0,0];
-                existingIndicatorsEvaluation.scorePriorityZeroColourYellow = results[0,1];
-                existingIndicatorsEvaluation.scorePriorityZeroColourGreen = results[0,2];
-                existingIndicatorsEvaluation.scorePriorityOneColourRed = results[1,0];
-                existingIndicatorsEvaluation.scorePriorityOneColourYellow = results[1,1];
-                existingIndicatorsEvaluation.scorePriorityOneColourGreen = results[1,2];
-                existingIndicatorsEvaluation.scorePriorityTwoColourRed = results[2,0];
-                existingIndicatorsEvaluation.scorePriorityTwoColourYellow = results[2,1];
-                existingIndicatorsEvaluation.scorePriorityTwoColourGreen = results[2,2];
-                existingIndicatorsEvaluation.scorePriorityThreeColourRed = results[3,0];
-                existingIndicatorsEvaluation.scorePriorityThreeColourYellow = results[3,1];
-                existingIndicatorsEvaluation.scorePriorityThreeColourGreen = results[3,2];
-                existingIndicatorsEvaluation.totalScore = totalScore;
+                existingIndicatorsEvaluation.scorePriorityZeroColourRed = 0;
+                existingIndicatorsEvaluation.scorePriorityZeroColourYellow = numIndicatorsPerPriority["LOW_INTEREST"]["IN_PROCESS"];
+                existingIndicatorsEvaluation.scorePriorityZeroColourGreen = numIndicatorsPerPriority["LOW_INTEREST"]["COMPLETED"] * 2;
+                existingIndicatorsEvaluation.scorePriorityOneColourRed = 0;
+                existingIndicatorsEvaluation.scorePriorityOneColourYellow = numIndicatorsPerPriority["MEDIUM_INTEREST"]["IN_PROCESS"] * 2;
+                existingIndicatorsEvaluation.scorePriorityOneColourGreen = numIndicatorsPerPriority["MEDIUM_INTEREST"]["COMPLETED"] * 3;
+                existingIndicatorsEvaluation.scorePriorityTwoColourRed = 0;
+                existingIndicatorsEvaluation.scorePriorityTwoColourYellow = numIndicatorsPerPriority["HIGH_INTEREST"]["IN_PROCESS"] * 3;
+                existingIndicatorsEvaluation.scorePriorityTwoColourGreen = numIndicatorsPerPriority["HIGH_INTEREST"]["COMPLETED"] * 4;
+                existingIndicatorsEvaluation.scorePriorityThreeColourRed = 0;
+                existingIndicatorsEvaluation.scorePriorityThreeColourYellow = numIndicatorsPerPriority["FUNDAMENTAL_INTEREST"]["IN_PROCESS"] * 4;
+                existingIndicatorsEvaluation.scorePriorityThreeColourGreen = numIndicatorsPerPriority["FUNDAMENTAL_INTEREST"]["COMPLETED"] * 5;
+                existingIndicatorsEvaluation.totalScore = existingIndicatorsEvaluation.scorePriorityZeroColourYellow+ existingIndicatorsEvaluation.scorePriorityZeroColourGreen+ 
+                    existingIndicatorsEvaluation.scorePriorityOneColourYellow+ existingIndicatorsEvaluation.scorePriorityOneColourGreen+ 
+                    existingIndicatorsEvaluation.scorePriorityTwoColourYellow+ existingIndicatorsEvaluation.scorePriorityTwoColourGreen+ 
+                    existingIndicatorsEvaluation.scorePriorityThreeColourYellow+ existingIndicatorsEvaluation.scorePriorityThreeColourGreen;
                 existingIndicatorsEvaluation.isFinished = 1;
 
                 _context.SaveChanges();

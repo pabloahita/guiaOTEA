@@ -1,5 +1,6 @@
 package gui;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
+import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -83,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
 
     ConstraintLayout firstButtons;
 
-    ConstraintLayout helpRequestScreen;
 
     GridLayout startSessionLayout;
 
@@ -119,8 +120,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Session.refreshCallers();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -149,8 +152,6 @@ public class MainActivity extends AppCompatActivity {
         requestOrCreation=findViewById(R.id.requestOrCreateButton);
         //helpSignInButton=findViewById(R.id.helpSignInButton);
         helpRequestButton=findViewById(R.id.helpRequestButton);
-        helpRequestScreen=findViewById(R.id.helpReqBackground);
-        helpRequestScreen.setVisibility(View.GONE);
         createAccount2GridLayout=findViewById(R.id.createAccount2GridLayout);
         createAccount2GridLayout.setVisibility(View.GONE);
         spinnerOrgs=findViewById(R.id.spinner_orgs);

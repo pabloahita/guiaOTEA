@@ -15,7 +15,7 @@
     <string name="next_indicator">Next Indicator</string>
     <string name="sign_in">Sign in</string>
     <string name="sign_up">Sign up</string>
-    <string name="users_email">User\'s email</string>
+    <string name="users_email">Email</string>
     <string name="users_password">User\'s password</string>
     <string name="invalid_username">Not a valid email</string>
     <string name="invalid_password">Password must be >5 characters</string>
@@ -101,7 +101,7 @@
     <string name="add_new_evaluator_team">Add new evaluator team</string>
     <string name="add_new_center">Add new center of evaluated organization</string>
     <string name="add_new_indicators_evaluation">Add new indicators evaluation</string>
-    <string name="add_new_evaluated_organization">Add new evaluated organization</string>
+    <string name="add_new_evaluated_organization">Add organization or service</string>
     <string name="org_name">Organization name</string>
     <string name="org_address">Address</string>
     <string name="org_zipcode">Zip code</string>
@@ -152,7 +152,7 @@
     <string name="please_evaluated_org">Please select an evaluated organization</string>
     <string name="please_consultant">Please select an external consultant</string>
     <string name="please_responsible">Please select a responsible</string>
-    <string name="evaluated_org">Evaluated organization</string>
+    <string name="evaluated_org">Organization or service</string>
     <string name="consultant">External consultant</string>
     <string name="professional">Direct attendance professional</string>
     <string name="responsible">Responsible</string>
@@ -187,8 +187,8 @@
     <string name="save_changes">Save changes</string>
     <string name="center">Center of the organization</string>
     <string name="edit_indicators">Edit indicators</string>
-    <string name="edit_org">Edit evaluated organization</string>
-    <string name="edit_org_center">Edit organization center</string>
+    <string name="edit_org">Edit organization</string>
+    <string name="edit_org_center">Edit centers</string>
     <string name="center_info">Center information</string>
     <string name="center_reg_ins">In order to register an external organization center, you must fill in all the fields located at the bottom of this screen</string>
     <string name="ambit_caption">Description of the scope</string>
@@ -258,6 +258,8 @@
     <string name="no_day_is_selected">No day is selected!</string>
     <string name="must_select_three_eval_dates">You must select at least three evaluation dates within a period not exceeding one month</string>
     <string name="difference_between_dates_is_equal_or_greater_than_a_month">The difference between the first and last selected dates is equal to or greater than one month</string>
+    <string name="manage_reg_reqs">Manage registration requests</string>
+    <string name="you_must_LOPD">You must agree that Fundación Miradas stores the data in accordance with the Organic Law on Data Protection</string>
 
 
 </resources>

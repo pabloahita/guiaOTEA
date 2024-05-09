@@ -144,6 +144,10 @@ public class Session {
         instance=null;
     }
 
+    public static List<User> getEvaluatedUsers() {
+        return evaluatedUsers;
+    }
+
     public IndicatorsEvaluation getCurrEvaluation() {
         return currEvaluation;
     }
@@ -433,9 +437,12 @@ public class Session {
 
 
 
-    public void obtainOrgsAndEvalUsers(){
-        if(evaluatedOrganizations==null){
-            evaluatedOrganizations=OrganizationsController.GetAllEvaluatedOrganizations();
+    public void obtainUsersAndCenters(){
+        if(centers==null){
+            centers=CentersController.GetAllByOrganization(organization);
+        }
+        if(evaluatedUsers==null){
+            evaluatedUsers=UsersController.GetAllOrgUsersByOrganization(organization.getIdOrganization(), organization.getOrgType(), organization.getIllness());
         }
         if(evaluatorUsers==null){
             evaluatorUsers=UsersController.GetAllOrgUsersByOrganization(1, "EVALUATOR", "AUTISM");

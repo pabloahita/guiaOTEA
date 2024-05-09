@@ -175,12 +175,12 @@
                             android:id="@+id/createAccount2Text"
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            android:autoSizeTextType="uniform"
                             android:gravity="center"
                             android:text="@string/create_account"
                             android:textAllCaps="true"
                             android:textColor="@color/black"
-                            android:textStyle="normal"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
                             app:layout_constraintBottom_toTopOf="@+id/guidelinecreateAccount22"
                             app:layout_constraintEnd_toStartOf="@+id/guidelinecreateAccount24"
                             app:layout_constraintStart_toStartOf="@+id/guidelinecreateAccount23"
@@ -292,12 +292,12 @@
                             android:id="@+id/sendRequestButtonText"
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            android:autoSizeTextType="uniform"
                             android:gravity="center"
                             android:text="@string/send_request"
                             android:textAllCaps="true"
                             android:textColor="@color/black"
-                            android:textStyle="normal"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
                             app:layout_constraintBottom_toTopOf="@+id/guidelinesendRequestButton2"
                             app:layout_constraintEnd_toStartOf="@+id/guidelinesendRequestButton4"
                             app:layout_constraintStart_toStartOf="@+id/guidelinesendRequestButton3"
@@ -431,13 +431,12 @@
                                 android:id="@+id/signInText"
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
-                                android:autoSizeTextType="uniform"
                                 android:gravity="center"
-                                android:padding="8dp"
                                 android:text="@string/sign_in"
                                 android:textAllCaps="true"
                                 android:textColor="@color/black"
-                                android:textStyle="normal"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
                                 app:layout_constraintBottom_toTopOf="@+id/guidelineSignIn2"
                                 app:layout_constraintEnd_toStartOf="@+id/guidelineSignIn4"
                                 app:layout_constraintStart_toStartOf="@+id/guidelineSignIn3"
@@ -508,13 +507,12 @@
                                 android:id="@+id/reqRegText"
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
-                                android:autoSizeTextType="uniform"
                                 android:gravity="center"
-                                android:padding="9dp"
                                 android:text="@string/create_account"
                                 android:textAllCaps="true"
                                 android:textColor="@color/black"
-                                android:textStyle="normal"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
                                 app:layout_constraintBottom_toTopOf="@+id/guidelineReqReg2"
                                 app:layout_constraintEnd_toStartOf="@+id/guidelineReqReg4"
                                 app:layout_constraintStart_toStartOf="@+id/guidelineReqReg3"
@@ -671,12 +669,12 @@
                             android:id="@+id/startSessionText"
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            android:autoSizeTextType="uniform"
                             android:gravity="center"
                             android:text="@string/sign_in"
                             android:textAllCaps="true"
                             android:textColor="@color/black"
-                            android:textStyle="normal"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
                             app:layout_constraintBottom_toTopOf="@+id/guidelineStartSession2"
                             app:layout_constraintEnd_toStartOf="@+id/guidelineStartSession4"
                             app:layout_constraintStart_toStartOf="@+id/guidelineStartSession3"
@@ -771,14 +769,14 @@
                             android:id="@+id/helpRequestButton"
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            android:background="@drawable/round_button"
+                            android:background="@drawable/round_button_background"
                             android:padding="8dp"
                             android:scaleType="fitCenter"
                             app:layout_constraintBottom_toTopOf="@+id/guidelineHelp2"
                             app:layout_constraintEnd_toStartOf="@+id/guidelineHelp4"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/baseline_help_24" />
+                            app:srcCompat="@drawable/baseline_help_24_bl" />
 
 
                         <androidx.constraintlayout.widget.Guideline
@@ -822,12 +820,12 @@
                             android:id="@+id/requestOrCreateText"
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            android:autoSizeTextType="uniform"
                             android:gravity="center"
                             android:text="@string/check_request"
                             android:textAllCaps="true"
                             android:textColor="@color/black"
-                            android:textStyle="normal"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
                             app:layout_constraintBottom_toTopOf="@+id/guidelinerequestOrCreate2"
                             app:layout_constraintEnd_toStartOf="@+id/guidelinerequestOrCreate4"
                             app:layout_constraintStart_toStartOf="@+id/guidelinerequestOrCreate3"
@@ -838,7 +836,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            app:layout_constraintGuide_percent="0.8" />
+                            app:layout_constraintGuide_percent="0.75" />
 
                         <androidx.constraintlayout.widget.Guideline
                             android:id="@+id/guidelinerequestOrCreate2"
@@ -878,83 +876,6 @@
 
 
     </GridLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/helpReqBackground"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <View
-            android:id="@+id/view2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="#80000000"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/req_ins"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline200" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/req_ins1"
-            android:textColor="@color/white"
-            android:textStyle="italic"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/req_ins2"
-            android:textColor="@color/white"
-            android:textStyle="italic"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/req_ins3"
-            android:textColor="@color/white"
-            android:textStyle="italic"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline200"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.25" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

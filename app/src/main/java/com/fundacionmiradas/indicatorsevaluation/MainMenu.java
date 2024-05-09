@@ -5,14 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.KeyEvent;
 import android.view.View;
+import androidx.gridlayout.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -63,18 +66,20 @@ public class MainMenu extends AppCompatActivity {
 
 
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        ConstraintLayout superuser=findViewById(R.id.superuser);
+        GridLayout superuser=findViewById(R.id.superuser);
 
-        ConstraintLayout evaluator=findViewById(R.id.evaluator);
+        GridLayout evaluator=findViewById(R.id.evaluator);
 
-        ConstraintLayout dirEvaluated=findViewById(R.id.directorEvaluated);
+        GridLayout dirEvaluated=findViewById(R.id.directorEvaluated);
 
-        ConstraintLayout evaluated=findViewById(R.id.evaluated);
+        GridLayout evaluated=findViewById(R.id.evaluated);
 
         CardView chargingScreen=findViewById(R.id.chargingScreen);
         
@@ -93,15 +98,14 @@ public class MainMenu extends AppCompatActivity {
 
         if(user!=null && org!=null) {
 
-            TextView first_name = findViewById(R.id.val_fn);
-            TextView last_name = findViewById(R.id.val_ln);
-            TextView organizationName = findViewById(R.id.val_org);
-            TextView email = findViewById(R.id.val_email);
+            TextView userInfo=findViewById(R.id.userInfo);
 
-            first_name.setText(Html.fromHtml("<i>"+user.getFirst_name()+"</i>",0));
-            last_name.setText(Html.fromHtml("<i>"+user.getLast_name()+"</i>",0));
-            organizationName.setText(Html.fromHtml("<i>"+org.getNameOrg()+"</i>",0));
-            email.setText(Html.fromHtml("<i>"+user.getEmailUser()+"</i>",0));
+            String info="<ul><li><b>"+getString(R.string.first_name_user)+": </b><i>"+user.getFirst_name()+"</i></li><li><b>" +
+                    getString(R.string.last_name_user)+": </b><i>"+user.getLast_name()+"</i></li><li><b>"+
+                    getString(R.string.users_email)+": </b><i>"+user.getEmailUser()+"</i></li><li><b>"+
+                    getString(R.string.evaluated_org)+": </b><i>"+org.getNameOrg()+"</i></li></ul>";
+
+            userInfo.setText(Html.fromHtml(info,0));
 
             if(org.getIdOrganization()==1 && org.getOrgType().equals("EVALUATOR") && org.getIllness().equals("AUTISM")){
                 dirEvaluated.setVisibility(View.GONE);
@@ -113,11 +117,7 @@ public class MainMenu extends AppCompatActivity {
                     continueIndicatorsTest=findViewById(R.id.continueIndicatorsTestAdminButton);
                     editIndicators=findViewById(R.id.editIndicatorsAdminButton);
                     addNewOrg=findViewById(R.id.addNewOrgAdminButton);
-                    addNewOrgCenter=findViewById(R.id.addNewOrgCenterAdminButton);
-                    addNewEvalTeam=findViewById(R.id.addNewEvalTeamAdminButton);
                     seeRealizedIndicatorTest=findViewById(R.id.seeRealizedIndicatorTestAdminButton);
-                    editOrg=findViewById(R.id.editOrgAdminButton);
-                    editOrgCenters=findViewById(R.id.editOrgCenterAdminButton);
 
                 }
                 else{
@@ -133,14 +133,15 @@ public class MainMenu extends AppCompatActivity {
                 if(user.getUserType().equals("DIRECTOR")){
                     dirEvaluated.setVisibility(View.VISIBLE);
                     evaluated.setVisibility(View.GONE);
-                    addNewOrgCenter=findViewById(R.id.addNewOrgCenterDirEvaluatedButton);
-                    seeRealizedIndicatorTest=findViewById(R.id.seeRealizedIndicatorDirEvaluatedButton);
-                    editOrg=findViewById(R.id.editOrgDirEvaluatedButton);
-                    editOrgCenters=findViewById(R.id.editOrgCenterDirEvaluatedButton);
+                    addNewOrgCenter=findViewById(R.id.addNewOrgCenterDirEvalButton);
+                    addNewEvalTeam=findViewById(R.id.addNewEvalTeamDirEvalButton);
+                    seeRealizedIndicatorTest=findViewById(R.id.seeRealizedIndicatorTestDirEvalButton);
+                    editOrg=findViewById(R.id.editOrgDirEvalButton);
+                    editOrgCenters=findViewById(R.id.editOrgCenterDirEvalButton);
                 }else{
                     dirEvaluated.setVisibility(View.GONE);
                     evaluated.setVisibility(View.VISIBLE);
-                    seeRealizedIndicatorTest=findViewById(R.id.seeRealizedIndicatorEvaluatedButton);
+                    seeRealizedIndicatorTest=findViewById(R.id.seeRealizedIndicatorTestEvaluatedButton);
                 }
             }
 
@@ -236,14 +237,12 @@ public class MainMenu extends AppCompatActivity {
             if(addNewEvalTeam!=null) {
                 addNewEvalTeam.setOnClickListener(v -> {
                     chargingScreen.setVisibility(View.VISIBLE);
-                    session.obtainOrgsAndEvalUsers();
+                    session.obtainUsersAndCenters();
                     v.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             Intent intent = new Intent(getApplicationContext(), gui.RegisterNewEvaluatorTeam.class);
                             startActivity(intent);
-
-                            chargingScreen.setVisibility(View.GONE);
                         }
                     }, 200);
                 });

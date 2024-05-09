@@ -32,10 +32,11 @@ namespace OTEAServer.Models
         /// <param name="observationsGerman">Observations in German</param>
         /// <param name="observationsItalian">Observations in Italian</param>
         /// <param name="observationsPortuguese">Observations in Portuguese</param>
-        /// /// <param name="numEvidencesMarked">Number of marked evidences</param>
+        /// <param name="numEvidencesMarked">Number of marked evidences</param>
+        /// <param name="status">Indicator status</param>
         public IndicatorsEvaluationIndicatorReg(long evaluationDate, int idEvaluatedOrganization, string orgTypeEvaluated, int idEvaluatorTeam, int idEvaluatorOrganization, string orgTypeEvaluator, string illness, int idCenter, int idIndicator, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion, string evaluationType,
             string observationsSpanish, string observationsEnglish, string observationsFrench, string observationsBasque, string observationsCatalan,
-            string observationsDutch, string observationsGalician, string observationsGerman, string observationsItalian, string observationsPortuguese, int numEvidencesMarked)
+            string observationsDutch, string observationsGalician, string observationsGerman, string observationsItalian, string observationsPortuguese, int numEvidencesMarked, string status)
         {
             this.evaluationDate = evaluationDate;
             this.idEvaluatorTeam = idEvaluatorTeam;
@@ -62,6 +63,7 @@ namespace OTEAServer.Models
             this.observationsItalian = observationsItalian;
             this.observationsPortuguese = observationsPortuguese;
             this.numEvidencesMarked = numEvidencesMarked;
+            this.status = status;
         }
 
 
@@ -215,6 +217,12 @@ namespace OTEAServer.Models
         /// </summary>
         [JsonPropertyName("numEvidencesMarked")]
         public int numEvidencesMarked { get; set; }
+
+        /// <summary>
+        /// Indicator status
+        /// </summary>
+        [JsonPropertyName("status")]
+        public string status { get; set; }
 
     }
 }

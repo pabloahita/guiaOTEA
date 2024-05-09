@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "zWMg+hWNCp3ehicL865pX3YM8qRefjYAicc7NZ9E6u3pJYOnL1DVtdQKjPBrz0rplxoRY/8gIinZZoWGkkK82A==",
+  "dgSpecHash": "64j4joRWc1WzVmLWeWfaMviqM5Dek16eM7T3uCemXIE9pyTl5ukU1I+QXAwYh72yTKGfj7BArgionjaYoMwAFw==",
   "success": true,
   "projectFilePath": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\OTEAServer.csproj",
   "expectedPackageFiles": [
@@ -41,6 +41,10 @@
     "C:\\Users\\Pablo\\.nuget\\packages\\microsoft.openapi\\1.4.3\\microsoft.openapi.1.4.3.nupkg.sha512",
     "C:\\Users\\Pablo\\.nuget\\packages\\microsoft.sqlserver.server\\1.0.0\\microsoft.sqlserver.server.1.0.0.nupkg.sha512",
     "C:\\Users\\Pablo\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\Pablo\\.nuget\\packages\\nrules\\0.9.4\\nrules.0.9.4.nupkg.sha512",
+    "C:\\Users\\Pablo\\.nuget\\packages\\nrules.fluent\\0.9.4\\nrules.fluent.0.9.4.nupkg.sha512",
+    "C:\\Users\\Pablo\\.nuget\\packages\\nrules.rulemodel\\0.9.4\\nrules.rulemodel.0.9.4.nupkg.sha512",
+    "C:\\Users\\Pablo\\.nuget\\packages\\nrules.runtime\\0.9.4\\nrules.runtime.0.9.4.nupkg.sha512",
     "C:\\Users\\Pablo\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
     "C:\\Users\\Pablo\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
     "C:\\Users\\Pablo\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",

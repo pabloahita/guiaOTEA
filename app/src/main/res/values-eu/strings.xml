@@ -17,7 +17,7 @@
     <string name="next_indicator">Hurrengo Azterketa Adierazlea</string>
     <string name="sign_in">Saioa hasi</string>
     <string name="sign_up">Erregistratu</string>
-    <string name="users_email">Erabiltzailearen emaila</string>
+    <string name="users_email">Posta elektronikoa</string>
     <string name="users_password">Erabiltzailearen pasahitza</string>
     <string name="invalid_username">Email ez da baliozkoa</string>
     <string name="invalid_password">Pasahitza 5 karakteretik luzegi behar du</string>
@@ -107,7 +107,7 @@
     <string name="add_new_evaluator_team">Gehitu ebaluazio talde berri bat</string>
     <string name="add_new_center">Gehitu ebaluatzeko erakundeko erdi berri bat</string>
     <string name="add_new_indicators_evaluation">Gehitu adierazle ebaluazio berri bat</string>
-    <string name="add_new_evaluated_organization">Gehitu ebaluatzeko erakunde berri bat</string>
+    <string name="add_new_evaluated_organization">Erakunde edo zerbitzu bat gehitu</string>
     <string name="org_name">Erakundearen izena</string>
     <string name="org_address">Helbidea</string>
     <string name="org_zipcode">Posta kodea</string>
@@ -158,7 +158,7 @@
     <string name="please_evaluated_org">Mesedez, hautatu ebaluatzeko erakunde bat</string>
     <string name="please_consultant">Mesedez, hautatu kanpoko aholkulari bat</string>
     <string name="please_responsible">Mesedez, hautatu arduradun bat</string>
-    <string name="evaluated_org">Ebaluatzeko erakundea</string>
+    <string name="evaluated_org">Erakundea edo zerbitzua</string>
     <string name="consultant">Kanpoko aholkularia</string>
     <string name="professional">Zuzenduko duen arduraduna</string>
     <string name="responsible">Arduraduna</string>
@@ -193,8 +193,8 @@
     <string name="save_changes">Aldaketak gorde</string>
     <string name="center">Erakundearen Zentroa</string>
     <string name="edit_indicators">Editatu adierazleak</string>
-    <string name="edit_org">Editatu Erakundea ebaluatu da</string>
-    <string name="edit_org_center">Editatu ebaluatutako erakundearen zentro bat</string>
+    <string name="edit_org">Erakunde edukia editatu</string>
+    <string name="edit_org_center">Zentroak editatu</string>
     <string name="center_info">Zentroari buruzko informazioa</string>
     <string name="center_reg_ins">Kanpoko antolakuntza zentro bat erregistratzeko, pantaila honen behealdean kokatutako eremu guztiak bete behar dituzu</string>
     <string name="ambit_caption">Esparruaren deskribapena</string>
@@ -261,5 +261,7 @@
     <string name="no_day_is_selected">Ez da egunik hautatu!</string>
     <string name="must_select_three_eval_dates">Txosteneko gutxienez hiru egun hautatu behar dituzu hilabete bateko perioduan ez</string>
     <string name="difference_between_dates_is_equal_or_greater_than_a_month">Hautatutako lehenengo eta azkenengo egunen arteko diferentzia hilabeteko edo gehiagoko da</string>
+    <string name="manage_reg_reqs">Erregistro eskaerak kudeatu</string>
+    <string name="you_must_LOPD">Fundaición Miradas-ek datuak gordeko dituela onartu behar duzu Datuen Babesaren Lege Organikoaren arabera</string>
 
 </resources>

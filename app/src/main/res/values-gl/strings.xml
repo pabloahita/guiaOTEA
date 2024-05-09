@@ -17,7 +17,7 @@
     <string name="next_indicator">Próximo indicador</string>
     <string name="sign_in">Iniciar sesión</string>
     <string name="sign_up">Rexistrarse</string>
-    <string name="users_email">Correo electrónico do usuario</string>
+    <string name="users_email">Correo electrónico</string>
     <string name="users_password">Contrasinal do usuario</string>
     <string name="invalid_username">Non é un correo válido</string>
     <string name="invalid_password">O contrasinal debe ter máis de 5 caracteres</string>
@@ -104,7 +104,7 @@
     <string name="add_new_evaluator_team">Engadir novo equipo de avaliadores</string>
     <string name="add_new_center">Engadir novo centro de organización avaliada</string>
     <string name="add_new_indicators_evaluation">Engadir nova avaliación de indicadores</string>
-    <string name="add_new_evaluated_organization">Engadir nova organización avaliada</string>
+    <string name="add_new_evaluated_organization">Engadir organización ou servizo</string>
     <string name="org_name">Nome da organización</string>
     <string name="org_address">Enderezo</string>
     <string name="org_zipcode">Código postal</string>
@@ -155,7 +155,7 @@
     <string name="please_evaluated_org">Por favor, selecciona unha organización avaliada</string>
     <string name="please_consultant">Por favor, selecciona un consultor externo</string>
     <string name="please_responsible">Por favor, selecciona un responsable</string>
-    <string name="evaluated_org">Organización avaliada</string>
+    <string name="evaluated_org">Organización ou servizo</string>
     <string name="consultant">Consultor externo</string>
     <string name="professional">Profesional de atención directa</string>
     <string name="responsible">Responsable</string>
@@ -190,8 +190,8 @@
     <string name="save_changes">Gardar cambios</string>
     <string name="center">Centro da organización</string>
     <string name="edit_indicators">Editar indicadores</string>
-    <string name="edit_org">Edición de organización avaliada</string>
-    <string name="edit_org_center">Editar un centro da organización avaliada</string>
+    <string name="edit_org">Editar organización</string>
+    <string name="edit_org_center">Editar centros</string>
     <string name="center_info">Información do centro</string>
     <string name="center_reg_ins">Para rexistrar un centro de organización externa, ten que cubrir todos os campos situados na parte inferior desta pantalla</string>
     <string name="ambit_caption">Descrición do ámbito</string>
@@ -258,6 +258,8 @@
     <string name="no_day_is_selected">¡Non se seleccionou ningún día!</string>
     <string name="must_select_three_eval_dates">Debe seleccionar polo menos tres datas de avaliación nun período non superior a un mes</string>
     <string name="difference_between_dates_is_equal_or_greater_than_a_month">A diferenza entre a primeira e a última data seleccionada é igual ou superior a un mes</string>
+    <string name="manage_reg_reqs">Xestionar as solicitudes de rexistro</string>
+    <string name="you_must_LOPD">Debe aceptar que a Fundación Miradas garde rexistro dos datos de acordo coa Lei Orgánica de Protección de Datos</string>
 
 
 </resources>

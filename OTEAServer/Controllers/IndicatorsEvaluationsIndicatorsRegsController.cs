@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using NRules;
+using NRules.Fluent;
+using OTEAServer.ExpertSystem;
 using OTEAServer.Misc;
 using OTEAServer.Models;
 namespace OTEAServer.Controllers
@@ -160,9 +163,21 @@ namespace OTEAServer.Controllers
             }
             try
             {
+
+                var repository = new RuleRepository();
+                repository.Load(x => x.From(typeof(RuleIndicatorInProcess).Assembly));
+                repository.Load(x => x.From(typeof(RuleIndicatorInStart).Assembly));
+                repository.Load(x => x.From(typeof(RuleIndicatorReached).Assembly));
+                var factory = repository.Compile();
                 foreach (IndicatorsEvaluationIndicatorReg reg in regs)
                 {
                     if (reg == null) { continue; }
+
+
+                    var session = factory.CreateSession();
+                    session.Insert(reg);
+                    session.Fire();
+
                     IndicatorsEvaluationIndicatorReg aux = _context.IndicatorsEvaluationsIndicatorsRegs.FirstOrDefault(r => r.evaluationDate == reg.evaluationDate && r.idEvaluatorTeam == reg.idEvaluatorTeam && r.idEvaluatorOrganization == reg.idEvaluatorOrganization && r.orgTypeEvaluator == reg.orgTypeEvaluator && r.idEvaluatedOrganization == reg.idEvaluatedOrganization && r.orgTypeEvaluated == reg.orgTypeEvaluated && r.illness == reg.illness && r.idCenter == reg.idCenter && r.idSubSubAmbit == reg.idSubSubAmbit && r.idSubAmbit == reg.idSubAmbit && r.idAmbit == reg.idAmbit && r.idIndicator == reg.idIndicator && r.indicatorVersion == reg.indicatorVersion && r.evaluationType == reg.evaluationType);
 
                     if (aux == null)
@@ -196,6 +211,7 @@ namespace OTEAServer.Controllers
                         aux.observationsItalian = reg.observationsItalian;
                         aux.observationsPortuguese = reg.observationsPortuguese;
                         aux.numEvidencesMarked = reg.numEvidencesMarked;
+                        aux.status = reg.status;
                     }
                     
                 }
