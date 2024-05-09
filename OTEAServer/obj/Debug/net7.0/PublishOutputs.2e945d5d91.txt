@@ -30,6 +30,9 @@ C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Debug\net7
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Debug\net7.0\PubTmp\Out\Microsoft.OpenApi.dll
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Debug\net7.0\PubTmp\Out\Microsoft.SqlServer.Server.dll
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Debug\net7.0\PubTmp\Out\Microsoft.Win32.SystemEvents.dll
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Debug\net7.0\PubTmp\Out\NRules.Fluent.dll
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Debug\net7.0\PubTmp\Out\NRules.RuleModel.dll
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Debug\net7.0\PubTmp\Out\NRules.dll
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Debug\net7.0\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Debug\net7.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Debug\net7.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerUI.dll

@@ -15,6 +15,7 @@
           "Microsoft.AspNetCore.OpenApi": "7.0.13",
           "Microsoft.EntityFrameworkCore": "7.0.13",
           "Microsoft.EntityFrameworkCore.SqlServer": "7.0.13",
+          "NRules": "0.9.4",
           "Swashbuckle.AspNetCore": "6.5.0",
           "System.IdentityModel.Tokens.Jwt": "7.2.0",
           "System.Text.Json": "8.0.0-rc.1.23419.4"
@@ -401,6 +402,42 @@
             "assetType": "runtime",
             "assemblyVersion": "6.0.0.0",
             "fileVersion": "6.0.21.52210"
+          }
+        }
+      },
+      "NRules/0.9.4": {
+        "dependencies": {
+          "NRules.Fluent": "0.9.4",
+          "NRules.Runtime": "0.9.4"
+        }
+      },
+      "NRules.Fluent/0.9.4": {
+        "dependencies": {
+          "NRules.RuleModel": "0.9.4"
+        },
+        "runtime": {
+          "lib/netstandard2.1/NRules.Fluent.dll": {
+            "assemblyVersion": "0.9.4.0",
+            "fileVersion": "0.9.4.0"
+          }
+        }
+      },
+      "NRules.RuleModel/0.9.4": {
+        "runtime": {
+          "lib/netstandard2.1/NRules.RuleModel.dll": {
+            "assemblyVersion": "0.9.4.0",
+            "fileVersion": "0.9.4.0"
+          }
+        }
+      },
+      "NRules.Runtime/0.9.4": {
+        "dependencies": {
+          "NRules.RuleModel": "0.9.4"
+        },
+        "runtime": {
+          "lib/netstandard2.1/NRules.dll": {
+            "assemblyVersion": "0.9.4.0",
+            "fileVersion": "0.9.4.0"
           }
         }
       },
@@ -892,6 +929,34 @@
       "sha512": "sha512-hqTM5628jSsQiv+HGpiq3WKBl2c8v1KZfby2J6Pr7pEPlK9waPdgEO6b8A/+/xn/yZ9ulv8HuqK71ONy2tg67A==",
       "path": "microsoft.win32.systemevents/6.0.0",
       "hashPath": "microsoft.win32.systemevents.6.0.0.nupkg.sha512"
+    },
+    "NRules/0.9.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KLQbXIOMz7eDL9+ZFp3hFLibCgO11NHuJRjTQP8BkTyPpVsYRX3Kjbs6LkKAkcXo9Wip4nbbjU0YLkNhQnpqQQ==",
+      "path": "nrules/0.9.4",
+      "hashPath": "nrules.0.9.4.nupkg.sha512"
+    },
+    "NRules.Fluent/0.9.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Dnc7zzijfWzGSqh2nrf3yJodvPr6KC4/J4jeGh7VlnKz4qInw+40/906upfGbT0hRFUvIcnCcnuOaK2GJ4V0GQ==",
+      "path": "nrules.fluent/0.9.4",
+      "hashPath": "nrules.fluent.0.9.4.nupkg.sha512"
+    },
+    "NRules.RuleModel/0.9.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/Rons42/UiTihUVTysI6CWRExFDsrpxqm7KfUvlz7+mizAizBqkANQ9AouElqCkQwqzfR6/eSdDXTh8eSfru6A==",
+      "path": "nrules.rulemodel/0.9.4",
+      "hashPath": "nrules.rulemodel.0.9.4.nupkg.sha512"
+    },
+    "NRules.Runtime/0.9.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xRtOPDVbpaBAnqB+5HT8juxmyoiPmc0L9zROc8idJdpHhBUiJyDDfZiXyUk592sR5pOTEVupMPA3GPfRWkgP0g==",
+      "path": "nrules.runtime/0.9.4",
+      "hashPath": "nrules.runtime.0.9.4.nupkg.sha512"
     },
     "Swashbuckle.AspNetCore/6.5.0": {
       "type": "package",

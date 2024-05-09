@@ -10,15 +10,11 @@ namespace OTEAServer.ExpertSystem
             IndicatorsEvaluationIndicatorReg reg = default;
 
             When()
+            .Match<IndicatorsEvaluationIndicatorReg>(() => reg)
             .Exists<IndicatorsEvaluationIndicatorReg>(reg => reg.numEvidencesMarked == 4);
 
             Then()
-                .Do(cx => setStatus(reg, "COMPLETED"));
-        }
-
-        public static void setStatus(IndicatorsEvaluationIndicatorReg reg, string status)
-        {
-            reg.status = status;
+                .Do(_ => reg.setStatus("COMPLETED"));
         }
     }
 }

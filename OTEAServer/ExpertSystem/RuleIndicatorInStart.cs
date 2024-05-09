@@ -8,18 +8,15 @@ namespace OTEAServer.ExpertSystem
     {
         public override void Define()
         {
-            IndicatorsEvaluationIndicatorReg reg = default;
+            IndicatorsEvaluationIndicatorReg reg=default;
 
             When()
-            .Exists<IndicatorsEvaluationIndicatorReg>(reg => reg.numEvidencesMarked == 0 || reg.numEvidencesMarked == 1);
+            .Match<IndicatorsEvaluationIndicatorReg>(()=>reg)
+            .Exists<IndicatorsEvaluationIndicatorReg>(reg=>reg.numEvidencesMarked == 0 || reg.numEvidencesMarked == 1);
 
             Then()
-                .Do(cx => setStatus(reg, "IN_START"));
+                .Do(_ => reg.setStatus("IN_START"));
         }
 
-        public static void setStatus(IndicatorsEvaluationIndicatorReg reg, string status)
-        {
-            reg.status = status;
-        }
     }
 }

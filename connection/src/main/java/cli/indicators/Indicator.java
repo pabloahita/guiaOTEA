@@ -79,7 +79,7 @@ public class Indicator implements Serializable {
 
     /**Indicator priority*/
     @SerializedName("indicatorPriority")
-    public int indicatorPriority;
+    public String indicatorPriority;
 
     /**Indicator version*/
     @SerializedName("indicatorVersion")
@@ -118,7 +118,7 @@ public class Indicator implements Serializable {
      * @param isActive - Boolean that determines if the indicator is or not is activated. 1 if is, 0 if not
      * @param evaluationType - Evaluation type
      * */
-    public Indicator(int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, String descriptionEnglish, String descriptionSpanish, String descriptionFrench, String descriptionBasque, String descriptionCatalan, String descriptionDutch, String descriptionGalician, String descriptionGerman, String descriptionItalian, String descriptionPortuguese, int indicatorPriority, int indicatorVersion, int isActive, String evaluationType) {
+    public Indicator(int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, String descriptionEnglish, String descriptionSpanish, String descriptionFrench, String descriptionBasque, String descriptionCatalan, String descriptionDutch, String descriptionGalician, String descriptionGerman, String descriptionItalian, String descriptionPortuguese, String indicatorPriority, int indicatorVersion, int isActive, String evaluationType) {
         setIdIndicator(idIndicator);
         setIndicatorType(indicatorType);
         setIdSubSubAmbit(idSubSubAmbit);
@@ -135,7 +135,7 @@ public class Indicator implements Serializable {
         setDescriptionGerman(descriptionGerman);
         setDescriptionItalian(descriptionItalian);
         setDescriptionPortuguese(descriptionPortuguese);
-        setPriority(indicatorPriority);
+        setIndicatorPriority(indicatorPriority);
         setIndicatorVersion(indicatorVersion);
         setIsActive(isActive);
         setEvaluationType(evaluationType);
@@ -376,23 +376,6 @@ public class Indicator implements Serializable {
         this.descriptionPortuguese = descriptionPortuguese;
     }
 
-    /**
-     * Method that obtains the indicator priority
-     *
-     * @return Indicator priority
-     * */
-    public int getPriority() {
-        return indicatorPriority;
-    }
-
-    /**
-     * Method that sets the new indicator priority
-     *
-     * @param indicatorPriority - Indicator priority
-     * */
-    public void setPriority(int indicatorPriority) {
-        this.indicatorPriority = indicatorPriority;
-    }
 
     /**
      * Method that obtains the indicator version
@@ -471,7 +454,7 @@ public class Indicator implements Serializable {
      *
      * @return Indicator priority
      * */
-    public int getIndicatorPriority() {
+    public String getIndicatorPriority() {
         return indicatorPriority;
     }
 
@@ -480,7 +463,7 @@ public class Indicator implements Serializable {
      *
      * @param indicatorPriority - Indicator priority
      * */
-    public void setIndicatorPriority(int indicatorPriority) {
+    public void setIndicatorPriority(String indicatorPriority) {
         this.indicatorPriority = indicatorPriority;
     }
 

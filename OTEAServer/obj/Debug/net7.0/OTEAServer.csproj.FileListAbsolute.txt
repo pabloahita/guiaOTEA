@@ -234,3 +234,6 @@ C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Debug\net7
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Debug\net7.0\OTEAServer.pdb
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Debug\net7.0\OTEAServer.genruntimeconfig.cache
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Debug\net7.0\ref\OTEAServer.dll
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\bin\Debug\net7.0\NRules.Fluent.dll
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\bin\Debug\net7.0\NRules.RuleModel.dll
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\bin\Debug\net7.0\NRules.dll
