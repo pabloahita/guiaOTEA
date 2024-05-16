@@ -37,10 +37,11 @@ public class OrgsAdapter extends ArrayAdapter<Organization> {
         Organization evaluatedOrganization = getItem(position);
         TextView textView = view.findViewById(android.R.id.text1);
 
-        if(evaluatedOrganization.getIdOrganization()==-1){
+        if(position==0){
             text = "<b>"+evaluatedOrganization.getNameOrg()+"</b>";
         }else{
-            text = "<i>"+evaluatedOrganization.getNameOrg()+"</i>";
+            Organization title=getItem(0);
+            text = "<b>"+title.getNameOrg()+": </b><i>"+evaluatedOrganization.getNameOrg()+"</i>";
         }
         textView.setText(Html.fromHtml(text,0));
 
@@ -49,7 +50,23 @@ public class OrgsAdapter extends ArrayAdapter<Organization> {
 
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        return getView(position, convertView, parent);
+        View view = convertView;
+        if (view == null) {
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            view = inflater.inflate(R.layout.spinner_item_layout, parent, false);
+        }
+
+        Organization evaluatedOrganization = getItem(position);
+        TextView textView = view.findViewById(android.R.id.text1);
+
+        if(position==0){
+            text = "<b>"+evaluatedOrganization.getNameOrg()+"</b>";
+        }else{
+            text = "<i>"+evaluatedOrganization.getNameOrg()+"</i>";
+        }
+        textView.setText(Html.fromHtml(text,0));
+
+        return view;
     }
     @Override
     public Organization getItem(int position) {

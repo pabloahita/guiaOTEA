@@ -36,11 +36,12 @@ public class UsersAdapter extends ArrayAdapter<User> {
 
         User user = getItem(position);
         TextView textView = view.findViewById(android.R.id.text1);
-        if(user.getEmailUser().equals("-1")){//For auxiliar spinners
+        if(position==0){//For auxiliar spinners
             text="<b>"+user.getFirst_name()+"</b>";
         }
         else {
-            text = "<i>"+user.getFirst_name() + " " + user.getLast_name() + " <b>" + user.getEmailUser() + "</b></i>";
+            User title=getItem(0);
+            text = "<b>"+title.getFirst_name()+": </b><i>"+user.getFirst_name() + " " + user.getLast_name() + "</i>";
         }
         textView.setText(Html.fromHtml(text,0));
 
@@ -49,7 +50,23 @@ public class UsersAdapter extends ArrayAdapter<User> {
 
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        return getView(position, convertView, parent);
+        View view = convertView;
+        if (view == null) {
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            view = inflater.inflate(R.layout.spinner_item_layout, parent, false);
+        }
+
+        User user = getItem(position);
+        TextView textView = view.findViewById(android.R.id.text1);
+        if(position==0){//For auxiliar spinners
+            text="<b>"+user.getFirst_name()+"</b>";
+        }
+        else {
+            text = "<i>"+user.getFirst_name() + " " + user.getLast_name() + " <b>" + user.getEmailUser() + "</b></i>";
+        }
+        textView.setText(Html.fromHtml(text,0));
+
+        return view;
     }
     @Override
     public User getItem(int position) {

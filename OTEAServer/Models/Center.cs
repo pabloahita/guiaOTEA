@@ -29,7 +29,8 @@ namespace OTEAServer.Models
         /// <param name="idAddress">Address identifier</param>
         /// <param name="telephone">Center telephone</param>
         /// <param name="email">Center email</param>
-        public Center(int idOrganization, string orgType, string illness, int idCenter, string descriptionEnglish, string descriptionSpanish, string descriptionFrench,string descriptionBasque, string descriptionCatalan, string descriptionDutch, string descriptionGalician, string descriptionGerman, string descriptionItalian, string descriptionPortuguese, int idAddress, string telephone, string email) { 
+        /// <param name="profilePhoto">Profile photo</param>
+        public Center(int idOrganization, string orgType, string illness, int idCenter, string descriptionEnglish, string descriptionSpanish, string descriptionFrench,string descriptionBasque, string descriptionCatalan, string descriptionDutch, string descriptionGalician, string descriptionGerman, string descriptionItalian, string descriptionPortuguese, int idAddress, string telephone, string email, string? profilePhoto) { 
             this.idOrganization = idOrganization;
             this.orgType = orgType;
             this.illness = illness;
@@ -47,6 +48,7 @@ namespace OTEAServer.Models
             this.telephone = telephone;
             this.idAddress = idAddress;
             this.email=email;
+            this.profilePhoto = profilePhoto;
         }
 
         /// <summary>
@@ -151,6 +153,12 @@ namespace OTEAServer.Models
         /// </summary>
         [JsonPropertyName("email")]
         public string email{get;set;}
+
+        /// <summary>
+        /// Profile photo
+        /// </summary>
+        [JsonPropertyName("profilePhoto")]
+        public string? profilePhoto { get; set; }
     }
 
     

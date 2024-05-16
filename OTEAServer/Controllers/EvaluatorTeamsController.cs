@@ -225,7 +225,7 @@ namespace OTEAServer.Controllers
                 existingEvaluatorTeam.evaluationDates = evaluatorTeam.evaluationDates;
                 existingEvaluatorTeam.completedEvaluationDates = evaluatorTeam.completedEvaluationDates;
                 existingEvaluatorTeam.totalEvaluationDates = evaluatorTeam.totalEvaluationDates;
-
+                existingEvaluatorTeam.profilePhoto= evaluatorTeam.profilePhoto;
                 _context.SaveChanges();
 
                 return Ok(existingEvaluatorTeam);

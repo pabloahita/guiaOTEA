@@ -105,18 +105,18 @@
     <string name="add_new_center">Engadir novo centro de organización avaliada</string>
     <string name="add_new_indicators_evaluation">Engadir nova avaliación de indicadores</string>
     <string name="add_new_evaluated_organization">Engadir organización ou servizo</string>
-    <string name="org_name">Nome da organización</string>
+    <string name="org_name">Nome da organización ou servizo</string>
     <string name="org_address">Enderezo</string>
     <string name="org_zipcode">Código postal</string>
     <string name="org_city">Cidade</string>
     <string name="org_province">Provincia</string>
     <string name="org_region">Rexión</string>
     <string name="org_country">País</string>
-    <string name="please_org_name">Por favor, introduce o nome da organización</string>
-    <string name="please_address">Por favor, introduce o enderezo</string>
-    <string name="please_city">Por favor, introduce o nome da cidade</string>
-    <string name="please_province">Por favor, introduce o nome da provincia</string>
-    <string name="please_region">Por favor, introduce o nome da rexión</string>
+    <string name="please_org_name">Debe introducir o nome da organización ou do servizo</string>
+    <string name="please_address">Debe introducir a dirección</string>
+    <string name="please_city">Debe introducir o nome da cidade</string>
+    <string name="please_province">Debe introducir o nome da provincia</string>
+    <string name="please_region">Debe introducir o nome da rexión</string>
     <string name="please_zipcode">Por favor, introduce o código postal</string>
     <string name="more_info">Máis información</string>
     <string name="add_director">Engadir director da organización</string>
@@ -260,6 +260,31 @@
     <string name="difference_between_dates_is_equal_or_greater_than_a_month">A diferenza entre a primeira e a última data seleccionada é igual ou superior a un mes</string>
     <string name="manage_reg_reqs">Xestionar as solicitudes de rexistro</string>
     <string name="you_must_LOPD">Debe aceptar que a Fundación Miradas garde rexistro dos datos de acordo coa Lei Orgánica de Protección de Datos</string>
+    <string name="change_photo">Cambiar foto</string>
+    <string name="please_country">Debe seleccionar un país</string>
+    <string name="please_sel_region">Debe seleccionar unha rexión</string>
+    <string name="please_sel_province">Debe seleccionar unha provincia</string>
+    <string name="please_sel_city">Debe seleccionar unha cidade</string>
+    <string name="please_email_org">Debe introducir o correo electrónico da organización ou do servizo</string>
+    <string name="please_email_dir">Debe introducir o correo electrónico do director da organización ou do servizo</string>
+    <string name="wrong_email_org">Debe introducir o correo electrónico da organización ou servizo correctamente</string>
+    <string name="wrong_email_dir">Debe introducir o correo electrónico do director da organización ou servizo correctamente</string>
+    <string name="wrong_org_phone">Debe introducir correctamente o teléfono da organización ou do servizo</string>
+    <string name="please_org_phone">Debe introducir o teléfono da organización ou do servizo</string>
+    <string name="please_phone_center">Debe introducir o teléfono do centro da organización ou do servizo</string>
+    <string name="wrong_phone_center">Debe introducir correctamente o teléfono do centro da organización ou do servizo</string>
+    <string name="please_email_center">Debe introducir o correo electrónico do centro da organización ou do servizo</string>
+    <string name="wrong_email_center">Debe introducir correctamente o correo electrónico do centro da organización ou do servizo</string>
+    <string name="to_people">Ás persoas</string>
+    <string name="needs_id">Identificación de necesidades</string>
+    <string name="prof_training">Formación de profesionais</string>
+    <string name="org_structure">Estrutura da organización</string>
+    <string name="resources">Recursos</string>
+    <string name="community">Comunidade</string>
+    <string name="fundamental_interest">De interese fundamental</string>
+    <string name="high_interest">De interese alto</string>
+    <string name="medium_interest">De interese medio</string>
+    <string name="low_interest">De interese baixo</string>
 
 
 </resources>

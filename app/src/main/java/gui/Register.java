@@ -1,11 +1,18 @@
 package gui;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,27 +25,34 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 
-import java.io.File;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import cli.organization.data.geo.Country;
+import cli.user.Request;
 import cli.user.User;
+import session.Session;
 import gui.adapters.OrgsAdapter;
 import gui.adapters.PhoneCodeAdapter;
 import misc.FieldChecker;
 import cli.organization.Organization;
-import misc.PasswordCodifier;
+import misc.PasswordFormatter;
 import otea.connection.controller.CountriesController;
 import otea.connection.controller.OrganizationsController;
+import otea.connection.controller.RequestsController;
 import otea.connection.controller.UsersController;
+import session.FileManager;
 
 import java.util.Locale;
 import java.util.regex.*;
@@ -55,7 +69,11 @@ public class Register extends AppCompatActivity {
 
     Uri imageUri;
 
-    String imageUriToString;
+    InputStream profilePhotoUsr;
+
+    Button uploadPhoto;
+
+    GridLayout gridLayout;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -65,19 +83,17 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         ConstraintLayout finalBackground=findViewById(R.id.final_background);
         finalBackground.setVisibility(View.GONE);
-        Spinner spinnerUserType = findViewById(R.id.spinner_menu_user_type);
-        Spinner spinnerOrgEvaluated = findViewById(R.id.spinner_menu_org_evaluated);
-        spinnerOrgEvaluated.setEnabled(false);
-        String[] selectedUserType = {null};
-        OrgsAdapter[] adapter={null};
-        int[] idOrganization = {-1};
-        String[] orgType = {""};
-        String[] illness = {""};
+        gridLayout=findViewById(R.id.layout);
+
+        Request request=Session.getCurrRequest();
         String[] telephone=new String[2];
 
         getCountries();
         phoneCodeAdapter[0] = new PhoneCodeAdapter(Register.this,countries);
         phoneCodeAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+
+        Drawable correct = ContextCompat.getDrawable(getApplicationContext(), R.drawable.baseline_check_circle_24);
+
 
         Spinner phoneCode1=findViewById(R.id.phonecode1);
         phoneCode1.setAdapter(phoneCodeAdapter[0]);
@@ -85,19 +101,56 @@ public class Register extends AppCompatActivity {
 
         EditText firstNameField=(EditText)findViewById(R.id.first_name_reg);
         EditText lastNameField=(EditText)findViewById(R.id.last_name_reg);
-        EditText emailField=(EditText)findViewById(R.id.email_reg);
         EditText passwordField=(EditText)findViewById(R.id.password_reg);
         EditText telephoneField=(EditText)findViewById(R.id.telephone_reg);
 
         profilePhoto=findViewById(R.id.profilePhoto);
 
-        Button uploadPhoto=findViewById(R.id.uploadPhoto);
+        uploadPhoto=findViewById(R.id.uploadPhoto);
+
+
+        ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
+                new ActivityResultCallback<Uri>() {
+                    @Override
+                    public void onActivityResult(Uri uri) {
+                        // Handle the returned Uri
+                        try {
+                            profilePhotoUsr = getContentResolver().openInputStream(uri);
+                            profilePhoto.setImageURI(uri);
+                        } catch (FileNotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+
+        ActivityResultLauncher<Void> mTakePicture = registerForActivityResult(new ActivityResultContracts.TakePicturePreview(),
+                new ActivityResultCallback<Bitmap>() {
+                    @Override
+                    public void onActivityResult(Bitmap bitmap) {
+                        // Handle the returned Bitmap
+                        try {
+                            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
+                            byte[] bitmapdata = bos.toByteArray();
+                            bos.close();
+                            ByteArrayInputStream bs = new ByteArrayInputStream(bitmapdata);
+                            profilePhotoUsr = bs;
+                            profilePhoto.setImageBitmap(bitmap);
+                            bs.close();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
 
         uploadPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, 100);
+                new AlertDialog.Builder(v.getContext())
+                        .setTitle(getString(R.string.select_source))
+                        .setPositiveButton(getString(R.string.camera), (dialog, which) -> mTakePicture.launch(null))
+                        .setNegativeButton(getString(R.string.gallery), (dialog, which) -> mGetContent.launch("image/*"))
+                        .show();
             }
         });
 
@@ -151,38 +204,7 @@ public class Register extends AppCompatActivity {
                 }
         );
 
-        emailField.addTextChangedListener(
-                new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                        //No es necesario introducir nada aquí
-                        emailField.setError(null);
-                    }
 
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        String inputText=s.toString();
-                        if(FieldChecker.emailHasCorrectFormat(inputText)){
-                            emailField.setError(null);
-                        }
-                        else{
-                            if(inputText.equals("")){
-                                emailField.setError(getString(R.string.mandatory_email));
-                            }
-                            else{
-                                emailField.setError(getString(R.string.wrong_email));
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        //No es necesario introducir nada aquí
-                    }
-
-
-                }
-        );
 
         passwordField.addTextChangedListener(
                 new TextWatcher() {
@@ -218,6 +240,21 @@ public class Register extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 telephone[0] = phoneCodeAdapter[0].getItem(position).getPhone_code();
+                if (telephone[1].isEmpty()) {
+                    telephoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                    telephoneField.setError(null);
+                } else if (FieldChecker.isACorrectPhone(telephone[0]+telephone[1])) {
+                    telephoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+                    telephoneField.setError(null);
+                } else {
+                    if (telephoneField.getError() == null) {
+                        telephoneField.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+                        telephoneField.setError(getString(R.string.wrong_phone));
+                    } else {
+                        telephoneField.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+                        telephoneField.setError(null);
+                    }
+                }
             }
 
             @Override
@@ -237,14 +274,20 @@ public class Register extends AppCompatActivity {
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         telephone[1]=s.toString();
-                        if(telephone[1].equals("")){
-                            telephoneField.setError(getString(R.string.mandatory_phone));
-                        }
-                        else if(FieldChecker.isACorrectPhone(telephone[0]+telephone[1])){
+                        if (telephone[1].isEmpty()) {
+                            telephoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
                             telephoneField.setError(null);
-                        }
-                        else{
-                            telephoneField.setError(getString(R.string.wrong_phone));
+                        } else if (FieldChecker.isACorrectPhone(telephone[0]+telephone[1])) {
+                            telephoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+                            telephoneField.setError(null);
+                        } else {
+                            if (telephoneField.getError() == null) {
+                                telephoneField.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+                                telephoneField.setError(getString(R.string.wrong_phone));
+                            } else {
+                                telephoneField.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+                                telephoneField.setError(null);
+                            }
                         }
                     }
 
@@ -256,49 +299,7 @@ public class Register extends AppCompatActivity {
 
                 }
         );
-        spinnerUserType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedUserType[0] = parent.getItemAtPosition(position).toString();
-
-                if (selectedUserType[0].equals(getString(R.string.evaluated_org_user_reg))) {
-                    // Activar el spinner_menu_org_evaluated
-                    obtainOrganizations();
-                    adapter[0]= new OrgsAdapter(Register.this, evaluatedOrganizations);
-                    adapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-                    spinnerOrgEvaluated.setAdapter(adapter[0]);
-                    spinnerOrgEvaluated.setEnabled(true);
-                } else {
-                    // Desactivar el spinner_menu_org_evaluated
-                    spinnerOrgEvaluated.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Acciones a realizar cuando no se selecciona ningún elemento
-            }
-        });
-
-        Organization[] selectedOrganization={null};
-        spinnerOrgEvaluated.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(spinnerOrgEvaluated.isEnabled()) {
-                    selectedUserType[0] = adapter[0].getText();
-                    selectedOrganization[0] = adapter[0].getItem(position);
-                    idOrganization[0]=selectedOrganization[0].getIdOrganization();
-                    orgType[0]=selectedOrganization[0].getOrganizationType();
-                    illness[0]=selectedOrganization[0].getIllness();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Acciones a realizar cuando no se selecciona ningún elemento
-            }
-        });
 
         CheckBox acceptLOPD=findViewById(R.id.accept_LOPD);
 
@@ -320,31 +321,28 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finalBackground.setVisibility(View.VISIBLE);
-                firstNameField.setEnabled(false);
-                lastNameField.setEnabled(false);
-                emailField.setEnabled(false);
-                passwordField.setEnabled(false);
-                telephoneField.setEnabled(false);
-                spinnerUserType.setEnabled(false);
-                spinnerOrgEvaluated.setEnabled(false);
-                acceptLOPD.setEnabled(false);
-                register.setEnabled(false);
+                gridLayout.setVisibility(View.GONE);
                 v.postDelayed(new Runnable(){
                     @Override
                     public void run(){
                         String first_name=firstNameField.getText().toString();
                         String last_name=lastNameField.getText().toString();
-                        String email=emailField.getText().toString();
                         String password= passwordField.getText().toString();
 
-                        if(selectedUserType[0].equals(getString(R.string.fMiradas_user_reg))){
-                            idOrganization[0] =1;
-                            orgType[0] ="EVALUATOR";
-                            illness[0] ="AUTISM";
+                        if(profilePhotoUsr!=null){
+                            String imgUsrName="USER_" + (request.getEmail().replace("@", "_").replace(".", "_")) + ".jpg";
+                            FileManager.uploadFile(profilePhotoUsr, "profile-photos", imgUsrName);
+                            try{
+                                profilePhotoUsr.close();
+                            }catch(IOException e){
+                                e.printStackTrace();
+                            }
                         }
-                        if(!first_name.equals("") && !last_name.equals("") && FieldChecker.emailHasCorrectFormat(email) && FieldChecker.passwordHasCorrectFormat(password) && FieldChecker.isACorrectPhone(telephone[0]+telephone[1])){
-                            User user=new User(email,"ORGANIZATION",first_name,last_name, PasswordCodifier.codify(password),telephone[0]+" "+telephone[1],idOrganization[0],orgType[0],illness[0],"");
+                        if(!first_name.equals("") && !last_name.equals("") && FieldChecker.passwordHasCorrectFormat(password) && FieldChecker.isACorrectPhone(telephone[0]+telephone[1])){
+                            User user=new User(request.getEmail(),request.getUserType(),first_name,last_name, PasswordFormatter.codify(password),telephone[0]+" "+telephone[1],request.getIdOrganization(),request.getOrgType(),request.getIllness(),"");
                             UsersController.Create(user);
+                            RequestsController.Delete(request.getEmail());
+                            Session.setCurrRequest(null);
                             Log.d("USER_REGISTERED","USER REGISTERED");
                             Intent intent=new Intent(getApplicationContext(),gui.MainActivity.class);
                             String messageSuccess="";
@@ -359,16 +357,9 @@ public class Register extends AppCompatActivity {
                             startActivity(intent);
                         }
                         else{
+
                             finalBackground.setVisibility(View.VISIBLE);
-                            firstNameField.setEnabled(true);
-                            lastNameField.setEnabled(true);
-                            emailField.setEnabled(true);
-                            passwordField.setEnabled(true);
-                            telephoneField.setEnabled(true);
-                            spinnerUserType.setEnabled(true);
-                            if(spinnerUserType.getSelectedItem().equals(getString(R.string.evaluated_org_user_reg))){
-                                spinnerOrgEvaluated.setEnabled(true);
-                            }
+                            gridLayout.setVisibility(View.GONE);
                             acceptLOPD.setEnabled(true);
                             acceptLOPD.setChecked(false);
                             if(first_name.equals("")){
@@ -376,9 +367,6 @@ public class Register extends AppCompatActivity {
                             }
                             if(last_name.equals("")){
                                 lastNameField.setError(getString(R.string.mandatory_last_name));
-                            }
-                            if(!FieldChecker.emailHasCorrectFormat(email)){
-                                emailField.setError(getString(R.string.wrong_email));
                             }
                             if(!FieldChecker.passwordHasCorrectFormat(password)){
                                 passwordField.setError(getString(R.string.wrong_password));

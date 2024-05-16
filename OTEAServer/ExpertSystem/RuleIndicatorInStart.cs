@@ -1,4 +1,5 @@
 ﻿using NRules.Fluent.Dsl;
+using NRules.RuleModel;
 using OTEAServer.Models;
 using System.Drawing;
 
@@ -8,15 +9,16 @@ namespace OTEAServer.ExpertSystem
     {
         public override void Define()
         {
-            IndicatorsEvaluationIndicatorReg reg=default;
+            IndicatorsEvaluationIndicatorReg reg = default;
 
             When()
-            .Match<IndicatorsEvaluationIndicatorReg>(()=>reg)
-            .Exists<IndicatorsEvaluationIndicatorReg>(reg=>reg.numEvidencesMarked == 0 || reg.numEvidencesMarked == 1);
+            .Match<IndicatorsEvaluationIndicatorReg>(() => reg)
+            .Exists<IndicatorsEvaluationIndicatorReg>(reg => reg.numEvidencesMarked == 0 || reg.numEvidencesMarked == 1);
 
             Then()
-                .Do(_ => reg.setStatus("IN_START"));
+                .Do(_ => reg.SetStatus("IN_START"));
         }
+
 
     }
 }

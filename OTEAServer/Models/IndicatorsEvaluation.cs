@@ -40,6 +40,7 @@ namespace OTEAServer.Models
         /// <param name="conclusionsPortuguese">Evaluation's conclusions in Portuguese</param>
         /// <param name="isFinished">1 if is finished, 0 if not</param>
         /// <param name="evaluationType">Evaluation type</param>
+        /// <param name="level">Score level when is finished</param>
         public IndicatorsEvaluation(long evaluationDate, int idEvaluatedOrganization, string orgTypeEvaluated, 
             int idEvaluatorTeam, int idEvaluatorOrganization, string orgTypeEvaluator, string illness, int idCenter, 
             int scorePriorityZeroColourRed, int scorePriorityZeroColourYellow, int scorePriorityZeroColourGreen,
@@ -48,7 +49,7 @@ namespace OTEAServer.Models
             int scorePriorityThreeColourRed, int scorePriorityThreeColourYellow, int scorePriorityThreeColourGreen, int totalScore, 
             string conclusionsSpanish, string conclusionsEnglish, string conclusionsFrench, string conclusionsBasque, 
             string conclusionsCatalan, string conclusionsDutch, string conclusionsGalician, string conclusionsGerman, 
-            string conclusionsItalian, string conclusionsPortuguese, int isFinished, string evaluationType)
+            string conclusionsItalian, string conclusionsPortuguese, int isFinished, string evaluationType, string level)
         {
             this.evaluationDate= evaluationDate;
             this.idEvaluatedOrganization = idEvaluatedOrganization;
@@ -83,6 +84,7 @@ namespace OTEAServer.Models
             this.totalScore = totalScore;
             this.isFinished = isFinished;
             this.evaluationType = evaluationType;
+            this.level = level;
         }
 
         /// <summary>
@@ -284,6 +286,11 @@ namespace OTEAServer.Models
         [JsonPropertyName("evaluationType")]
         public string evaluationType { get; set; }
 
+        /// <summary>
+        /// Score level when indicators evaluation is finished
+        /// </summary>
+        [JsonPropertyName("level")]
+        public string level { get; set; }
 
     }
 }

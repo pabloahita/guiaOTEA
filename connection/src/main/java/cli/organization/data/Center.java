@@ -81,6 +81,11 @@ public class Center implements Serializable {
     @SerializedName("email")
     public String email;
 
+    /**Profile photo*/
+    @SerializedName("profilePhoto")
+    public String profilePhoto;
+
+
     /**
      * Class constructor
      *
@@ -101,8 +106,9 @@ public class Center implements Serializable {
      * @param idAddress - Address identifier
      * @param telephone - Center telephone
      * @param email - Center email
+     * @param profilePhoto - Profile photo
      * */
-    public Center(int idOrganization, String orgType, String illness,int idCenter, String descriptionEnglish, String descriptionSpanish, String descriptionFrench, String descriptionBasque, String descriptionCatalan, String descriptionDutch, String descriptionGalician, String descriptionGerman, String descriptionItalian, String descriptionPortuguese, int idAddress, String telephone, String email){
+    public Center(int idOrganization, String orgType, String illness,int idCenter, String descriptionEnglish, String descriptionSpanish, String descriptionFrench, String descriptionBasque, String descriptionCatalan, String descriptionDutch, String descriptionGalician, String descriptionGerman, String descriptionItalian, String descriptionPortuguese, int idAddress, String telephone, String email, String profilePhoto){
         setIdOrganization(idOrganization);
         setOrgType(orgType);
         setIllness(illness);
@@ -120,6 +126,7 @@ public class Center implements Serializable {
         setIdAddress(idAddress);
         setTelephone(telephone);
         setEmail(email);
+        setProfilePhoto(profilePhoto);
     }
 
     /**
@@ -429,5 +436,23 @@ public class Center implements Serializable {
      * */
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    /**
+     * Method that obtains the profile photo URL
+     *
+     * @return Profile photo
+     * */
+    public String getProfilePhoto() {
+        return profilePhoto;
+    }
+
+    /**
+     * Method that sets the new profile photo URL
+     *
+     * @param profilePhoto - Profile photo
+     * */
+    public void setProfilePhoto(String profilePhoto) {
+        this.profilePhoto = profilePhoto;
     }
 }

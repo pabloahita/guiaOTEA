@@ -105,18 +105,18 @@
     <string name="add_new_center">Voeg nieuw centrum van beoordeelde organisatie toe</string>
     <string name="add_new_indicators_evaluation">Voeg nieuwe indicatorenbeoordeling toe</string>
     <string name="add_new_evaluated_organization">Organisatie of dienst toevoegen</string>
-    <string name="org_name">Naam organisatie</string>
+    <string name="org_name">Naam organisatie of dienst</string>
     <string name="org_address">Adres</string>
     <string name="org_zipcode">Postcode</string>
     <string name="org_city">Stad</string>
     <string name="org_province">Provincie</string>
     <string name="org_region">Regio</string>
     <string name="org_country">Land</string>
-    <string name="please_org_name">Voer een organisatienaam in</string>
-    <string name="please_address">Voer het adres in</string>
-    <string name="please_city">Voer de naam van de stad in</string>
-    <string name="please_province">Voer de naam van de provincie in</string>
-    <string name="please_region">Voer de naam van de regio in</string>
+    <string name="please_org_name">U moet de naam van de organisatie of dienst invoeren</string>
+    <string name="please_address">U moet het adres invoeren</string>
+    <string name="please_city">U moet de naam van de stad invoeren</string>
+    <string name="please_province">U moet de naam van de provincie invoeren</string>
+    <string name="please_region">U moet de naam van de regio invoeren</string>
     <string name="please_zipcode">Voer de postcode in</string>
     <string name="more_info">Meer informatie</string>
     <string name="add_director">Voeg organisatiedirecteur toe</string>
@@ -261,6 +261,31 @@
     <string name="difference_between_dates_is_equal_or_greater_than_a_month">Het verschil tussen de eerste en laatste geselecteerde data is gelijk aan of groter dan één maand</string>
     <string name="manage_reg_reqs">Registratieverzoeken beheren</string>
     <string name="you_must_LOPD">U moet ermee instemmen dat de Fundación Miradas de gegevens opslaat in overeenstemming met de Organieke Wet op Gegevensbescherming</string>
+    <string name="change_photo">Foto wijzigen</string>
+    <string name="please_country">U moet een land selecteren</string>
+    <string name="please_sel_region">U moet een regio selecteren</string>
+    <string name="please_sel_province">U moet een provincie selecteren</string>
+    <string name="please_sel_city">U moet een stad selecteren</string>
+    <string name="please_email_org">U moet het e-mailadres van de organisatie of dienst invoeren</string>
+    <string name="please_email_dir">U moet het e-mailadres van de directeur van de organisatie of dienst invoeren</string>
+    <string name="wrong_email_org">U moet het e-mailadres van de organisatie of dienst correct invoeren</string>
+    <string name="wrong_email_dir">U moet het e-mailadres van de directeur van de organisatie of dienst correct invoeren</string>
+    <string name="wrong_org_phone">U moet het telefoonnummer van de organisatie of dienst correct invoeren</string>
+    <string name="please_org_phone">U moet het telefoonnummer van de organisatie of dienst invoeren</string>
+    <string name="please_phone_center">U moet het telefoonnummer van het centrum van de organisatie of dienst invoeren</string>
+    <string name="wrong_phone_center">U moet het telefoonnummer van het centrum van de organisatie of dienst correct invoeren</string>
+    <string name="please_email_center">U moet het e-mailadres van het centrum van de organisatie of dienst invoeren</string>
+    <string name="wrong_email_center">U moet het e-mailadres van het centrum van de organisatie of dienst correct invoeren</string>
+    <string name="to_people">Aan de mensen</string>
+    <string name="needs_id">Behoeftenidentificatie</string>
+    <string name="prof_training">Professionele opleiding</string>
+    <string name="org_structure">Organisatiestructuur</string>
+    <string name="resources">Middelen</string>
+    <string name="community">Gemeenschap</string>
+    <string name="fundamental_interest">Van fundamenteel belang</string>
+    <string name="high_interest">Van hoog belang</string>
+    <string name="medium_interest">Van gemiddeld belang</string>
+    <string name="low_interest">Van laag belang</string>
 
 
 </resources>

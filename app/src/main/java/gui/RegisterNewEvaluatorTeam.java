@@ -1,5 +1,8 @@
 package gui;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
@@ -10,17 +13,22 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -33,6 +41,11 @@ import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback;
 import com.fundacionmiradas.indicatorsevaluation.R;
 
 ;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -50,6 +63,7 @@ import gui.adapters.UsersAdapter;
 import misc.DateFormatter;
 import otea.connection.controller.EvaluatorTeamsController;
 import otea.connection.controller.TranslatorController;
+import session.FileManager;
 import session.Session;
 
 public class RegisterNewEvaluatorTeam extends AppCompatActivity {
@@ -75,12 +89,24 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
     List<Center> centers;
 
     Center centerSelected;
-    
+
     static int MIN_NUM_EVAL_DATES=3;
 
     PrimeCalendar creationDate;
 
     List<PrimeCalendar> evaluationDates;
+
+    boolean checked=false;
+
+    Button imageEvalTeamButton;
+
+    ImageView imageEvalTeam;
+
+    InputStream profilePhotoEvalTeam;
+
+    String imgEvalTeamName;
+
+    ImageButton helpButton;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -122,7 +148,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
             UsersAdapter[] usersAdapter=new UsersAdapter[2];
             CenterAdapter[] centerAdapters=new CenterAdapter[1];
             centers = Session.getInstance().getCentersByOrganization(Session.getInstance().getOrganization());
-            centers.add(0,new Center(-1,"-","-",-1,"Center of the organization","Centro de la organización","Centre de l'organisation","Erakundearen Zentroa","Centre de l’organització","Centrum van de organisatie","Centro da organización","Zentrum der Organisation","Centro dell'organizzazione","Centro da organização",-1,"-","-1"));
+            centers.add(0,new Center(-1,"-","-",-1,"Center of the organization or service","Centro de la organización o servicio","Centre de l'organisation ou du service","Erakundearen edo zerbitzuaren zentroa","Centre de l'organització o servei","Centrum van de organisatie of dienst","Centro da organización ou servizo","Center der Organisation oder des Dienstes","Centro dell'organizzazione o del servizio","Centro da organização ou serviço",-1,"-","-1","-"));
             centerAdapters[0]=new CenterAdapter(getApplicationContext(),centers);
             centerAdapters[0].setDropDownViewResource(R.layout.spinner_item_layout);
             centerSpinner.setAdapter(centerAdapters[0]);
@@ -144,6 +170,56 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
 
             base.setVisibility(View.VISIBLE);
             finalBackground.setVisibility(View.GONE);
+
+            imageEvalTeamButton=findViewById(R.id.uploadPhoto);
+            imageEvalTeam=findViewById(R.id.profilePhoto);
+
+
+
+            ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
+                    new ActivityResultCallback<Uri>() {
+                        @Override
+                        public void onActivityResult(Uri uri) {
+                            // Handle the returned Uri
+                            try {
+                                profilePhotoEvalTeam = getContentResolver().openInputStream(uri);
+                                imageEvalTeam.setImageURI(uri);
+                            } catch (FileNotFoundException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    });
+
+            ActivityResultLauncher<Void> mTakePicture = registerForActivityResult(new ActivityResultContracts.TakePicturePreview(),
+                    new ActivityResultCallback<Bitmap>() {
+                        @Override
+                        public void onActivityResult(Bitmap bitmap) {
+                            // Handle the returned Bitmap
+                            try {
+                                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                                bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
+                                byte[] bitmapdata = bos.toByteArray();
+                                bos.close();
+                                ByteArrayInputStream bs = new ByteArrayInputStream(bitmapdata);
+                                profilePhotoEvalTeam = bs;
+                                imageEvalTeam.setImageBitmap(bitmap);
+                                bs.close();
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    });
+
+            imageEvalTeamButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new androidx.appcompat.app.AlertDialog.Builder(v.getContext())
+                            .setTitle(getString(R.string.select_source))
+                            .setPositiveButton(getString(R.string.camera), (dialog, which) -> mTakePicture.launch(null))
+                            .setNegativeButton(getString(R.string.gallery), (dialog, which) -> mGetContent.launch("image/*"))
+                            .show();
+                }
+            });
 
 
             centerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -381,25 +457,63 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                 }
             });
 
+            helpButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String msg="";
+                    if(Locale.getDefault().getLanguage().equals("es")){
+                        msg="";
+                    }else if(Locale.getDefault().getLanguage().equals("fr")){
+                        msg="";
+                    }else if(Locale.getDefault().getLanguage().equals("eu")){
+                        msg="";
+                    }else if(Locale.getDefault().getLanguage().equals("ca")){
+                        msg="";
+                    }else if(Locale.getDefault().getLanguage().equals("nl")){
+                        msg="";
+                    }else if(Locale.getDefault().getLanguage().equals("gl")){
+                        msg="";
+                    }else if(Locale.getDefault().getLanguage().equals("de")){
+                        msg="";
+                    }else if(Locale.getDefault().getLanguage().equals("it")){
+                        msg="";
+                    }else if(Locale.getDefault().getLanguage().equals("pt")){
+                        msg="";
+                    }else{
+                        msg="";
+                    }
+                    new android.app.AlertDialog.Builder(RegisterNewEvaluatorTeam.this)
+                            .setTitle(getString(R.string.help))
+                            .setMessage(Html.fromHtml(msg,0))
+                            .create().show();
+                }
+            });
+
             Button add=findViewById(R.id.add);
+            add.setAlpha(0.5f);
 
             CheckBox acceptLOPD=findViewById(R.id.accept_LOPD);
 
-            boolean[] checked={false};
 
             acceptLOPD.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    checked[0]=isChecked;
-                }
-            });
+                                                      @Override
+                                                      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                                          if (isChecked) {
+                                                              add.setAlpha(1f);
+                                                          } else {
+                                                              add.setAlpha(0.5f);
+                                                          }
+                                                          checked=isChecked;
+                                                      }
+                                                  }
+            );
 
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     base.setVisibility(View.GONE);
                     finalBackground.setVisibility(View.VISIBLE);
-                    if(!userAuxList.contains(professional) && !userAuxList.contains(responsible) && !patient.getText().toString().isEmpty() && !relative.getText().toString().isEmpty() && !creationDateEditText.getText().toString().isEmpty() && !consultant.toString().isEmpty() && checked[0]){
+                    if(!userAuxList.contains(professional) && !userAuxList.contains(responsible) && !patient.getText().toString().isEmpty() && !relative.getText().toString().isEmpty() && !creationDateEditText.getText().toString().isEmpty() && !consultant.toString().isEmpty() && checked){
                     v.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -429,6 +543,16 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                                 String observationsPortuguese="";
 
                                 String observationsText=observations.getText().toString();
+
+                            if(profilePhotoEvalTeam!=null){
+                                imgEvalTeamName="EVALTEAM_"+idEvaluatorTeam+"_"+ centerSelected.getIdCenter()+"_"+centerSelected.getIdOrganization()+"_"+centerSelected.getOrgType()+"_"+centerSelected.getIllness()+".jpg";
+                                FileManager.uploadFile(profilePhotoEvalTeam, "profile-photos", imgEvalTeamName);
+                                try{
+                                    profilePhotoEvalTeam.close();
+                                }catch(IOException e){
+                                    e.printStackTrace();
+                                }
+                            }
 
                                 if(!observationsText.isEmpty()){
                                     List<String> translations=TranslatorController.getInstance().translate(observationsText,Locale.getDefault().getLanguage());
@@ -546,7 +670,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                                 }
 
 
-                                EvaluatorTeam evaluatorTeam=new EvaluatorTeam(idEvaluatorTeam,creation_date,professional.getEmailUser(),responsible.getEmailUser(),otherMembers.getText().toString(),1,"EVALUATOR",centerSelected.getIdOrganization(),centerSelected.getOrgType(),centerSelected.getIdCenter(),centerSelected.getIllness(),consultant.getText().toString(),patient.getText().toString(),relative.getText().toString(),observationsEnglish,observationsSpanish,observationsFrench,observationsBasque,observationsCatalan,observationsDutch,observationsGalician,observationsGerman,observationsItalian,observationsPortuguese,evaluationDatesStr.toString(),0,evaluationDates.size());
+                                EvaluatorTeam evaluatorTeam=new EvaluatorTeam(idEvaluatorTeam,creation_date,professional.getEmailUser(),responsible.getEmailUser(),otherMembers.getText().toString(),1,"EVALUATOR",centerSelected.getIdOrganization(),centerSelected.getOrgType(),centerSelected.getIdCenter(),centerSelected.getIllness(),consultant.getText().toString(),patient.getText().toString(),relative.getText().toString(),observationsEnglish,observationsSpanish,observationsFrench,observationsBasque,observationsCatalan,observationsDutch,observationsGalician,observationsGerman,observationsItalian,observationsPortuguese,evaluationDatesStr.toString(),0,evaluationDates.size(),imgEvalTeamName);
 
 
                                 EvaluatorTeamsController.Create(evaluatorTeam);
@@ -597,7 +721,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                         msg+="<li><b>"+getString(R.string.please_consultant)+"</b></li>";
                         numErrors++;
                     }
-                    if(!checked[0]){
+                    if(!checked){
                         msg+="<li><b>"+getString(R.string.you_must_LOPD)+"</b></li>";
                         numErrors++;
                     }
@@ -655,6 +779,13 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
         }
     }
 
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+        if(keyCode==event.KEYCODE_BACK){
+            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+            startActivity(intent);
+        }
+        return super.onKeyDown(keyCode,event);
+    }
 
 }

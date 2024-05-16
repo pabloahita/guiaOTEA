@@ -1,4 +1,5 @@
 ﻿using NRules.Fluent.Dsl;
+using NRules.RuleModel;
 using OTEAServer.Models;
 
 namespace OTEAServer.ExpertSystem
@@ -14,7 +15,9 @@ namespace OTEAServer.ExpertSystem
             .Exists<IndicatorsEvaluationIndicatorReg>(reg => reg.numEvidencesMarked == 2 || reg.numEvidencesMarked == 3);
 
             Then()
-                .Do(_ => reg.setStatus("IN_PROCESS"));
+                .Do(_ => reg.SetStatus("IN_PROCESS"));
         }
+
     }
+
 }

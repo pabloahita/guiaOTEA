@@ -169,6 +169,10 @@ public class IndicatorsEvaluation implements Serializable {
     @SerializedName("evaluationType")
     public String evaluationType;
 
+    /**Evaluation level when is finished*/
+    @SerializedName("level")
+    public String level;
+
 
     /**Class constructor
      *
@@ -205,13 +209,14 @@ public class IndicatorsEvaluation implements Serializable {
      * @param totalScore - Total score
      * @param isFinished - 1 if is finished, 0 if not
      * @param evaluationType - Evaluation type
+     * @param level - Evaluation level when is finished
      * */
     public IndicatorsEvaluation(long evaluationDate,int idEvaluatedOrganization,String orgTypeEvaluated,int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator, String illness, int idCenter,
                                 int scorePriorityZeroColourRed, int scorePriorityZeroColourYellow, int scorePriorityZeroColourGreen,
                                 int scorePriorityOneColourRed, int scorePriorityOneColourYellow, int scorePriorityOneColourGreen,
                                 int scorePriorityTwoColourRed, int scorePriorityTwoColourYellow, int scorePriorityTwoColourGreen,
                                 int scorePriorityThreeColourRed, int scorePriorityThreeColourYellow, int scorePriorityThreeColourGreen, int totalScore,
-                                String conclusionsSpanish, String conclusionsEnglish, String conclusionsFrench, String conclusionsBasque, String conclusionsCatalan, String conclusionsDutch, String conclusionsGalician, String conclusionsGerman, String conclusionsItalian, String conclusionsPortuguese, int isFinished, String evaluationType){
+                                String conclusionsSpanish, String conclusionsEnglish, String conclusionsFrench, String conclusionsBasque, String conclusionsCatalan, String conclusionsDutch, String conclusionsGalician, String conclusionsGerman, String conclusionsItalian, String conclusionsPortuguese, int isFinished, String evaluationType, String level){
         setEvaluationDate(evaluationDate);
         setIdEvaluatedOrganization(idEvaluatedOrganization);
         setOrgTypeEvaluated(orgTypeEvaluated);
@@ -245,6 +250,7 @@ public class IndicatorsEvaluation implements Serializable {
         setTotalScore(totalScore);
         setIsFinished(isFinished);
         setEvaluationType(evaluationType);
+        setLevel(level);
     }
 
 
@@ -858,5 +864,24 @@ public class IndicatorsEvaluation implements Serializable {
      * */
     public void setEvaluationType(String evaluationType) {
         this.evaluationType = evaluationType;
+    }
+
+    /**
+     * Method that obtains the evaluation level
+     *
+     * @return Evaluation level
+     * */
+
+    public String getLevel() {
+        return level;
+    }
+
+    /**
+     * Method that sets the new evaluation status
+     *
+     * @param level - Evaluation level
+     * */
+    public void setLevel(String level) {
+        this.level = level;
     }
 }

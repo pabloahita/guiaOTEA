@@ -6,4 +6,120 @@
     android:layout_height="match_parent"
     tools:context="gui.SeeRealizedIndicatorsEvaluations">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.9"/>
+
+    <com.github.zardozz.FixedHeaderTableLayout.FixedHeaderTableLayout
+        android:id="@+id/tableIndEval"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.gridlayout.widget.GridLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:rowCount="1"
+        app:columnCount="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout8"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="2dp"
+            app:layout_columnWeight="2"
+            app:layout_rowWeight="2">
+
+            <ImageButton
+                android:id="@+id/save_changesButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/round_button_background"
+                android:contentDescription="@string/add_new_indicators_evaluation"
+                android:scaleType="fitCenter"
+                android:padding="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/guardar" />
+
+            <TextView
+                android:id="@+id/save_changesText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:textSize="10sp"
+                android:gravity="center"
+                android:text="@string/save_changes"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guidelinesave_changes2"
+                app:layout_constraintEnd_toStartOf="@+id/guidelinesave_changes4"
+                app:layout_constraintStart_toStartOf="@+id/guidelinesave_changes3"
+                app:layout_constraintTop_toTopOf="@+id/guidelinesave_changes1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelinesave_changes1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.72" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelinesave_changes2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.95" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelinesave_changes3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelinesave_changes4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="2dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1.6">
+
+            <ImageButton
+                android:id="@+id/helpIndButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/round_button_background"
+                android:contentDescription="@string/add_new_indicators_evaluation"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_help_24_bl" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.gridlayout.widget.GridLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

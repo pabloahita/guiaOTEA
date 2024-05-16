@@ -1,6 +1,7 @@
 package otea.connection.controller;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -21,6 +22,9 @@ import retrofit2.Response;
  * @version 1
  * */
 public class CitiesController {
+
+    /**Number of attempts*/
+    private static int numAttempts=0;
 
     /**Cities api to connect to the server*/
     private static CitiesApi api;
@@ -114,10 +118,26 @@ public class CitiesController {
             Future<List<City>> future = executor.submit(callable);
             List<City> list = future.get();
             executor.shutdown();
+            numAttempts=0;
             return list;
-        } catch (InterruptedException | ExecutionException e) {
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
+        } catch(ExecutionException e){
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetCitiesByProvince(idProvince, idRegion, idCountry);
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
         }
     }
+
 
 }

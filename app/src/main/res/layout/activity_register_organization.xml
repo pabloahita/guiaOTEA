@@ -13,6 +13,7 @@
         android:background="@color/white"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -77,28 +78,13 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/base"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/how_to"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:autoSizeMaxTextSize="22sp"
-            android:autoSizeMinTextSize="5sp"
-            android:autoSizeTextType="uniform"
-            android:gravity="center"
-            android:text="@string/org_reg_ins"
-            android:textStyle="italic"
-            app:layout_constraintBottom_toTopOf="@+id/guideline10"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
 
 
         <GridLayout
@@ -111,51 +97,178 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline3">
+            app:layout_constraintTop_toTopOf="parent">
 
 
-            <EditText
-                android:id="@+id/org_name_reg"
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_rowWeight="0.5"
+                android:layout_columnWeight="1"
+                android:text="@string/add_new_evaluated_organization"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:textStyle="italic"
+                android:textColor="@color/black"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_rowWeight="3"
+                android:layout_columnWeight="1">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.05" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.79" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.33" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.66" />
+
+                <ImageView
+                    android:id="@+id/profilePhoto"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:src="@drawable/no_org_photo"
+                    app:layout_constraintBottom_toTopOf="@+id/guideline5"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline8"
+                    app:layout_constraintStart_toStartOf="@+id/guideline7"
+                    app:layout_constraintTop_toTopOf="@+id/guideline4" />
+
+                <Button
+                    android:id="@+id/uploadPhoto"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="@string/change_photo"
+                    android:textColor="@color/black"
+                    android:background="@drawable/round_button_background"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline8"
+                    app:layout_constraintStart_toStartOf="@+id/guideline7"
+                    app:layout_constraintTop_toTopOf="@+id/guideline5" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toTopOf="@+id/guideline5"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline8"
+                    app:layout_constraintTop_toTopOf="@+id/guideline4">
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5"/>
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline144"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_percent="0.5"/>
+
+                    <ImageButton
+                        android:id="@+id/helpButton"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@drawable/round_button_background"
+                        android:contentDescription="@string/add_new_indicators_evaluation"
+                        android:scaleType="fitCenter"
+                        app:layout_constraintBottom_toTopOf="@+id/guideline144"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/guideline14"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/baseline_help_24_bl" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
-                android:hint="@string/org_name"
-                android:inputType="text" />
+                app:hintTextAppearance="@style/HelperTextAppearance"
+                >
 
-            <EditText
-                android:id="@+id/name_address_reg"
+                <EditText
+                    android:id="@+id/org_name_reg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/org_name"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
-                android:hint="@string/org_address"
-                android:inputType="text" />
+                app:hintTextAppearance="@style/HelperTextAppearance"
+                >
+
+                <EditText
+                    android:id="@+id/name_address_reg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/org_address"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Spinner
                 android:id="@+id/spinner_countries_reg"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_rowWeight="1"
-                android:layout_columnWeight="1" />
+                android:layout_columnWeight="1"
+                />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_rowWeight="1"
-                android:layout_columnWeight="1">
+                android:layout_columnWeight="1"
+                >
 
-                <EditText
-                    android:id="@+id/foreign_region_reg"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilRegion"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_rowWeight="1"
-                    android:layout_columnWeight="1"
-                    android:ems="10"
-                    android:hint="@string/org_region"
-                    android:inputType="text"
+                    app:hintTextAppearance="@style/HelperTextAppearance"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/foreign_region_reg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/org_region"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+
 
                 <Spinner
                     android:id="@+id/spinner_regions_reg"
@@ -179,20 +292,28 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_rowWeight="1"
-                android:layout_columnWeight="1">
+                android:layout_columnWeight="1"
+                >
 
 
-                <EditText
-                    android:id="@+id/foreign_province_reg"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilProvince"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:ems="10"
-                    android:hint="@string/org_province"
-                    android:inputType="text"
+                    app:hintTextAppearance="@style/HelperTextAppearance"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/foreign_province_reg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/org_province"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+
 
                 <Spinner
                     android:id="@+id/spinner_provinces_reg"
@@ -216,21 +337,27 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_rowWeight="1"
-                android:layout_columnWeight="1">
+                android:layout_columnWeight="1"
+                >
 
-                <EditText
-                    android:id="@+id/foreign_city_reg"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilCity"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_rowWeight="1"
-                    android:layout_columnWeight="1"
-                    android:ems="10"
-                    android:hint="@string/org_city"
-                    android:inputType="textPersonName"
+                    app:hintTextAppearance="@style/HelperTextAppearance"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/foreign_city_reg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/org_city"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+
 
                 <Spinner
                     android:id="@+id/spinner_cities_reg"
@@ -251,21 +378,29 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <EditText
-                android:id="@+id/email_reg"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
-                android:ems="10"
-                android:hint="@string/email_reg"
-                android:inputType="textEmailAddress" />
+                app:hintTextAppearance="@style/HelperTextAppearance"
+                >
+
+                <EditText
+                    android:id="@+id/email_reg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/email_reg"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_rowWeight="1"
-                android:layout_columnWeight="1">
+                android:layout_columnWeight="1"
+                >
 
                 <Spinner
                     android:id="@+id/phonecode1"
@@ -283,104 +418,59 @@
                     android:orientation="vertical"
                     app:layout_constraintGuide_percent="0.25" />
 
-                <EditText
-                    android:id="@+id/phone_reg"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:ems="10"
-                    android:hint="@string/telephone_reg"
-                    android:inputType="phone"
+                    app:hintTextAppearance="@style/HelperTextAppearance"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/guideline15"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/phone_reg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/telephone_reg"
+                        android:inputType="phone" />
+                </com.google.android.material.textfield.TextInputLayout>
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-            <EditText
-                android:id="@+id/more_info_org_reg"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
-                android:ems="10"
-                android:hint="@string/more_info"
-                android:inputType="text" />
-
-            <EditText
-                android:id="@+id/first_name_reg"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:hint="@string/first_name_user"
-                android:inputType="text" />
-
-            <EditText
-                android:id="@+id/last_name_reg"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:hint="@string/last_name_user"
-                android:inputType="text" />
-
-            <EditText
-                android:id="@+id/email_dir_reg"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:ems="10"
-                android:hint="@string/email_reg"
-                android:inputType="textEmailAddress" />
-
-            <EditText
-                android:id="@+id/password_reg"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:ems="10"
-                android:hint="@string/password_reg"
-                android:inputType="textPassword" />
-
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1">
-
-                <Spinner
-                    android:id="@+id/phonecode2"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline25"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline25"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.25" />
+                app:hintTextAppearance="@style/HelperTextAppearance"
+                >
 
                 <EditText
-                    android:id="@+id/telephone_reg"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:ems="10"
-                    android:hint="@string/telephone_reg"
-                    android:inputType="phone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/guideline25"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:id="@+id/more_info_org_reg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/more_info"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                app:hintTextAppearance="@style/HelperTextAppearance"
+                >
+
+                <EditText
+                    android:id="@+id/email_dir_reg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email del director"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <gui.customItems.CustomCheckBox
                 android:id="@+id/accept_LOPD"
@@ -399,10 +489,10 @@
                 android:layout_height="0dp"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
-                android:textSize="17sp"
                 android:background="@drawable/round_button_background"
                 android:text="@string/add_new_evaluated_org"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="17sp" />
 
 
         </GridLayout>
@@ -411,134 +501,6 @@
 
 
 
-
-
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.19" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.21" />
-
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.15" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.45" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.47" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.79" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.81" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.53" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.55" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.02" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.145" />
-
-        <ImageButton
-            android:id="@+id/imageOrg"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline11"
-            app:layout_constraintEnd_toStartOf="@+id/guideline4"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toTopOf="@+id/guideline10"
-            android:background="@color/miradas_color"
-            android:scaleType="centerCrop"
-            android:src="@drawable/no_org_photo"/>
-
-        <ImageButton
-            android:id="@+id/imageDir"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline11"
-            app:layout_constraintEnd_toStartOf="@+id/guideline6"
-            app:layout_constraintStart_toStartOf="@+id/guideline9"
-            app:layout_constraintTop_toTopOf="@+id/guideline10"
-            android:background="@color/miradas_color"
-            android:scaleType="centerCrop"
-            android:src="@drawable/no_usr_photo"/>
-
-        <TextView
-            android:id="@+id/imageOrgText"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:text="Añadir foto de perfil de la organización"
-            android:gravity="center"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@+id/guideline11"
-            app:layout_constraintEnd_toStartOf="@+id/guideline4"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toTopOf="@+id/guideline10" />
-
-        <TextView
-            android:id="@+id/imageDirText"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:text="Añadir foto de perfil del director de la organización"
-            app:layout_constraintBottom_toTopOf="@+id/guideline11"
-            app:layout_constraintEnd_toStartOf="@+id/guideline6"
-            app:layout_constraintStart_toStartOf="@+id/guideline9"
-            app:layout_constraintTop_toTopOf="@+id/guideline10" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -121,6 +121,10 @@ public class EvaluatorTeam implements Serializable {
     @SerializedName("totalEvaluationDates")
     public int totalEvaluationDates;
 
+    /**Profile photo*/
+    @SerializedName("profilePhoto")
+    public String profilePhoto;
+
 
     /**
      * Class constructor
@@ -152,8 +156,9 @@ public class EvaluatorTeam implements Serializable {
      * @param evaluationDates - Evaluation dates sepparated by commas
      * @param completedEvaluationDates - Number of completed evaluation dates
      * @param totalEvaluationDates - Number of total evaluation dates
+     * @param profilePhoto - Profile photo
      * */
-    public EvaluatorTeam(int idEvaluatorTeam, long creationDate, String emailProfessional, String emailResponsible, String otherMembers, int idEvaluatorOrganization, String orgTypeEvaluator, int idEvaluatedOrganization, String orgTypeEvaluated, int idCenter, String illness, String externalConsultant, String patientName, String relativeName, String observationsEnglish, String observationsSpanish, String observationsFrench, String observationsBasque, String observationsCatalan, String observationsDutch, String observationsGalician, String observationsGerman, String observationsItalian, String observationsPortuguese, String evaluationDates, int completedEvaluationDates, int totalEvaluationDates){
+    public EvaluatorTeam(int idEvaluatorTeam, long creationDate, String emailProfessional, String emailResponsible, String otherMembers, int idEvaluatorOrganization, String orgTypeEvaluator, int idEvaluatedOrganization, String orgTypeEvaluated, int idCenter, String illness, String externalConsultant, String patientName, String relativeName, String observationsEnglish, String observationsSpanish, String observationsFrench, String observationsBasque, String observationsCatalan, String observationsDutch, String observationsGalician, String observationsGerman, String observationsItalian, String observationsPortuguese, String evaluationDates, int completedEvaluationDates, int totalEvaluationDates, String profilePhoto){
         setIdEvaluatorTeam(idEvaluatorTeam);
         setCreationDate(creationDate);
         setEmailProfessional(emailProfessional);
@@ -181,6 +186,7 @@ public class EvaluatorTeam implements Serializable {
         setEvaluationDates(evaluationDates);
         setCompletedEvaluationDates(completedEvaluationDates);
         setTotalEvaluationDates(totalEvaluationDates);
+        setProfilePhoto(profilePhoto);
     }
 
     /**
@@ -669,5 +675,23 @@ public class EvaluatorTeam implements Serializable {
      * */
     public void setTotalEvaluationDates(int totalEvaluationDates) {
         this.totalEvaluationDates = totalEvaluationDates;
+    }
+
+    /**
+     * Method that obtains the profile photo URL
+     *
+     * @return Profile photo
+     * */
+    public String getProfilePhoto() {
+        return profilePhoto;
+    }
+
+    /**
+     * Method that sets the new profile photo URL
+     *
+     * @param profilePhoto - Profile photo
+     * */
+    public void setProfilePhoto(String profilePhoto) {
+        this.profilePhoto = profilePhoto;
     }
 }

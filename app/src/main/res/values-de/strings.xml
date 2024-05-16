@@ -104,18 +104,18 @@
     <string name="add_new_center">Neues Zentrum der bewerteten Organisation hinzufügen</string>
     <string name="add_new_indicators_evaluation">Neue Indikatoren-Bewertung hinzufügen</string>
     <string name="add_new_evaluated_organization">Organisation oder Dienst hinzufügen</string>
-    <string name="org_name">Organisationsname</string>
+    <string name="org_name">Name der Organisation oder des Dienstes</string>
     <string name="org_address">Adresse</string>
     <string name="org_zipcode">PLZ</string>
     <string name="org_city">Stadt</string>
     <string name="org_province">Provinz</string>
     <string name="org_region">Region</string>
     <string name="org_country">Land</string>
-    <string name="please_org_name">Bitte geben Sie einen Organisationsnamen ein</string>
-    <string name="please_address">Bitte geben Sie die Adresse ein</string>
-    <string name="please_city">Bitte geben Sie den Stadtnamen ein</string>
-    <string name="please_province">Bitte geben Sie den Provinznamen ein</string>
-    <string name="please_region">Bitte geben Sie den Regionsnamen ein</string>
+    <string name="please_org_name">Sie müssen den Namen der Organisation oder des Dienstes eingeben</string>
+    <string name="please_address">Sie müssen die Adresse eingeben</string>
+    <string name="please_city">Sie müssen den Namen der Stadt eingeben</string>
+    <string name="please_province">Sie müssen den Namen der Provinz eingeben</string>
+    <string name="please_region">Sie müssen den Namen der Region eingeben</string>
     <string name="please_zipcode">Bitte geben Sie die PLZ ein</string>
     <string name="more_info">Weitere Informationen</string>
     <string name="add_director">Organisationsleiter hinzufügen</string>
@@ -261,6 +261,31 @@
     <string name="difference_between_dates_is_equal_or_greater_than_a_month">Der Unterschied zwischen dem ersten und dem letzten ausgewählten Datum beträgt ein Monat oder mehr</string>
     <string name="manage_reg_reqs">Registrierungsanfragen verwalten</string>
     <string name="you_must_LOPD">Sie müssen zustimmen, dass die Fundación Miradas die Daten gemäß dem Organischen Gesetz über den Datenschutz speichert</string>
+    <string name="change_photo">Foto ändern</string>
+    <string name="please_country">Sie müssen ein Land auswählen</string>
+    <string name="please_sel_region">Sie müssen eine Region auswählen</string>
+    <string name="please_sel_province">Sie müssen eine Provinz auswählen</string>
+    <string name="please_sel_city">Sie müssen eine Stadt auswählen</string>
+    <string name="please_email_org">Sie müssen die E-Mail-Adresse der Organisation oder des Dienstes eingeben</string>
+    <string name="please_email_dir">Sie müssen die E-Mail-Adresse des Direktors der Organisation oder des Dienstes eingeben</string>
+    <string name="wrong_email_org">Sie müssen die E-Mail der Organisation oder des Dienstes korrekt eingeben</string>
+    <string name="wrong_email_dir">Sie müssen die E-Mail des Direktors der Organisation oder des Dienstes korrekt eingeben</string>
+    <string name="wrong_org_phone">Sie müssen die Telefonnummer der Organisation oder des Dienstes korrekt eingeben</string>
+    <string name="please_org_phone">Sie müssen die Telefonnummer der Organisation oder des Dienstes eingeben</string>
+    <string name="please_phone_center">Sie müssen die Telefonnummer des Zentrums der Organisation oder des Dienstes eingeben</string>
+    <string name="wrong_phone_center">Sie müssen die Telefonnummer des Zentrums der Organisation oder des Dienstes korrekt eingeben</string>
+    <string name="please_email_center">Sie müssen die E-Mail des Zentrums der Organisation oder des Dienstes eingeben</string>
+    <string name="wrong_email_center">Sie müssen die E-Mail des Zentrums der Organisation oder des Dienstes korrekt eingeben</string>
+    <string name="to_people">Zu den Menschen</string>
+    <string name="needs_id">Bedarfsidentifikation</string>
+    <string name="prof_training">Berufsausbildung</string>
+    <string name="org_structure">Organisationsstruktur</string>
+    <string name="resources">Ressourcen</string>
+    <string name="community">Gemeinschaft</string>
+    <string name="fundamental_interest">Von grundlegender Bedeutung</string>
+    <string name="high_interest">Von hohem Interesse</string>
+    <string name="medium_interest">Von mittlerem Interesse</string>
+    <string name="low_interest">Von geringem Interesse</string>
 
 
 </resources>

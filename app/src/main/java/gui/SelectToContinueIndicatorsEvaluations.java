@@ -81,15 +81,16 @@ public class SelectToContinueIndicatorsEvaluations extends AppCompatActivity {
             Spinner spinnerIndicatorsEvaluationAux=findViewById(R.id.spinner_select_ind_eval_aux);
 
             List<Center> centerAuxList=new ArrayList<>();
-            centerAuxList.add(new Center(-1,"-","-",-1,"Center of the organization","Centro de la organización","Centre de l'organisation","Erakundearen Zentroa","Centre de l’organització","Centrum van de organisatie","Centro da organización","Zentrum der Organisation","Centro dell'organizzazione","Centro da organização",-1,"-","-1"));
+            centers.add(0,new Center(-1,"-","-",-1,"Center of the organization or service","Centro de la organización o servicio","Centre de l'organisation ou du service","Erakundearen edo zerbitzuaren zentroa","Centre de l'organització o servei","Centrum van de organisatie of dienst","Centro da organización ou servizo","Center der Organisation oder des Dienstes","Centro dell'organizzazione o del servizio","Centro da organização ou serviço",-1,"-","-1","-"));
+
 
             List<EvaluatorTeam> evaluatorTeamAuxList=new ArrayList<>();
-            evaluatorTeamAuxList.add(new EvaluatorTeam(-1, -1, getString(R.string.evaluator_team), "-", "-", -1, "-", -1, "-", -1, "-", "-", "-", "-",  "-","-","-","-","-","-","-","-","-","-","-",-1,-1));
+            evaluatorTeamAuxList.add(new EvaluatorTeam(-1, -1, getString(R.string.evaluator_team), "-", "-", -1, "-", -1, "-", -1, "-", "-", "-", "-",  "-","-","-","-","-","-","-","-","-","-","-",-1,-1,"-"));
 
             List<IndicatorsEvaluation> indicatorsEvaluationsAuxList=new ArrayList<>();
             indicatorsEvaluationsAuxList.add(new IndicatorsEvaluation(-1,-1,"",-1, -1, "", "", -1,
             -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, -1,
-            "", "", "", "", "", "", "", "", "", "", -1, getString(R.string.indicators_evaluation)));
+            "", "", "", "", "", "", "", "", "", "", -1, getString(R.string.indicators_evaluation),""));
 
             OrgsAdapter[] orgsAdapter= new OrgsAdapter[1];
             orgsAdapter[0]=new OrgsAdapter(SelectToContinueIndicatorsEvaluations.this, organizations);

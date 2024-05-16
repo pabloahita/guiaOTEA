@@ -55,6 +55,8 @@ android {
     }
 
 
+
+
 }
 
 
@@ -109,5 +111,5 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
     implementation 'com.aminography:primedatepicker:3.6.0'
     implementation 'com.aminography:primecalendar:1.7.0'
-
+    implementation 'com.github.Zardozz:fixedheadertablelayout:0.0.0.5'
 }

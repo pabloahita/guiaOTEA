@@ -102,18 +102,18 @@
     <string name="add_new_center">Add new center of evaluated organization</string>
     <string name="add_new_indicators_evaluation">Add new indicators evaluation</string>
     <string name="add_new_evaluated_organization">Add organization or service</string>
-    <string name="org_name">Organization name</string>
+    <string name="org_name">Name of the organization or service</string>
     <string name="org_address">Address</string>
     <string name="org_zipcode">Zip code</string>
     <string name="org_city">City</string>
     <string name="org_province">Province</string>
     <string name="org_region">Region</string>
     <string name="org_country">Country</string>
-    <string name="please_org_name">Please enter an organization name</string>
-    <string name="please_address">Please enter the address</string>
-    <string name="please_city">Please enter the city name</string>
-    <string name="please_province">Please enter the province name</string>
-    <string name="please_region">Please enter the region name</string>
+    <string name="please_org_name">You must enter the name of the organization or service</string>
+    <string name="please_address">You must enter the address</string>
+    <string name="please_city">You must enter the name of the city</string>
+    <string name="please_province">You must enter the name of the province</string>
+    <string name="please_region">You must enter the name of the region</string>
     <string name="please_zipcode">Please enter the zip code</string>
     <string name="more_info">More information</string>
     <string name="add_director">Add organization director</string>
@@ -260,6 +260,31 @@
     <string name="difference_between_dates_is_equal_or_greater_than_a_month">The difference between the first and last selected dates is equal to or greater than one month</string>
     <string name="manage_reg_reqs">Manage registration requests</string>
     <string name="you_must_LOPD">You must agree that Fundación Miradas stores the data in accordance with the Organic Law on Data Protection</string>
+    <string name="change_photo">Change photo</string>
+    <string name="please_country">You must select a country</string>
+    <string name="please_sel_region">You must select a region</string>
+    <string name="please_sel_province">You must select a province</string>
+    <string name="please_sel_city">You must select a city</string>
+    <string name="please_email_org">You must enter the email of the organization or service</string>
+    <string name="please_email_dir">You must enter the email of the director of the organization or service</string>
+    <string name="wrong_email_org">You must enter the email of the organization or service correctly</string>
+    <string name="wrong_email_dir">You must enter the email of the director of the organization or service correctly</string>
+    <string name="wrong_org_phone">You must enter the organization\'s or service\'s phone number correctly</string>
+    <string name="please_org_phone">You must enter the phone number of the organization or service</string>
+    <string name="please_phone_center">You must enter the phone number of the organization or service center</string>
+    <string name="wrong_phone_center">You must enter the phone number of the organization or service center correctly</string>
+    <string name="please_email_center">You must enter the email of the organization\'s or service\'s center</string>
+    <string name="wrong_email_center">You must enter the email of the organization\'s or service\'s center correctly</string>
+    <string name="to_people">To the people</string>
+    <string name="needs_id">Needs identification</string>
+    <string name="prof_training">Professional training</string>
+    <string name="org_structure">Organization structure</string>
+    <string name="resources">Resources</string>
+    <string name="community">Community</string>
+    <string name="fundamental_interest">Of fundamental interest</string>
+    <string name="high_interest">Of high interest</string>
+    <string name="medium_interest">Of medium interest</string>
+    <string name="low_interest">Of low interest</string>
 
 
 </resources>

@@ -214,6 +214,7 @@ namespace OTEAServer.Controllers
                 existingIndicatorsEvaluation.totalScore = indicatorsEvaluation.totalScore;
                 existingIndicatorsEvaluation.isFinished = indicatorsEvaluation.isFinished;
                 existingIndicatorsEvaluation.evaluationType = indicatorsEvaluation.evaluationType;
+                existingIndicatorsEvaluation.level=indicatorsEvaluation.level;
                 _context.SaveChanges();
                 return Ok(existingIndicatorsEvaluation);
             }
@@ -308,17 +309,72 @@ namespace OTEAServer.Controllers
                 existingIndicatorsEvaluation.conclusionsItalian = indicatorsEvaluation.conclusionsItalian;
                 existingIndicatorsEvaluation.conclusionsPortuguese = indicatorsEvaluation.conclusionsPortuguese;
                 existingIndicatorsEvaluation.scorePriorityZeroColourRed = 0;
-                existingIndicatorsEvaluation.scorePriorityZeroColourYellow = numIndicatorsPerPriority["LOW_INTEREST"]["IN_PROCESS"];
-                existingIndicatorsEvaluation.scorePriorityZeroColourGreen = numIndicatorsPerPriority["LOW_INTEREST"]["COMPLETED"] * 2;
+                if (numIndicatorsPerPriority["LOW_INTEREST"].ContainsKey("IN_PROCESS"))
+                {
+                    existingIndicatorsEvaluation.scorePriorityZeroColourYellow = numIndicatorsPerPriority["LOW_INTEREST"]["IN_PROCESS"];
+                }
+                else {
+                    existingIndicatorsEvaluation.scorePriorityZeroColourYellow = 0;
+                }
+                if (numIndicatorsPerPriority["LOW_INTEREST"].ContainsKey("COMPLETED"))
+                {
+                    existingIndicatorsEvaluation.scorePriorityZeroColourGreen = numIndicatorsPerPriority["LOW_INTEREST"]["COMPLETED"] * 2;
+                }
+                else
+                {
+                    existingIndicatorsEvaluation.scorePriorityZeroColourGreen = 0;
+                }
                 existingIndicatorsEvaluation.scorePriorityOneColourRed = 0;
-                existingIndicatorsEvaluation.scorePriorityOneColourYellow = numIndicatorsPerPriority["MEDIUM_INTEREST"]["IN_PROCESS"] * 2;
-                existingIndicatorsEvaluation.scorePriorityOneColourGreen = numIndicatorsPerPriority["MEDIUM_INTEREST"]["COMPLETED"] * 3;
+                if (numIndicatorsPerPriority["MEDIUM_INTEREST"].ContainsKey("IN_PROCESS"))
+                {
+                    existingIndicatorsEvaluation.scorePriorityOneColourYellow = numIndicatorsPerPriority["MEDIUM_INTEREST"]["IN_PROCESS"] * 2;
+                }
+                else
+                {
+                    existingIndicatorsEvaluation.scorePriorityOneColourYellow = 0;
+                }
+                if (numIndicatorsPerPriority["MEDIUM_INTEREST"].ContainsKey("COMPLETED"))
+                {
+                    existingIndicatorsEvaluation.scorePriorityOneColourGreen = numIndicatorsPerPriority["MEDIUM_INTEREST"]["COMPLETED"] * 3;
+                }
+                else
+                {
+                    existingIndicatorsEvaluation.scorePriorityOneColourGreen = 0;
+                }
                 existingIndicatorsEvaluation.scorePriorityTwoColourRed = 0;
-                existingIndicatorsEvaluation.scorePriorityTwoColourYellow = numIndicatorsPerPriority["HIGH_INTEREST"]["IN_PROCESS"] * 3;
-                existingIndicatorsEvaluation.scorePriorityTwoColourGreen = numIndicatorsPerPriority["HIGH_INTEREST"]["COMPLETED"] * 4;
+                if (numIndicatorsPerPriority["HIGH_INTEREST"].ContainsKey("IN_PROCESS"))
+                {
+                    existingIndicatorsEvaluation.scorePriorityTwoColourYellow = numIndicatorsPerPriority["HIGH_INTEREST"]["IN_PROCESS"] * 3;
+                }
+                else
+                {
+                    existingIndicatorsEvaluation.scorePriorityTwoColourYellow = 0;
+                }
+                if (numIndicatorsPerPriority["HIGH_INTEREST"].ContainsKey("COMPLETED"))
+                {
+                    existingIndicatorsEvaluation.scorePriorityTwoColourGreen = numIndicatorsPerPriority["HIGH_INTEREST"]["COMPLETED"] * 4;
+                }
+                else
+                {
+                    existingIndicatorsEvaluation.scorePriorityTwoColourGreen = 0;
+                }
                 existingIndicatorsEvaluation.scorePriorityThreeColourRed = 0;
-                existingIndicatorsEvaluation.scorePriorityThreeColourYellow = numIndicatorsPerPriority["FUNDAMENTAL_INTEREST"]["IN_PROCESS"] * 4;
-                existingIndicatorsEvaluation.scorePriorityThreeColourGreen = numIndicatorsPerPriority["FUNDAMENTAL_INTEREST"]["COMPLETED"] * 5;
+                if (numIndicatorsPerPriority["FUNDAMENTAL_INTEREST"].ContainsKey("IN_PROCESS"))
+                {
+                    existingIndicatorsEvaluation.scorePriorityThreeColourYellow = numIndicatorsPerPriority["FUNDAMENTAL_INTEREST"]["IN_PROCESS"] * 4;
+                }
+                else
+                {
+                    existingIndicatorsEvaluation.scorePriorityThreeColourYellow = 0;
+                }
+                if (numIndicatorsPerPriority["FUNDAMENTAL_INTEREST"].ContainsKey("COMPLETED"))
+                {
+                    existingIndicatorsEvaluation.scorePriorityThreeColourGreen = numIndicatorsPerPriority["FUNDAMENTAL_INTEREST"]["COMPLETED"] * 5;
+                }
+                else
+                {
+                    existingIndicatorsEvaluation.scorePriorityThreeColourGreen = 0;
+                }
                 existingIndicatorsEvaluation.totalScore = existingIndicatorsEvaluation.scorePriorityZeroColourYellow+ existingIndicatorsEvaluation.scorePriorityZeroColourGreen+ 
                     existingIndicatorsEvaluation.scorePriorityOneColourYellow+ existingIndicatorsEvaluation.scorePriorityOneColourGreen+ 
                     existingIndicatorsEvaluation.scorePriorityTwoColourYellow+ existingIndicatorsEvaluation.scorePriorityTwoColourGreen+ 

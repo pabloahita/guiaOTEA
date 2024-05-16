@@ -2,7 +2,6 @@ package gui;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +23,6 @@ import android.text.style.ClickableSpan;
 import android.text.style.StyleSpan;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
@@ -46,7 +44,7 @@ import cli.user.Request;
 import cli.user.User;
 import gui.adapters.OrgsAdapter;
 import misc.FieldChecker;
-import misc.PasswordCodifier;
+import misc.PasswordFormatter;
 import otea.connection.controller.*;
 import session.Session;
 
@@ -117,6 +115,11 @@ public class MainActivity extends AppCompatActivity {
     Spinner spinnerOrgs;
 
     Organization organization;
+
+    String tempPasswd;
+
+
+    Request request;
 
 
 
@@ -233,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
                     start_session.setEnabled(false);
                     startSessionButtonLayout.setAlpha(0.5f);
                 }
-                credentials[1]= PasswordCodifier.codify(s.toString());
+                credentials[1]= PasswordFormatter.codify(s.toString());
                 if(FieldChecker.emailHasCorrectFormat(credentials[0]) && !credentials[1].isEmpty()){
                     start_session.setEnabled(true);
                     startSessionButtonLayout.setAlpha(1f);
@@ -366,12 +369,121 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        passFieldReq.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tempPasswd=s.toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        createAccount2Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                base.setVisibility(View.GONE);
+                final_background.setVisibility(View.VISIBLE);
+                if(tempPasswd.isEmpty() || !tempPasswd.equals(request.getTempPassword())){
+                    base.setVisibility(View.VISIBLE);
+                    final_background.setVisibility(View.GONE);
+                    String text="";
+                    if(tempPasswd.isEmpty()){
+                        if(Locale.getDefault().getLanguage().equals("es")){
+                            text="No se ha introducido la contraseña temporal. Por favor, inserte la contraseña temporal que le ha llegado a <b>"+request.getEmail()+"</b>";
+                        }
+                        else if(Locale.getDefault().getLanguage().equals("fr")){
+                            text="Le mot de passe temporaire n'a pas été saisi. Veuillez insérer le mot de passe temporaire qui a été envoyé à <b>"+request.getEmail()+"</b>";
+                        }
+                        else if(Locale.getDefault().getLanguage().equals("eu")){
+                            text="Pasahitz txartela ez da sartu. Mesedez, sartu <b>"+request.getEmail()+"</b> helbidera bidalitako pasahitz zaharra";
+                        }
+                        else if(Locale.getDefault().getLanguage().equals("ca")){
+                            text="No s'ha introduït la contrasenya temporal. Si us plau, inserti la contrasenya temporal que ha rebut a <b>"+request.getEmail()+"</b>";
+                        }
+                        else if(Locale.getDefault().getLanguage().equals("nl")){
+                            text="Het tijdelijke wachtwoord is niet ingevoerd. Voer het tijdelijke wachtwoord in dat is verzonden naar <b>"+request.getEmail()+"</b>";
+                        }
+                        else if(Locale.getDefault().getLanguage().equals("gl")){
+                            text="Non se introduciu o contrasinal temporal. Insira o contrasinal temporal que foi enviado a <b>"+request.getEmail()+"</b>";
+                        }
+                        else if(Locale.getDefault().getLanguage().equals("de")){
+                            text="Das temporäre Passwort wurde nicht eingegeben. Bitte geben Sie das temporäre Passwort ein, das an <b>"+request.getEmail()+"</b> gesendet wurde";
+                        }
+                        else if(Locale.getDefault().getLanguage().equals("it")){
+                            text="La password temporanea non è stata inserita. Inserisci la password temporanea che è stata inviata a <b>"+request.getEmail()+"</b>";
+                        }
+                        else if(Locale.getDefault().getLanguage().equals("pt")){
+                            text="A senha temporária não foi inserida. Por favor, insira a senha temporária que foi enviada para <b>"+request.getEmail()+"</b>";
+                        }
+                        else{//Default
+                            text="The temporary password has not been entered. Please insert the temporary password that has been sent to <b>"+request.getEmail()+"</b>";
+                        }
+                    }
+                    else{
+
+                        if(Locale.getDefault().getLanguage().equals("es")){
+                            text="No se ha introducido la contraseña temporal correcta. Por favor, inserte la contraseña temporal que le ha llegado a <b>"+request.getEmail()+"</b>";
+                        }
+                        else if(Locale.getDefault().getLanguage().equals("fr")){
+                            text="Le mot de passe temporaire correct n'a pas été saisi. Veuillez insérer le mot de passe temporaire qui a été envoyé à <b>"+request.getEmail()+"</b>";
+                        }
+                        else if(Locale.getDefault().getLanguage().equals("eu")){
+                            text="Pasahitza temporala zuzen sartu ez da. Mesedez, sartu <b>"+request.getEmail()+"</b> helbidera bidalitako pasahitz zaharra";
+                        }
+                        else if(Locale.getDefault().getLanguage().equals("ca")){
+                            text="No s'ha introduït la contrasenya temporal correcta. Si us plau, inserti la contrasenya temporal que ha rebut a <b>"+request.getEmail()+"</b>";
+                        }
+                        else if(Locale.getDefault().getLanguage().equals("nl")){
+                            text="Het juiste tijdelijke wachtwoord is niet ingevoerd. Voer het tijdelijke wachtwoord in dat is verzonden naar <b>"+request.getEmail()+"</b>";
+                        }
+                        else if(Locale.getDefault().getLanguage().equals("gl")){
+                            text="Non se introduciu o contrasinal temporal correcto. Insira o contrasinal temporal que foi enviado a <b>"+request.getEmail()+"</b>";
+                        }
+                        else if(Locale.getDefault().getLanguage().equals("de")){
+                            text="Das korrekte temporäre Passwort wurde nicht eingegeben. Bitte geben Sie das temporäre Passwort ein, das an <b>"+request.getEmail()+"</b> gesendet wurde";
+                        }
+                        else if(Locale.getDefault().getLanguage().equals("it")){
+                            text="La password temporanea corretta non è stata inserita. Inserisci la password temporanea che è stata inviata a <b>"+request.getEmail()+"</b>";
+                        }
+                        else if(Locale.getDefault().getLanguage().equals("pt")){
+                            text="A senha temporária correta não foi inserida. Por favor, insira a senha temporária que foi enviada para <b>"+request.getEmail()+"</b>";
+                        }
+                        else{//Default
+                            text="The correct temporary password has not been entered. Please insert the temporary password that has been sent to <b>"+request.getEmail()+"</b>";
+                        }
+                    }
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle(getString(R.string.error))
+                            .setMessage(Html.fromHtml(text,0))
+                            //.setPositiveButton(android.R.string.yes, null)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }
+                else{
+                    Session.setCurrRequest(request);
+                    Intent intent=new Intent(getApplicationContext(),Register.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
+
+
+
         requestOrCreation.setOnClickListener(new View.OnClickListener() {
 
             User user;
 
             String text;
-            Request request;
             @Override
             public void onClick(View v) {
                 base.setVisibility(View.GONE);
@@ -383,7 +495,7 @@ public class MainActivity extends AppCompatActivity {
                         request=RequestsController.Get(credentials[0]);
                         user=UsersController.Get(credentials[0]);
                         text="";
-                        if(request!=null && user==null && request.getStatusReq()==0) {
+                        if(request!=null && user==null && request.getStatusReq()==1) {
                             credentials[1]="";
                             createAccount2GridLayout.setVisibility(View.VISIBLE);
                             if(Locale.getDefault().getLanguage().equals("es")){
@@ -645,7 +757,7 @@ public class MainActivity extends AppCompatActivity {
                 v.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        RequestsController.Create(new Request(credentials[0],-1,"-",organization.getIdOrganization(),organization.getOrgType(),organization.getIllness()));
+                        RequestsController.Create(new Request(credentials[0],-1,"-",organization.getIdOrganization(),organization.getOrgType(),organization.getIllness(),"ORGANIZATION"));
                         String text="";
                         if(Locale.getDefault().getLanguage().equals("es")){
                             text="La solicitud con el email <b>"+credentials[0]+"</b> ha sido enviada satisfactoriamente. Por favor, espere su respuesta o contacte con Fundación Miradas.";

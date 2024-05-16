@@ -10,4 +10,3 @@ tasks.withType(Javadoc) {
     options.docEncoding = 'UTF-8'
     options.charSet = 'UTF-8'
 }
-

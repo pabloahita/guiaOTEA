@@ -104,10 +104,10 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
             orgsAux.add(aux);
 
             List<Center> centerAuxList=new ArrayList<>();
-            centerAuxList.add(new Center(-1,"-","-",-1,"Center of the organization","Centro de la organización","Centre de l'organisation","Erakundearen Zentroa","Centre de l’organització","Centrum van de organisatie","Centro da organización","Zentrum der Organisation","Centro dell'organizzazione","Centro da organização",-1,"-","-1"));
+            centerAuxList.add(new Center(-1,"-","-",-1,"Center of the organization","Centro de la organización","Centre de l'organisation","Erakundearen Zentroa","Centre de l’organització","Centrum van de organisatie","Centro da organización","Zentrum der Organisation","Centro dell'organizzazione","Centro da organização",-1,"-","-1","-"));
 
             List<EvaluatorTeam> evaluatorTeamAuxList=new ArrayList<>();
-            evaluatorTeamAuxList.add(new EvaluatorTeam(-1, -1, getString(R.string.evaluator_team), "-", "-", -1, "-", -1, "-", -1, "-", "-", "-", "-",  "-","-","-","-","-","-","-","-","-","-","-",-1,-1));
+            evaluatorTeamAuxList.add(new EvaluatorTeam(-1, -1, getString(R.string.evaluator_team), "-", "-", -1, "-", -1, "-", -1, "-", "-", "-", "-",  "-","-","-","-","-","-","-","-","-","-","-",-1,-1,""));
 
 
             OrgsAdapter[] orgsAdapter= new OrgsAdapter[2];
@@ -318,7 +318,7 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
                                         "", "", "", "",
                                         "", "", "",
                                         "", "", "",
-                                        0, evaluationType[0]));
+                                        0, evaluationType[0],""));
 
                                 Session.getInstance().obtainIndicatorsFromDataBase(evaluationType[0]);
                                 startActivity(intent);

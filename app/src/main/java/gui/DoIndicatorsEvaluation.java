@@ -1212,26 +1212,5 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
         return super.onKeyDown(keyCode,event);
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        // Guarda el estado de la actividad
-
-        outState.putInt("current_indicator",current_indicator);
-        outState.putInt("current_ambit",current_ambit);
-        outState.putInt("current_subAmbit",current_subAmbit);
-        outState.putInt("current_subSubAmbit",current_subSubAmbit);
-        outState.putInt("num_indicators",num_indicators);
-        outState.putInt("num_evidences",num_evidences);
-        outState.putInt("num_evidences_reached",num_evidences_reached);
-        for(int i=0;i<num_indicators;i++){
-            outState.putSerializable("reg_ind"+(i+1),indicatorRegs[i]);
-            for(int j=0;j<num_evidences;j++){
-                outState.putSerializable("reg_ind"+(i+1)+"_ev"+(j+1),evidenceRegs[i][j]);
-            }
-        }
-
-    }
-
 
 }

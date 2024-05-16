@@ -39,7 +39,8 @@ namespace OTEAServer.Models
         /// <param name="evaluationDates">Evaluation dates sepparated by commas</param>
         /// <param name="completedEvaluationDates">Number of completed evaluation dates</param>
         /// <param name="totalEvaluationDates">Number of total evaluation dates</param>
-        public EvaluatorTeam(int idEvaluatorTeam, long creationDate, string emailProfessional, string emailResponsible, string otherMembers, int idEvaluatorOrganization, string orgTypeEvaluator, int idEvaluatedOrganization, string orgTypeEvaluated, int idCenter, string illness, string externalConsultant, string patientName, string relativeName, string observationsEnglish, string observationsSpanish, string observationsFrench, string observationsBasque, string observationsCatalan, string observationsDutch, string observationsGalician, string observationsGerman, string observationsItalian, string observationsPortuguese, string evaluationDates, int completedEvaluationDates, int totalEvaluationDates) {
+        /// <param name="profilePhoto">Profile photo</param>
+        public EvaluatorTeam(int idEvaluatorTeam, long creationDate, string emailProfessional, string emailResponsible, string otherMembers, int idEvaluatorOrganization, string orgTypeEvaluator, int idEvaluatedOrganization, string orgTypeEvaluated, int idCenter, string illness, string externalConsultant, string patientName, string relativeName, string observationsEnglish, string observationsSpanish, string observationsFrench, string observationsBasque, string observationsCatalan, string observationsDutch, string observationsGalician, string observationsGerman, string observationsItalian, string observationsPortuguese, string evaluationDates, int completedEvaluationDates, int totalEvaluationDates, string? profilePhoto) {
             this.idEvaluatorTeam = idEvaluatorTeam;
             this.creationDate = creationDate;
             this.emailProfessional = emailProfessional;
@@ -67,6 +68,7 @@ namespace OTEAServer.Models
             this.evaluationDates = evaluationDates;
             this.completedEvaluationDates= completedEvaluationDates;
             this.totalEvaluationDates= totalEvaluationDates;
+            this.profilePhoto = profilePhoto;
         }
 
         /// <summary>
@@ -234,6 +236,12 @@ namespace OTEAServer.Models
 
         [JsonPropertyName("totalEvaluationDates")]
         public int totalEvaluationDates { get; set; }
+
+        /// <summary>
+        /// Profile photo
+        /// </summary>
+        [JsonPropertyName("profilePhoto")]
+        public string? profilePhoto { get; set; }
     }
 
 

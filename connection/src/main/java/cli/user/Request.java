@@ -37,20 +37,29 @@ public class Request implements Serializable {
     @SerializedName("illness")
     public String illness;
 
+    /**User type*/
+    @SerializedName("userType")
+    public String userType;
+
     /**
      * Class constructor
      *
      * @param email - Email of the possible new user
      * @param statusReq - Request status
      * @param tempPassword - Temporary password to access to the registration
+     * @param idOrganization - Organization identifier
+     * @param orgType - Organization type
+     * @param illness - Organization illness or syndrome
+     * @param userType - User type
      * */
-    public Request(String email, int statusReq, String tempPassword, int idOrganization, String orgType, String illness) {
+    public Request(String email, int statusReq, String tempPassword, int idOrganization, String orgType, String illness, String userType) {
         setEmail(email);
         setStatusReq(statusReq);
         setTempPassword(tempPassword);
         setIdOrganization(idOrganization);
         setOrgType(orgType);
         setIllness(illness);
+        setUserType(userType);
     }
 
     /**
@@ -160,4 +169,24 @@ public class Request implements Serializable {
     public void setIllness(String illness) {
         this.illness = illness;
     }
+
+    /**
+     * Method that obtains the user type
+     *
+     * @return User type
+     * */
+    public String getUserType() {
+        return userType;
+    }
+
+    /**
+     * Method that sets the new user type
+     *
+     * @param userType - User type
+     * */
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package gui.adapters;
 
+
 import android.content.Context;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -35,16 +36,11 @@ public class EvalTypesAdapter extends ArrayAdapter<String> {
 
         String string = getItem(position);
         TextView textView = view.findViewById(android.R.id.text1);
-        String lblBeg="";
-        String lblEnd="";
         if(position==0){
-            lblBeg="<b>";
-            lblEnd="</b>";
+            text="<b>"+string+"</b>";
         }else{
-            lblBeg="<i>";
-            lblEnd="</i>";
+            text="<b>"+getItem(0)+": </b><i>"+string+"</i>";
         }
-        text=lblBeg+string+lblEnd;
         textView.setText(Html.fromHtml(text,0));
 
         return view;
@@ -52,7 +48,22 @@ public class EvalTypesAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        return getView(position, convertView, parent);
+        View view = convertView;
+        if (view == null) {
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            view = inflater.inflate(R.layout.spinner_item_layout, parent, false);
+        }
+
+        String string = getItem(position);
+        TextView textView = view.findViewById(android.R.id.text1);
+        if(position==0){
+            text="<b>"+string+"</b>";
+        }else{
+            text="<i>"+string+"</i>";
+        }
+        textView.setText(Html.fromHtml(text,0));
+
+        return view;
     }
     @Override
     public String getItem(int position) {

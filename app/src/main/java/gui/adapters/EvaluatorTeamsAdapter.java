@@ -38,30 +38,31 @@ public class EvaluatorTeamsAdapter extends ArrayAdapter<EvaluatorTeam> {
 
         EvaluatorTeam evaluatorTeam = getItem(position);
         TextView textView = view.findViewById(android.R.id.text1);
-        if(evaluatorTeam.getIdEvaluatorTeam()==-1){
+        if(position==0){
             text="<b>"+evaluatorTeam.getEmailProfessional()+"</b>";
         }
         else{
+            EvaluatorTeam title=getItem(0);
             if(Locale.getDefault().getLanguage().equals("es")){
-                text= "<b>Persona TEA: </b><i>"+evaluatorTeam.getPatient_name()+"</i>,<b> Familiar: </b><i>"+evaluatorTeam.getRelative_name()+"</i>";
+                text= "<b>"+title.getEmailProfessional()+"</b>: <ul><li><b>Persona TEA: </b><i>"+evaluatorTeam.getPatient_name()+"</i></li><li><b> Familiar: </b><i>"+evaluatorTeam.getRelative_name()+"</i></li></ul>";
             }else if(Locale.getDefault().getLanguage().equals("fr")){
-                text= "<b>Personne TSA: </b><i>"+evaluatorTeam.getPatient_name()+"</i>,<b> Membre de la famille: </b><i>"+evaluatorTeam.getRelative_name()+"</i>";
+                text= "<b>"+title.getEmailProfessional()+"</b>: <ul><li><b>Personne TSA: </b><i>"+evaluatorTeam.getPatient_name()+"</i></li><li><b> Membre de la famille: </b><i>"+evaluatorTeam.getRelative_name()+"</i></li></ul>";
             }else if(Locale.getDefault().getLanguage().equals("eu")){
-                text= "<b>TEA pertsona: </b><i>"+evaluatorTeam.getPatient_name()+"</i>,<b> Familia-kide: </b><i>"+evaluatorTeam.getRelative_name()+"</i>";
+                text= "<b>"+title.getEmailProfessional()+"</b>: <ul><li><b>TEA pertsona: </b><i>"+evaluatorTeam.getPatient_name()+"</i></li><li><b> Familia-kide: </b><i>"+evaluatorTeam.getRelative_name()+"</i></li></ul>";
             }else if(Locale.getDefault().getLanguage().equals("ca")){
-                text= "<b>Persona TEA: </b><i>"+evaluatorTeam.getPatient_name()+"</i>,<b> Familiar: </b><i>"+evaluatorTeam.getRelative_name()+"</i>";
+                text= "<b>"+title.getEmailProfessional()+"</b>: <ul><li><b>Persona TEA: </b><i>"+evaluatorTeam.getPatient_name()+"</i></li><li><b> Familiar: </b><i>"+evaluatorTeam.getRelative_name()+"</i></li></ul>";
             }else if(Locale.getDefault().getLanguage().equals("nl")){
-                text= "<b>Persoon ASS: </b><i>"+evaluatorTeam.getPatient_name()+"</i>,<b> Familielid: </b><i>"+evaluatorTeam.getRelative_name()+"</i>";
+                text= "<b>"+title.getEmailProfessional()+"</b>: <ul><li><b>Persoon ASS: </b><i>"+evaluatorTeam.getPatient_name()+"</i></li><li><b> Familielid: </b><i>"+evaluatorTeam.getRelative_name()+"</i></li></ul>";
             }else if(Locale.getDefault().getLanguage().equals("gl")){
-                text= "<b>Persoa TEA: </b><i>"+evaluatorTeam.getPatient_name()+"</i>,<b> Familiar: </b><i>"+evaluatorTeam.getRelative_name()+"</i>";
+                text= "<b>"+title.getEmailProfessional()+"</b>: <ul><li><b>Persoa TEA: </b><i>"+evaluatorTeam.getPatient_name()+"</i></li><li><b> Familiar: </b><i>"+evaluatorTeam.getRelative_name()+"</i></li></ul>";
             }else if(Locale.getDefault().getLanguage().equals("de")){
-                text= "<b>Person ASS: </b><i>"+evaluatorTeam.getPatient_name()+"</i>,<b> Familienmitglied: </b><i>"+evaluatorTeam.getRelative_name()+"</i>";
+                text= "<b>"+title.getEmailProfessional()+"</b>: <ul><li><b>Person ASS: </b><i>"+evaluatorTeam.getPatient_name()+"</i></li><li><b> Familienmitglied: </b><i>"+evaluatorTeam.getRelative_name()+"</i></li></ul>";
             }else if(Locale.getDefault().getLanguage().equals("it")){
-                text= "<b>Persona DSA: </b><i>"+evaluatorTeam.getPatient_name()+"</i>,<b> Familiare: </b><i>"+evaluatorTeam.getRelative_name()+"</i>";
+                text= "<b>"+title.getEmailProfessional()+"</b>: <ul><li><b>Persona DSA: </b><i>"+evaluatorTeam.getPatient_name()+"</i></li><li><b> Familiare: </b><i>"+evaluatorTeam.getRelative_name()+"</i></li></ul>";
             }else if(Locale.getDefault().getLanguage().equals("pt")){
-                text= "<b>Pessoa TEA: </b><i>"+evaluatorTeam.getPatient_name()+"</i>,<b> Familiar: </b><i>"+evaluatorTeam.getRelative_name()+"</i>";
+                text= "<b>"+title.getEmailProfessional()+"</b>: <ul><li><b>Pessoa TEA: </b><i>"+evaluatorTeam.getPatient_name()+"</i></li><li><b> Familiar: </b><i>"+evaluatorTeam.getRelative_name()+"</i></li></ul>";
             }else{//Default: English
-                text= "<b>ASD person: </b><i>"+evaluatorTeam.getPatient_name()+"</i>,<b> Family member: </b><i>"+evaluatorTeam.getRelative_name()+"</i>";
+                text= "<b>"+title.getEmailProfessional()+"</b>: <ul><li><b>ASD person: </b><i>"+evaluatorTeam.getPatient_name()+"</i></li><li><b> Family member: </b><i>"+evaluatorTeam.getRelative_name()+"</i></li></ul>";
             }
         }
         textView.setText(Html.fromHtml(text,0));
@@ -71,7 +72,43 @@ public class EvaluatorTeamsAdapter extends ArrayAdapter<EvaluatorTeam> {
 
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        return getView(position, convertView, parent);
+        View view = convertView;
+        if (view == null) {
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            view = inflater.inflate(R.layout.spinner_item_layout, parent, false);
+        }
+
+        EvaluatorTeam evaluatorTeam = getItem(position);
+        TextView textView = view.findViewById(android.R.id.text1);
+        if(position==0){
+            text="<b>"+evaluatorTeam.getEmailProfessional()+"</b>";
+        }
+        else{
+            if(Locale.getDefault().getLanguage().equals("es")){
+                text= "<ul><li><b>Persona TEA: </b><i>"+evaluatorTeam.getPatient_name()+"</i></li><li><b> Familiar: </b><i>"+evaluatorTeam.getRelative_name()+"</i></li></ul>";
+            }else if(Locale.getDefault().getLanguage().equals("fr")){
+                text= "<ul><li><b>Personne TSA: </b><i>"+evaluatorTeam.getPatient_name()+"</i></li><li><b> Membre de la famille: </b><i>"+evaluatorTeam.getRelative_name()+"</i></li></ul>";
+            }else if(Locale.getDefault().getLanguage().equals("eu")){
+                text= "<ul><li><b>TEA pertsona: </b><i>"+evaluatorTeam.getPatient_name()+"</i></li><li><b> Familia-kide: </b><i>"+evaluatorTeam.getRelative_name()+"</i></li></ul>";
+            }else if(Locale.getDefault().getLanguage().equals("ca")){
+                text= "<ul><li><b>Persona TEA: </b><i>"+evaluatorTeam.getPatient_name()+"</i></li><li><b> Familiar: </b><i>"+evaluatorTeam.getRelative_name()+"</i></li></ul>";
+            }else if(Locale.getDefault().getLanguage().equals("nl")){
+                text= "<ul><li><b>Persoon ASS: </b><i>"+evaluatorTeam.getPatient_name()+"</i></li><li><b> Familielid: </b><i>"+evaluatorTeam.getRelative_name()+"</i></li></ul>";
+            }else if(Locale.getDefault().getLanguage().equals("gl")){
+                text= "<ul><li><b>Persoa TEA: </b><i>"+evaluatorTeam.getPatient_name()+"</i></li><li><b> Familiar: </b><i>"+evaluatorTeam.getRelative_name()+"</i></li></ul>";
+            }else if(Locale.getDefault().getLanguage().equals("de")){
+                text= "<ul><li><b>Person ASS: </b><i>"+evaluatorTeam.getPatient_name()+"</i></li><li><b> Familienmitglied: </b><i>"+evaluatorTeam.getRelative_name()+"</i></li></ul>";
+            }else if(Locale.getDefault().getLanguage().equals("it")){
+                text= "<ul><li><b>Persona DSA: </b><i>"+evaluatorTeam.getPatient_name()+"</i></li><li><b> Familiare: </b><i>"+evaluatorTeam.getRelative_name()+"</i></li></ul>";
+            }else if(Locale.getDefault().getLanguage().equals("pt")){
+                text= "<ul><li><b>Pessoa TEA: </b><i>"+evaluatorTeam.getPatient_name()+"</i></li><li><b> Familiar: </b><i>"+evaluatorTeam.getRelative_name()+"</i></li></ul>";
+            }else{//Default: English
+                text= "<ul><li><b>ASD person: </b><i>"+evaluatorTeam.getPatient_name()+"</i></li><li><b> Family member: </b><i>"+evaluatorTeam.getRelative_name()+"</i></li></ul>";
+            }
+        }
+        textView.setText(Html.fromHtml(text,0));
+
+        return view;
     }
     @Override
     public EvaluatorTeam getItem(int position) {

@@ -224,14 +224,10 @@ namespace OTEAServer.Models
         [JsonPropertyName("status")]
         public string status { get; set; }
 
-        /// <summary>
-        /// Method that sets the new indicator status
-        /// </summary>
-        /// <param name="status">Indicator status</param>
-        public void setStatus(string status) {
-            this.status = status;
+        internal void SetStatus(string status)
+        {
+            this.status=status;
         }
-
     }
 }
 

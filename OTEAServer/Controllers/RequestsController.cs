@@ -78,7 +78,6 @@ namespace OTEAServer.Controllers
         {
             try
             {
-                request.tempPassword = null;
                 _context.Requests.Add(request);
                 _context.SaveChanges();
                 return CreatedAtAction(nameof(Get), new { email = request.email }, request);
@@ -112,6 +111,7 @@ namespace OTEAServer.Controllers
                 existingRequest.idOrganization = request.idOrganization;
                 existingRequest.orgType = request.orgType;
                 existingRequest.illness = request.illness;
+                existingRequest.userType = request.userType;
                 _context.SaveChanges();
 
                 return Ok(existingRequest);

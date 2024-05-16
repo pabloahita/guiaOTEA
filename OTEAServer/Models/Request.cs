@@ -22,13 +22,15 @@ namespace OTEAServer.Models
         /// <param name="idOrganization">Organization identifier</param>
         /// <param name="orgType">Organization type</param>
         /// <param name="illness">Organization illness or syndrome</param>
-        public Request(string email, int statusReq, string? tempPassword, int idOrganization, string orgType, string illness){
+        /// <param name="userType">User type</param>
+        public Request(string email, int statusReq, string? tempPassword, int idOrganization, string orgType, string illness, string userType){
             this.email=email;
             this.statusReq=statusReq;
             this.tempPassword=tempPassword;
             this.idOrganization=idOrganization;
             this.orgType=orgType;
             this.illness=illness;
+            this.userType = userType;
         }
 
         /// <summary>
@@ -66,6 +68,12 @@ namespace OTEAServer.Models
         /// </summary>
         [JsonPropertyName("illness")]
         public string illness { get; set; }
+
+        /// <summary>
+        /// User type
+        /// </summary>
+        [JsonPropertyName("userType")]
+        public string userType { get; set; }
 
     }
 }

@@ -38,36 +38,53 @@ public class CenterAdapter extends ArrayAdapter<Center> {
 
         Center center = getItem(position);
         TextView textView = view.findViewById(android.R.id.text1);
-        String textBegin="";
-        String textEnd="";
-        if(center.getIdCenter()==-1){
-            textBegin="<b>";
-            textEnd="</b>";
+        if(position==0){
+            if(Locale.getDefault().getLanguage().equals("es")){
+                text="<b>"+center.getDescriptionSpanish()+"</b>";
+            }else if(Locale.getDefault().getLanguage().equals("fr")){
+                text="<b>"+center.getDescriptionFrench()+"</b>";
+            }else if(Locale.getDefault().getLanguage().equals("eu")){
+                text="<b>"+center.getDescriptionBasque()+"</b>";
+            }else if(Locale.getDefault().getLanguage().equals("ca")){
+                text="<b>"+center.getDescriptionCatalan()+"</b>";
+            }else if(Locale.getDefault().getLanguage().equals("nl")){
+                text="<b>"+center.getDescriptionDutch()+"</b>";
+            }else if(Locale.getDefault().getLanguage().equals("gl")){
+                text="<b>"+center.getDescriptionGalician()+"</b>";
+            }else if(Locale.getDefault().getLanguage().equals("de")){
+                text="<b>"+center.getDescriptionGerman()+"</b>";
+            }else if(Locale.getDefault().getLanguage().equals("it")){
+                text="<b>"+center.getDescriptionItalian()+"</b>";
+            }else if(Locale.getDefault().getLanguage().equals("pt")){
+                text="<b>"+center.getDescriptionPortuguese()+"</b>";
+            }else{ //Valor por defecto
+                text="<b>"+center.getDescriptionEnglish()+"</b>";
+            }
         }else{
-            textBegin="<i>";
-            textEnd="</i>";
+            Center title=getItem(0);
+            if(Locale.getDefault().getLanguage().equals("es")){
+                text="<b>"+title.getDescriptionSpanish()+": </b><i>"+center.getDescriptionSpanish()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("fr")){
+                text="<b>"+title.getDescriptionFrench()+": </b><i>"+center.getDescriptionFrench()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("eu")){
+                text="<b>"+title.getDescriptionBasque()+": </b><i>"+center.getDescriptionBasque()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("ca")){
+                text="<b>"+title.getDescriptionCatalan()+": </b><i>"+center.getDescriptionCatalan()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("nl")){
+                text="<b>"+title.getDescriptionDutch()+": </b><i>"+center.getDescriptionDutch()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("gl")){
+                text="<b>"+title.getDescriptionGalician()+": </b><i>"+center.getDescriptionGalician()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("de")){
+                text="<b>"+title.getDescriptionGerman()+": </b><i>"+center.getDescriptionGerman()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("it")){
+                text="<b>"+title.getDescriptionItalian()+": </b><i>"+center.getDescriptionItalian()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("pt")){
+                text="<b>"+title.getDescriptionPortuguese()+": </b><i>"+center.getDescriptionPortuguese()+"</i>";
+            }else{ //Valor por defecto
+                text="<b>"+title.getDescriptionEnglish()+": </b><i>"+center.getDescriptionEnglish()+"</i>";
+            }
         }
-        if(Locale.getDefault().getLanguage().equals("es")){
-            text=textBegin+center.getDescriptionSpanish()+textEnd;
-        }else if(Locale.getDefault().getLanguage().equals("fr")){
-            text=textBegin+center.getDescriptionFrench()+textEnd;
-        }else if(Locale.getDefault().getLanguage().equals("eu")){
-            text=textBegin+center.getDescriptionBasque()+textEnd;
-        }else if(Locale.getDefault().getLanguage().equals("ca")){
-            text=textBegin+center.getDescriptionCatalan()+textEnd;
-        }else if(Locale.getDefault().getLanguage().equals("nl")){
-            text=textBegin+center.getDescriptionDutch()+textEnd;
-        }else if(Locale.getDefault().getLanguage().equals("gl")){
-            text=textBegin+center.getDescriptionGalician()+textEnd;
-        }else if(Locale.getDefault().getLanguage().equals("de")){
-            text=textBegin+center.getDescriptionGerman()+textEnd;
-        }else if(Locale.getDefault().getLanguage().equals("it")){
-            text=textBegin+center.getDescriptionItalian()+textEnd;
-        }else if(Locale.getDefault().getLanguage().equals("pt")){
-            text=textBegin+center.getDescriptionPortuguese()+textEnd;
-        }else{ //Valor por defecto
-            text=textBegin+center.getDescriptionEnglish()+textEnd;
-        }
+       
         textView.setText(Html.fromHtml(text,0));
 
         return view;
@@ -75,7 +92,63 @@ public class CenterAdapter extends ArrayAdapter<Center> {
 
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        return getView(position, convertView, parent);
+        View view = convertView;
+        if (view == null) {
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            view = inflater.inflate(R.layout.spinner_item_layout, parent, false);
+        }
+
+        Center center = getItem(position);
+        TextView textView = view.findViewById(android.R.id.text1);
+        if(position==0){
+            if(Locale.getDefault().getLanguage().equals("es")){
+                text="<b>"+center.getDescriptionSpanish()+"</b>";
+            }else if(Locale.getDefault().getLanguage().equals("fr")){
+                text="<b>"+center.getDescriptionFrench()+"</b>";
+            }else if(Locale.getDefault().getLanguage().equals("eu")){
+                text="<b>"+center.getDescriptionBasque()+"</b>";
+            }else if(Locale.getDefault().getLanguage().equals("ca")){
+                text="<b>"+center.getDescriptionCatalan()+"</b>";
+            }else if(Locale.getDefault().getLanguage().equals("nl")){
+                text="<b>"+center.getDescriptionDutch()+"</b>";
+            }else if(Locale.getDefault().getLanguage().equals("gl")){
+                text="<b>"+center.getDescriptionGalician()+"</b>";
+            }else if(Locale.getDefault().getLanguage().equals("de")){
+                text="<b>"+center.getDescriptionGerman()+"</b>";
+            }else if(Locale.getDefault().getLanguage().equals("it")){
+                text="<b>"+center.getDescriptionItalian()+"</b>";
+            }else if(Locale.getDefault().getLanguage().equals("pt")){
+                text="<b>"+center.getDescriptionPortuguese()+"</b>";
+            }else{ //Valor por defecto
+                text="<b>"+center.getDescriptionEnglish()+"</b>";
+            }
+        }else{
+            if(Locale.getDefault().getLanguage().equals("es")){
+                text="<i>"+center.getDescriptionSpanish()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("fr")){
+                text="<i>"+center.getDescriptionFrench()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("eu")){
+                text="<i>"+center.getDescriptionBasque()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("ca")){
+                text="<i>"+center.getDescriptionCatalan()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("nl")){
+                text="<i>"+center.getDescriptionDutch()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("gl")){
+                text="<i>"+center.getDescriptionGalician()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("de")){
+                text="<i>"+center.getDescriptionGerman()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("it")){
+                text="<i>"+center.getDescriptionItalian()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("pt")){
+                text="<i>"+center.getDescriptionPortuguese()+"</i>";
+            }else{ //Valor por defecto
+                text="<i>"+center.getDescriptionEnglish()+"</i>";
+            }
+        }
+
+        textView.setText(Html.fromHtml(text,0));
+
+        return view;
     }
     @Override
     public Center getItem(int position) {

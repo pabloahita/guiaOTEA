@@ -28,6 +28,7 @@ import cli.organization.data.geo.City;
 import cli.organization.data.geo.Country;
 import cli.organization.data.geo.Province;
 import cli.organization.data.geo.Region;
+import cli.user.Request;
 import cli.user.User;
 import otea.connection.controller.AddressesController;
 import otea.connection.controller.AmbitsController;
@@ -88,6 +89,8 @@ public class Session {
     private static List<Center> centers;
 
     private static List<EvaluatorTeam> evaluatorTeams;
+
+    private static Request currRequest;
 
     private ByteArrayOutputStream orgPhoto;
 
@@ -489,5 +492,11 @@ public class Session {
         return orgPhoto;
     }
 
+    public static Request getCurrRequest() {
+        return currRequest;
+    }
 
+    public static void setCurrRequest(Request currRequest) {
+        Session.currRequest = currRequest;
+    }
 }

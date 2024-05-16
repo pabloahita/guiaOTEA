@@ -160,6 +160,7 @@ namespace OTEAServer.Controllers
                 existingCenter.telephone = center.telephone;
                 existingCenter.idAddress = center.idAddress;
                 existingCenter.email = center.email;
+                existingCenter.profilePhoto = center.profilePhoto;
                 _context.SaveChanges();
 
                 return Ok(existingCenter);
