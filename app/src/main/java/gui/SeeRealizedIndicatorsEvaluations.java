@@ -23,22 +23,43 @@ import java.util.List;
 import java.util.Locale;
 
 import cli.indicators.Ambit;
+import cli.indicators.Evidence;
+import cli.indicators.Indicator;
+import cli.indicators.IndicatorsEvaluation;
+import cli.indicators.IndicatorsEvaluationEvidenceReg;
+import cli.indicators.IndicatorsEvaluationIndicatorReg;
 import session.Session;
 
 public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
 
-    List<Ambit> ambits;
+    List<Indicator> indicators;
 
+    List<Evidence> evidences;
 
+    List<IndicatorsEvaluationIndicatorReg> indicatorRegs;
+
+    List<IndicatorsEvaluationEvidenceReg> evidenceRegs;
+
+    FixedHeaderSubTableLayout mainTable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_see_realized_indicators_evaluations);
-        //setContentView(R.layout.table_base);
 
         FixedHeaderSubTableLayout columnHeaderTable=new FixedHeaderSubTableLayout(SeeRealizedIndicatorsEvaluations.this);
         FixedHeaderTableRow tableRowData = new FixedHeaderTableRow(SeeRealizedIndicatorsEvaluations.this);
+
+        IndicatorsEvaluation evaluation=Session.getInstance().getCurrEvaluation();
+
+        indicatorRegs=Session.getInstance().GetAllIndicatorsRegsByIndicatorsEvaluation(evaluation);
+
+
+        boolean isComplete=indicatorRegs.get(0).getEvaluationType().equals("COMPLETE");
+
+        if(isComplete){
+            evidenceRegs=Session.getInstance().GetAllEvidencesRegsByIndicatorsEvaluation(evaluation);
+        }
 
         List<String> ambitsRed=new ArrayList<>();
         ambitsRed.add(getString(R.string.to_people));
@@ -84,8 +105,58 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
         row.addView(new TextView(SeeRealizedIndicatorsEvaluations.this));
         cornerTable.addView(row);
 
-        FixedHeaderSubTableLayout mainTable = new FixedHeaderSubTableLayout(SeeRealizedIndicatorsEvaluations.this);
+        mainTable = new FixedHeaderSubTableLayout(SeeRealizedIndicatorsEvaluations.this);
 
+        if(isComplete){
+            generateCompleteTable();
+        }
+        else{
+            generateSimpleTable();
+        }
+
+
+        FixedHeaderTableLayout layout=findViewById(R.id.tableIndEval);
+        layout.computeScroll();
+        layout.addViews(mainTable,columnHeaderTable,rowHeaderTable,cornerTable);
+
+    }
+
+    public Button createButton(String idIndicator){
+        Button button = new Button(this);
+        int drawable=-1;
+        if(!idIndicator.isEmpty()) {
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            button.setText(Html.fromHtml(idIndicator, 0));
+            int idInd=Integer.parseInt(idIndicator);
+            if(indicatorRegs.size()>=idInd){
+                IndicatorsEvaluationIndicatorReg reg=indicatorRegs.get(idInd-1);
+                if(reg.getStatus().equals("REACHED")){
+                    drawable = R.drawable.reached_ind;
+                }else if(reg.getStatus().equals("IN_PROCESS")){
+                    drawable = R.drawable.in_process_ind;
+                }else{
+                    drawable = R.drawable.in_start_ind;
+                }
+            }
+            else {
+                drawable = R.drawable.empty_ind;
+            }
+        }
+        else{
+            drawable=R.drawable.empty_ind_no_borders;
+        }
+        button.setBackground(getDrawable(drawable));
+        button.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
+        button.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
+        return button;
+    }
+
+    public void generateCompleteTable(){
 
         //Fundamental interest
 
@@ -802,34 +873,632 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
 
 
         mainTable.addView(mainTableRow);
-
-
-        FixedHeaderTableLayout layout=findViewById(R.id.tableIndEval);
-        layout.computeScroll();
-        layout.addViews(mainTable,columnHeaderTable,rowHeaderTable,cornerTable);
-
     }
 
-    public Button createButton(String idIndicator){
-        Button button = new Button(this);
-        int drawable=-1;
-        if(!idIndicator.isEmpty()) {
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+    public void generateSimpleTable(){
 
-                }
-            });
-            button.setText(Html.fromHtml(idIndicator, 0));
-            drawable=R.drawable.empty_ind;
-        }
-        else{
-            drawable=R.drawable.empty_ind_no_borders;
-        }
-        button.setBackground(getDrawable(drawable));
-        button.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
-        button.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        return button;
+        //Fundamental interest
+
+        FixedHeaderTableRow mainTableRow = new FixedHeaderTableRow(this);
+
+        FixedHeaderSubTableLayout subTable=new FixedHeaderSubTableLayout(this);
+        FixedHeaderSubTableLayout subSubTable = new FixedHeaderSubTableLayout(this);
+
+        FixedHeaderTableRow subTableRow = new FixedHeaderTableRow(this);
+        FixedHeaderTableRow subSubTableRow = new FixedHeaderTableRow(this);
+
+
+        subSubTableRow.addView(createButton("1"));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow.addView(createButton("2"));
+        subSubTableRow.addView(createButton("4"));
+        subSubTableRow.addView(createButton("6"));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton("9"));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+        subTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton("17"));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+        subTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton("23"));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton("22"));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+        subTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton("27"));
+        subSubTableRow.addView(createButton("29"));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+        subTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton("37"));
+
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+        subTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+
+
+
+        mainTable.addView(mainTableRow);
+
+
+
+        //High interest
+
+        mainTableRow = new FixedHeaderTableRow(this);
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+
+        subTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow = new FixedHeaderTableRow(this);
+
+
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow.addView(createButton("3"));
+        subSubTableRow.addView(createButton("5"));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton("7"));
+        subSubTableRow.addView(createButton("8"));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton("10"));
+        subSubTableRow.addView(createButton("12"));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+        subTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton("18"));
+        subSubTableRow.addView(createButton("19"));
+
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+        subTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton("20"));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+        subTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton("30"));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+        subTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+        subTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+
+
+
+        mainTable.addView(mainTableRow);
+
+
+        //Medium interest
+
+        mainTableRow = new FixedHeaderTableRow(this);
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+
+        subTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow = new FixedHeaderTableRow(this);
+
+
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton("11"));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton("13"));
+        subSubTableRow.addView(createButton("15"));
+
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+        subTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+        subTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton("21"));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+        subTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton("20"));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton("33"));
+        subSubTableRow.addView(createButton("35"));
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+        subTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton("36"));
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+        subTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton("40"));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton("39"));
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+
+
+
+        mainTable.addView(mainTableRow);
+
+
+
+        //Low interest
+
+        mainTableRow = new FixedHeaderTableRow(this);
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+
+        subTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow = new FixedHeaderTableRow(this);
+
+
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton("14"));
+        subSubTableRow.addView(createButton("16"));
+
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+        subTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+        subTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton("24"));
+        subSubTableRow.addView(createButton("25"));
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+        subTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton("32"));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton("28"));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton("31"));
+        subSubTableRow.addView(createButton(""));
+        subSubTableRow.addView(createButton("34"));
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+        subTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+        subTable=new FixedHeaderSubTableLayout(this);
+        subSubTable = new FixedHeaderSubTableLayout(this);
+        subTableRow = new FixedHeaderTableRow(this);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton(""));
+        subSubTable.addView(subSubTableRow);
+
+        subSubTableRow = new FixedHeaderTableRow(this);
+        subSubTableRow.addView(createButton("38"));
+
+        subSubTable.addView(subSubTableRow);
+        subTableRow.addView(subSubTable);
+        subTable.addView(subTableRow);
+        mainTableRow.addView(subTable);
+
+
+        mainTable.addView(mainTableRow);
     }
 
 }

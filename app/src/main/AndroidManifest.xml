@@ -19,6 +19,9 @@
         android:theme="@style/Theme.TFG2223.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name="gui.SelectToSeeRealizedIndicatorsEvaluations"
+            android:exported="false" />
+        <activity
             android:name="gui.EditCenter"
             android:exported="false" />
         <activity

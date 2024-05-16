@@ -6,6 +6,9 @@ import com.google.i18n.phonenumbers.Phonenumber;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cli.user.User;
+import session.Session;
+
 public class FieldChecker {
 
     public static boolean isACorrectPhone(String phone){
@@ -37,6 +40,10 @@ public class FieldChecker {
                 || idCountry.equals("CHL") || idCountry.equals("COL") || idCountry.equals("CRI") || idCountry.equals("CUB") || idCountry.equals("DOM") || idCountry.equals("ECU") ||
                 idCountry.equals("SLV") || idCountry.equals("GUA") || idCountry.equals("PRT") || idCountry.equals("HND") || idCountry.equals("MEX") || idCountry.equals("NIC") ||
                 idCountry.equals("PAN") || idCountry.equals("PRY") || idCountry.equals("PER") || idCountry.equals("PRI") || idCountry.equals("URY") || idCountry.equals("VEN");
+    }
+
+    public static boolean isAMiradasUser(User user){
+        return user.getIdOrganization()==1 && user.getOrganizationType().equals("EVALUATOR") && user.getIllness().equals("AUTISM");
     }
 
 

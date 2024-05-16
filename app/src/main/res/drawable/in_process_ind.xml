@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/white" /> <!-- Cambia el color de fondo según tus necesidades -->
+    <solid android:color="#FFFF00" /> <!-- Cambia el color de fondo según tus necesidades -->
     <stroke android:width="1dp" android:color="@color/black" /> <!-- Añade un borde. Cambia el ancho y el color según tus necesidades -->
-    <gradient android:startColor="#FFFF00"
-        android:endColor="#00000000"
-        android:angle="180"/>
+
 </shape>

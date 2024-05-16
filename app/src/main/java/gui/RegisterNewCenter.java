@@ -138,7 +138,7 @@ public class RegisterNewCenter extends AppCompatActivity {
 
     InputStream profilePhotoCenter;
 
-    String imgCenterName;
+    String imgCenterName="";
 
     ImageButton helpButton;
 

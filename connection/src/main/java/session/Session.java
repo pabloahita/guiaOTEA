@@ -18,6 +18,7 @@ import cli.indicators.Ambit;
 import cli.indicators.Evidence;
 import cli.indicators.Indicator;
 import cli.indicators.IndicatorsEvaluation;
+import cli.indicators.IndicatorsEvaluationEvidenceReg;
 import cli.indicators.IndicatorsEvaluationIndicatorReg;
 import cli.indicators.SubAmbit;
 import cli.indicators.SubSubAmbit;
@@ -91,6 +92,10 @@ public class Session {
     private static List<EvaluatorTeam> evaluatorTeams;
 
     private static Request currRequest;
+
+    private static List<IndicatorsEvaluationIndicatorReg> indicatorsRegs;
+
+    private static List<IndicatorsEvaluationEvidenceReg> evidencesRegs;
 
     private ByteArrayOutputStream orgPhoto;
 
@@ -428,6 +433,27 @@ public class Session {
         return indicatorsEvaluations.stream().filter(indicatorEvaluationNonFinishedOfThatEvalTeamExist).collect(Collectors.toList());
     }
 
+    public List<IndicatorsEvaluation> getAllByEvaluatorTeam(EvaluatorTeam evaluatorTeam) {
+        if(indicatorsEvaluations==null){
+            indicatorsEvaluations=new ArrayList<>();
+        }
+        Predicate<IndicatorsEvaluation> indicatorEvaluationNonFinishedOfThatEvalTeamExist=new Predicate<IndicatorsEvaluation>() {
+            @Override
+            public boolean test(IndicatorsEvaluation indicatorsEvaluation) {
+                return indicatorsEvaluation.getIdEvaluatorTeam()==evaluatorTeam.getIdEvaluatorTeam()
+                        && indicatorsEvaluation.getIdEvaluatedOrganization()==evaluatorTeam.getIdEvaluatedOrganization()
+                        && indicatorsEvaluation.getOrgTypeEvaluated().equals(evaluatorTeam.getOrgTypeEvaluated())
+                        && indicatorsEvaluation.getIllness().equals(evaluatorTeam.getIllness())
+                        && indicatorsEvaluation.getIdCenter()==evaluatorTeam.getIdCenter();
+            }
+        };
+        List<IndicatorsEvaluation> aux=indicatorsEvaluations.stream().filter(indicatorEvaluationNonFinishedOfThatEvalTeamExist).collect(Collectors.toList());
+        if(aux.isEmpty()){
+            indicatorsEvaluations.addAll(IndicatorsEvaluationsController.GetAllByEvaluatorTeam(evaluatorTeam.getIdEvaluatorTeam(),evaluatorTeam.getIdEvaluatorOrganization(),evaluatorTeam.getOrgTypeEvaluator(),evaluatorTeam.getIdEvaluatedOrganization(),evaluatorTeam.getOrgTypeEvaluated(),evaluatorTeam.getIdCenter(),evaluatorTeam.getIllness()));
+        }
+        return indicatorsEvaluations.stream().filter(indicatorEvaluationNonFinishedOfThatEvalTeamExist).collect(Collectors.toList());
+    }
+
     public void obtainIndicatorsFromDataBase(String evaluationType){
         if(indicators==null) {
             ambits = AmbitsController.GetAll();
@@ -498,5 +524,59 @@ public class Session {
 
     public static void setCurrRequest(Request currRequest) {
         Session.currRequest = currRequest;
+    }
+
+    public List<IndicatorsEvaluationEvidenceReg> GetAllEvidencesRegsByIndicatorsEvaluation(IndicatorsEvaluation current_evaluation){
+
+        if(evidencesRegs==null){
+            evidencesRegs=new ArrayList<>();
+        }
+        Predicate<IndicatorsEvaluationEvidenceReg> evidencesRegsOfThatIndicatorsEvaluationExist=new Predicate<IndicatorsEvaluationEvidenceReg>() {
+            @Override
+            public boolean test(IndicatorsEvaluationEvidenceReg reg) {
+                return reg.getEvaluationDate()==current_evaluation.getEvaluationDate()
+                        && reg.getIdEvaluatorTeam()==current_evaluation.getIdEvaluatorTeam()
+                        && reg.getIdEvaluatorOrganization()==current_evaluation.getIdEvaluatorOrganization()
+                        && reg.getOrgTypeEvaluator().equals(current_evaluation.getOrgTypeEvaluator())
+                        && reg.getIdEvaluatedOrganization()==current_evaluation.getIdEvaluatedOrganization()
+                        && reg.getOrgTypeEvaluated().equals(current_evaluation.getOrgTypeEvaluated())
+                        && reg.getIllness().equals(current_evaluation.getIllness())
+                        && reg.getIdCenter()==current_evaluation.getIdCenter()
+                        && reg.getEvaluationType().equals(current_evaluation.getEvaluationType());
+            }
+        };
+        List<IndicatorsEvaluationEvidenceReg> aux=evidencesRegs.stream().filter(evidencesRegsOfThatIndicatorsEvaluationExist).collect(Collectors.toList());
+        if(aux.isEmpty()){
+            evidencesRegs.addAll(IndicatorsEvaluationEvidenceRegsController.GetAllByIndicatorsEvaluation(current_evaluation.getEvaluationDate(),current_evaluation.getIdEvaluatorTeam(),current_evaluation.getIdEvaluatorOrganization(),current_evaluation.getOrgTypeEvaluator(),current_evaluation.getIdEvaluatedOrganization(),current_evaluation.getOrgTypeEvaluated(),current_evaluation.getIllness(),current_evaluation.getIdCenter(),current_evaluation.getEvaluationType()));
+        }
+        return evidencesRegs.stream().filter(evidencesRegsOfThatIndicatorsEvaluationExist).collect(Collectors.toList());
+
+    }
+
+    public List<IndicatorsEvaluationIndicatorReg> GetAllIndicatorsRegsByIndicatorsEvaluation(IndicatorsEvaluation current_evaluation){
+
+        if(indicatorsRegs==null){
+            indicatorsRegs=new ArrayList<>();
+        }
+        Predicate<IndicatorsEvaluationIndicatorReg> indicatorsRegsOfThatIndicatorsEvaluationExist=new Predicate<IndicatorsEvaluationIndicatorReg>() {
+            @Override
+            public boolean test(IndicatorsEvaluationIndicatorReg reg) {
+                return reg.getEvaluationDate()==current_evaluation.getEvaluationDate()
+                        && reg.getIdEvaluatorTeam()==current_evaluation.getIdEvaluatorTeam()
+                        && reg.getIdEvaluatorOrganization()==current_evaluation.getIdEvaluatorOrganization()
+                        && reg.getOrgTypeEvaluator().equals(current_evaluation.getOrgTypeEvaluator())
+                        && reg.getIdEvaluatedOrganization()==current_evaluation.getIdEvaluatedOrganization()
+                        && reg.getOrgTypeEvaluated().equals(current_evaluation.getOrgTypeEvaluated())
+                        && reg.getIllness().equals(current_evaluation.getIllness())
+                        && reg.getIdCenter()==current_evaluation.getIdCenter()
+                        && reg.getEvaluationType().equals(current_evaluation.getEvaluationType());
+            }
+        };
+        List<IndicatorsEvaluationIndicatorReg> aux=indicatorsRegs.stream().filter(indicatorsRegsOfThatIndicatorsEvaluationExist).collect(Collectors.toList());
+        if(aux.isEmpty()){
+            indicatorsRegs.addAll(IndicatorsEvaluationIndicatorRegsController.GetAllByIndicatorsEvaluation(current_evaluation.getEvaluationDate(),current_evaluation.getIdEvaluatorTeam(),current_evaluation.getIdEvaluatorOrganization(),current_evaluation.getOrgTypeEvaluator(),current_evaluation.getIdEvaluatedOrganization(),current_evaluation.getOrgTypeEvaluated(),current_evaluation.getIllness(),current_evaluation.getIdCenter(),current_evaluation.getEvaluationType()));
+        }
+        return indicatorsRegs.stream().filter(indicatorsRegsOfThatIndicatorsEvaluationExist).collect(Collectors.toList());
+
     }
 }

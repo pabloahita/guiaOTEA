@@ -2,6 +2,7 @@ package otea.connection.controller;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -82,7 +83,11 @@ public class TranslatorController {
             executor.shutdown();
             return result;
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            List<String> err=new ArrayList<>();
+            for(int i=0;i<9;i++){
+                err.add("");
+            }
+            return err;
         }
     }
 }

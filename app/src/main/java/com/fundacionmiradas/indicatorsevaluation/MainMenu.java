@@ -254,7 +254,8 @@ public class MainMenu extends AppCompatActivity {
                     v.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Intent intent = new Intent(getApplicationContext(), gui.SeeRealizedIndicatorsEvaluations.class);
+                            session.obtainOrgsAndEvalTeams();
+                            Intent intent = new Intent(getApplicationContext(), gui.SelectToSeeRealizedIndicatorsEvaluations.class);
                             startActivity(intent);
                             chargingScreen.setVisibility(View.GONE);
                         }

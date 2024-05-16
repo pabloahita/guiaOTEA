@@ -311,6 +311,9 @@ public class SelectToContinueIndicatorsEvaluations extends AppCompatActivity {
                                 Intent intent = new Intent(getApplicationContext(), gui.DoIndicatorsEvaluation.class);
 
                                 Session.getInstance().setCurrEvaluation(indicatorsEvaluation[0]);
+                                Session.getInstance().GetAllIndicatorsRegsByIndicatorsEvaluation(indicatorsEvaluation[0]);
+                                Session.getInstance().GetAllEvidencesRegsByIndicatorsEvaluation(indicatorsEvaluation[0]);
+
 
                                 Session.getInstance().obtainIndicatorsFromDataBase(indicatorsEvaluation[0].getEvaluationType());
                                 startActivity(intent);

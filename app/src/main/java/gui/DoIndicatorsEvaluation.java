@@ -128,11 +128,11 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
 
 
         if(IndicatorsEvaluationsController.Get(current_evaluation.getEvaluationDate(),current_evaluation.getIdEvaluatorTeam(),current_evaluation.getIdEvaluatorOrganization(),current_evaluation.getOrgTypeEvaluator(),current_evaluation.getIdEvaluatedOrganization(),current_evaluation.getOrgTypeEvaluated(),current_evaluation.getIllness(),current_evaluation.getIdCenter(),current_evaluation.getEvaluationType())!=null){
-            storedEvidencesRegs=IndicatorsEvaluationEvidenceRegsController.GetAllByIndicatorsEvaluation(current_evaluation.getEvaluationDate(),current_evaluation.getIdEvaluatorTeam(),current_evaluation.getIdEvaluatorOrganization(),current_evaluation.getOrgTypeEvaluator(),current_evaluation.getIdEvaluatedOrganization(),current_evaluation.getOrgTypeEvaluated(),current_evaluation.getIllness(),current_evaluation.getIdCenter(),current_evaluation.getEvaluationType());
+            storedEvidencesRegs=Session.getInstance().GetAllEvidencesRegsByIndicatorsEvaluation(current_evaluation);
             for (IndicatorsEvaluationEvidenceReg evidenceReg:storedEvidencesRegs){
                 evidenceRegs[evidenceReg.getIdIndicator()-1][evidenceReg.getIdEvidence()-1]=evidenceReg;
             }
-            storedIndicatorsRegs=IndicatorsEvaluationIndicatorRegsController.GetAllByIndicatorsEvaluation(current_evaluation.getEvaluationDate(),current_evaluation.getIdEvaluatorTeam(),current_evaluation.getIdEvaluatorOrganization(),current_evaluation.getOrgTypeEvaluator(),current_evaluation.getIdEvaluatedOrganization(),current_evaluation.getOrgTypeEvaluated(),current_evaluation.getIllness(),current_evaluation.getIdCenter(),current_evaluation.getEvaluationType());
+            storedIndicatorsRegs=Session.getInstance().GetAllIndicatorsRegsByIndicatorsEvaluation(current_evaluation);
             for(IndicatorsEvaluationIndicatorReg indicatorReg:storedIndicatorsRegs){
                 indicatorRegs[indicatorReg.getIdIndicator()-1]=indicatorReg;
             }

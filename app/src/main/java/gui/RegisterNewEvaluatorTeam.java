@@ -104,7 +104,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
 
     InputStream profilePhotoEvalTeam;
 
-    String imgEvalTeamName;
+    String imgEvalTeamName="";
 
     ImageButton helpButton;
 
@@ -174,6 +174,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
             imageEvalTeamButton=findViewById(R.id.uploadPhoto);
             imageEvalTeam=findViewById(R.id.profilePhoto);
 
+            helpButton=findViewById(R.id.helpButton);
 
 
             ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
