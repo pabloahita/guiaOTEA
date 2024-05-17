@@ -4,6 +4,7 @@ using NRules.Fluent;
 using OTEAServer.ExpertSystem;
 using OTEAServer.Misc;
 using OTEAServer.Models;
+using System.Runtime.Intrinsics.X86;
 namespace OTEAServer.Controllers
 {
 
@@ -168,11 +169,23 @@ namespace OTEAServer.Controllers
                 repository.Load(x => x.From(typeof(RuleIndicatorInProcess).Assembly));
                 repository.Load(x => x.From(typeof(RuleIndicatorInStart).Assembly));
                 repository.Load(x => x.From(typeof(RuleIndicatorReached).Assembly));
-                repository.Load(x => x.From(typeof(RuleRequiresImprovementPlan).Assembly));
-                repository.Load(x => x.From(typeof(RuleDoesntRequireImprovementPlan).Assembly));
 
                 var factory = repository.Compile();
                 var session = factory.CreateSession();
+
+                foreach (IndicatorsEvaluationIndicatorReg reg in regs) {
+                    if (reg == null) { continue; }
+
+                    session.Insert(reg);
+                    session.Fire();
+                    session.Retract(reg);
+                }
+                repository = new RuleRepository();
+                repository.Load(x => x.From(typeof(RuleDoesntRequireImprovementPlan).Assembly));
+                repository.Load(x => x.From(typeof(RuleRequiresImprovementPlan).Assembly));
+
+                factory = repository.Compile();
+                session = factory.CreateSession();
                 foreach (IndicatorsEvaluationIndicatorReg reg in regs)
                 {
                     if (reg == null) { continue; }
@@ -284,6 +297,8 @@ namespace OTEAServer.Controllers
                 existingIndicatorsEvaluationIndicatorReg.observationsItalian = indicatorsEvaluationIndicatorReg.observationsItalian;
                 existingIndicatorsEvaluationIndicatorReg.observationsPortuguese = indicatorsEvaluationIndicatorReg.observationsPortuguese;
                 existingIndicatorsEvaluationIndicatorReg.numEvidencesMarked = indicatorsEvaluationIndicatorReg.numEvidencesMarked;
+                existingIndicatorsEvaluationIndicatorReg.status = indicatorsEvaluationIndicatorReg.status;
+                existingIndicatorsEvaluationIndicatorReg.requiresImprovementPlan = indicatorsEvaluationIndicatorReg.requiresImprovementPlan;
                 _context.SaveChanges();
                 return Ok(existingIndicatorsEvaluationIndicatorReg);
             }

@@ -579,4 +579,9 @@ public class Session {
         return indicatorsRegs.stream().filter(indicatorsRegsOfThatIndicatorsEvaluationExist).collect(Collectors.toList());
 
     }
+
+    public void setCurrRegs(List<IndicatorsEvaluationIndicatorReg> indicatorRegs, List<IndicatorsEvaluationEvidenceReg> evidenceRegs) {
+        indicatorsRegs=indicatorRegs;
+        evidencesRegs=evidenceRegs;
+    }
 }

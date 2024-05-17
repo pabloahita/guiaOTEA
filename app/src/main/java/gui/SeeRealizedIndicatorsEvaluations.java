@@ -418,25 +418,75 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
                             TextView indicatorCaption=view.findViewById(R.id.indicator_caption);
                             String indCaption="";
                             if(Locale.getDefault().getLanguage().equals("es")){
-                                indCaption="<b>Indicador " + idInd + ": </b>" + indicators.get(0).getDescriptionSpanish();
+                                indCaption="<b>Indicador " + idInd + ": </b>" + indicators.get(idInd-1).getDescriptionSpanish()+"<br> <i>Requiere plan de mejora: <b>";
+                                if(indicatorRegs.get(idInd-1).getRequiresImprovementPlan()==1){
+                                    indCaption+="SÍ</b></i>";
+                                }else{
+                                    indCaption+="NO</b></i>";
+                                }
                             }else if(Locale.getDefault().getLanguage().equals("fr")){
-                                indCaption="<b>Indicateur " + idInd + ": </b>" + indicators.get(0).getDescriptionFrench();
+                                indCaption="<b>Indicateur " + idInd + ": </b>" + indicators.get(idInd-1).getDescriptionFrench()+"<br> <i>Nécessite un plan d'amélioration: <b>";
+                                if(indicatorRegs.get(idInd-1).getRequiresImprovementPlan()==1){
+                                    indCaption+="OUI</b></i>";
+                                }else{
+                                    indCaption+="NON</b></i>";
+                                }
                             }else if(Locale.getDefault().getLanguage().equals("eu")){
-                                indCaption="<b>"+idInd + ". adierazlea: </b>" + indicators.get(0).getDescriptionBasque();
+                                indCaption="<b>"+idInd + ". adierazlea: </b>" + indicators.get(idInd-1).getDescriptionBasque()+"<br> <i>Hobekuntza plana behar du: <b>";
+                                if(indicatorRegs.get(idInd-1).getRequiresImprovementPlan()==1){
+                                    indCaption+="BAI</b></i>";
+                                }else{
+                                    indCaption+="EZ</b></i>";
+                                }
                             }else if(Locale.getDefault().getLanguage().equals("ca")){
-                                indCaption="<b>Indicador " + idInd + ": </b>" + indicators.get(0).getDescriptionCatalan();
+                                indCaption="<b>Indicador " + idInd + ": </b>" + indicators.get(idInd-1).getDescriptionCatalan()+"<br> <i>Requereix un pla de millora: <b>";
+                                if(indicatorRegs.get(idInd-1).getRequiresImprovementPlan()==1){
+                                    indCaption+="SÍ</b></i>";
+                                }else{
+                                    indCaption+="NO</b></i>";
+                                }
                             }else if(Locale.getDefault().getLanguage().equals("nl")){
-                                indCaption="<b>Indicator " + idInd + ": " + indicators.get(0).getDescriptionDutch();
+                                indCaption="<b>Indicator " + idInd + ": " + indicators.get(idInd-1).getDescriptionDutch()+"<br> <i>Vereist een verbeterplan: <b>";
+                                if(indicatorRegs.get(idInd-1).getRequiresImprovementPlan()==1){
+                                    indCaption+="JA</b></i>";
+                                }else{
+                                    indCaption+="NEE</b></i>";
+                                }
                             }else if(Locale.getDefault().getLanguage().equals("gl")){
-                                indCaption="<b>Indicador " + idInd + ": " + indicators.get(0).getDescriptionGalician();
+                                indCaption="<b>Indicador " + idInd + ": " + indicators.get(idInd-1).getDescriptionGalician()+"<br> <i>Require plan de mellora: <b>";
+                                if(indicatorRegs.get(idInd-1).getRequiresImprovementPlan()==1){
+                                    indCaption+="SI</b></i>";
+                                }else{
+                                    indCaption+="NON</b></i>";
+                                }
                             }else if(Locale.getDefault().getLanguage().equals("de")){
-                                indCaption="<b>Indikator " + idInd + ": " + indicators.get(0).getDescriptionGerman();
+                                indCaption="<b>Indikator " + idInd + ": " + indicators.get(idInd-1).getDescriptionGerman()+"<br> <i>Erfordert einen Verbesserungsplan: <b>";
+                                if(indicatorRegs.get(idInd-1).getRequiresImprovementPlan()==1){
+                                    indCaption+="JA</b></i>";
+                                }else{
+                                    indCaption+="NEIN</b></i>";
+                                }
                             }else if(Locale.getDefault().getLanguage().equals("it")){
-                                indCaption="<b>Indicatore " + idInd + ": " + indicators.get(0).getDescriptionItalian();
+                                indCaption="<b>Indicatore " + idInd + ": " + indicators.get(idInd-1).getDescriptionItalian()+"<br> <i>Richiede un piano di miglioramento: <b>";
+                                if(indicatorRegs.get(idInd-1).getRequiresImprovementPlan()==1){
+                                    indCaption+="SÌ</b></i>";
+                                }else{
+                                    indCaption+="NO</b></i>";
+                                }
                             }else if(Locale.getDefault().getLanguage().equals("pt")){
-                                indCaption="<b>Indicador " + idInd + ": " + indicators.get(0).getDescriptionPortuguese();
+                                indCaption="<b>Indicador " + idInd + ": " + indicators.get(idInd-1).getDescriptionPortuguese()+"<br> <i>Requer um plano de melhoria: <b>";
+                                if(indicatorRegs.get(idInd-1).getRequiresImprovementPlan()==1){
+                                    indCaption+="SIM</b></i>";
+                                }else{
+                                    indCaption+="NÃO</b></i>";
+                                }
                             }else{
-                                indCaption="<b>Indicator " + idInd + ": " + indicators.get(0).getDescriptionEnglish();
+                                indCaption="<b>Indicator " + idInd + ": " + indicators.get(idInd-1).getDescriptionEnglish()+"<br> <i>Requires improvement plan: <b>";
+                                if(indicatorRegs.get(idInd-1).getRequiresImprovementPlan()==1){
+                                    indCaption+="YES</b></i>";
+                                }else{
+                                    indCaption+="NO</b></i>";
+                                }
                             }
                             indicatorCaption.setText(Html.fromHtml(indCaption,0));
                             dialog.setView(view);
@@ -444,21 +494,21 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
                             String msg="<i>";
                             boolean isMiradas=FieldChecker.isAMiradasUser(Session.getInstance().getUser());
                             if(Locale.getDefault().getLanguage().equals("es")){
-                                msg+="Aún no se ha evaluado el indicador <b>"+idInd+"</b>.";
+                                msg+="Aún no se ha evaluado el indicador <b>"+idInd+"</b>. ";
                                 if(isMiradas){
                                     msg+="Por favor, continúe con la evaluación de indicadores para evaluar este indicador.";
                                 }else{
                                     msg+="Por favor, espere a que se haya evaluado este indicador.";
                                 }
                             }else if(Locale.getDefault().getLanguage().equals("fr")){
-                                msg+="L'indicateur <b>"+idInd+"</b> n'a pas encore été évalué.";
+                                msg+="L'indicateur <b>"+idInd+"</b> n'a pas encore été évalué. ";
                                 if(isMiradas){
                                     msg+="Veuillez continuer l'évaluation des indicateurs pour évaluer cet indicateur.";
                                 }else{
                                     msg+="Veuillez attendre que cet indicateur soit évalué.";
                                 }
                             }else if(Locale.getDefault().getLanguage().equals("eu")){
-                                msg+="Oraindik ez da <b>"+idInd+"</b>. adierazlea ebaluatu";
+                                msg+="Oraindik ez da <b>"+idInd+"</b>. adierazlea ebaluatu. ";
                                 if(isMiradas){
                                     msg+="Mesedez, jarraitu adierazleen ebaluazioarekin adierazle hau ebaluatzeko.";
                                 }else{
@@ -472,42 +522,42 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
                                     msg+="Si us plau, esperi que s'hagi avaluat aquest indicador.";
                                 }
                             }else if(Locale.getDefault().getLanguage().equals("nl")){
-                                msg+="De indicator <b>"+idInd+"</b> is nog niet geëvalueerd.";
+                                msg+="De indicator <b>"+idInd+"</b> is nog niet geëvalueerd. ";
                                 if(isMiradas){
                                     msg+="Ga alstublieft door met de evaluatie van de indicatoren om deze indicator te evalueren.";
                                 }else{
                                     msg+="Wacht alstublieft totdat deze indicator is geëvalueerd.";
                                 }
                             }else if(Locale.getDefault().getLanguage().equals("gl")){
-                                msg+="Aínda non se avaliou o indicador <b>"+idInd+"</b>.";
+                                msg+="Aínda non se avaliou o indicador <b>"+idInd+"</b>. ";
                                 if(isMiradas){
                                     msg+="Por favor, continúe coa avaliación de indicadores para avaliar este indicador.";
                                 }else{
                                     msg+="Por favor, agarde a que se avalíe este indicador.";
                                 }
                             }else if(Locale.getDefault().getLanguage().equals("de")){
-                                msg+="Der Indikator <b>"+idInd+"</b> wurde noch nicht bewertet.";
+                                msg+="Der Indikator <b>"+idInd+"</b> wurde noch nicht bewertet. ";
                                 if(isMiradas){
                                     msg+="Bitte setzen Sie die Bewertung der Indikatoren fort, um diesen Indikator zu bewerten.";
                                 }else{
                                     msg+="Bitte warten Sie, bis dieser Indikator bewertet wurde.";
                                 }
                             }else if(Locale.getDefault().getLanguage().equals("it")){
-                                msg+="L'indicatore <b>"+idInd+"</b> non è stato ancora valutato.";
+                                msg+="L'indicatore <b>"+idInd+"</b> non è stato ancora valutato. ";
                                 if(isMiradas){
                                     msg+="Per favore, continui con la valutazione degli indicatori per valutare questo indicatore.";
                                 }else{
                                     msg+="Per favore, aspetti che questo indicatore sia stato valutato.";
                                 }
                             }else if(Locale.getDefault().getLanguage().equals("pt")){
-                                msg+="O indicador <b>"+idInd+"</b> ainda não foi avaliado.";
+                                msg+="O indicador <b>"+idInd+"</b> ainda não foi avaliado. ";
                                 if(isMiradas){
                                     msg+="Por favor, continue com a avaliação dos indicadores para avaliar este indicador.";
                                 }else{
                                     msg+="Por favor, espere até que este indicador tenha sido avaliado.";
                                 }
                             }else{
-                                msg+="The indicator <b>"+idInd+"</b> has not yet been evaluated.";
+                                msg+="The indicator <b>"+idInd+"</b> has not yet been evaluated. ";
                                 if(isMiradas){
                                     msg+="Please continue with the evaluation of indicators to evaluate this indicator.";
                                 }else{
@@ -1898,6 +1948,8 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if(keyCode==event.KEYCODE_BACK){
+            Session.getInstance().setCurrEvaluation(null);
+            Session.getInstance().setCurrRegs(null,null);
             Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
             startActivity(intent);
         }

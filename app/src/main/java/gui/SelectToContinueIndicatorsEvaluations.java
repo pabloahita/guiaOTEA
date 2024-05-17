@@ -63,9 +63,11 @@ public class SelectToContinueIndicatorsEvaluations extends AppCompatActivity {
 
         CardView final_background=findViewById(R.id.cardView2);
 
+        organizations= new ArrayList<>();
+
         final_background.setVisibility(View.GONE);
 
-        organizations= Session.getEvaluatedOrganizations();
+        organizations.addAll(Session.getEvaluatedOrganizations());
 
         if(!organizations.isEmpty()){
             Organization aux=new Organization(-1,"-","-",getString(R.string.evaluated_org),-1,"-","-","-","-","-","-","-","-","-","-","-","-","-");
@@ -81,7 +83,8 @@ public class SelectToContinueIndicatorsEvaluations extends AppCompatActivity {
             Spinner spinnerIndicatorsEvaluationAux=findViewById(R.id.spinner_select_ind_eval_aux);
 
             List<Center> centerAuxList=new ArrayList<>();
-            centers.add(0,new Center(-1,"-","-",-1,"Center of the organization or service","Centro de la organización o servicio","Centre de l'organisation ou du service","Erakundearen edo zerbitzuaren zentroa","Centre de l'organització o servei","Centrum van de organisatie of dienst","Centro da organización ou servizo","Center der Organisation oder des Dienstes","Centro dell'organizzazione o del servizio","Centro da organização ou serviço",-1,"-","-1","-"));
+
+            centerAuxList.add(0,new Center(-1,"-","-",-1,"Center of the organization or service","Centro de la organización o servicio","Centre de l'organisation ou du service","Erakundearen edo zerbitzuaren zentroa","Centre de l'organització o servei","Centrum van de organisatie of dienst","Centro da organización ou servizo","Center der Organisation oder des Dienstes","Centro dell'organizzazione o del servizio","Centro da organização ou serviço",-1,"-","-1","-"));
 
 
             List<EvaluatorTeam> evaluatorTeamAuxList=new ArrayList<>();

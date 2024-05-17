@@ -61,10 +61,9 @@ public class SelectToSeeRealizedIndicatorsEvaluations extends AppCompatActivity 
 
         boolean isAMiradasUser=FieldChecker.isAMiradasUser(Session.getInstance().getUser());
 
+        organizations=new ArrayList<>();
         if(isAMiradasUser) {
-            organizations = Session.getEvaluatedOrganizations();
-        }else{
-            organizations=new ArrayList<>();
+            organizations.addAll(Session.getEvaluatedOrganizations());
         }
 
         if(!isAMiradasUser || !organizations.isEmpty()){

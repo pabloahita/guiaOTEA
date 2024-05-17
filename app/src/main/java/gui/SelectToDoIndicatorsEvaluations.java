@@ -78,7 +78,8 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
         base.setVisibility(View.VISIBLE);
         final_background.setVisibility(View.GONE);
 
-        organizations= Session.getEvaluatedOrganizations();
+        organizations= new ArrayList<>();
+        organizations.addAll(Session.getEvaluatedOrganizations());
         List<String> evaluationTypes=new LinkedList<String>();
         evaluationTypes.add(getString(R.string.eval_type));
         evaluationTypes.add(getString(R.string.complete));
