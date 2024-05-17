@@ -168,6 +168,8 @@ namespace OTEAServer.Controllers
                 repository.Load(x => x.From(typeof(RuleIndicatorInProcess).Assembly));
                 repository.Load(x => x.From(typeof(RuleIndicatorInStart).Assembly));
                 repository.Load(x => x.From(typeof(RuleIndicatorReached).Assembly));
+                repository.Load(x => x.From(typeof(RuleRequiresImprovementPlan).Assembly));
+                repository.Load(x => x.From(typeof(RuleDoesntRequireImprovementPlan).Assembly));
 
                 var factory = repository.Compile();
                 var session = factory.CreateSession();
@@ -213,6 +215,7 @@ namespace OTEAServer.Controllers
                         aux.observationsPortuguese = reg.observationsPortuguese;
                         aux.numEvidencesMarked = reg.numEvidencesMarked;
                         aux.status = reg.status;
+                        aux.requiresImprovementPlan = reg.requiresImprovementPlan;
                     }
                     
                 }

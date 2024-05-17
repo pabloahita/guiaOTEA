@@ -115,6 +115,10 @@ public class IndicatorsEvaluationIndicatorReg implements Serializable {
     @SerializedName("status")
     public String status;
 
+    /**Boolean that shows if is mandatory an improvement plan*/
+    @SerializedName("requiresImprovementPlan")
+    public int requiresImprovementPlan;
+
     /**Class constructor
      *
      * @param evaluationDate - Evaluation date in timestamp
@@ -143,10 +147,11 @@ public class IndicatorsEvaluationIndicatorReg implements Serializable {
      * @param observationsPortuguese - Observations in Portuguese
      * @param numEvidenciesMarked - Number of marked evidences
      * @param status - Indicator status
+     * @param requiresImprovementPlan - Boolean that shows if is mandatory an improvement plan
      * */
 
     public IndicatorsEvaluationIndicatorReg(long evaluationDate, int idEvaluatedOrganization, String orgTypeEvaluated, int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator, String illness, int idCenter, int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion, String evaluationType, String observationsSpanish, String observationsEnglish, String observationsFrench, String observationsBasque, String observationsCatalan,
-                                            String observationsDutch, String observationsGalician, String observationsGerman, String observationsItalian, String observationsPortuguese, int numEvidenciesMarked, String status) {
+                                            String observationsDutch, String observationsGalician, String observationsGerman, String observationsItalian, String observationsPortuguese, int numEvidenciesMarked, String status, int requiresImprovementPlan) {
         setEvaluationDate(evaluationDate);
         setIdEvaluatorTeam(idEvaluatorTeam);
         setIdEvaluatorOrganization(idEvaluatorOrganization);
@@ -174,6 +179,7 @@ public class IndicatorsEvaluationIndicatorReg implements Serializable {
         setObservationsSpanish(observationsSpanish);
         setNumEvidencesMarked(numEvidenciesMarked);
         setStatus(status);
+        setRequiresImprovementPlan(requiresImprovementPlan);
     }
 
     /**
@@ -667,5 +673,24 @@ public class IndicatorsEvaluationIndicatorReg implements Serializable {
      * */
     public void setStatus(String status) {
         this.status = status;
+    }
+
+
+    /**
+     * Boolean that shows if is mandatory an improvement plan
+     *
+     * @return 0 if false, 1 if true
+     * */
+    public int getRequiresImprovementPlan() {
+        return requiresImprovementPlan;
+    }
+
+    /**
+     * Method that sets the boolean that shows if is mandatory an improvement plan
+     *
+     * @param requiresImprovementPlan - Boolean that shows if is mandatory an improvement plan
+     * */
+    public void setRequiresImprovementPlan(int requiresImprovementPlan) {
+        this.requiresImprovementPlan = requiresImprovementPlan;
     }
 }

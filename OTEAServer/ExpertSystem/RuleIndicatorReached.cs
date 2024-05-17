@@ -15,7 +15,12 @@ namespace OTEAServer.ExpertSystem
             .Exists<IndicatorsEvaluationIndicatorReg>(reg => reg.numEvidencesMarked == 4);
 
             Then()
-                .Do(_ => reg.SetStatus("REACHED"));
+                .Do(ctx => SetReached(reg));
+        }
+
+        private static void SetReached(IndicatorsEvaluationIndicatorReg reg)
+        {
+            reg.status = "REACHED";
         }
 
     }

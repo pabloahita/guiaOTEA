@@ -16,7 +16,12 @@ namespace OTEAServer.ExpertSystem
             .Exists<IndicatorsEvaluationIndicatorReg>(reg => reg.numEvidencesMarked == 0 || reg.numEvidencesMarked == 1);
 
             Then()
-                .Do(_ => reg.SetStatus("IN_START"));
+                .Do(ctx => SetInStart(reg));
+        }
+
+        private static void SetInStart(IndicatorsEvaluationIndicatorReg reg)
+        {
+            reg.status = "IN_START";
         }
 
 

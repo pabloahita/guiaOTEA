@@ -36,7 +36,7 @@ namespace OTEAServer.Models
         /// <param name="status">Indicator status</param>
         public IndicatorsEvaluationIndicatorReg(long evaluationDate, int idEvaluatedOrganization, string orgTypeEvaluated, int idEvaluatorTeam, int idEvaluatorOrganization, string orgTypeEvaluator, string illness, int idCenter, int idIndicator, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion, string evaluationType,
             string observationsSpanish, string observationsEnglish, string observationsFrench, string observationsBasque, string observationsCatalan,
-            string observationsDutch, string observationsGalician, string observationsGerman, string observationsItalian, string observationsPortuguese, int numEvidencesMarked, string status)
+            string observationsDutch, string observationsGalician, string observationsGerman, string observationsItalian, string observationsPortuguese, int numEvidencesMarked, string status, int requiresImprovementPlan)
         {
             this.evaluationDate = evaluationDate;
             this.idEvaluatorTeam = idEvaluatorTeam;
@@ -64,6 +64,7 @@ namespace OTEAServer.Models
             this.observationsPortuguese = observationsPortuguese;
             this.numEvidencesMarked = numEvidencesMarked;
             this.status = status;
+            this.requiresImprovementPlan = requiresImprovementPlan;
         }
 
 
@@ -224,10 +225,12 @@ namespace OTEAServer.Models
         [JsonPropertyName("status")]
         public string status { get; set; }
 
-        internal void SetStatus(string status)
-        {
-            this.status=status;
-        }
+        /// <summary>
+        /// Label that shows if an improvement plan is required
+        /// </summary>
+        [JsonPropertyName("requiresImprovementPlan")]
+        public int requiresImprovementPlan { get; set; }
+
     }
 }
 
