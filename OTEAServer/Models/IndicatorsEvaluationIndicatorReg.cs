@@ -19,7 +19,6 @@ namespace OTEAServer.Models
         /// <param name="idSubAmbit">First level division of the ambit</param>
         /// <param name="idAmbit">Ambit identifier</param>
         /// <param name="idIndicator">Indicator identifier</param>
-        /// <param name="indicatorType">Indicator type</param>
         /// <param name="indicatorVersion">Indicator version</param>
         /// <param name="evaluationType">Evaluation type</param>
         /// <param name="observationsSpanish">Observations in English</param>

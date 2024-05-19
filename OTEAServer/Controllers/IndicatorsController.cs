@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Misc;
 using OTEAServer.Models;
 using System.Security.Policy;
+using System.Text.Json;
 
 namespace OTEAServer.Controllers
 {
@@ -38,11 +39,126 @@ namespace OTEAServer.Controllers
         {
             try
             {
+                List<JsonDocument> allData=new List<JsonDocument>();
                 var indicators = _context.Indicators
                     .Where(i => i.evaluationType==evaluationType && i.isActive == 1)
                     .OrderBy(i => i.idIndicator)
                     .ToList();
-                return Ok(indicators);
+                foreach (var indicator in indicators)
+                {                    
+                    String ind= "{\"idIndicator\":\"" + indicator.idIndicator + "\"," +
+                        "\"indicatorType\":\"" + indicator.indicatorType + "\"," +
+                        "\"idSubSubAmbit\":\"" + indicator.idSubSubAmbit + "\"," +
+                        "\"idSubAmbit\":\"" + indicator.idSubAmbit + "\"," +
+                        "\"idAmbit\":\"" + indicator.idAmbit + "\"," +
+                        "\"descriptionSpanish\":\"" + indicator.descriptionSpanish + "\"," +
+                        "\"descriptionEnglish\":\"" + indicator.descriptionEnglish + "\"," +
+                        "\"descriptionFrench\":\"" + indicator.descriptionFrench + "\"," +
+                        "\"descriptionBasque\":" + indicator.descriptionBasque + "," +
+                        "\"descriptionCatalan\":\"" + indicator.descriptionCatalan + "\"," +
+                        "\"descriptionDutch\":\"" + indicator.descriptionDutch + "\"," +
+                        "\"descriptionGalician\":\"" + indicator.descriptionGalician + "\"," +
+                        "\"descriptionGerman\":\"" + indicator.descriptionGerman + "\"," +
+                        "\"descriptionItalian\":\"" + indicator.descriptionItalian + "\"," +
+                        "\"descriptionPortuguese\":\"" + indicator.descriptionPortuguese + "\"," +
+                        "\"indicatorVersion\":\"" + indicator.indicatorVersion + "\"," +
+                        "\"isActive\":\"" + indicator.indicatorVersion + "\"," +
+                        "\"evaluationType\":\"" + indicator.evaluationType + "\"}";
+                    allData.Add(JsonDocument.Parse(ind));
+                }
+
+                int tamEvidences = 0;
+           
+                if (evaluationType == "COMPLETE")
+                {
+                    var evidences = _context.Evidences
+                        .Where(e => e.evaluationType == evaluationType)
+                        .OrderBy(e => e.idIndicator)
+                        .ThenBy(e => e.idEvidence)
+                        .ToList();
+                    foreach (var evidence in evidences)
+                    {
+                        String ev = "{\"idEvidence\":\"" + evidence.idEvidence + "\"," +
+                                "\"idIndicator\":\"" + evidence.idIndicator + "\"," +
+                                "\"indicatorType\":\"" + evidence.indicatorType + "\"," +
+                                "\"idSubSubAmbit\":\"" + evidence.idSubSubAmbit + "\"," +
+                                "\"idSubAmbit\":\"" + evidence.idSubAmbit + "\"," +
+                                "\"idAmbit\":\"" + evidence.idAmbit + "\"," +
+                                "\"descriptionSpanish\":\"" + evidence.descriptionSpanish + "\"," +
+                                "\"descriptionEnglish\":\"" + evidence.descriptionEnglish + "\"," +
+                                "\"descriptionFrench\":\"" + evidence.descriptionFrench + "\"," +
+                                "\"descriptionBasque\":" + evidence.descriptionBasque + "," +
+                                "\"descriptionCatalan\":\"" + evidence.descriptionCatalan + "\"," +
+                                "\"descriptionDutch\":\"" + evidence.descriptionDutch + "\"," +
+                                "\"descriptionGalician\":\"" + evidence.descriptionGalician + "\"," +
+                                "\"descriptionGerman\":\"" + evidence.descriptionGerman + "\"," +
+                                "\"descriptionItalian\":\"" + evidence.descriptionItalian + "\"," +
+                                "\"descriptionPortuguese\":\"" + evidence.descriptionPortuguese + "\"," +
+                                "\"evidenceValue\":\"" + evidence.evidenceValue + "\"," +
+                                "\"indicatorVersion\":\"" + evidence.indicatorVersion + "\"," +
+                                "\"evaluationType\":\"" + evidence.evaluationType + "\"}";
+                        allData.Add(JsonDocument.Parse(ev));
+                    }
+                    tamEvidences = evidences.Count;
+                }
+
+                var ambits = _context.Ambits.ToList();
+                foreach (var ambit in ambits) {
+                    String amb= "{\"idAmbit\":\"" + ambit.idAmbit + "\"," +
+                            "\"descriptionSpanish\":\"" + ambit.descriptionSpanish + "\"," +
+                            "\"descriptionEnglish\":\"" + ambit.descriptionEnglish + "\"," +
+                            "\"descriptionFrench\":\"" + ambit.descriptionFrench + "\"," +
+                            "\"descriptionBasque\":" + ambit.descriptionBasque + "," +
+                            "\"descriptionCatalan\":\"" + ambit.descriptionCatalan + "\"," +
+                            "\"descriptionDutch\":\"" + ambit.descriptionDutch + "\"," +
+                            "\"descriptionGalician\":\"" + ambit.descriptionGalician + "\"," +
+                            "\"descriptionGerman\":\"" + ambit.descriptionGerman + "\"," +
+                            "\"descriptionItalian\":\"" + ambit.descriptionItalian + "\"," +
+                            "\"descriptionPortuguese\":\"" + ambit.descriptionPortuguese + "\"}";
+                    allData.Add(JsonDocument.Parse(amb));
+                }
+
+                var subAmbits = _context.SubAmbits.ToList();
+                foreach (var subAmbit in subAmbits) {
+                    String subAmb = "{\"idSubAmbit\":\"" + subAmbit.idSubAmbit + "\"," +
+                                "\"idAmbit\":\"" + subAmbit.idAmbit + "\"," +
+                                "\"descriptionSpanish\":\"" + subAmbit.descriptionSpanish + "\"," +
+                                "\"descriptionEnglish\":\"" + subAmbit.descriptionEnglish + "\"," +
+                                "\"descriptionFrench\":\"" + subAmbit.descriptionFrench + "\"," +
+                                "\"descriptionBasque\":" + subAmbit.descriptionBasque + "," +
+                                "\"descriptionCatalan\":\"" + subAmbit.descriptionCatalan + "\"," +
+                                "\"descriptionDutch\":\"" + subAmbit.descriptionDutch + "\"," +
+                                "\"descriptionGalician\":\"" + subAmbit.descriptionGalician + "\"," +
+                                "\"descriptionGerman\":\"" + subAmbit.descriptionGerman + "\"," +
+                                "\"descriptionItalian\":\"" + subAmbit.descriptionItalian + "\"," +
+                                "\"descriptionPortuguese\":\"" + subAmbit.descriptionPortuguese + "\"}";
+                    allData.Add(JsonDocument.Parse(subAmb));
+                }
+
+                var subSubAmbits = _context.SubSubAmbits.ToList();
+                foreach (var subSubAmbit in subSubAmbits) {
+                    String subSubAmb = "{\"idSubAmbit\":\"" + subSubAmbit.idSubAmbit + "\"," +
+                                "\"idAmbit\":\"" + subSubAmbit.idAmbit + "\"," +
+                                "\"descriptionSpanish\":\"" + subSubAmbit.descriptionSpanish + "\"," +
+                                "\"descriptionEnglish\":\"" + subSubAmbit.descriptionEnglish + "\"," +
+                                "\"descriptionFrench\":\"" + subSubAmbit.descriptionFrench + "\"," +
+                                "\"descriptionBasque\":" + subSubAmbit.descriptionBasque + "," +
+                                "\"descriptionCatalan\":\"" + subSubAmbit.descriptionCatalan + "\"," +
+                                "\"descriptionDutch\":\"" + subSubAmbit.descriptionDutch + "\"," +
+                                "\"descriptionGalician\":\"" + subSubAmbit.descriptionGalician + "\"," +
+                                "\"descriptionGerman\":\"" + subSubAmbit.descriptionGerman + "\"," +
+                                "\"descriptionItalian\":\"" + subSubAmbit.descriptionItalian + "\"," +
+                                "\"descriptionPortuguese\":\"" + subSubAmbit.descriptionPortuguese + "\"}";
+                    allData.Add(JsonDocument.Parse(subSubAmb));
+                }
+                String tams = "{\"numIndicators\":\"" + indicators.Count + "\",";
+                if (evaluationType == "COMPLETE") {
+                    tams += "\"numEvidences\":\"" + tamEvidences + "\",";
+                }
+                tams += "\"numAmbits\":\"" + ambits.Count + "\"," +
+                        "\"numSubAmbits\":\"" + subAmbits.Count + "\"," +
+                        "\"numSubSubAmbits\":\"" + subSubAmbits.Count + "\"}";
+                return Ok(allData);
             }
             catch (Exception ex)
             {

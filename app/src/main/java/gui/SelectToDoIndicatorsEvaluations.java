@@ -322,9 +322,6 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
                                         0, evaluationType[0],""));
 
 
-                                Session.getInstance().GetAllIndicatorsRegsByIndicatorsEvaluation(Session.getInstance().getCurrEvaluation());
-                                Session.getInstance().GetAllEvidencesRegsByIndicatorsEvaluation(Session.getInstance().getCurrEvaluation());
-
                                 Session.getInstance().obtainIndicatorsFromDataBase(evaluationType[0]);
                                 startActivity(intent);
                             }

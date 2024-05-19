@@ -145,13 +145,13 @@ public class IndicatorsEvaluationIndicatorReg implements Serializable {
      * @param observationsGerman - Observations in German
      * @param observationsItalian - Observations in Italian
      * @param observationsPortuguese - Observations in Portuguese
-     * @param numEvidenciesMarked - Number of marked evidences
+     * @param numEvidencesMarked - Number of marked evidences
      * @param status - Indicator status
      * @param requiresImprovementPlan - Boolean that shows if is mandatory an improvement plan
      * */
 
-    public IndicatorsEvaluationIndicatorReg(long evaluationDate, int idEvaluatedOrganization, String orgTypeEvaluated, int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator, String illness, int idCenter, int idIndicator, String indicatorType, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion, String evaluationType, String observationsSpanish, String observationsEnglish, String observationsFrench, String observationsBasque, String observationsCatalan,
-                                            String observationsDutch, String observationsGalician, String observationsGerman, String observationsItalian, String observationsPortuguese, int numEvidenciesMarked, String status, int requiresImprovementPlan) {
+    public IndicatorsEvaluationIndicatorReg(long evaluationDate, int idEvaluatedOrganization, String orgTypeEvaluated, int idEvaluatorTeam, int idEvaluatorOrganization, String orgTypeEvaluator, String illness, int idCenter, int idIndicator, int idSubSubAmbit, int idSubAmbit, int idAmbit, int indicatorVersion, String evaluationType, String observationsSpanish, String observationsEnglish, String observationsFrench, String observationsBasque, String observationsCatalan,
+                                            String observationsDutch, String observationsGalician, String observationsGerman, String observationsItalian, String observationsPortuguese, int numEvidencesMarked, String status, int requiresImprovementPlan) {
         setEvaluationDate(evaluationDate);
         setIdEvaluatorTeam(idEvaluatorTeam);
         setIdEvaluatorOrganization(idEvaluatorOrganization);
@@ -165,7 +165,6 @@ public class IndicatorsEvaluationIndicatorReg implements Serializable {
         setIdAmbit(idAmbit);
         setIdIndicator(idIndicator);
         setIndicatorVersion(indicatorVersion);
-        setIndicatorType(indicatorType);
         setEvaluationType(evaluationType);
         setObservationsBasque(observationsBasque);
         setObservationsCatalan(observationsCatalan);
@@ -177,7 +176,7 @@ public class IndicatorsEvaluationIndicatorReg implements Serializable {
         setObservationsItalian(observationsItalian);
         setObservationsPortuguese(observationsPortuguese);
         setObservationsSpanish(observationsSpanish);
-        setNumEvidencesMarked(numEvidenciesMarked);
+        setNumEvidencesMarked(numEvidencesMarked);
         setStatus(status);
         setRequiresImprovementPlan(requiresImprovementPlan);
     }
@@ -422,24 +421,6 @@ public class IndicatorsEvaluationIndicatorReg implements Serializable {
         this.idAmbit = idAmbit;
     }
 
-    /**
-     * Method that obtains the indicator type
-     *
-     * @return Indicator type
-     * */
-
-    public String getIndicatorType() {
-        return indicatorType;
-    }
-
-    /**
-     * Method that sets the new indicator type
-     *
-     * @param indicatorType - Indicator type
-     * */
-    public void setIndicatorType(String indicatorType) {
-        this.indicatorType = indicatorType;
-    }
 
     /**
      * Method that obtains the observations in English

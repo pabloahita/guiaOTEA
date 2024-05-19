@@ -1,5 +1,7 @@
 package otea.connection.api;
 
+import com.google.gson.JsonObject;
+
 import java.util.List;
 
 import cli.indicators.IndicatorsEvaluation;
@@ -23,6 +25,10 @@ public interface IndicatorsEvaluationsApi {
     /**Gets all indicators evaluations*/
     @GET("IndicatorsEvaluations/all")
     Call<List<IndicatorsEvaluation>> GetAll();
+
+    /**Gets all indicators evaluations*/
+    @GET("IndicatorsEvaluations/allRegs")
+    Call<List<JsonObject>> GetRegsByIndicatorsEvaluation(@Body IndicatorsEvaluation indicatorsEvaluation);
 
     /**
      * Gets all indicators evaluations of an evaluator team

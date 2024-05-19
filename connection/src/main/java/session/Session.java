@@ -455,12 +455,78 @@ public class Session {
     }
 
     public void obtainIndicatorsFromDataBase(String evaluationType){
-        if(indicators==null) {
-            ambits = AmbitsController.GetAll();
-            subAmbits= SubAmbitsController.GetAll();
-            subSubAmbits = SubSubAmbitsController.GetAll();
-            indicators = IndicatorsController.GetAll(evaluationType);
-            evidences=EvidencesController.GetAll(evaluationType);
+        if(indicators==null || !indicators.get(0).getEvaluationType().equals(evaluationType)) {
+            ambits=new ArrayList<>();
+            subAmbits=new ArrayList<>();
+            subSubAmbits=new ArrayList<>();
+            indicators=new ArrayList<>();
+            evidences=new ArrayList<>();
+            List<JsonObject> allData=IndicatorsController.GetAll(evaluationType);
+            JsonObject tams=allData.get(allData.size()-1);
+            int numIndicators=tams.getAsJsonPrimitive("numIndicators").getAsInt();
+            int numEvidences=-1;
+            if(evaluationType.equals("COMPLETE")){
+                numEvidences=tams.getAsJsonPrimitive("numEvidences").getAsInt();
+            }
+            int numAmbits=tams.getAsJsonPrimitive("numAmbits").getAsInt();
+            int numSubAmbits=tams.getAsJsonPrimitive("numSubAmbits").getAsInt();
+            int numSubSubAmbits=tams.getAsJsonPrimitive("numSubSubAmbits").getAsInt();
+            List<JsonObject> indicatorsJson=allData.subList(0,numIndicators);
+            for(JsonObject ind:indicatorsJson){
+                indicators.add(new Indicator(ind.getAsJsonPrimitive("idIndicator").getAsInt(), ind.getAsJsonPrimitive("indicatorType").getAsString()
+                        , ind.getAsJsonPrimitive("idSubSubAmbit").getAsInt(), ind.getAsJsonPrimitive("idSubAmbit").getAsInt(), ind.getAsJsonPrimitive("idAmbit").getAsInt(),
+                        ind.getAsJsonPrimitive("descriptionEnglish").getAsString(), ind.getAsJsonPrimitive("descriptionSpanish").getAsString(), ind.getAsJsonPrimitive("descriptionFrench").getAsString(),
+                        ind.getAsJsonPrimitive("descriptionBasque").getAsString(), ind.getAsJsonPrimitive("descriptionCatalan").getAsString(), ind.getAsJsonPrimitive("descriptionDutch").getAsString(),
+                        ind.getAsJsonPrimitive("descriptionGalician").getAsString(), ind.getAsJsonPrimitive("descriptionGerman").getAsString(),
+                        ind.getAsJsonPrimitive("descriptionItalian").getAsString(), ind.getAsJsonPrimitive("descriptionPortuguese").getAsString(), ind.getAsJsonPrimitive("indicatorPriority").getAsString(),
+                        ind.getAsJsonPrimitive("indicatorVersion").getAsInt(), ind.getAsJsonPrimitive("isActive").getAsInt(), evaluationType));
+            }
+            List<JsonObject> evidencesJson;
+            List<JsonObject> ambitsJson;
+            List<JsonObject> subAmbitsJson;
+            List<JsonObject> subSubAmbitsJson;
+            if(evaluationType.equals("COMPLETE")){
+                evidencesJson=allData.subList(numIndicators,numIndicators+numEvidences);
+                ambitsJson=allData.subList(numIndicators+numEvidences,numIndicators+numEvidences+numAmbits);
+                subAmbitsJson=allData.subList(numIndicators+numEvidences+numAmbits,numIndicators+numEvidences+numAmbits+numSubAmbits);
+                subSubAmbitsJson=allData.subList(numIndicators+numEvidences+numAmbits+numSubAmbits,numIndicators+numEvidences+numAmbits+numSubAmbits+numSubSubAmbits);
+
+                for(JsonObject ev:evidencesJson){
+                    evidences.add(new Evidence(ev.getAsJsonPrimitive("idEvidence").getAsInt(),ev.getAsJsonPrimitive("idIndicator").getAsInt(), ev.getAsJsonPrimitive("indicatorType").getAsString(),
+                            ev.getAsJsonPrimitive("idSubSubAmbit").getAsInt(), ev.getAsJsonPrimitive("idSubAmbit").getAsInt(), ev.getAsJsonPrimitive("idAmbit").getAsInt(),
+                            ev.getAsJsonPrimitive("descriptionEnglish").getAsString(), ev.getAsJsonPrimitive("descriptionSpanish").getAsString(), ev.getAsJsonPrimitive("descriptionFrench").getAsString(),
+                            ev.getAsJsonPrimitive("descriptionBasque").getAsString(), ev.getAsJsonPrimitive("descriptionCatalan").getAsString(), ev.getAsJsonPrimitive("descriptionDutch").getAsString(),
+                            ev.getAsJsonPrimitive("descriptionGalician").getAsString(), ev.getAsJsonPrimitive("descriptionGerman").getAsString(),
+                            ev.getAsJsonPrimitive("descriptionItalian").getAsString(), ev.getAsJsonPrimitive("descriptionPortuguese").getAsString(),
+                            ev.getAsJsonPrimitive("evidenceValue").getAsInt(), ev.getAsJsonPrimitive("indicatorVersion").getAsInt(), evaluationType));
+                }
+            }
+            else{
+                ambitsJson=allData.subList(numIndicators,numIndicators+numAmbits);
+                subAmbitsJson=allData.subList(numIndicators+numAmbits,numIndicators+numAmbits+numSubAmbits);
+                subSubAmbitsJson=allData.subList(numIndicators+numAmbits+numSubAmbits,numIndicators+numAmbits+numSubAmbits+numSubSubAmbits);
+            }
+
+            for(JsonObject amb:ambitsJson){
+                ambits.add(new Ambit(amb.getAsJsonPrimitive("idAmbit").getAsInt(), amb.getAsJsonPrimitive("descriptionEnglish").getAsString(), amb.getAsJsonPrimitive("descriptionSpanish").getAsString(), amb.getAsJsonPrimitive("descriptionFrench").getAsString(),
+                        amb.getAsJsonPrimitive("descriptionBasque").getAsString(), amb.getAsJsonPrimitive("descriptionCatalan").getAsString(), amb.getAsJsonPrimitive("descriptionDutch").getAsString(),
+                        amb.getAsJsonPrimitive("descriptionGalician").getAsString(), amb.getAsJsonPrimitive("descriptionGerman").getAsString(),
+                        amb.getAsJsonPrimitive("descriptionItalian").getAsString(), amb.getAsJsonPrimitive("descriptionPortuguese").getAsString()));
+            }
+
+            for(JsonObject subAmb:subAmbitsJson){
+                subAmbits.add(new SubAmbit(subAmb.getAsJsonPrimitive("idSubAmbit").getAsInt(), subAmb.getAsJsonPrimitive("idAmbit").getAsInt(), subAmb.getAsJsonPrimitive("descriptionEnglish").getAsString(), subAmb.getAsJsonPrimitive("descriptionSpanish").getAsString(), subAmb.getAsJsonPrimitive("descriptionFrench").getAsString(),
+                        subAmb.getAsJsonPrimitive("descriptionBasque").getAsString(), subAmb.getAsJsonPrimitive("descriptionCatalan").getAsString(), subAmb.getAsJsonPrimitive("descriptionDutch").getAsString(),
+                        subAmb.getAsJsonPrimitive("descriptionGalician").getAsString(), subAmb.getAsJsonPrimitive("descriptionGerman").getAsString(),
+                        subAmb.getAsJsonPrimitive("descriptionItalian").getAsString(), subAmb.getAsJsonPrimitive("descriptionPortuguese").getAsString()));
+            }
+
+            for(JsonObject subSubAmb:subSubAmbitsJson){
+                subSubAmbits.add(new SubSubAmbit(subSubAmb.getAsJsonPrimitive("idSubSubAmbit").getAsInt(), subSubAmb.getAsJsonPrimitive("idSubAmbit").getAsInt(), subSubAmb.getAsJsonPrimitive("idAmbit").getAsInt(), subSubAmb.getAsJsonPrimitive("descriptionEnglish").getAsString(), subSubAmb.getAsJsonPrimitive("descriptionSpanish").getAsString(), subSubAmb.getAsJsonPrimitive("descriptionFrench").getAsString(),
+                        subSubAmb.getAsJsonPrimitive("descriptionBasque").getAsString(), subSubAmb.getAsJsonPrimitive("descriptionCatalan").getAsString(), subSubAmb.getAsJsonPrimitive("descriptionDutch").getAsString(),
+                        subSubAmb.getAsJsonPrimitive("descriptionGalician").getAsString(), subSubAmb.getAsJsonPrimitive("descriptionGerman").getAsString(),
+                        subSubAmb.getAsJsonPrimitive("descriptionItalian").getAsString(), subSubAmb.getAsJsonPrimitive("descriptionPortuguese").getAsString()));
+            }
         }
     }
 
@@ -545,10 +611,6 @@ public class Session {
                         && reg.getEvaluationType().equals(current_evaluation.getEvaluationType());
             }
         };
-        List<IndicatorsEvaluationEvidenceReg> aux=evidencesRegs.stream().filter(evidencesRegsOfThatIndicatorsEvaluationExist).collect(Collectors.toList());
-        if(aux.isEmpty()){
-            evidencesRegs.addAll(IndicatorsEvaluationEvidenceRegsController.GetAllByIndicatorsEvaluation(current_evaluation.getEvaluationDate(),current_evaluation.getIdEvaluatorTeam(),current_evaluation.getIdEvaluatorOrganization(),current_evaluation.getOrgTypeEvaluator(),current_evaluation.getIdEvaluatedOrganization(),current_evaluation.getOrgTypeEvaluated(),current_evaluation.getIllness(),current_evaluation.getIdCenter(),current_evaluation.getEvaluationType()));
-        }
         return evidencesRegs.stream().filter(evidencesRegsOfThatIndicatorsEvaluationExist).collect(Collectors.toList());
 
     }
@@ -572,10 +634,6 @@ public class Session {
                         && reg.getEvaluationType().equals(current_evaluation.getEvaluationType());
             }
         };
-        List<IndicatorsEvaluationIndicatorReg> aux=indicatorsRegs.stream().filter(indicatorsRegsOfThatIndicatorsEvaluationExist).collect(Collectors.toList());
-        if(aux.isEmpty()){
-            indicatorsRegs.addAll(IndicatorsEvaluationIndicatorRegsController.GetAllByIndicatorsEvaluation(current_evaluation.getEvaluationDate(),current_evaluation.getIdEvaluatorTeam(),current_evaluation.getIdEvaluatorOrganization(),current_evaluation.getOrgTypeEvaluator(),current_evaluation.getIdEvaluatedOrganization(),current_evaluation.getOrgTypeEvaluated(),current_evaluation.getIllness(),current_evaluation.getIdCenter(),current_evaluation.getEvaluationType()));
-        }
         return indicatorsRegs.stream().filter(indicatorsRegsOfThatIndicatorsEvaluationExist).collect(Collectors.toList());
 
     }
@@ -583,5 +641,70 @@ public class Session {
     public void setCurrRegs(List<IndicatorsEvaluationIndicatorReg> indicatorRegs, List<IndicatorsEvaluationEvidenceReg> evidenceRegs) {
         indicatorsRegs=indicatorRegs;
         evidencesRegs=evidenceRegs;
+    }
+
+    public void getRegsByIndicatorsEvaluation(IndicatorsEvaluation indicatorsEvaluation) {
+        List<JsonObject> regs=IndicatorsEvaluationsController.GetRegsByIndicatorsEvaluation(indicatorsEvaluation);
+        List<IndicatorsEvaluationIndicatorReg> indicatorsRegsList=new ArrayList<>();
+        List<IndicatorsEvaluationEvidenceReg> evidencesRegsList=new ArrayList<>();
+        List<JsonObject> indicatorsRegs;
+        if(indicatorsEvaluation.getEvaluationType().equals("COMPLETE")){
+            JsonObject tams=regs.get(regs.size()-1);
+            int numIndicatorsRegs=tams.getAsJsonPrimitive("numIndicatorsRegs").getAsInt();
+            int numEvidencesRegs=tams.getAsJsonPrimitive("numEvidencesRegs").getAsInt();
+            indicatorsRegs=regs.subList(0,numIndicatorsRegs);
+            List<JsonObject> evidencesRegs=regs.subList(numIndicatorsRegs,numEvidencesRegs+numIndicatorsRegs);
+            for(JsonObject reg: evidencesRegs){
+                int idSubSubAmbit=reg.getAsJsonPrimitive("idSubSubAmbit").getAsInt();
+                int idSubAmbit=reg.getAsJsonPrimitive("idSubAmbit").getAsInt();
+                int idAmbit=reg.getAsJsonPrimitive("idAmbit").getAsInt();
+                int idIndicator=reg.getAsJsonPrimitive("idIndicator").getAsInt();
+                String indicatorType=reg.getAsJsonPrimitive("indicatorType").getAsString();
+                int idEvidence=reg.getAsJsonPrimitive("idEvidence").getAsInt();
+                int indicatorVersion=reg.getAsJsonPrimitive("indicatorVersion").getAsInt();
+                int isMarked=reg.getAsJsonPrimitive("isMarked").getAsInt();
+                String observationsSpanish=reg.getAsJsonPrimitive("observationsSpanish").getAsString();
+                String observationsEnglish=reg.getAsJsonPrimitive("observationsEnglish").getAsString();
+                String observationsFrench=reg.getAsJsonPrimitive("observationsFrench").getAsString();
+                String observationsBasque=reg.getAsJsonPrimitive("observationsBasque").getAsString();
+                String observationsCatalan=reg.getAsJsonPrimitive("observationsCatalan").getAsString();
+                String observationsDutch=reg.getAsJsonPrimitive("observationsDutch").getAsString();
+                String observationsGalician=reg.getAsJsonPrimitive("observationsGalician").getAsString();
+                String observationsGerman=reg.getAsJsonPrimitive("observationsGerman").getAsString();
+                String observationsItalian=reg.getAsJsonPrimitive("observationsItalian").getAsString();
+                String observationsPortuguese=reg.getAsJsonPrimitive("observationsPortuguese").getAsString();
+                evidencesRegsList.add(new IndicatorsEvaluationEvidenceReg(indicatorsEvaluation.getEvaluationDate(), indicatorsEvaluation.getIdEvaluatedOrganization(), indicatorsEvaluation.getOrgTypeEvaluated(), indicatorsEvaluation.getIdEvaluatorTeam(), indicatorsEvaluation.getIdEvaluatorOrganization(), indicatorsEvaluation.getOrgTypeEvaluator(), indicatorsEvaluation.getIllness(), indicatorsEvaluation.getIdCenter(), idEvidence, idIndicator, indicatorType, idSubSubAmbit, idSubAmbit, idAmbit, indicatorVersion, isMarked, indicatorsEvaluation.getEvaluationType(),observationsSpanish, observationsEnglish, observationsFrench, observationsBasque, observationsCatalan,
+                        observationsDutch, observationsGalician, observationsGerman, observationsItalian, observationsPortuguese));
+            }
+
+        }
+        else {
+            indicatorsRegs = regs;
+        }
+        for(JsonObject reg: indicatorsRegs){
+            int idSubSubAmbit=reg.getAsJsonPrimitive("idSubSubAmbit").getAsInt();
+            int idSubAmbit=reg.getAsJsonPrimitive("idSubAmbit").getAsInt();
+            int idAmbit=reg.getAsJsonPrimitive("idAmbit").getAsInt();
+            int idIndicator=reg.getAsJsonPrimitive("idIndicator").getAsInt();
+            int indicatorVersion=reg.getAsJsonPrimitive("indicatorVersion").getAsInt();
+            String observationsSpanish=reg.getAsJsonPrimitive("observationsSpanish").getAsString();
+            String observationsEnglish=reg.getAsJsonPrimitive("observationsEnglish").getAsString();
+            String observationsFrench=reg.getAsJsonPrimitive("observationsFrench").getAsString();
+            String observationsBasque=reg.getAsJsonPrimitive("observationsBasque").getAsString();
+            String observationsCatalan=reg.getAsJsonPrimitive("observationsCatalan").getAsString();
+            String observationsDutch=reg.getAsJsonPrimitive("observationsDutch").getAsString();
+            String observationsGalician=reg.getAsJsonPrimitive("observationsGalician").getAsString();
+            String observationsGerman=reg.getAsJsonPrimitive("observationsGerman").getAsString();
+            String observationsItalian=reg.getAsJsonPrimitive("observationsItalian").getAsString();
+            String observationsPortuguese=reg.getAsJsonPrimitive("observationsPortuguese").getAsString();
+            int numEvidencesMarked=reg.getAsJsonPrimitive("numEvidencesMarked").getAsInt();
+            String status=reg.getAsJsonPrimitive("status").getAsString();
+            int requiresImprovementPlan=reg.getAsJsonPrimitive("requiresImprovementPlan").getAsInt();
+            indicatorsRegsList.add(new IndicatorsEvaluationIndicatorReg(indicatorsEvaluation.getEvaluationDate(), indicatorsEvaluation.getIdEvaluatedOrganization(), indicatorsEvaluation.getOrgTypeEvaluated(), indicatorsEvaluation.getIdEvaluatorTeam(), indicatorsEvaluation.getIdEvaluatorOrganization(), indicatorsEvaluation.getOrgTypeEvaluator(), indicatorsEvaluation.getIllness(), indicatorsEvaluation.getIdCenter(), idIndicator, idSubSubAmbit, idSubAmbit, idAmbit, indicatorVersion, indicatorsEvaluation.getEvaluationType(), observationsSpanish, observationsEnglish, observationsFrench, observationsBasque, observationsCatalan,
+                    observationsDutch, observationsGalician, observationsGerman, observationsItalian, observationsPortuguese, numEvidencesMarked, status, requiresImprovementPlan));
+        }
+
+        Session.getInstance().setCurrRegs(indicatorsRegsList,evidencesRegsList);
+
     }
 }

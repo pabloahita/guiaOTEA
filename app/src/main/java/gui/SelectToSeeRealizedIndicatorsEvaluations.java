@@ -333,7 +333,7 @@ public class SelectToSeeRealizedIndicatorsEvaluations extends AppCompatActivity 
                                 Intent intent = new Intent(getApplicationContext(), gui.SeeRealizedIndicatorsEvaluations.class);
 
                                 Session.getInstance().setCurrEvaluation(indicatorsEvaluation[0]);
-
+                                Session.getInstance().getRegsByIndicatorsEvaluation(indicatorsEvaluation[0]);
                                 Session.getInstance().obtainIndicatorsFromDataBase(indicatorsEvaluation[0].getEvaluationType());
                                 startActivity(intent);
                             }

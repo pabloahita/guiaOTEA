@@ -1,5 +1,7 @@
 package otea.connection.api;
 
+import com.google.gson.JsonObject;
+
 import java.util.List;
 
 import cli.indicators.Indicator;
@@ -52,7 +54,7 @@ public interface IndicatorsApi {
 
     /**Gets all indicators*/
     @GET("Indicators/all")
-    Call<List<Indicator>> GetAll(@Query("evaluationType") String evaluationType);
+    Call<List<JsonObject>> GetAll(@Query("evaluationType") String evaluationType);
 
     /**
      * Gets all ambits by ambit identifier

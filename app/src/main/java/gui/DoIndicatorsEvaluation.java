@@ -799,7 +799,7 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
             indicatorRegs[current_indicator]=new IndicatorsEvaluationIndicatorReg(current_evaluation.getEvaluationDate(),
                     current_evaluation.getIdEvaluatedOrganization(), current_evaluation.getOrgTypeEvaluated(),current_evaluation.getIdEvaluatorTeam(),
                     current_evaluation.getIdEvaluatorOrganization(), current_evaluation.getOrgTypeEvaluator(), current_evaluation.getIllness(),
-                    current_evaluation.getIdCenter(),current_indicator+1, i.getIndicatorType(),
+                    current_evaluation.getIdCenter(),current_indicator+1,
                     current_subSubAmbit, current_subAmbit, current_ambit, i.getIndicatorVersion(),current_evaluation.getEvaluationType(),"","","","","","","","","","",0,"",-1);
         }
         if(evidenceRegs[current_indicator][0]==null) {

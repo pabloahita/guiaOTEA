@@ -1,6 +1,8 @@
 package otea.connection.controller;
 
 
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -194,13 +196,13 @@ public class IndicatorsController {
      *
      * @return Indicators list
      * */
-    public static List<Indicator> GetAll(String evaluationType){
+    public static List<JsonObject> GetAll(String evaluationType){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<Indicator>> callable = new Callable<List<Indicator>>() {
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
-            public List<Indicator> call() throws Exception {
-                Call<List<Indicator>> call = api.GetAll(evaluationType);
-                Response<List<Indicator>> response = call.execute();
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call = api.GetAll(evaluationType);
+                Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
@@ -209,8 +211,8 @@ public class IndicatorsController {
             }
         };
         try {
-            Future<List<Indicator>> future = executor.submit(callable);
-            List<Indicator> list = future.get();
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> list = future.get();
             executor.shutdown();
             return list;
         } catch (InterruptedException | ExecutionException e) {

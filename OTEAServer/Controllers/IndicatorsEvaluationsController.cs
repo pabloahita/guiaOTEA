@@ -6,6 +6,7 @@ using OTEAServer.ExpertSystem;
 using OTEAServer.Misc;
 using OTEAServer.Models;
 using System.Net.NetworkInformation;
+using System.Text.Json;
 
 namespace OTEAServer.Controllers
 {
@@ -95,6 +96,70 @@ namespace OTEAServer.Controllers
             {
                 var indicatorsEvaluations = _context.IndicatorsEvaluations.Where(e => e.idEvaluatorTeam==idEvaluatorTeam && e.idEvaluatorOrganization == idEvaluatorOrganization && e.orgTypeEvaluator == orgTypeEvaluator && e.idEvaluatedOrganization == idEvaluatedOrganization && e.orgTypeEvaluated == orgTypeEvaluated && e.illness == illness && e.idCenter == idCenter && e.isFinished == 0).ToList();
                 return Ok(indicatorsEvaluations);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("allRegs")]
+        public IActionResult GetRegsByIndicatorsEvaluation([FromBody] IndicatorsEvaluation indicatorsEvaluation)
+        {
+            try
+            {
+                List<JsonDocument> regs=new List<JsonDocument>();
+                var IndicatorsEvaluationsIndicatorsRegs = _context.IndicatorsEvaluationsIndicatorsRegs.Where(r => r.evaluationDate == indicatorsEvaluation.evaluationDate && r.idEvaluatorTeam == indicatorsEvaluation.idEvaluatorTeam && r.idEvaluatorOrganization == indicatorsEvaluation.idEvaluatorOrganization && r.orgTypeEvaluator == indicatorsEvaluation.orgTypeEvaluator && r.idEvaluatedOrganization == indicatorsEvaluation.idEvaluatedOrganization && r.orgTypeEvaluated == indicatorsEvaluation.orgTypeEvaluated && r.illness == indicatorsEvaluation.illness && r.idCenter == indicatorsEvaluation.idCenter && r.evaluationType == indicatorsEvaluation.evaluationType).ToList();
+                foreach (IndicatorsEvaluationIndicatorReg reg in IndicatorsEvaluationsIndicatorsRegs) {
+                    String rg= "{\"idSubSubAmbit\":\"" + reg.idSubSubAmbit + "\"," +
+                        "\"idSubAmbit\":\"" + reg.idSubAmbit + "\"," +
+                        "\"idAmbit\":\"" + reg.idAmbit + "\"," +
+                        "\"idIndicator\":\"" + reg.idIndicator + "\"," +
+                        "\"indicatorVersion\":\"" + reg.indicatorVersion + "\"," +
+                        "\"observationsSpanish\":\"" + reg.observationsSpanish + "\"," +
+                        "\"observationsEnglish\":\"" + reg.observationsEnglish + "\"," +
+                        "\"observationsFrench\":\"" + reg.observationsFrench + "\"," +
+                        "\"observationsBasque\":" + reg.observationsBasque + "," +
+                        "\"observationsCatalan\":\"" + reg.observationsCatalan + "\"," +
+                        "\"observationsDutch\":\"" + reg.observationsDutch + "\"," +
+                        "\"observationsGalician\":\"" + reg.observationsGalician + "\"," +
+                        "\"observationsGerman\":\"" + reg.observationsGerman + "\"," +
+                        "\"observationsItalian\":\"" + reg.observationsItalian + "\"," +
+                        "\"observationsPortuguese\":\"" + reg.observationsPortuguese + "\"," +
+                        "\"numEvidencesMarked\":\"" + reg.numEvidencesMarked + "\"," +
+                        "\"status\":\"" + reg.status + "\"}";
+                    regs.Add(JsonDocument.Parse(rg));
+                }
+                if (indicatorsEvaluation.evaluationType == "COMPLETE")
+                {
+                    var IndicatorsEvaluationsEvidencesRegs = _context.IndicatorsEvaluationsEvidencesRegs.Where(r => r.evaluationDate == indicatorsEvaluation.evaluationDate && r.idEvaluatorTeam == indicatorsEvaluation.idEvaluatorTeam && r.idEvaluatorOrganization == indicatorsEvaluation.idEvaluatorOrganization && r.orgTypeEvaluator == indicatorsEvaluation.orgTypeEvaluator && r.idEvaluatedOrganization == indicatorsEvaluation.idEvaluatedOrganization && r.orgTypeEvaluated == indicatorsEvaluation.orgTypeEvaluated && r.illness == indicatorsEvaluation.illness && r.idCenter == indicatorsEvaluation.idCenter && r.evaluationType == indicatorsEvaluation.evaluationType).ToList();
+                    foreach (IndicatorsEvaluationEvidenceReg reg in IndicatorsEvaluationsEvidencesRegs)
+                    {
+                        String rg = "{\"idSubSubAmbit\":\"" + reg.idSubSubAmbit + "\"," +
+                            "\"idSubAmbit\":\"" + reg.idSubAmbit + "\"," +
+                            "\"idAmbit\":\"" + reg.idAmbit + "\"," +
+                            "\"idIndicator\":\"" + reg.idIndicator + "\"," +
+                            "\"indicatorType\":\"" + reg.indicatorType + "\"," +
+                            "\"idEvidence\":\"" + reg.idEvidence + "\"," +
+                            "\"indicatorVersion\":\"" + reg.indicatorVersion + "\"," +
+                            "\"isMarked\":\"" + reg.isMarked + "\"," +
+                            "\"observationsSpanish\":\"" + reg.observationsSpanish + "\"," +
+                            "\"observationsEnglish\":\"" + reg.observationsEnglish + "\"," +
+                            "\"observationsFrench\":\"" + reg.observationsFrench + "\"," +
+                            "\"observationsBasque\":" + reg.observationsBasque + "," +
+                            "\"observationsCatalan\":\"" + reg.observationsCatalan + "\"," +
+                            "\"observationsDutch\":\"" + reg.observationsDutch + "\"," +
+                            "\"observationsGalician\":\"" + reg.observationsGalician + "\"," +
+                            "\"observationsGerman\":\"" + reg.observationsGerman + "\"," +
+                            "\"observationsItalian\":\"" + reg.observationsItalian + "\"," +
+                            "\"observationsPortuguese\":\"" + reg.observationsPortuguese + "\"}";
+                        regs.Add(JsonDocument.Parse(rg));
+                    }
+                    String tams= "{\"numIndicatorsRegs\":\"" + IndicatorsEvaluationsIndicatorsRegs.Count + "\"," +
+                        "\"numEvidencesRegs\":\"" + IndicatorsEvaluationsEvidencesRegs.Count + "\"}";
+                    regs.Add(JsonDocument.Parse(tams));
+                }
+                return Ok(regs);
             }
             catch (Exception ex)
             {

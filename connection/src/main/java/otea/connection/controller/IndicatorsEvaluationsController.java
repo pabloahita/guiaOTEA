@@ -1,5 +1,7 @@
 package otea.connection.controller;
 
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
 ;
 import java.util.List;
@@ -79,6 +81,35 @@ public class IndicatorsEvaluationsController {
         try {
             Future<List<IndicatorsEvaluation>> future = executor.submit(callable);
             List<IndicatorsEvaluation> list = future.get();
+            executor.shutdown();
+            return list;
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Method that obtains all indicators evaluation registers, from evidences and indicators
+     *
+     * @return Registers list
+     * */
+    public static List<JsonObject> GetRegsByIndicatorsEvaluation(IndicatorsEvaluation indicatorsEvaluation) {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
+            @Override
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call = api.GetRegsByIndicatorsEvaluation(indicatorsEvaluation);
+                Response<List<JsonObject>> response = call.execute();
+                if (response.isSuccessful()) {
+                    return response.body();
+                } else {
+                    throw new IOException("Error: " + response.code() + " " + response.message());
+                }
+            }
+        };
+        try {
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> list = future.get();
             executor.shutdown();
             return list;
         } catch (InterruptedException | ExecutionException e) {
