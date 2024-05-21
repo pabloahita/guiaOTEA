@@ -104,12 +104,14 @@ namespace OTEAServer.Controllers
         }
 
         [HttpGet("allRegs")]
-        public IActionResult GetRegsByIndicatorsEvaluation([FromBody] IndicatorsEvaluation indicatorsEvaluation)
+        public IActionResult GetRegsByIndicatorsEvaluation([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] string evaluationType)
         {
             try
             {
                 List<JsonDocument> regs=new List<JsonDocument>();
-                var IndicatorsEvaluationsIndicatorsRegs = _context.IndicatorsEvaluationsIndicatorsRegs.Where(r => r.evaluationDate == indicatorsEvaluation.evaluationDate && r.idEvaluatorTeam == indicatorsEvaluation.idEvaluatorTeam && r.idEvaluatorOrganization == indicatorsEvaluation.idEvaluatorOrganization && r.orgTypeEvaluator == indicatorsEvaluation.orgTypeEvaluator && r.idEvaluatedOrganization == indicatorsEvaluation.idEvaluatedOrganization && r.orgTypeEvaluated == indicatorsEvaluation.orgTypeEvaluated && r.illness == indicatorsEvaluation.illness && r.idCenter == indicatorsEvaluation.idCenter && r.evaluationType == indicatorsEvaluation.evaluationType).ToList();
+                var IndicatorsEvaluationsIndicatorsRegs = _context.IndicatorsEvaluationsIndicatorsRegs.Where(r => r.evaluationDate == evaluationDate && r.idEvaluatorTeam==idEvaluatorTeam && r.idEvaluatorOrganization == idEvaluatorOrganization && r.orgTypeEvaluator == orgTypeEvaluator && r.idEvaluatedOrganization == idEvaluatedOrganization && r.orgTypeEvaluated == orgTypeEvaluated && r.illness == illness && r.idCenter == idCenter && r.evaluationType == evaluationType)
+                    .OrderBy(r => r.idIndicator)
+                    .ToList();
                 foreach (IndicatorsEvaluationIndicatorReg reg in IndicatorsEvaluationsIndicatorsRegs) {
                     String rg= "{\"idSubSubAmbit\":\"" + reg.idSubSubAmbit + "\"," +
                         "\"idSubAmbit\":\"" + reg.idSubAmbit + "\"," +
@@ -119,7 +121,7 @@ namespace OTEAServer.Controllers
                         "\"observationsSpanish\":\"" + reg.observationsSpanish + "\"," +
                         "\"observationsEnglish\":\"" + reg.observationsEnglish + "\"," +
                         "\"observationsFrench\":\"" + reg.observationsFrench + "\"," +
-                        "\"observationsBasque\":" + reg.observationsBasque + "," +
+                        "\"observationsBasque\":\"" + reg.observationsBasque + "\"," +
                         "\"observationsCatalan\":\"" + reg.observationsCatalan + "\"," +
                         "\"observationsDutch\":\"" + reg.observationsDutch + "\"," +
                         "\"observationsGalician\":\"" + reg.observationsGalician + "\"," +
@@ -127,12 +129,16 @@ namespace OTEAServer.Controllers
                         "\"observationsItalian\":\"" + reg.observationsItalian + "\"," +
                         "\"observationsPortuguese\":\"" + reg.observationsPortuguese + "\"," +
                         "\"numEvidencesMarked\":\"" + reg.numEvidencesMarked + "\"," +
-                        "\"status\":\"" + reg.status + "\"}";
+                        "\"status\":\"" + reg.status + "\","+
+                        "\"requiresImprovementPlan\":\"" + reg.requiresImprovementPlan + "\"}";
                     regs.Add(JsonDocument.Parse(rg));
                 }
-                if (indicatorsEvaluation.evaluationType == "COMPLETE")
+                if (evaluationType == "COMPLETE")
                 {
-                    var IndicatorsEvaluationsEvidencesRegs = _context.IndicatorsEvaluationsEvidencesRegs.Where(r => r.evaluationDate == indicatorsEvaluation.evaluationDate && r.idEvaluatorTeam == indicatorsEvaluation.idEvaluatorTeam && r.idEvaluatorOrganization == indicatorsEvaluation.idEvaluatorOrganization && r.orgTypeEvaluator == indicatorsEvaluation.orgTypeEvaluator && r.idEvaluatedOrganization == indicatorsEvaluation.idEvaluatedOrganization && r.orgTypeEvaluated == indicatorsEvaluation.orgTypeEvaluated && r.illness == indicatorsEvaluation.illness && r.idCenter == indicatorsEvaluation.idCenter && r.evaluationType == indicatorsEvaluation.evaluationType).ToList();
+                    var IndicatorsEvaluationsEvidencesRegs = _context.IndicatorsEvaluationsEvidencesRegs.Where(r => r.evaluationDate == evaluationDate && r.idEvaluatorTeam == idEvaluatorTeam && r.idEvaluatorOrganization == idEvaluatorOrganization && r.orgTypeEvaluator == orgTypeEvaluator && r.idEvaluatedOrganization == idEvaluatedOrganization && r.orgTypeEvaluated == orgTypeEvaluated && r.illness == illness && r.idCenter == idCenter && r.evaluationType == evaluationType)
+                        .OrderBy(r => r.idIndicator)
+                        .ThenBy(r => r.idEvidence)
+                        .ToList();
                     foreach (IndicatorsEvaluationEvidenceReg reg in IndicatorsEvaluationsEvidencesRegs)
                     {
                         String rg = "{\"idSubSubAmbit\":\"" + reg.idSubSubAmbit + "\"," +
@@ -146,7 +152,7 @@ namespace OTEAServer.Controllers
                             "\"observationsSpanish\":\"" + reg.observationsSpanish + "\"," +
                             "\"observationsEnglish\":\"" + reg.observationsEnglish + "\"," +
                             "\"observationsFrench\":\"" + reg.observationsFrench + "\"," +
-                            "\"observationsBasque\":" + reg.observationsBasque + "," +
+                            "\"observationsBasque\":\"" + reg.observationsBasque + "\"," +
                             "\"observationsCatalan\":\"" + reg.observationsCatalan + "\"," +
                             "\"observationsDutch\":\"" + reg.observationsDutch + "\"," +
                             "\"observationsGalician\":\"" + reg.observationsGalician + "\"," +

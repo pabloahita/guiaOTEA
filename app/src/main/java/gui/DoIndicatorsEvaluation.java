@@ -58,8 +58,6 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
 
     int num_evidences=0;
 
-    int num_evidences_reached = 0;
-
     List<Indicator> indicators;
 
     List<Evidence> evidences;
@@ -161,17 +159,9 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    if (num_evidences_reached >= 0 && num_evidences_reached < 4) {
-                        num_evidences_reached++;
-                        evidenceRegs[current_indicator][0].setIsMarked(1);
-                    }
-                    Log.d("SW1T", "Switch1 true with " + num_evidences_reached + " reached evidences");
+                    evidenceRegs[current_indicator][0].setIsMarked(1);
                 } else {
-                    if (num_evidences_reached > 0 && num_evidences_reached <= 4) {
-                        num_evidences_reached--;
-                        evidenceRegs[current_indicator][0].setIsMarked(0);
-                    }
-                    Log.d("SW1F", "Switch1 false with " + num_evidences_reached + " reached evidences");
+                    evidenceRegs[current_indicator][0].setIsMarked(0);
                 }
             }
         });
@@ -181,17 +171,9 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    if (num_evidences_reached >= 0 && num_evidences_reached < 4) {
-                        num_evidences_reached++;
-                        evidenceRegs[current_indicator][1].setIsMarked(1);
-                    }
-                    Log.d("SW2T", "Switch2 true with " + num_evidences_reached + " reached evidences");
+                    evidenceRegs[current_indicator][1].setIsMarked(1);
                 } else {
-                    if (num_evidences_reached > 0 && num_evidences_reached <= 4) {
-                        num_evidences_reached--;
-                        evidenceRegs[current_indicator][1].setIsMarked(0);
-                    }
-                    Log.d("SW2F", "Switch2 false with " + num_evidences_reached + " reached evidences");
+                    evidenceRegs[current_indicator][1].setIsMarked(0);
                 }
             }
         });
@@ -202,17 +184,9 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    if (num_evidences_reached >= 0 && num_evidences_reached < 4) {
-                        num_evidences_reached++;
-                        evidenceRegs[current_indicator][2].setIsMarked(1);
-                    }
-                    Log.d("SW3T", "Switch3 true with " + num_evidences_reached + " reached evidences");
+                    evidenceRegs[current_indicator][2].setIsMarked(1);
                 } else {
-                    if (num_evidences_reached > 0 && num_evidences_reached <= 4) {
-                        num_evidences_reached--;
-                        evidenceRegs[current_indicator][2].setIsMarked(0);
-                    }
-                    Log.d("SW3F", "Switch3 false with " + num_evidences_reached + " reached evidences");
+                    evidenceRegs[current_indicator][2].setIsMarked(0);
                 }
             }
         });
@@ -221,17 +195,9 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    if (num_evidences_reached >= 0 && num_evidences_reached < 4) {
-                        num_evidences_reached++;
-                        evidenceRegs[current_indicator][3].setIsMarked(1);
-                    }
-                    Log.d("SW4T", "Switch4 true with " + num_evidences_reached + " reached evidences");
+                    evidenceRegs[current_indicator][3].setIsMarked(1);
                 } else {
-                    if (num_evidences_reached > 0 && num_evidences_reached <= 4) {
-                        num_evidences_reached--;
-                        evidenceRegs[current_indicator][3].setIsMarked(0);
-                    }
-                    Log.d("SW4F", "Switch4 false with " + num_evidences_reached + " reached evidences");
+                    evidenceRegs[current_indicator][3].setIsMarked(0);
                 }
             }
         });
@@ -239,8 +205,13 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
         previous_indicator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("PI", "Previous Indicator Pressed");
-                indicatorRegs[current_indicator].setNumEvidencesMarked(num_evidences_reached);
+                int numEvidencesMarked=0;
+                for(int i=0;i<4;i++){
+                    if(evidenceRegs[current_indicator][i].getIsMarked()==1){
+                        numEvidencesMarked++;
+                    }
+                }
+                indicatorRegs[current_indicator].setNumEvidencesMarked(numEvidencesMarked);
                 if (current_indicator == 0) {
                     doYouWantToSaveChanges();
                 } else {
@@ -261,13 +232,20 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
         next_indicator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                indicatorRegs[current_indicator].setNumEvidencesMarked(num_evidences_reached);
+                int numEvidencesMarked=0;
+                for(int i=0;i<4;i++){
+                    if(evidenceRegs[current_indicator][i].getIsMarked()==1){
+                        numEvidencesMarked++;
+                    }
+                }
+                indicatorRegs[current_indicator].setNumEvidencesMarked(numEvidencesMarked);
                 if (current_indicator < num_indicators - 1) {
                     base.setVisibility(View.GONE);
                     background.setVisibility(View.VISIBLE);
                     view.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+
                             current_indicator++;
                             changeIndicator();
                             background.setVisibility(View.GONE);
@@ -351,7 +329,14 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
         saveChangesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                indicatorRegs[current_indicator].setNumEvidencesMarked(num_evidences_reached);
+
+                int numEvidencesMarked=0;
+                for(int i=0;i<4;i++){
+                    if(evidenceRegs[current_indicator][i].getIsMarked()==1){
+                        numEvidencesMarked++;
+                    }
+                }
+                indicatorRegs[current_indicator].setNumEvidencesMarked(numEvidencesMarked);
                 doYouWantToSaveChanges();
             }
         });
@@ -811,7 +796,6 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                         current_subSubAmbit, current_subAmbit, current_ambit, e.getIndicatorVersion(),0,current_evaluation.getEvaluationType(),"","","","","","","","","","");
             }
         }
-        num_evidences_reached=indicatorRegs[current_indicator].getNumEvidencesMarked();
 
         if(evidenceRegs[current_indicator][0].getIsMarked()==1){
             evidence1.setChecked(true);
@@ -1160,7 +1144,6 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
             evidence4.setText(Html.fromHtml("<b>Evidence 4: </b>" + evidences.get(3).getDescriptionEnglish(),0));
         }
         indicatorCaption.setText(Html.fromHtml(indCaption,0));
-        Log.d("NEWIND", "Current indicator has " + num_evidences_reached + " reached evidences");
     }
 
 
@@ -1187,7 +1170,18 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                         startActivity(intent);
 
                     }
-                }).create().show();
+                })
+                .setOnKeyListener(new DialogInterface.OnKeyListener() {
+                    @Override
+                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                            dialog.dismiss();
+                            return true;
+                        }
+                        return false;
+                    }
+                })
+                .create().show();
     }
     private void addToDatabase(){
         Session.getInstance().setCurrEvaluation(null);

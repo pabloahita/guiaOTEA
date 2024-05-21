@@ -220,7 +220,7 @@ public class Evidence implements Serializable {
      * @param descriptionSpanish - Evidence description in Spanish
      * */
     public void setDescriptionSpanish(String descriptionSpanish) {
-        this.descriptionSpanish = descriptionEnglish;
+        this.descriptionSpanish = descriptionSpanish;
     }
 
     /**

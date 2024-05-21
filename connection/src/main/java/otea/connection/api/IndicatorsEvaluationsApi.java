@@ -28,7 +28,7 @@ public interface IndicatorsEvaluationsApi {
 
     /**Gets all indicators evaluations*/
     @GET("IndicatorsEvaluations/allRegs")
-    Call<List<JsonObject>> GetRegsByIndicatorsEvaluation(@Body IndicatorsEvaluation indicatorsEvaluation);
+    Call<List<JsonObject>> GetRegsByIndicatorsEvaluation(@Query("evaluationDate") long evaluationDate,@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("evaluationType") String evaluationType);
 
     /**
      * Gets all indicators evaluations of an evaluator team
@@ -71,7 +71,7 @@ public interface IndicatorsEvaluationsApi {
      * @param idCenter - Center identifier of the external organization
      * */
     @GET("IndicatorsEvaluations/get")
-    Call<IndicatorsEvaluation> Get(@Query("evaluationDate") long evaluationDate,@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("evaluationType") String evaluatorType);
+    Call<IndicatorsEvaluation> Get(@Query("evaluationDate") long evaluationDate,@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("evaluationType") String evaluationType);
 
     /**
      * Creates a new indicators evaluation

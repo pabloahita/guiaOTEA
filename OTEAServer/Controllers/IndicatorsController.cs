@@ -54,13 +54,14 @@ namespace OTEAServer.Controllers
                         "\"descriptionSpanish\":\"" + indicator.descriptionSpanish + "\"," +
                         "\"descriptionEnglish\":\"" + indicator.descriptionEnglish + "\"," +
                         "\"descriptionFrench\":\"" + indicator.descriptionFrench + "\"," +
-                        "\"descriptionBasque\":" + indicator.descriptionBasque + "," +
+                        "\"descriptionBasque\":\"" + indicator.descriptionBasque + "\"," +
                         "\"descriptionCatalan\":\"" + indicator.descriptionCatalan + "\"," +
                         "\"descriptionDutch\":\"" + indicator.descriptionDutch + "\"," +
                         "\"descriptionGalician\":\"" + indicator.descriptionGalician + "\"," +
                         "\"descriptionGerman\":\"" + indicator.descriptionGerman + "\"," +
                         "\"descriptionItalian\":\"" + indicator.descriptionItalian + "\"," +
                         "\"descriptionPortuguese\":\"" + indicator.descriptionPortuguese + "\"," +
+                        "\"indicatorPriority\":\"" + indicator.indicatorPriority + "\"," +
                         "\"indicatorVersion\":\"" + indicator.indicatorVersion + "\"," +
                         "\"isActive\":\"" + indicator.indicatorVersion + "\"," +
                         "\"evaluationType\":\"" + indicator.evaluationType + "\"}";
@@ -87,7 +88,7 @@ namespace OTEAServer.Controllers
                                 "\"descriptionSpanish\":\"" + evidence.descriptionSpanish + "\"," +
                                 "\"descriptionEnglish\":\"" + evidence.descriptionEnglish + "\"," +
                                 "\"descriptionFrench\":\"" + evidence.descriptionFrench + "\"," +
-                                "\"descriptionBasque\":" + evidence.descriptionBasque + "," +
+                                "\"descriptionBasque\":\"" + evidence.descriptionBasque + "\"," +
                                 "\"descriptionCatalan\":\"" + evidence.descriptionCatalan + "\"," +
                                 "\"descriptionDutch\":\"" + evidence.descriptionDutch + "\"," +
                                 "\"descriptionGalician\":\"" + evidence.descriptionGalician + "\"," +
@@ -108,7 +109,7 @@ namespace OTEAServer.Controllers
                             "\"descriptionSpanish\":\"" + ambit.descriptionSpanish + "\"," +
                             "\"descriptionEnglish\":\"" + ambit.descriptionEnglish + "\"," +
                             "\"descriptionFrench\":\"" + ambit.descriptionFrench + "\"," +
-                            "\"descriptionBasque\":" + ambit.descriptionBasque + "," +
+                            "\"descriptionBasque\":\"" + ambit.descriptionBasque + "\"," +
                             "\"descriptionCatalan\":\"" + ambit.descriptionCatalan + "\"," +
                             "\"descriptionDutch\":\"" + ambit.descriptionDutch + "\"," +
                             "\"descriptionGalician\":\"" + ambit.descriptionGalician + "\"," +
@@ -125,7 +126,7 @@ namespace OTEAServer.Controllers
                                 "\"descriptionSpanish\":\"" + subAmbit.descriptionSpanish + "\"," +
                                 "\"descriptionEnglish\":\"" + subAmbit.descriptionEnglish + "\"," +
                                 "\"descriptionFrench\":\"" + subAmbit.descriptionFrench + "\"," +
-                                "\"descriptionBasque\":" + subAmbit.descriptionBasque + "," +
+                                "\"descriptionBasque\":\"" + subAmbit.descriptionBasque + "\"," +
                                 "\"descriptionCatalan\":\"" + subAmbit.descriptionCatalan + "\"," +
                                 "\"descriptionDutch\":\"" + subAmbit.descriptionDutch + "\"," +
                                 "\"descriptionGalician\":\"" + subAmbit.descriptionGalician + "\"," +
@@ -137,12 +138,13 @@ namespace OTEAServer.Controllers
 
                 var subSubAmbits = _context.SubSubAmbits.ToList();
                 foreach (var subSubAmbit in subSubAmbits) {
-                    String subSubAmb = "{\"idSubAmbit\":\"" + subSubAmbit.idSubAmbit + "\"," +
+                    String subSubAmb = "{\"idSubSubAmbit\":\"" + subSubAmbit.idSubSubAmbit + "\"," +
+                                "\"idSubAmbit\":\"" + subSubAmbit.idSubAmbit + "\"," +
                                 "\"idAmbit\":\"" + subSubAmbit.idAmbit + "\"," +
                                 "\"descriptionSpanish\":\"" + subSubAmbit.descriptionSpanish + "\"," +
                                 "\"descriptionEnglish\":\"" + subSubAmbit.descriptionEnglish + "\"," +
                                 "\"descriptionFrench\":\"" + subSubAmbit.descriptionFrench + "\"," +
-                                "\"descriptionBasque\":" + subSubAmbit.descriptionBasque + "," +
+                                "\"descriptionBasque\":\"" + subSubAmbit.descriptionBasque + "\"," +
                                 "\"descriptionCatalan\":\"" + subSubAmbit.descriptionCatalan + "\"," +
                                 "\"descriptionDutch\":\"" + subSubAmbit.descriptionDutch + "\"," +
                                 "\"descriptionGalician\":\"" + subSubAmbit.descriptionGalician + "\"," +
@@ -158,6 +160,7 @@ namespace OTEAServer.Controllers
                 tams += "\"numAmbits\":\"" + ambits.Count + "\"," +
                         "\"numSubAmbits\":\"" + subAmbits.Count + "\"," +
                         "\"numSubSubAmbits\":\"" + subSubAmbits.Count + "\"}";
+                allData.Add(JsonDocument.Parse(tams));
                 return Ok(allData);
             }
             catch (Exception ex)

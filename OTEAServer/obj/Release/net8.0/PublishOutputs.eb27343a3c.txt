@@ -36,6 +36,7 @@ C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Release\ne
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Release\net8.0\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Release\net8.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Release\net8.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Release\net8.0\PubTmp\Out\System.ClientModel.dll
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Release\net8.0\PubTmp\Out\System.Configuration.ConfigurationManager.dll
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Release\net8.0\PubTmp\Out\System.Drawing.Common.dll
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Release\net8.0\PubTmp\Out\System.IdentityModel.Tokens.Jwt.dll
@@ -44,6 +45,7 @@ C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Release\ne
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Release\net8.0\PubTmp\Out\System.Runtime.Caching.dll
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Release\net8.0\PubTmp\Out\System.Security.Cryptography.ProtectedData.dll
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Release\net8.0\PubTmp\Out\System.Security.Permissions.dll
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Release\net8.0\PubTmp\Out\System.Text.Json.dll
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Release\net8.0\PubTmp\Out\System.Windows.Extensions.dll
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Release\net8.0\PubTmp\Out\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Release\net8.0\PubTmp\Out\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll

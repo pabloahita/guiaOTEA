@@ -802,17 +802,18 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-         if(startSessionLayout.getVisibility()==View.VISIBLE){
+        super.onBackPressed();
+        if (startSessionLayout.getVisibility() == View.VISIBLE) {
             //welcome.setVisibility(View.VISIBLE);
             startSessionLayout.setVisibility(View.GONE);
             firstButtons.setVisibility(View.VISIBLE);
-        }else if(requestLayout.getVisibility()==View.VISIBLE){
+        } else if (requestLayout.getVisibility() == View.VISIBLE) {
             requestLayout.setVisibility(View.GONE);
             firstButtons.setVisibility(View.VISIBLE);
-        }else if(sendRequestLayout.getVisibility()==View.VISIBLE){
-             sendRequestLayout.setVisibility(View.GONE);
-             firstButtons.setVisibility(View.VISIBLE);
-         }
+        } else if (sendRequestLayout.getVisibility() == View.VISIBLE) {
+            sendRequestLayout.setVisibility(View.GONE);
+            firstButtons.setVisibility(View.VISIBLE);
+        }
     }
 
 }

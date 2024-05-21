@@ -79,3 +79,5 @@ C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Release\ne
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Release\net8.0\OTEAServer.pdb
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Release\net8.0\OTEAServer.genruntimeconfig.cache
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\obj\Release\net8.0\ref\OTEAServer.dll
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\bin\Release\net8.0\System.ClientModel.dll
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAServer\bin\Release\net8.0\System.Text.Json.dll
