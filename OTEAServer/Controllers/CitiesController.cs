@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OTEAServer.Misc;
 using OTEAServer.Models;
+using System.Text.Json;
 
 namespace OTEAServer.Controllers
 {
@@ -37,12 +38,53 @@ namespace OTEAServer.Controllers
         /// <param name="idCountry"></param>
         /// <returns>Cities of the province</returns>
         [HttpGet("allByProvince")]
-        public IActionResult GetAllByProvince([FromQuery] int idProvince, [FromQuery] int idRegion, [FromQuery] string idCountry)
+        public IActionResult GetAllByProvince([FromQuery] int idProvince, [FromQuery] int idRegion, [FromQuery] string idCountry, [FromQuery] string language)
         {
             try
             {
-                var cities = _context.Cities.Where(c => c.idProvince == idProvince && c.idRegion == idRegion && c.idCountry == idCountry).ToList();
-                return Ok(cities);
+                IQueryable<City> query = _context.Cities
+                    .Where(c => c.idProvince == idProvince && c.idRegion == idRegion && c.idCountry == idCountry)
+                    .AsQueryable();
+                switch (language)
+                {
+                    case "es":
+                        query = query.OrderBy(c => c.nameSpanish); break;
+                    case "fr":
+                        query = query.OrderBy(c => c.nameFrench); break;
+                    case "eu":
+                        query = query.OrderBy(c => c.nameBasque); break;
+                    case "ca":
+                        query = query.OrderBy(c => c.nameCatalan); break;
+                    case "gl":
+                        query = query.OrderBy(c => c.nameGalician); break;
+                    case "pt":
+                        query = query.OrderBy(c => c.namePortuguese); break;
+                    case "de":
+                        query = query.OrderBy(c => c.nameGerman); break;
+                    case "it":
+                        query = query.OrderBy(c => c.nameItalian); break;
+                    case "nl":
+                        query = query.OrderBy(c => c.nameDutch); break;
+                    default:
+                        query = query.OrderBy(c => c.nameEnglish); break;
+                }
+                var cities = query.ToList();
+                List<JsonDocument> result = new List<JsonDocument>();
+                foreach(City city in cities){
+                    String rg = "{\"idCity\":\"" + city.idCity + "\"," +
+                            "\"nameSpanish\":\"" + city.nameSpanish + "\"," +
+                            "\"nameEnglish\":\"" + city.nameEnglish + "\"," +
+                            "\"nameFrench\":\"" + city.nameFrench + "\"," +
+                            "\"nameBasque\":\"" + city.nameBasque + "\"," +
+                            "\"nameCatalan\":\"" + city.nameCatalan + "\"," +
+                            "\"nameDutch\":\"" + city.nameDutch + "\"," +
+                            "\"nameGalician\":\"" + city.nameGalician + "\"," +
+                            "\"nameGerman\":\"" + city.nameGerman + "\"," +
+                            "\"nameItalian\":\"" + city.nameItalian + "\"," +
+                            "\"namePortuguese\":\"" + city.namePortuguese + "\"}";
+                    result.Add(JsonDocument.Parse(rg));
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {

@@ -1,5 +1,7 @@
 package otea.connection.api;
 
+import com.google.gson.JsonObject;
+
 import java.util.List;
 
 import cli.organization.data.geo.City;
@@ -31,7 +33,7 @@ public interface RegionsApi {
      * @param idCountry - Country identifier
      * */
     @GET("Regions/allByCountry")
-    Call<List<Region>> GetRegionsByCountry(@Query("idCountry") String idCountry);
+    Call<List<JsonObject>> GetRegionsByCountry(@Query("idCountry") String idCountry, @Query("language") String language);
 
     /**
      * Get all regions

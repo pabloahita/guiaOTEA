@@ -1,5 +1,7 @@
 package otea.connection.api;
 
+import com.google.gson.JsonObject;
+
 import java.util.List;
 
 import cli.organization.data.geo.Country;
@@ -29,6 +31,6 @@ public interface CountriesApi {
      * @param language - App language
      * */
     @GET("Countries/all")
-    Call<List<Country>> GetAll(@Query("language") String language);
+    Call<List<JsonObject>> GetAll(@Query("language") String language);
 
 }

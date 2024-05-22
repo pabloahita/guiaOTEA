@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Misc;
 using OTEAServer.Models;
+using System.Text.Json;
 
 namespace OTEAServer.Controllers
 {
@@ -197,8 +198,26 @@ namespace OTEAServer.Controllers
                                     .ThenBy(c => c.nameEnglish); break;
                 }
 
-
-                return Ok(query.ToList());
+                var countries = query.ToList();
+                List<JsonDocument> result = new List<JsonDocument>();
+                foreach (Country country in countries)
+                {
+                    String rg = "{\"idCountry\":\"" + country.idCountry + "\"," +
+                            "\"nameSpanish\":\"" + country.nameSpanish + "\"," +
+                            "\"nameEnglish\":\"" + country.nameEnglish + "\"," +
+                            "\"nameFrench\":\"" + country.nameFrench + "\"," +
+                            "\"nameBasque\":\"" + country.nameBasque + "\"," +
+                            "\"nameCatalan\":\"" + country.nameCatalan + "\"," +
+                            "\"nameDutch\":\"" + country.nameDutch + "\"," +
+                            "\"nameGalician\":\"" + country.nameGalician + "\"," +
+                            "\"nameGerman\":\"" + country.nameGerman + "\"," +
+                            "\"nameItalian\":\"" + country.nameItalian + "\"," +
+                            "\"namePortuguese\":\"" + country.namePortuguese + "\"," +
+                            "\"phone_code\":\"" + country.phone_code + "\"," +
+                            "\"flag\":\"" + country.flag + "\"}";
+                    result.Add(JsonDocument.Parse(rg));
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {

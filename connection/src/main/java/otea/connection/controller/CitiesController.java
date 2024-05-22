@@ -1,8 +1,12 @@
 package otea.connection.controller;
 
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -102,11 +106,11 @@ public class CitiesController {
      * */
     public static List<City> GetCitiesByProvince(int idProvince, int idRegion, String idCountry){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<City>> callable = new Callable<List<City>>() {
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
-            public List<City> call() throws Exception {
-                Call<List<City>> call = api.GetCitiesByProvince(idProvince,idRegion,idCountry);
-                Response<List<City>> response = call.execute();
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call = api.GetCitiesByProvince(idProvince,idRegion,idCountry, Locale.getDefault().getLanguage());
+                Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
@@ -115,15 +119,29 @@ public class CitiesController {
             }
         };
         try {
-            Future<List<City>> future = executor.submit(callable);
-            List<City> list = future.get();
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> list = future.get();
             executor.shutdown();
-            numAttempts=0;
-            return list;
+            List<City> cities=new ArrayList<>();
+            for(JsonObject reg:list){
+                int idCity=reg.getAsJsonPrimitive("idCity").getAsInt();
+                String nameSpanish=reg.getAsJsonPrimitive("nameSpanish").getAsString();
+                String nameEnglish=reg.getAsJsonPrimitive("nameEnglish").getAsString();
+                String nameFrench=reg.getAsJsonPrimitive("nameFrench").getAsString();
+                String nameBasque=reg.getAsJsonPrimitive("nameBasque").getAsString();
+                String nameCatalan=reg.getAsJsonPrimitive("nameCatalan").getAsString();
+                String nameDutch=reg.getAsJsonPrimitive("nameDutch").getAsString();
+                String nameGalician=reg.getAsJsonPrimitive("nameGalician").getAsString();
+                String nameGerman=reg.getAsJsonPrimitive("nameGerman").getAsString();
+                String nameItalian=reg.getAsJsonPrimitive("nameItalian").getAsString();
+                String namePortuguese=reg.getAsJsonPrimitive("namePortuguese").getAsString();
+                cities.add(new City(idCity,idProvince,idRegion,idCountry,nameSpanish,nameEnglish,nameFrench,nameBasque,nameCatalan,nameDutch,nameGalician,nameGerman,nameItalian,namePortuguese));
+            }
+            return cities;
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } catch(ExecutionException e){
-            if(e.getCause() instanceof SocketTimeoutException){
+            /*if(e.getCause() instanceof SocketTimeoutException){
                 numAttempts++;
                 if(numAttempts<3) {
                     return GetCitiesByProvince(idProvince, idRegion, idCountry);
@@ -135,7 +153,8 @@ public class CitiesController {
             }
             else{
                 throw new RuntimeException(e);
-            }
+            }*/
+            throw new RuntimeException(e);
         }
     }
 

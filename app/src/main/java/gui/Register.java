@@ -385,12 +385,7 @@ public class Register extends AppCompatActivity {
 
     }
 
-    public List<Organization> obtainOrganizations() {
-        if (evaluatedOrganizations == null) {
-            evaluatedOrganizations= OrganizationsController.GetAllEvaluatedOrganizations();
-        }
-        return evaluatedOrganizations;
-    }
+
 
     public List<Country> getCountries(){
         if(countries==null){

@@ -1,13 +1,18 @@
 package otea.connection.controller;
 
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import cli.organization.data.geo.Province;
 import cli.organization.data.geo.Region;
 import cli.organization.data.geo.Region;
 import otea.connection.ConnectionClient;
@@ -88,11 +93,11 @@ public class RegionsController {
      * */
     public static List<Region> GetRegionsByCountry(String idCountry){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<Region>> callable = new Callable<List<Region>>() {
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
-            public List<Region> call() throws Exception {
-                Call<List<Region>> call=api.GetRegionsByCountry(idCountry);
-                Response<List<Region>> response = call.execute();
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call=api.GetRegionsByCountry(idCountry, Locale.getDefault().getLanguage());
+                Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
@@ -101,10 +106,25 @@ public class RegionsController {
             }
         };
         try {
-            Future<List<Region>> future = executor.submit(callable);
-            List<Region> list = future.get();
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> list = future.get();
             executor.shutdown();
-            return list;
+            List<Region> regions=new ArrayList<>();
+            for(JsonObject reg:list){
+                int idRegion=reg.getAsJsonPrimitive("idRegion").getAsInt();
+                String nameSpanish=reg.getAsJsonPrimitive("nameSpanish").getAsString();
+                String nameEnglish=reg.getAsJsonPrimitive("nameEnglish").getAsString();
+                String nameFrench=reg.getAsJsonPrimitive("nameFrench").getAsString();
+                String nameBasque=reg.getAsJsonPrimitive("nameBasque").getAsString();
+                String nameCatalan=reg.getAsJsonPrimitive("nameCatalan").getAsString();
+                String nameDutch=reg.getAsJsonPrimitive("nameDutch").getAsString();
+                String nameGalician=reg.getAsJsonPrimitive("nameGalician").getAsString();
+                String nameGerman=reg.getAsJsonPrimitive("nameGerman").getAsString();
+                String nameItalian=reg.getAsJsonPrimitive("nameItalian").getAsString();
+                String namePortuguese=reg.getAsJsonPrimitive("namePortuguese").getAsString();
+                regions.add(new Region(idRegion,idCountry,nameSpanish,nameEnglish,nameFrench,nameBasque,nameCatalan,nameDutch,nameGalician,nameGerman,nameItalian,namePortuguese));
+            }
+            return regions;
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }

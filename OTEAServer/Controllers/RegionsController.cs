@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Misc;
 using OTEAServer.Models;
+using System.Text.Json;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 namespace OTEAServer.Controllers
 {
     /// <summary>
@@ -32,12 +34,53 @@ namespace OTEAServer.Controllers
         /// <param name="idCountry">Country identifier</param>
         /// <returns>Regions list</returns>
         [HttpGet("allByCountry")]
-        public IActionResult GetAllByCountry([FromQuery] string idCountry)
+        public IActionResult GetAllByCountry([FromQuery] string idCountry, [FromQuery] string language)
         {
             try
             {
-                var regions = _context.Regions.Where(r => r.idCountry == idCountry).ToList();
-                return Ok(regions);
+                IQueryable<Region> query = _context.Regions.Where(r => r.idCountry == idCountry).AsQueryable();
+
+                switch (language)
+                {
+                    case "es":
+                        query = query.OrderBy(r => r.nameSpanish); break;
+                    case "fr":
+                        query = query.OrderBy(r => r.nameFrench); break;
+                    case "eu":
+                        query = query.OrderBy(r => r.nameBasque); break;
+                    case "ca":
+                        query = query.OrderBy(r => r.nameCatalan); break;
+                    case "gl":
+                        query = query.OrderBy(r => r.nameGalician); break;
+                    case "pt":
+                        query = query.OrderBy(r => r.namePortuguese); break;
+                    case "de":
+                        query = query.OrderBy(r => r.nameGerman); break;
+                    case "it":
+                        query = query.OrderBy(r => r.nameItalian); break;
+                    case "nl":
+                        query = query.OrderBy(r => r.nameDutch); break;
+                    default:
+                        query = query.OrderBy(r => r.nameEnglish); break;
+                }
+                var regions = query.ToList();
+                List<JsonDocument> result = new List<JsonDocument>();
+                foreach (Region region in regions)
+                {
+                    String rg = "{\"idRegion\":\"" + region.idRegion + "\"," +
+                            "\"nameSpanish\":\"" + region.nameSpanish + "\"," +
+                            "\"nameEnglish\":\"" + region.nameEnglish + "\"," +
+                            "\"nameFrench\":\"" + region.nameFrench + "\"," +
+                            "\"nameBasque\":\"" + region.nameBasque + "\"," +
+                            "\"nameCatalan\":\"" + region.nameCatalan + "\"," +
+                            "\"nameDutch\":\"" + region.nameDutch + "\"," +
+                            "\"nameGalician\":\"" + region.nameGalician + "\"," +
+                            "\"nameGerman\":\"" + region.nameGerman + "\"," +
+                            "\"nameItalian\":\"" + region.nameItalian + "\"," +
+                            "\"namePortuguese\":\"" + region.namePortuguese + "\"}";
+                    result.Add(JsonDocument.Parse(rg));
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
