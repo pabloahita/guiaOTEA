@@ -285,6 +285,42 @@
     <string name="high_interest">Of high interest</string>
     <string name="medium_interest">Of medium interest</string>
     <string name="low_interest">Of low interest</string>
+    <string name="physical_welfare">Physical welfare</string>
+    <string name="emotional_welfare">Emotional welfare</string>
+    <string name="material_welfare">Material welfare</string>
+    <string name="interpersonal_relationships">Interpersonal relationships</string>
+    <string name="personal_development">Personal development</string>
+    <string name="rights">Rights</string>
+    <string name="self_determination">Self-determination</string>
+    <string name="social_inclusion">Social inclusion</string>
+    <string name="autism_people_perspective">Perspective of people with autism</string>
+    <string name="families_perspective">Perspective of families</string>
+    <string name="professionals_perspective">Perspective of professionals</string>
+    <string name="programming">Programming</string>
+    <string name="support_planning">Support planning</string>
+    <string name="mon_and_eval_plan">Monitoring and evaluation plan</string>
+    <string name="knowledge_autism">Knowledge of autism</string>
+    <string name="pers_centered_plan">Person-centered planning</string>
+    <string name="att_values">Attitudes and values</string>
+    <string name="part_research">Participation in research</string>
+    <string name="peer_groups">Peer groups</string>
+    <string name="activity_org">Activity organization</string>
+    <string name="schedule">Schedule</string>
+    <string name="com_cord">Communication/coordination</string>
+    <string name="systemic_eval">Systemic evaluation</string>
+    <string name="leadership">Leadership</string>
+    <string name="innovation">Innovation</string>
+    <string name="con_err">Your device could not properly connect to the Fundación Miradas server. Please check your device\'s internet connection or try again later</string>
+    <string name="con_err_title">Your internet connection is unstable or nonexistent</string>
+    <string name="requires_improvement_plan">The indicator needs to be in the improvement plan</string>
+    <string name="improvement_opportunities">Opportunities for improvement</string>
+    <string name="about_indicator">About indicator</string>
+    <string name="about_the_evidence_1">About the evidence 1</string>
+    <string name="about_the_evidence_2">About the evidence 2</string>
+    <string name="about_the_evidence_3">About the evidence 3</string>
+    <string name="about_the_evidence_4">About the evidence 4</string>
+    <string name="fulfilled_evidences">Fulfilled evidences</string>
+    <string name="indicator">Indicator</string>
 
 
 </resources>

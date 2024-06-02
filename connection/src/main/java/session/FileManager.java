@@ -10,6 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.concurrent.CompletableFuture;
 
 import otea.connection.controller.RegionsController;
 
@@ -67,20 +68,20 @@ public class FileManager {
         task.run();
     }
 
-    public static ByteArrayOutputStream downloadPhotoProfile(String fileName){
-        ByteArrayOutputStream stream=new ByteArrayOutputStream();
-        Runnable task=()->{
-            // Get the BlobContainerClient;
-            containerClient = blobServiceClient.getBlobContainerClient("profile-photos");
+    public static CompletableFuture<ByteArrayOutputStream> downloadPhotoProfileAsync(String fileName){
+        return CompletableFuture.supplyAsync(() -> {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            // Get the BlobContainerClient
+            BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient("profile-photos");
             // Get the BlobClient
-            blobClient = containerClient.getBlobClient(fileName);
-            try{
+            BlobClient blobClient = containerClient.getBlobClient(fileName);
+            try {
                 blobClient.downloadStream(stream);
-            }catch(Throwable t){}
-        };
-
-        task.run();
-        return stream;
+            } catch (Throwable t) {
+                // Handle exception
+            }
+            return stream;
+        });
     }
 
 }

@@ -44,7 +44,47 @@ namespace OTEAServer.Controllers
             try
             {
                 var indicatorsEvaluations = _context.IndicatorsEvaluations.ToList();
-                return Ok(indicatorsEvaluations);
+                List<JsonDocument> result = new List<JsonDocument>();
+                foreach (var indicatorsEvaluation in indicatorsEvaluations)
+                {
+                    String rg = "{\"evaluationDate\":\"" + indicatorsEvaluation.evaluationDate + "\"," +
+                                "\"idEvaluatedOrganization\":\"" + indicatorsEvaluation.idEvaluatedOrganization + "\"," +
+                                "\"orgTypeEvaluated\":\"" + indicatorsEvaluation.orgTypeEvaluated + "\"," +
+                                "\"idEvaluatorTeam\":\"" + indicatorsEvaluation.idEvaluatorTeam + "\"," +
+                                "\"idEvaluatorOrganization\":\"" + indicatorsEvaluation.idEvaluatorOrganization + "\"," +
+                                "\"orgTypeEvaluator\":\"" + indicatorsEvaluation.orgTypeEvaluator + "\"," +
+                                "\"illness\":\"" + indicatorsEvaluation.illness + "\"," +
+                                "\"idCenter\":\"" + indicatorsEvaluation.idCenter + "\"," +
+                                "\"conclusionsSpanish\":\"" + indicatorsEvaluation.conclusionsSpanish + "\"," +
+                                "\"conclusionsEnglish\":\"" + indicatorsEvaluation.conclusionsEnglish + "\"," +
+                                "\"conclusionsFrench\":\"" + indicatorsEvaluation.conclusionsFrench + "\"," +
+                                "\"conclusionsBasque\":\"" + indicatorsEvaluation.conclusionsBasque + "\"," +
+                                "\"conclusionsCatalan\":\"" + indicatorsEvaluation.conclusionsCatalan + "\"," +
+                                "\"conclusionsDutch\":\"" + indicatorsEvaluation.conclusionsDutch + "\"," +
+                                "\"conclusionsGalician\":\"" + indicatorsEvaluation.conclusionsGalician + "\"," +
+                                "\"conclusionsGerman\":\"" + indicatorsEvaluation.conclusionsGerman + "\"," +
+                                "\"conclusionsItalian\":\"" + indicatorsEvaluation.conclusionsItalian + "\"," +
+                                "\"conclusionsPortuguese\":\"" + indicatorsEvaluation.conclusionsPortuguese + "\"," +
+                                "\"scorePriorityZeroColourRed\":\"" + indicatorsEvaluation.scorePriorityZeroColourRed + "\"," +
+                                "\"scorePriorityZeroColourYellow\":\"" + indicatorsEvaluation.scorePriorityZeroColourYellow + "\"," +
+                                "\"scorePriorityZeroColourGreen\":\"" + indicatorsEvaluation.scorePriorityZeroColourGreen + "\"," +
+                                "\"scorePriorityOneColourRed\":\"" + indicatorsEvaluation.scorePriorityOneColourRed + "\"," +
+                                "\"scorePriorityOneColourYellow\":\"" + indicatorsEvaluation.scorePriorityOneColourYellow + "\"," +
+                                "\"scorePriorityOneColourGreen\":\"" + indicatorsEvaluation.scorePriorityOneColourGreen + "\"," +
+                                "\"scorePriorityTwoColourRed\":\"" + indicatorsEvaluation.scorePriorityTwoColourRed + "\"," +
+                                "\"scorePriorityTwoColourYellow\":\"" + indicatorsEvaluation.scorePriorityTwoColourYellow + "\"," +
+                                "\"scorePriorityTwoColourGreen\":\"" + indicatorsEvaluation.scorePriorityTwoColourGreen + "\"," +
+                                "\"scorePriorityThreeColourRed\":\"" + indicatorsEvaluation.scorePriorityThreeColourRed + "\"," +
+                                "\"scorePriorityThreeColourYellow\":\"" + indicatorsEvaluation.scorePriorityThreeColourYellow + "\"," +
+                                "\"scorePriorityThreeColourGreen\":\"" + indicatorsEvaluation.scorePriorityThreeColourGreen + "\"," +
+                                "\"totalScore\":\"" + indicatorsEvaluation.totalScore + "\"," +
+                                "\"isFinished\":\"" + indicatorsEvaluation.isFinished + "\"," +
+                                "\"evaluationType\":\"" + indicatorsEvaluation.evaluationType + "\"," +
+                                "\"level\":\"" + indicatorsEvaluation.level + "\"}";
+
+                    result.Add(JsonDocument.Parse(rg));
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -69,7 +109,47 @@ namespace OTEAServer.Controllers
             try
             {
                 var indicatorsEvaluations = _context.IndicatorsEvaluations.Where(e => e.idEvaluatorTeam == idEvaluatorTeam && e.idEvaluatorOrganization == idEvaluatorOrganization && e.orgTypeEvaluator == orgTypeEvaluator && e.idEvaluatedOrganization == idEvaluatedOrganization && e.orgTypeEvaluated == orgTypeEvaluated && e.idCenter == idCenter && e.illness == illness).ToList();
-                return Ok(indicatorsEvaluations);
+                List<JsonDocument> result = new List<JsonDocument>();
+                foreach (var indicatorsEvaluation in indicatorsEvaluations)
+                {
+                    String rg = "{\"evaluationDate\":\"" + indicatorsEvaluation.evaluationDate + "\"," +
+                                "\"idEvaluatedOrganization\":\"" + idEvaluatedOrganization + "\"," +
+                                "\"orgTypeEvaluated\":\"" + orgTypeEvaluated + "\"," +
+                                "\"idEvaluatorTeam\":\"" + idEvaluatorTeam + "\"," +
+                                "\"idEvaluatorOrganization\":\"" + idEvaluatorOrganization + "\"," +
+                                "\"orgTypeEvaluator\":\"" + orgTypeEvaluator + "\"," +
+                                "\"illness\":\"" + illness + "\"," +
+                                "\"idCenter\":\"" + idCenter + "\"," +
+                                "\"conclusionsSpanish\":\"" + indicatorsEvaluation.conclusionsSpanish + "\"," +
+                                "\"conclusionsEnglish\":\"" + indicatorsEvaluation.conclusionsEnglish + "\"," +
+                                "\"conclusionsFrench\":\"" + indicatorsEvaluation.conclusionsFrench + "\"," +
+                                "\"conclusionsBasque\":\"" + indicatorsEvaluation.conclusionsBasque + "\"," +
+                                "\"conclusionsCatalan\":\"" + indicatorsEvaluation.conclusionsCatalan + "\"," +
+                                "\"conclusionsDutch\":\"" + indicatorsEvaluation.conclusionsDutch + "\"," +
+                                "\"conclusionsGalician\":\"" + indicatorsEvaluation.conclusionsGalician + "\"," +
+                                "\"conclusionsGerman\":\"" + indicatorsEvaluation.conclusionsGerman + "\"," +
+                                "\"conclusionsItalian\":\"" + indicatorsEvaluation.conclusionsItalian + "\"," +
+                                "\"conclusionsPortuguese\":\"" + indicatorsEvaluation.conclusionsPortuguese + "\"," +
+                                "\"scorePriorityZeroColourRed\":\"" + indicatorsEvaluation.scorePriorityZeroColourRed + "\"," +
+                                "\"scorePriorityZeroColourYellow\":\"" + indicatorsEvaluation.scorePriorityZeroColourYellow + "\"," +
+                                "\"scorePriorityZeroColourGreen\":\"" + indicatorsEvaluation.scorePriorityZeroColourGreen + "\"," +
+                                "\"scorePriorityOneColourRed\":\"" + indicatorsEvaluation.scorePriorityOneColourRed + "\"," +
+                                "\"scorePriorityOneColourYellow\":\"" + indicatorsEvaluation.scorePriorityOneColourYellow + "\"," +
+                                "\"scorePriorityOneColourGreen\":\"" + indicatorsEvaluation.scorePriorityOneColourGreen + "\"," +
+                                "\"scorePriorityTwoColourRed\":\"" + indicatorsEvaluation.scorePriorityTwoColourRed + "\"," +
+                                "\"scorePriorityTwoColourYellow\":\"" + indicatorsEvaluation.scorePriorityTwoColourYellow + "\"," +
+                                "\"scorePriorityTwoColourGreen\":\"" + indicatorsEvaluation.scorePriorityTwoColourGreen + "\"," +
+                                "\"scorePriorityThreeColourRed\":\"" + indicatorsEvaluation.scorePriorityThreeColourRed + "\"," +
+                                "\"scorePriorityThreeColourYellow\":\"" + indicatorsEvaluation.scorePriorityThreeColourYellow + "\"," +
+                                "\"scorePriorityThreeColourGreen\":\"" + indicatorsEvaluation.scorePriorityThreeColourGreen + "\"," +
+                                "\"totalScore\":\"" + indicatorsEvaluation.totalScore + "\"," +
+                                "\"isFinished\":\"" + indicatorsEvaluation.isFinished + "\"," +
+                                "\"evaluationType\":\"" + indicatorsEvaluation.evaluationType + "\"," +
+                                "\"level\":\"" + indicatorsEvaluation.level + "\"}";
+
+                    result.Add(JsonDocument.Parse(rg));
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -95,7 +175,47 @@ namespace OTEAServer.Controllers
             try
             {
                 var indicatorsEvaluations = _context.IndicatorsEvaluations.Where(e => e.idEvaluatorTeam==idEvaluatorTeam && e.idEvaluatorOrganization == idEvaluatorOrganization && e.orgTypeEvaluator == orgTypeEvaluator && e.idEvaluatedOrganization == idEvaluatedOrganization && e.orgTypeEvaluated == orgTypeEvaluated && e.illness == illness && e.idCenter == idCenter && e.isFinished == 0).ToList();
-                return Ok(indicatorsEvaluations);
+                List<JsonDocument> result = new List<JsonDocument>();
+                foreach (var indicatorsEvaluation in indicatorsEvaluations)
+                {
+                    String rg = "{\"evaluationDate\":\"" + indicatorsEvaluation.evaluationDate + "\"," +
+                                "\"idEvaluatedOrganization\":\"" + idEvaluatedOrganization + "\"," +
+                                "\"orgTypeEvaluated\":\"" + orgTypeEvaluated + "\"," +
+                                "\"idEvaluatorTeam\":\"" + idEvaluatorTeam + "\"," +
+                                "\"idEvaluatorOrganization\":\"" + idEvaluatorOrganization + "\"," +
+                                "\"orgTypeEvaluator\":\"" + orgTypeEvaluator + "\"," +
+                                "\"illness\":\"" + illness + "\"," +
+                                "\"idCenter\":\"" + idCenter + "\"," +
+                                "\"conclusionsSpanish\":\"" + indicatorsEvaluation.conclusionsSpanish + "\"," +
+                                "\"conclusionsEnglish\":\"" + indicatorsEvaluation.conclusionsEnglish + "\"," +
+                                "\"conclusionsFrench\":\"" + indicatorsEvaluation.conclusionsFrench + "\"," +
+                                "\"conclusionsBasque\":\"" + indicatorsEvaluation.conclusionsBasque + "\"," +
+                                "\"conclusionsCatalan\":\"" + indicatorsEvaluation.conclusionsCatalan + "\"," +
+                                "\"conclusionsDutch\":\"" + indicatorsEvaluation.conclusionsDutch + "\"," +
+                                "\"conclusionsGalician\":\"" + indicatorsEvaluation.conclusionsGalician + "\"," +
+                                "\"conclusionsGerman\":\"" + indicatorsEvaluation.conclusionsGerman + "\"," +
+                                "\"conclusionsItalian\":\"" + indicatorsEvaluation.conclusionsItalian + "\"," +
+                                "\"conclusionsPortuguese\":\"" + indicatorsEvaluation.conclusionsPortuguese + "\"," +
+                                "\"scorePriorityZeroColourRed\":\"" + indicatorsEvaluation.scorePriorityZeroColourRed + "\"," +
+                                "\"scorePriorityZeroColourYellow\":\"" + indicatorsEvaluation.scorePriorityZeroColourYellow + "\"," +
+                                "\"scorePriorityZeroColourGreen\":\"" + indicatorsEvaluation.scorePriorityZeroColourGreen + "\"," +
+                                "\"scorePriorityOneColourRed\":\"" + indicatorsEvaluation.scorePriorityOneColourRed + "\"," +
+                                "\"scorePriorityOneColourYellow\":\"" + indicatorsEvaluation.scorePriorityOneColourYellow + "\"," +
+                                "\"scorePriorityOneColourGreen\":\"" + indicatorsEvaluation.scorePriorityOneColourGreen + "\"," +
+                                "\"scorePriorityTwoColourRed\":\"" + indicatorsEvaluation.scorePriorityTwoColourRed + "\"," +
+                                "\"scorePriorityTwoColourYellow\":\"" + indicatorsEvaluation.scorePriorityTwoColourYellow + "\"," +
+                                "\"scorePriorityTwoColourGreen\":\"" + indicatorsEvaluation.scorePriorityTwoColourGreen + "\"," +
+                                "\"scorePriorityThreeColourRed\":\"" + indicatorsEvaluation.scorePriorityThreeColourRed + "\"," +
+                                "\"scorePriorityThreeColourYellow\":\"" + indicatorsEvaluation.scorePriorityThreeColourYellow + "\"," +
+                                "\"scorePriorityThreeColourGreen\":\"" + indicatorsEvaluation.scorePriorityThreeColourGreen + "\"," +
+                                "\"totalScore\":\"" + indicatorsEvaluation.totalScore + "\"," +
+                                "\"isFinished\":\"" + indicatorsEvaluation.isFinished + "\"," +
+                                "\"evaluationType\":\"" + indicatorsEvaluation.evaluationType + "\"," +
+                                "\"level\":\"" + indicatorsEvaluation.level + "\"}";
+
+                    result.Add(JsonDocument.Parse(rg));
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {

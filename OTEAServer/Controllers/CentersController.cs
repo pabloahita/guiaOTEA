@@ -5,6 +5,7 @@ using OTEAServer.Models;
 using System.Data.SqlClient;
 using System.Net;
 using System.Security.Policy;
+using System.Text.Json;
 
 namespace OTEAServer.Controllers
 {
@@ -43,7 +44,30 @@ namespace OTEAServer.Controllers
             {
 
                 var centers = _context.Centers.ToList();
-                return Ok(centers);
+                List<JsonDocument> result = new List<JsonDocument>();
+                foreach (var center in centers)
+                {
+                    String rg = "{\"idOrganization\":\"" + center.idOrganization + "\"," +
+                            "\"orgType\":\"" + center.orgType + "\"," +
+                            "\"illness\":\"" + center.illness + "\"," +
+                            "\"idCenter\":\"" + center.idCenter + "\"," +
+                            "\"descriptionSpanish\":\"" + center.descriptionSpanish + "\"," +
+                            "\"descriptionEnglish\":\"" + center.descriptionEnglish + "\"," +
+                            "\"descriptionFrench\":\"" + center.descriptionFrench + "\"," +
+                            "\"descriptionBasque\":\"" + center.descriptionBasque + "\"," +
+                            "\"descriptionCatalan\":\"" + center.descriptionCatalan + "\"," +
+                            "\"descriptionDutch\":\"" + center.descriptionDutch + "\"," +
+                            "\"descriptionGalician\":\"" + center.descriptionGalician + "\"," +
+                            "\"descriptionGerman\":\"" + center.descriptionGerman + "\"," +
+                            "\"descriptionItalian\":\"" + center.descriptionItalian + "\"," +
+                            "\"descriptionPortuguese\":\"" + center.descriptionPortuguese + "\"," +
+                            "\"telephone\":\"" + center.telephone + "\"," +
+                            "\"idAddress\":\"" + center.idAddress + "\"," +
+                            "\"email\":\"" + center.email + "\"," +
+                            "\"profilePhoto\":\"" + center.profilePhoto + "\"}";
+                    result.Add(JsonDocument.Parse(rg));
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -64,7 +88,30 @@ namespace OTEAServer.Controllers
             {
 
                 var centers = _context.Centers.Where(c => c.idOrganization == idOrganization && c.orgType == orgType && c.illness == illness).ToList();
-                return Ok(centers);
+                List<JsonDocument> result = new List<JsonDocument>();
+                foreach (var center in centers)
+                {
+                    String rg = "{\"idOrganization\":\"" + center.idOrganization + "\"," +
+                            "\"orgType\":\"" + center.orgType + "\"," +
+                            "\"illness\":\"" + center.illness + "\"," +
+                            "\"idCenter\":\"" + center.idCenter + "\"," +
+                            "\"descriptionSpanish\":\"" + center.descriptionSpanish + "\"," +
+                            "\"descriptionEnglish\":\"" + center.descriptionEnglish + "\"," +
+                            "\"descriptionFrench\":\"" + center.descriptionFrench + "\"," +
+                            "\"descriptionBasque\":\"" + center.descriptionBasque + "\"," +
+                            "\"descriptionCatalan\":\"" + center.descriptionCatalan + "\"," +
+                            "\"descriptionDutch\":\"" + center.descriptionDutch + "\"," +
+                            "\"descriptionGalician\":\"" + center.descriptionGalician + "\"," +
+                            "\"descriptionGerman\":\"" + center.descriptionGerman + "\"," +
+                            "\"descriptionItalian\":\"" + center.descriptionItalian + "\"," +
+                            "\"descriptionPortuguese\":\"" + center.descriptionPortuguese + "\"," +
+                            "\"telephone\":\"" + center.telephone + "\"," +
+                            "\"idAddress\":\"" + center.idAddress + "\"," +
+                            "\"email\":\"" + center.email + "\"," +
+                            "\"profilePhoto\":\"" + center.profilePhoto + "\"}";
+                    result.Add(JsonDocument.Parse(rg));
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {

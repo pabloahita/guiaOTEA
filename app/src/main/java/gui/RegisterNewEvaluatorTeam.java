@@ -546,7 +546,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                                 String observationsText=observations.getText().toString();
 
                             if(profilePhotoEvalTeam!=null){
-                                imgEvalTeamName="EVALTEAM_"+idEvaluatorTeam+"_"+ centerSelected.getIdCenter()+"_"+centerSelected.getIdOrganization()+"_"+centerSelected.getOrgType()+"_"+centerSelected.getIllness()+".jpg";
+                                imgEvalTeamName="EVALTEAM_"+idEvaluatorTeam+"_"+ centerSelected.getIdCenter()+"_"+centerSelected.getIdOrganization()+"_"+centerSelected.getOrgType()+"_"+centerSelected.getIllness()+".webp";
                                 FileManager.uploadFile(profilePhotoEvalTeam, "profile-photos", imgEvalTeamName);
                                 try{
                                     profilePhotoEvalTeam.close();

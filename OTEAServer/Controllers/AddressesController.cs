@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Misc;
 using OTEAServer.Models;
 using System.Data;
+using System.Net;
+using System.Text.Json;
 
 namespace OTEAServer.Controllers
 {
@@ -41,7 +44,21 @@ namespace OTEAServer.Controllers
         {
             try {
                 var addresses = _context.Addresses.ToList();
-                return Ok(addresses);
+                List<JsonDocument> result = new List<JsonDocument>();
+                foreach (Address address in addresses)
+                {
+                    String rg = "{\"idAddress\":\"" + address.idAddress + "\"," +
+                            "\"addressName\":\"" + address.addressName + "\"," +
+                            "\"idCity\":\"" + address.idCity + "\"," +
+                            "\"idProvince\":\"" + address.idProvince + "\"," +
+                            "\"idRegion\":\"" + address.idRegion + "\"," +
+                            "\"idCountry\":\"" + address.idCountry + "\"," +
+                            "\"nameCity\":\"" + address.nameCity + "\"," +
+                            "\"nameProvince\":\"" + address.nameProvince + "\"," +
+                            "\"nameRegion\":\"" + address.nameRegion + "\"}";
+                    result.Add(JsonDocument.Parse(rg));
+                }
+                return Ok(result);
             }
             catch (Exception ex) {
                 return BadRequest(ex.Message);

@@ -1,7 +1,10 @@
 package otea.connection.controller;
 
 
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -65,11 +68,11 @@ public class AddressesController {
      * */
     public static List<Address> GetAll(){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<Address>> callable = new Callable<List<Address>>() {
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
-            public List<Address> call() throws Exception {
-                Call<List<Address>> call = api.GetAll();
-                Response<List<Address>> response = call.execute();
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call = api.GetAll();
+                Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
@@ -78,10 +81,23 @@ public class AddressesController {
             }
         };
         try {
-            Future<List<Address>> future = executor.submit(callable);
-            List<Address> list = future.get();
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> list = future.get();
             executor.shutdown();
-            return list;
+            List<Address> addresses=new ArrayList<>();
+            for(JsonObject address:list){
+                int idAddress=address.getAsJsonPrimitive("idAddress").getAsInt();
+                String addressName=address.getAsJsonPrimitive("addressName").getAsString();
+                int idCity=address.getAsJsonPrimitive("idCity").getAsInt();
+                int idProvince=address.getAsJsonPrimitive("idProvince").getAsInt();
+                int idRegion=address.getAsJsonPrimitive("idRegion").getAsInt();
+                String idCountry=address.getAsJsonPrimitive("idCountry").getAsString();
+                String nameCity=address.getAsJsonPrimitive("nameCity").getAsString();
+                String nameProvince=address.getAsJsonPrimitive("nameProvince").getAsString();
+                String nameRegion=address.getAsJsonPrimitive("nameRegion").getAsString();
+                addresses.add(new Address(idAddress, addressName, idCity, idProvince, idRegion, idCountry, nameCity, nameProvince, nameRegion));
+            }
+            return addresses;
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }

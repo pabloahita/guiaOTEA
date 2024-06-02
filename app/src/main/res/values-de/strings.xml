@@ -286,6 +286,42 @@
     <string name="high_interest">Von hohem Interesse</string>
     <string name="medium_interest">Von mittlerem Interesse</string>
     <string name="low_interest">Von geringem Interesse</string>
+    <string name="physical_welfare">Körperliches Wohlergehen</string>
+    <string name="autism_people_perspective">Perspektive von Menschen mit Autismus</string>
+    <string name="families_perspective">Perspektive der Familien</string>
+    <string name="professionals_perspective">Perspektive der Fachleute</string>
+    <string name="emotional_welfare">Emotionales Wohlbefinden</string>
+    <string name="material_welfare">Materielles Wohlergehen</string>
+    <string name="interpersonal_relationships">Zwischenmenschliche Beziehungen</string>
+    <string name="personal_development">Persönliche Entwicklung</string>
+    <string name="rights">Rechte</string>
+    <string name="self_determination">Selbstbestimmung</string>
+    <string name="social_inclusion">Soziale Inklusion</string>
+    <string name="programming">Programmierung</string>
+    <string name="support_planning">Unterstützungsplanung</string>
+    <string name="mon_and_eval_plan">Überwachungs- und Bewertungsplan</string>
+    <string name="knowledge_autism">Kenntnis von Autismus</string>
+    <string name="pers_centered_plan">Personenzentrierte Planung</string>
+    <string name="att_values">Einstellungen und Werte</string>
+    <string name="part_research">Teilnahme an Forschung</string>
+    <string name="peer_groups">Peer-Gruppen</string>
+    <string name="activity_org">Organisation der Aktivität</string>
+    <string name="schedule">Zeitplan</string>
+    <string name="com_cord">Kommunikation/Koordination</string>
+    <string name="systemic_eval">Systemische Bewertung</string>
+    <string name="leadership">Führung</string>
+    <string name="innovation">Innovation</string>
+    <string name="con_err">Ihr Gerät konnte keine korrekte Verbindung zum Server der Fundación Miradas herstellen. Bitte überprüfen Sie die Internetverbindung Ihres Geräts oder versuchen Sie es später erneut</string>
+    <string name="con_err_title">Ihre Internetverbindung ist instabil oder nicht vorhanden</string>
+    <string name="requires_improvement_plan">Der Indikator muss im Verbesserungsplan enthalten sein</string>
+    <string name="improvement_opportunities">Verbesserungsmöglichkeiten</string>
+    <string name="about_indicator">Über den Indikator</string>
+    <string name="about_the_evidence_1">Über den Beweis 1</string>
+    <string name="about_the_evidence_2">Über den Beweis 2</string>
+    <string name="about_the_evidence_3">Über den Beweis 3</string>
+    <string name="about_the_evidence_4">Über den Beweis 4</string>
+    <string name="fulfilled_evidences">Erfüllte Beweise</string>
+    <string name="indicator">Indikator</string>
 
 
 </resources>

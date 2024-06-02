@@ -19,6 +19,9 @@
         android:theme="@style/Theme.TFG2223.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name="gui.DownloadImprovementPlan"
+            android:exported="false" />
+        <activity
             android:name="gui.SelectToSeeRealizedIndicatorsEvaluations"
             android:exported="false" />
         <activity
@@ -29,6 +32,7 @@
             android:exported="false" />
         <activity
             android:name="gui.SeeRealizedIndicatorsEvaluations"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false" />
         <activity
             android:name="gui.SelectToContinueIndicatorsEvaluations"
@@ -61,10 +65,6 @@
             android:name="gui.settings.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings" />
-        <activity
-            android:name="gui.ui.startSession.StartSession"
-            android:exported="false"
-            android:label="@string/sign_in" />
         <activity
             android:name="gui.DoIndicatorsEvaluation"
             android:exported="false" />

@@ -283,6 +283,42 @@
     <string name="high_interest">Di interesse alto</string>
     <string name="medium_interest">Di interesse medio</string>
     <string name="low_interest">Di interesse basso</string>
+    <string name="physical_welfare">Benessere fisico</string>
+    <string name="autism_people_perspective">Prospettiva delle persone con autismo</string>
+    <string name="families_perspective">Prospettiva delle famiglie</string>
+    <string name="professionals_perspective">Prospettiva dei professionisti</string>
+    <string name="emotional_welfare">Benessere emotivo</string>
+    <string name="material_welfare">Benessere materiale</string>
+    <string name="interpersonal_relationships">Relazioni interpersonali</string>
+    <string name="personal_development">Crescita personale</string>
+    <string name="rights">Diritti</string>
+    <string name="self_determination">Autodeterminazione</string>
+    <string name="social_inclusion">Integrazione sociale</string>
+    <string name="programming">Programmazione</string>
+    <string name="support_planning">Pianificazione del supporto</string>
+    <string name="mon_and_eval_plan">Piano di monitoraggio e valutazione</string>
+    <string name="knowledge_autism">Conoscenza dell\'autismo</string>
+    <string name="pers_centered_plan">Pianificazione centrata sulla persona</string>
+    <string name="att_values">Atteggiamenti e valori</string>
+    <string name="part_research">Partecipazione alle ricerche</string>
+    <string name="peer_groups">Gruppi di pari</string>
+    <string name="activity_org">Organizzazione dell\'attività</string>
+    <string name="schedule">Orario</string>
+    <string name="com_cord">Comunicazione/Coordinamento</string>
+    <string name="systemic_eval">Valutazione sistemica</string>
+    <string name="leadership">Leadership</string>
+    <string name="innovation">Innovazione</string>
+    <string name="con_err">Il tuo dispositivo non è riuscito a connettersi correttamente al server di Fundación Miradas. Si prega di controllare la connessione a internet del dispositivo o riprovare più tardi</string>
+    <string name="con_err_title">La tua connessione internet è instabile o inesistente</string>
+    <string name="requires_improvement_plan">L\'indicatore deve essere nel piano di miglioramento</string>
+    <string name="improvement_opportunities">Opportunità di miglioramento</string>
+    <string name="about_indicator">Sull\'indicatore</string>
+    <string name="about_the_evidence_1">Sulla prova 1</string>
+    <string name="about_the_evidence_2">Sulla prova 2</string>
+    <string name="about_the_evidence_3">Sulla prova 3</string>
+    <string name="about_the_evidence_4">Sulla prova 4</string>
+    <string name="fulfilled_evidences">Evidenze soddisfatte</string>
+    <string name="indicator">Indicatore</string>
 
 
 </resources>

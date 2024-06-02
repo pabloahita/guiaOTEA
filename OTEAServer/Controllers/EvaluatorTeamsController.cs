@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Misc;
 using OTEAServer.Models;
+using System.Net;
+using System.Text.Json;
 
 namespace OTEAServer.Controllers
 {
@@ -40,7 +42,41 @@ namespace OTEAServer.Controllers
             try
             {
                 var evaluatorTeams = _context.EvaluatorTeams.ToList();
-                return Ok(evaluatorTeams);
+                List<JsonDocument> result = new List<JsonDocument>();
+                foreach (var evaluatorTeam in evaluatorTeams)
+                {
+                    String rg = "{\"idEvaluatorTeam\":\"" + evaluatorTeam.idEvaluatorTeam + "\"," +
+                            "\"creationDate\":\"" + evaluatorTeam.creationDate + "\"," +
+                            "\"emailProfessional\":\"" + evaluatorTeam.emailProfessional + "\"," +
+                            "\"emailResponsible\":\"" + evaluatorTeam.emailResponsible + "\"," +
+                            "\"otherMembers\":\"" + evaluatorTeam.otherMembers + "\"," +
+                            "\"idEvaluatorOrganization\":\"" + evaluatorTeam.idEvaluatorOrganization + "\"," +
+                            "\"orgTypeEvaluator\":\"" + evaluatorTeam.orgTypeEvaluator + "\"," +
+                            "\"idEvaluatedOrganization\":\"" + evaluatorTeam.idEvaluatedOrganization + "\"," +
+                            "\"orgTypeEvaluated\":\"" + evaluatorTeam.orgTypeEvaluated + "\"," +
+                            "\"idCenter\":\"" + evaluatorTeam.idCenter + "\"," +
+                            "\"illness\":\"" + evaluatorTeam.illness + "\"," +
+                            "\"otherMembers\":\"" + evaluatorTeam.otherMembers + "\"," +
+                            "\"externalConsultant\":\"" + evaluatorTeam.externalConsultant + "\"," +
+                            "\"patientName\":\"" + evaluatorTeam.patientName + "\"," +
+                            "\"relativeName\":\"" + evaluatorTeam.relativeName + "\"," +
+                            "\"observationsSpanish\":\"" + evaluatorTeam.observationsSpanish + "\"," +
+                            "\"observationsEnglish\":\"" + evaluatorTeam.observationsEnglish + "\"," +
+                            "\"observationsFrench\":\"" + evaluatorTeam.observationsFrench + "\"," +
+                            "\"observationsBasque\":\"" + evaluatorTeam.observationsBasque + "\"," +
+                            "\"observationsCatalan\":\"" + evaluatorTeam.observationsCatalan + "\"," +
+                            "\"observationsDutch\":\"" + evaluatorTeam.observationsDutch + "\"," +
+                            "\"observationsGalician\":\"" + evaluatorTeam.observationsGalician + "\"," +
+                            "\"observationsGerman\":\"" + evaluatorTeam.observationsGerman + "\"," +
+                            "\"observationsItalian\":\"" + evaluatorTeam.observationsItalian + "\"," +
+                            "\"observationsPortuguese\":\"" + evaluatorTeam.observationsPortuguese + "\"," +
+                            "\"evaluationDates\":\"" + evaluatorTeam.evaluationDates + "\"," +
+                            "\"completedEvaluationDates\":\"" + evaluatorTeam.completedEvaluationDates + "\"," +
+                            "\"totalEvaluationDates\":\"" + evaluatorTeam.totalEvaluationDates + "\"," +
+                            "\"profilePhoto\":\"" + evaluatorTeam.profilePhoto + "\"}";
+                    result.Add(JsonDocument.Parse(rg));
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -62,7 +98,41 @@ namespace OTEAServer.Controllers
             try
             {
                 var evaluatorTeams = _context.EvaluatorTeams.Where(e => e.idEvaluatedOrganization == id && e.orgTypeEvaluated == orgType && e.idCenter == idCenter && e.illness == illness && e.completedEvaluationDates<e.totalEvaluationDates).ToList();
-                return Ok(evaluatorTeams);
+                List<JsonDocument> result = new List<JsonDocument>();
+                foreach (var evaluatorTeam in evaluatorTeams)
+                {
+                    String rg = "{\"idEvaluatorTeam\":\"" + evaluatorTeam.idEvaluatorTeam + "\"," +
+                            "\"creationDate\":\"" + evaluatorTeam.creationDate + "\"," +
+                            "\"emailProfessional\":\"" + evaluatorTeam.emailProfessional + "\"," +
+                            "\"emailResponsible\":\"" + evaluatorTeam.emailResponsible + "\"," +
+                            "\"otherMembers\":\"" + evaluatorTeam.otherMembers + "\"," +
+                            "\"idEvaluatorOrganization\":\"" + evaluatorTeam.idEvaluatorOrganization + "\"," +
+                            "\"orgTypeEvaluator\":\"" + evaluatorTeam.orgTypeEvaluator + "\"," +
+                            "\"idEvaluatedOrganization\":\"" + evaluatorTeam.idEvaluatedOrganization + "\"," +
+                            "\"orgTypeEvaluated\":\"" + evaluatorTeam.orgTypeEvaluated + "\"," +
+                            "\"idCenter\":\"" + evaluatorTeam.idCenter + "\"," +
+                            "\"illness\":\"" + evaluatorTeam.illness + "\"," +
+                            "\"otherMembers\":\"" + evaluatorTeam.otherMembers + "\"," +
+                            "\"externalConsultant\":\"" + evaluatorTeam.externalConsultant + "\"," +
+                            "\"patientName\":\"" + evaluatorTeam.patientName + "\"," +
+                            "\"relativeName\":\"" + evaluatorTeam.relativeName + "\"," +
+                            "\"observationsSpanish\":\"" + evaluatorTeam.observationsSpanish + "\"," +
+                            "\"observationsEnglish\":\"" + evaluatorTeam.observationsEnglish + "\"," +
+                            "\"observationsFrench\":\"" + evaluatorTeam.observationsFrench + "\"," +
+                            "\"observationsBasque\":\"" + evaluatorTeam.observationsBasque + "\"," +
+                            "\"observationsCatalan\":\"" + evaluatorTeam.observationsCatalan + "\"," +
+                            "\"observationsDutch\":\"" + evaluatorTeam.observationsDutch + "\"," +
+                            "\"observationsGalician\":\"" + evaluatorTeam.observationsGalician + "\"," +
+                            "\"observationsGerman\":\"" + evaluatorTeam.observationsGerman + "\"," +
+                            "\"observationsItalian\":\"" + evaluatorTeam.observationsItalian + "\"," +
+                            "\"observationsPortuguese\":\"" + evaluatorTeam.observationsPortuguese + "\"," +
+                            "\"evaluationDates\":\"" + evaluatorTeam.evaluationDates + "\"," +
+                            "\"completedEvaluationDates\":\"" + evaluatorTeam.completedEvaluationDates + "\"," +
+                            "\"totalEvaluationDates\":\"" + evaluatorTeam.totalEvaluationDates + "\"," +
+                            "\"profilePhoto\":\"" + evaluatorTeam.profilePhoto + "\"}";
+                    result.Add(JsonDocument.Parse(rg));
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -84,7 +154,41 @@ namespace OTEAServer.Controllers
             try
             {
                 var evaluatorTeams = _context.EvaluatorTeams.Where(e => e.idEvaluatedOrganization == id && e.orgTypeEvaluated == orgType && e.idCenter == idCenter && e.illness == illness && e.completedEvaluationDates == e.totalEvaluationDates).ToList();
-                return Ok(evaluatorTeams);
+                List<JsonDocument> result = new List<JsonDocument>();
+                foreach( var evaluatorTeam in evaluatorTeams )
+                {
+                    String rg = "{\"idEvaluatorTeam\":\"" + evaluatorTeam.idEvaluatorTeam + "\"," +
+                            "\"creationDate\":\"" + evaluatorTeam.creationDate + "\"," +
+                            "\"emailProfessional\":\"" + evaluatorTeam.emailProfessional + "\"," +
+                            "\"emailResponsible\":\"" + evaluatorTeam.emailResponsible + "\"," +
+                            "\"otherMembers\":\"" + evaluatorTeam.otherMembers + "\"," +
+                            "\"idEvaluatorOrganization\":\"" + evaluatorTeam.idEvaluatorOrganization + "\"," +
+                            "\"orgTypeEvaluator\":\"" + evaluatorTeam.orgTypeEvaluator + "\"," +
+                            "\"idEvaluatedOrganization\":\"" + evaluatorTeam.idEvaluatedOrganization + "\"," +
+                            "\"orgTypeEvaluated\":\"" + evaluatorTeam.orgTypeEvaluated + "\"," +
+                            "\"idCenter\":\"" + evaluatorTeam.idCenter + "\"," +
+                            "\"illness\":\"" + evaluatorTeam.illness + "\"," +
+                            "\"otherMembers\":\"" + evaluatorTeam.otherMembers + "\"," +
+                            "\"externalConsultant\":\"" + evaluatorTeam.externalConsultant + "\"," +
+                            "\"patientName\":\"" + evaluatorTeam.patientName + "\"," +
+                            "\"relativeName\":\"" + evaluatorTeam.relativeName + "\"," +
+                            "\"observationsSpanish\":\"" + evaluatorTeam.observationsSpanish + "\"," +
+                            "\"observationsEnglish\":\"" + evaluatorTeam.observationsEnglish + "\"," +
+                            "\"observationsFrench\":\"" + evaluatorTeam.observationsFrench + "\"," +
+                            "\"observationsBasque\":\"" + evaluatorTeam.observationsBasque + "\"," +
+                            "\"observationsCatalan\":\"" + evaluatorTeam.observationsCatalan + "\"," +
+                            "\"observationsDutch\":\"" + evaluatorTeam.observationsDutch + "\"," +
+                            "\"observationsGalician\":\"" + evaluatorTeam.observationsGalician + "\"," +
+                            "\"observationsGerman\":\"" + evaluatorTeam.observationsGerman + "\"," +
+                            "\"observationsItalian\":\"" + evaluatorTeam.observationsItalian + "\"," +
+                            "\"observationsPortuguese\":\"" + evaluatorTeam.observationsPortuguese + "\"," +
+                            "\"evaluationDates\":\"" + evaluatorTeam.evaluationDates + "\"," +
+                            "\"completedEvaluationDates\":\"" + evaluatorTeam.completedEvaluationDates + "\"," +
+                            "\"totalEvaluationDates\":\"" + evaluatorTeam.totalEvaluationDates + "\"," +
+                            "\"profilePhoto\":\"" + evaluatorTeam.profilePhoto + "\"}";
+                    result.Add(JsonDocument.Parse(rg));
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -105,7 +209,41 @@ namespace OTEAServer.Controllers
             try
             {
                 var evaluatorTeams = _context.EvaluatorTeams.Where(e => e.idEvaluatedOrganization == id && e.orgTypeEvaluated == orgType && e.illness == illness).ToList();
-                return Ok(evaluatorTeams);
+                List<JsonDocument> result = new List<JsonDocument>();
+                foreach (var evaluatorTeam in evaluatorTeams)
+                {
+                    String rg = "{\"idEvaluatorTeam\":\"" + evaluatorTeam.idEvaluatorTeam + "\"," +
+                            "\"creationDate\":\"" + evaluatorTeam.creationDate + "\"," +
+                            "\"emailProfessional\":\"" + evaluatorTeam.emailProfessional + "\"," +
+                            "\"emailResponsible\":\"" + evaluatorTeam.emailResponsible + "\"," +
+                            "\"otherMembers\":\"" + evaluatorTeam.otherMembers + "\"," +
+                            "\"idEvaluatorOrganization\":\"" + evaluatorTeam.idEvaluatorOrganization + "\"," +
+                            "\"orgTypeEvaluator\":\"" + evaluatorTeam.orgTypeEvaluator + "\"," +
+                            "\"idEvaluatedOrganization\":\"" + evaluatorTeam.idEvaluatedOrganization + "\"," +
+                            "\"orgTypeEvaluated\":\"" + evaluatorTeam.orgTypeEvaluated + "\"," +
+                            "\"idCenter\":\"" + evaluatorTeam.idCenter + "\"," +
+                            "\"illness\":\"" + evaluatorTeam.illness + "\"," +
+                            "\"otherMembers\":\"" + evaluatorTeam.otherMembers + "\"," +
+                            "\"externalConsultant\":\"" + evaluatorTeam.externalConsultant + "\"," +
+                            "\"patientName\":\"" + evaluatorTeam.patientName + "\"," +
+                            "\"relativeName\":\"" + evaluatorTeam.relativeName + "\"," +
+                            "\"observationsSpanish\":\"" + evaluatorTeam.observationsSpanish + "\"," +
+                            "\"observationsEnglish\":\"" + evaluatorTeam.observationsEnglish + "\"," +
+                            "\"observationsFrench\":\"" + evaluatorTeam.observationsFrench + "\"," +
+                            "\"observationsBasque\":\"" + evaluatorTeam.observationsBasque + "\"," +
+                            "\"observationsCatalan\":\"" + evaluatorTeam.observationsCatalan + "\"," +
+                            "\"observationsDutch\":\"" + evaluatorTeam.observationsDutch + "\"," +
+                            "\"observationsGalician\":\"" + evaluatorTeam.observationsGalician + "\"," +
+                            "\"observationsGerman\":\"" + evaluatorTeam.observationsGerman + "\"," +
+                            "\"observationsItalian\":\"" + evaluatorTeam.observationsItalian + "\"," +
+                            "\"observationsPortuguese\":\"" + evaluatorTeam.observationsPortuguese + "\"," +
+                            "\"evaluationDates\":\"" + evaluatorTeam.evaluationDates + "\"," +
+                            "\"completedEvaluationDates\":\"" + evaluatorTeam.completedEvaluationDates + "\"," +
+                            "\"totalEvaluationDates\":\"" + evaluatorTeam.totalEvaluationDates + "\"," +
+                            "\"profilePhoto\":\"" + evaluatorTeam.profilePhoto + "\"}";
+                    result.Add(JsonDocument.Parse(rg));
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {

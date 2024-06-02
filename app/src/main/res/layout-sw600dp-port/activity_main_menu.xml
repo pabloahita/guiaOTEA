@@ -1,0 +1,1226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainMenu">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.071" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.20" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineSep1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.22" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineSep2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.98" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineSep3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.02" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineSep4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.98" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline6"
+        app:layout_constraintEnd_toStartOf="@+id/guidelineSep4"
+        app:layout_constraintStart_toStartOf="@+id/guidelineSep3"
+        app:layout_constraintTop_toTopOf="@+id/guideline5">
+
+
+        <androidx.gridlayout.widget.GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:columnCount="3"
+            app:rowCount="1">
+
+            <ImageView
+                android:id="@+id/imgUser"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:src="@drawable/no_usr_photo"
+                app:layout_columnWeight="0.9"
+                app:layout_rowWeight="1" />
+
+            <TextView
+                android:id="@+id/userInfo"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center_vertical"
+                android:text="TextView"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                app:layout_columnWeight="2"
+                app:layout_rowWeight="1" />
+
+            <ImageView
+                android:id="@+id/imgOrg"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:src="@drawable/no_org_photo"
+                app:layout_columnWeight="0.9"
+                app:layout_rowWeight="1" />
+
+        </androidx.gridlayout.widget.GridLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/evaluator"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="6dp"
+        android:visibility="gone"
+        app:columnCount="1"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineSep2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineSep1"
+        app:rowCount="3">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="2dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <ImageButton
+                android:id="@+id/addNewIndicatorsTestEvaluatorButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/round_button_background"
+                android:contentDescription="@string/add_new_indicators_evaluation"
+                android:scaleType="fitCenter"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/add_new_indicators_test" />
+
+            <TextView
+                android:id="@+id/addNewIndicatorsTestEvaluatorText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@string/add_new_indicators_evaluation"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guidelineAddNewIndicatorsTestEvaluator2"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineAddNewIndicatorsTestEvaluator4"
+                app:layout_constraintStart_toStartOf="@+id/guidelineAddNewIndicatorsTestEvaluator3"
+                app:layout_constraintTop_toTopOf="@+id/guidelineAddNewIndicatorsTestEvaluator1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewIndicatorsTestEvaluator1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.75" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewIndicatorsTestEvaluator2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.95" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewIndicatorsTestEvaluator3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewIndicatorsTestEvaluator4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="2dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <ImageButton
+                android:id="@+id/continueIndicatorsTestEvaluatorButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/round_button_background"
+                android:contentDescription="@string/continue_indicators"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/continue_indicators_test" />
+
+            <TextView
+                android:id="@+id/continueIndicatorsTestEvaluatorText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@string/continue_indicators"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guidelineContinueIndicatorsTestEvaluator2"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineContinueIndicatorsTestEvaluator4"
+                app:layout_constraintStart_toStartOf="@+id/guidelineContinueIndicatorsTestEvaluator3"
+                app:layout_constraintTop_toTopOf="@+id/guidelineContinueIndicatorsTestEvaluator1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineContinueIndicatorsTestEvaluator1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.75" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineContinueIndicatorsTestEvaluator2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.95" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineContinueIndicatorsTestEvaluator3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineContinueIndicatorsTestEvaluator4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="2dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <ImageButton
+                android:id="@+id/seeRealizedIndicatorTestEvaluatorButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/round_button_background"
+                android:contentDescription="@string/see_results"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/see_indicators_test" />
+
+            <TextView
+                android:id="@+id/seeRealizedIndicatorTestEvaluatorText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@string/see_results"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guidelineSeeRealizedIndicatorTestEvaluator2"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineSeeRealizedIndicatorTestEvaluator4"
+                app:layout_constraintStart_toStartOf="@+id/guidelineSeeRealizedIndicatorTestEvaluator3"
+                app:layout_constraintTop_toTopOf="@+id/guidelineSeeRealizedIndicatorTestEvaluator1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineSeeRealizedIndicatorTestEvaluator1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.75" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineSeeRealizedIndicatorTestEvaluator2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.95" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineSeeRealizedIndicatorTestEvaluator3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineSeeRealizedIndicatorTestEvaluator4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.gridlayout.widget.GridLayout>
+
+
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/evaluated"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="6dp"
+        android:visibility="gone"
+        app:columnCount="2"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineSep2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineSep1"
+        app:rowCount="3">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="2dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <ImageButton
+                android:id="@+id/seeRealizedIndicatorTestEvaluatedButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/round_button_background"
+                android:contentDescription="@string/see_results"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/see_indicators_test" />
+
+            <TextView
+                android:id="@+id/seeRealizedIndicatorTestEvaluatedText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@string/see_results"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guidelineSeeRealizedIndicatorTestEvaluated2"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineSeeRealizedIndicatorTestEvaluated4"
+                app:layout_constraintStart_toStartOf="@+id/guidelineSeeRealizedIndicatorTestEvaluated3"
+                app:layout_constraintTop_toTopOf="@+id/guidelineSeeRealizedIndicatorTestEvaluated1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineSeeRealizedIndicatorTestEvaluated1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.75" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineSeeRealizedIndicatorTestEvaluated2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.95" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineSeeRealizedIndicatorTestEvaluated3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineSeeRealizedIndicatorTestEvaluated4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.gridlayout.widget.GridLayout>
+
+
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/superuser"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="6dp"
+        app:columnCount="2"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineSep2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineSep1"
+        app:rowCount="3">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="2dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <ImageButton
+                android:id="@+id/addNewIndicatorsTestAdminButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/round_button_background"
+                android:contentDescription="@string/add_new_indicators_evaluation"
+                android:scaleType="fitCenter"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/add_new_indicators_test" />
+
+            <TextView
+                android:id="@+id/addNewIndicatorsTestAdminText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@string/add_new_indicators_evaluation"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guidelineAddNewIndicatorsTestAdmin2"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineAddNewIndicatorsTestAdmin4"
+                app:layout_constraintStart_toStartOf="@+id/guidelineAddNewIndicatorsTestAdmin3"
+                app:layout_constraintTop_toTopOf="@+id/guidelineAddNewIndicatorsTestAdmin1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewIndicatorsTestAdmin1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.8" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewIndicatorsTestAdmin2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.99" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewIndicatorsTestAdmin3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewIndicatorsTestAdmin4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="2dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <ImageButton
+                android:id="@+id/continueIndicatorsTestAdminButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/round_button_background"
+                android:contentDescription="@string/continue_indicators"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/continue_indicators_test" />
+
+            <TextView
+                android:id="@+id/continueIndicatorsTestAdminText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@string/continue_indicators"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guidelineContinueIndicatorsTestAdmin2"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineContinueIndicatorsTestAdmin4"
+                app:layout_constraintStart_toStartOf="@+id/guidelineContinueIndicatorsTestAdmin3"
+                app:layout_constraintTop_toTopOf="@+id/guidelineContinueIndicatorsTestAdmin1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineContinueIndicatorsTestAdmin1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.8" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineContinueIndicatorsTestAdmin2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.99" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineContinueIndicatorsTestAdmin3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineContinueIndicatorsTestAdmin4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="2dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <ImageButton
+                android:id="@+id/seeRealizedIndicatorTestAdminButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/round_button_background"
+                android:contentDescription="@string/see_results"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/see_indicators_test" />
+
+            <TextView
+                android:id="@+id/seeRealizedIndicatorTestAdminText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@string/see_results"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guidelineSeeRealizedIndicatorTestAdmin2"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineSeeRealizedIndicatorTestAdmin4"
+                app:layout_constraintStart_toStartOf="@+id/guidelineSeeRealizedIndicatorTestAdmin3"
+                app:layout_constraintTop_toTopOf="@+id/guidelineSeeRealizedIndicatorTestAdmin1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineSeeRealizedIndicatorTestAdmin1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.8" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineSeeRealizedIndicatorTestAdmin2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.99" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineSeeRealizedIndicatorTestAdmin3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineSeeRealizedIndicatorTestAdmin4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="2dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <ImageButton
+                android:id="@+id/addNewOrgAdminButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:background="@drawable/round_button_background"
+                android:contentDescription="@string/add_new_evaluated_org"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/add_new_evaluated_org" />
+
+            <TextView
+                android:id="@+id/addNewOrgAdminText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@string/add_new_evaluated_organization"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guidelineAddNewOrgAdmin2"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineAddNewOrgAdmin4"
+                app:layout_constraintStart_toStartOf="@+id/guidelineAddNewOrgAdmin3"
+                app:layout_constraintTop_toTopOf="@+id/guidelineAddNewOrgAdmin1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewOrgAdmin1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.8" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewOrgAdmin2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.99" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewOrgAdmin3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewOrgAdmin4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="2dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <ImageButton
+                android:id="@+id/downloadImprovementPlanAdminButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/round_button_background"
+                android:contentDescription="@string/edit_indicators"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/edit_indicators" />
+
+            <TextView
+                android:id="@+id/downloadImprovementPlanAdminText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@string/generate_report"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guidelineDownloadImprovementPlanAdmin2"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineDownloadImprovementPlanAdmin4"
+                app:layout_constraintStart_toStartOf="@+id/guidelineDownloadImprovementPlanAdmin3"
+                app:layout_constraintTop_toTopOf="@+id/guidelineDownloadImprovementPlanAdmin1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineDownloadImprovementPlanAdmin1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.8" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineDownloadImprovementPlanAdmin2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.99" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineDownloadImprovementPlanAdmin3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineDownloadImprovementPlanAdmin4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="2dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <ImageButton
+                android:id="@+id/manageRequestsAdminButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/round_button_background"
+                android:contentDescription="@string/edit_indicators"
+                android:padding="60dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/request_reg" />
+
+            <TextView
+                android:id="@+id/manageRequestsAdminText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@string/manage_reg_reqs"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guidelinemanageRequestsAdmin2"
+                app:layout_constraintEnd_toStartOf="@+id/guidelinemanageRequestsAdmin4"
+                app:layout_constraintStart_toStartOf="@+id/guidelinemanageRequestsAdmin3"
+                app:layout_constraintTop_toTopOf="@+id/guidelinemanageRequestsAdmin1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelinemanageRequestsAdmin1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.8" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelinemanageRequestsAdmin2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.99" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelinemanageRequestsAdmin3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelinemanageRequestsAdmin4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.gridlayout.widget.GridLayout>
+
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/directorEvaluated"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="6dp"
+        android:visibility="gone"
+        app:columnCount="2"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineSep2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guidelineSep1"
+        app:rowCount="3">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="2dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <ImageButton
+                android:id="@+id/addNewEvalTeamDirEvalButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/round_button_background"
+                android:contentDescription="@string/add_new_evaluator_team"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/add_new_evaluator_team" />
+
+            <TextView
+                android:id="@+id/addNewEvalTeamDirEvalText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@string/add_new_evaluator_team"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guidelineAddNewEvalTeamDirEval2"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineAddNewEvalTeamDirEval4"
+                app:layout_constraintStart_toStartOf="@+id/guidelineAddNewEvalTeamDirEval3"
+                app:layout_constraintTop_toTopOf="@+id/guidelineAddNewEvalTeamDirEval1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewEvalTeamDirEval1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.8" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewEvalTeamDirEval2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.99" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewEvalTeamDirEval3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewEvalTeamDirEval4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="2dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <ImageButton
+                android:id="@+id/addNewOrgCenterDirEvalButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/round_button_background"
+                android:contentDescription="@string/add_new_center"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0"
+                app:srcCompat="@drawable/add_new_center" />
+
+            <TextView
+                android:id="@+id/addNewOrgCenterDirEvalText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@string/add_center"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guidelineAddNewOrgCenterDirEval2"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineAddNewOrgCenterDirEval4"
+                app:layout_constraintStart_toStartOf="@+id/guidelineAddNewOrgCenterDirEval3"
+                app:layout_constraintTop_toTopOf="@+id/guidelineAddNewOrgCenterDirEval1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewOrgCenterDirEval1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.8" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewOrgCenterDirEval2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.99" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewOrgCenterDirEval3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewOrgCenterDirEval4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="2dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <ImageButton
+                android:id="@+id/editOrgDirEvalButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/round_button_background"
+                android:contentDescription="@string/edit_org"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/edit_evaluated_org" />
+
+            <TextView
+                android:id="@+id/editOrgDirEvalText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@string/edit_org"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guidelineEditOrgDirEval2"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineEditOrgDirEval4"
+                app:layout_constraintStart_toStartOf="@+id/guidelineEditOrgDirEval3"
+                app:layout_constraintTop_toTopOf="@+id/guidelineEditOrgDirEval1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineEditOrgDirEval1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.8" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineEditOrgDirEval2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.99" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineEditOrgDirEval3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineEditOrgDirEval4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="2dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <ImageButton
+                android:id="@+id/editOrgCenterDirEvalButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/round_button_background"
+                android:contentDescription="@string/edit_org_center"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/edit_center" />
+
+            <TextView
+                android:id="@+id/editOrgCenterDirEvalText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@string/edit_org_center"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guidelineEditOrgCenterDirEval2"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineEditOrgCenterDirEval4"
+                app:layout_constraintStart_toStartOf="@+id/guidelineEditOrgCenterDirEval3"
+                app:layout_constraintTop_toTopOf="@+id/guidelineEditOrgCenterDirEval1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineEditOrgCenterDirEval1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.8" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineEditOrgCenterDirEval2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.99" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineEditOrgCenterDirEval3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineEditOrgCenterDirEval4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="2dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <ImageButton
+                android:id="@+id/seeRealizedIndicatorTestDirEvalButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/round_button_background"
+                android:contentDescription="@string/see_results"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/see_indicators_test" />
+
+            <TextView
+                android:id="@+id/seeRealizedIndicatorTestDirEvalText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@string/see_results"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guidelineSeeRealizedIndicatorTestDirEval2"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineSeeRealizedIndicatorTestDirEval4"
+                app:layout_constraintStart_toStartOf="@+id/guidelineSeeRealizedIndicatorTestDirEval3"
+                app:layout_constraintTop_toTopOf="@+id/guidelineSeeRealizedIndicatorTestDirEval1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineSeeRealizedIndicatorTestDirEval1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.8" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineSeeRealizedIndicatorTestDirEval2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.99" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineSeeRealizedIndicatorTestDirEval3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineSeeRealizedIndicatorTestDirEval4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.gridlayout.widget.GridLayout>
+
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/chargingScreen"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="#80000000"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/guideline22"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/guideline21" />
+
+            <TextView
+                android:id="@+id/textProgress"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:autoSizeMaxTextSize="25sp"
+                android:autoSizeMinTextSize="5sp"
+                android:autoSizeTextType="uniform"
+                android:gravity="center"
+                android:text="@string/please_wait"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@id/guideline23"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/guideline22" />
+
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.40" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.46" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.65" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

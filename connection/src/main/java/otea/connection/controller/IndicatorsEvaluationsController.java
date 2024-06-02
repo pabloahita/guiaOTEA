@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 
 import java.io.IOException;
 ;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -12,6 +13,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import cli.indicators.IndicatorsEvaluation;
+import cli.organization.data.EvaluatorTeam;
 import okhttp3.ResponseBody;
 import otea.connection.ConnectionClient;
 import otea.connection.api.IndicatorsEvaluationsApi;
@@ -66,11 +68,11 @@ public class IndicatorsEvaluationsController {
      * */
     public static List<IndicatorsEvaluation> GetAll() {
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<IndicatorsEvaluation>> callable = new Callable<List<IndicatorsEvaluation>>() {
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
-            public List<IndicatorsEvaluation> call() throws Exception {
-                Call<List<IndicatorsEvaluation>> call = api.GetAll();
-                Response<List<IndicatorsEvaluation>> response = call.execute();
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call = api.GetAll();
+                Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
@@ -79,10 +81,54 @@ public class IndicatorsEvaluationsController {
             }
         };
         try {
-            Future<List<IndicatorsEvaluation>> future = executor.submit(callable);
-            List<IndicatorsEvaluation> list = future.get();
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> list = future.get();
             executor.shutdown();
-            return list;
+            List<IndicatorsEvaluation> indicatorsEvaluations=new ArrayList<>();
+            for(JsonObject indEval:list){
+                long evaluationDate=indEval.getAsJsonPrimitive("evaluationDate").getAsLong();
+                int idEvaluatorTeam=indEval.getAsJsonPrimitive("idEvaluatorTeam").getAsInt();
+                int idEvaluatedOrg=indEval.getAsJsonPrimitive("idEvaluatedOrganization").getAsInt();
+                String orgTypeEvaluated=indEval.getAsJsonPrimitive("orgTypeEvaluated").getAsString();
+                int idEvaluatorOrg=indEval.getAsJsonPrimitive("idEvaluatorOrganization").getAsInt();
+                String orgTypeEvaluator=indEval.getAsJsonPrimitive("orgTypeEvaluator").getAsString();
+                String illness=indEval.getAsJsonPrimitive("illness").getAsString();
+                int idCenter=indEval.getAsJsonPrimitive("idCenter").getAsInt();
+                int scorePriorityZeroColourRed=indEval.getAsJsonPrimitive("scorePriorityZeroColourRed").getAsInt();
+                int scorePriorityZeroColourYellow=indEval.getAsJsonPrimitive("scorePriorityZeroColourYellow").getAsInt();
+                int scorePriorityZeroColourGreen=indEval.getAsJsonPrimitive("scorePriorityZeroColourGreen").getAsInt();
+                int scorePriorityOneColourRed=indEval.getAsJsonPrimitive("scorePriorityOneColourRed").getAsInt();
+                int scorePriorityOneColourYellow=indEval.getAsJsonPrimitive("scorePriorityOneColourYellow").getAsInt();
+                int scorePriorityOneColourGreen=indEval.getAsJsonPrimitive("scorePriorityOneColourGreen").getAsInt();
+                int scorePriorityTwoColourRed=indEval.getAsJsonPrimitive("scorePriorityTwoColourRed").getAsInt();
+                int scorePriorityTwoColourYellow=indEval.getAsJsonPrimitive("scorePriorityTwoColourYellow").getAsInt();
+                int scorePriorityTwoColourGreen=indEval.getAsJsonPrimitive("scorePriorityTwoColourGreen").getAsInt();
+                int scorePriorityThreeColourRed=indEval.getAsJsonPrimitive("scorePriorityThreeColourRed").getAsInt();
+                int scorePriorityThreeColourYellow=indEval.getAsJsonPrimitive("scorePriorityThreeColourYellow").getAsInt();
+                int scorePriorityThreeColourGreen=indEval.getAsJsonPrimitive("scorePriorityThreeColourGreen").getAsInt();
+                int totalScore=indEval.getAsJsonPrimitive("totalScore").getAsInt();
+                String conclusionsSpanish=indEval.getAsJsonPrimitive("conclusionsSpanish").getAsString();
+                String conclusionsEnglish=indEval.getAsJsonPrimitive("conclusionsEnglish").getAsString();
+                String conclusionsFrench=indEval.getAsJsonPrimitive("conclusionsFrench").getAsString();
+                String conclusionsBasque=indEval.getAsJsonPrimitive("conclusionsBasque").getAsString();
+                String conclusionsCatalan=indEval.getAsJsonPrimitive("conclusionsCatalan").getAsString();
+                String conclusionsDutch=indEval.getAsJsonPrimitive("conclusionsDutch").getAsString();
+                String conclusionsGalician=indEval.getAsJsonPrimitive("conclusionsGalician").getAsString();
+                String conclusionsGerman=indEval.getAsJsonPrimitive("conclusionsGerman").getAsString();
+                String conclusionsItalian=indEval.getAsJsonPrimitive("conclusionsItalian").getAsString();
+                String conclusionsPortuguese=indEval.getAsJsonPrimitive("conclusionsPortuguese").getAsString();
+                int isFinished=indEval.getAsJsonPrimitive("isFinished").getAsInt();
+                String evaluationType=indEval.getAsJsonPrimitive("evaluationType").getAsString();
+                String level=indEval.getAsJsonPrimitive("level").getAsString();
+
+                indicatorsEvaluations.add(new IndicatorsEvaluation(evaluationDate,idEvaluatedOrg, orgTypeEvaluated,idEvaluatorTeam, idEvaluatorOrg,  orgTypeEvaluator,  illness, idCenter,
+                        scorePriorityZeroColourRed, scorePriorityZeroColourYellow, scorePriorityZeroColourGreen,
+                        scorePriorityOneColourRed, scorePriorityOneColourYellow, scorePriorityOneColourGreen,
+                        scorePriorityTwoColourRed, scorePriorityTwoColourYellow, scorePriorityTwoColourGreen,
+                        scorePriorityThreeColourRed, scorePriorityThreeColourYellow, scorePriorityThreeColourGreen, totalScore,
+                        conclusionsSpanish,  conclusionsEnglish,  conclusionsFrench,  conclusionsBasque,  conclusionsCatalan,  conclusionsDutch,  conclusionsGalician,  conclusionsGerman,  conclusionsItalian,  conclusionsPortuguese, isFinished,  evaluationType,  level));
+            }
+            return indicatorsEvaluations;
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
@@ -132,11 +178,11 @@ public class IndicatorsEvaluationsController {
      * */
     public static List<IndicatorsEvaluation> GetAllByEvaluatorTeam(int idEvaluatorTeam, int idEvaluatorOrg, String orgTypeEvaluator, int idEvaluatedOrg, String orgTypeEvaluated, int idCenter, String illness){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<IndicatorsEvaluation>> callable = new Callable<List<IndicatorsEvaluation>>() {
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
-            public List<IndicatorsEvaluation> call() throws Exception {
-                Call<List<IndicatorsEvaluation>> call=api.GetAllByEvaluatorTeam(idEvaluatorTeam, idEvaluatorOrg, orgTypeEvaluator, idEvaluatedOrg, orgTypeEvaluated, idCenter,illness);
-                Response<List<IndicatorsEvaluation>> response = call.execute();
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call=api.GetAllByEvaluatorTeam(idEvaluatorTeam, idEvaluatorOrg, orgTypeEvaluator, idEvaluatedOrg, orgTypeEvaluated, idCenter,illness);
+                Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
@@ -145,10 +191,47 @@ public class IndicatorsEvaluationsController {
             }
         };
         try {
-            Future<List<IndicatorsEvaluation>> future = executor.submit(callable);
-            List<IndicatorsEvaluation> list = future.get();
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> list = future.get();
             executor.shutdown();
-            return list;
+            List<IndicatorsEvaluation> indicatorsEvaluations=new ArrayList<>();
+            for(JsonObject indEval:list){
+                long evaluationDate=indEval.getAsJsonPrimitive("evaluationDate").getAsLong();
+                int scorePriorityZeroColourRed=indEval.getAsJsonPrimitive("scorePriorityZeroColourRed").getAsInt();
+                int scorePriorityZeroColourYellow=indEval.getAsJsonPrimitive("scorePriorityZeroColourYellow").getAsInt();
+                int scorePriorityZeroColourGreen=indEval.getAsJsonPrimitive("scorePriorityZeroColourGreen").getAsInt();
+                int scorePriorityOneColourRed=indEval.getAsJsonPrimitive("scorePriorityOneColourRed").getAsInt();
+                int scorePriorityOneColourYellow=indEval.getAsJsonPrimitive("scorePriorityOneColourYellow").getAsInt();
+                int scorePriorityOneColourGreen=indEval.getAsJsonPrimitive("scorePriorityOneColourGreen").getAsInt();
+                int scorePriorityTwoColourRed=indEval.getAsJsonPrimitive("scorePriorityTwoColourRed").getAsInt();
+                int scorePriorityTwoColourYellow=indEval.getAsJsonPrimitive("scorePriorityTwoColourYellow").getAsInt();
+                int scorePriorityTwoColourGreen=indEval.getAsJsonPrimitive("scorePriorityTwoColourGreen").getAsInt();
+                int scorePriorityThreeColourRed=indEval.getAsJsonPrimitive("scorePriorityThreeColourRed").getAsInt();
+                int scorePriorityThreeColourYellow=indEval.getAsJsonPrimitive("scorePriorityThreeColourYellow").getAsInt();
+                int scorePriorityThreeColourGreen=indEval.getAsJsonPrimitive("scorePriorityThreeColourGreen").getAsInt();
+                int totalScore=indEval.getAsJsonPrimitive("totalScore").getAsInt();
+                String conclusionsSpanish=indEval.getAsJsonPrimitive("conclusionsSpanish").getAsString();
+                String conclusionsEnglish=indEval.getAsJsonPrimitive("conclusionsEnglish").getAsString();
+                String conclusionsFrench=indEval.getAsJsonPrimitive("conclusionsFrench").getAsString();
+                String conclusionsBasque=indEval.getAsJsonPrimitive("conclusionsBasque").getAsString();
+                String conclusionsCatalan=indEval.getAsJsonPrimitive("conclusionsCatalan").getAsString();
+                String conclusionsDutch=indEval.getAsJsonPrimitive("conclusionsDutch").getAsString();
+                String conclusionsGalician=indEval.getAsJsonPrimitive("conclusionsGalician").getAsString();
+                String conclusionsGerman=indEval.getAsJsonPrimitive("conclusionsGerman").getAsString();
+                String conclusionsItalian=indEval.getAsJsonPrimitive("conclusionsItalian").getAsString();
+                String conclusionsPortuguese=indEval.getAsJsonPrimitive("conclusionsPortuguese").getAsString();
+                int isFinished=indEval.getAsJsonPrimitive("isFinished").getAsInt();
+                String evaluationType=indEval.getAsJsonPrimitive("evaluationType").getAsString();
+                String level=indEval.getAsJsonPrimitive("level").getAsString();
+                
+                indicatorsEvaluations.add(new IndicatorsEvaluation(evaluationDate,idEvaluatedOrg, orgTypeEvaluated,idEvaluatorTeam, idEvaluatorOrg,  orgTypeEvaluator,  illness, idCenter,
+                scorePriorityZeroColourRed, scorePriorityZeroColourYellow, scorePriorityZeroColourGreen,
+                scorePriorityOneColourRed, scorePriorityOneColourYellow, scorePriorityOneColourGreen,
+                scorePriorityTwoColourRed, scorePriorityTwoColourYellow, scorePriorityTwoColourGreen,
+                scorePriorityThreeColourRed, scorePriorityThreeColourYellow, scorePriorityThreeColourGreen, totalScore,
+                 conclusionsSpanish,  conclusionsEnglish,  conclusionsFrench,  conclusionsBasque,  conclusionsCatalan,  conclusionsDutch,  conclusionsGalician,  conclusionsGerman,  conclusionsItalian,  conclusionsPortuguese, isFinished,  evaluationType,  level));
+            }
+            return indicatorsEvaluations;
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
@@ -168,11 +251,11 @@ public class IndicatorsEvaluationsController {
      * */
     public static List<IndicatorsEvaluation> GetNonFinishedByEvaluatorTeam(int idEvaluatorTeam,int idEvaluatorOrganization, String orgTypeEvaluator, int idEvaluatedOrganization, String orgTypeEvaluated, String illness, int idCenter){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<IndicatorsEvaluation>> callable = new Callable<List<IndicatorsEvaluation>>() {
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
-            public List<IndicatorsEvaluation> call() throws Exception {
-                Call<List<IndicatorsEvaluation>> call=api.GetNonFinishedByEvaluatorTeam(idEvaluatorTeam,idEvaluatorOrganization, orgTypeEvaluator, idEvaluatedOrganization, orgTypeEvaluated, illness, idCenter);
-                Response<List<IndicatorsEvaluation>> response = call.execute();
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call=api.GetNonFinishedByEvaluatorTeam(idEvaluatorTeam,idEvaluatorOrganization, orgTypeEvaluator, idEvaluatedOrganization, orgTypeEvaluated, illness, idCenter);
+                Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
@@ -181,10 +264,47 @@ public class IndicatorsEvaluationsController {
             }
         };
         try {
-            Future<List<IndicatorsEvaluation>> future = executor.submit(callable);
-            List<IndicatorsEvaluation> list = future.get();
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> list = future.get();
             executor.shutdown();
-            return list;
+            List<IndicatorsEvaluation> indicatorsEvaluations=new ArrayList<>();
+            for(JsonObject indEval:list){
+                long evaluationDate=indEval.getAsJsonPrimitive("evaluationDate").getAsLong();
+                int scorePriorityZeroColourRed=indEval.getAsJsonPrimitive("scorePriorityZeroColourRed").getAsInt();
+                int scorePriorityZeroColourYellow=indEval.getAsJsonPrimitive("scorePriorityZeroColourYellow").getAsInt();
+                int scorePriorityZeroColourGreen=indEval.getAsJsonPrimitive("scorePriorityZeroColourGreen").getAsInt();
+                int scorePriorityOneColourRed=indEval.getAsJsonPrimitive("scorePriorityOneColourRed").getAsInt();
+                int scorePriorityOneColourYellow=indEval.getAsJsonPrimitive("scorePriorityOneColourYellow").getAsInt();
+                int scorePriorityOneColourGreen=indEval.getAsJsonPrimitive("scorePriorityOneColourGreen").getAsInt();
+                int scorePriorityTwoColourRed=indEval.getAsJsonPrimitive("scorePriorityTwoColourRed").getAsInt();
+                int scorePriorityTwoColourYellow=indEval.getAsJsonPrimitive("scorePriorityTwoColourYellow").getAsInt();
+                int scorePriorityTwoColourGreen=indEval.getAsJsonPrimitive("scorePriorityTwoColourGreen").getAsInt();
+                int scorePriorityThreeColourRed=indEval.getAsJsonPrimitive("scorePriorityThreeColourRed").getAsInt();
+                int scorePriorityThreeColourYellow=indEval.getAsJsonPrimitive("scorePriorityThreeColourYellow").getAsInt();
+                int scorePriorityThreeColourGreen=indEval.getAsJsonPrimitive("scorePriorityThreeColourGreen").getAsInt();
+                int totalScore=indEval.getAsJsonPrimitive("totalScore").getAsInt();
+                String conclusionsSpanish=indEval.getAsJsonPrimitive("conclusionsSpanish").getAsString();
+                String conclusionsEnglish=indEval.getAsJsonPrimitive("conclusionsEnglish").getAsString();
+                String conclusionsFrench=indEval.getAsJsonPrimitive("conclusionsFrench").getAsString();
+                String conclusionsBasque=indEval.getAsJsonPrimitive("conclusionsBasque").getAsString();
+                String conclusionsCatalan=indEval.getAsJsonPrimitive("conclusionsCatalan").getAsString();
+                String conclusionsDutch=indEval.getAsJsonPrimitive("conclusionsDutch").getAsString();
+                String conclusionsGalician=indEval.getAsJsonPrimitive("conclusionsGalician").getAsString();
+                String conclusionsGerman=indEval.getAsJsonPrimitive("conclusionsGerman").getAsString();
+                String conclusionsItalian=indEval.getAsJsonPrimitive("conclusionsItalian").getAsString();
+                String conclusionsPortuguese=indEval.getAsJsonPrimitive("conclusionsPortuguese").getAsString();
+                int isFinished=indEval.getAsJsonPrimitive("isFinished").getAsInt();
+                String evaluationType=indEval.getAsJsonPrimitive("evaluationType").getAsString();
+                String level=indEval.getAsJsonPrimitive("level").getAsString();
+
+                indicatorsEvaluations.add(new IndicatorsEvaluation(evaluationDate,idEvaluatedOrganization, orgTypeEvaluated,idEvaluatorTeam, idEvaluatorOrganization,  orgTypeEvaluator,  illness, idCenter,
+                        scorePriorityZeroColourRed, scorePriorityZeroColourYellow, scorePriorityZeroColourGreen,
+                        scorePriorityOneColourRed, scorePriorityOneColourYellow, scorePriorityOneColourGreen,
+                        scorePriorityTwoColourRed, scorePriorityTwoColourYellow, scorePriorityTwoColourGreen,
+                        scorePriorityThreeColourRed, scorePriorityThreeColourYellow, scorePriorityThreeColourGreen, totalScore,
+                        conclusionsSpanish,  conclusionsEnglish,  conclusionsFrench,  conclusionsBasque,  conclusionsCatalan,  conclusionsDutch,  conclusionsGalician,  conclusionsGerman,  conclusionsItalian,  conclusionsPortuguese, isFinished,  evaluationType,  level));
+            }
+            return indicatorsEvaluations;
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }

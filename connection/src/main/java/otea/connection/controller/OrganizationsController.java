@@ -1,6 +1,9 @@
 package otea.connection.controller;
 
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -96,11 +99,11 @@ public class OrganizationsController {
      * */
     public static List<Organization> GetAll(){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<Organization>> callable = new Callable<List<Organization>>() {
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
-            public List<Organization> call() throws Exception {
-                Call<List<Organization>> call=api.GetAll();
-                Response<List<Organization>> response = call.execute();
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call=api.GetAll();
+                Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
@@ -109,10 +112,32 @@ public class OrganizationsController {
             }
         };
         try {
-            Future<List<Organization>> future = executor.submit(callable);
-            List<Organization> list = future.get();
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> list = future.get();
             executor.shutdown();
-            return list;
+            List<Organization> organizations=new ArrayList<>();
+            for(JsonObject org:list){
+                int idOrganization=org.getAsJsonPrimitive("idOrganization").getAsInt();
+                String orgType=org.getAsJsonPrimitive("orgType").getAsString();
+                String illness=org.getAsJsonPrimitive("illness").getAsString();
+                String nameOrg=org.getAsJsonPrimitive("nameOrg").getAsString();
+                int idAddress=org.getAsJsonPrimitive("idAddress").getAsInt();
+                String email=org.getAsJsonPrimitive("email").getAsString();
+                String telephone=org.getAsJsonPrimitive("telephone").getAsString();
+                String informationSpanish=org.getAsJsonPrimitive("informationSpanish").getAsString();
+                String informationEnglish=org.getAsJsonPrimitive("informationEnglish").getAsString();
+                String informationFrench=org.getAsJsonPrimitive("informationFrench").getAsString();
+                String informationBasque=org.getAsJsonPrimitive("informationBasque").getAsString();
+                String informationCatalan=org.getAsJsonPrimitive("informationCatalan").getAsString();
+                String informationDutch=org.getAsJsonPrimitive("informationDutch").getAsString();
+                String informationGalician=org.getAsJsonPrimitive("informationGalician").getAsString();
+                String informationGerman=org.getAsJsonPrimitive("informationGerman").getAsString();
+                String informationItalian=org.getAsJsonPrimitive("informationItalian").getAsString();
+                String informationPortuguese=org.getAsJsonPrimitive("informationPortuguese").getAsString();
+                String profilePhoto=org.getAsJsonPrimitive("profilePhoto").getAsString();
+                organizations.add(new Organization(idOrganization, orgType, illness, nameOrg, idAddress, email, telephone, informationSpanish, informationEnglish,informationFrench, informationBasque, informationCatalan, informationDutch, informationGalician, informationGerman, informationItalian, informationPortuguese, profilePhoto));
+            }
+            return organizations;
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
@@ -125,11 +150,11 @@ public class OrganizationsController {
      * */
     public static List<Organization> GetAllEvaluatedOrganizations() {
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<Organization>> callable = new Callable<List<Organization>>() {
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
-            public List<Organization> call() throws Exception {
-                Call<List<Organization>> call=api.GetAllEvaluatedOrganizations();
-                Response<List<Organization>> response = call.execute();
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call=api.GetAllEvaluatedOrganizations();
+                Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
@@ -138,10 +163,32 @@ public class OrganizationsController {
             }
         };
         try {
-            Future<List<Organization>> future = executor.submit(callable);
-            List<Organization> list = future.get();
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> list = future.get();
             executor.shutdown();
-            return list;
+            List<Organization> organizations=new ArrayList<>();
+            for(JsonObject org:list){
+                int idOrganization=org.getAsJsonPrimitive("idOrganization").getAsInt();
+                String orgType=org.getAsJsonPrimitive("orgType").getAsString();
+                String illness=org.getAsJsonPrimitive("illness").getAsString();
+                String nameOrg=org.getAsJsonPrimitive("nameOrg").getAsString();
+                int idAddress=org.getAsJsonPrimitive("idAddress").getAsInt();
+                String email=org.getAsJsonPrimitive("email").getAsString();
+                String telephone=org.getAsJsonPrimitive("telephone").getAsString();
+                String informationSpanish=org.getAsJsonPrimitive("informationSpanish").getAsString();
+                String informationEnglish=org.getAsJsonPrimitive("informationEnglish").getAsString();
+                String informationFrench=org.getAsJsonPrimitive("informationFrench").getAsString();
+                String informationBasque=org.getAsJsonPrimitive("informationBasque").getAsString();
+                String informationCatalan=org.getAsJsonPrimitive("informationCatalan").getAsString();
+                String informationDutch=org.getAsJsonPrimitive("informationDutch").getAsString();
+                String informationGalician=org.getAsJsonPrimitive("informationGalician").getAsString();
+                String informationGerman=org.getAsJsonPrimitive("informationGerman").getAsString();
+                String informationItalian=org.getAsJsonPrimitive("informationItalian").getAsString();
+                String informationPortuguese=org.getAsJsonPrimitive("informationPortuguese").getAsString();
+                String profilePhoto=org.getAsJsonPrimitive("profilePhoto").getAsString();
+                organizations.add(new Organization(idOrganization, orgType, illness, nameOrg, idAddress, email, telephone, informationSpanish, informationEnglish,informationFrench, informationBasque, informationCatalan, informationDutch, informationGalician, informationGerman, informationItalian, informationPortuguese, profilePhoto));
+            }
+            return organizations;
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
@@ -154,11 +201,11 @@ public class OrganizationsController {
      * */
     public static List<Organization> GetAllEvaluatorOrganizations(){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<Organization>> callable = new Callable<List<Organization>>() {
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
-            public List<Organization> call() throws Exception {
-                Call<List<Organization>> call=api.GetAllEvaluatorOrganizations();
-                Response<List<Organization>> response = call.execute();
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call=api.GetAllEvaluatorOrganizations();
+                Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
@@ -167,10 +214,32 @@ public class OrganizationsController {
             }
         };
         try {
-            Future<List<Organization>> future = executor.submit(callable);
-            List<Organization> list = future.get();
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> list = future.get();
             executor.shutdown();
-            return list;
+            List<Organization> organizations=new ArrayList<>();
+            for(JsonObject org:list){
+                int idOrganization=org.getAsJsonPrimitive("idOrganization").getAsInt();
+                String orgType=org.getAsJsonPrimitive("orgType").getAsString();
+                String illness=org.getAsJsonPrimitive("illness").getAsString();
+                String nameOrg=org.getAsJsonPrimitive("nameOrg").getAsString();
+                int idAddress=org.getAsJsonPrimitive("idAddress").getAsInt();
+                String email=org.getAsJsonPrimitive("email").getAsString();
+                String telephone=org.getAsJsonPrimitive("telephone").getAsString();
+                String informationSpanish=org.getAsJsonPrimitive("informationSpanish").getAsString();
+                String informationEnglish=org.getAsJsonPrimitive("informationEnglish").getAsString();
+                String informationFrench=org.getAsJsonPrimitive("informationFrench").getAsString();
+                String informationBasque=org.getAsJsonPrimitive("informationBasque").getAsString();
+                String informationCatalan=org.getAsJsonPrimitive("informationCatalan").getAsString();
+                String informationDutch=org.getAsJsonPrimitive("informationDutch").getAsString();
+                String informationGalician=org.getAsJsonPrimitive("informationGalician").getAsString();
+                String informationGerman=org.getAsJsonPrimitive("informationGerman").getAsString();
+                String informationItalian=org.getAsJsonPrimitive("informationItalian").getAsString();
+                String informationPortuguese=org.getAsJsonPrimitive("informationPortuguese").getAsString();
+                String profilePhoto=org.getAsJsonPrimitive("profilePhoto").getAsString();
+                organizations.add(new Organization(idOrganization, orgType, illness, nameOrg, idAddress, email, telephone, informationSpanish, informationEnglish,informationFrench, informationBasque, informationCatalan, informationDutch, informationGalician, informationGerman, informationItalian, informationPortuguese, profilePhoto));
+            }
+            return organizations;
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }

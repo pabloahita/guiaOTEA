@@ -1,5 +1,7 @@
 package otea.connection.api;
 
+import com.google.gson.JsonObject;
+
 import java.util.List;
 
 import cli.organization.data.Address;
@@ -16,7 +18,7 @@ public interface AddressesApi {
 
     /**Get all Addresses*/
     @GET("Addresses/all")
-    Call<List<Address>> GetAll();
+    Call<List<JsonObject>> GetAll();
 
     /**
      * Get an address using its identifier

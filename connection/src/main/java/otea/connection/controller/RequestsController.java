@@ -1,7 +1,10 @@
 package otea.connection.controller;
 
 
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -55,6 +58,11 @@ public class RequestsController {
         instance=new RequestsController();
     }
 
+    public interface RequestCallback {
+        void onSuccess(JsonObject data);
+        void onError(JsonObject errorResponse);
+    }
+
     /**
      * Method that obtains all requests
      *
@@ -62,11 +70,11 @@ public class RequestsController {
      * */
     public static List<Request> GetAll(){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<Request>> callable = new Callable<List<Request>>() {
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
-            public List<Request> call() throws Exception {
-                Call<List<Request>> call=api.GetAll();
-                Response<List<Request>> response = call.execute();
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call=api.GetAll();
+                Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
@@ -75,10 +83,20 @@ public class RequestsController {
             }
         };
         try {
-            Future<List<Request>> future = executor.submit(callable);
-            List<Request> list = future.get();
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> list = future.get();
             executor.shutdown();
-            return list;
+            List<Request> requests=new ArrayList<>();
+            for(JsonObject req:list){
+                String email=req.getAsJsonPrimitive("email").getAsString();
+                int statusReq=req.getAsJsonPrimitive("statusReq").getAsInt();
+                int idOrganization=req.getAsJsonPrimitive("idOrganization").getAsInt();
+                String orgType=req.getAsJsonPrimitive("orgType").getAsString();
+                String illness=req.getAsJsonPrimitive("illness").getAsString();
+                String userType=req.getAsJsonPrimitive("userType").getAsString();
+                requests.add(new Request(email, statusReq, "-", idOrganization, orgType, illness, userType));
+            }
+            return requests;
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
@@ -92,11 +110,11 @@ public class RequestsController {
      * */
     public static Request Get(String email){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<Request> callable = new Callable<Request>() {
+        Callable<JsonObject> callable = new Callable<JsonObject>() {
             @Override
-            public Request call() throws Exception {
-                Call<Request> call = api.Get(email);
-                Response<Request> response = call.execute();
+            public JsonObject call() throws Exception {
+                Call<JsonObject> call = api.Get(email);
+                Response<JsonObject> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
@@ -108,10 +126,15 @@ public class RequestsController {
             }
         };
         try {
-            Future<Request> future = executor.submit(callable);
-            Request result = future.get();
+            Future<JsonObject> future = executor.submit(callable);
+            JsonObject result = future.get();
             executor.shutdown();
-            return result;
+            int statusReq=result.getAsJsonPrimitive("statusReq").getAsInt();
+            int idOrganization=result.getAsJsonPrimitive("idOrganization").getAsInt();
+            String orgType=result.getAsJsonPrimitive("orgType").getAsString();
+            String illness=result.getAsJsonPrimitive("illness").getAsString();
+            String userType=result.getAsJsonPrimitive("userType").getAsString();
+            return new Request(email, statusReq, "-", idOrganization, orgType, illness, userType);
         } catch (InterruptedException | ExecutionException e) {
             if(e.getMessage().equals("java.io.IOException: Not found")){
                 return null;
@@ -149,6 +172,54 @@ public class RequestsController {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Method that updates a request
+     *
+     * @param email - Email of the register request
+     * @param request - Request
+     * @return Request if success, null if not
+     * */
+    public static void goToUserReg(JsonObject credentials, RequestCallback callback){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Callable<JsonObject> callable = new Callable<JsonObject>() {
+            @Override
+            public JsonObject call() throws Exception {
+                Call<JsonObject> call = api.goToUserReg(credentials);
+                Response<JsonObject> response = call.execute();
+                if (response.isSuccessful()) {
+                    return response.body();
+                } else {
+                    if(response.code() == 404) {
+                        throw new IOException("Not found");
+                    } else if(response.code() == 401) {
+                        throw new IOException("Unauthorized");
+                    }
+                    throw new IOException("Error: " + response.code() + " " + response.message());
+                }
+            }
+        };
+
+        executor.submit(() -> {
+            try {
+                JsonObject result = callable.call();
+                callback.onSuccess(result);
+            } catch (Exception e) {
+                JsonObject errorResponse = new JsonObject();
+                if (e.getMessage().equals("Not found")) {
+                    errorResponse.addProperty("errorCode", 404);
+                } else if (e.getMessage().equals("Unauthorized")) {
+                    errorResponse.addProperty("errorCode", 401);
+                } else {
+                    throw new RuntimeException(e);
+                }
+                callback.onError(errorResponse);
+            } finally {
+                executor.shutdown();
+            }
+        });
+    }
+
 
     /**
      * Method that updates a request

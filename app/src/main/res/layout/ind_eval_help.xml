@@ -8,42 +8,40 @@
         android:id="@+id/textView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:padding="15sp"
         android:text="@string/help_ind_eval1"
         android:textColor="@color/black" />
 
-    <Switch
+    <CheckBox
         android:id="@+id/enabledEv"
-        android:checked="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="1dp"
-        android:layout_rowWeight="1"
-        android:layout_columnWeight="1"
-        android:autoSizeMaxTextSize="14dp"
-        android:autoSizeMinTextSize="10dp"
         android:text="@string/fulfilled_evidence"
-        android:clickable="false"
-        android:textColor="@color/black"
-        android:textStyle="italic"/>
-
-    <Switch
+        android:textSize="15sp"
+        android:textStyle="italic"
+        android:checked="true"
+        android:layoutDirection="rtl"
+        android:buttonTint="@color/checkbox_color"
+        android:padding="15dp"
+        android:clickable="false"/>
+    <CheckBox
         android:id="@+id/disabledEv"
-        android:checked="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="1dp"
-        android:layout_rowWeight="1"
-        android:layout_columnWeight="1"
-        android:autoSizeMaxTextSize="14dp"
-        android:autoSizeMinTextSize="10dp"
         android:text="@string/unfulfilled_evidence"
-        android:clickable="false"
-        android:textColor="@color/black"
-        android:textStyle="italic"/>
+        android:textSize="15sp"
+        android:textStyle="italic"
+        android:layoutDirection="rtl"
+        android:buttonTint="@color/checkbox_color"
+        android:padding="15dp"
+        android:clickable="false"/>
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:padding="15sp"
         android:text="@string/help_ind_eval1"
         android:textColor="@color/black" />
 

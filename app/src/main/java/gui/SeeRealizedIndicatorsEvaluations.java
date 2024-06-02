@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,23 +15,19 @@ import android.text.Html;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
-import com.github.zardozz.FixedHeaderTableLayout.FixedHeaderSubTableLayout;
-import com.github.zardozz.FixedHeaderTableLayout.FixedHeaderTableLayout;
-import com.github.zardozz.FixedHeaderTableLayout.FixedHeaderTableRow;
-
-import org.w3c.dom.Text;
+import com.otaliastudios.zoom.ZoomLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import cli.indicators.Ambit;
 import cli.indicators.Evidence;
@@ -52,436 +49,72 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
 
     List<IndicatorsEvaluationEvidenceReg> evidenceRegs;
 
-    FixedHeaderSubTableLayout mainTable;
+    int[] completeIndicatorIds={R.id.ind1,R.id.ind2,R.id.ind3,R.id.ind4,R.id.ind5,R.id.ind6,R.id.ind7,R.id.ind8,R.id.ind9,R.id.ind10,
+            R.id.ind11,R.id.ind12,R.id.ind13,R.id.ind14,R.id.ind15,R.id.ind16,R.id.ind17,R.id.ind18,R.id.ind19,R.id.ind20,
+            R.id.ind21,R.id.ind22,R.id.ind23,R.id.ind24,R.id.ind25,R.id.ind26,R.id.ind27,R.id.ind28,R.id.ind29,R.id.ind30,
+            R.id.ind31,R.id.ind32,R.id.ind33,R.id.ind34,R.id.ind35,R.id.ind36,R.id.ind37,R.id.ind38,R.id.ind39,R.id.ind40,
+            R.id.ind41,R.id.ind42,R.id.ind43,R.id.ind44,R.id.ind45,R.id.ind46,R.id.ind47,R.id.ind48,R.id.ind49,R.id.ind50,
+            R.id.ind51,R.id.ind52,R.id.ind53,R.id.ind54,R.id.ind55,R.id.ind56,R.id.ind57,R.id.ind58,R.id.ind59,R.id.ind60,
+            R.id.ind61,R.id.ind62,R.id.ind63,R.id.ind64,R.id.ind65,R.id.ind66,R.id.ind67,R.id.ind68,R.id.ind69,R.id.ind70};
+
+    int[] simpleIndicatorIds={R.id.ind1,R.id.ind2,R.id.ind3,R.id.ind4,R.id.ind5,R.id.ind6,R.id.ind7,R.id.ind8,R.id.ind9,R.id.ind10,
+            R.id.ind11,R.id.ind12,R.id.ind13,R.id.ind14,R.id.ind15,R.id.ind16,R.id.ind17,R.id.ind18,R.id.ind19,R.id.ind20,
+            R.id.ind21,R.id.ind22,R.id.ind23,R.id.ind24,R.id.ind25,R.id.ind26,R.id.ind27,R.id.ind28,R.id.ind29,R.id.ind30,
+            R.id.ind31,R.id.ind32,R.id.ind33,R.id.ind34,R.id.ind35,R.id.ind36,R.id.ind37,R.id.ind38,R.id.ind39,R.id.ind40};
+
+    ZoomLayout layout;
+
 
     boolean isComplete;
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_see_realized_indicators_evaluations);
-
-        FixedHeaderSubTableLayout columnHeaderTable=new FixedHeaderSubTableLayout(SeeRealizedIndicatorsEvaluations.this);
-        FixedHeaderTableRow tableRowData = new FixedHeaderTableRow(SeeRealizedIndicatorsEvaluations.this);
-
         IndicatorsEvaluation evaluation=Session.getInstance().getCurrEvaluation();
 
         indicatorRegs=Session.getInstance().GetAllIndicatorsRegsByIndicatorsEvaluation(evaluation);
+
+
+        evidenceRegs=Session.getInstance().GetAllEvidencesRegsByIndicatorsEvaluation(evaluation);
 
         indicators=Session.getInstance().getIndicators(evaluation.getEvaluationType());
 
         isComplete=indicatorRegs.get(0).getEvaluationType().equals("COMPLETE");
 
-        if(isComplete){
-            evidenceRegs=Session.getInstance().GetAllEvidencesRegsByIndicatorsEvaluation(evaluation);
-        }
-
-        List<String> ambitsRed=new ArrayList<>();
-        ambitsRed.add(getString(R.string.to_people));
-        ambitsRed.add(getString(R.string.needs_id));
-        ambitsRed.add(getString(R.string.prof_training));
-        ambitsRed.add(getString(R.string.org_structure));
-        ambitsRed.add(getString(R.string.resources));
-        ambitsRed.add(getString(R.string.community));
-        for(String ambitDescr:ambitsRed){
-            TextView textView = new TextView(this);
-            textView.setGravity(Gravity.CENTER);
-            textView.setText(Html.fromHtml("<b>"+ambitDescr+"<b>",0));
-            textView.setTextColor(getColor(R.color.black));
-            textView.setPadding(5,5,5,5);
-            textView.setTextSize(15.0f);
-            textView.setBackground(getDrawable(R.drawable.empty_ind_no_borders));
-            tableRowData.addView(textView);
-        }
-        columnHeaderTable.addView(tableRowData);
-
-        FixedHeaderSubTableLayout rowHeaderTable=new FixedHeaderSubTableLayout(SeeRealizedIndicatorsEvaluations.this);
-
-        List<String> interests=new ArrayList<>();
-        interests.add(getString(R.string.fundamental_interest));
-        interests.add(getString(R.string.high_interest));
-        interests.add(getString(R.string.medium_interest));
-        interests.add(getString(R.string.low_interest));
-        for(String interest:interests){
-            TextView textView = new TextView(this);
-            textView.setGravity(Gravity.CENTER);
-            textView.setText(Html.fromHtml("<b>"+interest+"</b>",0));
-            textView.setTextColor(getColor(R.color.black));
-            textView.setPadding(5,5,5,5);
-            textView.setTextSize(10.0f);
-            textView.setBackground(getDrawable(R.drawable.empty_ind_no_borders));
-            tableRowData = new FixedHeaderTableRow(SeeRealizedIndicatorsEvaluations.this);
-            tableRowData.addView(textView);
-            rowHeaderTable.addView(tableRowData);
-        }
-
-        FixedHeaderSubTableLayout cornerTable=new FixedHeaderSubTableLayout(SeeRealizedIndicatorsEvaluations.this);
-        FixedHeaderTableRow row=new FixedHeaderTableRow(SeeRealizedIndicatorsEvaluations.this);
-        row.addView(new TextView(SeeRealizedIndicatorsEvaluations.this));
-        cornerTable.addView(row);
-
-        mainTable = new FixedHeaderSubTableLayout(SeeRealizedIndicatorsEvaluations.this);
+        int[] indicatorIds;
 
         if(isComplete){
-            generateCompleteTable();
+            indicatorIds=completeIndicatorIds;
+            layout=findViewById(R.id.zoom_layout_complete);
         }
         else{
-            //generateSimpleTable();
+            indicatorIds=simpleIndicatorIds;
+            layout=findViewById(R.id.zoom_layout_simple);
         }
 
+        int idIndicator=1;
+        for(int buttonId : indicatorIds){
+            Button button=findViewById(buttonId);
+            button.setOnClickListener(generateClickListener(idIndicator));
+            button.setBackground(getBackground(idIndicator));
+            idIndicator++;
+        }
 
-        FixedHeaderTableLayout layout=findViewById(R.id.tableIndEval);
-        layout.computeScroll();
-        layout.addViews(mainTable,columnHeaderTable,rowHeaderTable,cornerTable);
+        layout.setVisibility(View.VISIBLE);
+
+        layout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                float scaledX = event.getX() / layout.getZoom();
+                float scaledY = event.getY() / layout.getZoom();
+                return false;
+            }
+        });
 
     }
 
-    public void generateCompleteTable(){
-
-        //Fundamental interest
-
-        LayoutInflater inflater=getLayoutInflater();
-
-        FixedHeaderTableRow mainTableRow = new FixedHeaderTableRow(this);
-
-        View view=inflater.inflate(R.layout.fund_interest_to_people_complete,null);
-        Button ind2=view.findViewById(R.id.ind2);
-        Button ind7=view.findViewById(R.id.ind7);
-        Button ind16=view.findViewById(R.id.ind16);
-        Button ind1=view.findViewById(R.id.ind1);
-        Button ind6=view.findViewById(R.id.ind6);
-        Button ind11=view.findViewById(R.id.ind11);
-        Button ind17=view.findViewById(R.id.ind17);
-
-        ind2.setOnClickListener(generateClickListener(2));
-        ind2.setBackground(getBackground(2));
-        ind7.setOnClickListener(generateClickListener(7));
-        ind7.setBackground(getBackground(7));
-        ind16.setOnClickListener(generateClickListener(16));
-        ind16.setBackground(getBackground(16));
-        ind1.setOnClickListener(generateClickListener(1));
-        ind1.setBackground(getBackground(1));
-        ind6.setOnClickListener(generateClickListener(6));
-        ind6.setBackground(getBackground(6));
-        ind11.setOnClickListener(generateClickListener(11));
-        ind11.setBackground(getBackground(11));
-        ind17.setOnClickListener(generateClickListener(17));
-        ind17.setBackground(getBackground(17));
-
-
-        mainTableRow.addView(view);
-
-        View view2=inflater.inflate(R.layout.fund_interest_needs_id_complete,null);
-        Button ind32=view2.findViewById(R.id.ind32);
-        Button ind30=view2.findViewById(R.id.ind30);
-        Button ind36=view2.findViewById(R.id.ind36);
-        Button ind29=view2.findViewById(R.id.ind29);
-        Button ind34=view2.findViewById(R.id.ind34);
-
-        ind32.setOnClickListener(generateClickListener(32));
-        ind32.setBackground(getBackground(32));
-        ind30.setOnClickListener(generateClickListener(30));
-        ind30.setBackground(getBackground(30));
-        ind36.setOnClickListener(generateClickListener(36));
-        ind36.setBackground(getBackground(36));
-        ind29.setOnClickListener(generateClickListener(29));
-        ind29.setBackground(getBackground(29));
-        ind34.setOnClickListener(generateClickListener(34));
-        ind34.setBackground(getBackground(34));
-        mainTableRow.addView(view2);
-
-        View view3=inflater.inflate(R.layout.fund_interest_prof_learning_complete,null);
-        Button ind46=view3.findViewById(R.id.ind46);
-        Button ind45=view3.findViewById(R.id.ind45);
-        Button ind44=view3.findViewById(R.id.ind44);
-        Button ind43=view3.findViewById(R.id.ind43);
-
-        ind46.setOnClickListener(generateClickListener(46));
-        ind46.setBackground(getBackground(46));
-        ind45.setOnClickListener(generateClickListener(45));
-        ind45.setBackground(getBackground(45));
-        ind44.setOnClickListener(generateClickListener(44));
-        ind44.setBackground(getBackground(44));
-        ind43.setOnClickListener(generateClickListener(43));
-        ind43.setBackground(getBackground(43));
-
-        mainTableRow.addView(view3);
-
-
-        View view4=inflater.inflate(R.layout.fund_interest_structure_complete,null);
-        Button ind58=view4.findViewById(R.id.ind58);
-        Button ind50=view4.findViewById(R.id.ind50);
-        Button ind53=view4.findViewById(R.id.ind53);
-        Button ind55=view4.findViewById(R.id.ind55);
-
-        ind58.setOnClickListener(generateClickListener(58));
-        ind58.setBackground(getBackground(58));
-        ind50.setOnClickListener(generateClickListener(50));
-        ind50.setBackground(getBackground(50));
-        ind53.setOnClickListener(generateClickListener(53));
-        ind53.setBackground(getBackground(53));
-        ind55.setOnClickListener(generateClickListener(55));
-        ind55.setBackground(getBackground(55));
-
-        mainTableRow.addView(view4);
-
-        View view5=inflater.inflate(R.layout.fund_interest_resources_complete,null);
-        Button ind67=view5.findViewById(R.id.ind67);
-
-        ind67.setOnClickListener(generateClickListener(67));
-        ind67.setBackground(getBackground(67));
-        mainTableRow.addView(view5);
-
-        View view6=inflater.inflate(R.layout.fund_interest_community_complete,null);
-        mainTableRow.addView(view6);
-
-
-        mainTable.addView(mainTableRow);
-
-        //High interest
-
-        mainTableRow = new FixedHeaderTableRow(this);
-
-        View view7=inflater.inflate(R.layout.high_interest_to_people_complete,null);
-        Button ind5=view7.findViewById(R.id.ind5);
-        Button ind10=view7.findViewById(R.id.ind10);
-        Button ind15=view7.findViewById(R.id.ind15);
-        Button ind3=view7.findViewById(R.id.ind3);
-        Button ind8=view7.findViewById(R.id.ind8);
-        Button ind13=view7.findViewById(R.id.ind13);
-        Button ind14=view7.findViewById(R.id.ind14);
-        Button ind18=view7.findViewById(R.id.ind18);
-        Button ind20=view7.findViewById(R.id.ind20);
-        Button ind26=view7.findViewById(R.id.ind26);
-
-        ind5.setOnClickListener(generateClickListener(5));
-        ind5.setBackground(getBackground(5));
-        ind10.setOnClickListener(generateClickListener(10));
-        ind10.setBackground(getBackground(10));
-        ind15.setOnClickListener(generateClickListener(15));
-        ind15.setBackground(getBackground(15));
-        ind3.setOnClickListener(generateClickListener(3));
-        ind3.setBackground(getBackground(3));
-        ind8.setOnClickListener(generateClickListener(8));
-        ind8.setBackground(getBackground(8));
-        ind13.setOnClickListener(generateClickListener(13));
-        ind13.setBackground(getBackground(13));
-        ind14.setOnClickListener(generateClickListener(14));
-        ind14.setBackground(getBackground(14));
-        ind18.setOnClickListener(generateClickListener(18));
-        ind18.setBackground(getBackground(18));
-        ind20.setOnClickListener(generateClickListener(20));
-        ind20.setBackground(getBackground(20));
-        ind26.setOnClickListener(generateClickListener(26));
-        ind26.setBackground(getBackground(26));
-        mainTableRow.addView(view7);
-
-        View view8=inflater.inflate(R.layout.high_interest_needs_id_complete,null);
-        Button ind31=view8.findViewById(R.id.ind31);
-        Button ind35=view8.findViewById(R.id.ind35);
-        Button ind37=view8.findViewById(R.id.ind37);
-
-        ind31.setOnClickListener(generateClickListener(31));
-        ind31.setBackground(getBackground(31));
-        ind35.setOnClickListener(generateClickListener(35));
-        ind35.setBackground(getBackground(35));
-        ind37.setOnClickListener(generateClickListener(37));
-        ind37.setBackground(getBackground(37));
-
-        mainTableRow.addView(view8);
-
-        View view9=inflater.inflate(R.layout.high_interest_prof_learning_complete,null);
-        Button ind40=view9.findViewById(R.id.ind40);
-        ind40.setOnClickListener(generateClickListener(40));
-        ind40.setBackground(getBackground(40));
-        mainTableRow.addView(view9);
-
-        View view10=inflater.inflate(R.layout.high_interest_structure_complete,null);
-        Button ind54=view10.findViewById(R.id.ind54);
-        Button ind56=view10.findViewById(R.id.ind56);
-        ind54.setOnClickListener(generateClickListener(54));
-        ind54.setBackground(getBackground(54));
-        ind56.setOnClickListener(generateClickListener(56));
-        ind56.setBackground(getBackground(56));
-        mainTableRow.addView(view10);
-
-
-        View view11=inflater.inflate(R.layout.fund_interest_community_complete,null);
-        mainTableRow.addView(view11);
-
-        View view12=inflater.inflate(R.layout.fund_interest_community_complete,null);
-        mainTableRow.addView(view12);
-
-
-        mainTable.addView(mainTableRow);
-        //Medium interest
-
-        mainTableRow = new FixedHeaderTableRow(this);
-
-        View view13=inflater.inflate(R.layout.medium_interest_to_people_complete,null);
-        Button ind25=view13.findViewById(R.id.ind25);
-        Button ind4=view13.findViewById(R.id.ind4);
-        Button ind9=view13.findViewById(R.id.ind9);
-        Button ind12=view13.findViewById(R.id.ind12);
-        Button ind19=view13.findViewById(R.id.ind19);
-        Button ind21=view13.findViewById(R.id.ind21);
-        Button ind24=view13.findViewById(R.id.ind24);
-
-        ind25.setOnClickListener(generateClickListener(25));
-        ind25.setBackground(getBackground(25));
-        ind4.setOnClickListener(generateClickListener(4));
-        ind4.setBackground(getBackground(4));
-        ind9.setOnClickListener(generateClickListener(9));
-        ind9.setBackground(getBackground(9));
-        ind12.setOnClickListener(generateClickListener(12));
-        ind12.setBackground(getBackground(12));
-        ind19.setOnClickListener(generateClickListener(19));
-        ind19.setBackground(getBackground(19));
-        ind21.setOnClickListener(generateClickListener(21));
-        ind21.setBackground(getBackground(21));
-        ind24.setOnClickListener(generateClickListener(24));
-        ind24.setBackground(getBackground(24));
-        mainTableRow.addView(view13);
-
-        View view14=inflater.inflate(R.layout.medium_interest_needs_id_complete,null);
-        Button ind33=view14.findViewById(R.id.ind33);
-
-        ind33.setOnClickListener(generateClickListener(33));
-        ind33.setBackground(getBackground(33));
-
-        mainTableRow.addView(view14);
-
-        View view15=inflater.inflate(R.layout.medium_interest_prof_learning_complete,null);
-        Button ind41=view15.findViewById(R.id.ind41);
-        Button ind38=view15.findViewById(R.id.ind38);
-        ind41.setOnClickListener(generateClickListener(41));
-        ind41.setBackground(getBackground(41));
-        ind38.setOnClickListener(generateClickListener(38));
-        ind38.setBackground(getBackground(38));
-        mainTableRow.addView(view15);
-
-        View view16=inflater.inflate(R.layout.medium_interest_structure_complete,null);
-        Button ind49=view16.findViewById(R.id.ind49);
-        Button ind52=view16.findViewById(R.id.ind52);
-        Button ind57=view16.findViewById(R.id.ind57);
-        Button ind61=view16.findViewById(R.id.ind61);
-        Button ind63=view16.findViewById(R.id.ind63);
-
-
-        ind49.setOnClickListener(generateClickListener(49));
-        ind49.setBackground(getBackground(49));
-        ind52.setOnClickListener(generateClickListener(52));
-        ind52.setBackground(getBackground(52));
-        ind57.setOnClickListener(generateClickListener(57));
-        ind57.setBackground(getBackground(57));
-        ind61.setOnClickListener(generateClickListener(61));
-        ind61.setBackground(getBackground(61));
-        ind63.setOnClickListener(generateClickListener(63));
-        ind63.setBackground(getBackground(63));
-        mainTableRow.addView(view16);
-
-
-        View view17=inflater.inflate(R.layout.medium_interest_resources_complete,null);
-        Button ind66=view17.findViewById(R.id.ind66);
-        ind66.setOnClickListener(generateClickListener(66));
-        ind66.setBackground(getBackground(66));
-        mainTableRow.addView(view17);
-
-        View view18=inflater.inflate(R.layout.medium_interest_community_complete,null);
-        Button ind70=view18.findViewById(R.id.ind70);
-        Button ind69=view18.findViewById(R.id.ind69);
-        ind70.setOnClickListener(generateClickListener(70));
-        ind70.setBackground(getBackground(69));
-        ind69.setOnClickListener(generateClickListener(69));
-        ind69.setBackground(getBackground(69));
-        mainTableRow.addView(view18);
-
-
-
-
-        mainTable.addView(mainTableRow);
-        //Low interest
-
-
-
-        mainTableRow = new FixedHeaderTableRow(this);
-
-        View view19=inflater.inflate(R.layout.low_interest_to_people_complete,null);
-        Button ind23=view19.findViewById(R.id.ind23);
-        Button ind28=view19.findViewById(R.id.ind28);
-        Button ind22=view19.findViewById(R.id.ind22);
-        Button ind27=view19.findViewById(R.id.ind27);
-
-        ind23.setOnClickListener(generateClickListener(23));
-        ind23.setBackground(getBackground(23));
-        ind28.setOnClickListener(generateClickListener(28));
-        ind28.setBackground(getBackground(28));
-        ind22.setOnClickListener(generateClickListener(22));
-        ind22.setBackground(getBackground(22));
-        ind27.setOnClickListener(generateClickListener(27));
-        ind27.setBackground(getBackground(27));
-        mainTableRow.addView(view19);
-
-        View view20=inflater.inflate(R.layout.low_interest_needs_id_complete,null);
-        mainTableRow.addView(view20);
-
-        View view21=inflater.inflate(R.layout.low_interest_prof_learning_complete,null);
-        Button ind42=view21.findViewById(R.id.ind42);
-        Button ind39=view21.findViewById(R.id.ind39);
-        Button ind47=view21.findViewById(R.id.ind47);
-        Button ind48=view21.findViewById(R.id.ind48);
-
-        ind42.setOnClickListener(generateClickListener(42));
-        ind42.setBackground(getBackground(42));
-        ind39.setOnClickListener(generateClickListener(39));
-        ind39.setBackground(getBackground(39));
-        ind47.setOnClickListener(generateClickListener(47));
-        ind47.setBackground(getBackground(47));
-        ind48.setOnClickListener(generateClickListener(48));
-        ind48.setBackground(getBackground(48));
-
-        mainTableRow.addView(view21);
-
-        View view22=inflater.inflate(R.layout.low_interest_structure_complete,null);
-        Button ind60=view22.findViewById(R.id.ind60);
-        Button ind51=view22.findViewById(R.id.ind51);
-        Button ind59=view22.findViewById(R.id.ind59);
-        Button ind62=view22.findViewById(R.id.ind62);
-
-        ind60.setOnClickListener(generateClickListener(60));
-        ind60.setBackground(getBackground(60));
-        ind51.setOnClickListener(generateClickListener(51));
-        ind51.setBackground(getBackground(51));
-        ind59.setOnClickListener(generateClickListener(59));
-        ind59.setBackground(getBackground(59));
-        ind62.setOnClickListener(generateClickListener(62));
-        ind62.setBackground(getBackground(62));
-
-        mainTableRow.addView(view22);
-
-        View view23=inflater.inflate(R.layout.low_interest_resources_complete,null);
-        Button ind65=view23.findViewById(R.id.ind65);
-        Button ind64=view23.findViewById(R.id.ind64);
-
-        ind65.setOnClickListener(generateClickListener(65));
-        ind65.setBackground(getBackground(65));
-        ind64.setOnClickListener(generateClickListener(64));
-        ind64.setBackground(getBackground(64));
-        mainTableRow.addView(view23);
-
-        View view24=inflater.inflate(R.layout.low_interest_community_complete,null);
-
-        Button ind68=view24.findViewById(R.id.ind68);
-        ind68.setOnClickListener(generateClickListener(68));
-        ind68.setBackground(getBackground(68));
-        mainTableRow.addView(view24);
-
-
-        mainTable.addView(mainTableRow);
-
-
-
-    }
 
     private View.OnClickListener generateClickListener(int idInd){
         return new View.OnClickListener() {
@@ -497,341 +130,171 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
                             }
                         }).create();
                 if(indicatorRegs.size()>=idInd){
+                    CheckBox ev1=null;
+                    CheckBox ev2=null;
+                    CheckBox ev3=null;
+                    CheckBox ev4=null;
+                    CheckBox requires_improvement_plan=null;
+                    String ev1Caption="";
+                    String ev2Caption="";
+                    String ev3Caption="";
+                    String ev4Caption="";
+                    evidences= Session.getInstance().getEvidencesByIndicator(indicators.get(idInd-1).getIdSubSubAmbit(),indicators.get(idInd-1).getIdSubAmbit(),indicators.get(idInd-1).getIdAmbit(),idInd,indicators.get(idInd-1).getIndicatorType(),indicators.get(idInd-1).getIndicatorVersion(),indicators.get(idInd-1).getEvaluationType());
                     if(isComplete){
                         view=inflater.inflate(R.layout.indicator_complete_result,null);
-                        TextView evidencesCaption=view.findViewById(R.id.evidences_caption);
-                        evidences= Session.getInstance().getEvidencesByIndicator(indicators.get(idInd-1).getIdSubSubAmbit(),indicators.get(idInd-1).getIdSubAmbit(),indicators.get(idInd-1).getIdAmbit(),idInd,indicators.get(idInd-1).getIndicatorType(),indicators.get(idInd-1).getIndicatorVersion(),indicators.get(idInd-1).getEvaluationType());
-                        String evCaption="<ul>";
-                        if(Locale.getDefault().getLanguage().equals("es")){
-                            evCaption+="<li><b>Evidencia 1: </b>" + evidences.get(0).getDescriptionSpanish()+"<br> <i>Evidencia Cumplida: <b>";
-                            if(evidenceRegs.get(4*(idInd-1)).getIsMarked()==1){
-                                evCaption+="SÍ</b></i></li>";
-                            }else{
-                                evCaption+="NO</b></i></li>";
-                            }
-                            evCaption+="<li><b>Evidencia 2: </b>" + evidences.get(1).getDescriptionSpanish()+"<br> <i>Evidencia Cumplida: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+1).getIsMarked()==1){
-                                evCaption+="SÍ</b></i></li>";
-                            }else{
-                                evCaption+="NO</b></i></li>";
-                            }
-                            evCaption+="<li><b>Evidencia 3: </b>" + evidences.get(2).getDescriptionSpanish()+"<br> <i>Evidencia Cumplida: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+2).getIsMarked()==1){
-                                evCaption+="SÍ</b></i></li>";
-                            }else{
-                                evCaption+="NO</b></i></li>";
-                            }
-                            evCaption+="<li><b>Evidencia 4: </b>" + evidences.get(3).getDescriptionSpanish()+"<br> <i>Evidencia Cumplida: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+3).getIsMarked()==1){
-                                evCaption+="SÍ</b></i></li>";
-                            }else{
-                                evCaption+="NO</b></i></li>";
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("fr")){
-                            evCaption+="<li><b>Preuve 1: </b>" + evidences.get(0).getDescriptionFrench()+"<br> <i>Preuve Accomplie: <b>";
-                            if(evidenceRegs.get(4*(idInd-1)).getIsMarked()==1){
-                                evCaption+="OUI</b></i></li>";
-                            }else{
-                                evCaption+="NON</b></i></li>";
-                            }
-                            evCaption+="<li><b>Preuve 2: </b>" + evidences.get(1).getDescriptionFrench()+"<br> <i>Evidència Complida: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+1).getIsMarked()==1){
-                                evCaption+="OUI</b></i></li>";
-                            }else{
-                                evCaption+="NON</b></i></li>";
-                            }
-                            evCaption+="<li><b>Preuve 3: </b>" + evidences.get(2).getDescriptionFrench()+"<br> <i>Evidència Complida: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+2).getIsMarked()==1){
-                                evCaption+="OUI</b></i></li>";
-                            }else{
-                                evCaption+="NON</b></i></li>";
-                            }
-                            evCaption+="<li><b>Preuve 4: </b>" + evidences.get(3).getDescriptionFrench()+"<br> <i>Evidència Complida: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+3).getIsMarked()==1){
-                                evCaption+="OUI</b></i></li>";
-                            }else{
-                                evCaption+="NON</b></i></li>";
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("eu")){
-                            evCaption+="<li><b>1. froga: </b>" + evidences.get(0).getDescriptionBasque()+"<br> <i>Frogak Beteak: <b>";
-                            if(evidenceRegs.get(4*(idInd-1)).getIsMarked()==1){
-                                evCaption+="BAI</b></i></li>";
-                            }else{
-                                evCaption+="EZ</b></i></li>";
-                            }
-                            evCaption+="<li><b>2. froga: </b>" + evidences.get(1).getDescriptionBasque()+"<br> <i>Frogak Beteak: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+1).getIsMarked()==1){
-                                evCaption+="BAI</b></i></li>";
-                            }else{
-                                evCaption+="EZ</b></i></li>";
-                            }
-                            evCaption+="<li><b>3. froga: </b>" + evidences.get(2).getDescriptionBasque()+"<br> <i>Frogak Beteak: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+2).getIsMarked()==1){
-                                evCaption+="BAI</b></i></li>";
-                            }else{
-                                evCaption+="EZ</b></i></li>";
-                            }
-                            evCaption+="<li><b>4. froga: </b>" + evidences.get(3).getDescriptionBasque()+"<br> <i>Frogak Beteak: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+3).getIsMarked()==1){
-                                evCaption+="BAI</b></i></li>";
-                            }else{
-                                evCaption+="EZ</b></i></li>";
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("ca")){
-                            evCaption+="<li><b>Evidència 1: </b>" + evidences.get(0).getDescriptionCatalan()+"<br> <i>Evidència Complida: <b>";
-                            if(evidenceRegs.get(4*(idInd-1)).getIsMarked()==1){
-                                evCaption+="SÍ</b></i></li>";
-                            }else{
-                                evCaption+="NO</b></i></li>";
-                            }
-                            evCaption+="<li><b>Evidència 2: </b>" + evidences.get(1).getDescriptionCatalan()+"<br> <i>Evidència Complida: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+1).getIsMarked()==1){
-                                evCaption+="SÍ</b></i></li>";
-                            }else{
-                                evCaption+="NO</b></i></li>";
-                            }
-                            evCaption+="<li><b>Evidència 3: </b>" + evidences.get(2).getDescriptionCatalan()+"<br> <i>Evidència Complida: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+2).getIsMarked()==1){
-                                evCaption+="SÍ</b></i></li>";
-                            }else{
-                                evCaption+="NO</b></i></li>";
-                            }
-                            evCaption+="<li><b>Evidència 4: </b>" + evidences.get(3).getDescriptionCatalan()+"<br> <i>Evidència Complida: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+3).getIsMarked()==1){
-                                evCaption+="SÍ</b></i></li>";
-                            }else{
-                                evCaption+="NO</b></i></li>";
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("nl")){
-                            evCaption+="<li><b>Bewijs 1: </b>" + evidences.get(0).getDescriptionDutch()+"<br> <i>Bewijs Voltooid: <b>";
-                            if(evidenceRegs.get(4*(idInd-1)).getIsMarked()==1){
-                                evCaption+="JA</b></i></li>";
-                            }else{
-                                evCaption+="NEE</b></i></li>";
-                            }
-                            evCaption+="<li><b>Bewijs 2: </b>" + evidences.get(1).getDescriptionDutch()+"<br> <i>Bewijs Voltooid: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+1).getIsMarked()==1){
-                                evCaption+="JA</b></i></li>";
-                            }else{
-                                evCaption+="NEE</b></i></li>";
-                            }
-                            evCaption+="<li><b>Bewijs 3: </b>" + evidences.get(2).getDescriptionDutch()+"<br> <i>Bewijs Voltooid: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+2).getIsMarked()==1){
-                                evCaption+="JA</b></i></li>";
-                            }else{
-                                evCaption+="NEE</b></i></li>";
-                            }
-                            evCaption+="<li><b>Bewijs 4: </b>" + evidences.get(3).getDescriptionDutch()+"<br> <i>Bewijs Voltooid: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+3).getIsMarked()==1){
-                                evCaption+="JA</b></i></li>";
-                            }else{
-                                evCaption+="NEE</b></i></li>";
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("gl")){
-                            evCaption+="<li><b>Evidencia 1: </b>" + evidences.get(0).getDescriptionGalician()+"<br> <i>Evidencia Cumprida: <b>";
-                            if(evidenceRegs.get(4*(idInd-1)).getIsMarked()==1){
-                                evCaption+="SI</b></i></li>";
-                            }else{
-                                evCaption+="NON</b></i></li>";
-                            }
-                            evCaption+="<li><b>Evidencia 2: </b>" + evidences.get(1).getDescriptionGalician()+"<br> <i>Evidencia Cumprida: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+1).getIsMarked()==1){
-                                evCaption+="SI</b></i></li>";
-                            }else{
-                                evCaption+="NON</b></i></li>";
-                            }
-                            evCaption+="<li><b>Evidencia 3: </b>" + evidences.get(2).getDescriptionGalician()+"<br> <i>Evidencia Cumprida: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+2).getIsMarked()==1){
-                                evCaption+="SI</b></i></li>";
-                            }else{
-                                evCaption+="NON</b></i></li>";
-                            }
-                            evCaption+="<li><b>Evidencia 4: </b>" + evidences.get(3).getDescriptionGalician()+"<br> <i>Evidencia Cumprida: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+3).getIsMarked()==1){
-                                evCaption+="SI</b></i></li>";
-                            }else{
-                                evCaption+="NON</b></i></li>";
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("de")){
-                            evCaption+="<li><b>Beweis 1: </b>" + evidences.get(0).getDescriptionGerman()+"<br> <i>Beweis Erbracht: <b>";
-                            if(evidenceRegs.get(4*(idInd-1)).getIsMarked()==1){
-                                evCaption+="JA</b></i></li>";
-                            }else{
-                                evCaption+="NEIN</b></i></li>";
-                            }
-                            evCaption+="<li><b>Beweis 2: </b>" + evidences.get(1).getDescriptionGerman()+"<br> <i>Beweis Erbracht: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+1).getIsMarked()==1){
-                                evCaption+="JA</b></i></li>";
-                            }else{
-                                evCaption+="NEIN</b></i></li>";
-                            }
-                            evCaption+="<li><b>Beweis 3: </b>" + evidences.get(2).getDescriptionGerman()+"<br> <i>Beweis Erbracht: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+2).getIsMarked()==1){
-                                evCaption+="JA</b></i></li>";
-                            }else{
-                                evCaption+="NEIN</b></i></li>";
-                            }
-                            evCaption+="<li><b>Beweis 4: </b>" + evidences.get(3).getDescriptionGerman()+"<br> <i>Beweis Erbracht: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+3).getIsMarked()==1){
-                                evCaption+="JA</b></i></li>";
-                            }else{
-                                evCaption+="NEIN</b></i></li>";
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("it")){
-                            evCaption+="<li><b>Prova 1: </b>" + evidences.get(0).getDescriptionItalian()+"<br> <i>Prova Compiuta: <b>";
-                            if(evidenceRegs.get(4*(idInd-1)).getIsMarked()==1){
-                                evCaption+="SÌ</b></i></li>";
-                            }else{
-                                evCaption+="NO</b></i></li>";
-                            }
-                            evCaption+="<li><b>Prova 2: </b>" + evidences.get(1).getDescriptionItalian()+"<br> <i>Prova Compiuta: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+1).getIsMarked()==1){
-                                evCaption+="SÌ</b></i></li>";
-                            }else{
-                                evCaption+="NO</b></i></li>";
-                            }
-                            evCaption+="<li><b>Prova 3: </b>" + evidences.get(2).getDescriptionItalian()+"<br> <i>Prova Compiuta: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+2).getIsMarked()==1){
-                                evCaption+="SÌ</b></i></li>";
-                            }else{
-                                evCaption+="NO</b></i></li>";
-                            }
-                            evCaption+="<li><b>Prova 4: </b>" + evidences.get(3).getDescriptionItalian()+"<br> <i>Prova Compiuta: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+3).getIsMarked()==1){
-                                evCaption+="SÌ</b></i></li>";
-                            }else{
-                                evCaption+="NO</b></i></li>";
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("pt")){
-                            evCaption+="<li><b>Evidência 1: </b>" + evidences.get(0).getDescriptionPortuguese()+"<br> <i>Evidência Cumprida: <b>";
-                            if(evidenceRegs.get(4*(idInd-1)).getIsMarked()==1){
-                                evCaption+="SIM</b></i></li>";
-                            }else{
-                                evCaption+="NÃO</b></i></li>";
-                            }
-                            evCaption+="<li><b>Evidência 2: </b>" + evidences.get(1).getDescriptionPortuguese()+"<br> <i>Evidência Cumprida: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+1).getIsMarked()==1){
-                                evCaption+="SIM</b></i></li>";
-                            }else{
-                                evCaption+="NÃO</b></i></li>";
-                            }
-                            evCaption+="<li><b>Evidência 3: </b>" + evidences.get(2).getDescriptionPortuguese()+"<br> <i>Evidência Cumprida: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+2).getIsMarked()==1){
-                                evCaption+="SIM</b></i></li>";
-                            }else{
-                                evCaption+="NÃO</b></i></li>";
-                            }
-                            evCaption+="<li><b>Evidência 4: </b>" + evidences.get(3).getDescriptionPortuguese()+"<br> <i>Evidência Cumprida: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+3).getIsMarked()==1){
-                                evCaption+="SIM</b></i></li>";
-                            }else{
-                                evCaption+="NÃO</b></i></li>";
-                            }
-                        }else{
-                            evCaption+="<li><b>Evidence 1: </b>" + evidences.get(0).getDescriptionEnglish()+"<br> <i>Evidence fulfilled: <b>";
-                            if(evidenceRegs.get(4*(idInd-1)).getIsMarked()==1){
-                                evCaption+="YES</b></i></li>";
-                            }else{
-                                evCaption+="NO</b></i></li>";
-                            }
-                            evCaption+="<li><b>Evidence 2: </b>" + evidences.get(1).getDescriptionEnglish()+"<br> <i>Evidence fulfilled: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+1).getIsMarked()==1){
-                                evCaption+="YES</b></i></li>";
-                            }else{
-                                evCaption+="NO</b></i></li>";
-                            }
-                            evCaption+="<li><b>Evidence 3: </b>" + evidences.get(2).getDescriptionEnglish()+"<br> <i>Evidence fulfilled: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+2).getIsMarked()==1){
-                                evCaption+="YES</b></i></li>";
-                            }else{
-                                evCaption+="NO</b></i></li>";
-                            }
-                            evCaption+="<li><b>Evidence 4: </b>" + evidences.get(3).getDescriptionEnglish()+"<br> <i>Evidence fulfilled: <b>";
-                            if(evidenceRegs.get((4*(idInd-1))+3).getIsMarked()==1){
-                                evCaption+="YES</b></i></li>";
-                            }else{
-                                evCaption+="NO</b></i></li>";
-                            }
-                        }
-                        evCaption+="</ul>";
-                        evidencesCaption.setText(Html.fromHtml(evCaption,0));
+                        ev4=view.findViewById(R.id.evidence4);
                     }else{
                         view=inflater.inflate(R.layout.indicator_simple_result,null);
                     }
+                    ev1=view.findViewById(R.id.evidence1);
+                    ev2=view.findViewById(R.id.evidence2);
+                    ev3=view.findViewById(R.id.evidence3);
+                    requires_improvement_plan=view.findViewById(R.id.requires_improvement_plan);
                     TextView indicatorCaption=view.findViewById(R.id.indicator_caption);
                     String indCaption="";
                     if(Locale.getDefault().getLanguage().equals("es")){
-                        indCaption="<b>Indicador " + idInd + ": </b>" + indicators.get(idInd-1).getDescriptionSpanish()+"<br> <i>Requiere plan de mejora: <b>";
-                        if(indicatorRegs.get(idInd-1).getRequiresImprovementPlan()==1){
-                            indCaption+="SÍ</b></i>";
-                        }else{
-                            indCaption+="NO</b></i>";
-                        }
+                        indCaption="<b>Indicador " + idInd + ": </b>" + indicators.get(idInd-1).getDescriptionSpanish();
                     }else if(Locale.getDefault().getLanguage().equals("fr")){
-                        indCaption="<b>Indicateur " + idInd + ": </b>" + indicators.get(idInd-1).getDescriptionFrench()+"<br> <i>Nécessite un plan d'amélioration: <b>";
-                        if(indicatorRegs.get(idInd-1).getRequiresImprovementPlan()==1){
-                            indCaption+="OUI</b></i>";
-                        }else{
-                            indCaption+="NON</b></i>";
-                        }
+                        indCaption="<b>Indicateur " + idInd + ": </b>" + indicators.get(idInd-1).getDescriptionFrench();
                     }else if(Locale.getDefault().getLanguage().equals("eu")){
-                        indCaption="<b>"+idInd + ". adierazlea: </b>" + indicators.get(idInd-1).getDescriptionBasque()+"<br> <i>Hobekuntza plana behar du: <b>";
-                        if(indicatorRegs.get(idInd-1).getRequiresImprovementPlan()==1){
-                            indCaption+="BAI</b></i>";
-                        }else{
-                            indCaption+="EZ</b></i>";
-                        }
+                        indCaption="<b>"+idInd + ". adierazlea: </b>" + indicators.get(idInd-1).getDescriptionBasque();
                     }else if(Locale.getDefault().getLanguage().equals("ca")){
-                        indCaption="<b>Indicador " + idInd + ": </b>" + indicators.get(idInd-1).getDescriptionCatalan()+"<br> <i>Requereix un pla de millora: <b>";
-                        if(indicatorRegs.get(idInd-1).getRequiresImprovementPlan()==1){
-                            indCaption+="SÍ</b></i>";
-                        }else{
-                            indCaption+="NO</b></i>";
-                        }
+                        indCaption="<b>Indicador " + idInd + ": </b>" + indicators.get(idInd-1).getDescriptionCatalan();
                     }else if(Locale.getDefault().getLanguage().equals("nl")){
-                        indCaption="<b>Indicator " + idInd + ": " + indicators.get(idInd-1).getDescriptionDutch()+"<br> <i>Vereist een verbeterplan: <b>";
-                        if(indicatorRegs.get(idInd-1).getRequiresImprovementPlan()==1){
-                            indCaption+="JA</b></i>";
-                        }else{
-                            indCaption+="NEE</b></i>";
-                        }
+                        indCaption="<b>Indicator " + idInd + ": " + indicators.get(idInd-1).getDescriptionDutch();
                     }else if(Locale.getDefault().getLanguage().equals("gl")){
-                        indCaption="<b>Indicador " + idInd + ": " + indicators.get(idInd-1).getDescriptionGalician()+"<br> <i>Require plan de mellora: <b>";
-                        if(indicatorRegs.get(idInd-1).getRequiresImprovementPlan()==1){
-                            indCaption+="SI</b></i>";
-                        }else{
-                            indCaption+="NON</b></i>";
-                        }
+                        indCaption="<b>Indicador " + idInd + ": " + indicators.get(idInd-1).getDescriptionGalician();
                     }else if(Locale.getDefault().getLanguage().equals("de")){
-                        indCaption="<b>Indikator " + idInd + ": " + indicators.get(idInd-1).getDescriptionGerman()+"<br> <i>Erfordert einen Verbesserungsplan: <b>";
-                        if(indicatorRegs.get(idInd-1).getRequiresImprovementPlan()==1){
-                            indCaption+="JA</b></i>";
-                        }else{
-                            indCaption+="NEIN</b></i>";
-                        }
+                        indCaption="<b>Indikator " + idInd + ": " + indicators.get(idInd-1).getDescriptionGerman();
                     }else if(Locale.getDefault().getLanguage().equals("it")){
-                        indCaption="<b>Indicatore " + idInd + ": " + indicators.get(idInd-1).getDescriptionItalian()+"<br> <i>Richiede un piano di miglioramento: <b>";
-                        if(indicatorRegs.get(idInd-1).getRequiresImprovementPlan()==1){
-                            indCaption+="SÌ</b></i>";
-                        }else{
-                            indCaption+="NO</b></i>";
-                        }
+                        indCaption="<b>Indicatore " + idInd + ": " + indicators.get(idInd-1).getDescriptionItalian();
                     }else if(Locale.getDefault().getLanguage().equals("pt")){
-                        indCaption="<b>Indicador " + idInd + ": " + indicators.get(idInd-1).getDescriptionPortuguese()+"<br> <i>Requer um plano de melhoria: <b>";
-                        if(indicatorRegs.get(idInd-1).getRequiresImprovementPlan()==1){
-                            indCaption+="SIM</b></i>";
-                        }else{
-                            indCaption+="NÃO</b></i>";
-                        }
+                        indCaption="<b>Indicador " + idInd + ": " + indicators.get(idInd-1).getDescriptionPortuguese();
                     }else{
-                        indCaption="<b>Indicator " + idInd + ": " + indicators.get(idInd-1).getDescriptionEnglish()+"<br> <i>Requires improvement plan: <b>";
-                        if(indicatorRegs.get(idInd-1).getRequiresImprovementPlan()==1){
-                            indCaption+="YES</b></i>";
-                        }else{
-                            indCaption+="NO</b></i>";
-                        }
+                        indCaption="<b>Indicator " + idInd + ": " + indicators.get(idInd-1).getDescriptionEnglish();
                     }
                     indicatorCaption.setText(Html.fromHtml(indCaption,0));
+                    if(indicatorRegs.get(idInd-1).getRequiresImprovementPlan()==1){
+                        requires_improvement_plan.setChecked(true);
+                    }
+                    else{
+                        requires_improvement_plan.setChecked(false);
+                    }
+                    if(Locale.getDefault().getLanguage().equals("es")){
+                        ev1Caption="<b>Evidencia 1: </b>" + evidences.get(0).getDescriptionSpanish();
+                        ev2Caption="<b>Evidencia 2: </b>" + evidences.get(1).getDescriptionSpanish();
+                        ev3Caption="<b>Evidencia 3: </b>" + evidences.get(2).getDescriptionSpanish();
+                        if(isComplete) {
+                            ev4Caption = "<b>Evidencia 4: </b>" + evidences.get(3).getDescriptionSpanish();
+                        }
+                    }else if(Locale.getDefault().getLanguage().equals("fr")){
+                        ev1Caption="<b>Preuve 1: </b>" + evidences.get(0).getDescriptionFrench();
+                        ev2Caption="<b>Preuve 2: </b>" + evidences.get(1).getDescriptionFrench();
+                        ev3Caption="<b>Preuve 3: </b>" + evidences.get(2).getDescriptionFrench();
+                        if(isComplete) {
+                            ev4Caption = "<b>Preuve 4: </b>" + evidences.get(3).getDescriptionFrench();
+                        }
+                    }else if(Locale.getDefault().getLanguage().equals("eu")){
+                        ev1Caption="<b>1. froga: </b>" + evidences.get(0).getDescriptionBasque();
+                        ev2Caption="<b>2. froga: </b>" + evidences.get(1).getDescriptionBasque();
+                        ev3Caption="<b>3. froga: </b>" + evidences.get(2).getDescriptionBasque();
+                        if(isComplete) {
+                            ev4Caption = "<b>4. froga: </b>" + evidences.get(3).getDescriptionBasque();
+                        }
+                    }else if(Locale.getDefault().getLanguage().equals("ca")){
+                        ev1Caption="<b>Evidència 1: </b>" + evidences.get(0).getDescriptionCatalan();
+                        ev2Caption="<b>Evidència 2: </b>" + evidences.get(1).getDescriptionCatalan();
+                        ev3Caption="<b>Evidència 3: </b>" + evidences.get(2).getDescriptionCatalan();
+                        if(isComplete) {
+                            ev4Caption = "<b>Evidència 4: </b>" + evidences.get(3).getDescriptionCatalan();
+                        }
+                    }else if(Locale.getDefault().getLanguage().equals("nl")){
+                        ev1Caption="<b>Bewijs 1: </b>" + evidences.get(0).getDescriptionDutch();
+                        ev2Caption="<b>Bewijs 2: </b>" + evidences.get(1).getDescriptionDutch();
+                        ev3Caption="<b>Bewijs 3: </b>" + evidences.get(2).getDescriptionDutch();
+                        if(isComplete) {
+                            ev4Caption = "<b>Bewijs 4: </b>" + evidences.get(3).getDescriptionDutch();
+                        }
+                    }else if(Locale.getDefault().getLanguage().equals("gl")){
+                        ev1Caption="<b>Evidencia 1: </b>" + evidences.get(0).getDescriptionGalician();
+                        ev2Caption="<b>Evidencia 2: </b>" + evidences.get(1).getDescriptionGalician();
+                        ev3Caption="<b>Evidencia 3: </b>" + evidences.get(2).getDescriptionGalician();
+                        if(isComplete) {
+                            ev4Caption = "<b>Evidencia 4: </b>" + evidences.get(3).getDescriptionGalician();
+                        }
+                    }else if(Locale.getDefault().getLanguage().equals("de")){
+                        ev1Caption="<b>Beweis 1: </b>" + evidences.get(0).getDescriptionGerman();
+                        ev2Caption="<b>Beweis 2: </b>" + evidences.get(1).getDescriptionGerman();
+                        ev3Caption="<b>Beweis 3: </b>" + evidences.get(2).getDescriptionGerman();
+                        if(isComplete) {
+                            ev4Caption = "<b>Beweis 4: </b>" + evidences.get(3).getDescriptionGerman();
+                        }
+                    }else if(Locale.getDefault().getLanguage().equals("it")){
+                        ev1Caption="<b>Prova 1: </b>" + evidences.get(0).getDescriptionItalian();
+                        ev2Caption="<b>Prova 2: </b>" + evidences.get(1).getDescriptionItalian();
+                        ev3Caption="<b>Prova 3: </b>" + evidences.get(2).getDescriptionItalian();
+                        if(isComplete) {
+                            ev4Caption = "<b>Prova 4: </b>" + evidences.get(3).getDescriptionItalian();
+                        }
+                    }else if(Locale.getDefault().getLanguage().equals("pt")){
+                        ev1Caption="<b>Evidência 1: </b>" + evidences.get(0).getDescriptionPortuguese();
+                        ev2Caption="<b>Evidência 2: </b>" + evidences.get(1).getDescriptionPortuguese();
+                        ev3Caption="<b>Evidência 3: </b>" + evidences.get(2).getDescriptionPortuguese();
+                        if(isComplete) {
+                            ev4Caption = "<b>Evidência 4: </b>" + evidences.get(3).getDescriptionPortuguese();
+                        }
+                    }else{
+                        ev1Caption="<b>Evidence 1: </b>" + evidences.get(0).getDescriptionEnglish();
+                        ev2Caption="<b>Evidence 2: </b>" + evidences.get(1).getDescriptionEnglish();
+                        ev3Caption="<b>Evidence 3: </b>" + evidences.get(2).getDescriptionEnglish();
+                        if(isComplete) {
+                            ev4Caption = "<b>Evidence 4: </b>" + evidences.get(3).getDescriptionEnglish();
+                        }
+                    }
+                    int idEvidenceBase=-1;
+                    if(isComplete){
+                        idEvidenceBase=4*(idInd-1);
+                    }
+                    else{
+                        idEvidenceBase=3*(idInd-1);
+                    }
+                    if(evidenceRegs.get(idEvidenceBase).getIsMarked()==1){
+                        ev1.setChecked(true);
+                    }else{
+                        ev1.setChecked(false);
+                    }
+                    if(evidenceRegs.get(idEvidenceBase+1).getIsMarked()==1){
+                        ev2.setChecked(true);
+                    }else{
+                        ev2.setChecked(false);
+                    }
+                    if(evidenceRegs.get(idEvidenceBase+2).getIsMarked()==1){
+                        ev3.setChecked(true);
+                    }else{
+                        ev3.setChecked(false);
+                    }
+                    if(isComplete){
+                        if(evidenceRegs.get(idEvidenceBase+3).getIsMarked()==1){
+                            ev4.setChecked(true);
+                        }else{
+                            ev4.setChecked(false);
+                        }
+                        ev4.setText(Html.fromHtml(ev4Caption,0));
+                    }
+                    ev1.setText(Html.fromHtml(ev1Caption,0));
+                    ev2.setText(Html.fromHtml(ev2Caption,0));
+                    ev3.setText(Html.fromHtml(ev3Caption,0));
+
+                    TextView ev_prop=view.findViewById(R.id.ev_prop);
+                    String ev_prop_txt="<b>"+getString(R.string.about_indicator)+": </b>"+indicatorRegs.get(idInd-1).getObservationsSpanish();
+                    ev_prop_txt+="<ul><li><b>"+getString(R.string.about_the_evidence_1)+": </b>"+evidenceRegs.get(idEvidenceBase).getObservationsSpanish()+"</li>";
+                    ev_prop_txt+="<li><b>"+getString(R.string.about_the_evidence_2)+": </b>"+evidenceRegs.get(idEvidenceBase+1).getObservationsSpanish()+"</li>";
+                    ev_prop_txt+="<li><b>"+getString(R.string.about_the_evidence_3)+": </b>"+evidenceRegs.get(idEvidenceBase+2).getObservationsSpanish()+"</li>";
+                    if(isComplete){
+                        ev_prop_txt+="<li><b>"+getString(R.string.about_the_evidence_4)+": </b>"+evidenceRegs.get(idEvidenceBase+3).getObservationsSpanish()+"</li>";
+                    }
+                    ev_prop_txt+="</ul>";
+                    ev_prop.setText(Html.fromHtml(ev_prop_txt,0));
                     dialog.setView(view);
                 }else{
                     String msg="<i>";
@@ -933,7 +396,7 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
         }
         return AppCompatResources.getDrawable(SeeRealizedIndicatorsEvaluations.this,drawableId);
     }
-        
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){

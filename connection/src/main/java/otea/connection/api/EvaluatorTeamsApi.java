@@ -1,5 +1,7 @@
 package otea.connection.api;
 
+import com.google.gson.JsonObject;
+
 import java.util.List;
 
 import cli.organization.data.EvaluatorTeam;
@@ -21,7 +23,7 @@ public interface EvaluatorTeamsApi {
 
     /**Get all evaluator teams*/
     @GET("EvaluatorTeams/all")
-    Call<List<EvaluatorTeam>> GetAll();
+    Call<List<JsonObject>> GetAll();
 
     /**
      * Get all evaluator teams of a center
@@ -32,7 +34,7 @@ public interface EvaluatorTeamsApi {
      * @param illness - Organization illness or syndrome
      * */
     @GET("EvaluatorTeams/allByCenter")
-    Call<List<EvaluatorTeam>> GetAllByCenter(@Query("id") int id, @Query("orgType") String orgType, @Query("idCenter") int idCenter, @Query("illness") String illness);
+    Call<List<JsonObject>> GetAllByCenter(@Query("id") int id, @Query("orgType") String orgType, @Query("idCenter") int idCenter, @Query("illness") String illness);
 
     /**
      * Get all evaluator teams of an organization
@@ -42,7 +44,7 @@ public interface EvaluatorTeamsApi {
      * @param illness - Organization illness or syndrome
      */
     @GET("EvaluatorTeams/allByOrganization")
-    Call<List<EvaluatorTeam>> GetAllByOrganization(@Query("id") int id, @Query("orgType") String orgType, @Query("illness") String illness);
+    Call<List<JsonObject>> GetAllByOrganization(@Query("id") int id, @Query("orgType") String orgType, @Query("illness") String illness);
 
     /**
      * Get an evaluator team

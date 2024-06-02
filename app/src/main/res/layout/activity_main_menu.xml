@@ -671,7 +671,7 @@
             app:layout_rowWeight="1">
 
             <ImageButton
-                android:id="@+id/editIndicatorsAdminButton"
+                android:id="@+id/downloadImprovementPlanAdminButton"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@drawable/round_button_background"
@@ -684,43 +684,43 @@
                 app:srcCompat="@drawable/edit_indicators" />
 
             <TextView
-                android:id="@+id/editIndicatorsAdminText"
+                android:id="@+id/downloadImprovementPlanAdminText"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:gravity="center"
-                android:text="@string/edit_indicators"
+                android:text="@string/generate_report"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textSize="11sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/guidelineEditIndicatorsAdmin2"
-                app:layout_constraintEnd_toStartOf="@+id/guidelineEditIndicatorsAdmin4"
-                app:layout_constraintStart_toStartOf="@+id/guidelineEditIndicatorsAdmin3"
-                app:layout_constraintTop_toTopOf="@+id/guidelineEditIndicatorsAdmin1" />
+                app:layout_constraintBottom_toTopOf="@+id/guidelineDownloadImprovementPlanAdmin2"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineDownloadImprovementPlanAdmin4"
+                app:layout_constraintStart_toStartOf="@+id/guidelineDownloadImprovementPlanAdmin3"
+                app:layout_constraintTop_toTopOf="@+id/guidelineDownloadImprovementPlanAdmin1" />
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelineEditIndicatorsAdmin1"
+                android:id="@+id/guidelineDownloadImprovementPlanAdmin1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintGuide_percent="0.757" />
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelineEditIndicatorsAdmin2"
+                android:id="@+id/guidelineDownloadImprovementPlanAdmin2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintGuide_percent="0.95" />
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelineEditIndicatorsAdmin3"
+                android:id="@+id/guidelineDownloadImprovementPlanAdmin3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.05" />
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelineEditIndicatorsAdmin4"
+                android:id="@+id/guidelineDownloadImprovementPlanAdmin4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"

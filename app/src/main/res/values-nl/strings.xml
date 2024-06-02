@@ -286,6 +286,42 @@
     <string name="high_interest">Van hoog belang</string>
     <string name="medium_interest">Van gemiddeld belang</string>
     <string name="low_interest">Van laag belang</string>
+    <string name="physical_welfare">Fysiek welzijn</string>
+    <string name="autism_people_perspective">Perspectief van mensen met autisme</string>
+    <string name="families_perspective">Perspectief van de gezinnen</string>
+    <string name="professionals_perspective">Perspectief van de professionals</string>
+    <string name="emotional_welfare">Emotioneel welzijn</string>
+    <string name="material_welfare">Materiële welvaart</string>
+    <string name="interpersonal_relationships">Interpersoonlijke relaties</string>
+    <string name="personal_development">Persoonlijke ontwikkeling</string>
+    <string name="rights">Rechten</string>
+    <string name="self_determination">Zelfbeschikking</string>
+    <string name="social_inclusion">Sociale inclusie</string>
+    <string name="programming">Programmering</string>
+    <string name="support_planning">Ondersteuningsplanning</string>
+    <string name="mon_and_eval_plan">Monitoring- en evaluatieplan</string>
+    <string name="knowledge_autism">Kennis van autisme</string>
+    <string name="pers_centered_plan">Persoonsgerichte planning</string>
+    <string name="att_values">Houdingen en waarden</string>
+    <string name="part_research">Deelname aan onderzoek</string>
+    <string name="peer_groups">Leeftijdsgroepen</string>
+    <string name="activity_org">Organisatie van de activiteit</string>
+    <string name="schedule">Schema</string>
+    <string name="com_cord">Communicatie/coördinatie</string>
+    <string name="systemic_eval">Systemische evaluatie</string>
+    <string name="leadership">Leiderschap</string>
+    <string name="innovation">Innovatie</string>
+    <string name="con_err">Uw apparaat kon niet correct verbinden met de server van Fundación Miradas. Controleer de internetverbinding van uw apparaat of probeer het later opnieuw</string>
+    <string name="con_err_title">Uw internetverbinding is onstabiel of niet-bestaand</string>
+    <string name="requires_improvement_plan">De indicator moet in het verbeterplan staan</string>
+    <string name="improvement_opportunities">Verbeterkansen</string>
+    <string name="about_indicator">Over de indicator</string>
+    <string name="about_the_evidence_1">Over bewijs 1</string>
+    <string name="about_the_evidence_2">Over bewijs 2</string>
+    <string name="about_the_evidence_3">Over bewijs 3</string>
+    <string name="about_the_evidence_4">Over bewijs 4</string>
+    <string name="fulfilled_evidences">Voltooide bewijzen</string>
+    <string name="indicator">Indicator</string>
 
 
 </resources>

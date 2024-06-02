@@ -1,6 +1,8 @@
+using Azure.Core;
 using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Misc;
 using OTEAServer.Models;
+using System.Text.Json;
 
 namespace OTEAServer.Controllers
 {
@@ -37,7 +39,19 @@ namespace OTEAServer.Controllers
             try
             {
                 var requests = _context.Requests.ToList();
-                return Ok(requests);
+                List<JsonDocument> result = new List<JsonDocument>();
+                foreach (var request in requests)
+                {
+                    String rg = "{\"email\":\"" + request.email + "\"," +
+                                "\"statusReq\":\"" + request.statusReq + "\"," +
+                                "\"idOrganization\":\"" + request.idOrganization + "\"," +
+                                "\"orgType\":\"" + request.orgType + "\"," +
+                                "\"illness\":\"" + request.illness + "\"," +
+                                "\"userType\":\"" + request.userType + "\"}";
+
+                    result.Add(JsonDocument.Parse(rg));
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -51,7 +65,7 @@ namespace OTEAServer.Controllers
         /// <param name="email">Email of the register request</param>
         /// <returns>Request if success, null if not</returns>
         [HttpGet("get")]
-        public ActionResult<Request> Get([FromQuery] string email)
+        public ActionResult<JsonDocument> Get([FromQuery] string email)
         {
             try
             {
@@ -60,7 +74,49 @@ namespace OTEAServer.Controllers
                 if (request == null)
                     return NotFound();
 
-                return request;
+                String rg = "{\"email\":\"" + request.email + "\"," +
+                                "\"statusReq\":\"" + request.statusReq + "\"," +
+                                "\"idOrganization\":\"" + request.idOrganization + "\"," +
+                                "\"orgType\":\"" + request.orgType + "\"," +
+                                "\"illness\":\"" + request.illness + "\"," +
+                                "\"userType\":\"" + request.userType + "\"}";
+                return JsonDocument.Parse(rg);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("goToUserReg")]
+        public ActionResult goToUserReg([FromBody] JsonDocument credentials)
+        {
+            try
+            {
+                string email = credentials.RootElement.GetProperty("email").ToString();
+                string password = credentials.RootElement.GetProperty("password").ToString();
+                var request = _context.Requests.FirstOrDefault(u => u.email == email && u.tempPassword == password);
+
+                if (request == null)
+                {//Finds user in database
+                    request = _context.Requests.FirstOrDefault(u => u.email == email);
+                    if (request == null) { return NotFound(); }
+                    else
+                    {
+                        if (request.tempPassword != password)
+                        {
+                            return Unauthorized();
+                        }
+                    }
+                }
+                String rg = "{\"email\":\"" + request.email + "\"," +
+                                "\"statusReq\":\"" + request.statusReq + "\"," +
+                                "\"idOrganization\":\"" + request.idOrganization + "\"," +
+                                "\"orgType\":\"" + request.orgType + "\"," +
+                                "\"illness\":\"" + request.illness + "\"," +
+                                "\"userType\":\"" + request.userType + "\"}";
+                return Ok(JsonDocument.Parse(rg));
+
             }
             catch (Exception ex)
             {
@@ -74,7 +130,7 @@ namespace OTEAServer.Controllers
         /// <param name="request">Request</param>
         /// <returns>Request if success, null if not</returns>
         [HttpPost]
-        public IActionResult Create([FromBody] Request request)
+        public IActionResult Create([FromBody] Models.Request request)
         {
             try
             {
@@ -96,7 +152,7 @@ namespace OTEAServer.Controllers
         /// <param name="request">Request</param>
         /// <returns>Request if success, null if not</returns>
         [HttpPut]
-        public IActionResult Update([FromQuery] string email, [FromBody] Request request){
+        public IActionResult Update([FromQuery] string email, [FromBody] Models.Request request){
             try
             {
                 if (email != request.email)

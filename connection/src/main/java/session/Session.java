@@ -1,5 +1,7 @@
 package session;
 
+
+
 import com.google.gson.JsonObject;
 
 import java.io.ByteArrayInputStream;
@@ -106,6 +108,7 @@ public class Session {
     private List<IndicatorsEvaluation> indicatorsEvaluations;
 
 
+
     private Session(JsonObject data) {
         setToken(data.getAsJsonPrimitive("token").getAsString());
         JsonObject jsonUser = data.getAsJsonObject("user");
@@ -124,6 +127,7 @@ public class Session {
         }
         return instance;
     }
+
 
     public static void refreshCallers(){
         AmbitsController.getInstance();
@@ -571,18 +575,7 @@ public class Session {
         }
     }
 
-    public ByteArrayOutputStream getProfilePhoto(boolean isUser){
-        if(isUser){
-            if(usrPhoto==null && !user.getProfilePhoto().isEmpty()) {
-                usrPhoto = FileManager.downloadPhotoProfile(user.getProfilePhoto());
-            }
-            return usrPhoto;
-        }
-        if(orgPhoto==null) {
-            orgPhoto = FileManager.downloadPhotoProfile(organization.getProfilePhoto());
-        }
-        return orgPhoto;
-    }
+
 
     public static Request getCurrRequest() {
         return currRequest;
@@ -707,4 +700,6 @@ public class Session {
         Session.getInstance().setCurrRegs(indicatorsRegsList,evidencesRegsList);
 
     }
+
+
 }

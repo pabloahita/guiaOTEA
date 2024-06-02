@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Misc;
 using OTEAServer.Models;
+using System.Net;
+using System.Text.Json;
 
 namespace OTEAServer.Controllers
 {
@@ -40,7 +42,30 @@ namespace OTEAServer.Controllers
             try
             {
                 var organizations = _context.Organizations.ToList();
-                return Ok(organizations);
+                List<JsonDocument> result = new List<JsonDocument>();
+                foreach (var organization in organizations)
+                {
+                    String rg = "{\"idOrganization\":\"" + organization.idOrganization + "\"," +
+                                "\"orgType\":\"" + organization.orgType + "\"," +
+                                "\"illness\":\"" + organization.illness + "\"," +
+                                "\"nameOrg\":\"" + organization.nameOrg + "\"," +
+                                "\"idAddress\":\"" + organization.idAddress + "\"," +
+                                "\"email\":\"" + organization.email + "\"," +
+                                "\"telephone\":\"" + organization.telephone + "\"," +
+                                "\"informationSpanish\":\"" + organization.informationSpanish + "\"," +
+                                "\"informationEnglish\":\"" + organization.informationEnglish + "\"," +
+                                "\"informationFrench\":\"" + organization.informationFrench + "\"," +
+                                "\"informationBasque\":\"" + organization.informationBasque + "\"," +
+                                "\"informationCatalan\":\"" + organization.informationCatalan + "\"," +
+                                "\"informationDutch\":\"" + organization.informationDutch + "\"," +
+                                "\"informationGalician\":\"" + organization.informationGalician + "\"," +
+                                "\"informationGerman\":\"" + organization.informationGerman + "\"," +
+                                "\"informationItalian\":\"" + organization.informationItalian + "\"," +
+                                "\"informationPortuguese\":\"" + organization.informationPortuguese + "\"," +
+                                "\"profilePhoto\":\"" + organization.profilePhoto + "\"}";
+                    result.Add(JsonDocument.Parse(rg));
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -59,7 +84,30 @@ namespace OTEAServer.Controllers
             try
             {
                 var organizations = _context.Organizations.Where(o => o.orgType == "EVALUATED").ToList();
-                return Ok(organizations);
+                List<JsonDocument> result = new List<JsonDocument>();
+                foreach (var organization in organizations)
+                {
+                    String rg = "{\"idOrganization\":\"" + organization.idOrganization + "\"," +
+                                "\"orgType\":\"" + organization.orgType + "\"," +
+                                "\"illness\":\"" + organization.illness + "\"," +
+                                "\"nameOrg\":\"" + organization.nameOrg + "\"," +
+                                "\"idAddress\":\"" + organization.idAddress + "\"," +
+                                "\"email\":\"" + organization.email + "\"," +
+                                "\"telephone\":\"" + organization.telephone + "\"," +
+                                "\"informationSpanish\":\"" + organization.informationSpanish + "\"," +
+                                "\"informationEnglish\":\"" + organization.informationEnglish + "\"," +
+                                "\"informationFrench\":\"" + organization.informationFrench + "\"," +
+                                "\"informationBasque\":\"" + organization.informationBasque + "\"," +
+                                "\"informationCatalan\":\"" + organization.informationCatalan + "\"," +
+                                "\"informationDutch\":\"" + organization.informationDutch + "\"," +
+                                "\"informationGalician\":\"" + organization.informationGalician + "\"," +
+                                "\"informationGerman\":\"" + organization.informationGerman + "\"," +
+                                "\"informationItalian\":\"" + organization.informationItalian + "\"," +
+                                "\"informationPortuguese\":\"" + organization.informationPortuguese + "\"," +
+                                "\"profilePhoto\":\"" + organization.profilePhoto + "\"}";
+                    result.Add(JsonDocument.Parse(rg));
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -77,7 +125,30 @@ namespace OTEAServer.Controllers
             try
             {
                 var organizations = _context.Organizations.Where(o => o.orgType == "EVALUATOR").ToList();
-                return Ok(organizations);
+                List<JsonDocument> result = new List<JsonDocument>();
+                foreach (var organization in organizations)
+                {
+                    String rg = "{\"idOrganization\":\"" + organization.idOrganization + "\"," +
+                                "\"orgType\":\"" + organization.orgType + "\"," +
+                                "\"illness\":\"" + organization.illness + "\"," +
+                                "\"nameOrg\":\"" + organization.nameOrg + "\"," +
+                                "\"idAddress\":\"" + organization.idAddress + "\"," +
+                                "\"email\":\"" + organization.email + "\"," +
+                                "\"telephone\":\"" + organization.telephone + "\"," +
+                                "\"informationSpanish\":\"" + organization.informationSpanish + "\"," +
+                                "\"informationEnglish\":\"" + organization.informationEnglish + "\"," +
+                                "\"informationFrench\":\"" + organization.informationFrench + "\"," +
+                                "\"informationBasque\":\"" + organization.informationBasque + "\"," +
+                                "\"informationCatalan\":\"" + organization.informationCatalan + "\"," +
+                                "\"informationDutch\":\"" + organization.informationDutch + "\"," +
+                                "\"informationGalician\":\"" + organization.informationGalician + "\"," +
+                                "\"informationGerman\":\"" + organization.informationGerman + "\"," +
+                                "\"informationItalian\":\"" + organization.informationItalian + "\"," +
+                                "\"informationPortuguese\":\"" + organization.informationPortuguese + "\"," +
+                                "\"profilePhoto\":\"" + organization.profilePhoto + "\"}";
+                    result.Add(JsonDocument.Parse(rg));
+                }
+                return Ok(result);
             }
             catch (Exception ex)
             {

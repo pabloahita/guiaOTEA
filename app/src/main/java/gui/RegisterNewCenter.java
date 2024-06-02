@@ -639,7 +639,7 @@ public class RegisterNewCenter extends AppCompatActivity {
                     String illness=org.getIllness();
 
                     if(profilePhotoCenter!=null){
-                        imgCenterName="CENTER_"+idCenter+"_"+idOrganization+"_"+orgType+"_"+illness+".jpg";
+                        imgCenterName="CENTER_"+idCenter+"_"+idOrganization+"_"+orgType+"_"+illness+".webp";
                         FileManager.uploadFile(profilePhotoCenter, "profile-photos", imgCenterName);
                         try{
                             profilePhotoCenter.close();

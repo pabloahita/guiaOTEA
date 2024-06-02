@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/indicator_caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/indicator_caption"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:padding="45dp"
+            android:textColor="@color/black" />
+
+        <CheckBox
+            android:id="@+id/requires_improvement_plan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/requires_improvement_plan"
+            android:textSize="20sp"
+            android:textStyle="italic"
+            android:layoutDirection="rtl"
+            android:button="@drawable/requires_improvement_plan_selector"
+            android:padding="35dp"
+            android:clickable="false"/>
+
+        <TextView
+            android:id="@+id/fulfilled_evidences"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fulfilled_evidences"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:padding="35dp"
+            android:textColor="@color/black" />
+
+        <CheckBox
+            android:id="@+id/evidence1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/evidence1"
+            android:textSize="20sp"
+            android:layoutDirection="rtl"
+            android:background="@drawable/switch_style"
+            android:buttonTint="@color/checkbox_color"
+            android:padding="15dp"
+            android:clickable="false"/>
+        <CheckBox
+            android:id="@+id/evidence2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/evidence2"
+            android:textSize="20sp"
+            android:layoutDirection="rtl"
+            android:background="@drawable/switch_style"
+            android:buttonTint="@color/checkbox_color"
+            android:padding="15dp"
+            android:clickable="false"/>
+        <CheckBox
+            android:id="@+id/evidence3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/evidence3"
+            android:textSize="20sp"
+            android:layoutDirection="rtl"
+            android:background="@drawable/switch_style"
+            android:buttonTint="@color/checkbox_color"
+            android:padding="15dp"
+            android:clickable="false"/>
+
+        <TextView
+            android:id="@+id/improvement_proposals"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/improvement_opportunities"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:gravity="center"
+            android:padding="35dp"
+            android:textColor="@color/black" />
+
+
+        <TextView
+            android:id="@+id/ev_prop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/improvement_opportunities"
+            android:textSize="20sp"
+            android:textIsSelectable="true"
+            android:padding="15dp"
+            android:textColor="@color/black" />
+    </LinearLayout>
+</ScrollView>

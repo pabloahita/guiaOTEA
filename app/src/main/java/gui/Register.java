@@ -330,7 +330,7 @@ public class Register extends AppCompatActivity {
                         String password= passwordField.getText().toString();
 
                         if(profilePhotoUsr!=null){
-                            String imgUsrName="USER_" + (request.getEmail().replace("@", "_").replace(".", "_")) + ".jpg";
+                            String imgUsrName="USER_" + (request.getEmail().replace("@", "_").replace(".", "_")) + ".webp";
                             FileManager.uploadFile(profilePhotoUsr, "profile-photos", imgUsrName);
                             try{
                                 profilePhotoUsr.close();

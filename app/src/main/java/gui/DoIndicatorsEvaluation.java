@@ -17,11 +17,14 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -78,10 +81,10 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
     ConstraintLayout base;
 
 
-    Switch evidence1;
-    Switch evidence2;
-    Switch evidence3;
-    Switch evidence4;
+    CheckBox evidence1;
+    CheckBox evidence2;
+    CheckBox evidence3;
+    CheckBox evidence4;
 
     List<IndicatorsEvaluationEvidenceReg> storedEvidencesRegs;
 
@@ -89,7 +92,13 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
 
     boolean youVeFinished;
 
+    boolean isComplete;
 
+    ScrollView completeView;
+
+    ScrollView simpleView;
+
+    TextView indicatorCount;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -106,8 +115,24 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
         background = findViewById(R.id.background);
         background.setVisibility(View.GONE);
 
+        indicatorCount=findViewById(R.id.count_ind);
+
 
         current_evaluation=Session.getInstance().getCurrEvaluation();
+
+        isComplete=current_evaluation.getEvaluationType().equals("COMPLETE");
+
+        completeView=findViewById(R.id.complete_evidences);
+        simpleView=findViewById(R.id.simple_evidences);
+
+        if(isComplete){
+            completeView.setVisibility(View.VISIBLE);
+            simpleView.setVisibility(View.GONE);
+        }
+        else{
+            completeView.setVisibility(View.GONE);
+            simpleView.setVisibility(View.VISIBLE);
+        }
 
         indicators=Session.getInstance().getIndicators(current_evaluation.getEvaluationType());
         num_indicators=indicators.size();
@@ -138,16 +163,24 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
         }
 
 
-        evidence1 = (Switch) findViewById(R.id.evidence1);
-        evidence2 = (Switch) findViewById(R.id.evidence2);
-        evidence3 = (Switch) findViewById(R.id.evidence3);
-        evidence4 = (Switch) findViewById(R.id.evidence4);
+        if(isComplete){
+            evidence1 = findViewById(R.id.evidence1_complete);
+            evidence2 = findViewById(R.id.evidence2_complete);
+            evidence3 = findViewById(R.id.evidence3_complete);
+            evidence4 = findViewById(R.id.evidence4_complete);
+        }
+        else{
+            evidence1 = findViewById(R.id.evidence1_complete);
+            evidence2 = findViewById(R.id.evidence2_complete);
+            evidence3 = findViewById(R.id.evidence3_complete);
+        }
+
 
 
         ImageButton previous_indicator = findViewById(R.id.previous_indicatorButton);
         ImageButton next_indicator = findViewById(R.id.next_indicatorButton);
         ImageButton saveChangesButton=findViewById(R.id.save_changesButton);
-        ImageButton indicatorObservations=findViewById(R.id.indicatorObsButton);
+        Button improvement_opportunities=findViewById(R.id.improvement_opportunities_button);
         ImageButton helpButton=findViewById(R.id.helpIndButton);
 
 
@@ -341,7 +374,7 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
             }
         });
 
-        indicatorObservations.setOnClickListener(new View.OnClickListener() {
+        improvement_opportunities.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -772,11 +805,18 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
 
 
 
+    @SuppressLint("SetTextI18n")
     public void changeIndicator() {
         current_ambit = indicators.get(current_indicator).getIdAmbit();
         current_subAmbit = indicators.get(current_indicator).getIdSubAmbit();
         current_subSubAmbit = indicators.get(current_indicator).getIdSubSubAmbit();
-        TextView indicatorCaption=findViewById(R.id.indicator_caption);
+        TextView indicatorCaption=null;
+        if(isComplete){
+            indicatorCaption=findViewById(R.id.indicator_caption_complete);
+        }
+        else{
+            indicatorCaption=findViewById(R.id.indicator_caption_simple);
+        }
 
         Indicator i = indicators.get(current_indicator);
         evidences=Session.getInstance().getEvidencesByIndicator(current_subSubAmbit,current_subAmbit,current_ambit,current_indicator+1,i.getIndicatorType(),i.getIndicatorVersion(),i.getEvaluationType());
@@ -809,13 +849,23 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
             evidence3.setChecked(true);
         }else{
             evidence3.setChecked(false);
-        }if(evidenceRegs[current_indicator][3].getIsMarked()==1){
-            evidence4.setChecked(true);
-        }else{
-            evidence4.setChecked(false);
+        }
+        if(isComplete) {
+            if (evidenceRegs[current_indicator][3].getIsMarked() == 1) {
+                evidence4.setChecked(true);
+            } else {
+                evidence4.setChecked(false);
+            }
         }
 
         String indCaption="";
+        String ev1Caption="<b>"+getString(R.string.evidence1)+": </b>";
+        String ev2Caption="<b>"+getString(R.string.evidence2)+": </b>";
+        String ev3Caption="<b>"+getString(R.string.evidence3)+": </b>";
+        String ev4Caption="";
+        if(isComplete){
+            ev4Caption+="<b>"+getString(R.string.evidence4)+": </b>";
+        }
         if (Locale.getDefault().getLanguage().equals("es")) {//Español
 
             if (current_subAmbit != -1) {
@@ -846,10 +896,12 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
             }
             indCaption+="<b>Indicador " + i.getIdIndicator() + ": </b>" + i.getDescriptionSpanish()+"<br>";
 
-            evidence1.setText(Html.fromHtml("<b>Evidencia 1: </b>" + evidences.get(0).getDescriptionSpanish(),0));
-            evidence2.setText(Html.fromHtml("<b>Evidencia 2: </b>" + evidences.get(1).getDescriptionSpanish(),0));
-            evidence3.setText(Html.fromHtml("<b>Evidencia 3: </b>" + evidences.get(2).getDescriptionSpanish(),0));
-            evidence4.setText(Html.fromHtml("<b>Evidencia 4: </b>" + evidences.get(3).getDescriptionSpanish(),0));
+            ev1Caption+= evidences.get(0).getDescriptionSpanish();
+            ev2Caption+= evidences.get(1).getDescriptionSpanish();
+            ev3Caption+= evidences.get(2).getDescriptionSpanish();
+            if(isComplete){
+                ev4Caption+= evidences.get(3).getDescriptionSpanish();
+            }
         } else if (Locale.getDefault().getLanguage().equals("fr")) {//Francés
             if (current_subAmbit != -1) {
                 if (current_subSubAmbit != -1) {
@@ -880,10 +932,12 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
             indCaption+="<b>Indicateur " + i.getIdIndicator() + ": </b>" + i.getDescriptionFrench()+"<br>";
 
 
-            evidence1.setText(Html.fromHtml("<b>Preuve 1: </b>" + evidences.get(0).getDescriptionFrench(),0));
-            evidence2.setText(Html.fromHtml("<b>Preuve 2: </b>" + evidences.get(1).getDescriptionFrench(),0));
-            evidence3.setText(Html.fromHtml("<b>Preuve 3: </b>" + evidences.get(2).getDescriptionFrench(),0));
-            evidence4.setText(Html.fromHtml("<b>Preuve 4: </b>" + evidences.get(3).getDescriptionFrench(),0));
+            ev1Caption+= evidences.get(0).getDescriptionFrench();
+            ev2Caption+= evidences.get(1).getDescriptionFrench();
+            ev3Caption+= evidences.get(2).getDescriptionFrench();
+            if(isComplete){
+                ev4Caption+= evidences.get(3).getDescriptionFrench();
+            }
         } else if (Locale.getDefault().getLanguage().equals("eu")) {//Euskera
 
             if (current_subAmbit != -1) {
@@ -913,10 +967,12 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                     break;
             }
             indCaption+="<b>"+i.getIdIndicator() + ". adierazlea: </b>" + i.getDescriptionBasque()+"<br>";
-            evidence1.setText(Html.fromHtml("<b>1. froga: </b>" + evidences.get(0).getDescriptionBasque(),0));
-            evidence2.setText(Html.fromHtml("<b>2. froga: </b>" + evidences.get(1).getDescriptionBasque(),0));
-            evidence3.setText(Html.fromHtml("<b>3. froga: </b>" + evidences.get(2).getDescriptionBasque(),0));
-            evidence4.setText(Html.fromHtml("<b>4. froga: </b>" + evidences.get(3).getDescriptionBasque(),0));
+            ev1Caption+= evidences.get(0).getDescriptionBasque();
+            ev2Caption+= evidences.get(1).getDescriptionBasque();
+            ev3Caption+= evidences.get(2).getDescriptionBasque();
+            if(isComplete){
+                ev4Caption+= evidences.get(3).getDescriptionBasque();
+            }
         } else if (Locale.getDefault().getLanguage().equals("ca")) {//Catalán
             if (current_subAmbit != -1) {
                 if (current_subSubAmbit != -1) {
@@ -945,10 +1001,12 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                     break;
             }
             indCaption+="<b>Indicador " + i.getIdIndicator() + ": </b>" + i.getDescriptionCatalan()+"<br>";
-            evidence1.setText(Html.fromHtml("<b>Evidència 1: </b>" + evidences.get(0).getDescriptionCatalan(),0));
-            evidence2.setText(Html.fromHtml("<b>Evidència 2: </b>" + evidences.get(1).getDescriptionCatalan(),0));
-            evidence3.setText(Html.fromHtml("<b>Evidència 3: </b>" + evidences.get(2).getDescriptionCatalan(),0));
-            evidence4.setText(Html.fromHtml("<b>Evidència 4: </b>" + evidences.get(3).getDescriptionCatalan(),0));
+            ev1Caption+= evidences.get(0).getDescriptionCatalan();
+            ev2Caption+= evidences.get(1).getDescriptionCatalan();
+            ev3Caption+= evidences.get(2).getDescriptionCatalan();
+            if(isComplete){
+                ev4Caption+= evidences.get(3).getDescriptionCatalan();
+            }
         } else if (Locale.getDefault().getLanguage().equals("nl")) {//Neerlandés
             if (current_subAmbit != -1) {
                 if (current_subSubAmbit != -1) {
@@ -977,10 +1035,12 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                     break;
             }
             indCaption+="<b>Indicator " + i.getIdIndicator() + ": " + i.getDescriptionDutch()+"<br>";
-            evidence1.setText(Html.fromHtml("<b>Bewijs 1: </b>" + evidences.get(0).getDescriptionDutch(),0));
-            evidence2.setText(Html.fromHtml("<b>Bewijs 2: </b>" + evidences.get(1).getDescriptionDutch(),0));
-            evidence3.setText(Html.fromHtml("<b>Bewijs 3: </b>" + evidences.get(2).getDescriptionDutch(),0));
-            evidence4.setText(Html.fromHtml("<b>Bewijs 4: </b>" + evidences.get(3).getDescriptionDutch(),0));
+            ev1Caption+= evidences.get(0).getDescriptionDutch();
+            ev2Caption+= evidences.get(1).getDescriptionDutch();
+            ev3Caption+= evidences.get(2).getDescriptionDutch();
+            if(isComplete){
+                ev4Caption+= evidences.get(3).getDescriptionDutch();
+            }
         } else if (Locale.getDefault().getLanguage().equals("gl")) {//Gallego
             if (current_subAmbit != -1) {
                 if (current_subSubAmbit != -1) {
@@ -1009,10 +1069,12 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                     break;
             }
             indCaption+="<b>Indicador " + i.getIdIndicator() + ": " + i.getDescriptionGalician()+"<br>";
-            evidence1.setText(Html.fromHtml("<b>Evidencia 1: </b>" + evidences.get(0).getDescriptionGalician(),0));
-            evidence2.setText(Html.fromHtml("<b>Evidencia 2: </b>" + evidences.get(1).getDescriptionGalician(),0));
-            evidence3.setText(Html.fromHtml("<b>Evidencia 3: </b>" + evidences.get(2).getDescriptionGalician(),0));
-            evidence4.setText(Html.fromHtml("<b>Evidencia 4: </b>" + evidences.get(3).getDescriptionGalician(),0));
+            ev1Caption+= evidences.get(0).getDescriptionGalician();
+            ev2Caption+= evidences.get(1).getDescriptionGalician();
+            ev3Caption+= evidences.get(2).getDescriptionGalician();
+            if(isComplete){
+                ev4Caption+= evidences.get(3).getDescriptionGalician();
+            }
         } else if (Locale.getDefault().getLanguage().equals("de")) {//Alemán
             if (current_subAmbit != -1) {
                 if (current_subSubAmbit != -1) {
@@ -1041,10 +1103,12 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                     break;
             }
             indCaption+="<b>Indikator " + i.getIdIndicator() + ": " + i.getDescriptionGerman()+"<br>";
-            evidence1.setText(Html.fromHtml("<b>Beweis 1: </b>" + evidences.get(0).getDescriptionGerman(),0));
-            evidence2.setText(Html.fromHtml("<b>Beweis 2: </b>" + evidences.get(1).getDescriptionGerman(),0));
-            evidence3.setText(Html.fromHtml("<b>Beweis 3: </b>" + evidences.get(2).getDescriptionGerman(),0));
-            evidence4.setText(Html.fromHtml("<b>Beweis 4: </b>" + evidences.get(3).getDescriptionGerman(),0));
+            ev1Caption+= evidences.get(0).getDescriptionGerman();
+            ev2Caption+= evidences.get(1).getDescriptionGerman();
+            ev3Caption+= evidences.get(2).getDescriptionGerman();
+            if(isComplete){
+                ev4Caption+= evidences.get(3).getDescriptionGerman();
+            }
         } else if (Locale.getDefault().getLanguage().equals("it")) {//Italiano
             if (current_subAmbit != -1) {
                 if (current_subSubAmbit != -1) {
@@ -1073,10 +1137,12 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                     break;
             }
             indCaption+="<b>Indicatore " + i.getIdIndicator() + ": " + i.getDescriptionItalian()+"<br>";
-            evidence1.setText(Html.fromHtml("<b>Prova 1: </b>" + evidences.get(0).getDescriptionItalian(),0));
-            evidence2.setText(Html.fromHtml("<b>Prova 2: </b>" + evidences.get(1).getDescriptionItalian(),0));
-            evidence3.setText(Html.fromHtml("<b>Prova 3: </b>" + evidences.get(2).getDescriptionItalian(),0));
-            evidence4.setText(Html.fromHtml("<b>Prova 4: </b>" + evidences.get(3).getDescriptionItalian(),0));
+            ev1Caption+= evidences.get(0).getDescriptionItalian();
+            ev2Caption+= evidences.get(1).getDescriptionItalian();
+            ev3Caption+= evidences.get(2).getDescriptionItalian();
+            if(isComplete){
+                ev4Caption+= evidences.get(3).getDescriptionDutch();
+            }
         } else if (Locale.getDefault().getLanguage().equals("pt")) {//Portugués
             if (current_subAmbit != -1) {
                 if (current_subSubAmbit != -1) {
@@ -1105,10 +1171,12 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                     break;
             }
             indCaption+="<b>Indicador " + i.getIdIndicator() + ": " + i.getDescriptionPortuguese()+"<br>";
-            evidence1.setText(Html.fromHtml("<b>Evidência 1: </b>" + evidences.get(0).getDescriptionPortuguese(),0));
-            evidence2.setText(Html.fromHtml("<b>Evidência 2: </b>" + evidences.get(1).getDescriptionPortuguese(),0));
-            evidence3.setText(Html.fromHtml("<b>Evidência 3: </b>" + evidences.get(2).getDescriptionPortuguese(),0));
-            evidence4.setText(Html.fromHtml("<b>Evidência 4: </b>" + evidences.get(3).getDescriptionPortuguese(),0));
+            ev1Caption+= evidences.get(0).getDescriptionPortuguese();
+            ev2Caption+= evidences.get(1).getDescriptionPortuguese();
+            ev3Caption+= evidences.get(2).getDescriptionPortuguese();
+            if(isComplete){
+                ev4Caption+= evidences.get(3).getDescriptionPortuguese();
+            }
         } else {//Default
 
             if (current_subAmbit != -1) {
@@ -1138,12 +1206,22 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                     break;
             }
             indCaption+="<b>Indicator " + i.getIdIndicator() + ": " + i.getDescriptionEnglish()+"<br>";
-            evidence1.setText(Html.fromHtml("<b>Evidence 1: </b>" + evidences.get(0).getDescriptionEnglish(),0));
-            evidence2.setText(Html.fromHtml("<b>Evidence 2: </b>" + evidences.get(1).getDescriptionEnglish(),0));
-            evidence3.setText(Html.fromHtml("<b>Evidence 3: </b>" + evidences.get(2).getDescriptionEnglish(),0));
-            evidence4.setText(Html.fromHtml("<b>Evidence 4: </b>" + evidences.get(3).getDescriptionEnglish(),0));
+            ev1Caption+= evidences.get(0).getDescriptionEnglish();
+            ev2Caption+= evidences.get(1).getDescriptionEnglish();
+            ev3Caption+= evidences.get(2).getDescriptionEnglish();
+            if(isComplete){
+                ev4Caption+= evidences.get(3).getDescriptionEnglish();
+            }
         }
         indicatorCaption.setText(Html.fromHtml(indCaption,0));
+        evidence1.setText(Html.fromHtml(ev1Caption,0));
+        evidence2.setText(Html.fromHtml(ev2Caption,0));
+        evidence3.setText(Html.fromHtml(ev3Caption,0));
+        if(isComplete) {
+            evidence4.setText(Html.fromHtml(ev4Caption, 0));
+        }
+
+        indicatorCount.setText(getString(R.string.indicator)+" "+(current_indicator+1)+"/"+num_indicators);
     }
 
 
@@ -1202,8 +1280,9 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if(keyCode==event.KEYCODE_BACK){
             doYouWantToSaveChanges();
+            return true;
         }
-        return super.onKeyDown(keyCode,event);
+        return false;
     }
 
 

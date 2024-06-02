@@ -28,6 +28,8 @@ import java.util.Locale;
 import cli.indicators.IndicatorsEvaluation;
 import cli.organization.Organization;
 import cli.user.User;
+import gui.ConnectionErrorMessage;
+import gui.ProfilePhotoUtil;
 import otea.connection.controller.CountriesController;
 import otea.connection.controller.IndicatorsEvaluationsController;
 import session.FileManager;
@@ -41,7 +43,7 @@ public class MainMenu extends AppCompatActivity {
 
     ImageButton continueIndicatorsTest;
 
-    ImageButton editIndicators;
+    ImageButton downloadImprovementPlan;
 
     ImageButton addNewOrg;
 
@@ -57,9 +59,6 @@ public class MainMenu extends AppCompatActivity {
 
     private AlertDialog dialog;
 
-    ByteArrayOutputStream imgOrgStream;
-
-    ByteArrayOutputStream imgUserStream;
     Bitmap imgOrg;
 
     Bitmap imgUser;
@@ -115,7 +114,7 @@ public class MainMenu extends AppCompatActivity {
                     evaluator.setVisibility(View.GONE);
                     addNewIndicatorsTest=findViewById(R.id.addNewIndicatorsTestAdminButton);
                     continueIndicatorsTest=findViewById(R.id.continueIndicatorsTestAdminButton);
-                    editIndicators=findViewById(R.id.editIndicatorsAdminButton);
+                    downloadImprovementPlan=findViewById(R.id.downloadImprovementPlanAdminButton);
                     addNewOrg=findViewById(R.id.addNewOrgAdminButton);
                     seeRealizedIndicatorTest=findViewById(R.id.seeRealizedIndicatorTestAdminButton);
 
@@ -145,15 +144,13 @@ public class MainMenu extends AppCompatActivity {
                 }
             }
 
-            imgOrgStream=session.getProfilePhoto(false);
-            if(imgOrgStream!=null) {
-                imgOrg = getBitmapFromStream(imgOrgStream);
+            imgOrg = ProfilePhotoUtil.getInstance().getImgOrg();
+            if(imgOrg!=null) {
                 vistaImgOrg.setImageBitmap(imgOrg);
             }
 
-            imgUserStream = session.getProfilePhoto(true);
-            if(imgUserStream!=null) {
-                imgUser = getBitmapFromStream(imgUserStream);
+            imgUser = ProfilePhotoUtil.getInstance().getImgUser();
+            if(imgUser!=null) {
                 vistaImgUser.setImageBitmap(imgUser);
             }
 
@@ -176,44 +173,25 @@ public class MainMenu extends AppCompatActivity {
             if(continueIndicatorsTest!=null) {
                 continueIndicatorsTest.setOnClickListener(v -> {
                     chargingScreen.setVisibility(View.VISIBLE);
-                    v.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            session.obtainOrgsAndEvalTeams();
-                            Intent intent = new Intent(getApplicationContext(), gui.SelectToContinueIndicatorsEvaluations.class);
-                            startActivity(intent);
-                        }
-                    }, 200);
+                    session.obtainOrgsAndEvalTeams();
+                    Intent intent = new Intent(getApplicationContext(), gui.SelectToContinueIndicatorsEvaluations.class);
+                    startActivity(intent);
                 });
             }
 
-            if(editIndicators!=null) {
-                editIndicators.setOnClickListener(v -> {
-
+            if(downloadImprovementPlan!=null) {
+                downloadImprovementPlan.setOnClickListener(v -> {
                     chargingScreen.setVisibility(View.VISIBLE);
-                    v.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intent = new Intent(getApplicationContext(), gui.EditIndicators.class);
-                            //session.obtainIndicatorsFromDataBase();
-                            startActivity(intent);
-                        }
-                    }, 200);
+                    Intent intent = new Intent(getApplicationContext(), gui.DownloadImprovementPlan.class);
+                    startActivity(intent);
                 });
             }
 
             if(addNewOrg!=null) {
                 addNewOrg.setOnClickListener(v -> {
                     chargingScreen.setVisibility(View.VISIBLE);
-                    v.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intent = new Intent(getApplicationContext(), gui.RegisterOrganization.class);
-                            startActivity(intent);
-
-                            chargingScreen.setVisibility(View.GONE);
-                        }
-                    }, 200);
+                    Intent intent = new Intent(getApplicationContext(), gui.RegisterOrganization.class);
+                    startActivity(intent);
 
                 });
             }
@@ -221,15 +199,8 @@ public class MainMenu extends AppCompatActivity {
             if(addNewOrgCenter!=null) {
                 addNewOrgCenter.setOnClickListener(v -> {
                     chargingScreen.setVisibility(View.VISIBLE);
-                    v.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intent = new Intent(getApplicationContext(), gui.RegisterNewCenter.class);
-                            startActivity(intent);
-
-                            chargingScreen.setVisibility(View.GONE);
-                        }
-                    }, 200);
+                    Intent intent = new Intent(getApplicationContext(), gui.RegisterNewCenter.class);
+                    startActivity(intent);
 
                 });
             }
@@ -238,58 +209,38 @@ public class MainMenu extends AppCompatActivity {
                 addNewEvalTeam.setOnClickListener(v -> {
                     chargingScreen.setVisibility(View.VISIBLE);
                     session.obtainUsersAndCenters();
-                    v.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intent = new Intent(getApplicationContext(), gui.RegisterNewEvaluatorTeam.class);
-                            startActivity(intent);
-                        }
-                    }, 200);
+                    Intent intent = new Intent(getApplicationContext(), gui.RegisterNewEvaluatorTeam.class);
+                    startActivity(intent);
                 });
             }
 
             if(seeRealizedIndicatorTest!=null) {
                 seeRealizedIndicatorTest.setOnClickListener(v -> {
                     chargingScreen.setVisibility(View.VISIBLE);
-                    v.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            session.obtainOrgsAndEvalTeams();
-                            Intent intent = new Intent(getApplicationContext(), gui.SelectToSeeRealizedIndicatorsEvaluations.class);
-                            startActivity(intent);
-                            chargingScreen.setVisibility(View.GONE);
-                        }
-                    }, 200);
+                    session.obtainOrgsAndEvalTeams();
+                    Intent intent = new Intent(getApplicationContext(), gui.SelectToSeeRealizedIndicatorsEvaluations.class);
+                    startActivity(intent);
                 });
             }
 
             if(editOrg!=null) {
                 editOrg.setOnClickListener(v -> {
                     chargingScreen.setVisibility(View.VISIBLE);
-                    v.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intent = new Intent(getApplicationContext(), gui.EditEvaluatedOrganization.class);
-                            startActivity(intent);
-                            chargingScreen.setVisibility(View.GONE);
-                        }
-                    }, 200);
+                    Intent intent = new Intent(getApplicationContext(), gui.EditEvaluatedOrganization.class);
+                    startActivity(intent);
                 });
             }
 
             if(editOrgCenters!=null) {
                 editOrgCenters.setOnClickListener(v -> {
                     chargingScreen.setVisibility(View.VISIBLE);
-                    v.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intent = new Intent(getApplicationContext(), gui.EditCenter.class);
-                            startActivity(intent);
-                            chargingScreen.setVisibility(View.GONE);
-                        }
-                    }, 200);
+                    Intent intent = new Intent(getApplicationContext(), gui.EditCenter.class);
+                    startActivity(intent);
                 });
             }
+        }
+        else{
+            ConnectionErrorMessage.showMsg(this);
         }
     }
 
@@ -336,10 +287,7 @@ public class MainMenu extends AppCompatActivity {
         }
     }
 
-    private Bitmap getBitmapFromStream (ByteArrayOutputStream stream){
-        byte[] data=stream.toByteArray();
-        return BitmapFactory.decodeByteArray(data,0,data.length);
-    }
+
 
 
 }

@@ -285,6 +285,42 @@
     <string name="high_interest">De interese alto</string>
     <string name="medium_interest">De interese medio</string>
     <string name="low_interest">De interese baixo</string>
+    <string name="physical_welfare">Benestar físico</string>
+    <string name="autism_people_perspective">Perspectiva das persoas con autismo</string>
+    <string name="families_perspective">Perspectiva das familias</string>
+    <string name="professionals_perspective">Perspectiva dos profesionais</string>
+    <string name="emotional_welfare">Emotionales Wohlbefinden</string>
+    <string name="material_welfare">Benestar material</string>
+    <string name="interpersonal_relationships">Relacións interpersoais</string>
+    <string name="personal_development">Desenvolvemento persoal</string>
+    <string name="rights">Dereitos</string>
+    <string name="self_determination">Autodeterminación</string>
+    <string name="social_inclusion">Inclusión social</string>
+    <string name="programming">Programación</string>
+    <string name="support_planning">Planificación de apoios</string>
+    <string name="mon_and_eval_plan">Plan de seguimento e avaliación</string>
+    <string name="knowledge_autism">Coñecemento do autismo</string>
+    <string name="pers_centered_plan">Planificación centrada na persoa</string>
+    <string name="att_values">Actitudes e valores</string>
+    <string name="part_research">Participación en investigacións</string>
+    <string name="peer_groups">Grupos de iguais</string>
+    <string name="activity_org">Organización da actividade</string>
+    <string name="schedule">Horario</string>
+    <string name="com_cord">Comunicación/coordinación</string>
+    <string name="systemic_eval">Avaliación sistémica</string>
+    <string name="leadership">Liderado</string>
+    <string name="innovation">Innovación</string>
+    <string name="con_err">O seu dispositivo non puido conectarse correctamente ao servidor de Fundación Miradas. Por favor, comprobe a conexión a internet do seu dispositivo ou inténteo de novo máis tarde</string>
+    <string name="con_err_title">A súa conexión a internet é inestable ou inexistente</string>
+    <string name="requires_improvement_plan">O indicador necesita estar no plan de mellora</string>
+    <string name="improvement_opportunities">Oportunidades de mellora</string>
+    <string name="about_indicator">Sobre o indicador</string>
+    <string name="about_the_evidence_1">Sobre a evidencia 1</string>
+    <string name="about_the_evidence_2">Sobre a evidencia 2</string>
+    <string name="about_the_evidence_3">Sobre a evidencia 3</string>
+    <string name="about_the_evidence_4">Sobre a evidencia 4</string>
+    <string name="fulfilled_evidences">Evidencias cumpridas</string>
+    <string name="indicator">Indicador</string>
 
 
 </resources>

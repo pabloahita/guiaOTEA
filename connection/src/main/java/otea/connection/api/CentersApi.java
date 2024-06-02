@@ -1,5 +1,7 @@
 package otea.connection.api;
 
+import com.google.gson.JsonObject;
+
 import java.util.List;
 
 import cli.organization.data.Center;
@@ -16,7 +18,7 @@ public interface CentersApi {
 
     /**Gets all centers*/
     @GET("Centers/all")
-    Call<List<Center>> GetAll();
+    Call<List<JsonObject>> GetAll();
 
     /**
      * Gets all centers of an organization
@@ -24,7 +26,7 @@ public interface CentersApi {
      * @param idOrganization - Organization identifier
      * */
     @GET("Centers/org")
-    Call<List<Center>> GetAllByOrganization(@Query("idOrganization") int idOrganization, @Query("orgType") String orgType, @Query("illness") String illness);
+    Call<List<JsonObject>> GetAllByOrganization(@Query("idOrganization") int idOrganization, @Query("orgType") String orgType, @Query("illness") String illness);
 
     /**
      * Get a center

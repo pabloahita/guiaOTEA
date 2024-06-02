@@ -24,7 +24,7 @@ public interface IndicatorsEvaluationsApi {
 
     /**Gets all indicators evaluations*/
     @GET("IndicatorsEvaluations/all")
-    Call<List<IndicatorsEvaluation>> GetAll();
+    Call<List<JsonObject>> GetAll();
 
     /**Gets all indicators evaluations*/
     @GET("IndicatorsEvaluations/allRegs")
@@ -42,7 +42,7 @@ public interface IndicatorsEvaluationsApi {
      * @param illness - Illness of the external organization that will recieve the indicators evaluation. In case of Fundación Miradas, it will be "AUTISM"
      * */
     @GET("IndicatorsEvaluations/evaluatorTeam")
-    Call<List<IndicatorsEvaluation>> GetAllByEvaluatorTeam(@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("idCenter") int idCenter, @Query("illness") String illness);
+    Call<List<JsonObject>> GetAllByEvaluatorTeam(@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("idCenter") int idCenter, @Query("illness") String illness);
 
     /**
      * Get all non finished indicators evaluations by evaluator team
@@ -56,7 +56,7 @@ public interface IndicatorsEvaluationsApi {
      * @param idCenter - Center identifier
      * */
     @GET("IndicatorsEvaluations/nonFinished")
-    Call<List<IndicatorsEvaluation>> GetNonFinishedByEvaluatorTeam(@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter);
+    Call<List<JsonObject>> GetNonFinishedByEvaluatorTeam(@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter);
 
     /**
      * Gets an indicators evaluation

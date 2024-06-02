@@ -683,7 +683,7 @@ public class RegisterOrganization extends AppCompatActivity {
                     String informationText=fields.get("information");
 
                     if(profilePhotoOrg!=null){
-                        imgOrgName="ORG_"+idOrganization+"_"+orgType+"_"+illness+".jpg";
+                        imgOrgName="ORG_"+idOrganization+"_"+orgType+"_"+illness+".webp";
                         FileManager.uploadFile(profilePhotoOrg, "profile-photos", imgOrgName);
                         try{
                             profilePhotoOrg.close();

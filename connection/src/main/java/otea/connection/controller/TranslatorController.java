@@ -33,6 +33,7 @@ public class TranslatorController {
     /**Class controller*/
     private TranslatorController(){
         api= ConnectionClient.getInstance().getRetrofit().create(TranslatorApi.class);
+
     }
 
     /**

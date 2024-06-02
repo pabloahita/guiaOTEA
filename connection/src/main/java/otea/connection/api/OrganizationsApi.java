@@ -1,5 +1,7 @@
 package otea.connection.api;
 
+import com.google.gson.JsonObject;
+
 import java.util.List;
 
 import cli.organization.*;
@@ -16,16 +18,16 @@ public interface OrganizationsApi {
 
     /**Gets all organizations*/
     @GET("Organizations/all")
-    Call<List<Organization>> GetAll();
+    Call<List<JsonObject>> GetAll();
 
 
     /**Gets all evaluated organizations*/
     @GET("Organizations/allEvaluated")
-    Call<List<Organization>> GetAllEvaluatedOrganizations();
+    Call<List<JsonObject>> GetAllEvaluatedOrganizations();
 
     /**Gets all evaluator organizations*/
     @GET("Organizations/allEvaluator")
-    Call<List<Organization>> GetAllEvaluatorOrganizations();
+    Call<List<JsonObject>> GetAllEvaluatorOrganizations();
 
     /**
      * Gets an organization

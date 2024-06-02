@@ -1,7 +1,10 @@
 package otea.connection.controller;
 
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
 ;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -101,11 +104,11 @@ public class EvaluatorTeamsController {
      * */
     public static List<EvaluatorTeam> GetAll(){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<EvaluatorTeam>> callable = new Callable<List<EvaluatorTeam>>() {
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
-            public List<EvaluatorTeam> call() throws Exception {
-                Call<List<EvaluatorTeam>> call = api.GetAll();
-                Response<List<EvaluatorTeam>> response = call.execute();
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call = api.GetAll();
+                Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
@@ -114,10 +117,42 @@ public class EvaluatorTeamsController {
             }
         };
         try {
-            Future<List<EvaluatorTeam>> future = executor.submit(callable);
-            List<EvaluatorTeam> list = future.get();
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> list = future.get();
             executor.shutdown();
-            return list;
+            List<EvaluatorTeam> evaluatorTeams=new ArrayList<>();
+            for(JsonObject evalTeam:list){
+                int idEvaluatorTeam=evalTeam.getAsJsonPrimitive("idEvaluatorTeam").getAsInt();
+                long creationDate=evalTeam.getAsJsonPrimitive("creationDate").getAsLong();
+                String emailProfessional=evalTeam.getAsJsonPrimitive("emailProfessional").getAsString();
+                String emailResponsible=evalTeam.getAsJsonPrimitive("emailResponsible").getAsString();
+                String otherMembers=evalTeam.getAsJsonPrimitive("otherMembers").getAsString();
+                int idEvaluatorOrganization=evalTeam.getAsJsonPrimitive("idEvaluatorOrganization").getAsInt();
+                String orgTypeEvaluator=evalTeam.getAsJsonPrimitive("orgTypeEvaluator").getAsString();
+                int idEvaluatedOrganization=evalTeam.getAsJsonPrimitive("idEvaluatedOrganization").getAsInt();
+                String orgTypeEvaluated=evalTeam.getAsJsonPrimitive("orgTypeEvaluated").getAsString();
+                int idCenter=evalTeam.getAsJsonPrimitive("idCenter").getAsInt();
+                String illness=evalTeam.getAsJsonPrimitive("illness").getAsString();
+                String externalConsultant=evalTeam.getAsJsonPrimitive("externalConsultant").getAsString();
+                String patientName=evalTeam.getAsJsonPrimitive("patientName").getAsString();
+                String relativeName=evalTeam.getAsJsonPrimitive("relativeName").getAsString();
+                String observationsEnglish=evalTeam.getAsJsonPrimitive("observationsEnglish").getAsString();
+                String observationsSpanish=evalTeam.getAsJsonPrimitive("observationsSpanish").getAsString();
+                String observationsFrench=evalTeam.getAsJsonPrimitive("observationsFrench").getAsString();
+                String observationsBasque=evalTeam.getAsJsonPrimitive("observationsBasque").getAsString();
+                String observationsCatalan=evalTeam.getAsJsonPrimitive("observationsCatalan").getAsString();
+                String observationsDutch=evalTeam.getAsJsonPrimitive("observationsDutch").getAsString();
+                String observationsGalician=evalTeam.getAsJsonPrimitive("observationsGalician").getAsString();
+                String observationsGerman=evalTeam.getAsJsonPrimitive("observationsGerman").getAsString();
+                String observationsItalian=evalTeam.getAsJsonPrimitive("observationsItalian").getAsString();
+                String observationsPortuguese=evalTeam.getAsJsonPrimitive("observationsPortuguese").getAsString();
+                String evaluationDates=evalTeam.getAsJsonPrimitive("evaluationDates").getAsString();
+                int completedEvaluationDates=evalTeam.getAsJsonPrimitive("completedEvaluationDates").getAsInt();
+                int totalEvaluationDates=evalTeam.getAsJsonPrimitive("totalEvaluationDates").getAsInt();
+                String profilePhoto=evalTeam.getAsJsonPrimitive("profilePhoto").getAsString();
+                evaluatorTeams.add(new EvaluatorTeam(idEvaluatorTeam, creationDate, emailProfessional, emailResponsible, otherMembers, idEvaluatorOrganization, orgTypeEvaluator, idEvaluatedOrganization, orgTypeEvaluated, idCenter, illness, externalConsultant, patientName, relativeName, observationsEnglish, observationsSpanish, observationsFrench, observationsBasque, observationsCatalan, observationsDutch, observationsGalician, observationsGerman, observationsItalian, observationsPortuguese, evaluationDates, completedEvaluationDates, totalEvaluationDates, profilePhoto));
+            }
+            return evaluatorTeams;
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
@@ -134,11 +169,11 @@ public class EvaluatorTeamsController {
      * */
     public static List<EvaluatorTeam> GetAllByCenter(int id, String orgType, int idCenter, String illness){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<EvaluatorTeam>> callable = new Callable<List<EvaluatorTeam>>() {
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
-            public List<EvaluatorTeam> call() throws Exception {
-                Call<List<EvaluatorTeam>> call = api.GetAllByCenter(id,orgType,idCenter,illness);
-                Response<List<EvaluatorTeam>> response = call.execute();
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call = api.GetAllByCenter(id,orgType,idCenter,illness);
+                Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
@@ -147,10 +182,40 @@ public class EvaluatorTeamsController {
             }
         };
         try {
-            Future<List<EvaluatorTeam>> future = executor.submit(callable);
-            List<EvaluatorTeam> list = future.get();
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> list = future.get();
             executor.shutdown();
-            return list;
+            List<EvaluatorTeam> evaluatorTeams=new ArrayList<>();
+            for(JsonObject evalTeam:list){
+                int idEvaluatorTeam=evalTeam.getAsJsonPrimitive("idEvaluatorTeam").getAsInt();
+                long creationDate=evalTeam.getAsJsonPrimitive("creationDate").getAsLong();
+                String emailProfessional=evalTeam.getAsJsonPrimitive("emailProfessional").getAsString();
+                String emailResponsible=evalTeam.getAsJsonPrimitive("emailResponsible").getAsString();
+                String otherMembers=evalTeam.getAsJsonPrimitive("otherMembers").getAsString();
+                int idEvaluatorOrganization=evalTeam.getAsJsonPrimitive("idEvaluatorOrganization").getAsInt();
+                String orgTypeEvaluator=evalTeam.getAsJsonPrimitive("orgTypeEvaluator").getAsString();
+                int idEvaluatedOrganization=evalTeam.getAsJsonPrimitive("idEvaluatedOrganization").getAsInt();
+                String orgTypeEvaluated=evalTeam.getAsJsonPrimitive("orgTypeEvaluated").getAsString();
+                String externalConsultant=evalTeam.getAsJsonPrimitive("externalConsultant").getAsString();
+                String patientName=evalTeam.getAsJsonPrimitive("patientName").getAsString();
+                String relativeName=evalTeam.getAsJsonPrimitive("relativeName").getAsString();
+                String observationsEnglish=evalTeam.getAsJsonPrimitive("observationsEnglish").getAsString();
+                String observationsSpanish=evalTeam.getAsJsonPrimitive("observationsSpanish").getAsString();
+                String observationsFrench=evalTeam.getAsJsonPrimitive("observationsFrench").getAsString();
+                String observationsBasque=evalTeam.getAsJsonPrimitive("observationsBasque").getAsString();
+                String observationsCatalan=evalTeam.getAsJsonPrimitive("observationsCatalan").getAsString();
+                String observationsDutch=evalTeam.getAsJsonPrimitive("observationsDutch").getAsString();
+                String observationsGalician=evalTeam.getAsJsonPrimitive("observationsGalician").getAsString();
+                String observationsGerman=evalTeam.getAsJsonPrimitive("observationsGerman").getAsString();
+                String observationsItalian=evalTeam.getAsJsonPrimitive("observationsItalian").getAsString();
+                String observationsPortuguese=evalTeam.getAsJsonPrimitive("observationsPortuguese").getAsString();
+                String evaluationDates=evalTeam.getAsJsonPrimitive("evaluationDates").getAsString();
+                int completedEvaluationDates=evalTeam.getAsJsonPrimitive("completedEvaluationDates").getAsInt();
+                int totalEvaluationDates=evalTeam.getAsJsonPrimitive("totalEvaluationDates").getAsInt();
+                String profilePhoto=evalTeam.getAsJsonPrimitive("profilePhoto").getAsString();
+                evaluatorTeams.add(new EvaluatorTeam(idEvaluatorTeam, creationDate, emailProfessional, emailResponsible, otherMembers, idEvaluatorOrganization, orgTypeEvaluator, idEvaluatedOrganization, orgTypeEvaluated, idCenter, illness, externalConsultant, patientName, relativeName, observationsEnglish, observationsSpanish, observationsFrench, observationsBasque, observationsCatalan, observationsDutch, observationsGalician, observationsGerman, observationsItalian, observationsPortuguese, evaluationDates, completedEvaluationDates, totalEvaluationDates, profilePhoto));
+            }
+            return evaluatorTeams;
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
@@ -167,11 +232,11 @@ public class EvaluatorTeamsController {
      * */
     public static List<EvaluatorTeam> GetAllByOrganization(int id, String orgType, String illness){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<EvaluatorTeam>> callable = new Callable<List<EvaluatorTeam>>() {
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
-            public List<EvaluatorTeam> call() throws Exception {
-                Call<List<EvaluatorTeam>> call = api.GetAllByOrganization(id,orgType,illness);
-                Response<List<EvaluatorTeam>> response = call.execute();
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call = api.GetAllByOrganization(id,orgType,illness);
+                Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
@@ -180,10 +245,41 @@ public class EvaluatorTeamsController {
             }
         };
         try {
-            Future<List<EvaluatorTeam>> future = executor.submit(callable);
-            List<EvaluatorTeam> list = future.get();
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> list = future.get();
             executor.shutdown();
-            return list;
+            List<EvaluatorTeam> evaluatorTeams=new ArrayList<>();
+            for(JsonObject evalTeam:list){
+                int idEvaluatorTeam=evalTeam.getAsJsonPrimitive("idEvaluatorTeam").getAsInt();
+                long creationDate=evalTeam.getAsJsonPrimitive("creationDate").getAsLong();
+                String emailProfessional=evalTeam.getAsJsonPrimitive("emailProfessional").getAsString();
+                String emailResponsible=evalTeam.getAsJsonPrimitive("emailResponsible").getAsString();
+                String otherMembers=evalTeam.getAsJsonPrimitive("otherMembers").getAsString();
+                int idEvaluatorOrganization=evalTeam.getAsJsonPrimitive("idEvaluatorTeam").getAsInt();
+                String orgTypeEvaluator=evalTeam.getAsJsonPrimitive("orgTypeEvaluator").getAsString();
+                int idEvaluatedOrganization=evalTeam.getAsJsonPrimitive("idEvaluatedTeam").getAsInt();
+                String orgTypeEvaluated=evalTeam.getAsJsonPrimitive("orgTypeEvaluated").getAsString();
+                int idCenter=evalTeam.getAsJsonPrimitive("idCenter").getAsInt();
+                String externalConsultant=evalTeam.getAsJsonPrimitive("externalConsultant").getAsString();
+                String patientName=evalTeam.getAsJsonPrimitive("patientName").getAsString();
+                String relativeName=evalTeam.getAsJsonPrimitive("relativeName").getAsString();
+                String observationsEnglish=evalTeam.getAsJsonPrimitive("observationsEnglish").getAsString();
+                String observationsSpanish=evalTeam.getAsJsonPrimitive("observationsSpanish").getAsString();
+                String observationsFrench=evalTeam.getAsJsonPrimitive("observationsFrench").getAsString();
+                String observationsBasque=evalTeam.getAsJsonPrimitive("observationsBasque").getAsString();
+                String observationsCatalan=evalTeam.getAsJsonPrimitive("observationsCatalan").getAsString();
+                String observationsDutch=evalTeam.getAsJsonPrimitive("observationsDutch").getAsString();
+                String observationsGalician=evalTeam.getAsJsonPrimitive("observationsGalician").getAsString();
+                String observationsGerman=evalTeam.getAsJsonPrimitive("observationsGerman").getAsString();
+                String observationsItalian=evalTeam.getAsJsonPrimitive("observationsItalian").getAsString();
+                String observationsPortuguese=evalTeam.getAsJsonPrimitive("observationsPortuguese").getAsString();
+                String evaluationDates=evalTeam.getAsJsonPrimitive("evaluationDates").getAsString();
+                int completedEvaluationDates=evalTeam.getAsJsonPrimitive("completedEvaluationDates").getAsInt();
+                int totalEvaluationDates=evalTeam.getAsJsonPrimitive("totalEvaluationDates").getAsInt();
+                String profilePhoto=evalTeam.getAsJsonPrimitive("profilePhoto").getAsString();
+                evaluatorTeams.add(new EvaluatorTeam(idEvaluatorTeam, creationDate, emailProfessional, emailResponsible, otherMembers, idEvaluatorOrganization, orgTypeEvaluator, idEvaluatedOrganization, orgTypeEvaluated, idCenter, illness, externalConsultant, patientName, relativeName, observationsEnglish, observationsSpanish, observationsFrench, observationsBasque, observationsCatalan, observationsDutch, observationsGalician, observationsGerman, observationsItalian, observationsPortuguese, evaluationDates, completedEvaluationDates, totalEvaluationDates, profilePhoto));
+            }
+            return evaluatorTeams;
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }

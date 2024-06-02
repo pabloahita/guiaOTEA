@@ -1,7 +1,10 @@
 package otea.connection.controller;
 
 
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -65,11 +68,11 @@ public class CentersController {
      * */
     public static List<Center> GetAll(){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<Center>> callable = new Callable<List<Center>>() {
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
-            public List<Center> call() throws Exception {
-                Call<List<Center>> call = api.GetAll();
-                Response<List<Center>> response = call.execute();
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call = api.GetAll();
+                Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
@@ -78,10 +81,32 @@ public class CentersController {
             }
         };
         try {
-            Future<List<Center>> future = executor.submit(callable);
-            List<Center> list = future.get();
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> list = future.get();
             executor.shutdown();
-            return list;
+            List<Center> centers=new ArrayList<>();
+            for(JsonObject center:list){
+                int idOrganization=center.getAsJsonPrimitive("idOrganization").getAsInt();
+                String orgType=center.getAsJsonPrimitive("orgType").getAsString();
+                String illness=center.getAsJsonPrimitive("illness").getAsString();
+                int idCenter=center.getAsJsonPrimitive("idCenter").getAsInt();
+                String descriptionEnglish=center.getAsJsonPrimitive("descriptionEnglish").getAsString();
+                String descriptionSpanish=center.getAsJsonPrimitive("descriptionSpanish").getAsString();
+                String descriptionFrench=center.getAsJsonPrimitive("descriptionFrench").getAsString();
+                String descriptionBasque=center.getAsJsonPrimitive("descriptionBasque").getAsString();
+                String descriptionCatalan=center.getAsJsonPrimitive("descriptionCatalan").getAsString();
+                String descriptionDutch=center.getAsJsonPrimitive("descriptionDutch").getAsString();
+                String descriptionGalician=center.getAsJsonPrimitive("descriptionGalician").getAsString();
+                String descriptionGerman=center.getAsJsonPrimitive("descriptionGerman").getAsString();
+                String descriptionItalian=center.getAsJsonPrimitive("descriptionItalian").getAsString();
+                String descriptionPortuguese=center.getAsJsonPrimitive("descriptionPortuguese").getAsString();
+                int idAddress=center.getAsJsonPrimitive("idAddress").getAsInt();
+                String telephone=center.getAsJsonPrimitive("telephone").getAsString();
+                String email=center.getAsJsonPrimitive("email").getAsString();
+                String profilePhoto=center.getAsJsonPrimitive("profilePhoto").getAsString();
+                centers.add(new Center(idOrganization, orgType, illness, idCenter, descriptionEnglish, descriptionSpanish, descriptionFrench, descriptionBasque, descriptionCatalan, descriptionDutch, descriptionGalician, descriptionGerman, descriptionItalian, descriptionPortuguese, idAddress, telephone, email, profilePhoto));
+            }
+            return centers;
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
@@ -95,11 +120,11 @@ public class CentersController {
      * */
     public static List<Center> GetAllByOrganization(Organization organization){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<List<Center>> callable = new Callable<List<Center>>() {
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
-            public List<Center> call() throws Exception {
-                Call<List<Center>> call = api.GetAllByOrganization(organization.getIdOrganization(),organization.getOrgType(),organization.getIllness());
-                Response<List<Center>> response = call.execute();
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call = api.GetAllByOrganization(organization.getIdOrganization(),organization.getOrgType(),organization.getIllness());
+                Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
@@ -108,10 +133,32 @@ public class CentersController {
             }
         };
         try {
-            Future<List<Center>> future = executor.submit(callable);
-            List<Center> list = future.get();
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> list = future.get();
             executor.shutdown();
-            return list;
+            List<Center> centers=new ArrayList<>();
+            for(JsonObject center:list){
+                int idOrganization=center.getAsJsonPrimitive("idOrganization").getAsInt();
+                String orgType=center.getAsJsonPrimitive("orgType").getAsString();
+                String illness=center.getAsJsonPrimitive("illness").getAsString();
+                int idCenter=center.getAsJsonPrimitive("idCenter").getAsInt();
+                String descriptionEnglish=center.getAsJsonPrimitive("descriptionEnglish").getAsString();
+                String descriptionSpanish=center.getAsJsonPrimitive("descriptionSpanish").getAsString();
+                String descriptionFrench=center.getAsJsonPrimitive("descriptionFrench").getAsString();
+                String descriptionBasque=center.getAsJsonPrimitive("descriptionBasque").getAsString();
+                String descriptionCatalan=center.getAsJsonPrimitive("descriptionCatalan").getAsString();
+                String descriptionDutch=center.getAsJsonPrimitive("descriptionDutch").getAsString();
+                String descriptionGalician=center.getAsJsonPrimitive("descriptionGalician").getAsString();
+                String descriptionGerman=center.getAsJsonPrimitive("descriptionGerman").getAsString();
+                String descriptionItalian=center.getAsJsonPrimitive("descriptionItalian").getAsString();
+                String descriptionPortuguese=center.getAsJsonPrimitive("descriptionPortuguese").getAsString();
+                int idAddress=center.getAsJsonPrimitive("idAddress").getAsInt();
+                String telephone=center.getAsJsonPrimitive("telephone").getAsString();
+                String email=center.getAsJsonPrimitive("email").getAsString();
+                String profilePhoto=center.getAsJsonPrimitive("profilePhoto").getAsString();
+                centers.add(new Center(idOrganization, orgType, illness, idCenter, descriptionEnglish, descriptionSpanish, descriptionFrench, descriptionBasque, descriptionCatalan, descriptionDutch, descriptionGalician, descriptionGerman, descriptionItalian, descriptionPortuguese, idAddress, telephone, email, profilePhoto));
+            }
+            return centers;
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }

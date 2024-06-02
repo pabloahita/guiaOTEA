@@ -1,5 +1,7 @@
 package otea.connection.api;
 
+import com.google.gson.JsonObject;
+
 import java.util.List;
 
 import cli.user.Request;
@@ -21,7 +23,7 @@ public interface RequestsApi {
 
     /**Gets all requests*/
     @GET("Requests/all")
-    Call<List<Request>> GetAll();
+    Call<List<JsonObject>> GetAll();
 
     /**
      * Gets a request
@@ -29,7 +31,7 @@ public interface RequestsApi {
      * @param email - Email of the register request
      * */
     @GET("Requests/get")
-    Call<Request> Get(@Query("email") String email);
+    Call<JsonObject> Get(@Query("email") String email);
 
     /**
      * Create a request
@@ -38,6 +40,15 @@ public interface RequestsApi {
      * */
     @POST("Requests")
     Call<Request> Create(@Body Request request);
+
+    /**
+     * Login for go to user
+     *
+     * @param credentials - Credentials
+     * */
+    @PUT("Requests/goToUserReg")
+    Call<JsonObject> goToUserReg(@Body JsonObject credentials);
+
 
     /**
      * Updates a request

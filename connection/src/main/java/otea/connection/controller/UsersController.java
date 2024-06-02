@@ -60,13 +60,19 @@ public class UsersController {
         instance=new UsersController();
     }
 
+    public interface LoginCallback {
+        void onSuccess(JsonObject data);
+        void onError(JsonObject errorResponse);
+    }
+
+
     /**
      * Method that obtains the login
      *
      * @param credentials - Credentials
      * @return Login if credentials are true, null if not
      * */
-    public static JsonObject Login(JsonObject credentials){
+    public static void Login(JsonObject credentials, LoginCallback callback) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<JsonObject> callable = new Callable<JsonObject>() {
             @Override
@@ -76,36 +82,34 @@ public class UsersController {
                 if (response.isSuccessful()) {
                     return response.body();
                 } else {
-                    if(response.code()==404){
+                    if(response.code() == 404) {
                         throw new IOException("Not found");
-                    }
-                    else if(response.code()==401){
+                    } else if(response.code() == 401) {
                         throw new IOException("Unauthorized");
                     }
                     throw new IOException("Error: " + response.code() + " " + response.message());
                 }
             }
         };
-        try {
-            Future<JsonObject> future = executor.submit(callable);
-            JsonObject result = future.get();
-            executor.shutdown();
-            return result;
-        } catch (InterruptedException | ExecutionException e) {
-            if(e.getMessage().equals("java.io.IOException: Not found") || e.getMessage().equals("java.io.IOException: Unauthorized")){
-                JsonObject response=new JsonObject();
-                int code=-1;
-                if(e.getMessage().equals("java.io.IOException: Not found")){
-                    code=404;
+
+        executor.submit(() -> {
+            try {
+                JsonObject result = callable.call();
+                callback.onSuccess(result);
+            } catch (Exception e) {
+                JsonObject errorResponse = new JsonObject();
+                if (e.getMessage().equals("Not found")) {
+                    errorResponse.addProperty("errorCode", 404);
+                } else if (e.getMessage().equals("Unauthorized")) {
+                    errorResponse.addProperty("errorCode", 401);
+                } else {
+                    throw new RuntimeException(e);
                 }
-                else{
-                    code=401;
-                }
-                response.addProperty("errorCode",code);
-                return response;
+                callback.onError(errorResponse);
+            } finally {
+                executor.shutdown();
             }
-            throw new RuntimeException(e);
-        }
+        });
     }
 
     /**
