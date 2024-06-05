@@ -122,6 +122,7 @@ public class CitiesController {
             Future<List<JsonObject>> future = executor.submit(callable);
             List<JsonObject> list = future.get();
             executor.shutdown();
+            numAttempts=0;
             List<City> cities=new ArrayList<>();
             for(JsonObject reg:list){
                 int idCity=reg.getAsJsonPrimitive("idCity").getAsInt();
@@ -141,7 +142,7 @@ public class CitiesController {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } catch(ExecutionException e){
-            /*if(e.getCause() instanceof SocketTimeoutException){
+           if(e.getCause() instanceof SocketTimeoutException){
                 numAttempts++;
                 if(numAttempts<3) {
                     return GetCitiesByProvince(idProvince, idRegion, idCountry);
@@ -153,8 +154,7 @@ public class CitiesController {
             }
             else{
                 throw new RuntimeException(e);
-            }*/
-            throw new RuntimeException(e);
+            }
         }
     }
 

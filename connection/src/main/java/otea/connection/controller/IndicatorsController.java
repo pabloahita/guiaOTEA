@@ -4,6 +4,7 @@ package otea.connection.controller;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -31,6 +32,9 @@ public class IndicatorsController {
 
     /**Controller instance*/
     private static IndicatorsController instance;
+
+    /**Number of attempts*/
+    private static int numAttempts=0;
 
     /**Class controller*/
     private IndicatorsController(){
@@ -214,9 +218,22 @@ public class IndicatorsController {
             Future<List<JsonObject>> future = executor.submit(callable);
             List<JsonObject> list = future.get();
             executor.shutdown();
+            numAttempts=0;
             return list;
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetAll(evaluationType);
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
         }
     }
 

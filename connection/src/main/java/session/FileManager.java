@@ -5,11 +5,14 @@ import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
+import com.azure.storage.blob.models.BlobStorageException;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.SocketTimeoutException;
 import java.util.concurrent.CompletableFuture;
 
 import otea.connection.controller.RegionsController;
@@ -28,6 +31,8 @@ public class FileManager {
     private static BlobContainerClient containerClient;
 
     private static BlobClient blobClient;
+
+    private static int numAttempts=0;
 
     private FileManager(){
         this.blobServiceClient = new BlobServiceClientBuilder().connectionString(connectionString).buildClient();
@@ -77,8 +82,21 @@ public class FileManager {
             BlobClient blobClient = containerClient.getBlobClient(fileName);
             try {
                 blobClient.downloadStream(stream);
-            } catch (Throwable t) {
-                // Handle exception
+                numAttempts=0;
+            } catch (Exception e) {
+                if(e.getCause() instanceof SocketTimeoutException){
+                    numAttempts++;
+                    if(numAttempts<3) {
+                        return downloadPhotoProfileAsync(fileName).join();
+                    }
+                    else{
+                        numAttempts=0;
+                        return null;
+                    }
+                }
+                else{
+                    throw new RuntimeException(e);
+                }
             }
             return stream;
         });

@@ -1,0 +1,396 @@
+\apendice{Especificación de Requisitos}
+
+\section{Introducción}
+
+%Una muestra de cómo podría ser una tabla de casos de uso:
+
+% Caso de Uso 1 -> Consultar Experimentos.
+
+	En este apéndice se desarrollan los aspectos relacionados con la obtención
+	de los requisitos, tanto funcionales como no funcionales, y su posterior
+	especificación mediante los casos de uso. Cada requisito representa una
+	acción o actividad esperada por parte de la aplicación para un correcto
+	funcionamiento de la misma, siendo relacionado a posteriori con un caso de
+	uso. Al tener todos los casos de uso, se relacionan posteriormente con los
+	actores correspondientes. \\\\
+	También se desarrolla en este apéndice, los diferentes tipos de actores o
+	usuarios que están involucrados en la utilización de la aplicación, los
+	cuales son relacionados a posteriori con los diferentes casos de uso de la
+	aplicación, con el fin de conocer quién es el encargado de realizar cada
+	actividad relacionada con cada caso de uso.
+	
+
+\section{Objetivos generales}
+
+El análisis de requisitos, actores y casos de uso para la aplicación tiene como
+finalidad realizar un estudio sobre qué actividades se espera que realice la
+aplicación, quién tiene los permisos necesarios para realizarlas y qué
+resultados se esperan de su realización. 
+\\
+En cuanto a la obtención de requisitos, se tienen que tener en cuenta tanto los
+	requisitos funcionales, los cuales indican los objetivos que debería marcar
+	la propia aplicación, como los requisitos no funcionales, que se encargan de
+	marcar las limitaciones que tiene la aplicación. Estos requisitos deben
+	utilizarse posteriormente para la creación de los diferentes casos de uso
+	que abarca la aplicación, con el objetivo de tener que cubrir todo lo
+	esperable dentro del funcionamiento de la misma. \\
+	Los requisitos utilizados en este proyecto aparecen en el apartado
+	\textbf{Catálogo de requisitos} de este apéndice.
+
+	En cuanto a los casos de uso posteriores, se tienen que identificar los
+    actores que están involucrados en el uso de la aplicación, siendo en el caso
+    de esta aplicación usuarios repartidos en cuatro tipos diferentes,
+    teniendo cada uno de ellos diferentes funciones y permisos, siendo éstos
+    últimos representados mediante los diferentes casos de uso dentro de la
+    aplicación:
+    \imagen{Figuras/Diagramas/DiagramaDeCasos.png}{Diagrama de casos de uso de la aplicación}{1}
+    Como se puede comprobar en este diagrama, se distinguen cuatro tipos
+    distintos de usuario con diferentes permisos dentro de la aplicación:
+    \begin{itemize}
+        \item \textit{\textbf{Administrador:}} Es el usuario encargado de
+        gestionar todas las operaciones relacionadas con las organizaciones y
+        con los usuarios almacenados en la base de datos. En cuanto a las
+        organizaciones, este usuario se encarga de dar de alta o de baja a las
+        organizaciones que así lo deseen, además de proporcionar los permisos de
+        evaluador a las organizaciones evaluadoras y modificar datos de las
+        mismas. En cuanto a los usuarios, las operaciones a realizar son las
+        mismas que en el caso de las organizaciones, con la excepción de dar
+        permisos de evaluación, al ser éste un requisito exclusivo de las
+        organizaciones.
+        \item \textit{\textbf{Miembro de la organización evaluadora: }}Es un
+        usuario cuya organización a la que pertenece posee permisos de
+        evaluación sobre otras organizaciones que no los tienen, rellenando los
+        valores de las evidencias y calculando el valor total de cada indicador
+        a partir de las mismas, también calculando el valor total obtenido
+        mediante el valor total de cada indicador. También tiene permisos para
+        modificar dichos indicadores durante la evaluación. Además de eso puede
+        observar los resultados de cada evaluación de indicadores, ya sea
+        mediante tablas o mediante gráficos. 
+        \item \textit{\textbf{Miembro de la organización evaluada: }}Es un
+        usuario cuya organización a la que pertenece posee no permisos de
+        evaluación, por lo tanto, dicho usuario pertenece a una organización que
+        está a disposición de ser evaluada. Además de recibir la evaluación por
+        parte de la organización evaluadora, también puede observar los
+        resultados de las diferentes evaluaciones, ya sea mediante tablas o
+        mediante gráficos.
+    \end{itemize}
+
+	La especificación de los requisitos funcionales en forma de casos de uso
+	aparece en el apartado \textbf{Especificación de requisitos} de este apéndice.
+
+\section{Catálogo de requisitos}
+
+Como se ha mencionado en los apartados anteriores de este apéndice, el catálogo
+de requisitos resume el comportamiento que se desea obtener por parte de la
+aplicación, a partir de todas las actividades que se desean implementar en la
+aplicación.
+\\
+Hay que considerar también que a medida que se va desarrollando la aplicación,
+se van introduciendo mejoras y a la par realizando cambios debido a que la
+aplicación debe adaptarse en la medida de lo posible al objetivo de poder ser
+utilizada por la \textit{Fundación Miradas}, por las organizaciones a las que
+evalúa y por los administradores de la base de datos, por lo que durante todo el
+tiempo de desarrollo se ha tomado consciencia de lo que se pretende implementar,
+empleando para ello los siguientes requisitos funcionales:
+\begin{itemize}
+	\item \textbf{RF-1:} Todos los usuarios tienen la capacidad de mostrar su
+	actividad reciente, mostrándose en la app cuál fue la última acción que se
+	realizó en la app.
+	\item \textbf{RF-2:} Como usuario de la \textit{Fundación Miradas}, se desea
+	que la aplicación pueda realizar la evaluación de indicadores a cada una de
+	las organizaciones a evaluar, teniendo en cuenta el caso específico del
+	afectado con TEA, rellenando así las evidencias que son cumplidas por la
+	organización evaluada.
+	\item \textbf{RF-3:} Como usuario de la \textit{Fundación Miradas}, se desea
+	que tras realizar el test de indicadores, se realice la suma ponderada de
+	todas las evidencias de todos los indicadores, para poder obtener así los
+	resultados deseados.
+	\item \textbf{RF-4:} Tanto los usuarios de organizaciones evaluadas como los
+	usuarios de la \textit{Fundación Miradas} pueden mostrar los resultados de
+	cada uno de los test de indicadores que se realizan mediante gráficos.
+	\item \textbf{RF-5:} Tanto los usuarios de organizaciones evaluadas como los
+	usuarios de la \textit{Fundación Miradas} pueden mostrar los resultados de
+	cada uno de los test de indicadores que se realizan mediante la muestra del
+	resultado total.
+	\item \textbf{RF-6:} Todos los usuarios tienen la capacidad de poder iniciar
+	sesión.
+	\item \textbf{RF-7:} Todos los usuarios tienen la capacidad de poder cerrar sesión.
+	\item \textbf{RF-8:} Todos los usuarios tienen la capacidad de poder
+	registrarse en la aplicación.
+	\item \textbf{RF-9:} Todos los usuarios tienen la capacidad de poder
+	eliminarse de la aplicación.
+	\item \textbf{RF-10:} Los usuarios de la \textit{Fundación Miradas} tienen la
+	capacidad de modificar la ponderación y la descripción de los indicadores.
+	\item \textbf{RF-11:} Los usuarios de la \textit{Fundación Miradas} tienen la
+	capacidad de añadir nuevos indicadores.
+	\item \textbf{RF-12:} Los usuarios de la \textit{Fundación Miradas} tienen la
+	capacidad de eliminar indicadores.
+	\item \textbf{RF-13:} Los usuarios de la \textit{Fundación Miradas} tienen la
+	capacidad de añadir evidencias
+	\item \textbf{RF-14:} Los usuarios de la \textit{Fundación Miradas} tienen la
+	capacidad de eliminar evidencias
+	\item \textbf{RF-15:} Los usuarios de la \textit{Fundación Miradas} tienen la
+	capacidad de modificar el valor y la descripción evidencias.
+	\item \textbf{RF-16:} Los usuarios de la \textit{Fundación Miradas} tienen
+	la capacidad de registrar nuevas organizaciones.
+	\item \textbf{RF-17:} Los usuarios de la \textit{Fundación Miradas} tienen
+	la capacidad de modificar los datos de las organizaciones.
+	\item \textbf{RF-18:} Los usuarios de la \textit{Fundación Miradas} tienen
+	la capacidad de eliminar organizaciones.
+	\item \textbf{RF-19:} Los usuarios de la \textit{Fundación Miradas} tienen
+	la capacidad de añadir nuevos centros de las organizaciones.
+	\item \textbf{RF-20:} El administrador de la base de datos tiene la
+	capacidad de añadir columnas a las tablas que conforman dicha base de datos.
+	\item \textbf{RF-21:} El administrador de la base de datos tiene la
+	capacidad de eliminar columnas de las tablas que conforman dicha base de datos.
+	\item \textbf{RF-22:} El administrador de la base de datos tiene la
+	capacidad de modificar columnas de las tablas que conforman dicha base de datos.
+\end{itemize}
+\section{Especificación de requisitos}
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-1}    & \textbf{Mostrar actividad reciente}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Pablo Ahíta del Barrio \\
+		\textbf{Requisitos asociados} & RF-1 \\
+		\textbf{Descripción}          & Se muestra la actividad reciente del usuario \\
+		\textbf{Precondición}         & Estar registrado en la aplicación y tener la sesión activa \\
+		\textbf{Acciones}             &
+		%\begin{enumerate}
+		%	\def\labelenumi{\arabic{enumi}.}
+		%	\tightlist
+		%	\item Pasos del CU
+		%	\item Pasos del CU (añadir tantos como sean necesarios)
+		%\end{enumerate}\\
+		\\
+		\textbf{Postcondición}        & Ninguna \\
+		\textbf{Excepciones}          & Ninguna \\
+		\textbf{Importancia}          & Media \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-1 Mostrar actividad reciente}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-2}    & \textbf{Administrar base de datos}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Alumno \\
+		\textbf{Requisitos asociados} & RF-20, RF-21, RF-22 \\
+		\textbf{Descripción}          & Realización de operaciones de modificación de las tablas de la base de datos \\
+		\textbf{Precondición}         & Estar registrado como administrador en la app y tener la sesión activa \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Añadir columnas de las tablas
+			\item Eliminar columnas de las tablas
+			\item Modificar columnas de las tablas
+			\item Asignar permisos de evaluador a organizaciones
+		\end{enumerate}\\
+		\textbf{Postcondición}        & 
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Tabla con columna añadida
+			\item Tabla con columna eliminada
+			\item Tabla con columna modificada
+			\item Organización transformada en evaluadora
+		\end{enumerate}\\
+		\textbf{Excepciones}          & Ninguna \\
+		\textbf{Importancia}          & Alta \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-2 Administrar base de datos.}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-3}    & \textbf{Gestión de indicadores}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Pablo Ahíta del Barrio \\
+		\textbf{Requisitos asociados} & RF-10, RF-11, RF-12, RF-13, RF-14, RF-15  \\
+		\textbf{Descripción}          & Realización de operaciones de gestión de indicadores \\
+		\textbf{Precondición}         & Estar registrado como usuario de la \textit{Fundación Miradas} en la app y tener la sesión activa \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Modificar ponderación del indicador
+			\item Modificar descripción del indicador
+			\item Añadir indicador
+			\item Eliminar indicador
+			\item Añadir evidencia
+			\item Modificar valor de la evidencia
+			\item Modidicar descripción de la evidencia
+			\item Eliminar evidencia
+		\end{enumerate}\\
+		\textbf{Postcondición}        & 
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Indicador con ponderación cambiada
+			\item Indicador con descripción modificada
+			\item Nuevo indicador añadido
+			\item Indicador eliminado
+			\item Nueva evidencia añadida
+			\item Evidencia con valor modificado
+			\item Evidencia con descripción modificada
+			\item Evidencia eliminada
+		\end{enumerate}\\
+		\textbf{Excepciones}          & No se puede tener un indicador sin evidencias o no tener indicadores \\
+		\textbf{Importancia}          & Alta \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-3 Gestión de indicadores.}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-4}    & \textbf{Gestión de organizaciones}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Pablo Ahíta del Barrio \\
+		\textbf{Requisitos asociados} & RF-16, RF-17, RF-18, RF-19  \\
+		\textbf{Descripción}          & Realización de operaciones de gestión de organizaciones \\
+		\textbf{Precondición}         & Estar registrado como usuario de la \textit{Fundación Miradas} en la app y tener la sesión activa \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Añadir nuevos centros de las organizaciones
+			\item Registrar nuevas organizaciones
+			\item Modificar datos de las organizaciones
+			\item Eliminar organizaciones
+		\end{enumerate}\\
+		\textbf{Postcondición}        &  
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Un centro más para la organización
+			\item Una organización más en la base de datos
+			\item Organización modificada
+			\item Una organización menos en la base de datos
+		\end{enumerate}\\
+		\textbf{Excepciones}          & No se pueden eliminar organizaciones
+		evaluadoras, al tratarse de la \textit{Fundación Miradas}. Sería
+		responsabilidad del administrador de la base de datos añadir nuevos
+		organismos evaluadores. \\
+		\textbf{Importancia}          & Alta \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-4 Gestión de organizaciones.}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-5}    & \textbf{Gestión de usuarios}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Pablo Ahíta del Barrio \\
+		\textbf{Requisitos asociados} & RF-6, RF-7, RF-8, RF-9  \\
+		\textbf{Descripción}          & Realización de operaciones de gestión de usuarios \\
+		\textbf{Precondición}         & Ninguna \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Registrar nuevos usuarios
+			\item Eliminar usuarios
+			\item Iniciar sesión
+			\item Cerrar sesión
+		\end{enumerate}\\
+		\textbf{Postcondición}        &  
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Nuevo usuario registrado
+			\item Usuario eliminado
+			\item Sesión iniciada
+			\item Sesión cerrada
+		\end{enumerate}\\
+		\textbf{Excepciones}          & No se puede cerrar una sesión inactiva ni se puede registrar un usuario ya existente. \\
+		\textbf{Importancia}          & Alta \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-4 Gestión de usuarios.}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-6}    & \textbf{Realizar evaluación de indicadores}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Pablo Ahíta del Barrio \\
+		\textbf{Requisitos asociados} & RF-2, RF-3  \\
+		\textbf{Descripción}          & Realización de la evaluación de indicadores, rellenando todas las evidencias correspondientes. Luego se calculan los resultados \\
+		\textbf{Precondición}         & Estar registrado como usuario de la
+		\textit{Fundación Miradas} en la app, tener la sesión activa, que la
+		organización evaluada esté registrada en la app y que el representante y
+		director de la organización evaluada estén registrados como miembros de
+		dicha organización en la app\\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Rellenar evidencias
+			\item Calcular valor total de la evaluación
+		\end{enumerate}\\
+		\textbf{Postcondición}        &  
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Evidencias rellenadas
+			\item Valor total calculado
+		\end{enumerate}\\
+		\textbf{Excepciones}          & No se pueden eliminar organizaciones
+		evaluadoras, al tratarse de la \textit{Fundación Miradas}. Sería
+		responsabilidad del administrador de la base de datos añadir nuevos
+		organismos evaluadores. \\
+		\textbf{Importancia}          & Alta \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-6 Realizar evaluación de indicadores.}
+\end{table}
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-7}    & \textbf{Muestra de evaluación de indicadores}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Pablo Ahíta del Barrio \\
+		\textbf{Requisitos asociados} & RF-4, RF-5  \\
+		\textbf{Descripción}          & Realización de la evaluación de indicadores, rellenando todas las evidencias correspondientes. Luego se calculan los resultados \\
+		\textbf{Precondición}         & Estar registrado como usuario de la \textit{Fundación Miradas} o como usuario de una organización evaluada en la app y tener la sesión activa \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Mostrar gráficos
+			\item Mostrar tablas de indicadores
+		\end{enumerate}\\
+		\textbf{Postcondición}        &  Ninguna \\
+		\textbf{Excepciones}          & Ninguna \\
+		\textbf{Importancia}          & Media \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-6 Realizar evaluación de indicadores.}
+\end{table}

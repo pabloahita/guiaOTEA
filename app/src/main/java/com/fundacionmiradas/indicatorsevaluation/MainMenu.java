@@ -97,6 +97,7 @@ public class MainMenu extends AppCompatActivity {
 
         if(user!=null && org!=null) {
 
+
             TextView userInfo=findViewById(R.id.userInfo);
 
             String info="<ul><li><b>"+getString(R.string.first_name_user)+": </b><i>"+user.getFirst_name()+"</i></li><li><b>" +
@@ -142,6 +143,12 @@ public class MainMenu extends AppCompatActivity {
                     evaluated.setVisibility(View.VISIBLE);
                     seeRealizedIndicatorTest=findViewById(R.id.seeRealizedIndicatorTestEvaluatedButton);
                 }
+            }
+
+            if(!user.getProfilePhoto().isEmpty() && ProfilePhotoUtil.getInstance().getImgUser()==null
+            &&
+            !org.getProfilePhoto().isEmpty() && ProfilePhotoUtil.getInstance().getImgOrg()==null){
+                ProfilePhotoUtil.getInstance().downloadPhotos();
             }
 
             imgOrg = ProfilePhotoUtil.getInstance().getImgOrg();

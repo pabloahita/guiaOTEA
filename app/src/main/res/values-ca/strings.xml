@@ -325,5 +325,16 @@
     <string name="about_the_evidence_4">Sobre l\'evidència 4</string>
     <string name="fulfilled_evidences">Evidències complertes</string>
     <string name="indicator">Indicador</string>
+    <string name="id_data">Dades d\'identificació</string>
+    <string name="eval_team">Equip avaluador</string>
+    <string name="strengths">Punts forts</string>
+    <string name="eval_process">Procés d\'avaluació</string>
+    <string name="date">Data</string>
+    <string name="results">Resultats</string>
+    <string name="overall_assessment">Valoració general</string>
+    <string name="level">Nivell</string>
+    <string name="n_noted_indicators">Nombre d\'indicadors anotats</string>
+    <string name="multiply_by">Multiplicar per</string>
+    <string name="total">TOTAL</string>
 
 </resources>

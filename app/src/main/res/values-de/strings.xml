@@ -322,6 +322,17 @@
     <string name="about_the_evidence_4">Über den Beweis 4</string>
     <string name="fulfilled_evidences">Erfüllte Beweise</string>
     <string name="indicator">Indikator</string>
+    <string name="id_data">Identifikationsdaten</string>
+    <string name="eval_team">Bewertungsteam</string>
+    <string name="strengths">Stärken</string>
+    <string name="eval_process">Bewertungsprozess</string>
+    <string name="date">Datum</string>
+    <string name="results">Ergebnisse</string>
+    <string name="overall_assessment">Gesamtbewertung</string>
+    <string name="level">Niveau</string>
+    <string name="n_noted_indicators">Anzahl der vermerkten Indikatoren</string>
+    <string name="multiply_by">Multiplizieren mit</string>
+    <string name="total">GESAMT</string>
 
 
 </resources>

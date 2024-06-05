@@ -321,6 +321,17 @@
     <string name="about_the_evidence_4">About the evidence 4</string>
     <string name="fulfilled_evidences">Fulfilled evidences</string>
     <string name="indicator">Indicator</string>
+    <string name="id_data">Identification data</string>
+    <string name="eval_team">Evaluator team</string>
+    <string name="strengths">Strenghts</string>
+    <string name="eval_process">Evaluation process</string>
+    <string name="date">Date</string>
+    <string name="results">Results</string>
+    <string name="overall_assessment">Overall assessment</string>
+    <string name="level">Level</string>
+    <string name="n_noted_indicators">Number of indicators noted</string>
+    <string name="multiply_by">Multiply by</string>
+    <string name="total">TOTAL</string>
 
 
 </resources>

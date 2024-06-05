@@ -319,6 +319,17 @@
     <string name="about_the_evidence_4">Sulla prova 4</string>
     <string name="fulfilled_evidences">Evidenze soddisfatte</string>
     <string name="indicator">Indicatore</string>
+    <string name="id_data">Dati di identificazione</string>
+    <string name="eval_team">Squadra di valutazione</string>
+    <string name="strengths">Punti di forza</string>
+    <string name="eval_process">Processo di valutazione</string>
+    <string name="date">Data</string>
+    <string name="results">Risultati</string>
+    <string name="overall_assessment">Valutazione generale</string>
+    <string name="level">Livello</string>
+    <string name="n_noted_indicators">Numero di indicatori annotati</string>
+    <string name="multiply_by">Moltiplicare per</string>
+    <string name="total">TOTALE</string>
 
 
 </resources>

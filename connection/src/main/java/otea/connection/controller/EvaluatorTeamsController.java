@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 
 import java.io.IOException;
 ;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -32,6 +33,9 @@ public class EvaluatorTeamsController {
 
     /**Evaluator teams controller instance*/
     private static EvaluatorTeamsController instance;
+
+    /**Number of attempts*/
+    private static int numAttempts=0;
 
     /**Class constructor*/
     private EvaluatorTeamsController() {
@@ -120,6 +124,7 @@ public class EvaluatorTeamsController {
             Future<List<JsonObject>> future = executor.submit(callable);
             List<JsonObject> list = future.get();
             executor.shutdown();
+            numAttempts=0;
             List<EvaluatorTeam> evaluatorTeams=new ArrayList<>();
             for(JsonObject evalTeam:list){
                 int idEvaluatorTeam=evalTeam.getAsJsonPrimitive("idEvaluatorTeam").getAsInt();
@@ -154,7 +159,19 @@ public class EvaluatorTeamsController {
             }
             return evaluatorTeams;
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetAll();
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -185,6 +202,7 @@ public class EvaluatorTeamsController {
             Future<List<JsonObject>> future = executor.submit(callable);
             List<JsonObject> list = future.get();
             executor.shutdown();
+            numAttempts=0;
             List<EvaluatorTeam> evaluatorTeams=new ArrayList<>();
             for(JsonObject evalTeam:list){
                 int idEvaluatorTeam=evalTeam.getAsJsonPrimitive("idEvaluatorTeam").getAsInt();
@@ -217,7 +235,19 @@ public class EvaluatorTeamsController {
             }
             return evaluatorTeams;
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetAllByCenter(id,orgType,idCenter,illness);
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
         }
 
     }
@@ -248,6 +278,7 @@ public class EvaluatorTeamsController {
             Future<List<JsonObject>> future = executor.submit(callable);
             List<JsonObject> list = future.get();
             executor.shutdown();
+            numAttempts=0;
             List<EvaluatorTeam> evaluatorTeams=new ArrayList<>();
             for(JsonObject evalTeam:list){
                 int idEvaluatorTeam=evalTeam.getAsJsonPrimitive("idEvaluatorTeam").getAsInt();
@@ -281,7 +312,19 @@ public class EvaluatorTeamsController {
             }
             return evaluatorTeams;
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetAllByOrganization(id,orgType,illness);
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
         }
     }
 

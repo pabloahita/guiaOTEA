@@ -458,34 +458,40 @@ namespace OTEAServer.Controllers
         public IActionResult calculateResults([FromBody] IndicatorsEvaluation indicatorsEvaluation) {
             try
             {
-                
-                Dictionary<string, Dictionary<string, int>> numIndicatorsPerPriority = new Dictionary<string, Dictionary<string, int>>();
                 List<IndicatorsEvaluationIndicatorReg> regs = _context.IndicatorsEvaluationsIndicatorsRegs
                         .Where(r => r.evaluationDate == indicatorsEvaluation.evaluationDate && r.idEvaluatorTeam == indicatorsEvaluation.idEvaluatorTeam && r.idEvaluatorOrganization == indicatorsEvaluation.idEvaluatorOrganization && r.orgTypeEvaluator == indicatorsEvaluation.orgTypeEvaluator && r.idEvaluatedOrganization == indicatorsEvaluation.idEvaluatedOrganization && r.orgTypeEvaluated == indicatorsEvaluation.orgTypeEvaluated && r.illness == indicatorsEvaluation.illness &&
                         r.idCenter == indicatorsEvaluation.idCenter && r.evaluationType == indicatorsEvaluation.evaluationType).ToList();
 
-                foreach (IndicatorsEvaluationIndicatorReg reg in regs)
-                {
-                    var indicator = _context.Indicators.FirstOrDefault(i => i.idIndicator == reg.idIndicator && i.indicatorType == reg.illness && i.idSubSubAmbit == reg.idSubSubAmbit && i.idSubAmbit == reg.idSubAmbit && i.idAmbit == reg.idAmbit && i.indicatorVersion == reg.indicatorVersion && i.evaluationType == reg.evaluationType);
-                    
-                    if (indicator != null) {
-                        if (!numIndicatorsPerPriority.ContainsKey(indicator.indicatorPriority)) {
-                            numIndicatorsPerPriority[indicator.indicatorPriority] = new Dictionary<string, int>();
-                        }
-                        if (!numIndicatorsPerPriority[indicator.indicatorPriority].ContainsKey(reg.status))
-                        {
-                            numIndicatorsPerPriority[indicator.indicatorPriority][reg.status] = 1;
-                        }
-                        else {
-                            numIndicatorsPerPriority[indicator.indicatorPriority][reg.status] += 1;
-                        }
-                    }
-                    else
-                    {
-                        return NotFound();
-                    }
-                    
-                }
+                List<Indicator> indicators = _context.Indicators
+                    .Where(i => i.evaluationType == indicatorsEvaluation.evaluationType && i.isActive == 1)
+                    .OrderBy(i => i.idIndicator)
+                    .ToList();
+
+
+                var session=ExpertSystemUtil.Instance.CreateSessionWithRules(typeof(RulePointsForFundamentalReached), typeof(RulePointsForFundamentalInProcess),
+                    typeof(RulePointsForHighReached), typeof(RulePointsForHighInProcess), typeof(RulePointsForMediumReached),
+                    typeof(RulePointsForMediumInProcess), typeof(RulePointsForLowReached), typeof(RulePointsForLowInProcess));
+
+                List<object> facts= new List<object>();
+                facts.Add(indicators);
+                facts.Add(regs);
+                facts.Add(indicatorsEvaluation);
+                ExpertSystemUtil.Instance.RunRules(session,facts);
+
+
+                indicatorsEvaluation.totalScore= indicatorsEvaluation.scorePriorityZeroColourYellow + indicatorsEvaluation.scorePriorityZeroColourGreen +
+                    indicatorsEvaluation.scorePriorityOneColourYellow + indicatorsEvaluation.scorePriorityOneColourGreen +
+                    indicatorsEvaluation.scorePriorityTwoColourYellow + indicatorsEvaluation.scorePriorityTwoColourGreen +
+                    indicatorsEvaluation.scorePriorityThreeColourYellow + indicatorsEvaluation.scorePriorityThreeColourGreen;
+
+                session=ExpertSystemUtil.Instance.CreateSessionWithRules(typeof(RuleExcellentIndicatorEvaluation), typeof(RuleVeryGoodIndicatorEvaluation),
+                    typeof(RuleGoodIndicatorEvaluation),typeof(RuleImprovableIndicatorEvaluation), typeof(RuleVeryImprovableIndicatorEvaluation));
+                
+                facts=new List<object>();
+                facts.Add(indicatorsEvaluation);
+                ExpertSystemUtil.Instance.RunRules(session,facts);
+
+
                 var existingIndicatorsEvaluation = _context.IndicatorsEvaluations.FirstOrDefault(e => e.evaluationDate == indicatorsEvaluation.evaluationDate && e.idEvaluatorTeam == indicatorsEvaluation.idEvaluatorTeam && e.idEvaluatorOrganization == indicatorsEvaluation.idEvaluatorOrganization && e.orgTypeEvaluator == indicatorsEvaluation.orgTypeEvaluator && e.idEvaluatedOrganization == indicatorsEvaluation.idEvaluatedOrganization && e.orgTypeEvaluated == indicatorsEvaluation.orgTypeEvaluated && e.illness == indicatorsEvaluation.illness && e.idCenter == indicatorsEvaluation.idCenter && e.evaluationType == indicatorsEvaluation.evaluationType);
                 if (existingIndicatorsEvaluation is null)
                     return NotFound();
@@ -500,77 +506,20 @@ namespace OTEAServer.Controllers
                 existingIndicatorsEvaluation.conclusionsItalian = indicatorsEvaluation.conclusionsItalian;
                 existingIndicatorsEvaluation.conclusionsPortuguese = indicatorsEvaluation.conclusionsPortuguese;
                 existingIndicatorsEvaluation.scorePriorityZeroColourRed = 0;
-                if (numIndicatorsPerPriority["LOW_INTEREST"].ContainsKey("IN_PROCESS"))
-                {
-                    existingIndicatorsEvaluation.scorePriorityZeroColourYellow = numIndicatorsPerPriority["LOW_INTEREST"]["IN_PROCESS"];
-                }
-                else {
-                    existingIndicatorsEvaluation.scorePriorityZeroColourYellow = 0;
-                }
-                if (numIndicatorsPerPriority["LOW_INTEREST"].ContainsKey("COMPLETED"))
-                {
-                    existingIndicatorsEvaluation.scorePriorityZeroColourGreen = numIndicatorsPerPriority["LOW_INTEREST"]["COMPLETED"] * 2;
-                }
-                else
-                {
-                    existingIndicatorsEvaluation.scorePriorityZeroColourGreen = 0;
-                }
+                existingIndicatorsEvaluation.scorePriorityZeroColourYellow = indicatorsEvaluation.scorePriorityZeroColourYellow;
+                existingIndicatorsEvaluation.scorePriorityZeroColourGreen = indicatorsEvaluation.scorePriorityZeroColourGreen;
                 existingIndicatorsEvaluation.scorePriorityOneColourRed = 0;
-                if (numIndicatorsPerPriority["MEDIUM_INTEREST"].ContainsKey("IN_PROCESS"))
-                {
-                    existingIndicatorsEvaluation.scorePriorityOneColourYellow = numIndicatorsPerPriority["MEDIUM_INTEREST"]["IN_PROCESS"] * 2;
-                }
-                else
-                {
-                    existingIndicatorsEvaluation.scorePriorityOneColourYellow = 0;
-                }
-                if (numIndicatorsPerPriority["MEDIUM_INTEREST"].ContainsKey("COMPLETED"))
-                {
-                    existingIndicatorsEvaluation.scorePriorityOneColourGreen = numIndicatorsPerPriority["MEDIUM_INTEREST"]["COMPLETED"] * 3;
-                }
-                else
-                {
-                    existingIndicatorsEvaluation.scorePriorityOneColourGreen = 0;
-                }
+                existingIndicatorsEvaluation.scorePriorityOneColourYellow = indicatorsEvaluation.scorePriorityOneColourYellow;
+                existingIndicatorsEvaluation.scorePriorityOneColourGreen = indicatorsEvaluation.scorePriorityOneColourGreen;
                 existingIndicatorsEvaluation.scorePriorityTwoColourRed = 0;
-                if (numIndicatorsPerPriority["HIGH_INTEREST"].ContainsKey("IN_PROCESS"))
-                {
-                    existingIndicatorsEvaluation.scorePriorityTwoColourYellow = numIndicatorsPerPriority["HIGH_INTEREST"]["IN_PROCESS"] * 3;
-                }
-                else
-                {
-                    existingIndicatorsEvaluation.scorePriorityTwoColourYellow = 0;
-                }
-                if (numIndicatorsPerPriority["HIGH_INTEREST"].ContainsKey("COMPLETED"))
-                {
-                    existingIndicatorsEvaluation.scorePriorityTwoColourGreen = numIndicatorsPerPriority["HIGH_INTEREST"]["COMPLETED"] * 4;
-                }
-                else
-                {
-                    existingIndicatorsEvaluation.scorePriorityTwoColourGreen = 0;
-                }
+                existingIndicatorsEvaluation.scorePriorityTwoColourYellow = indicatorsEvaluation.scorePriorityTwoColourYellow;
+                existingIndicatorsEvaluation.scorePriorityTwoColourGreen = indicatorsEvaluation.scorePriorityTwoColourGreen;
                 existingIndicatorsEvaluation.scorePriorityThreeColourRed = 0;
-                if (numIndicatorsPerPriority["FUNDAMENTAL_INTEREST"].ContainsKey("IN_PROCESS"))
-                {
-                    existingIndicatorsEvaluation.scorePriorityThreeColourYellow = numIndicatorsPerPriority["FUNDAMENTAL_INTEREST"]["IN_PROCESS"] * 4;
-                }
-                else
-                {
-                    existingIndicatorsEvaluation.scorePriorityThreeColourYellow = 0;
-                }
-                if (numIndicatorsPerPriority["FUNDAMENTAL_INTEREST"].ContainsKey("COMPLETED"))
-                {
-                    existingIndicatorsEvaluation.scorePriorityThreeColourGreen = numIndicatorsPerPriority["FUNDAMENTAL_INTEREST"]["COMPLETED"] * 5;
-                }
-                else
-                {
-                    existingIndicatorsEvaluation.scorePriorityThreeColourGreen = 0;
-                }
-                existingIndicatorsEvaluation.totalScore = existingIndicatorsEvaluation.scorePriorityZeroColourYellow+ existingIndicatorsEvaluation.scorePriorityZeroColourGreen+ 
-                    existingIndicatorsEvaluation.scorePriorityOneColourYellow+ existingIndicatorsEvaluation.scorePriorityOneColourGreen+ 
-                    existingIndicatorsEvaluation.scorePriorityTwoColourYellow+ existingIndicatorsEvaluation.scorePriorityTwoColourGreen+ 
-                    existingIndicatorsEvaluation.scorePriorityThreeColourYellow+ existingIndicatorsEvaluation.scorePriorityThreeColourGreen;
+                existingIndicatorsEvaluation.scorePriorityThreeColourYellow = indicatorsEvaluation.scorePriorityThreeColourYellow;
+                existingIndicatorsEvaluation.scorePriorityThreeColourGreen = indicatorsEvaluation.scorePriorityThreeColourGreen;
+                existingIndicatorsEvaluation.totalScore = indicatorsEvaluation.totalScore;
                 existingIndicatorsEvaluation.isFinished = 1;
+                existingIndicatorsEvaluation.level= indicatorsEvaluation.level;
 
                 _context.SaveChanges();
 

@@ -283,5 +283,16 @@
     <string name="about_the_evidence_4">Sobre la evidencia 4</string>
     <string name="fulfilled_evidences">Evidencias cumplidas</string>
     <string name="indicator">Indicador</string>
+    <string name="id_data">Datos de identificación</string>
+    <string name="eval_team">Equipo evaluador</string>
+    <string name="strengths">Puntos fuertes</string>
+    <string name="eval_process">Proceso de evaluación</string>
+    <string name="date">Fecha</string>
+    <string name="results">Resultados</string>
+    <string name="overall_assessment">Valoración general</string>
+    <string name="level">Nivel</string>
+    <string name="n_noted_indicators">Número de indicadores anotados</string>
+    <string name="multiply_by">Multiplicar por</string>
+    <string name="total">TOTAL</string>
 
 </resources>

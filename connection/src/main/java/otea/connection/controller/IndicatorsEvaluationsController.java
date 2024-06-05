@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 
 import java.io.IOException;
 ;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -33,6 +34,9 @@ public class IndicatorsEvaluationsController {
 
     /**Controller instance*/
     private static IndicatorsEvaluationsController instance;
+
+    /**Number of attempts*/
+    private static int numAttempts=0;
 
     /**Class constructor*/
     private IndicatorsEvaluationsController(){
@@ -84,6 +88,7 @@ public class IndicatorsEvaluationsController {
             Future<List<JsonObject>> future = executor.submit(callable);
             List<JsonObject> list = future.get();
             executor.shutdown();
+            numAttempts=0;
             List<IndicatorsEvaluation> indicatorsEvaluations=new ArrayList<>();
             for(JsonObject indEval:list){
                 long evaluationDate=indEval.getAsJsonPrimitive("evaluationDate").getAsLong();
@@ -130,7 +135,19 @@ public class IndicatorsEvaluationsController {
             }
             return indicatorsEvaluations;
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetAll();
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -157,9 +174,22 @@ public class IndicatorsEvaluationsController {
             Future<List<JsonObject>> future = executor.submit(callable);
             List<JsonObject> list = future.get();
             executor.shutdown();
+            numAttempts=0;
             return list;
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetRegsByIndicatorsEvaluation(indicatorsEvaluation);
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -194,6 +224,7 @@ public class IndicatorsEvaluationsController {
             Future<List<JsonObject>> future = executor.submit(callable);
             List<JsonObject> list = future.get();
             executor.shutdown();
+            numAttempts=0;
             List<IndicatorsEvaluation> indicatorsEvaluations=new ArrayList<>();
             for(JsonObject indEval:list){
                 long evaluationDate=indEval.getAsJsonPrimitive("evaluationDate").getAsLong();
@@ -233,7 +264,19 @@ public class IndicatorsEvaluationsController {
             }
             return indicatorsEvaluations;
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetAllByEvaluatorTeam(idEvaluatorTeam, idEvaluatorOrg, orgTypeEvaluator, idEvaluatedOrg, orgTypeEvaluated, idCenter,illness);
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -267,6 +310,7 @@ public class IndicatorsEvaluationsController {
             Future<List<JsonObject>> future = executor.submit(callable);
             List<JsonObject> list = future.get();
             executor.shutdown();
+            numAttempts=0;
             List<IndicatorsEvaluation> indicatorsEvaluations=new ArrayList<>();
             for(JsonObject indEval:list){
                 long evaluationDate=indEval.getAsJsonPrimitive("evaluationDate").getAsLong();
@@ -306,7 +350,19 @@ public class IndicatorsEvaluationsController {
             }
             return indicatorsEvaluations;
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetNonFinishedByEvaluatorTeam(idEvaluatorTeam,idEvaluatorOrganization, orgTypeEvaluator, idEvaluatedOrganization, orgTypeEvaluated, illness, idCenter);
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
         }
     }
 

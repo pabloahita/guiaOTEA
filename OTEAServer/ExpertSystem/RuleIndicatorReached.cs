@@ -8,19 +8,24 @@ namespace OTEAServer.ExpertSystem
     {
         public override void Define()
         {
-            IndicatorsEvaluationIndicatorReg reg = default;
+            List<IndicatorsEvaluationIndicatorReg> regs = default;
 
             When()
-            .Match<IndicatorsEvaluationIndicatorReg>(() => reg)
-            .Exists<IndicatorsEvaluationIndicatorReg>(reg => reg.numEvidencesMarked == 4);
+            .Match<List<IndicatorsEvaluationIndicatorReg>>(() => regs);
 
             Then()
-                .Do(ctx => SetReached(reg));
+                .Do(ctx => SetReached(regs));
         }
 
-        private static void SetReached(IndicatorsEvaluationIndicatorReg reg)
+        private static void SetReached(List<IndicatorsEvaluationIndicatorReg> regs)
         {
-            reg.status = "REACHED";
+            foreach (var reg in regs) {
+                if (reg.numEvidencesMarked == 4)
+                {
+                    reg.status = "REACHED";
+                }
+            }
+            
         }
 
     }

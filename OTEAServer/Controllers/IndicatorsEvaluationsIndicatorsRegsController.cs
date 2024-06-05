@@ -165,35 +165,19 @@ namespace OTEAServer.Controllers
             try
             {
 
-                var repository = new RuleRepository();
-                repository.Load(x => x.From(typeof(RuleIndicatorInProcess).Assembly));
-                repository.Load(x => x.From(typeof(RuleIndicatorInStart).Assembly));
-                repository.Load(x => x.From(typeof(RuleIndicatorReached).Assembly));
+                var session=ExpertSystemUtil.Instance.CreateSessionWithRules(typeof(RuleIndicatorInProcess), typeof(RuleIndicatorInStart), typeof(RuleIndicatorReached));
+                List<object> facts=new List<object>();
+                facts.Add(regs);
+                ExpertSystemUtil.Instance.RunRules(session,facts);
 
-                var factory = repository.Compile();
-                var session = factory.CreateSession();
+                session = ExpertSystemUtil.Instance.CreateSessionWithRules(typeof(RuleDoesntRequireImprovementPlan), typeof(RuleRequiresImprovementPlan));
+                facts = new List<object>();
+                facts.Add(regs);
+                ExpertSystemUtil.Instance.RunRules(session, facts);
 
-                foreach (IndicatorsEvaluationIndicatorReg reg in regs) {
-                    if (reg == null) { continue; }
 
-                    session.Insert(reg);
-                    session.Fire();
-                    session.Retract(reg);
-                }
-                repository = new RuleRepository();
-                repository.Load(x => x.From(typeof(RuleDoesntRequireImprovementPlan).Assembly));
-                repository.Load(x => x.From(typeof(RuleRequiresImprovementPlan).Assembly));
-
-                factory = repository.Compile();
-                session = factory.CreateSession();
                 foreach (IndicatorsEvaluationIndicatorReg reg in regs)
                 {
-                    if (reg == null) { continue; }
-
-                    session.Insert(reg);
-                    session.Fire();
-                    session.Retract(reg);
-
                     IndicatorsEvaluationIndicatorReg aux = _context.IndicatorsEvaluationsIndicatorsRegs.FirstOrDefault(r => r.evaluationDate == reg.evaluationDate && r.idEvaluatorTeam == reg.idEvaluatorTeam && r.idEvaluatorOrganization == reg.idEvaluatorOrganization && r.orgTypeEvaluator == reg.orgTypeEvaluator && r.idEvaluatedOrganization == reg.idEvaluatedOrganization && r.orgTypeEvaluated == reg.orgTypeEvaluated && r.illness == reg.illness && r.idCenter == reg.idCenter && r.idSubSubAmbit == reg.idSubSubAmbit && r.idSubAmbit == reg.idSubAmbit && r.idAmbit == reg.idAmbit && r.idIndicator == reg.idIndicator && r.indicatorVersion == reg.indicatorVersion && r.evaluationType == reg.evaluationType);
 
                     if (aux == null)

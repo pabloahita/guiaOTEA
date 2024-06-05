@@ -3,6 +3,7 @@ package otea.connection.controller;
 
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -33,6 +34,9 @@ public class UsersController {
 
     /**Controller instance*/
     private static UsersController instance;
+
+    /**Number of attempts*/
+    private static int numAttempts=0;
 
     /**Class controller*/
     private UsersController(){
@@ -177,7 +181,19 @@ public class UsersController {
             executor.shutdown();
             return list;
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetAll();
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -214,7 +230,19 @@ public class UsersController {
             executor.shutdown();
             return list;
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetAllOrgUsersByOrganization(idOrganization,orgType,illness);
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
         }
     }
 

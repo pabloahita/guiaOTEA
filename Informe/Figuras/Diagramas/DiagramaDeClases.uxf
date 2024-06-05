@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>7</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>28</x>
+      <y>259</y>
+      <w>469</w>
+      <h>182</h>
+    </coordinates>
+    <panel_attributes>Organization
+--
++ idOrganization: int
++ orgType: int
++ illness:int
++ nameOrg:int
++ idAddress: int
++ telephone: long
++ idOrganization: int
++ orgType: String
++ illness: String
++ emailOrgPrincipal: String
++ emailOrgConsultant: String
+--
++Organization(idOrganization: int, orgType: int, illness:int, nameOrg:int, idAddress: int, telephone: long,
+idOrganization: int, orgType: String, illness: String, emailOrgPrincipal: String, emailOrgConsultant: String)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>189</x>
+      <y>119</y>
+      <w>147</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+IOrganization
+--
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>238</x>
+      <y>154</y>
+      <w>70</w>
+      <h>119</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+implements</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>427</x>
+      <y>14</y>
+      <w>1141</w>
+      <h>259</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1
+</panel_attributes>
+    <additional_attributes>10.0;350.0;10.0;20.0;1610.0;20.0;1610.0;120.0;1370.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1057</x>
+      <y>63</y>
+      <w>329</w>
+      <h>189</h>
+    </coordinates>
+    <panel_attributes>Address
+--
++ idAddress: int
++ addressName: String
++ zipCode: int
++ idCity: int
++ idProvince: int
++ idRegion: int
++ idCountry: int
++ nameCity: int
++ nameProvince: int
++ nameRegion: int
+--
++Address(idAddress: int, addressName: String, zipCode: int, idCity: int, 
+idProvince: int, idRegion: int, idCountry: int, nameCity: int,
+nameProvince: int, nameRegion: int)
+
+layer=2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>532</x>
+      <y>896</y>
+      <w>336</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>Indicator
+--
++ indicatorId: int
++ indicatorType: int
++ descriptionEnglish: String
++ descriptionSpanish: String
++ descriptionFrench: String
++ indicatorPriority: int
++ indicatorVersion: int
+
+--
++Indicator(indicatorId: int, indicatorType: int, descriptionEnglish: String, 
+descriptionSpanish: String, descriptionFrench: String, indicatorPriority: int, 
+indicatorVersion: int)
++setEvidences(evidences: List&lt;Evidence&gt;): void
++getMultiplicator(): int
++getAmbit(): int</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>672</x>
+      <y>1099</y>
+      <w>28</w>
+      <h>91</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=n</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>553</x>
+      <y>1176</y>
+      <w>273</w>
+      <h>189</h>
+    </coordinates>
+    <panel_attributes>Evidence
+--
++ idEvidence: int
++ idIndicator: int
++ indicatorType: int
++ descriptionEnglish: String
++ descriptionSpanish: String
++ descriptionFrench: String
++ evidenceValue: int
++ indicatorVersion: int
+
+--
++Evidence(idEvidence: int, idIndicator: int, indicatorType: int,
+descriptionEnglish: String, descriptionSpanish: String, 
+descriptionFrench: String, evidenceValue: int, 
+indicatorVersion: int)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>567</x>
+      <y>637</y>
+      <w>378</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>EvaluatorTeamMember
+--
++ emailUser: String
++ idEvaluatorTeam: int
++ idOrganization: int
++ orgType: int
++ illness: String
+--
++ EvaluatorTeam(emailUser: String, idEvaluatorTeam: int, idOrganization: int, 
+orgType: int, illness: String)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>518</x>
+      <y>875</y>
+      <w>1057</w>
+      <h>511</h>
+    </coordinates>
+    <panel_attributes>indicator
+--
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>0</x>
+      <y>0</y>
+      <w>1659</w>
+      <h>868</h>
+    </coordinates>
+    <panel_attributes>organization
+--
+bg=orange
+layer=-2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>546</x>
+      <y>35</y>
+      <w>1015</w>
+      <h>812</h>
+    </coordinates>
+    <panel_attributes>data
+--
+bg=blue
+layer=0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>0</x>
+      <y>868</y>
+      <w>462</w>
+      <h>301</h>
+    </coordinates>
+    <panel_attributes>user
+--
+bg=yellow
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>126</x>
+      <y>896</y>
+      <w>147</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+User
+--
+--
+layer=2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>56</x>
+      <y>980</y>
+      <w>357</w>
+      <h>175</h>
+    </coordinates>
+    <panel_attributes>User
+--
++ first_name: String
++ last_name: String
++ emailUser: String
++ userType: String
++ passwordUser:String
++ telephone: long
++ idOrganization: int
++ orgType: String
++ illness: String
+--
++User(first_name: String, last_name: String, emailUser: String, userType: String,
+passwordUser:String, telephone: long, idOrganization: int, orgType: String,
+illness: String)
+
+layer=2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>189</x>
+      <y>931</y>
+      <w>70</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+implements
+layer=2</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>595</x>
+      <y>77</y>
+      <w>203</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>City
+--
++ idCity: int
++ idProvince: int
++ idRegion: int
++ idCountry: String
++ cityName: String
+--
++City(idCity: int, idProvince: int, idRegion: int, 
+idCountry: String, cityName: String)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>595</x>
+      <y>462</y>
+      <w>224</w>
+      <h>98</h>
+    </coordinates>
+    <panel_attributes>Country
+--
++ idCountry: String
++ nameEnglish: String
++ nameSpanish: String
++ nameFrench: String
+--
++Country(idCountry: String, nameEnglish: String, 
+nameSpanish: String, nameFrench: String)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>595</x>
+      <y>217</y>
+      <w>203</w>
+      <h>98</h>
+    </coordinates>
+    <panel_attributes>Province
+--
++ idProvince: int
++ idRegion: int
++ idCountry: String
++ nameProvince: String
+--
++Province(idProvince: int, idRegion: int, 
+idCountry: String, nameProvince: String)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>595</x>
+      <y>343</y>
+      <w>203</w>
+      <h>98</h>
+    </coordinates>
+    <panel_attributes>Region
+--
++ idRegion: int
++ idCountry: String
++ nameRegion: String
+--
++Region(idRegion: int, 
+idCountry: String, nameRegion: String)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>581</x>
+      <y>49</y>
+      <w>259</w>
+      <h>525</h>
+    </coordinates>
+    <panel_attributes>geo
+--
+layer=0
+bg=CYAN</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>686</x>
+      <y>182</y>
+      <w>21</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>679</x>
+      <y>301</y>
+      <w>21</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>707</x>
+      <y>434</y>
+      <w>21</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>791</x>
+      <y>140</y>
+      <w>280</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;380.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1127</x>
+      <y>504</y>
+      <w>392</w>
+      <h>252</h>
+    </coordinates>
+    <panel_attributes>EvaluatorTeam
+--
++ idEvaluatorTeam: int
++ creationDate: Timestamp
++ idOrganization: int
++ orgType: int
++ illness: String
++ patientName: String
++ relativeName: String
++ emailConsultant: String
++ emailProfessional: String
++ emailResponsible: String
++ evaluationDate1: long
++ evaluationDate2: long
++ evaluationDate3: long
++ evaluationDate4: long
++ observations: String
+--
++ EvaluatorTeam(idEvaluatorTeam: int, creationDate: Timestamp, idOrganization: int, 
+orgType: int, illness: String, patientName: String, relativeName: String, 
+emailConsultant: String, emailProfessional: String, emailResponsible: String, 
+evaluationDate1: long, evaluationDate2: long, evaluationDate3: long, 
+evaluationDate4: long, observations: String)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>938</x>
+      <y>665</y>
+      <w>203</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;270.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1064</x>
+      <y>294</y>
+      <w>329</w>
+      <h>133</h>
+    </coordinates>
+    <panel_attributes>Center
+--
++ idOrganization: int
++ orgType: int
++ illness: String
++ idCenter: int
++ centerDescription: String
++ idAddress: int
++ telephone: long
+--
++Center(idOrganization: int,orgType: int,illness: String,
+idCenter: int,centerDescription: String,idAddress: int,telephone: long)
+
+layer=2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>343</x>
+      <y>420</y>
+      <w>924</w>
+      <h>175</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=0..1
+</panel_attributes>
+    <additional_attributes>1280.0;10.0;1280.0;80.0;870.0;80.0;870.0;230.0;10.0;230.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1211</x>
+      <y>245</y>
+      <w>21</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1176</x>
+      <y>1169</y>
+      <w>364</w>
+      <h>161</h>
+    </coordinates>
+    <panel_attributes>IndicatorsEvaluationReg
+--
++ evaluationDate: Timestamp
++ idEvaluatedOrganization: int
++ orgTypeEvaluated: String
++ illness: String
++ idIndicator: int
++ idEvidence: int
++ isMarked: int
++ indicatorVersion: int
+--
++IndicatorsEvaluationReg(evaluationDate: Timestamp, idEvaluatedOrganization: int, 
+orgTypeEvaluated: String, idEvaluatorTeam: int, illness: String, idIndicator: int, 
+idEvidence: int, isMarked: int, indicatorVersion: int)
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1176</x>
+      <y>896</y>
+      <w>357</w>
+      <h>252</h>
+    </coordinates>
+    <panel_attributes>IndicatorsEvaluation
+--
++ evaluationDate: Timestamp
++ idEvaluatedOrganization: int
++ orgTypeEvaluated: String
++ idEvaluatorTeam: int
++ idEvaluatorOrganization: int
++ orgTypeEvaluator: String
++ illness: String
++ scoreLevel1: int
++ scoreLevel2: int
++ scoreLevel3: int
++ scoreLevel4: int
++ scoreLevel5: int
++ scoreLevel6: int
++ total_score: int
+
+--
++IndicatorsEvaluation(evaluationDate: Timestamp, idEvaluatedOrganization: int, 
+orgTypeEvaluated: String, idEvaluatorTeam: int, idEvaluatorOrganization: int,
+orgTypeEvaluator: String, illness: String, scoreLevel1: int, scoreLevel2: int,
+scoreLevel3: int, scoreLevel4: int, scoreLevel 5: int, scoreLevel 6:int, 
+total_score: int)
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>819</x>
+      <y>1232</y>
+      <w>371</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=n</panel_attributes>
+    <additional_attributes>10.0;10.0;510.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>882</x>
+      <y>973</y>
+      <w>308</w>
+      <h>238</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=n</panel_attributes>
+    <additional_attributes>420.0;10.0;10.0;20.0;10.0;220.0;420.0;310.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>77</x>
+      <y>434</y>
+      <w>77</w>
+      <h>560</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=2..n
+m2=0..1
+teaches to &gt;
+layer=2</panel_attributes>
+    <additional_attributes>20.0;780.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1288</x>
+      <y>749</y>
+      <w>28</w>
+      <h>161</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=n
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;210.0</additional_attributes>
+  </element>
+</diagram>

@@ -10,8 +10,7 @@ namespace OTEAServer.ExpertSystem
             IndicatorsEvaluation indEval = default;
 
             When()
-            .Match<IndicatorsEvaluation>(() => indEval)
-            .Exists<IndicatorsEvaluation>(i => (i.evaluationType == "COMPLETE" && i.totalScore >= 100 && i.totalScore < 150) || (i.evaluationType == "SIMPLE" && i.totalScore >= 60 && i.totalScore <= 88));
+            .Match<IndicatorsEvaluation>(() => indEval, indEval=> (indEval.evaluationType == "COMPLETE" && indEval.totalScore >= 100 && indEval.totalScore < 150) || (indEval.evaluationType == "SIMPLE" && indEval.totalScore >= 60 && indEval.totalScore <= 88));
 
             Then()
                 .Do(ctx => SetGood(indEval));

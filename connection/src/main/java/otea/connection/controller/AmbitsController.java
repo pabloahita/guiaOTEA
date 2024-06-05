@@ -2,6 +2,8 @@ package otea.connection.controller;
 
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -28,6 +30,8 @@ public class AmbitsController {
 
     /**AmbitsController instance for singleton*/
     private static AmbitsController instance;
+
+    private static int numAttempts=0;
 
     /**Class constructor*/
     private AmbitsController(){
@@ -74,9 +78,22 @@ public class AmbitsController {
             Future<List<Ambit>> future = executor.submit(callable);
             List<Ambit> list = future.get();
             executor.shutdown();
+            numAttempts=0;
             return list;
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetAll();
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
         }
     }
 

@@ -23,30 +23,42 @@ public class ProfilePhotoUtil {
 
     private static ProfilePhotoUtil instance;
 
+
+    CompletableFuture<Void> allOf;
+
+    CompletableFuture<ByteArrayOutputStream> orgPhotoFuture;
+
+    CompletableFuture<ByteArrayOutputStream> userPhotoFuture;
     private ProfilePhotoUtil(String profilePhotoUsr,String profilePhotoOrg){
         this.profilePhotoUsr = profilePhotoUsr;
         this.profilePhotoOrg = profilePhotoOrg;
 
         // Descargar fotos en paralelo
-        CompletableFuture<ByteArrayOutputStream> userPhotoFuture = profilePhotoUsr.isEmpty() ?
+        userPhotoFuture = profilePhotoUsr.isEmpty() ?
                 CompletableFuture.completedFuture(new ByteArrayOutputStream()) :
                 FileManager.downloadPhotoProfileAsync(profilePhotoUsr);
 
-        CompletableFuture<ByteArrayOutputStream> orgPhotoFuture = profilePhotoOrg.isEmpty() ?
+        orgPhotoFuture = profilePhotoOrg.isEmpty() ?
                 CompletableFuture.completedFuture(new ByteArrayOutputStream()) :
                 FileManager.downloadPhotoProfileAsync(profilePhotoOrg);
 
-        CompletableFuture<Void> allOf = CompletableFuture.allOf(userPhotoFuture, orgPhotoFuture);
+        allOf = CompletableFuture.allOf(userPhotoFuture, orgPhotoFuture);
+    }
 
+    public void downloadPhotos(){
         allOf.thenRun(() -> {
             try {
                 if (!profilePhotoUsr.isEmpty()) {
                     ByteArrayOutputStream userStream = userPhotoFuture.get();
-                    imgUser = getBitmapFromStream(userStream);
+                    if(userStream!=null) {
+                        imgUser = getBitmapFromStream(userStream);
+                    }
                 }
                 if (!profilePhotoOrg.isEmpty()) {
                     ByteArrayOutputStream orgStream = orgPhotoFuture.get();
-                    imgOrg = getBitmapFromStream(orgStream);
+                    if(orgStream!=null) {
+                        imgOrg = getBitmapFromStream(orgStream);
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();

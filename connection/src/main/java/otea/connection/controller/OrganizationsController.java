@@ -3,6 +3,7 @@ package otea.connection.controller;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -32,6 +33,9 @@ public class OrganizationsController {
 
     /**Organizations api to connect to the server*/
     private static OrganizationsApi api;
+
+    /**Number of attempts*/
+    private static int numAttempts=0;
 
     /**Class constructor*/
     private OrganizationsController(){
@@ -115,6 +119,7 @@ public class OrganizationsController {
             Future<List<JsonObject>> future = executor.submit(callable);
             List<JsonObject> list = future.get();
             executor.shutdown();
+            numAttempts=0;
             List<Organization> organizations=new ArrayList<>();
             for(JsonObject org:list){
                 int idOrganization=org.getAsJsonPrimitive("idOrganization").getAsInt();
@@ -139,7 +144,19 @@ public class OrganizationsController {
             }
             return organizations;
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetAll();
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -166,6 +183,7 @@ public class OrganizationsController {
             Future<List<JsonObject>> future = executor.submit(callable);
             List<JsonObject> list = future.get();
             executor.shutdown();
+            numAttempts=0;
             List<Organization> organizations=new ArrayList<>();
             for(JsonObject org:list){
                 int idOrganization=org.getAsJsonPrimitive("idOrganization").getAsInt();
@@ -190,7 +208,19 @@ public class OrganizationsController {
             }
             return organizations;
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetAllEvaluatedOrganizations();
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -217,6 +247,7 @@ public class OrganizationsController {
             Future<List<JsonObject>> future = executor.submit(callable);
             List<JsonObject> list = future.get();
             executor.shutdown();
+            numAttempts=0;
             List<Organization> organizations=new ArrayList<>();
             for(JsonObject org:list){
                 int idOrganization=org.getAsJsonPrimitive("idOrganization").getAsInt();
@@ -241,7 +272,19 @@ public class OrganizationsController {
             }
             return organizations;
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetAllEvaluatorOrganizations();
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
         }
     }
 

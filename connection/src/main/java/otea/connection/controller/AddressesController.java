@@ -4,6 +4,7 @@ package otea.connection.controller;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -33,7 +34,7 @@ public class AddressesController {
     /**Controller instance*/
     private static AddressesController instance;
 
-    public static boolean hasSessionToken;
+    private static int numAttempts=0;
 
     /**Class constructor*/
     private AddressesController(){
@@ -84,6 +85,7 @@ public class AddressesController {
             Future<List<JsonObject>> future = executor.submit(callable);
             List<JsonObject> list = future.get();
             executor.shutdown();
+            numAttempts=0;
             List<Address> addresses=new ArrayList<>();
             for(JsonObject address:list){
                 int idAddress=address.getAsJsonPrimitive("idAddress").getAsInt();
@@ -99,7 +101,19 @@ public class AddressesController {
             }
             return addresses;
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetAll();
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
         }
     }
 

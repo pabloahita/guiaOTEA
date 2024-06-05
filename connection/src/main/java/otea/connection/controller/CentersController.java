@@ -4,6 +4,7 @@ package otea.connection.controller;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -32,6 +33,8 @@ public class CentersController {
 
     /**Controller instance*/
     private static CentersController instance;
+
+    private static int numAttempts=0;
 
     /**
      * Class constructor
@@ -84,6 +87,7 @@ public class CentersController {
             Future<List<JsonObject>> future = executor.submit(callable);
             List<JsonObject> list = future.get();
             executor.shutdown();
+            numAttempts=0;
             List<Center> centers=new ArrayList<>();
             for(JsonObject center:list){
                 int idOrganization=center.getAsJsonPrimitive("idOrganization").getAsInt();
@@ -108,7 +112,19 @@ public class CentersController {
             }
             return centers;
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetAll();
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -136,6 +152,7 @@ public class CentersController {
             Future<List<JsonObject>> future = executor.submit(callable);
             List<JsonObject> list = future.get();
             executor.shutdown();
+            numAttempts=0;
             List<Center> centers=new ArrayList<>();
             for(JsonObject center:list){
                 int idOrganization=center.getAsJsonPrimitive("idOrganization").getAsInt();
@@ -160,7 +177,19 @@ public class CentersController {
             }
             return centers;
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetAllByOrganization(organization);
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
         }
     }
 

@@ -3,6 +3,7 @@ package otea.connection.controller;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -27,6 +28,9 @@ public class RegionsController {
 
     /**Controller instance*/
     private static RegionsController instance;
+
+    /**Number of attempts*/
+    private static int numAttempts=0;
 
     /**Class constructor*/
     private RegionsController(){
@@ -126,7 +130,19 @@ public class RegionsController {
             }
             return regions;
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetRegionsByCountry(idCountry);
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
         }
     }
 

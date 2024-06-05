@@ -324,5 +324,16 @@
     <string name="about_the_evidence_4">Frogaren 4 buruz</string>
     <string name="fulfilled_evidences">Frogak beteak</string>
     <string name="indicator">Adierazlea</string>
+    <string name="id_data">Identifikazio datuak</string>
+    <string name="eval_team">Ebaluazio taldea</string>
+    <string name="strengths">Indarreko puntuak</string>
+    <string name="eval_process">Ebaluazio prozesua</string>
+    <string name="date">Data</string>
+    <string name="results">Emaitzak</string>
+    <string name="overall_assessment">Baliabide orokorra</string>
+    <string name="level">Maila</string>
+    <string name="n_noted_indicators">Adierazleen zenbakia jasota</string>
+    <string name="multiply_by">Biderkatu honekin</string>
+    <string name="total">GUZTIRA</string>
 
 </resources>

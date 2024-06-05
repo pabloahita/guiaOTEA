@@ -3,6 +3,7 @@ package otea.connection.controller;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -37,6 +38,9 @@ public class CountriesController {
     private CountriesController(){
         api= ConnectionClient.getInstance().getRetrofit().create(CountriesApi.class);
     }
+
+    /**Number of attempts*/
+    private static int numAttempts=0;
 
     /**
      * Method that obtains the singleton instance of the controller
@@ -113,6 +117,7 @@ public class CountriesController {
             Future<List<JsonObject>> future = executor.submit(callable);
             List<JsonObject> list = future.get();
             executor.shutdown();
+            numAttempts=0;
             List<Country> countries=new ArrayList<>();
             for(JsonObject reg:list){
                 String idCountry=reg.getAsJsonPrimitive("idCountry").getAsString();
@@ -132,7 +137,19 @@ public class CountriesController {
             }
             return countries;
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetAll(language);
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
         }
     }
 

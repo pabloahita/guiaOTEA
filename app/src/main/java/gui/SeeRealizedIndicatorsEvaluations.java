@@ -19,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ import com.fundacionmiradas.indicatorsevaluation.R;
 import com.otaliastudios.zoom.ZoomLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -62,8 +64,35 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
             R.id.ind21,R.id.ind22,R.id.ind23,R.id.ind24,R.id.ind25,R.id.ind26,R.id.ind27,R.id.ind28,R.id.ind29,R.id.ind30,
             R.id.ind31,R.id.ind32,R.id.ind33,R.id.ind34,R.id.ind35,R.id.ind36,R.id.ind37,R.id.ind38,R.id.ind39,R.id.ind40};
 
+
+
+
+    int[][] nums_ids={{R.id.low_red,R.id.low_yellow,R.id.low_green},
+            {R.id.medium_red,R.id.medium_yellow,R.id.medium_green},
+            {R.id.high_red,R.id.high_yellow,R.id.high_green},
+            {R.id.fund_red,R.id.fund_yellow,R.id.fund_green},
+    };
+
+    int[][] points_ids={{R.id.points_low_red,R.id.points_low_yellow,R.id.points_low_green},
+            {R.id.points_medium_red,R.id.points_medium_yellow,R.id.points_medium_green},
+            {R.id.points_high_red,R.id.points_high_yellow,R.id.points_high_green},
+            {R.id.points_fund_red,R.id.points_fund_yellow,R.id.points_fund_green},
+    };
     ZoomLayout layout;
 
+    ConstraintLayout info;
+
+    ImageButton infoButton;
+
+    ImageButton resultsButton;
+
+    ImageButton generateReportButton;
+
+    ImageButton helpButton;
+
+    int[][] numIndicatorsPerPriority;
+
+    IndicatorsEvaluation evaluation;
 
     boolean isComplete;
     @SuppressLint("ClickableViewAccessibility")
@@ -72,7 +101,8 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_see_realized_indicators_evaluations);
-        IndicatorsEvaluation evaluation=Session.getInstance().getCurrEvaluation();
+        evaluation=Session.getInstance().getCurrEvaluation();
+
 
         indicatorRegs=Session.getInstance().GetAllIndicatorsRegsByIndicatorsEvaluation(evaluation);
 
@@ -113,7 +143,41 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
             }
         });
 
+
+        info=findViewById(R.id.ind_eval_info);
+
+        buildPointsTable();
+
+
+        infoButton=findViewById(R.id.infoButton);
+        resultsButton=findViewById(R.id.resultsButton);
+        generateReportButton=findViewById(R.id.generateReportButton);
+        helpButton=findViewById(R.id.helpButton);
+
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(layout.getVisibility()==View.VISIBLE){
+                    layout.setVisibility(View.GONE);
+                    info.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        resultsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(info.getVisibility()==View.VISIBLE){
+                    layout.setVisibility(View.VISIBLE);
+                    info.setVisibility(View.GONE);
+                }
+            }
+        });
+
+
+
     }
+
 
 
     private View.OnClickListener generateClickListener(int idInd){
@@ -397,6 +461,65 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
         return AppCompatResources.getDrawable(SeeRealizedIndicatorsEvaluations.this,drawableId);
     }
 
+    @SuppressLint("SetTextI18n")
+    private void buildPointsTable(){
+        numIndicatorsPerPriority=new int[4][3];
+        for(int i=0;i<4;i++){
+            for(int j=0;j<3;j++){
+                numIndicatorsPerPriority[i][j]=0;
+            }
+        }
+
+        int[][] points={{evaluation.getScorePriorityZeroColourRed(),evaluation.getScorePriorityZeroColourYellow(),evaluation.getScorePriorityZeroColourGreen()},
+                {evaluation.getScorePriorityOneColourRed(),evaluation.getScorePriorityOneColourYellow(),evaluation.getScorePriorityOneColourGreen()},
+                {evaluation.getScorePriorityTwoColourRed(),evaluation.getScorePriorityTwoColourYellow(),evaluation.getScorePriorityTwoColourGreen()},
+                {evaluation.getScorePriorityThreeColourRed(),evaluation.getScorePriorityThreeColourYellow(),evaluation.getScorePriorityThreeColourGreen()}
+        };
+
+        int ii=-1;
+        int jj=-1;
+        for(IndicatorsEvaluationIndicatorReg reg:indicatorRegs){
+            Indicator ind=indicators.get(reg.getIdIndicator()-1);
+
+            if(ind.getIndicatorPriority().equals("FUNDAMENTAL_INTEREST")){
+                ii=3;
+            }
+            if(ind.getIndicatorPriority().equals("HIGH_INTEREST")){
+                ii=2;
+            }
+            if(ind.getIndicatorPriority().equals("MEDIUM_INTEREST")){
+                ii=1;
+            }
+            if(ind.getIndicatorPriority().equals("LOW_INTEREST")){
+                ii=0;
+            }
+
+            if(reg.getStatus().equals("REACHED")){
+                jj=2;
+            }
+            if(reg.getStatus().equals("IN_PROCESS")){
+                jj=1;
+            }
+            if(reg.getStatus().equals("IN_START")){
+                jj=0;
+            }
+            numIndicatorsPerPriority[ii][jj]+=1;
+
+        }
+
+        TextView currTextView=null;
+        for(int i=0;i<4;i++){
+            for(int j=0;j<3;j++){
+                currTextView = findViewById(nums_ids[i][j]);
+                currTextView.setText("" + numIndicatorsPerPriority[i][j]);
+                currTextView = findViewById(points_ids[i][j]);
+                currTextView.setText("" + points[i][j]);
+            }
+        }
+
+        currTextView=findViewById(R.id.points);
+        currTextView.setText(""+evaluation.getTotalScore());
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){

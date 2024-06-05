@@ -1,71 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp">
-
-        <EditText
-            android:hint="@string/ind_obs"
-            android:id="@+id/indObs"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="textMultiLine" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="250dp"
+            app:hintTextAppearance="@style/HelperTextAppearance">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="200dp">
+            <EditText
+                android:hint="@string/about_indicator"
+                android:id="@+id/indObs"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:gravity="start|top"
+                android:inputType="textMultiLine" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:hint="@string/obs_on_ev_1"
-            android:id="@+id/evObs1"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="textMultiLine" />
+            android:layout_height="250dp"
+            app:hintTextAppearance="@style/HelperTextAppearance">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <EditText
+                android:hint="@string/about_the_evidence_1"
+                android:id="@+id/evObs1"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:gravity="start|top"
+                android:inputType="textMultiLine" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="200dp">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:hint="@string/obs_on_ev_2"
-            android:id="@+id/evObs2"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="textMultiLine" />
+            android:layout_height="250dp"
+            app:hintTextAppearance="@style/HelperTextAppearance">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <EditText
+                android:hint="@string/about_the_evidence_2"
+                android:id="@+id/evObs2"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:gravity="start|top"
+                android:inputType="textMultiLine" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="200dp">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:hint="@string/obs_on_ev_3"
-            android:id="@+id/evObs3"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="textMultiLine" />
+            android:layout_height="250dp"
+            app:hintTextAppearance="@style/HelperTextAppearance">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <EditText
+                android:hint="@string/about_the_evidence_3"
+                android:id="@+id/evObs3"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:gravity="start|top"
+                android:inputType="textMultiLine" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
 
 
-</LinearLayout>
+
+
+</ScrollView>
+
+

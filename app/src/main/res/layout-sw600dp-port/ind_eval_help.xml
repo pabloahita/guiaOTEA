@@ -1,49 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:padding="15dp"
-        android:text="@string/help_ind_eval1"
-        android:textColor="@color/black" />
 
-    <CheckBox
-        android:id="@+id/enabledEv"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/fulfilled_evidence"
-        android:textSize="20sp"
-        android:layoutDirection="rtl"
-        android:textStyle="italic"
-        android:buttonTint="@color/checkbox_color"
-        android:padding="15dp"
-        android:checked="true"
-        android:clickable="false"/>
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:padding="15dp"
+            android:text="@string/help_ind_eval1"
+            android:textColor="@color/black" />
 
-    <CheckBox
-        android:id="@+id/disabledEv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/unfulfilled_evidence"
-        android:textSize="20sp"
-        android:textStyle="italic"
-        android:layoutDirection="rtl"
-        android:buttonTint="@color/checkbox_color"
-        android:padding="15dp"
-        android:clickable="false"/>
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:padding="15dp"
-        android:text="@string/help_ind_eval1"
-        android:textColor="@color/black" />
+        <CheckBox
+            android:id="@+id/enabledEv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fulfilled_evidence"
+            android:textSize="20sp"
+            android:layoutDirection="rtl"
+            android:textStyle="italic"
+            android:buttonTint="@color/checkbox_color"
+            android:padding="15dp"
+            android:checked="true"
+            android:clickable="false"/>
 
-</LinearLayout>
+        <CheckBox
+            android:id="@+id/disabledEv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/unfulfilled_evidence"
+            android:textSize="20sp"
+            android:textStyle="italic"
+            android:layoutDirection="rtl"
+            android:buttonTint="@color/checkbox_color"
+            android:padding="15dp"
+            android:clickable="false"/>
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:padding="15dp"
+            android:text="@string/help_ind_eval1"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
+</ScrollView>

@@ -489,26 +489,19 @@ public class Session {
             List<JsonObject> ambitsJson;
             List<JsonObject> subAmbitsJson;
             List<JsonObject> subSubAmbitsJson;
-            if(evaluationType.equals("COMPLETE")){
-                evidencesJson=allData.subList(numIndicators,numIndicators+numEvidences);
-                ambitsJson=allData.subList(numIndicators+numEvidences,numIndicators+numEvidences+numAmbits);
-                subAmbitsJson=allData.subList(numIndicators+numEvidences+numAmbits,numIndicators+numEvidences+numAmbits+numSubAmbits);
-                subSubAmbitsJson=allData.subList(numIndicators+numEvidences+numAmbits+numSubAmbits,numIndicators+numEvidences+numAmbits+numSubAmbits+numSubSubAmbits);
+            evidencesJson=allData.subList(numIndicators,numIndicators+numEvidences);
+            ambitsJson=allData.subList(numIndicators+numEvidences,numIndicators+numEvidences+numAmbits);
+            subAmbitsJson=allData.subList(numIndicators+numEvidences+numAmbits,numIndicators+numEvidences+numAmbits+numSubAmbits);
+            subSubAmbitsJson=allData.subList(numIndicators+numEvidences+numAmbits+numSubAmbits,numIndicators+numEvidences+numAmbits+numSubAmbits+numSubSubAmbits);
 
-                for(JsonObject ev:evidencesJson){
-                    evidences.add(new Evidence(ev.getAsJsonPrimitive("idEvidence").getAsInt(),ev.getAsJsonPrimitive("idIndicator").getAsInt(), ev.getAsJsonPrimitive("indicatorType").getAsString(),
-                            ev.getAsJsonPrimitive("idSubSubAmbit").getAsInt(), ev.getAsJsonPrimitive("idSubAmbit").getAsInt(), ev.getAsJsonPrimitive("idAmbit").getAsInt(),
-                            ev.getAsJsonPrimitive("descriptionEnglish").getAsString(), ev.getAsJsonPrimitive("descriptionSpanish").getAsString(), ev.getAsJsonPrimitive("descriptionFrench").getAsString(),
-                            ev.getAsJsonPrimitive("descriptionBasque").getAsString(), ev.getAsJsonPrimitive("descriptionCatalan").getAsString(), ev.getAsJsonPrimitive("descriptionDutch").getAsString(),
-                            ev.getAsJsonPrimitive("descriptionGalician").getAsString(), ev.getAsJsonPrimitive("descriptionGerman").getAsString(),
-                            ev.getAsJsonPrimitive("descriptionItalian").getAsString(), ev.getAsJsonPrimitive("descriptionPortuguese").getAsString(),
-                            ev.getAsJsonPrimitive("evidenceValue").getAsInt(), ev.getAsJsonPrimitive("indicatorVersion").getAsInt(), evaluationType));
-                }
-            }
-            else{
-                ambitsJson=allData.subList(numIndicators,numIndicators+numAmbits);
-                subAmbitsJson=allData.subList(numIndicators+numAmbits,numIndicators+numAmbits+numSubAmbits);
-                subSubAmbitsJson=allData.subList(numIndicators+numAmbits+numSubAmbits,numIndicators+numAmbits+numSubAmbits+numSubSubAmbits);
+            for(JsonObject ev:evidencesJson){
+                evidences.add(new Evidence(ev.getAsJsonPrimitive("idEvidence").getAsInt(),ev.getAsJsonPrimitive("idIndicator").getAsInt(), ev.getAsJsonPrimitive("indicatorType").getAsString(),
+                        ev.getAsJsonPrimitive("idSubSubAmbit").getAsInt(), ev.getAsJsonPrimitive("idSubAmbit").getAsInt(), ev.getAsJsonPrimitive("idAmbit").getAsInt(),
+                        ev.getAsJsonPrimitive("descriptionEnglish").getAsString(), ev.getAsJsonPrimitive("descriptionSpanish").getAsString(), ev.getAsJsonPrimitive("descriptionFrench").getAsString(),
+                        ev.getAsJsonPrimitive("descriptionBasque").getAsString(), ev.getAsJsonPrimitive("descriptionCatalan").getAsString(), ev.getAsJsonPrimitive("descriptionDutch").getAsString(),
+                        ev.getAsJsonPrimitive("descriptionGalician").getAsString(), ev.getAsJsonPrimitive("descriptionGerman").getAsString(),
+                        ev.getAsJsonPrimitive("descriptionItalian").getAsString(), ev.getAsJsonPrimitive("descriptionPortuguese").getAsString(),
+                        ev.getAsJsonPrimitive("evidenceValue").getAsInt(), ev.getAsJsonPrimitive("indicatorVersion").getAsInt(), evaluationType));
             }
 
             for(JsonObject amb:ambitsJson){

@@ -13,6 +13,29 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.9"/>
 
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ind_eval_info"
+        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include
+            layout="@layout/ind_eval_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.otaliastudios.zoom.ZoomLayout
         android:id="@+id/zoom_layout_complete"
         android:visibility="gone"
@@ -94,101 +117,57 @@
         android:id="@+id/gridLayout2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:columnCount="2"
+        app:columnCount="4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline"
         app:rowCount="1">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout8"
+
+        <ImageButton
+            android:id="@+id/infoButton"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:padding="2dp"
-            app:layout_columnWeight="2"
-            app:layout_rowWeight="2">
-
-            <ImageButton
-                android:id="@+id/save_changesButton"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@drawable/round_button_background"
-                android:contentDescription="@string/add_new_indicators_evaluation"
-                android:padding="15dp"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/guardar" />
-
-            <TextView
-                android:id="@+id/save_changesText"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:gravity="center"
-                android:text="@string/save_changes"
-                android:textAllCaps="true"
-                android:textColor="@color/black"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/guidelinesave_changes2"
-                app:layout_constraintEnd_toStartOf="@+id/guidelinesave_changes4"
-                app:layout_constraintStart_toStartOf="@+id/guidelinesave_changes3"
-                app:layout_constraintTop_toTopOf="@+id/guidelinesave_changes1" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelinesave_changes1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.72" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelinesave_changes2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.95" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelinesave_changes3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.05" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guidelinesave_changes4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.95" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:padding="2dp"
+            app:srcCompat="@drawable/info"
+            android:scaleType="fitCenter"
             app:layout_columnWeight="1"
-            app:layout_rowWeight="1.6">
+            android:background="@drawable/round_button_background"
+            app:layout_rowWeight="1"/>
+        <ImageButton
+            android:id="@+id/resultsButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:srcCompat="@drawable/see_table"
+            android:scaleType="fitCenter"
+            app:layout_columnWeight="1"
+            android:background="@drawable/round_button_background"
+            app:layout_rowWeight="1"/>
 
-            <ImageButton
-                android:id="@+id/helpIndButton"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@drawable/round_button_background"
-                android:contentDescription="@string/add_new_indicators_evaluation"
-                android:scaleType="fitCenter"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/baseline_help_24_bl" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageButton
+            android:id="@+id/generateReportButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:srcCompat="@drawable/download"
+            app:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:background="@drawable/round_button_background"
+            app:layout_rowWeight="1"/>
+
+        <ImageButton
+            android:id="@+id/helpIndButton"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            android:background="@drawable/round_button_background"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/baseline_help_24_bl" />
+
+
+
 
     </androidx.gridlayout.widget.GridLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

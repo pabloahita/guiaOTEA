@@ -8,19 +8,23 @@ namespace OTEAServer.ExpertSystem
     {
         public override void Define()
         {
-            IndicatorsEvaluationIndicatorReg reg = default;
+            List<IndicatorsEvaluationIndicatorReg> regs = default;
 
             When()
-            .Match<IndicatorsEvaluationIndicatorReg>(() => reg)
-            .Exists<IndicatorsEvaluationIndicatorReg>(reg => reg.numEvidencesMarked == 2 || reg.numEvidencesMarked == 3);
+            .Match<List<IndicatorsEvaluationIndicatorReg>>(() => regs);
 
             Then()
-                .Do(ctx => SetInProcess(reg));
+                .Do(ctx => SetInProcess(regs));
         }
 
-        private static void SetInProcess(IndicatorsEvaluationIndicatorReg reg)
+        private static void SetInProcess(List<IndicatorsEvaluationIndicatorReg> regs)
         {
-            reg.status = "IN_PROCESS";
+            foreach(var reg in regs) {
+                if(reg.numEvidencesMarked == 2 || reg.numEvidencesMarked == 3) { 
+                    reg.status = "IN_PROCESS";
+                }
+            }
+            
         }
 
     }

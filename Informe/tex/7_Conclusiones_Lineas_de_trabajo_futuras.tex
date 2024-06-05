@@ -1,0 +1,108 @@
+\capitulo{7}{Conclusiones y Líneas de trabajo futuras}
+
+Todo proyecto debe incluir las conclusiones que se derivan de su desarrollo.
+Éstas pueden ser de diferente índole, dependiendo de la tipología del proyecto,
+pero normalmente van a estar presentes un conjunto de conclusiones relacionadas
+con los resultados del proyecto y un conjunto de conclusiones técnicas. Además,
+resulta muy útil realizar un informe crítico indicando cómo se puede mejorar el
+proyecto, o cómo se puede continuar trabajando en la línea del proyecto
+realizado. 
+
+Por lo tanto las posibles mejoras que se pueden aplicar a esta aplicación,
+podemos destacar las siguientes:
+\begin{itemize}
+    \item En la pantalla de adición de organizaciones, cuando se añaden el
+    director y el profesional de la organización evaluada, no se actualizan
+    correctamente, correctamente los desplegables al retornar al formulario de
+    la organización. El resto de campos sí se actualizan correctamente. Para
+    ello, se tienen que modificar la lógica de los desplegables en el lado del
+    cliente de tal forma que las opciones elegidas perduren.
+    \item Se tiene que implementar un sistema de comprobación de credenciales
+    para el inicio de sesión y para el registro de los usuarios, el cual envía
+    un correo electrónico o un SMS con un código generado para garantizar la
+    doble autenticación y a su vez la existencia de esas credenciales
+    introducidas. Para ello se tiene que establecer un servidor SMTP y
+    una cuenta de correo electrónico para poder generar dicho código de
+    validación, pudiéndose hacer tanto en el lado del cliente como en el lado
+    del servidor, preferiblemente en este último lado.
+    \item Se tiene la idea también de desarrollar un algoritmo de aprendizaje
+    supervisado para que a partir de los resultados de otros test de indicadores
+    haga la predicción de cuáles van a ser los resultados obtenidos en el
+    futuro, reforzando también la mejora de la muestra de resultados en el
+    futuro. Pueden utilizarse para ello diferentes técnicas de aprendizaje
+    supervisado, como es el caso de las redes neuronales con una técnica de
+    aprendizaje hebbiano.
+    \item En la pantalla de añadir equipos evaluadores no se añaden el consultor
+    externo, el profesional de atención directa y el responsable como objetos de
+    clase \texttt{EvaluatorTeamMember}. Para solucionarlo se tiene que modificar
+    la lógica del lado del servidor para esta operación, ya que la causa es el
+    error \textit{500 - Internal Server Error}.
+    \item Los centros no se pueden añadir de forma independiente, debido a un
+    error 400 Bad Request. Seguramente se trate de algún problema en el cliente,
+    puesto que haciendo \texttt{curl} de ese endpoint ejecuta sin problemas. Por
+    lo tanto, hay que modificar la forma en la que la respuesta es generada y la
+    forma en la que se deserializan los centros en el cliente.
+    \item En la parte de actividad reciente, no se muestran los resultados de
+    cada uno de los test de indicadores, aunque estos se puedan mostrar
+    perfectamente a través de los endpoint correspondientes.
+    \item Se va a desarrollar la generación de los gráficos de los resultados de
+    los test de indicadores, disponiendo para ello de la estructura necesaria para
+    ello, teniendo \textit{Azure} diferentes recursos para la generación de los mismos.
+    \item Se va a desarrollar una pantalla para que la propia \textit{Fundación
+    Miradas} pueda añadir, eliminar y modificar los indicadores y sus
+    respectivas evidencias de igual forma que otras actividades de tipo formulario.
+    \item Se va a implementar en \textit{Azure} un despliegue de tipo dinámico,
+    en el cual cada vez que se haga un commit en el repositorio de
+    \textit{GitHub}, los cambios en el despliegue se harán efectivos de forma
+    automática.
+    \item Se pretende mejorar la seguridad en la muestra de los endpoints,
+    buscando la manera de que algunos campos sensibles sean invisibles a la hora
+    de mostrar los endpoint. Se ha tratado de poner el campo
+    \texttt{passwordUser} en el servidor como \texttt{internal}, el cual sólo
+    es visible en el ensamblado, pero finalmente se desechó esa idea debido a
+    que genera complicaciones entre cliente y servidor.
+    \item En la versión final no se va a utilizar HTTP para la realización de
+    las peticiones, buscando alternativas bastante más seguras, como puede ser
+    el uso de \textit{Entity Framework}, una ORM (Object-Relational Mapping) que
+    puede realizar esas operaciones CRUD sin escribir las consultas SQL en el
+    código del servidor.
+    \item Se va a configurar un menú de opciones para que la aplicación pueda
+    configurar la interfaz gráfica de la aplicación a su gusto y necesidades,
+    incluyendo entre estas características el modo de lectura fácil para
+    aquellas personas que lo necesitan.
+    \item Se pretende a su vez también desarrollar esta aplicación también en
+    forma de aplicación web y para \textit{iOS}, ampliando sobremanera el marco
+    de usuarios ya de por sí amplio con los usuarios de \textit{Android}. Para
+    ello puede utilizarse también herramientas de \textit{Visual Studio 2022} y
+    de \textit{C\#}, tal y como se menciona en el capítulo de \textit{Técnicas y
+    Herramientas} de esta memoria.
+    \item Se pretende ampliar la internacionalización de la aplicación mediante
+    las herramientas mencionadas en el capítulo de Aspectos relevantes del
+    desarrollo
+\end{itemize}
+
+En cuanto al propio proyecto en sí, ha sido un proyecto que me ha llenado
+muchísimo, ya que por mi discapacidad cognitiva siempre he estado muy
+concientizado sobre todos los aspectos que las personas con cualquier
+discapacidad, en este caso las personas con TEA, por lo que es una aplicación
+hecha para ayudar a las personas con discapacidad por parte de una persona con
+una discapacidad reconocida.\\
+\\
+A la par dicho proyecto ha supuesto un gran aprendizaje para mí en todos los
+aspectos. En primer lugar en el aspecto laboral o académico, ya que he tenido
+que refrescar conocimiento sobre algunas herramientas las cuales llevaba
+bastante tiempo sin utilizar y también he tenido que aprender a manejar
+herramientas las cuales desconocía en muy poco tiempo, como es el manejo de
+\textit{Visual Studio 2022} con el lenguaje de programación \textit{C\#} y el
+framework \textit{ASP.NET}, los cuales no se han impartido en las asignaturas de
+este grado, por lo que ha supuesto un aporte de conocimientos adicional para la
+entrada al mundo laboral. Posteriormente también está suponiendo un aprendizaje
+importante a nivel personal, ya que ha habido bastantes momentos difíciles
+producto de las diferentes dificultades que han ido surgiendo durante el tiempo
+de desarrollo del mismo los cuales han sido un desafío a nivel personal bastante
+grande, teniendo la fortuna de haber recibido el apoyo de mucha gente, como
+menciono en la parte de agradecimientos de esta memoria, lo cual ha supuesto un
+impulso muy grande para seguir peleando para sacar este proyecto adelante de la
+mejor forma posible y a su vez afrontar los diferentes desafíos que un Ingeniero
+Informático debe cumplir en el día a día y afrontarlos de forma tranquila y
+serena.
