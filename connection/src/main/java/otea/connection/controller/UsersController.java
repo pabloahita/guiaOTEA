@@ -12,6 +12,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import cli.organization.Organization;
+import cli.organization.data.EvaluatorTeam;
 import cli.user.User;
 import otea.connection.ConnectionClient;
 import otea.connection.api.UsersApi;
@@ -124,7 +126,22 @@ public class UsersController {
      * */
     public static User Get(String email){
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        Callable<JsonObject> callable = new Callable<JsonObject>() {
+        Callable<JsonObject> callable= getInstance().GetASync(email);
+        try {
+            Future<JsonObject> future = executor.submit(callable);
+            JsonObject jsonUser = future.get();
+            executor.shutdown();
+            return new User(jsonUser.getAsJsonPrimitive("emailUser").getAsString(), jsonUser.getAsJsonPrimitive("userType").getAsString(), jsonUser.getAsJsonPrimitive("first_name").getAsString(), jsonUser.getAsJsonPrimitive("last_name").getAsString(), "", jsonUser.getAsJsonPrimitive("telephone").getAsString(), jsonUser.getAsJsonPrimitive("idOrganization").getAsInt(), jsonUser.getAsJsonPrimitive("orgType").getAsString(), jsonUser.getAsJsonPrimitive("illness").getAsString(), jsonUser.getAsJsonPrimitive("profilePhoto").getAsString());
+        } catch (InterruptedException | ExecutionException e) {
+            if(e.getMessage().equals("java.io.IOException: Not found")){
+                return null;
+            }
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Callable<JsonObject> GetASync(String email){
+        return new Callable<JsonObject>() {
             @Override
             public JsonObject call() throws Exception {
                 Call<JsonObject> call = api.Get(email);
@@ -139,17 +156,45 @@ public class UsersController {
                 }
             }
         };
-        try {
-            Future<JsonObject> future = executor.submit(callable);
-            JsonObject jsonUser = future.get();
-            executor.shutdown();
-            return new User(jsonUser.getAsJsonPrimitive("emailUser").getAsString(), jsonUser.getAsJsonPrimitive("userType").getAsString(), jsonUser.getAsJsonPrimitive("first_name").getAsString(), jsonUser.getAsJsonPrimitive("last_name").getAsString(), "", jsonUser.getAsJsonPrimitive("telephone").getAsString(), jsonUser.getAsJsonPrimitive("idOrganization").getAsInt(), jsonUser.getAsJsonPrimitive("orgType").getAsString(), jsonUser.getAsJsonPrimitive("illness").getAsString(), jsonUser.getAsJsonPrimitive("profilePhoto").getAsString());
-        } catch (InterruptedException | ExecutionException e) {
-            if(e.getMessage().equals("java.io.IOException: Not found")){
-                return null;
+    }
+
+    public static Callable<JsonObject> GetDirector(Organization organization){
+        return new Callable<JsonObject>() {
+            @Override
+            public JsonObject call() throws Exception {
+                Call<JsonObject> call = api.GetDirector(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),Session.getInstance().getToken());
+                Response<JsonObject> response = call.execute();
+                if (response.isSuccessful()) {
+                    return response.body();
+                } else {
+                    if(response.code()==404){
+                        throw new IOException("Not found");
+                    }
+                    throw new IOException("Error: " + response.code() + " " + response.message());
+                }
             }
-            throw new RuntimeException(e);
+        };
+    }
+
+    public static List<User> GetOrganizationAndEvalTeamStaff(Organization organization, EvaluatorTeam evaluatorTeam){
+        ExecutorService executor=Executors.newFixedThreadPool(3);
+        List<Future<JsonObject>> futures=new ArrayList<>();
+        futures.add(executor.submit(GetDirector(organization)));
+        futures.add(executor.submit(GetASync(evaluatorTeam.getEmailResponsible())));
+        futures.add(executor.submit(GetASync(evaluatorTeam.getEmailProfessional())));
+        List<User> users=new ArrayList<>();
+        for(Future<JsonObject> future:futures){
+            try {
+                JsonObject jsonUser=future.get();
+                users.add(new User(jsonUser.getAsJsonPrimitive("emailUser").getAsString(), jsonUser.getAsJsonPrimitive("userType").getAsString(), jsonUser.getAsJsonPrimitive("first_name").getAsString(), jsonUser.getAsJsonPrimitive("last_name").getAsString(), "", jsonUser.getAsJsonPrimitive("telephone").getAsString(), jsonUser.getAsJsonPrimitive("idOrganization").getAsInt(), jsonUser.getAsJsonPrimitive("orgType").getAsString(), jsonUser.getAsJsonPrimitive("illness").getAsString(), jsonUser.getAsJsonPrimitive("profilePhoto").getAsString()));
+            } catch (InterruptedException | ExecutionException e) {
+                if(e.getMessage().equals("java.io.IOException: Not found")){
+                    return null;
+                }
+                throw new RuntimeException(e);
+            }
         }
+        return users;
     }
 
     /**

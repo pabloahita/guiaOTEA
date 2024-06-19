@@ -8,6 +8,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:allowBackup="true"
@@ -36,11 +38,7 @@
         <activity
             android:name="gui.SelectToContinueIndicatorsEvaluations"
             android:exported="false" />
-        <activity
-            android:name="gui.EditIndicators"
-            android:exported="false"
-            android:label="@string/title_activity_edit_indicators"
-            android:theme="@style/Theme.TFG2223.NoActionBar" />
+
         <activity
             android:name=".MainMenu"
             android:exported="false" />

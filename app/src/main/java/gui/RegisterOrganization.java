@@ -52,6 +52,7 @@ import cli.organization.data.geo.Province;
 import cli.organization.data.geo.Region;
 import cli.user.Request;
 import gui.adapters.*;
+import gui.geo.GeoDatabase;
 import misc.FieldChecker;
 import misc.PasswordFormatter;
 import otea.connection.controller.AddressesController;
@@ -141,11 +142,13 @@ public class RegisterOrganization extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_organization);
+        
 
         countries = new ArrayList<>();
         countries.add(new Country("-2", "País", "Country", "Pays", "Herrialdea", "País", "Land", "País", "Land", "Paese", "País", "-", ""));

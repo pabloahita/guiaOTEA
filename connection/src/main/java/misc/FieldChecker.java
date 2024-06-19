@@ -36,7 +36,7 @@ public class FieldChecker {
     }
 
     public static boolean isPrecharged(String idCountry){
-        return idCountry.equals("ESP") || idCountry.equals("AND") || idCountry.equals("USA") || idCountry.equals("ARG") || idCountry.equals("BOL")
+        return idCountry.equals("ESP") || idCountry.equals("AND") || idCountry.equals("ARG") || idCountry.equals("BOL")
                 || idCountry.equals("CHL") || idCountry.equals("COL") || idCountry.equals("CRI") || idCountry.equals("CUB") || idCountry.equals("DOM") || idCountry.equals("ECU") ||
                 idCountry.equals("SLV") || idCountry.equals("GUA") || idCountry.equals("PRT") || idCountry.equals("HND") || idCountry.equals("MEX") || idCountry.equals("NIC") ||
                 idCountry.equals("PAN") || idCountry.equals("PRY") || idCountry.equals("PER") || idCountry.equals("PRI") || idCountry.equals("URY") || idCountry.equals("VEN");

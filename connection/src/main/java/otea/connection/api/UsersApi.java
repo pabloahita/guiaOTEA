@@ -65,4 +65,7 @@ public interface UsersApi {
      * */
     @POST("Users/login")
     Call<JsonObject> Login(@Body JsonObject credentials);
+
+    @GET("Users/getDirector")
+    Call<JsonObject> GetDirector(@Query("idOrganization") int idOrganization, @Query("organizationType") String organizationType, @Query("illness") String illness,@Header("Authorization") String Authorization);
 }

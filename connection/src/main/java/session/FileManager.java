@@ -7,14 +7,28 @@ import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
 import com.azure.storage.blob.models.BlobStorageException;
 
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.SocketTimeoutException;
+import java.time.Instant;
+import java.util.Date;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import cli.indicators.IndicatorsEvaluation;
+import cli.indicators.IndicatorsEvaluationEvidenceReg;
+import cli.indicators.IndicatorsEvaluationIndicatorReg;
+import cli.organization.Organization;
+import cli.organization.data.EvaluatorTeam;
+import cli.user.User;
+import misc.DateFormatter;
 import otea.connection.controller.RegionsController;
 
 
@@ -57,6 +71,8 @@ public class FileManager {
 
             // Get the BlobContainerClient;
             containerClient = blobServiceClient.getBlobContainerClient(containerName);
+
+
             // Get the BlobClient
             blobClient = containerClient.getBlobClient(fileName);
 
@@ -72,6 +88,7 @@ public class FileManager {
 
         task.run();
     }
+
 
     public static CompletableFuture<ByteArrayOutputStream> downloadPhotoProfileAsync(String fileName){
         return CompletableFuture.supplyAsync(() -> {
@@ -101,5 +118,68 @@ public class FileManager {
             return stream;
         });
     }
+
+    public static CompletableFuture<ByteArrayOutputStream> downloadReport(String fileName){
+        return CompletableFuture.supplyAsync(() -> {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            // Get the BlobContainerClient
+            BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient("reports");
+            // Get the BlobClient
+            BlobClient blobClient = containerClient.getBlobClient(fileName);
+            try {
+                blobClient.downloadStream(stream);
+                numAttempts=0;
+            } catch (Exception e) {
+                if(e.getCause() instanceof SocketTimeoutException){
+                    numAttempts++;
+                    if(numAttempts<3) {
+                        return downloadPhotoProfileAsync(fileName).join();
+                    }
+                    else{
+                        numAttempts=0;
+                        return null;
+                    }
+                }
+                else{
+                    throw new RuntimeException(e);
+                }
+            }
+            return stream;
+        });
+    }
+
+    public static CompletableFuture<InputStream> downloadReportTemplate(String evaluationType) {
+        return CompletableFuture.supplyAsync(() -> {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            // Get the BlobContainerClient
+            BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient("report-templates");
+            // Get the BlobClient
+            String blobName = "";
+            if (evaluationType.equals("COMPLETE")) {
+                blobName = "complete_ind_eval.docx";
+            } else {
+                blobName = "simple_ind_eval.docx";
+            }
+            BlobClient blobClient = containerClient.getBlobClient(blobName);
+            try {
+                blobClient.downloadStream(stream);
+                return new ByteArrayInputStream(stream.toByteArray());
+            } catch (Exception e) {
+                if (e.getCause() instanceof SocketTimeoutException) {
+                    numAttempts++;
+                    if (numAttempts < 3) {
+                        return downloadReportTemplate(evaluationType).join();
+                    } else {
+                        numAttempts = 0;
+                        return null;
+                    }
+                } else {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+    }
+
+
 
 }

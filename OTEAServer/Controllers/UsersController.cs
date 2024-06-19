@@ -142,6 +142,32 @@ namespace OTEAServer.Controllers
             }
         }
 
+        [HttpGet("getDirector")]
+        public ActionResult<JsonDocument> GetDirector([FromQuery] int idOrganization, [FromQuery] string organizationType, [FromQuery] string illness, [FromHeader] string Authorization)
+        {
+            try
+            {
+                var user = _context.Users.FirstOrDefault(u => u.idOrganization==idOrganization && u.orgType==organizationType && u.illness==illness && u.userType=="DIRECTOR");
+
+                if (user == null)
+                    return NotFound();
+                String usr = "{\"emailUser\":\"" + user.emailUser + "\"," +
+                    "\"userType\":\"" + user.userType + "\"," +
+                        "\"first_name\":\"" + user.first_name + "\"," +
+                        "\"last_name\":\"" + user.last_name + "\"," +
+                        "\"telephone\":\"" + user.telephone + "\"," +
+                        "\"idOrganization\":" + user.idOrganization + "," +
+                        "\"orgType\":\"" + user.orgType + "\"," +
+                        "\"illness\":\"" + user.illness + "\"," +
+                        "\"profilePhoto\":\"" + user.profilePhoto + "\"}";
+                return JsonDocument.Parse(usr);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         /// <summary>
         /// Method that obtains the login
         /// </summary>

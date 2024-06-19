@@ -9,36 +9,22 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
-import cli.indicators.Ambit;
-import cli.indicators.Indicator;
 import cli.indicators.IndicatorsEvaluation;
-import cli.indicators.SubAmbit;
-import cli.indicators.SubSubAmbit;
 import cli.organization.Organization;
 import cli.organization.data.Center;
 import cli.organization.data.EvaluatorTeam;
@@ -47,14 +33,8 @@ import gui.adapters.EvalTypesAdapter;
 import gui.adapters.EvaluatorTeamsAdapter;
 import gui.adapters.OrgsAdapter;
 import misc.DateFormatter;
-import otea.connection.controller.AmbitsController;
-import otea.connection.controller.CentersController;
-import otea.connection.controller.EvaluatorTeamsController;
-import otea.connection.controller.EvidencesController;
-import otea.connection.controller.IndicatorsController;
-import otea.connection.controller.OrganizationsController;
-import otea.connection.controller.SubAmbitsController;
-import otea.connection.controller.SubSubAmbitsController;
+import session.IndicatorsEvaluationUtil;
+import session.IndicatorsUtil;
 import session.Session;
 
 public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
@@ -311,7 +291,7 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
                             public void run() {
                                 Intent intent = new Intent(getApplicationContext(), gui.DoIndicatorsEvaluation.class);
 
-                                Session.getInstance().setCurrEvaluation(new IndicatorsEvaluation(DateFormatter.formaUtilDateToTimestamp(new Date()), evaluatedOrganization[0].getIdOrganization(), evaluatedOrganization[0].getOrgType(),
+                                IndicatorsEvaluationUtil.createInstance(evaluatedOrganization[0],center[0],evaluatorTeam[0],new IndicatorsEvaluation(DateFormatter.formaUtilDateToTimestamp(new Date()), evaluatedOrganization[0].getIdOrganization(), evaluatedOrganization[0].getOrgType(),
                                         evaluatorTeam[0].getIdEvaluatorTeam(), evaluatorTeam[0].getIdEvaluatorOrganization(), evaluatorTeam[0].getOrgTypeEvaluator(), evaluatorTeam[0].getIllness(), evaluatorTeam[0].getIdCenter(),
                                         0, 0, 0, 0,
                                         0, 0, 0, 0,
@@ -320,9 +300,7 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
                                         "", "", "",
                                         "", "", "",
                                         0, evaluationType[0],""));
-
-
-                                Session.getInstance().obtainIndicatorsFromDataBase(evaluationType[0]);
+                                IndicatorsUtil.createInstance(evaluationType[0]);
                                 startActivity(intent);
                             }
                         }, 100);

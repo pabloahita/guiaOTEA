@@ -48,6 +48,7 @@ import gui.adapters.OrgsAdapter;
 import misc.FieldChecker;
 import misc.PasswordFormatter;
 import otea.connection.controller.*;
+import session.FileManager;
 import session.Session;
 
 public class MainActivity extends AppCompatActivity {

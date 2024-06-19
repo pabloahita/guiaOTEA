@@ -30,6 +30,9 @@ import gui.adapters.EvaluatorTeamsAdapter;
 import gui.adapters.IndicatorsEvaluationAdapter;
 import gui.adapters.OrgsAdapter;
 import misc.FieldChecker;
+import session.IndicatorsEvaluationRegsUtil;
+import session.IndicatorsUtil;
+import session.IndicatorsEvaluationUtil;
 import session.Session;
 
 public class SelectToSeeRealizedIndicatorsEvaluations extends AppCompatActivity {
@@ -331,10 +334,9 @@ public class SelectToSeeRealizedIndicatorsEvaluations extends AppCompatActivity 
                             public void run() {
 
                                 Intent intent = new Intent(getApplicationContext(), gui.SeeRealizedIndicatorsEvaluations.class);
-
-                                Session.getInstance().setCurrEvaluation(indicatorsEvaluation[0]);
-                                Session.getInstance().getRegsByIndicatorsEvaluation(indicatorsEvaluation[0]);
-                                Session.getInstance().obtainIndicatorsFromDataBase(indicatorsEvaluation[0].getEvaluationType());
+                                IndicatorsEvaluationUtil.createInstance(evaluatedOrganization[0],center[0],evaluatorTeam[0],indicatorsEvaluation[0]);
+                                IndicatorsEvaluationRegsUtil.createInstance(indicatorsEvaluation[0]);
+                                IndicatorsUtil.createInstance(indicatorsEvaluation[0].getEvaluationType());
                                 startActivity(intent);
                             }
 

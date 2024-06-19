@@ -47,7 +47,6 @@ namespace OTEAServer.Controllers
                     case "es":
                         query = query.OrderByDescending(c => c.idCountry == "ESP")
                                     .ThenByDescending(c => c.idCountry == "AND")
-                                    .ThenByDescending(c => c.idCountry == "USA")
                                     .ThenByDescending(c => c.idCountry == "ARG")
                                     .ThenByDescending(c => c.idCountry == "BOL")
                                     .ThenByDescending(c => c.idCountry == "CHL")
@@ -83,7 +82,6 @@ namespace OTEAServer.Controllers
                         query = query.OrderByDescending(c => c.idCountry == "ESP")
                                     .ThenByDescending(c => c.idCountry == "FRA")
                                     .ThenByDescending(c => c.idCountry == "AND")
-                                    .ThenByDescending(c => c.idCountry == "USA")
                                     .ThenByDescending(c => c.idCountry == "ARG")
                                     .ThenByDescending(c => c.idCountry == "BOL")
                                     .ThenByDescending(c => c.idCountry == "CHL")
@@ -108,7 +106,6 @@ namespace OTEAServer.Controllers
                     case "ca":
                         query = query.OrderByDescending(c => c.idCountry == "ESP")
                                     .ThenByDescending(c => c.idCountry == "AND")
-                                    .ThenByDescending(c => c.idCountry == "USA")
                                     .ThenByDescending(c => c.idCountry == "ARG")
                                     .ThenByDescending(c => c.idCountry == "BOL")
                                     .ThenByDescending(c => c.idCountry == "CHL")
@@ -133,7 +130,6 @@ namespace OTEAServer.Controllers
                     case "gl":
                         query = query.OrderByDescending(c => c.idCountry == "ESP")
                                     .ThenByDescending(c => c.idCountry == "AND")
-                                    .ThenByDescending(c => c.idCountry == "USA")
                                     .ThenByDescending(c => c.idCountry == "ARG")
                                     .ThenByDescending(c => c.idCountry == "BOL")
                                     .ThenByDescending(c => c.idCountry == "CHL")

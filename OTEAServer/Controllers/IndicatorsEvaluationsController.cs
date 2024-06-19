@@ -518,7 +518,7 @@ namespace OTEAServer.Controllers
                 existingIndicatorsEvaluation.scorePriorityThreeColourYellow = indicatorsEvaluation.scorePriorityThreeColourYellow;
                 existingIndicatorsEvaluation.scorePriorityThreeColourGreen = indicatorsEvaluation.scorePriorityThreeColourGreen;
                 existingIndicatorsEvaluation.totalScore = indicatorsEvaluation.totalScore;
-                existingIndicatorsEvaluation.isFinished = 1;
+                existingIndicatorsEvaluation.isFinished = indicatorsEvaluation.isFinished;
                 existingIndicatorsEvaluation.level= indicatorsEvaluation.level;
 
                 _context.SaveChanges();

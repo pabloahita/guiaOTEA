@@ -11,8 +11,8 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Html;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -20,25 +20,42 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 import com.otaliastudios.zoom.ZoomLayout;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFTableCell;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTShd;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.STShd;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-import cli.indicators.Ambit;
 import cli.indicators.Evidence;
 import cli.indicators.Indicator;
 import cli.indicators.IndicatorsEvaluation;
 import cli.indicators.IndicatorsEvaluationEvidenceReg;
 import cli.indicators.IndicatorsEvaluationIndicatorReg;
+import misc.DateFormatter;
 import misc.FieldChecker;
-import otea.connection.controller.EvidencesController;
+import session.FileManager;
+import session.IndicatorsEvaluationRegsUtil;
+import session.IndicatorsUtil;
+import session.IndicatorsEvaluationUtil;
 import session.Session;
 
 public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
@@ -101,15 +118,16 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_see_realized_indicators_evaluations);
-        evaluation=Session.getInstance().getCurrEvaluation();
+
+        evaluation= IndicatorsEvaluationUtil.getInstance().getIndicatorsEvaluation();
 
 
-        indicatorRegs=Session.getInstance().GetAllIndicatorsRegsByIndicatorsEvaluation(evaluation);
+        indicatorRegs= IndicatorsEvaluationRegsUtil.getInstance().getIndicatorRegs();
 
 
-        evidenceRegs=Session.getInstance().GetAllEvidencesRegsByIndicatorsEvaluation(evaluation);
+        evidenceRegs=IndicatorsEvaluationRegsUtil.getInstance().getEvidenceRegs();
 
-        indicators=Session.getInstance().getIndicators(evaluation.getEvaluationType());
+        indicators= IndicatorsUtil.getInstance().getIndicators();
 
         isComplete=indicatorRegs.get(0).getEvaluationType().equals("COMPLETE");
 
@@ -174,6 +192,12 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
             }
         });
 
+        generateReportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                downloadReport();
+            }
+        });
 
 
     }
@@ -203,7 +227,7 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
                     String ev2Caption="";
                     String ev3Caption="";
                     String ev4Caption="";
-                    evidences= Session.getInstance().getEvidencesByIndicator(indicators.get(idInd-1).getIdSubSubAmbit(),indicators.get(idInd-1).getIdSubAmbit(),indicators.get(idInd-1).getIdAmbit(),idInd,indicators.get(idInd-1).getIndicatorType(),indicators.get(idInd-1).getIndicatorVersion(),indicators.get(idInd-1).getEvaluationType());
+                    evidences= IndicatorsUtil.getInstance().getEvidencesByIndicator(indicators.get(idInd-1).getIdSubSubAmbit(),indicators.get(idInd-1).getIdSubAmbit(),indicators.get(idInd-1).getIdAmbit(),idInd,indicators.get(idInd-1).getIndicatorType(),indicators.get(idInd-1).getIndicatorVersion(),indicators.get(idInd-1).getEvaluationType());
                     if(isComplete){
                         view=inflater.inflate(R.layout.indicator_complete_result,null);
                         ev4=view.findViewById(R.id.evidence4);
@@ -524,12 +548,46 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if(keyCode==event.KEYCODE_BACK){
-            Session.getInstance().setCurrEvaluation(null);
-            Session.getInstance().setCurrRegs(null,null);
+            IndicatorsEvaluationUtil.removeInstance();
+            IndicatorsUtil.removeInstance();
             Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
             startActivity(intent);
         }
         return super.onKeyDown(keyCode,event);
     }
+
+    private void downloadReport(){
+
+        ExecutorService executor=Executors.newSingleThreadExecutor();
+
+        Toast.makeText(SeeRealizedIndicatorsEvaluations.this,"Descargando archivo",Toast.LENGTH_LONG).show();
+
+        executor.execute(()->{
+
+            try {
+                String patientName= IndicatorsEvaluationUtil.getInstance().getEvaluatorTeam().getPatient_name().replace(" ","-");
+                String creationDate= DateFormatter.timeStampToStrDate(IndicatorsEvaluationUtil.getInstance().getEvaluatorTeam().getCreationDate()).replace("/","");
+                String fileName="ORG_"+IndicatorsEvaluationUtil.getInstance().getEvaluatedOrganization().getIdOrganization()+"_"+IndicatorsEvaluationUtil.getInstance().getEvaluatedOrganization().getOrganizationType()+"_"+IndicatorsEvaluationUtil.getInstance().getEvaluatedOrganization().getIllness()+"_CENTER_"+IndicatorsEvaluationUtil.getInstance().getCenter().getIdCenter()+"_EVALTEAM_"+patientName+"-"+creationDate+"_TYPE_"+ IndicatorsEvaluationUtil.getInstance().getIndicatorsEvaluation().getEvaluationType()+".docx";
+                ByteArrayOutputStream bos=FileManager.downloadReport(fileName).join();
+                byte[] data=bos.toByteArray();
+                bos.close();
+                InputStream is=new ByteArrayInputStream(data);
+                XWPFDocument document=new XWPFDocument(is);
+                FileOutputStream fos=new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)+ File.separator+fileName);
+                document.write(fos);
+                is.close();
+                fos.close();
+                runOnUiThread(()->{
+                    Toast.makeText(SeeRealizedIndicatorsEvaluations.this,"Descarga completada",Toast.LENGTH_LONG).show();
+                });
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        });
+
+
+    }
+
 
 }
