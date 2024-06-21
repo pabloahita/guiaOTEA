@@ -15,6 +15,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import session.Session;
 
 /**
  * Controller class for evidences operations
@@ -66,7 +67,7 @@ public class EvidencesController {
         Callable<List<Evidence>> callable = new Callable<List<Evidence>>() {
             @Override
             public List<Evidence> call() throws Exception {
-                Call<List<Evidence>> call = api.GetAll(evaluationType);
+                Call<List<Evidence>> call = api.GetAll(evaluationType, Session.getInstance().getToken());
                 Response<List<Evidence>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -102,7 +103,7 @@ public class EvidencesController {
         Callable<List<Evidence>> callable = new Callable<List<Evidence>>() {
             @Override
             public List<Evidence> call() throws Exception {
-                Call<List<Evidence>> call = api.GetAllByIndicator(idIndicator, indicatorType, idSubSubAmbit, idSubAmbit, idAmbit, indicatorVersion, evaluationType);
+                Call<List<Evidence>> call = api.GetAllByIndicator(idIndicator, indicatorType, idSubSubAmbit, idSubAmbit, idAmbit, indicatorVersion, evaluationType, Session.getInstance().getToken());
                 Response<List<Evidence>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -138,7 +139,7 @@ public class EvidencesController {
         Callable<Evidence> callable = new Callable<Evidence>() {
             @Override
             public Evidence call() throws Exception {
-                Call<Evidence> call = api.Get(idEvidence,idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion,evaluationType);
+                Call<Evidence> call = api.Get(idEvidence,idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion,evaluationType,Session.getInstance().getToken());
                 Response<Evidence> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -168,7 +169,7 @@ public class EvidencesController {
         Callable<Evidence> callable = new Callable<Evidence>() {
             @Override
             public Evidence call() throws Exception {
-                Call<Evidence> call = api.Create(evidence);
+                Call<Evidence> call = api.Create(evidence,Session.getInstance().getToken());
                 Response<Evidence> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -205,7 +206,7 @@ public class EvidencesController {
         Callable<Evidence> callable = new Callable<Evidence>() {
             @Override
             public Evidence call() throws Exception {
-                Call<Evidence> call = api.Update(idEvidence,idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion,evaluationType,evidence);
+                Call<Evidence> call = api.Update(idEvidence,idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion,evaluationType,evidence,Session.getInstance().getToken());
                 Response<Evidence> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -241,7 +242,7 @@ public class EvidencesController {
         Callable<Evidence> callable = new Callable<Evidence>() {
             @Override
             public Evidence call() throws Exception {
-                Call<Evidence> call = api.Delete(idEvidence,idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion,evaluationType);
+                Call<Evidence> call = api.Delete(idEvidence,idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion,evaluationType,Session.getInstance().getToken());
                 Response<Evidence> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

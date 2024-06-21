@@ -99,14 +99,104 @@ android:layout_height="match_parent">
             android:padding="35dp"
             android:textColor="@color/black" />
 
+        <TextView
+            android:id="@+id/info_help"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ind_info_help"
+            android:textSize="15sp"
+            android:textStyle="italic"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/about_indicator_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_indicator"
+            android:textSize="21sp"
+            android:padding="15dp"
+            android:textStyle="bold|italic"
+            android:textColor="@color/black" />
 
         <TextView
-            android:id="@+id/ev_prop"
+            android:id="@+id/about_indicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/improvement_opportunities"
             android:textSize="20sp"
-            android:textIsSelectable="true"
+            android:padding="15dp"
+            android:textColor="@color/black" />
+
+
+        <TextView
+            android:id="@+id/about_ev_1_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_the_evidence_1"
+            android:textSize="21sp"
+            android:padding="15dp"
+            android:textStyle="bold|italic"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/about_ev_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/improvement_opportunities"
+            android:textSize="20sp"
+            android:padding="15dp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/about_ev_2_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_the_evidence_2"
+            android:textStyle="bold|italic"
+            android:textSize="21sp"
+            android:padding="15dp"
+            android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/about_ev_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/improvement_opportunities"
+            android:textSize="20sp"
+            android:padding="15dp"
+            android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/about_ev_3_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_the_evidence_3"
+            android:textSize="21sp"
+            android:padding="15dp"
+            android:textStyle="bold|italic"
+            android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/about_ev_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/improvement_opportunities"
+            android:textSize="20sp"
+            android:padding="15dp"
+            android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/about_ev_4_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_the_evidence_4"
+            android:textSize="21sp"
+            android:padding="15dp"
+            android:textStyle="bold|italic"
+            android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/about_ev_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/improvement_opportunities"
+            android:textSize="20sp"
             android:padding="15dp"
             android:textColor="@color/black" />
     </LinearLayout>

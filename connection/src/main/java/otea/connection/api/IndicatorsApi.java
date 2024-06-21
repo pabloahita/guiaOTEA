@@ -29,7 +29,7 @@ public interface IndicatorsApi {
      * @param indicator - Indicator
      * */
     @PUT("Indicators")
-    Call<Indicator> Update(@Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType, @Body Indicator indicator);
+    Call<Indicator> Update(@Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType, @Body Indicator indicator,@Header("Authorization") String Authorization);
 
     /**
      * Creates an indicator
@@ -37,7 +37,7 @@ public interface IndicatorsApi {
      * @param indicator - Indicator
      * */
     @POST("Indicators")
-    Call<Indicator> Create(@Body Indicator indicator);
+    Call<Indicator> Create(@Body Indicator indicator,@Header("Authorization") String Authorization);
 
     /**
      * Gets an indicator
@@ -50,11 +50,11 @@ public interface IndicatorsApi {
      * @param indicatorVersion - Indicator version
      * */
     @GET("Indicators/get")
-    Call<Indicator> Get(@Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType);
+    Call<Indicator> Get(@Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType,@Header("Authorization") String Authorization);
 
     /**Gets all indicators*/
     @GET("Indicators/all")
-    Call<List<JsonObject>> GetAll(@Query("evaluationType") String evaluationType);
+    Call<List<JsonObject>> GetAll(@Query("evaluationType") String evaluationType,@Header("Authorization") String Authorization);
 
     /**
      * Gets all ambits by ambit identifier
@@ -62,7 +62,7 @@ public interface IndicatorsApi {
      * @param idAmbit - Ambit identifier
      * */
     @GET("Indicators/ambit")
-    Call<List<Indicator>> GetAllByIdAmbit(@Query("idAmbit") int idAmbit);
+    Call<List<Indicator>> GetAllByIdAmbit(@Query("idAmbit") int idAmbit,@Header("Authorization") String Authorization);
 
     /**
      * Deletes an indicator
@@ -75,5 +75,5 @@ public interface IndicatorsApi {
      * @param indicatorVersion - Indicator version
      * */
     @DELETE("Indicators")
-    Call<Indicator> Delete(@Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType);
+    Call<Indicator> Delete(@Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType,@Header("Authorization") String Authorization);
 }

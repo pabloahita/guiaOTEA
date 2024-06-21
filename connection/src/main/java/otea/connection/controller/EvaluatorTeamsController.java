@@ -19,6 +19,7 @@ import otea.connection.api.EvaluatorTeamsApi;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Query;
+import session.Session;
 
 /**
  * Controller class for evaluator teams operations
@@ -82,7 +83,7 @@ public class EvaluatorTeamsController {
         Callable<EvaluatorTeam> callable = new Callable<EvaluatorTeam>() {
             @Override
             public EvaluatorTeam call() throws Exception {
-                Call<EvaluatorTeam> call = api.Get(id, idEvaluatorOrg, orgTypeEvaluator, idEvaluatedOrg, orgTypeEvaluated, idCenter, illness);
+                Call<EvaluatorTeam> call = api.Get(id, idEvaluatorOrg, orgTypeEvaluator, idEvaluatedOrg, orgTypeEvaluated, idCenter, illness, Session.getInstance().getToken());
                 Response<EvaluatorTeam> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -111,7 +112,7 @@ public class EvaluatorTeamsController {
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
             public List<JsonObject> call() throws Exception {
-                Call<List<JsonObject>> call = api.GetAll();
+                Call<List<JsonObject>> call = api.GetAll(Session.getInstance().getToken());
                 Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -189,7 +190,7 @@ public class EvaluatorTeamsController {
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
             public List<JsonObject> call() throws Exception {
-                Call<List<JsonObject>> call = api.GetAllByCenter(id,orgType,idCenter,illness);
+                Call<List<JsonObject>> call = api.GetAllByCenter(id,orgType,idCenter,illness,Session.getInstance().getToken());
                 Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -265,7 +266,7 @@ public class EvaluatorTeamsController {
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
             public List<JsonObject> call() throws Exception {
-                Call<List<JsonObject>> call = api.GetAllByOrganization(id,orgType,illness);
+                Call<List<JsonObject>> call = api.GetAllByOrganization(id,orgType,illness,Session.getInstance().getToken());
                 Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -339,7 +340,7 @@ public class EvaluatorTeamsController {
         Callable<EvaluatorTeam> callable = new Callable<EvaluatorTeam>() {
             @Override
             public EvaluatorTeam call() throws Exception {
-                Call<EvaluatorTeam> call = api.Create(evaluatorTeam);
+                Call<EvaluatorTeam> call = api.Create(evaluatorTeam,Session.getInstance().getToken());
                 Response<EvaluatorTeam> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -377,7 +378,7 @@ public class EvaluatorTeamsController {
         Callable<EvaluatorTeam> callable = new Callable<EvaluatorTeam>() {
             @Override
             public EvaluatorTeam call() throws Exception {
-                Call<EvaluatorTeam> call = api.Update(id,idEvaluatorOrg,orgTypeEvaluator,idEvaluatedOrg,orgTypeEvaluated,idCenter,illness,evaluatorTeam);
+                Call<EvaluatorTeam> call = api.Update(id,idEvaluatorOrg,orgTypeEvaluator,idEvaluatedOrg,orgTypeEvaluated,idCenter,illness,evaluatorTeam,Session.getInstance().getToken());
                 Response<EvaluatorTeam> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -413,7 +414,7 @@ public class EvaluatorTeamsController {
         Callable<EvaluatorTeam> callable = new Callable<EvaluatorTeam>() {
             @Override
             public EvaluatorTeam call() throws Exception {
-                Call<EvaluatorTeam> call = api.Delete(id,idEvaluatorOrg,orgTypeEvaluator,idEvaluatedOrg,orgTypeEvaluated,idCenter,illness);
+                Call<EvaluatorTeam> call = api.Delete(id,idEvaluatorOrg,orgTypeEvaluator,idEvaluatedOrg,orgTypeEvaluated,idCenter,illness,Session.getInstance().getToken());
                 Response<EvaluatorTeam> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

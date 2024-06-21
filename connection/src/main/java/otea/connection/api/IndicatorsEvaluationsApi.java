@@ -10,6 +10,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
@@ -24,11 +25,11 @@ public interface IndicatorsEvaluationsApi {
 
     /**Gets all indicators evaluations*/
     @GET("IndicatorsEvaluations/all")
-    Call<List<JsonObject>> GetAll();
+    Call<List<JsonObject>> GetAll(@Header("Authorization") String Authorization);
 
     /**Gets all indicators evaluations*/
     @GET("IndicatorsEvaluations/allRegs")
-    Call<List<JsonObject>> GetRegsByIndicatorsEvaluation(@Query("evaluationDate") long evaluationDate,@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("evaluationType") String evaluationType);
+    Call<List<JsonObject>> GetRegsByIndicatorsEvaluation(@Query("evaluationDate") long evaluationDate,@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("evaluationType") String evaluationType,@Header("Authorization") String Authorization);
 
     /**
      * Gets all indicators evaluations of an evaluator team
@@ -42,7 +43,7 @@ public interface IndicatorsEvaluationsApi {
      * @param illness - Illness of the external organization that will recieve the indicators evaluation. In case of Fundación Miradas, it will be "AUTISM"
      * */
     @GET("IndicatorsEvaluations/evaluatorTeam")
-    Call<List<JsonObject>> GetAllByEvaluatorTeam(@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("idCenter") int idCenter, @Query("illness") String illness);
+    Call<List<JsonObject>> GetAllByEvaluatorTeam(@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("idCenter") int idCenter, @Query("illness") String illness,@Header("Authorization") String Authorization);
 
     /**
      * Get all non finished indicators evaluations by evaluator team
@@ -56,7 +57,7 @@ public interface IndicatorsEvaluationsApi {
      * @param idCenter - Center identifier
      * */
     @GET("IndicatorsEvaluations/nonFinished")
-    Call<List<JsonObject>> GetNonFinishedByEvaluatorTeam(@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter);
+    Call<List<JsonObject>> GetNonFinishedByEvaluatorTeam(@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter,@Header("Authorization") String Authorization);
 
     /**
      * Gets an indicators evaluation
@@ -71,7 +72,7 @@ public interface IndicatorsEvaluationsApi {
      * @param idCenter - Center identifier of the external organization
      * */
     @GET("IndicatorsEvaluations/get")
-    Call<IndicatorsEvaluation> Get(@Query("evaluationDate") long evaluationDate,@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("evaluationType") String evaluationType);
+    Call<IndicatorsEvaluation> Get(@Query("evaluationDate") long evaluationDate,@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("evaluationType") String evaluationType,@Header("Authorization") String Authorization);
 
     /**
      * Creates a new indicators evaluation
@@ -79,7 +80,7 @@ public interface IndicatorsEvaluationsApi {
      * @param indicatorsEvaluation - Indicators evaluation
      * */
     @POST("IndicatorsEvaluations")
-    Call<IndicatorsEvaluation> Create(@Body IndicatorsEvaluation indicatorsEvaluation);
+    Call<IndicatorsEvaluation> Create(@Body IndicatorsEvaluation indicatorsEvaluation,@Header("Authorization") String Authorization);
 
     /**
      * Updates an indicators evaluation
@@ -95,7 +96,7 @@ public interface IndicatorsEvaluationsApi {
      * @param indicatorsEvaluation - Indicators evaluation
      * */
     @PUT("IndicatorsEvaluations")
-    Call<IndicatorsEvaluation> Update(@Query("evaluationDate") long evaluationDate,@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("evaluationType") String evaluatorType, @Body IndicatorsEvaluation indicatorsEvaluation);
+    Call<IndicatorsEvaluation> Update(@Query("evaluationDate") long evaluationDate,@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("evaluationType") String evaluatorType, @Body IndicatorsEvaluation indicatorsEvaluation,@Header("Authorization") String Authorization);
 
     /**
      * Gets the finished indicator evaluation with its results
@@ -104,7 +105,7 @@ public interface IndicatorsEvaluationsApi {
      * @param indicatorsEvaluation - Indicators evaluation
      * */
     @PUT("IndicatorsEvaluations/result")
-    Call<ResponseBody> calculateResults(@Body IndicatorsEvaluation indicatorsEvaluation);
+    Call<ResponseBody> calculateResults(@Body IndicatorsEvaluation indicatorsEvaluation,@Header("Authorization") String Authorization);
 
     /**
      * Deletes an indicator evaluation
@@ -119,7 +120,7 @@ public interface IndicatorsEvaluationsApi {
      * @param idCenter - Center identifier of the external organization
      * */
     @DELETE("IndicatorsEvaluations")
-    Call<IndicatorsEvaluation> Delete(@Query("evaluationDate") long evaluationDate,@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("evaluationType") String evaluatorType);
+    Call<IndicatorsEvaluation> Delete(@Query("evaluationDate") long evaluationDate,@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("evaluationType") String evaluatorType,@Header("Authorization") String Authorization);
 
 
 }

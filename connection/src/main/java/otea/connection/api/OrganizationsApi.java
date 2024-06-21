@@ -45,7 +45,7 @@ public interface OrganizationsApi {
      * @param organization - Organization
      * */
     @POST("Organizations")
-    Call<Organization> Create(@Body Organization organization);
+    Call<Organization> Create(@Body Organization organization,@Header("Authorization") String Authorization);
 
     /**
      * Updates an organization
@@ -56,7 +56,7 @@ public interface OrganizationsApi {
      * @param organization - Organization
      * */
     @PUT("Organizations")
-    Call<Organization> Update(@Query("id") int id, @Query("orgType") String orgType, @Query("illness") String illness, @Body Organization organization);
+    Call<Organization> Update(@Query("id") int id, @Query("orgType") String orgType, @Query("illness") String illness, @Body Organization organization,@Header("Authorization") String Authorization);
 
     /**
      * Deletes an organization
@@ -66,5 +66,5 @@ public interface OrganizationsApi {
      * @param illness - Organization illness or syndrome
      * */
     @DELETE("Organizations")
-    Call<Organization> Delete(@Query("id") int id, @Query("orgType") String orgType, @Query("illness")  String illness);
+    Call<Organization> Delete(@Query("id") int id, @Query("orgType") String orgType, @Query("illness")  String illness,@Header("Authorization") String Authorization);
 }

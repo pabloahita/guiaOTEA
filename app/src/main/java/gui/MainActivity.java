@@ -38,6 +38,7 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -779,17 +780,31 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(JsonObject data) {
                 runOnUiThread(() -> {
                     Session.createSession(data);
-                });
-                new Thread(() -> {
-                    ProfilePhotoUtil.createInstance(
-                            Session.getInstance().getUser().getProfilePhoto(),
-                            Session.getInstance().getOrganization().getProfilePhoto()
-                    );
-                    runOnUiThread(() -> {
-                        Intent intent = new Intent(getApplicationContext(), com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-                        startActivity(intent);
+
+                    CompletableFuture.runAsync(() -> {
+                        // Espera hasta que Session y sus propiedades estén inicializadas
+                        Session session = Session.getInstance();
+                        while (session == null || session.getUser() == null || session.getOrganization() == null) {
+                            try {
+                                Thread.sleep(100); // Espera 100 milisegundos antes de volver a verificar
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            session = Session.getInstance();
+                        }
+
+                        // Una vez que Session está inicializada, procede con las operaciones necesarias
+                        ProfilePhotoUtil.createInstance(
+                                session.getUser().getProfilePhoto(),
+                                session.getOrganization().getProfilePhoto()
+                        );
+
+                        runOnUiThread(() -> {
+                            Intent intent = new Intent(getApplicationContext(), com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+                            startActivity(intent);
+                        });
                     });
-                }).start();
+                });
             }
 
             @Override

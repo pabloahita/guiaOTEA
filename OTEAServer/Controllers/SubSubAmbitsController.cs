@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Misc;
 using OTEAServer.Models;
@@ -32,7 +33,8 @@ namespace OTEAServer.Controllers
         /// </summary>
         /// <returns>All subAmbits</returns>
         [HttpGet("all")]
-        public IActionResult GetAll()
+        [Authorize]
+        public IActionResult GetAll([FromHeader] string Authorization)
         {
             try
             {
@@ -52,7 +54,8 @@ namespace OTEAServer.Controllers
         /// <param name="idAmbit">Ambit identifier</param>
         /// <returns>All subAmbits</returns>
         [HttpGet("allBySubAmbit")]
-        public IActionResult GetAllBySubAmbit(int idSubAmbit, int idAmbit)
+        [Authorize]
+        public IActionResult GetAllBySubAmbit(int idSubAmbit, int idAmbit, [FromHeader] string Authorization)
         {
             try
             {
@@ -72,7 +75,8 @@ namespace OTEAServer.Controllers
         /// <returns>The subSubAmbit if exists, null if not.</returns>
 
         [HttpGet("get")]
-        public ActionResult<SubSubAmbit> Get([FromQuery] int id)
+        [Authorize]
+        public ActionResult<SubSubAmbit> Get([FromQuery] int id, [FromHeader] string Authorization)
         {
             try
             {
@@ -95,7 +99,8 @@ namespace OTEAServer.Controllers
         /// <param name="subSubAmbit">SubSubAmbit to append</param>
         /// <returns>SubSubAmbit append, null if not</returns>
         [HttpPost]
-        public IActionResult Create([FromBody] SubSubAmbit subSubAmbit)
+        [Authorize(Policy = "Administrator")]
+        public IActionResult Create([FromBody] SubSubAmbit subSubAmbit, [FromHeader] string Authorization)
         {
             try
             {
@@ -118,7 +123,8 @@ namespace OTEAServer.Controllers
         /// <param name="subSubAmbit">New subSubAmbit</param>
         /// <returns>subSubAmbit if was updated, null if not</returns>
         [HttpPut]
-        public IActionResult Update([FromQuery] int idSubSubAmbit, [FromBody] SubSubAmbit subSubAmbit)
+        [Authorize(Policy = "Administrator")]
+        public IActionResult Update([FromQuery] int idSubSubAmbit, [FromBody] SubSubAmbit subSubAmbit, [FromHeader] string Authorization)
         {
             try
             {
@@ -159,7 +165,8 @@ namespace OTEAServer.Controllers
         /// <param name="id">SubSubAmbit identifier</param>
         /// <returns>Deleted subSubAmbit if deletion was successful, null if not</returns>
         [HttpDelete]
-        public IActionResult Delete([FromQuery] int id)
+        [Authorize(Policy = "Administrator")]
+        public IActionResult Delete([FromQuery] int id, [FromHeader] string Authorization)
         {
             try
             {

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Misc;
@@ -37,7 +38,8 @@ namespace OTEAServer.Controllers
         /// </summary>
         /// <returns>Evaluator team list</returns>
         [HttpGet("all")]
-        public IActionResult GetAll()
+        [Authorize]
+        public IActionResult GetAll([FromHeader] string Authorization)
         {
             try
             {
@@ -93,7 +95,8 @@ namespace OTEAServer.Controllers
         /// <param name="illness">Organization illness or syndrome</param>
         /// <returns>Evaluator teams list</returns>
         [HttpGet("allNonFinishedByCenter")]
-        public IActionResult GetAllNonFinishedByCenter([FromQuery] int id, [FromQuery] string orgType, [FromQuery] int idCenter, [FromQuery] string illness)
+        [Authorize]
+        public IActionResult GetAllNonFinishedByCenter([FromQuery] int id, [FromQuery] string orgType, [FromQuery] int idCenter, [FromQuery] string illness, [FromHeader] string Authorization)
         {
             try
             {
@@ -149,7 +152,8 @@ namespace OTEAServer.Controllers
         /// <param name="illness">Organization illness or syndrome</param>
         /// <returns>Evaluator teams list</returns>
         [HttpGet("allFinishedByCenter")]
-        public IActionResult GetAllFinishedByCenter([FromQuery] int id, [FromQuery] string orgType, [FromQuery] int idCenter, [FromQuery] string illness)
+        [Authorize]
+        public IActionResult GetAllFinishedByCenter([FromQuery] int id, [FromQuery] string orgType, [FromQuery] int idCenter, [FromQuery] string illness, [FromHeader] string Authorization)
         {
             try
             {
@@ -204,7 +208,8 @@ namespace OTEAServer.Controllers
         /// <param name="illness">Organization illness or syndrome</param>
         /// <returns>Evaluator teams list</returns>
         [HttpGet("allByOrganization")]
-        public IActionResult GetAllByOrganization([FromQuery] int id, [FromQuery] string orgType, [FromQuery] string illness)
+        [Authorize]
+        public IActionResult GetAllByOrganization([FromQuery] int id, [FromQuery] string orgType, [FromQuery] string illness, [FromHeader] string Authorization)
         {
             try
             {
@@ -264,7 +269,8 @@ namespace OTEAServer.Controllers
         /// <returns>Evaluator team if sucess, null if not</returns>
 
         [HttpGet("get")]
-        public ActionResult<EvaluatorTeam> Get([FromQuery] int id, [FromQuery] int idEvaluatorOrg, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrg, [FromQuery] string orgTypeEvaluated, [FromQuery] int idCenter, [FromQuery] string illness)
+        [Authorize]
+        public ActionResult<EvaluatorTeam> Get([FromQuery] int id, [FromQuery] int idEvaluatorOrg, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrg, [FromQuery] string orgTypeEvaluated, [FromQuery] int idCenter, [FromQuery] string illness, [FromHeader] string Authorization)
         {
             try
             {
@@ -287,7 +293,8 @@ namespace OTEAServer.Controllers
         /// <param name="evaluatorTeam">Evaluator team</param>
         /// <returns>Evaluator team if sucess, null if not</returns>
         [HttpPost]
-        public IActionResult Create([FromBody] EvaluatorTeam evaluatorTeam)
+        [Authorize(Policy = "Director")]
+        public IActionResult Create([FromBody] EvaluatorTeam evaluatorTeam, [FromHeader] string Authorization)
         {
             try
             {
@@ -323,7 +330,8 @@ namespace OTEAServer.Controllers
         /// <param name="evaluatorTeam">Evaluator team</param>
         /// <returns>Updated evaluator team if sucess, null if not</returns>
         [HttpPut]
-        public IActionResult Update([FromQuery] int id, [FromQuery] int idEvaluatorOrg, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrg, [FromQuery] string orgTypeEvaluated, [FromQuery] int idCenter, [FromQuery] string illness, [FromBody] EvaluatorTeam evaluatorTeam)
+        [Authorize(Policy = "Director")]
+        public IActionResult Update([FromQuery] int id, [FromQuery] int idEvaluatorOrg, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrg, [FromQuery] string orgTypeEvaluated, [FromQuery] int idCenter, [FromQuery] string illness, [FromBody] EvaluatorTeam evaluatorTeam, [FromHeader] string Authorization)
         {
             try
             {
@@ -386,7 +394,8 @@ namespace OTEAServer.Controllers
         /// <param name="illness">Both organizations illness or syndrome</param>
         /// <returns>Evaluator team if sucess, null if not</returns>
         [HttpDelete]
-        public IActionResult Delete([FromQuery] int id, [FromQuery] int idEvaluatorOrg, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrg, [FromQuery] string orgTypeEvaluated, [FromQuery] int idCenter, [FromQuery] string illness)
+        [Authorize(Policy = "Director")]
+        public IActionResult Delete([FromQuery] int id, [FromQuery] int idEvaluatorOrg, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrg, [FromQuery] string orgTypeEvaluated, [FromQuery] int idCenter, [FromQuery] string illness, [FromHeader] string Authorization)
         {
             try
             {

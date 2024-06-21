@@ -27,7 +27,7 @@ builder.Services.AddRouting();
 
 var secretaDePrueba = "EstaClaveEsSoloDePruebaNoVaASerLaOficial123"; //Clave secreta de prueba. Tratar de cambiarla mediante Azure Key Vault
 
-var sessionConfig = new SessionConfig{secret=secretaDePrueba};
+var sessionConfig = new SessionConfig {secret=secretaDePrueba};
 
 builder.Services.AddAuthentication(x =>
 {
@@ -47,7 +47,24 @@ builder.Services.AddAuthentication(x =>
     };
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Administrator", policy =>
+        policy.RequireRole("ADMIN")); 
+
+    options.AddPolicy("Director", policy =>
+        policy.RequireRole("DIRECTOR"));
+
+    options.AddPolicy("Organization", policy => 
+        policy.RequireRole("ORGANIZATION"));
+
+
+}
+);
+
 builder.Services.AddSingleton<SessionConfig>(sessionConfig);
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -66,6 +83,8 @@ app.UseRouting();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+
 
 app.UseEndpoints(endpoints =>
 {

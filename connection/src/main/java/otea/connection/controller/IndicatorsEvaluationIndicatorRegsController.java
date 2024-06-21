@@ -16,6 +16,7 @@ import otea.connection.ConnectionClient;
 import otea.connection.api.IndicatorsEvaluationIndicatorRegsApi;
 import retrofit2.Call;
 import retrofit2.Response;
+import session.Session;
 
 public class IndicatorsEvaluationIndicatorRegsController {
 
@@ -61,7 +62,7 @@ public class IndicatorsEvaluationIndicatorRegsController {
         Callable<List<IndicatorsEvaluationIndicatorReg>> callable = new Callable<List<IndicatorsEvaluationIndicatorReg>>() {
             @Override
             public List<IndicatorsEvaluationIndicatorReg> call() throws Exception {
-                Call<List<IndicatorsEvaluationIndicatorReg>> call=api.GetAll(evaluationType);
+                Call<List<IndicatorsEvaluationIndicatorReg>> call=api.GetAll(evaluationType, Session.getInstance().getToken());
                 Response<List<IndicatorsEvaluationIndicatorReg>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -99,7 +100,7 @@ public class IndicatorsEvaluationIndicatorRegsController {
         Callable<List<IndicatorsEvaluationIndicatorReg>> callable = new Callable<List<IndicatorsEvaluationIndicatorReg>>() {
             @Override
             public List<IndicatorsEvaluationIndicatorReg> call() throws Exception {
-                Call<List<IndicatorsEvaluationIndicatorReg>> call=api.GetAllByIndicatorsEvaluation(evaluationDate, idEvaluatorTeam, idEvaluatorOrganization, orgTypeEvaluator, idEvaluatedOrganization, orgTypeEvaluated, illness, idCenter, evaluationType);
+                Call<List<IndicatorsEvaluationIndicatorReg>> call=api.GetAllByIndicatorsEvaluation(evaluationDate, idEvaluatorTeam, idEvaluatorOrganization, orgTypeEvaluator, idEvaluatedOrganization, orgTypeEvaluated, illness, idCenter, evaluationType, Session.getInstance().getToken());
                 Response<List<IndicatorsEvaluationIndicatorReg>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -141,7 +142,7 @@ public class IndicatorsEvaluationIndicatorRegsController {
         Callable<IndicatorsEvaluationIndicatorReg> callable = new Callable<IndicatorsEvaluationIndicatorReg>() {
             @Override
             public IndicatorsEvaluationIndicatorReg call() throws Exception {
-                Call<IndicatorsEvaluationIndicatorReg> call = api.Get(evaluationDate, idEvaluatorTeam, idEvaluatorOrganization, orgTypeEvaluator, idEvaluatedOrganization, orgTypeEvaluated, illness, idCenter, idSubSubAmbit, idSubAmbit, idAmbit, idIndicator, indicatorVersion, evaluationType);
+                Call<IndicatorsEvaluationIndicatorReg> call = api.Get(evaluationDate, idEvaluatorTeam, idEvaluatorOrganization, orgTypeEvaluator, idEvaluatedOrganization, orgTypeEvaluated, illness, idCenter, idSubSubAmbit, idSubAmbit, idAmbit, idIndicator, indicatorVersion, evaluationType, Session.getInstance().getToken());
                 Response<IndicatorsEvaluationIndicatorReg> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -171,7 +172,7 @@ public class IndicatorsEvaluationIndicatorRegsController {
         Callable<IndicatorsEvaluationIndicatorReg> callable = new Callable<IndicatorsEvaluationIndicatorReg>() {
             @Override
             public IndicatorsEvaluationIndicatorReg call() throws Exception {
-                Call<IndicatorsEvaluationIndicatorReg> call = api.Create(indicatorsEvaluationEvidenceReg);
+                Call<IndicatorsEvaluationIndicatorReg> call = api.Create(indicatorsEvaluationEvidenceReg, Session.getInstance().getToken());
                 Response<IndicatorsEvaluationIndicatorReg> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -205,7 +206,7 @@ public class IndicatorsEvaluationIndicatorRegsController {
         Callable<ResponseBody> callable = new Callable<ResponseBody>() {
             @Override
             public ResponseBody call() throws Exception {
-                Call<ResponseBody> call = api.CreateRegs(registers);
+                Call<ResponseBody> call = api.CreateRegs(registers, Session.getInstance().getToken());
                 Response<ResponseBody> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -247,7 +248,7 @@ public class IndicatorsEvaluationIndicatorRegsController {
         Callable<IndicatorsEvaluationIndicatorReg> callable = new Callable<IndicatorsEvaluationIndicatorReg>() {
             @Override
             public IndicatorsEvaluationIndicatorReg call() throws Exception {
-                Call<IndicatorsEvaluationIndicatorReg> call = api.Update(evaluationDate, idEvaluatorTeam, idEvaluatorOrganization, orgTypeEvaluator, idEvaluatedOrganization, orgTypeEvaluated, illness, idCenter, idSubSubAmbit, idSubAmbit, idAmbit, idIndicator, indicatorVersion, evaluationType, indicatorsEvaluationEvidenceReg);
+                Call<IndicatorsEvaluationIndicatorReg> call = api.Update(evaluationDate, idEvaluatorTeam, idEvaluatorOrganization, orgTypeEvaluator, idEvaluatedOrganization, orgTypeEvaluated, illness, idCenter, idSubSubAmbit, idSubAmbit, idAmbit, idIndicator, indicatorVersion, evaluationType, indicatorsEvaluationEvidenceReg, Session.getInstance().getToken());
                 Response<IndicatorsEvaluationIndicatorReg> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -290,7 +291,7 @@ public class IndicatorsEvaluationIndicatorRegsController {
         Callable<IndicatorsEvaluationIndicatorReg> callable = new Callable<IndicatorsEvaluationIndicatorReg>() {
             @Override
             public IndicatorsEvaluationIndicatorReg call() throws Exception {
-                Call<IndicatorsEvaluationIndicatorReg> call = api.Delete(evaluationDate, idEvaluatorTeam, idEvaluatorOrganization, orgTypeEvaluator, idEvaluatedOrganization, orgTypeEvaluated, illness, idCenter, idSubSubAmbit, idSubAmbit, idAmbit, idIndicator, indicatorVersion, evaluationType);
+                Call<IndicatorsEvaluationIndicatorReg> call = api.Delete(evaluationDate, idEvaluatorTeam, idEvaluatorOrganization, orgTypeEvaluator, idEvaluatedOrganization, orgTypeEvaluated, illness, idCenter, idSubSubAmbit, idSubAmbit, idAmbit, idIndicator, indicatorVersion, evaluationType, Session.getInstance().getToken());
                 Response<IndicatorsEvaluationIndicatorReg> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

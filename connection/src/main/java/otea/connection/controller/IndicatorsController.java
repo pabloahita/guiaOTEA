@@ -18,6 +18,7 @@ import otea.connection.ConnectionClient;
 import otea.connection.api.IndicatorsApi;
 import retrofit2.Call;
 import retrofit2.Response;
+import session.Session;
 
 /**
  * Class controller for indicators operations
@@ -74,7 +75,7 @@ public class IndicatorsController {
         Callable<List<Indicator>> callable = new Callable<List<Indicator>>() {
             @Override
             public List<Indicator> call() throws Exception {
-                Call<List<Indicator>> call = api.GetAllByIdAmbit(idAmbit);
+                Call<List<Indicator>> call = api.GetAllByIdAmbit(idAmbit, Session.getInstance().getToken());
                 Response<List<Indicator>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -111,7 +112,7 @@ public class IndicatorsController {
         Callable<Indicator> callable = new Callable<Indicator>() {
             @Override
             public Indicator call() throws Exception {
-                Call<Indicator> call = api.Update(idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion,evaluationType,indicator);
+                Call<Indicator> call = api.Update(idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion,evaluationType,indicator,Session.getInstance().getToken());
                 Response<Indicator> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -141,7 +142,7 @@ public class IndicatorsController {
         Callable<Indicator> callable = new Callable<Indicator>() {
             @Override
             public Indicator call() throws Exception {
-                Call<Indicator> call = api.Create(indicator);
+                Call<Indicator> call = api.Create(indicator,Session.getInstance().getToken());
                 Response<Indicator> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -176,7 +177,7 @@ public class IndicatorsController {
         Callable<Indicator> callable = new Callable<Indicator>() {
             @Override
             public Indicator call() throws Exception {
-                Call<Indicator> call = api.Get(idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion,evaluationType);
+                Call<Indicator> call = api.Get(idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion,evaluationType,Session.getInstance().getToken());
                 Response<Indicator> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -205,7 +206,7 @@ public class IndicatorsController {
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
             public List<JsonObject> call() throws Exception {
-                Call<List<JsonObject>> call = api.GetAll(evaluationType);
+                Call<List<JsonObject>> call = api.GetAll(evaluationType,Session.getInstance().getToken());
                 Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -253,7 +254,7 @@ public class IndicatorsController {
         Callable<Indicator> callable = new Callable<Indicator>() {
             @Override
             public Indicator call() throws Exception {
-                Call<Indicator> call = api.Get(idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion,evaluationType);
+                Call<Indicator> call = api.Get(idIndicator,indicatorType,idSubSubAmbit,idSubAmbit,idAmbit,indicatorVersion,evaluationType,Session.getInstance().getToken());
                 Response<Indicator> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

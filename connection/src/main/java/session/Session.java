@@ -111,6 +111,8 @@ public class Session {
     }
 
 
+
+
     public static void refreshCallers(){
         AmbitsController.getInstance();
         SubAmbitsController.getInstance();
@@ -183,6 +185,14 @@ public class Session {
 
     public static List<User> getEvaluatorUsers() {
         return evaluatorUsers;
+    }
+
+    public List<IndicatorsEvaluation> getIndicatorsEvaluations() {
+        return indicatorsEvaluations;
+    }
+
+    public void setIndicatorsEvaluations(List<IndicatorsEvaluation> indicatorsEvaluations) {
+        this.indicatorsEvaluations = indicatorsEvaluations;
     }
 
     public List<Country> getCountries() {

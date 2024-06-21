@@ -335,5 +335,16 @@
     <string name="n_noted_indicators">Adierazleen zenbakia jasota</string>
     <string name="multiply_by">Biderkatu honekin</string>
     <string name="total">GUZTIRA</string>
+    <string name="org_or_serv">Ebaluatutako erakundea edo zerbitzua</string>
+    <string name="resp_prog">Programaren/zerbitzuaren arduraduna</string>
+    <string name="contact_data">Kontakturako datuak</string>
+    <string name="eval_date">Ebaluazio data</string>
+    <string name="overall_help">Balorazio orokorra gaztelaniaz dago. Mesedez, hautatu behean jarritako testua eta hautatu Itzuli.</string>
+    <string name="excellent">Bikaina</string>
+    <string name="very_good">Oso ona</string>
+    <string name="good">Ona</string>
+    <string name="improvable">Hobetzekoa</string>
+    <string name="very_improvable">Asko hobetzekoa</string>
+    <string name="ind_info_help">Hobekuntza aukerak gaztelaniaz daude. Mesedez, hautatu adierazleari buruzko hobekuntza aukeraren testua edo frogetako hobekuntza aukerak eta hautatu Itzuli.</string>
 
 </resources>

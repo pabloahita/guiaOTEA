@@ -330,6 +330,17 @@
     <string name="n_noted_indicators">Numero di indicatori annotati</string>
     <string name="multiply_by">Moltiplicare per</string>
     <string name="total">TOTALE</string>
+    <string name="org_or_serv">Organizzazione o servizio valutato</string>
+    <string name="resp_prog">Responsabile del programma/servizio</string>
+    <string name="contact_data">Dati di contatto</string>
+    <string name="eval_date">Data di valutazione</string>
+    <string name="overall_help">La valutazione generale è in spagnolo. Selezionare il testo sottostante e scegliere Traduci.</string>
+    <string name="excellent">Eccellente</string>
+    <string name="very_good">Molto buono</string>
+    <string name="good">Buono</string>
+    <string name="improvable">Migliorabile</string>
+    <string name="very_improvable">Molto migliorabile</string>
+    <string name="ind_info_help">Le opportunità di miglioramento sono in spagnolo. Seleziona il testo dell\'opportunità di miglioramento sull\'indicatore o le opportunità di miglioramento sulle prove e seleziona Traduci.</string>
 
 
 </resources>

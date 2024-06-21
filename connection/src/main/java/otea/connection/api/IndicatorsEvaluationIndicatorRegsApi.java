@@ -8,6 +8,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
@@ -16,7 +17,7 @@ public interface IndicatorsEvaluationIndicatorRegsApi {
 
     /**Gets all registers*/
     @GET("IndicatorsEvaluationsIndicatorsRegs/all")
-    Call<List<IndicatorsEvaluationIndicatorReg>> GetAll(@Query("evaluationType") String evaluationType);
+    Call<List<IndicatorsEvaluationIndicatorReg>> GetAll(@Query("evaluationType") String evaluationType,@Header("Authorization") String Authorization);
 
     /**
      * Gets all evidence registers of an indicators evaluation
@@ -31,7 +32,7 @@ public interface IndicatorsEvaluationIndicatorRegsApi {
      * @param idCenter - Center identifier of the external organization
      * */
     @GET("IndicatorsEvaluationsIndicatorsRegs/indEval")
-    Call<List<IndicatorsEvaluationIndicatorReg>> GetAllByIndicatorsEvaluation(@Query("evaluationDate") long evaluationDate, @Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("evaluationType") String evaluationType);
+    Call<List<IndicatorsEvaluationIndicatorReg>> GetAllByIndicatorsEvaluation(@Query("evaluationDate") long evaluationDate, @Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("evaluationType") String evaluationType,@Header("Authorization") String Authorization);
 
     /**
      * Gets an indicators evaluation evidence register
@@ -51,7 +52,7 @@ public interface IndicatorsEvaluationIndicatorRegsApi {
      * @param indicatorVersion - Indicator version
      * */
     @GET("IndicatorsEvaluationsIndicatorsRegs/get")
-    Call<IndicatorsEvaluationIndicatorReg> Get(@Query("evaluationDate") long evaluationDate, @Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("idIndicator") int idIndicator, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType);
+    Call<IndicatorsEvaluationIndicatorReg> Get(@Query("evaluationDate") long evaluationDate, @Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("idIndicator") int idIndicator, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType,@Header("Authorization") String Authorization);
 
     /**
      * Creates a new indicators evaluation evidence register
@@ -59,7 +60,7 @@ public interface IndicatorsEvaluationIndicatorRegsApi {
      * @param indicatorsEvaluationIndicatorReg - Indicators evaluation register
      * */
     @POST("IndicatorsEvaluationsIndicatorsRegs")
-    Call<IndicatorsEvaluationIndicatorReg> Create(@Body IndicatorsEvaluationIndicatorReg indicatorsEvaluationIndicatorReg);
+    Call<IndicatorsEvaluationIndicatorReg> Create(@Body IndicatorsEvaluationIndicatorReg indicatorsEvaluationIndicatorReg,@Header("Authorization") String Authorization);
 
     /**
      * Creates a new indicators evaluation evidence register
@@ -67,7 +68,7 @@ public interface IndicatorsEvaluationIndicatorRegsApi {
      * @param regs - Indicators evaluation register
      * */
     @POST("IndicatorsEvaluationsIndicatorsRegs/fromList")
-    Call<ResponseBody> CreateRegs(@Body List<IndicatorsEvaluationIndicatorReg> regs);
+    Call<ResponseBody> CreateRegs(@Body List<IndicatorsEvaluationIndicatorReg> regs,@Header("Authorization") String Authorization);
 
     /**
      * Updates an indicators evaluation register
@@ -87,7 +88,7 @@ public interface IndicatorsEvaluationIndicatorRegsApi {
      * @param indicatorVersion - Indicator version
      * */
     @PUT("IndicatorsEvaluationsIndicatorsRegs")
-    Call<IndicatorsEvaluationIndicatorReg> Update(@Query("evaluationDate") long evaluationDate, @Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("idIndicator") int idIndicator, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType, @Body IndicatorsEvaluationIndicatorReg indicatorsEvaluationIndicatorReg);
+    Call<IndicatorsEvaluationIndicatorReg> Update(@Query("evaluationDate") long evaluationDate, @Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("idIndicator") int idIndicator, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType, @Body IndicatorsEvaluationIndicatorReg indicatorsEvaluationIndicatorReg,@Header("Authorization") String Authorization);
 
     /**
      * Deletes an indicators evaluation registration
@@ -107,6 +108,6 @@ public interface IndicatorsEvaluationIndicatorRegsApi {
      * @param indicatorVersion - Indicator version
      * */
     @DELETE("IndicatorsEvaluationsIndicatorsRegs")
-    Call<IndicatorsEvaluationIndicatorReg> Delete(@Query("evaluationDate") long evaluationDate, @Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("idIndicator") int idIndicator, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType);
+    Call<IndicatorsEvaluationIndicatorReg> Delete(@Query("evaluationDate") long evaluationDate, @Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("idIndicator") int idIndicator, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType,@Header("Authorization") String Authorization);
 
 }

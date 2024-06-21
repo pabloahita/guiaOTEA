@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using OTEAServer.Misc;
@@ -39,7 +40,8 @@ namespace OTEAServer.Controllers
         /// </summary>
         /// <returns>Centers list</returns>
         [HttpGet("all")]
-        public IActionResult GetAll() {
+        [Authorize]
+        public IActionResult GetAll([FromHeader] string Authorization) {
             try
             {
 
@@ -83,7 +85,8 @@ namespace OTEAServer.Controllers
         /// <param name="illness">Organization illness or syndrome</param>
         /// <returns>All centers of an organization</returns>
         [HttpGet("org")]
-        public IActionResult GetAllByOrganization([FromQuery] int idOrganization,[FromQuery] string orgType,[FromQuery] string illness) {
+        [Authorize]
+        public IActionResult GetAllByOrganization([FromQuery] int idOrganization,[FromQuery] string orgType,[FromQuery] string illness, [FromHeader] string Authorization) {
             try
             {
 
@@ -129,7 +132,8 @@ namespace OTEAServer.Controllers
         /// <param name="idCenter">Center identifier</param>
         /// <returns>Center if found on database, null if not</returns>
         [HttpGet("get")]
-        public ActionResult<Center> Get([FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness,[FromQuery] int idCenter)
+        [Authorize]
+        public ActionResult<Center> Get([FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness,[FromQuery] int idCenter, [FromHeader] string Authorization)
         {
             try
             {
@@ -154,7 +158,8 @@ namespace OTEAServer.Controllers
         /// <param name="center">Center to append</param>
         /// <returns>Center appended if sucess, null if not</returns>
         [HttpPost]
-        public ActionResult<Center> Create([FromBody] Center center)
+        [Authorize(Policy = "Director")]
+        public ActionResult<Center> Create([FromBody] Center center, [FromHeader] string Authorization)
         {
             try
             {
@@ -179,7 +184,8 @@ namespace OTEAServer.Controllers
         /// <param name="center">Center</param>
         /// <returns>Updated center if success, null if not</returns>
         [HttpPut]
-        public ActionResult<Center> Update([FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness, [FromQuery] int idCenter,[FromBody] Center center)
+        [Authorize(Policy = "Director")]
+        public ActionResult<Center> Update([FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness, [FromQuery] int idCenter,[FromBody] Center center, [FromHeader] string Authorization)
         {
             try
             {
@@ -229,7 +235,8 @@ namespace OTEAServer.Controllers
         /// <param name="idCenter">Center identifier</param>
         /// <returns>Deleted center if success, null if not</returns>
         [HttpDelete]
-        public ActionResult<Center> Delete([FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness, [FromQuery] int idCenter)
+        [Authorize(Policy = "Director")]
+        public ActionResult<Center> Delete([FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness, [FromQuery] int idCenter, [FromHeader] string Authorization)
         {
             try
             {

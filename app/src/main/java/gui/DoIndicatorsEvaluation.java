@@ -49,8 +49,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -68,6 +70,7 @@ import session.IndicatorsEvaluationUtil;
 import session.FileManager;
 import session.IndicatorsEvaluationRegsUtil;
 import session.IndicatorsUtil;
+import session.Session;
 
 public class DoIndicatorsEvaluation extends AppCompatActivity {
 
@@ -1337,10 +1340,15 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
 
                     int indInicial=13+numAddedRows;
 
-                    String[] evaluationDates= IndicatorsEvaluationUtil.getInstance().getEvaluatorTeam().getEvaluationDates().split(",");
+                    String[] aux= IndicatorsEvaluationUtil.getInstance().getEvaluatorTeam().getEvaluationDates().split(",");
+                    long[] dates=new long[aux.length+1];
+                    dates[0]=IndicatorsEvaluationUtil.getInstance().getEvaluatorTeam().getCreationDate();
 
+                    for(int i=0;i<aux.length;i++){
+                        dates[i+1]=Long.parseLong(aux[i]);
+                    }
                     int ii=0;
-                    for(int i=indInicial;i<indInicial+evaluationDates.length;i++){
+                    for(int i=indInicial;i<indInicial+dates.length;i++){
                         XWPFTableRow newRow=tableInfo.insertNewTableRow(i);
                         XWPFTableCell newCell=newRow.createCell();
                         CTTcBorders borders = newCell.getCTTc().addNewTcPr().addNewTcBorders();
@@ -1348,14 +1356,20 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                         borders.addNewTop().setVal(STBorder.SINGLE);
                         borders.addNewLeft().setVal(STBorder.SINGLE);
                         borders.addNewRight().setVal(STBorder.SINGLE);
-                        newCell.setText(DateFormatter.timeStampToStrDate(Long.parseLong(evaluationDates[ii])));
+                        newCell.setText(DateFormatter.timeStampToStrDate(dates[ii]));
                         newCell=newRow.createCell();
                         borders = newCell.getCTTc().addNewTcPr().addNewTcBorders();
                         borders.addNewBottom().setVal(STBorder.SINGLE);
                         borders.addNewTop().setVal(STBorder.SINGLE);
                         borders.addNewLeft().setVal(STBorder.SINGLE);
                         borders.addNewRight().setVal(STBorder.SINGLE);
-                        newCell.setText("Fecha de evaluación "+(ii+1));
+                        String text="";
+                        if(ii==0){
+                            text="Fecha de creación";
+                        }else{
+                            text="Fecha de evaluación "+ii;
+                        }
+                        newCell.setText(text);
                         ii++;
                     }
 
@@ -1379,7 +1393,63 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                     }
                     rows2.get(3).getTableCells().get(3).setText(levelMsg);
 
+                    rows2.get(5).getTableCells().get(0).setText(current_evaluation.getConclusionsSpanish());
+
                     List<IndicatorsEvaluationIndicatorReg> indicatorRegs=IndicatorsEvaluationRegsUtil.getInstance().getIndicatorRegs();
+
+                    Map<String, Integer> highNumEvidencesMarkedPerAmbit=new HashMap<String,Integer>();
+                    Map<String, Integer> lowNumEvidencesMarkedPerAmbit=new HashMap<String,Integer>();
+
+                    for(IndicatorsEvaluationIndicatorReg reg:indicatorRegs){
+                        String key=reg.getIdSubSubAmbit()+","+reg.getIdSubAmbit()+","+reg.getIdAmbit();
+                        if (highNumEvidencesMarkedPerAmbit.containsKey(key)) {
+                            if(reg.getNumEvidencesMarked()>highNumEvidencesMarkedPerAmbit.get(key)) {
+                                highNumEvidencesMarkedPerAmbit.replace(key, reg.getNumEvidencesMarked());
+                            }
+                        }else{
+                            highNumEvidencesMarkedPerAmbit.put(key,reg.getNumEvidencesMarked());
+                        }
+                        if(lowNumEvidencesMarkedPerAmbit.containsKey(key)){
+                            if(reg.getNumEvidencesMarked()<lowNumEvidencesMarkedPerAmbit.get(key)){
+                                lowNumEvidencesMarkedPerAmbit.replace(key, reg.getNumEvidencesMarked());
+                            }
+                        }else{
+                            lowNumEvidencesMarkedPerAmbit.put(key,reg.getNumEvidencesMarked());
+                        }
+                    }
+
+                    List<String> strongPointsList=new ArrayList<>();
+                    for(String key : highNumEvidencesMarkedPerAmbit.keySet()){
+                        if(highNumEvidencesMarkedPerAmbit.get(key)==4 && lowNumEvidencesMarkedPerAmbit.get(key)==4) {
+                            String[] auxx = key.split(",");
+                            int idSubSubAmbit = Integer.parseInt(auxx[0]);
+                            int idSubAmbit = Integer.parseInt(auxx[1]);
+                            int idAmbit = Integer.parseInt(auxx[2]);
+
+                            if (idSubSubAmbit != -1) {
+                                strongPointsList.add(IndicatorsUtil.getInstance().getSubSubAmbit(idSubSubAmbit, idSubAmbit, idAmbit).getDescriptionSpanish());
+                            } else {
+                                if (idSubAmbit != -1) {
+                                    strongPointsList.add(IndicatorsUtil.getInstance().getSubAmbit(idSubAmbit, idAmbit).getDescriptionSpanish());
+                                } else {
+                                    strongPointsList.add(IndicatorsUtil.getInstance().getAmbit(idAmbit).getDescriptionSpanish());
+                                }
+                            }
+                        }
+                    }
+
+                    String strongPoints="";
+                    int lastIndex=strongPointsList.size()-1;
+                    int added=0;
+                    for(String point:strongPointsList){
+                        strongPoints+=point;
+                        if(added<lastIndex){
+                            strongPoints+=", ";
+                        }
+                        added++;
+                    }
+
+                    rows2.get(7).getTableCells().get(0).setText(strongPoints);
 
                     int rowNum=9;
 
@@ -1675,6 +1745,7 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
         current_evaluation=IndicatorsEvaluationsController.Get(current_evaluation.getEvaluationDate(),current_evaluation.getIdEvaluatorTeam(),current_evaluation.getIdEvaluatorOrganization(),current_evaluation.getOrgTypeEvaluator(),current_evaluation.getIdEvaluatedOrganization(),current_evaluation.getOrgTypeEvaluated(),current_evaluation.getIllness(),current_evaluation.getIdCenter(),current_evaluation.getEvaluationType());
         IndicatorsEvaluationUtil.getInstance().setIndicatorsEvaluation(current_evaluation);
         IndicatorsEvaluationRegsUtil.createInstance(current_evaluation);
+        Session.getInstance().setIndicatorsEvaluations(null);
         generateReport();
 
     }

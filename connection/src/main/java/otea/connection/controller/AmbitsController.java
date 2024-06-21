@@ -16,6 +16,7 @@ import otea.connection.ConnectionClient;
 import otea.connection.api.AmbitsApi;
 import retrofit2.Call;
 import retrofit2.Response;
+import session.Session;
 
 /**
  * Controller class for ambit operations
@@ -65,7 +66,7 @@ public class AmbitsController {
         Callable<List<Ambit>> callable = new Callable<List<Ambit>>() {
             @Override
             public List<Ambit> call() throws Exception {
-                Call<List<Ambit>> call = api.GetAll();
+                Call<List<Ambit>> call = api.GetAll(Session.getInstance().getToken());
                 Response<List<Ambit>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -109,7 +110,7 @@ public class AmbitsController {
         Callable<Ambit> callable = new Callable<Ambit>() {
             @Override
             public Ambit call() throws Exception {
-                Call<Ambit> call = api.Get(id);
+                Call<Ambit> call = api.Get(id,Session.getInstance().getToken());
                 Response<Ambit> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -139,7 +140,7 @@ public class AmbitsController {
         Callable<Ambit> callable = new Callable<Ambit>() {
             @Override
             public Ambit call() throws Exception {
-                Call<Ambit> call = api.Create(ambit);
+                Call<Ambit> call = api.Create(ambit,Session.getInstance().getToken());
                 Response<Ambit> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -171,7 +172,7 @@ public class AmbitsController {
         Callable<Ambit> callable = new Callable<Ambit>() {
             @Override
             public Ambit call() throws Exception {
-                Call<Ambit> call = api.Update(idAmbit,ambit);
+                Call<Ambit> call = api.Update(idAmbit,ambit,Session.getInstance().getToken());
                 Response<Ambit> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -201,7 +202,7 @@ public class AmbitsController {
         Callable<Ambit> callable = new Callable<Ambit>() {
             @Override
             public Ambit call() throws Exception {
-                Call<Ambit> call = api.Delete(id);
+                Call<Ambit> call = api.Delete(id,Session.getInstance().getToken());
                 Response<Ambit> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

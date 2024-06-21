@@ -8,6 +8,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
@@ -22,7 +23,7 @@ public interface SubSubAmbitsApi {
 
     /**Get all subSubAmbits*/
     @GET("SubSubAmbits/all")
-    Call<List<SubSubAmbit>> GetAll();
+    Call<List<SubSubAmbit>> GetAll(@Header("Authorization") String Authorization);
 
     /**
      * Get all subSubAmbits of an subAmbit
@@ -30,7 +31,7 @@ public interface SubSubAmbitsApi {
      * @param idAmbit - Ambit identifier
      */
     @GET("SubSubAmbits/allBySubAmbit")
-    Call<List<SubSubAmbit>> GetAllBySubAmbit(@Query("idSubAmbit") int idSubAmbit,@Query("idAmbit") int idAmbit);
+    Call<List<SubSubAmbit>> GetAllBySubAmbit(@Query("idSubAmbit") int idSubAmbit,@Query("idAmbit") int idAmbit,@Header("Authorization") String Authorization);
 
     /**
      * Get a subSubAmbit
@@ -38,7 +39,7 @@ public interface SubSubAmbitsApi {
      * @param id - subSubAmbit identifier
      * */
     @GET("SubSubAmbits/get")
-    Call<SubSubAmbit> Get(@Query("id") int id);
+    Call<SubSubAmbit> Get(@Query("id") int id,@Header("Authorization") String Authorization);
 
     /**
      * Create new subSubAmbit
@@ -46,7 +47,7 @@ public interface SubSubAmbitsApi {
      * @param subSubAmbit - SubSubAmbit to append
      * */
     @POST("SubAmbits")
-    Call<SubSubAmbit> Create(@Body SubSubAmbit subSubAmbit);
+    Call<SubSubAmbit> Create(@Body SubSubAmbit subSubAmbit,@Header("Authorization") String Authorization);
 
     /**
      * Update a subSubAmbit
@@ -55,7 +56,7 @@ public interface SubSubAmbitsApi {
      * @param subSubAmbit - new subSubAmbit
      * */
     @PUT("SubSubAmbits")
-    Call<SubSubAmbit> Update(@Query("idSubSubAmbit") int idSubSubAmbit, @Body SubSubAmbit subSubAmbit);
+    Call<SubSubAmbit> Update(@Query("idSubSubAmbit") int idSubSubAmbit, @Body SubSubAmbit subSubAmbit,@Header("Authorization") String Authorization);
 
     /**
      * Delete a subSubAmbit
@@ -63,5 +64,5 @@ public interface SubSubAmbitsApi {
      * @param id - subSubAmbit identifier
      * */
     @DELETE("SubSubAmbits")
-    Call<SubSubAmbit> Delete(@Query("id") int id);
+    Call<SubSubAmbit> Delete(@Query("id") int id,@Header("Authorization") String Authorization);
 }

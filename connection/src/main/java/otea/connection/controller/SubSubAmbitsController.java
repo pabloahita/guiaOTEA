@@ -13,6 +13,7 @@ import otea.connection.ConnectionClient;
 import otea.connection.api.SubSubAmbitsApi;
 import retrofit2.Call;
 import retrofit2.Response;
+import session.Session;
 
 /**
  * Controller class for subSubAmbit operations
@@ -64,7 +65,7 @@ public class SubSubAmbitsController {
         Callable<List<SubSubAmbit>> callable = new Callable<List<SubSubAmbit>>() {
             @Override
             public List<SubSubAmbit> call() throws Exception {
-                Call<List<SubSubAmbit>> call = api.GetAll();
+                Call<List<SubSubAmbit>> call = api.GetAll(Session.getInstance().getToken());
                 Response<List<SubSubAmbit>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -95,7 +96,7 @@ public class SubSubAmbitsController {
         Callable<List<SubSubAmbit>> callable = new Callable<List<SubSubAmbit>>() {
             @Override
             public List<SubSubAmbit> call() throws Exception {
-                Call<List<SubSubAmbit>> call = api.GetAllBySubAmbit(idSubAmbit, idAmbit);
+                Call<List<SubSubAmbit>> call = api.GetAllBySubAmbit(idSubAmbit, idAmbit, Session.getInstance().getToken());
                 Response<List<SubSubAmbit>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -126,7 +127,7 @@ public class SubSubAmbitsController {
         Callable<SubSubAmbit> callable = new Callable<SubSubAmbit>() {
             @Override
             public SubSubAmbit call() throws Exception {
-                Call<SubSubAmbit> call = api.Get(id);
+                Call<SubSubAmbit> call = api.Get(id,Session.getInstance().getToken());
                 Response<SubSubAmbit> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -156,7 +157,7 @@ public class SubSubAmbitsController {
         Callable<SubSubAmbit> callable = new Callable<SubSubAmbit>() {
             @Override
             public SubSubAmbit call() throws Exception {
-                Call<SubSubAmbit> call = api.Create(subSubAmbit);
+                Call<SubSubAmbit> call = api.Create(subSubAmbit,Session.getInstance().getToken());
                 Response<SubSubAmbit> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -188,7 +189,7 @@ public class SubSubAmbitsController {
         Callable<SubSubAmbit> callable = new Callable<SubSubAmbit>() {
             @Override
             public SubSubAmbit call() throws Exception {
-                Call<SubSubAmbit> call = api.Update(idSubSubAmbit,subSubAmbit);
+                Call<SubSubAmbit> call = api.Update(idSubSubAmbit,subSubAmbit,Session.getInstance().getToken());
                 Response<SubSubAmbit> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -218,7 +219,7 @@ public class SubSubAmbitsController {
         Callable<SubSubAmbit> callable = new Callable<SubSubAmbit>() {
             @Override
             public SubSubAmbit call() throws Exception {
-                Call<SubSubAmbit> call = api.Delete(id);
+                Call<SubSubAmbit> call = api.Delete(id,Session.getInstance().getToken());
                 Response<SubSubAmbit> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

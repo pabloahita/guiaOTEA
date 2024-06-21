@@ -196,13 +196,16 @@ namespace OTEAServer.Controllers
                         }
                     }
                 }
+
+
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.ASCII.GetBytes(_sessionConfig.secret);
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                        new Claim(ClaimTypes.Name, user.emailUser)
+                        new Claim(ClaimTypes.Name, user.emailUser),
+                        new Claim(ClaimTypes.Role, user.userType)
                     }),
                     Expires = DateTime.UtcNow.AddHours(12),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -267,7 +270,7 @@ namespace OTEAServer.Controllers
         /// <returns>User if success, null if not</returns>
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Create([FromBody] User user)//, [FromHeader] string Authorization)
+        public IActionResult Create([FromBody] User user)
         {
             try
             {
@@ -325,6 +328,7 @@ namespace OTEAServer.Controllers
         /// <param name="email">User email</param>
         /// <returns>User if success, null if not</returns>
         [HttpDelete]
+        [Authorize(Policy = "Administrator")]
         public IActionResult Delete([FromQuery] string email, [FromHeader] string Authorization)
         {
             try

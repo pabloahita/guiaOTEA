@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Misc;
@@ -35,7 +36,8 @@ namespace OTEAServer.Controllers
         /// <param name="evaluationType">Evaluation type</param>
         /// <returns>Indicators list</returns>
         [HttpGet("all")]
-        public IActionResult GetAll([FromQuery] string evaluationType)
+        [Authorize]
+        public IActionResult GetAll([FromQuery] string evaluationType, [FromHeader] string Authorization)
         {
             try
             {
@@ -175,7 +177,8 @@ namespace OTEAServer.Controllers
         /// <param name="idAmbit">Ambit identifier</param>
         /// <returns>Indicators list</returns>
         [HttpGet("ambit")]
-        public IActionResult GetAllByType([FromQuery] int idAmbit)
+        [Authorize]
+        public IActionResult GetAllByType([FromQuery] int idAmbit, [FromHeader] string Authorization)
         {
             try
             {
@@ -201,7 +204,8 @@ namespace OTEAServer.Controllers
         /// <returns>Indicator if success, null if not</returns>
 
         [HttpGet("get")]
-        public ActionResult<Indicator> Get([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType)
+        [Authorize]
+        public ActionResult<Indicator> Get([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType, [FromHeader] string Authorization)
         {
             try
             {
@@ -226,7 +230,8 @@ namespace OTEAServer.Controllers
         /// <param name="indicator">Indicator</param>
         /// <returns>Indicator if success, null if not</returns>
         [HttpPost]
-        public IActionResult Create([FromBody] Indicator indicator)
+        [Authorize(Policy = "Administrator")]
+        public IActionResult Create([FromBody] Indicator indicator, [FromHeader] string Authorization)
         {
             try
             {
@@ -253,7 +258,8 @@ namespace OTEAServer.Controllers
         /// <param name="indicator">Indicator</param>
         /// <returns>Indicator if success, null if not</returns>
         [HttpPut]
-        public IActionResult Update([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType, [FromBody] Indicator indicator)
+        [Authorize(Policy = "Administrator")]
+        public IActionResult Update([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType, [FromBody] Indicator indicator, [FromHeader] string Authorization)
         {
             try
             {
@@ -287,7 +293,8 @@ namespace OTEAServer.Controllers
         /// <param name="evaluationType">Evaluation type</param>
         /// <returns>Indicator if success, null if not</returns>
         [HttpDelete]
-        public IActionResult Delete([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType)
+        [Authorize(Policy = "Administrator")]
+        public IActionResult Delete([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType, [FromHeader] string Authorization)
         {
             try
             {

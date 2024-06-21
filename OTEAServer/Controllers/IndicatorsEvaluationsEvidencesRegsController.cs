@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Misc;
 using OTEAServer.Models;
@@ -33,7 +34,8 @@ namespace OTEAServer.Controllers
         /// </summary>
         /// <returns>Registrations list</returns>
         [HttpGet("all")]
-        public IActionResult GetAll([FromQuery] string evaluationType) {
+        [Authorize]
+        public IActionResult GetAll([FromQuery] string evaluationType, [FromHeader] string Authorization) {
             try
             {
                 var IndicatorsEvaluationsEvidencesRegs = _context.IndicatorsEvaluationsEvidencesRegs.Where(i => i.evaluationType == evaluationType).ToList();
@@ -59,7 +61,8 @@ namespace OTEAServer.Controllers
         /// <param name="evaluationType">Evaluation type</param>
         /// <returns>Indicators list</returns>
         [HttpGet("indEval")]
-        public IActionResult GetAllByIndicatorsEvaluation([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] string evaluationType) {
+        [Authorize]
+        public IActionResult GetAllByIndicatorsEvaluation([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] string evaluationType, [FromHeader] string Authorization) {
             try
             {
                 var IndicatorsEvaluationsEvidencesRegs = _context.IndicatorsEvaluationsEvidencesRegs.Where(r => r.evaluationDate == evaluationDate && r.idEvaluatorTeam == idEvaluatorTeam && r.idEvaluatorOrganization == idEvaluatorOrganization && r.orgTypeEvaluator == orgTypeEvaluator && r.idEvaluatedOrganization == idEvaluatedOrganization && r.orgTypeEvaluated == orgTypeEvaluated && r.illness == illness && r.idCenter == idCenter && r.evaluationType==evaluationType).ToList();
@@ -93,7 +96,8 @@ namespace OTEAServer.Controllers
         /// <returns>Register if success, null if not</returns>
 
         [HttpGet("get")]
-        public ActionResult<IndicatorsEvaluationEvidenceReg> Get([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int idIndicator, [FromQuery] int idEvidence, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType) {
+        [Authorize]
+        public ActionResult<IndicatorsEvaluationEvidenceReg> Get([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int idIndicator, [FromQuery] int idEvidence, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType, [FromHeader] string Authorization) {
             try
             {
                 var indicatorsEvaluation = _context.IndicatorsEvaluationsEvidencesRegs.FirstOrDefault(r => r.evaluationDate == evaluationDate && r.idEvaluatorTeam == idEvaluatorTeam && r.idEvaluatorOrganization == idEvaluatorOrganization && r.orgTypeEvaluator == orgTypeEvaluator && r.idEvaluatedOrganization == idEvaluatedOrganization && r.orgTypeEvaluated == orgTypeEvaluated && r.illness == illness && r.idCenter == idCenter && r.idSubSubAmbit == idSubSubAmbit && r.idSubAmbit == idSubAmbit && r.idAmbit == idAmbit && r.idIndicator == idIndicator && r.idEvidence == idEvidence && r.indicatorVersion == indicatorVersion && r.evaluationType == evaluationType);
@@ -115,7 +119,8 @@ namespace OTEAServer.Controllers
         /// <param name="indicatorsEvaluationEvidenceReg">Indicators evaluation register</param>
         /// <returns>Register if success, null if not</returns>
         [HttpPost]
-        public ActionResult<IndicatorsEvaluationEvidenceReg> Create([FromBody] IndicatorsEvaluationEvidenceReg indicatorsEvaluationEvidenceReg) {
+        [Authorize(Policy = "Administrator")]
+        public ActionResult<IndicatorsEvaluationEvidenceReg> Create([FromBody] IndicatorsEvaluationEvidenceReg indicatorsEvaluationEvidenceReg, [FromHeader] string Authorization) {
             try
             {
                 _context.IndicatorsEvaluationsEvidencesRegs.Add(indicatorsEvaluationEvidenceReg);
@@ -151,7 +156,8 @@ namespace OTEAServer.Controllers
         /// <param name="regs">Indicators evaluation registers</param>
         /// <returns>Register if success, null if not</returns>
         [HttpPost("fromList")]
-        public IActionResult CreateRegs([FromBody] List<IndicatorsEvaluationEvidenceReg> regs)
+        [Authorize(Policy = "Administrator")]
+        public IActionResult CreateRegs([FromBody] List<IndicatorsEvaluationEvidenceReg> regs, [FromHeader] string Authorization)
         {
             if (regs == null) {
                 return BadRequest();
@@ -229,7 +235,8 @@ namespace OTEAServer.Controllers
         /// <param name="evaluationType">Evaluation type</param>
         /// <returns>Register if success, null if not</returns>
         [HttpPut]
-        public ActionResult<IndicatorsEvaluationEvidenceReg> Update([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int idIndicator, [FromQuery] int idEvidence, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType, [FromBody] IndicatorsEvaluationEvidenceReg indicatorsEvaluationEvidenceReg) {
+        [Authorize(Policy = "Administrator")]
+        public ActionResult<IndicatorsEvaluationEvidenceReg> Update([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int idIndicator, [FromQuery] int idEvidence, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType, [FromBody] IndicatorsEvaluationEvidenceReg indicatorsEvaluationEvidenceReg, [FromHeader] string Authorization) {
             try
             {
                 var existingIndicatorsEvaluationEvidenceReg = _context.IndicatorsEvaluationsEvidencesRegs.FirstOrDefault(r => r.evaluationDate == evaluationDate && r.idEvaluatorTeam == idEvaluatorTeam && r.idEvaluatorOrganization == idEvaluatorOrganization && r.orgTypeEvaluator == orgTypeEvaluator && r.idEvaluatedOrganization == idEvaluatedOrganization && r.orgTypeEvaluated == orgTypeEvaluated && r.illness == illness && r.idCenter == idCenter && r.idSubSubAmbit == idSubSubAmbit && r.idSubAmbit == idSubAmbit && r.idAmbit == idAmbit && r.idIndicator == idIndicator && r.idEvidence == idEvidence && r.indicatorVersion == indicatorVersion && r.evaluationType==evaluationType);
@@ -293,7 +300,8 @@ namespace OTEAServer.Controllers
         /// <param name="evaluationType">Evaluation type</param>
         /// <returns>Register if success, null if not</returns>
         [HttpDelete]
-        public ActionResult<IndicatorsEvaluationEvidenceReg> Delete([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int idIndicator, [FromQuery] int idEvidence, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType) {
+        [Authorize(Policy = "Administrator")]
+        public ActionResult<IndicatorsEvaluationEvidenceReg> Delete([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int idIndicator, [FromQuery] int idEvidence, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType, [FromHeader] string Authorization) {
             try
             {
                 var indicatorsEvaluation = _context.IndicatorsEvaluationsEvidencesRegs.FirstOrDefault(r => r.evaluationDate == evaluationDate && r.idEvaluatorTeam == idEvaluatorTeam && r.idEvaluatorOrganization == idEvaluatorOrganization && r.orgTypeEvaluator == orgTypeEvaluator && r.idEvaluatedOrganization == idEvaluatedOrganization && r.orgTypeEvaluated == orgTypeEvaluated && r.illness == illness && r.idCenter == idCenter && r.idSubSubAmbit == idSubSubAmbit && r.idSubAmbit == idSubAmbit && r.idAmbit == idAmbit && r.idIndicator == idIndicator && r.idEvidence == idEvidence && r.indicatorVersion == indicatorVersion && r.evaluationType==evaluationType);

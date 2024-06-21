@@ -18,7 +18,7 @@ public interface AddressesApi {
 
     /**Get all Addresses*/
     @GET("Addresses/all")
-    Call<List<JsonObject>> GetAll();
+    Call<List<JsonObject>> GetAll(@Header("Authorization") String Authorization);
 
     /**
      * Get an address using its identifier
@@ -26,7 +26,7 @@ public interface AddressesApi {
      * @param id - Address identifier
      * */
     @GET("Addresses/get")
-    Call<Address> Get(@Query("id") int id);
+    Call<Address> Get(@Query("id") int id,@Header("Authorization") String Authorization);
 
     /**
      * Create new Address
@@ -34,7 +34,7 @@ public interface AddressesApi {
      * @param address - Address
      * */
     @POST("Addresses")
-    Call<Address> Create(@Body Address address);
+    Call<Address> Create(@Body Address address,@Header("Authorization") String Authorization);
 
     /**
      * Update an existant Address
@@ -43,7 +43,7 @@ public interface AddressesApi {
      * @param address - Address
      * */
     @PUT("Addresses")
-    Call<Address> Update(@Query("idAddress") int idAddress, @Body Address address);
+    Call<Address> Update(@Query("idAddress") int idAddress, @Body Address address,@Header("Authorization") String Authorization);
 
     /**
      * Delete an address
@@ -51,7 +51,7 @@ public interface AddressesApi {
      * @param id - Address identifier
      * */
     @DELETE("Addresses")
-    Call<Address> Delete(@Query("id") int id);
+    Call<Address> Delete(@Query("id") int id,@Header("Authorization") String Authorization);
 
 
 }

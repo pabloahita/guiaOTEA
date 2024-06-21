@@ -301,7 +301,7 @@ public class OrganizationsController {
         Callable<Organization> callable = new Callable<Organization>() {
             @Override
             public Organization call() throws Exception {
-                Call<Organization> call = api.Create(organization);
+                Call<Organization> call = api.Create(organization,Session.getInstance().getToken());
                 Response<Organization> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -334,7 +334,7 @@ public class OrganizationsController {
         Callable<Organization> callable = new Callable<Organization>() {
             @Override
             public Organization call() throws Exception {
-                Call<Organization> call = api.Update(id,orgType,illness,organization);
+                Call<Organization> call = api.Update(id,orgType,illness,organization,Session.getInstance().getToken());
                 Response<Organization> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -366,7 +366,7 @@ public class OrganizationsController {
         Callable<Organization> callable = new Callable<Organization>() {
             @Override
             public Organization call() throws Exception {
-                Call<Organization> call = api.Delete(id, orgType, illness);
+                Call<Organization> call = api.Delete(id, orgType, illness,Session.getInstance().getToken());
                 Response<Organization> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

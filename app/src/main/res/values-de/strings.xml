@@ -333,6 +333,17 @@
     <string name="n_noted_indicators">Anzahl der vermerkten Indikatoren</string>
     <string name="multiply_by">Multiplizieren mit</string>
     <string name="total">GESAMT</string>
+    <string name="org_or_serv">Bewertete Organisation oder Dienstleistung</string>
+    <string name="resp_prog">Programm-/Dienstleistungsverantwortlicher</string>
+    <string name="contact_data">Kontaktdaten</string>
+    <string name="eval_date">Bewertungsdatum</string>
+    <string name="overall_help">Die Gesamtbewertung ist auf Spanisch. Bitte wählen Sie den untenstehenden Text aus und wählen Sie Übersetzen.</string>
+    <string name="excellent">Ausgezeichnet</string>
+    <string name="very_good">Sehr gut</string>
+    <string name="good">Gut</string>
+    <string name="improvable">Verbesserungswürdig</string>
+    <string name="very_improvable">Stark verbesserungswürdig</string>
+    <string name="ind_info_help">Die Verbesserungschancen sind auf Spanisch. Bitte wählen Sie den Text der Verbesserungschance für den Indikator oder die Verbesserungschancen für die Beweise aus und wählen Sie Übersetzen.</string>
 
 
 </resources>

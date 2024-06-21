@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NRules;
 using NRules.Fluent;
@@ -36,7 +37,8 @@ namespace OTEAServer.Controllers
         /// </summary>
         /// <returns>Registrations list</returns>
         [HttpGet("all")]
-        public IActionResult GetAll([FromQuery] string evaluationType)
+        [Authorize]
+        public IActionResult GetAll([FromQuery] string evaluationType, [FromHeader] string Authorization)
         {
             try
             {
@@ -63,7 +65,8 @@ namespace OTEAServer.Controllers
         /// <param name="evaluationType">Evaluation type</param>
         /// <returns>Indicators list</returns>
         [HttpGet("indEval")]
-        public IActionResult GetAllByIndicatorsEvaluation([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] string evaluationType)
+        [Authorize]
+        public IActionResult GetAllByIndicatorsEvaluation([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] string evaluationType, [FromHeader] string Authorization)
         {
             try
             {
@@ -97,7 +100,8 @@ namespace OTEAServer.Controllers
         /// <returns>Register if success, null if not</returns>
 
         [HttpGet("get")]
-        public ActionResult<IndicatorsEvaluationIndicatorReg> Get([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int idIndicator, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType)
+        [Authorize]
+        public ActionResult<IndicatorsEvaluationIndicatorReg> Get([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int idIndicator, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType, [FromHeader] string Authorization)
         {
             try
             {
@@ -120,7 +124,8 @@ namespace OTEAServer.Controllers
         /// <param name="indicatorsEvaluationIndicatorReg">Indicators evaluation register</param>
         /// <returns>Register if success, null if not</returns>
         [HttpPost]
-        public ActionResult<IndicatorsEvaluationIndicatorReg> Create([FromBody] IndicatorsEvaluationIndicatorReg indicatorsEvaluationIndicatorReg)
+        [Authorize(Policy = "Administrator")]
+        public ActionResult<IndicatorsEvaluationIndicatorReg> Create([FromBody] IndicatorsEvaluationIndicatorReg indicatorsEvaluationIndicatorReg, [FromHeader] string Authorization)
         {
             try
             {
@@ -156,7 +161,8 @@ namespace OTEAServer.Controllers
         /// <param name="regs">Indicators evaluation registers</param>
         /// <returns>Register if success, null if not</returns>
         [HttpPost("fromList")]
-        public IActionResult CreateRegs([FromBody] List<IndicatorsEvaluationIndicatorReg> regs)
+        [Authorize(Policy = "Administrator")]
+        public IActionResult CreateRegs([FromBody] List<IndicatorsEvaluationIndicatorReg> regs, [FromHeader] string Authorization)
         {
             if (regs == null)
             {
@@ -247,7 +253,8 @@ namespace OTEAServer.Controllers
         /// <param name="evaluationType">Evaluation type</param>
         /// <returns>Register if success, null if not</returns>
         [HttpPut]
-        public ActionResult<IndicatorsEvaluationIndicatorReg> Update([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int idIndicator, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType, [FromBody] IndicatorsEvaluationIndicatorReg indicatorsEvaluationIndicatorReg)
+        [Authorize(Policy = "Administrator")]
+        public ActionResult<IndicatorsEvaluationIndicatorReg> Update([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int idIndicator, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType, [FromBody] IndicatorsEvaluationIndicatorReg indicatorsEvaluationIndicatorReg, [FromHeader] string Authorization)
         {
             try
             {
@@ -312,7 +319,8 @@ namespace OTEAServer.Controllers
         /// <param name="evaluationType">Evaluation type</param>
         /// <returns>Register if success, null if not</returns>
         [HttpDelete]
-        public ActionResult<IndicatorsEvaluationIndicatorReg> Delete([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int idIndicator, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType)
+        [Authorize(Policy = "Administrator")]
+        public ActionResult<IndicatorsEvaluationIndicatorReg> Delete([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int idIndicator, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType, [FromHeader] string Authorization)
         {
             try
             {

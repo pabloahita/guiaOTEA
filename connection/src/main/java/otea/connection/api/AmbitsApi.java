@@ -17,7 +17,7 @@ public interface AmbitsApi {
 
     /**Get all Ambits*/
     @GET("Ambits/all")
-    Call<List<Ambit>> GetAll();
+    Call<List<Ambit>> GetAll(@Header("Authorization") String Authorization);
 
     /**
      * Get an Ambit
@@ -25,7 +25,7 @@ public interface AmbitsApi {
      * @param id - Ambit identifier
      * */
     @GET("Ambits/get")
-    Call<Ambit> Get(@Query("id") int id);
+    Call<Ambit> Get(@Query("id") int id,@Header("Authorization") String Authorization);
 
     /**
      * Create new Ambit
@@ -33,7 +33,7 @@ public interface AmbitsApi {
      * @param ambit - Ambit
      * */
     @POST("Ambits")
-    Call<Ambit> Create(@Body Ambit ambit);
+    Call<Ambit> Create(@Body Ambit ambit,@Header("Authorization") String Authorization);
 
     /**
      * Update an Ambit
@@ -42,7 +42,7 @@ public interface AmbitsApi {
      * @param ambit - Ambit
      * */
     @PUT("Ambits")
-    Call<Ambit> Update(@Query("idAmbit") int idAmbit, @Body Ambit ambit);
+    Call<Ambit> Update(@Query("idAmbit") int idAmbit, @Body Ambit ambit,@Header("Authorization") String Authorization);
 
     /**
      * Delete an Ambit
@@ -50,5 +50,5 @@ public interface AmbitsApi {
      * @param id - Ambit identifier
      * */
     @DELETE("Ambits")
-    Call<Ambit> Delete(@Query("id") int id);
+    Call<Ambit> Delete(@Query("id") int id,@Header("Authorization") String Authorization);
 }

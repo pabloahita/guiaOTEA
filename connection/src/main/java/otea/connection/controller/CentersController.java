@@ -19,6 +19,7 @@ import otea.connection.ConnectionClient;
 import otea.connection.api.CentersApi;
 import retrofit2.Call;
 import retrofit2.Response;
+import session.Session;
 
 /**
  * Controller class for Centers operations
@@ -74,7 +75,7 @@ public class CentersController {
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
             public List<JsonObject> call() throws Exception {
-                Call<List<JsonObject>> call = api.GetAll();
+                Call<List<JsonObject>> call = api.GetAll(Session.getInstance().getToken());
                 Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -139,7 +140,7 @@ public class CentersController {
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
             public List<JsonObject> call() throws Exception {
-                Call<List<JsonObject>> call = api.GetAllByOrganization(organization.getIdOrganization(),organization.getOrgType(),organization.getIllness());
+                Call<List<JsonObject>> call = api.GetAllByOrganization(organization.getIdOrganization(),organization.getOrgType(),organization.getIllness(),Session.getInstance().getToken());
                 Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -205,7 +206,7 @@ public class CentersController {
         Callable<Center> callable = new Callable<Center>() {
             @Override
             public Center call() throws Exception {
-                Call<Center> call = api.Get(organization.getIdOrganization(),organization.getOrgType(),organization.getIllness(),idCenter);
+                Call<Center> call = api.Get(organization.getIdOrganization(),organization.getOrgType(),organization.getIllness(),idCenter,Session.getInstance().getToken());
                 Response<Center> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -235,7 +236,7 @@ public class CentersController {
         Callable<Center> callable = new Callable<Center>() {
             @Override
             public Center call() throws Exception {
-                Call<Center> call = api.Create(center);
+                Call<Center> call = api.Create(center,Session.getInstance().getToken());
                 Response<Center> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -269,7 +270,7 @@ public class CentersController {
         Callable<Center> callable = new Callable<Center>() {
             @Override
             public Center call() throws Exception {
-                Call<Center> call = api.Update(idOrganization,orgType,illness,idCenter,center);
+                Call<Center> call = api.Update(idOrganization,orgType,illness,idCenter,center,Session.getInstance().getToken());
                 Response<Center> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -302,7 +303,7 @@ public class CentersController {
         Callable<Center> callable = new Callable<Center>() {
             @Override
             public Center call() throws Exception {
-                Call<Center> call = api.Delete(idOrganization,orgType,illness,idCenter);
+                Call<Center> call = api.Delete(idOrganization,orgType,illness,idCenter,Session.getInstance().getToken());
                 Response<Center> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

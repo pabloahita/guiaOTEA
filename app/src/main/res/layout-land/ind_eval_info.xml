@@ -75,6 +75,17 @@
             android:text="@string/overall_assessment" />
 
         <TextView
+            android:id="@+id/helpOverall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textSize="12sp"
+            android:textStyle="italic"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="@string/overall_help" />
+
+        <TextView
             android:id="@+id/overall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

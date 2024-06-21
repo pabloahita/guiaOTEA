@@ -18,6 +18,7 @@ import otea.connection.ConnectionClient;
 import otea.connection.api.AddressesApi;
 import retrofit2.Call;
 import retrofit2.Response;
+import session.Session;
 
 /**
  * Controller class for address operations
@@ -72,7 +73,7 @@ public class AddressesController {
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
             public List<JsonObject> call() throws Exception {
-                Call<List<JsonObject>> call = api.GetAll();
+                Call<List<JsonObject>> call = api.GetAll(Session.getInstance().getToken());
                 Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -128,7 +129,7 @@ public class AddressesController {
         Callable<Address> callable = new Callable<Address>() {
             @Override
             public Address call() throws Exception {
-                Call<Address> call = api.Get(idAddress);
+                Call<Address> call = api.Get(idAddress,Session.getInstance().getToken());
                 Response<Address> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -158,7 +159,7 @@ public class AddressesController {
         Callable<Address> callable = new Callable<Address>() {
             @Override
             public Address call() throws Exception {
-                Call<Address> call = api.Create(address);
+                Call<Address> call = api.Create(address,Session.getInstance().getToken());
                 Response<Address> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -189,7 +190,7 @@ public class AddressesController {
         Callable<Address> callable = new Callable<Address>() {
             @Override
             public Address call() throws Exception {
-                Call<Address> call = api.Update(id,address);
+                Call<Address> call = api.Update(id,address,Session.getInstance().getToken());
                 Response<Address> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -220,7 +221,7 @@ public class AddressesController {
         Callable<Address> callable = new Callable<Address>() {
             @Override
             public Address call() throws Exception {
-                Call<Address> call = api.Delete(id);
+                Call<Address> call = api.Delete(id,Session.getInstance().getToken());
                 Response<Address> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

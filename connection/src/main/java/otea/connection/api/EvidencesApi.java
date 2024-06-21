@@ -7,6 +7,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
@@ -21,7 +22,7 @@ public interface EvidencesApi {
 
     /**Gets all evidences*/
     @GET("Evidences/all")
-    Call<List<Evidence>> GetAll(@Query("evaluationType") String evaluationType);
+    Call<List<Evidence>> GetAll(@Query("evaluationType") String evaluationType, @Header("Authorization") String Authorization);
 
     /**
      * Gets all evidences by indicator
@@ -35,7 +36,7 @@ public interface EvidencesApi {
      *
      * */
     @GET("Evidences/ind")
-    Call<List<Evidence>> GetAllByIndicator(@Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType);
+    Call<List<Evidence>> GetAllByIndicator(@Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType, @Header("Authorization") String Authorization);
 
     /**
      * Gets an evidence
@@ -49,7 +50,7 @@ public interface EvidencesApi {
      * @param indicatorVersion - Indicator version
      * */
     @GET("Evidences/get")
-    Call<Evidence> Get(@Query("idEvidence") int idEvidence, @Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType);
+    Call<Evidence> Get(@Query("idEvidence") int idEvidence, @Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType, @Header("Authorization") String Authorization);
 
     /**
      * Creates new evidence
@@ -57,7 +58,7 @@ public interface EvidencesApi {
      * @param evidence - Evidence
      * */
     @POST("Evidences")
-    Call<Evidence> Create(@Body Evidence evidence);
+    Call<Evidence> Create(@Body Evidence evidence, @Header("Authorization") String Authorization);
 
     /**
      * Updates an existant evidence
@@ -72,7 +73,7 @@ public interface EvidencesApi {
      * @param evidence - Evidence
      * */
     @PUT("Evidences")
-    Call<Evidence> Update(@Query("idEvidence") int idEvidence, @Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType, @Body Evidence evidence);
+    Call<Evidence> Update(@Query("idEvidence") int idEvidence, @Query("idIndicator") int idIndicator, @Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType, @Body Evidence evidence, @Header("Authorization") String Authorization);
 
     /**
      * Deletes an evidence
@@ -86,5 +87,5 @@ public interface EvidencesApi {
      * @param indicatorVersion - Indicator version
      * */
     @DELETE("Evidences")
-    Call<Evidence> Delete(@Query("idEvidence") int idEvidence,@Query("idIndicator") int idIndicator,@Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType);
+    Call<Evidence> Delete(@Query("idEvidence") int idEvidence,@Query("idIndicator") int idIndicator,@Query("indicatorType") String indicatorType, @Query("idSubSubAmbit") int idSubSubAmbit, @Query("idSubAmbit") int idSubAmbit, @Query("idAmbit") int idAmbit, @Query("indicatorVersion") int indicatorVersion, @Query("evaluationType") String evaluationType, @Header("Authorization") String Authorization);
 }

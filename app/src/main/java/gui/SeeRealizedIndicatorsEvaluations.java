@@ -40,8 +40,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -373,16 +376,32 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
                     ev2.setText(Html.fromHtml(ev2Caption,0));
                     ev3.setText(Html.fromHtml(ev3Caption,0));
 
-                    TextView ev_prop=view.findViewById(R.id.ev_prop);
-                    String ev_prop_txt="<b>"+getString(R.string.about_indicator)+": </b>"+indicatorRegs.get(idInd-1).getObservationsSpanish();
-                    ev_prop_txt+="<ul><li><b>"+getString(R.string.about_the_evidence_1)+": </b>"+evidenceRegs.get(idEvidenceBase).getObservationsSpanish()+"</li>";
-                    ev_prop_txt+="<li><b>"+getString(R.string.about_the_evidence_2)+": </b>"+evidenceRegs.get(idEvidenceBase+1).getObservationsSpanish()+"</li>";
-                    ev_prop_txt+="<li><b>"+getString(R.string.about_the_evidence_3)+": </b>"+evidenceRegs.get(idEvidenceBase+2).getObservationsSpanish()+"</li>";
-                    if(isComplete){
-                        ev_prop_txt+="<li><b>"+getString(R.string.about_the_evidence_4)+": </b>"+evidenceRegs.get(idEvidenceBase+3).getObservationsSpanish()+"</li>";
+                    TextView about_indicator=view.findViewById(R.id.about_indicator);
+                    about_indicator.setText(indicatorRegs.get(idInd-1).getObservationsSpanish());
+
+                    TextView about_ev_1=view.findViewById(R.id.about_ev_1);
+                    TextView about_ev_2=view.findViewById(R.id.about_ev_2);
+                    TextView about_ev_3=view.findViewById(R.id.about_ev_3);
+                    TextView info_help=view.findViewById(R.id.info_help);
+                    about_ev_1.setText(evidenceRegs.get(idEvidenceBase).getObservationsSpanish());
+                    about_ev_2.setText(evidenceRegs.get(idEvidenceBase+1).getObservationsSpanish());
+                    about_ev_3.setText(evidenceRegs.get(idEvidenceBase+2).getObservationsSpanish());
+                    if(!Locale.getDefault().getLanguage().equals("es")){
+                        about_indicator.setTextIsSelectable(true);
+                        about_ev_1.setTextIsSelectable(true);
+                        about_ev_2.setTextIsSelectable(true);
+                        about_ev_3.setTextIsSelectable(true);
+                        info_help.setVisibility(View.GONE);
+                    }else{
+                        info_help.setVisibility(View.VISIBLE);
                     }
-                    ev_prop_txt+="</ul>";
-                    ev_prop.setText(Html.fromHtml(ev_prop_txt,0));
+                    if(isComplete) {
+                        TextView about_ev_4=view.findViewById(R.id.about_ev_4);
+                        about_ev_4.setText(evidenceRegs.get(idEvidenceBase+3).getObservationsSpanish());
+                        if(!Locale.getDefault().getLanguage().equals("es")){
+                            about_ev_4.setTextIsSelectable(true);
+                        }
+                    }
                     dialog.setView(view);
                 }else{
                     String msg="<i>";
@@ -543,6 +562,179 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
 
         currTextView=findViewById(R.id.points);
         currTextView.setText(""+evaluation.getTotalScore());
+
+        TextView idData=findViewById(R.id.idData);
+        String info="<ul>" +
+                "<li><b>"+getString(R.string.org_or_serv)+": </b>"+IndicatorsEvaluationUtil.getInstance().getEvaluatedOrganization().getNameOrg()+"</li>" +
+                "<li><b>"+getString(R.string.resp_prog)+": </b>"+IndicatorsEvaluationUtil.getInstance().getDirector().getFirst_name()+" "+IndicatorsEvaluationUtil.getInstance().getDirector().getLast_name()+"</li>" +
+                "<li><b>"+getString(R.string.contact_data)+": </b>"+IndicatorsEvaluationUtil.getInstance().getEvaluatedOrganization().getTelephone()+"<br>"+IndicatorsEvaluationUtil.getInstance().getEvaluatedOrganization().getEmail()+"</li></ul>";
+        idData.setText(Html.fromHtml(info,0));
+
+        TextView evalTeam=findViewById(R.id.evalTeam);
+        String evalTeamInfo="<ul>"+
+                "<li><b>"+getString(R.string.consultant)+": </b>"+IndicatorsEvaluationUtil.getInstance().getEvaluatedOrganization().getNameOrg()+"</li>" +
+                "<li><b>"+getString(R.string.responsible)+": </b>"+IndicatorsEvaluationUtil.getInstance().getResponsible().getFirst_name()+" "+IndicatorsEvaluationUtil.getInstance().getResponsible().getLast_name()+"</li>" +
+                "<li><b>"+getString(R.string.professional)+": </b>"+IndicatorsEvaluationUtil.getInstance().getProfessional().getFirst_name()+" "+IndicatorsEvaluationUtil.getInstance().getProfessional().getLast_name()+"</li>"+
+                "<li><b>"+getString(R.string.relative_name)+": </b>"+IndicatorsEvaluationUtil.getInstance().getEvaluatorTeam().getRelative_name()+"</li>"+
+                "<li><b>"+getString(R.string.patient_name)+": </b>"+IndicatorsEvaluationUtil.getInstance().getEvaluatorTeam().getPatient_name()+"</li>" +
+                "<li><b>"+getString(R.string.other_members)+": </b><ul>";
+
+        String[] otherMembers=IndicatorsEvaluationUtil.getInstance().getEvaluatorTeam().getOtherMembers().split(",");
+        for(String member:otherMembers){
+            evalTeamInfo+="<li>"+member+"</li>";
+        }
+        evalTeamInfo+="</ul></li></ul>";
+
+        evalTeam.setText(Html.fromHtml(evalTeamInfo,0));
+
+        TextView evalProc=findViewById(R.id.evalProc);
+        String evalDatesInfo="<ul><li><b>"+getString(R.string.creation_date)+": </b>"+DateFormatter.timeStampToStrDate(IndicatorsEvaluationUtil.getInstance().getEvaluatorTeam().getCreationDate())+"</li>";
+        String[] evalDates=IndicatorsEvaluationUtil.getInstance().getEvaluatorTeam().getEvaluationDates().split(",");
+        for(int i=0;i<evalDates.length;i++){
+            evalDatesInfo+="<li><b>"+getString(R.string.eval_date)+" "+(i+1)+": </b>"+DateFormatter.timeStampToStrDate(Long.parseLong(evalDates[i]))+"</li>";
+        }
+        evalDatesInfo+="</ul>";
+
+        evalProc.setText(Html.fromHtml(evalDatesInfo,0));
+        TextView overall=findViewById(R.id.overall);
+        TextView helpOverall=findViewById(R.id.helpOverall);
+        if(Locale.getDefault().getLanguage().equals("es")){
+            overall.setTextIsSelectable(false);
+            helpOverall.setVisibility(View.GONE);
+        }
+        else{
+            overall.setTextIsSelectable(true);
+            helpOverall.setVisibility(View.VISIBLE);
+        }
+        overall.setText(Html.fromHtml(evaluation.getConclusionsSpanish(),0));
+
+        Map<String, Integer> highNumEvidencesMarkedPerAmbit=new HashMap<String,Integer>();
+        Map<String, Integer> lowNumEvidencesMarkedPerAmbit=new HashMap<String,Integer>();
+
+        for(IndicatorsEvaluationIndicatorReg reg:indicatorRegs){
+            String key=reg.getIdSubSubAmbit()+","+reg.getIdSubAmbit()+","+reg.getIdAmbit();
+            if (highNumEvidencesMarkedPerAmbit.containsKey(key)) {
+                if(reg.getNumEvidencesMarked()>highNumEvidencesMarkedPerAmbit.get(key)) {
+                    highNumEvidencesMarkedPerAmbit.replace(key, reg.getNumEvidencesMarked());
+                }
+            }else{
+                highNumEvidencesMarkedPerAmbit.put(key,reg.getNumEvidencesMarked());
+            }
+            if(lowNumEvidencesMarkedPerAmbit.containsKey(key)){
+                if(reg.getNumEvidencesMarked()<lowNumEvidencesMarkedPerAmbit.get(key)){
+                    lowNumEvidencesMarkedPerAmbit.replace(key, reg.getNumEvidencesMarked());
+                }
+            }else{
+                lowNumEvidencesMarkedPerAmbit.put(key,reg.getNumEvidencesMarked());
+            }
+        }
+
+        String strongPoints="<ul>";
+        for(String key : highNumEvidencesMarkedPerAmbit.keySet()){
+            if(highNumEvidencesMarkedPerAmbit.get(key)==4 && lowNumEvidencesMarkedPerAmbit.get(key)==4) {
+                String[] auxx = key.split(",");
+                int idSubSubAmbit = Integer.parseInt(auxx[0]);
+                int idSubAmbit = Integer.parseInt(auxx[1]);
+                int idAmbit = Integer.parseInt(auxx[2]);
+
+                if (idSubSubAmbit != -1) {
+                    if(Locale.getDefault().getLanguage().equals("es")){
+                        strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getSubSubAmbit(idSubSubAmbit, idSubAmbit, idAmbit).getDescriptionSpanish()+"</li></b>";
+                    }else if(Locale.getDefault().getLanguage().equals("fr")){
+                        strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getSubSubAmbit(idSubSubAmbit, idSubAmbit, idAmbit).getDescriptionFrench()+"</li></b>";
+                    }else if(Locale.getDefault().getLanguage().equals("eu")){
+                        strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getSubSubAmbit(idSubSubAmbit, idSubAmbit, idAmbit).getDescriptionBasque()+"</li></b>";
+                    }else if(Locale.getDefault().getLanguage().equals("ca")){
+                        strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getSubSubAmbit(idSubSubAmbit, idSubAmbit, idAmbit).getDescriptionCatalan()+"</li></b>";
+                    }else if(Locale.getDefault().getLanguage().equals("nl")){
+                        strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getSubSubAmbit(idSubSubAmbit, idSubAmbit, idAmbit).getDescriptionDutch()+"</li></b>";
+                    }else if(Locale.getDefault().getLanguage().equals("gl")){
+                        strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getSubSubAmbit(idSubSubAmbit, idSubAmbit, idAmbit).getDescriptionGalician()+"</li></b>";
+                    }else if(Locale.getDefault().getLanguage().equals("de")){
+                        strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getSubSubAmbit(idSubSubAmbit, idSubAmbit, idAmbit).getDescriptionGerman()+"</li></b>";
+                    }else if(Locale.getDefault().getLanguage().equals("it")){
+                        strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getSubSubAmbit(idSubSubAmbit, idSubAmbit, idAmbit).getDescriptionItalian()+"</li></b>";
+                    }else if(Locale.getDefault().getLanguage().equals("pt")){
+                        strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getSubSubAmbit(idSubSubAmbit, idSubAmbit, idAmbit).getDescriptionPortuguese()+"</li></b>";
+                    }else{
+                        strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getSubSubAmbit(idSubSubAmbit, idSubAmbit, idAmbit).getDescriptionEnglish()+"</li></b>";
+                    }
+                } else {
+                    if (idSubAmbit != -1) {
+                        if(Locale.getDefault().getLanguage().equals("es")){
+                            strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getSubAmbit(idSubAmbit, idAmbit).getDescriptionSpanish()+"</li></b>";
+                        }else if(Locale.getDefault().getLanguage().equals("fr")){
+                            strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getSubAmbit(idSubAmbit, idAmbit).getDescriptionFrench()+"</li></b>";
+                        }else if(Locale.getDefault().getLanguage().equals("eu")){
+                            strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getSubAmbit(idSubAmbit, idAmbit).getDescriptionBasque()+"</li></b>";
+                        }else if(Locale.getDefault().getLanguage().equals("ca")){
+                            strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getSubAmbit(idSubAmbit, idAmbit).getDescriptionCatalan()+"</li></b>";
+                        }else if(Locale.getDefault().getLanguage().equals("nl")){
+                            strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getSubAmbit(idSubAmbit, idAmbit).getDescriptionDutch()+"</li></b>";
+                        }else if(Locale.getDefault().getLanguage().equals("gl")){
+                            strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getSubAmbit(idSubAmbit, idAmbit).getDescriptionGalician()+"</li></b>";
+                        }else if(Locale.getDefault().getLanguage().equals("de")){
+                            strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getSubAmbit(idSubAmbit, idAmbit).getDescriptionGerman()+"</li></b>";
+                        }else if(Locale.getDefault().getLanguage().equals("it")){
+                            strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getSubAmbit(idSubAmbit, idAmbit).getDescriptionItalian()+"</li></b>";
+                        }else if(Locale.getDefault().getLanguage().equals("pt")){
+                            strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getSubAmbit(idSubAmbit, idAmbit).getDescriptionPortuguese()+"</li></b>";
+                        }else{
+                            strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getSubAmbit(idSubAmbit, idAmbit).getDescriptionEnglish()+"</li></b>";
+                        }
+                    } else {
+                        if(Locale.getDefault().getLanguage().equals("es")){
+                            strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getAmbit(idAmbit).getDescriptionSpanish()+"</li></b>";
+                        }else if(Locale.getDefault().getLanguage().equals("fr")){
+                            strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getAmbit(idAmbit).getDescriptionFrench()+"</li></b>";
+                        }else if(Locale.getDefault().getLanguage().equals("eu")){
+                            strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getAmbit(idAmbit).getDescriptionBasque()+"</li></b>";
+                        }else if(Locale.getDefault().getLanguage().equals("ca")){
+                            strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getAmbit(idAmbit).getDescriptionCatalan()+"</li></b>";
+                        }else if(Locale.getDefault().getLanguage().equals("nl")){
+                            strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getAmbit(idAmbit).getDescriptionDutch()+"</li></b>";
+                        }else if(Locale.getDefault().getLanguage().equals("gl")){
+                            strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getAmbit(idAmbit).getDescriptionGalician()+"</li></b>";
+                        }else if(Locale.getDefault().getLanguage().equals("de")){
+                            strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getAmbit(idAmbit).getDescriptionGerman()+"</li></b>";
+                        }else if(Locale.getDefault().getLanguage().equals("it")){
+                            strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getAmbit(idAmbit).getDescriptionItalian()+"</li></b>";
+                        }else if(Locale.getDefault().getLanguage().equals("pt")){
+                            strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getAmbit(idAmbit).getDescriptionPortuguese()+"</li></b>";
+                        }else{
+                            strongPoints+="<li><b>"+IndicatorsUtil.getInstance().getAmbit(idAmbit).getDescriptionEnglish()+"</li></b>";
+                        }
+                    }
+                }
+            }
+        }
+
+        strongPoints+="</ul>";
+
+        TextView strenghts=findViewById(R.id.strengths);
+        strenghts.setText(Html.fromHtml(strongPoints,0));
+
+
+        TextView results=findViewById(R.id.results);
+
+        int levelId=-1;
+        if(evaluation.getLevel().equals("EXCELLENT")){
+            levelId=R.string.excellent;
+        }else if(evaluation.getLevel().equals("VERY_GOOD")){
+            levelId=R.string.very_good;
+        }else if(evaluation.getLevel().equals("GOOD")){
+            levelId=R.string.good;
+        }else if(evaluation.getLevel().equals("IMPROVABLE")){
+            levelId=R.string.improvable;
+        }else{
+            levelId=R.string.very_improvable;
+        }
+
+        String resultText="<b>"+getString(R.string.level)+": </b>"+getString(levelId);
+
+        results.setText(Html.fromHtml(resultText,0));
+
+
     }
 
     @Override
@@ -550,6 +742,7 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
         if(keyCode==event.KEYCODE_BACK){
             IndicatorsEvaluationUtil.removeInstance();
             IndicatorsUtil.removeInstance();
+            Session.getInstance().setIndicatorsEvaluations(null);
             Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
             startActivity(intent);
         }

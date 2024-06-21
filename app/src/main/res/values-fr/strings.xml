@@ -292,4 +292,15 @@
     <string name="n_noted_indicators">Nombre d\'indicateurs notés</string>
     <string name="multiply_by">Multiplier par</string>
     <string name="total">TOTAL</string>
+    <string name="org_or_serv">Organisation ou service évalué</string>
+    <string name="resp_prog">Responsable du programme/service</string>
+    <string name="contact_data">Coordonnées</string>
+    <string name="eval_date">Date d\'évaluation</string>
+    <string name="overall_help">L\'évaluation générale est en espagnol. Veuillez sélectionner le texte ci-dessous et choisir Traduire.</string>
+    <string name="excellent">Excellent</string>
+    <string name="very_good">Très bon</string>
+    <string name="good">Bon</string>
+    <string name="improvable">À améliorer</string>
+    <string name="very_improvable">À améliorer considérablement</string>
+    <string name="ind_info_help">Les opportunités d\'amélioration sont en espagnol. Veuillez sélectionner le texte de l\'opportunité d\'amélioration sur l\'indicateur ou les opportunités d\'amélioration sur les preuves et sélectionner Traduire.</string>
 </resources>

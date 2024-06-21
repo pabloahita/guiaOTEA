@@ -333,6 +333,17 @@
     <string name="n_noted_indicators">Aantal genoteerde indicatoren</string>
     <string name="multiply_by">Vermenigvuldigen met</string>
     <string name="total">TOTAAL</string>
+    <string name="org_or_serv">Geëvalueerde organisatie of dienst</string>
+    <string name="resp_prog">Programma/servicemanager</string>
+    <string name="contact_data">Contactgegevens</string>
+    <string name="eval_date">Evaluatiedatum</string>
+    <string name="overall_help">De algemene beoordeling is in het Spaans. Selecteer alstublieft de tekst hieronder en kies Vertalen.</string>
+    <string name="excellent">Uitstekend</string>
+    <string name="very_good">Zeer goed</string>
+    <string name="good">Goed</string>
+    <string name="improvable">Verbeterbaar</string>
+    <string name="very_improvable">Zeer verbeterbaar</string>
+    <string name="ind_info_help">De verbeterkansen zijn in het Spaans. Selecteer de tekst van de verbeterkans voor de indicator of de verbeterkansen voor het bewijs en selecteer Vertalen.</string>
 
 
 </resources>

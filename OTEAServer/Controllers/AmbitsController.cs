@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Misc;
 using OTEAServer.Models;
@@ -34,7 +35,8 @@ namespace OTEAServer.Controllers
         /// </summary>
         /// <returns>All ambits</returns>
         [HttpGet("all")]
-        public IActionResult GetAll()
+        [Authorize]
+        public IActionResult GetAll([FromHeader] string Authorization)
         {
             try
             {
@@ -54,7 +56,8 @@ namespace OTEAServer.Controllers
         /// <returns>The ambit if exists, null if not.</returns>
 
         [HttpGet("get")]
-        public ActionResult<Ambit> Get([FromQuery] int id)
+        [Authorize]
+        public ActionResult<Ambit> Get([FromQuery] int id, [FromHeader] string Authorization)
         {
             try
             {
@@ -77,7 +80,8 @@ namespace OTEAServer.Controllers
         /// <param name="ambit">Ambit to append</param>
         /// <returns>Ambit append, null if not</returns>
         [HttpPost]
-        public IActionResult Create([FromBody] Ambit ambit)
+        [Authorize(Policy = "Administrator")]
+        public IActionResult Create([FromBody] Ambit ambit, [FromHeader] string Authorization)
         {
             try
             {
@@ -99,7 +103,8 @@ namespace OTEAServer.Controllers
         /// <param name="ambit">New ambit</param>
         /// <returns>Ambit if was updated, null if not</returns>
         [HttpPut]
-        public IActionResult Update([FromQuery] int idAmbit, [FromBody] Ambit ambit)
+        [Authorize(Policy = "Administrator")]
+        public IActionResult Update([FromQuery] int idAmbit, [FromBody] Ambit ambit, [FromHeader] string Authorization)
         {
             try
             {
@@ -138,7 +143,8 @@ namespace OTEAServer.Controllers
         /// <param name="id">Ambit identifier</param>
         /// <returns>Deleted ambit if deletion was succesful, null if not</returns>
         [HttpDelete]
-        public IActionResult Delete([FromQuery] int id)
+        [Authorize(Policy = "Administrator")]
+        public IActionResult Delete([FromQuery] int id, [FromHeader] string Authorization)
         {
             try
             {

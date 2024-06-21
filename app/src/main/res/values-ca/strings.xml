@@ -336,5 +336,16 @@
     <string name="n_noted_indicators">Nombre d\'indicadors anotats</string>
     <string name="multiply_by">Multiplicar per</string>
     <string name="total">TOTAL</string>
+    <string name="org_or_serv">Organització o servei avaluat</string>
+    <string name="resp_prog">Responsable del programa/servei</string>
+    <string name="contact_data">Dades de contacte</string>
+    <string name="eval_date">Data d\'avaluació</string>
+    <string name="overall_help">La valoració general està en espanyol. Si us plau, seleccioneu el text col·locat a sota i seleccioneu Traduir.</string>
+    <string name="excellent">Excel·lent</string>
+    <string name="very_good">Molt bo</string>
+    <string name="good">Bo</string>
+    <string name="improvable">Millorable</string>
+    <string name="very_improvable">Molt millorable</string>
+    <string name="ind_info_help">Les oportunitats de millora estan en espanyol. Si us plau, seleccioneu el text de l\'oportunitat de millora sobre l\'indicador o les oportunitats de millora sobre les evidències i seleccioneu Traduir.</string>
 
 </resources>

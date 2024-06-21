@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -40,7 +41,8 @@ namespace OTEAServer.Controllers
         /// </summary>
         /// <returns>Addresses list</returns>
         [HttpGet("all")]
-        public IActionResult GetAll()
+        [Authorize]
+        public IActionResult GetAll([FromHeader] string Authorization)
         {
             try {
                 var addresses = _context.Addresses.ToList();
@@ -72,7 +74,8 @@ namespace OTEAServer.Controllers
         /// <param name="id">Address identifier</param>
         /// <returns>Address if is in the database, null if not</returns>
         [HttpGet("get")]
-        public ActionResult<Address> Get([FromQuery] int id)
+        [Authorize]
+        public ActionResult<Address> Get([FromQuery] int id, [FromHeader] string Authorization)
         {
             try
             {
@@ -96,7 +99,8 @@ namespace OTEAServer.Controllers
         /// <param name="address">New address</param>
         /// <returns>Address if was append, null if not</returns>
         [HttpPost]
-        public IActionResult Create([FromBody] Address address)
+        [Authorize]
+        public IActionResult Create([FromBody] Address address, [FromHeader] string Authorization)
         {
             try
             {
@@ -120,7 +124,8 @@ namespace OTEAServer.Controllers
         /// <param name="address">Address</param>
         /// <returns>Address if was updated, null if not</returns>
         [HttpPut]
-        public IActionResult Update([FromQuery] int idAddress, [FromBody] Address address)
+        [Authorize]
+        public IActionResult Update([FromQuery] int idAddress, [FromBody] Address address, [FromHeader] string Authorization)
         {
             try
             {
@@ -159,7 +164,8 @@ namespace OTEAServer.Controllers
         /// <param name="id">Address identifier</param>
         /// <returns>Address if was deleted, null if not</returns>
         [HttpDelete]
-        public IActionResult Delete([FromQuery] int id)
+        [Authorize]
+        public IActionResult Delete([FromQuery] int id, [FromHeader] string Authorization)
         {
             try
             {

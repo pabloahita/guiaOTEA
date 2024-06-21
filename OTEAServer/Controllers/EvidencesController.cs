@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Misc;
@@ -37,7 +38,8 @@ namespace OTEAServer.Controllers
         /// <param name="evaluationType">Evaluation type</param>
         /// <returns>Evidences list</returns>
         [HttpGet("all")]
-        public IActionResult GetAll([FromQuery] string evaluationType)
+        [Authorize]
+        public IActionResult GetAll([FromQuery] string evaluationType, [FromHeader] string Authorization)
         {
             try
             {
@@ -66,7 +68,8 @@ namespace OTEAServer.Controllers
         /// <param name="evaluationType">Evaluation type</param>
         /// <returns>Evidences list</returns>
         [HttpGet("ind")]
-        public IActionResult GetAllByIndicator([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType)
+        [Authorize]
+        public IActionResult GetAllByIndicator([FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType, [FromHeader] string Authorization)
         {
             try
             {
@@ -92,7 +95,8 @@ namespace OTEAServer.Controllers
         /// <param name="evaluationType">Evaluation type</param>
         /// <returns>Evidence if success, null if not</returns>
         [HttpGet("get")]
-        public ActionResult<Evidence> Get([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType)
+        [Authorize]
+        public ActionResult<Evidence> Get([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType, [FromHeader] string Authorization)
         {
             try
             {
@@ -117,7 +121,8 @@ namespace OTEAServer.Controllers
         /// <param name="evidence">Evidence</param>
         /// <returns>Evidence if sucess, null if not</returns>
         [HttpPost]
-        public IActionResult Create([FromBody] Evidence evidence)
+        [Authorize(Policy = "Administrator")]
+        public IActionResult Create([FromBody] Evidence evidence, [FromHeader] string Authorization)
         {
             try
             {
@@ -145,7 +150,8 @@ namespace OTEAServer.Controllers
         /// <param name="evidence">Evidence</param>
         /// <returns>Updated evidence if success, null if not</returns>
         [HttpPut]
-        public IActionResult Update([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType, [FromBody] Evidence evidence)
+        [Authorize(Policy = "Administrator")]
+        public IActionResult Update([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType, [FromBody] Evidence evidence, [FromHeader] string Authorization)
         {
             try
             {
@@ -192,7 +198,8 @@ namespace OTEAServer.Controllers
         /// <param name="indicatorVersion">Indicator version</param>
         /// <returns>Deleted evidence if success, null if not</returns>
         [HttpDelete]
-        public IActionResult Delete([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType)
+        [Authorize(Policy = "Administrator")]
+        public IActionResult Delete([FromQuery] int idEvidence, [FromQuery] int idIndicator, [FromQuery] string indicatorType, [FromQuery] int idSubSubAmbit, [FromQuery] int idSubAmbit, [FromQuery] int idAmbit, [FromQuery] int indicatorVersion, [FromQuery] string evaluationType, [FromHeader] string Authorization)
         {
             try
             {

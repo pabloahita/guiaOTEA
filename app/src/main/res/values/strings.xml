@@ -332,6 +332,17 @@
     <string name="n_noted_indicators">Number of indicators noted</string>
     <string name="multiply_by">Multiply by</string>
     <string name="total">TOTAL</string>
+    <string name="org_or_serv">Organization or service evaluated</string>
+    <string name="resp_prog">Program/service manager</string>
+    <string name="contact_data">Contact information</string>
+    <string name="eval_date">Evaluation date</string>
+    <string name="overall_help">The overall assessment is in Spanish. Please select the text below and choose Translate.</string>
+    <string name="excellent">Excellent</string>
+    <string name="very_good">Very good</string>
+    <string name="good">Good</string>
+    <string name="improvable">Improvable</string>
+    <string name="very_improvable">Very improvable</string>
+    <string name="ind_info_help">The improvement opportunities are in Spanish. Please select the text of the improvement opportunity on the indicator or the improvement opportunities on the evidence and select Translate.</string>
 
 
 </resources>

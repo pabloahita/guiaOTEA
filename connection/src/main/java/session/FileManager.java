@@ -78,7 +78,7 @@ public class FileManager {
 
             try {
                 BinaryData data=BinaryData.fromStream(inputStream);
-                blobClient.upload(data);
+                blobClient.upload(data,true);
             }catch(Throwable t){
                 if(!(t instanceof IllegalArgumentException)){//Exception appears, but file uploads correctly, obtaining a blob url
                     throw t;

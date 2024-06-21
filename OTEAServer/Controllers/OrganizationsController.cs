@@ -37,6 +37,7 @@ namespace OTEAServer.Controllers
         /// </summary>
         /// <returns>Organization list</returns>
         [HttpGet("all")]
+        [AllowAnonymous]
         public IActionResult GetAll()
         {
             try
@@ -79,6 +80,7 @@ namespace OTEAServer.Controllers
         /// </summary>
         /// <returns>Evaluated organization list</returns>
         [HttpGet("allEvaluated")]
+        [AllowAnonymous]
         public IActionResult GetAllEvaluatedOrganizations()
         {
             try
@@ -120,6 +122,7 @@ namespace OTEAServer.Controllers
         /// </summary>
         /// <returns>Evaluator organization list</returns>
         [HttpGet("allEvaluator")]
+        [AllowAnonymous]
         public IActionResult GetAllEvaluatorOrganizations()
         {
             try
@@ -189,7 +192,8 @@ namespace OTEAServer.Controllers
         /// <param name="organization">Organization</param>
         /// <returns>Organization if success, null if not</returns>
         [HttpPost]
-        public IActionResult Create([FromBody] Organization organization)
+        [Authorize(Policy = "Administrator")]
+        public IActionResult Create([FromBody] Organization organization, [FromHeader] string Authorization)
         {
             try
             {
@@ -213,7 +217,8 @@ namespace OTEAServer.Controllers
         /// <param name="organization">Organization</param>
         /// <returns>Organization if success, null if not</returns>
         [HttpPut]
-        public IActionResult Update([FromQuery] int id, [FromQuery] string orgType, [FromQuery] string illness, [FromBody] Organization organization)
+        [Authorize(Policy = "Administrator")]
+        public IActionResult Update([FromQuery] int id, [FromQuery] string orgType, [FromQuery] string illness, [FromBody] Organization organization, [FromHeader] string Authorization)
         {
             try
             {
@@ -260,7 +265,8 @@ namespace OTEAServer.Controllers
         /// <param name="illness">Organization illness or syndrome</param>
         /// <returns>Organization if success, null if not</returns>
         [HttpDelete]
-        public IActionResult Delete([FromQuery] int id, [FromQuery] string orgType, [FromQuery] string illness)
+        [Authorize(Policy = "Administrator")]
+        public IActionResult Delete([FromQuery] int id, [FromQuery] string orgType, [FromQuery] string illness, [FromHeader] string Authorization)
         {
             try
             {
