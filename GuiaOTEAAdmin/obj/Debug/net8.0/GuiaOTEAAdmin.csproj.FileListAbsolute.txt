@@ -29,8 +29,3 @@ C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\obj\Debug\n
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\obj\Debug\net8.0\GuiaOTEAAdmin.pdb
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\obj\Debug\net8.0\GuiaOTEAAdmin.genruntimeconfig.cache
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\obj\Debug\net8.0\ref\GuiaOTEAAdmin.dll
-C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\bin\Debug\net8.0\publish\web.config
-C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\bin\Debug\net8.0\publish\appsettings.Development.json
-C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\bin\Debug\net8.0\publish\appsettings.json
-C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\bin\Debug\net8.0\publish\GuiaOTEAAdmin.deps.json
-C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\bin\Debug\net8.0\publish\GuiaOTEAAdmin.runtimeconfig.json

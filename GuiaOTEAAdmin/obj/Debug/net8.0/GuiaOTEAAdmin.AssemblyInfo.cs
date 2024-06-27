@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GuiaOTEAAdmin")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+61b74239a783c4a432fefaccdb271f6ef3fb8059")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b9cde0c786a245c3d6bf4c0b30509187b69640da")]
 [assembly: System.Reflection.AssemblyProductAttribute("GuiaOTEAAdmin")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GuiaOTEAAdmin")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
