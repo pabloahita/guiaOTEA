@@ -8,8 +8,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -20,6 +20,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TFG2223.NoActionBar"
         tools:targetApi="31">
+        <activity
+            android:name="gui.SelectToEditEvaluatorTeam"
+            android:exported="false" />
+        <activity
+            android:name="gui.SelectToEditCenters"
+            android:exported="false" />
+        <activity
+            android:name="gui.EditEvaluatorTeam"
+            android:exported="false" />
+        <activity
+            android:name="gui.EditUser"
+            android:exported="false" />
         <activity
             android:name="gui.DownloadImprovementPlan"
             android:exported="false" />
@@ -38,7 +50,6 @@
         <activity
             android:name="gui.SelectToContinueIndicatorsEvaluations"
             android:exported="false" />
-
         <activity
             android:name=".MainMenu"
             android:exported="false" />

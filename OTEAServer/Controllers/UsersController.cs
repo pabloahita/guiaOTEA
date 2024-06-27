@@ -42,6 +42,42 @@ namespace OTEAServer.Controllers
             _sessionConfig = sessionConfig;
         }
 
+        /// <summary>
+        /// Method that obtains all the users
+        /// </summary>
+        /// <returns>User list</returns>
+        [HttpGet("allRequests")]
+        [Authorize(Policy = "Administrator")]
+        public IActionResult GetAllRequests([FromHeader] string Authorization)
+        {
+            try
+            {
+                var users = _context.Users.Where(u=>u.isActive==-1).ToList();
+                List<JsonDocument> result = new List<JsonDocument>();
+                foreach (var user in users)
+                {
+                    String usr = "{\"emailUser\":\"" + user.emailUser + "\"," +
+                    "\"userType\":\"" + user.userType + "\"," +
+                        "\"first_name\":\"" + user.first_name + "\"," +
+                        "\"last_name\":\"" + user.last_name + "\"," +
+                        "\"telephone\":\"" + user.telephone + "\"," +
+                        "\"idOrganization\":" + user.idOrganization + "," +
+                        "\"orgType\":\"" + user.orgType + "\"," +
+                        "\"illness\":\"" + user.illness + "\"," +
+                        "\"profilePhoto\":\"" + user.profilePhoto + "\"," +
+                        "\"isActive\":\"" + user.isActive + "\"}";
+                    result.Add(JsonDocument.Parse(usr));
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+
 
         /// <summary>
         /// Method that obtains all the users
@@ -52,7 +88,7 @@ namespace OTEAServer.Controllers
         {
             try
             {
-                var users = _context.Users.ToList();
+                var users = _context.Users.Where(u=>u.isActive==1).ToList();
                 List<JsonDocument> result = new List<JsonDocument>();
                 foreach(var user in users) {
                     String usr = "{\"emailUser\":\"" + user.emailUser + "\"," +
@@ -63,7 +99,8 @@ namespace OTEAServer.Controllers
                         "\"idOrganization\":" + user.idOrganization + "," +
                         "\"orgType\":\"" + user.orgType + "\"," +
                         "\"illness\":\"" + user.illness + "\"," +
-                        "\"profilePhoto\":\"" + user.profilePhoto + "\"}";
+                        "\"profilePhoto\":\"" + user.profilePhoto + "\"," +
+                        "\"isActive\":\"" + user.isActive + "\"}";
                     result.Add(JsonDocument.Parse(usr));
                 }
                 return Ok(result);
@@ -87,7 +124,7 @@ namespace OTEAServer.Controllers
         {
             try
             {
-                var users = _context.Users.Where(u => u.idOrganization == idOrganization && u.orgType == orgType && u.illness == illness).ToList();
+                var users = _context.Users.Where(u => u.idOrganization == idOrganization && u.orgType == orgType && u.illness == illness && u.isActive == 1).ToList();
                 List<JsonDocument> result = new List<JsonDocument>();
                 foreach (var user in users)
                 {
@@ -99,7 +136,8 @@ namespace OTEAServer.Controllers
                         "\"idOrganization\":" + user.idOrganization + "," +
                         "\"orgType\":\"" + user.orgType + "\"," +
                         "\"illness\":\"" + user.illness + "\"," +
-                        "\"profilePhoto\":\"" + user.profilePhoto + "\"}";
+                        "\"profilePhoto\":\"" + user.profilePhoto + "\"," +
+                        "\"isActive\":\"" + user.isActive + "\"}";
                     result.Add(JsonDocument.Parse(usr));
                 }
                 return Ok(result);
@@ -133,7 +171,8 @@ namespace OTEAServer.Controllers
                         "\"idOrganization\":" + user.idOrganization + "," +
                         "\"orgType\":\"" + user.orgType + "\"," +
                         "\"illness\":\"" + user.illness + "\"," +
-                        "\"profilePhoto\":\"" + user.profilePhoto + "\"}";
+                        "\"profilePhoto\":\"" + user.profilePhoto + "\"," +
+                        "\"isActive\":\"" + user.isActive + "\"}";
                 return JsonDocument.Parse(usr);
             }
             catch (Exception ex)
@@ -159,7 +198,8 @@ namespace OTEAServer.Controllers
                         "\"idOrganization\":" + user.idOrganization + "," +
                         "\"orgType\":\"" + user.orgType + "\"," +
                         "\"illness\":\"" + user.illness + "\"," +
-                        "\"profilePhoto\":\"" + user.profilePhoto + "\"}";
+                        "\"profilePhoto\":\"" + user.profilePhoto + "\"," +
+                        "\"isActive\":\"" + user.isActive + "\"}";
                 return JsonDocument.Parse(usr);
             }
             catch (Exception ex)
@@ -182,7 +222,7 @@ namespace OTEAServer.Controllers
             {
                 string email=credentials.RootElement.GetProperty("email").ToString();
                 string password = credentials.RootElement.GetProperty("password").ToString();
-                var user = _context.Users.FirstOrDefault(u => u.emailUser == email && u.passwordUser == password);
+                var user = _context.Users.FirstOrDefault(u => u.emailUser == email && u.passwordUser == password && u.isActive == 1);
 
                 if (user == null)
                 {//Finds user in database
@@ -222,7 +262,8 @@ namespace OTEAServer.Controllers
                     idOrganization = user.idOrganization,
                     orgType = user.orgType,
                     illness = user.illness,
-                    profilePhoto = user.profilePhoto
+                    profilePhoto = user.profilePhoto,
+                    isActive = user.isActive
                 };
                 var organization= _context.Organizations.FirstOrDefault(o => o.idOrganization == user.idOrganization && o.orgType == user.orgType && o.illness == user.illness);
                 if (organization == null) {
@@ -253,6 +294,104 @@ namespace OTEAServer.Controllers
                     user = usr,
                     organization = org,
                     token = "Bearer "+sessionToken
+
+                };
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Method that obtains the login
+        /// </summary>
+        /// <param name="email">User login</param>
+        /// <param name="password">User password</param>
+        /// <returns>Login if credentials are true, null if not</returns>
+        [HttpPost("loginAdmin")]
+        [AllowAnonymous]
+        public ActionResult LoginAdmin([FromBody] JsonDocument credentials)
+        {
+            try
+            {
+                string email = credentials.RootElement.GetProperty("email").ToString();
+                string password = credentials.RootElement.GetProperty("password").ToString();
+                var user = _context.Users.FirstOrDefault(u => u.emailUser == email && u.passwordUser == password && u.userType=="ADMIN" && u.isActive == 1);
+
+                if (user == null)
+                {//Finds user in database
+                    user = _context.Users.FirstOrDefault(u => u.emailUser == email && u.userType == "ADMIN" && u.isActive == 1);
+                    if (user == null) { return NotFound(); }
+                    else
+                    {
+                        if (user.passwordUser != password)
+                        {
+                            return Unauthorized();
+                        }
+                    }
+                }
+
+
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_sessionConfig.secret);
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim(ClaimTypes.Name, user.emailUser),
+                        new Claim(ClaimTypes.Role, user.userType)
+                    }),
+                    Expires = DateTime.UtcNow.AddHours(12),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                };
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                string sessionToken = tokenHandler.WriteToken(token);
+                var usr = new
+                {
+                    emailUser = email,
+                    userType = user.userType,
+                    first_name = user.first_name,
+                    last_name = user.last_name,
+                    telephone = user.telephone,
+                    idOrganization = user.idOrganization,
+                    orgType = user.orgType,
+                    illness = user.illness,
+                    profilePhoto = user.profilePhoto,
+                    isActive = user.isActive
+                };
+                var organization = _context.Organizations.FirstOrDefault(o => o.idOrganization == user.idOrganization && o.orgType == user.orgType && o.illness == user.illness);
+                if (organization == null)
+                {
+                    return BadRequest();
+                }
+                var org = new
+                {
+                    idOrganization = organization.idOrganization,
+                    orgType = organization.orgType,
+                    illness = organization.illness,
+                    nameOrg = organization.nameOrg,
+                    idAddress = organization.idAddress,
+                    email = organization.email,
+                    telephone = organization.telephone,
+                    informationSpanish = organization.informationSpanish,
+                    informationEnglish = organization.informationEnglish,
+                    informationFrench = organization.informationFrench,
+                    informationBasque = organization.informationBasque,
+                    informationCatalan = organization.informationCatalan,
+                    informationDutch = organization.informationDutch,
+                    informationGalician = organization.informationGalician,
+                    informationGerman = organization.informationGerman,
+                    informationItalian = organization.informationItalian,
+                    informationPortuguese = organization.informationPortuguese,
+                    profilePhoto = organization.profilePhoto
+                };
+                var response = new
+                {
+                    user = usr,
+                    organization = org,
+                    token = "Bearer " + sessionToken
 
                 };
                 return Ok(response);
@@ -312,6 +451,7 @@ namespace OTEAServer.Controllers
                 existingUser.orgType = user.orgType;
                 existingUser.illness = user.illness;
                 existingUser.profilePhoto = user.profilePhoto;
+                existingUser.isActive = user.isActive;
                 _context.SaveChanges();
 
                 return Ok(existingUser);

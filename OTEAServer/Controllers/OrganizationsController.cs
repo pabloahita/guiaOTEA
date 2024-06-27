@@ -217,7 +217,7 @@ namespace OTEAServer.Controllers
         /// <param name="organization">Organization</param>
         /// <returns>Organization if success, null if not</returns>
         [HttpPut]
-        [Authorize(Policy = "Administrator")]
+        [Authorize(Policy = "Director")]
         public IActionResult Update([FromQuery] int id, [FromQuery] string orgType, [FromQuery] string illness, [FromBody] Organization organization, [FromHeader] string Authorization)
         {
             try

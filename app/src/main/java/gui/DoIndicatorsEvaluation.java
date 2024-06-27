@@ -1745,7 +1745,6 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
         current_evaluation=IndicatorsEvaluationsController.Get(current_evaluation.getEvaluationDate(),current_evaluation.getIdEvaluatorTeam(),current_evaluation.getIdEvaluatorOrganization(),current_evaluation.getOrgTypeEvaluator(),current_evaluation.getIdEvaluatedOrganization(),current_evaluation.getOrgTypeEvaluated(),current_evaluation.getIllness(),current_evaluation.getIdCenter(),current_evaluation.getEvaluationType());
         IndicatorsEvaluationUtil.getInstance().setIndicatorsEvaluation(current_evaluation);
         IndicatorsEvaluationRegsUtil.createInstance(current_evaluation);
-        Session.getInstance().setIndicatorsEvaluations(null);
         generateReport();
 
     }

@@ -1,10 +1,12 @@
 package session;
 
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.util.BinaryData;
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
+import com.azure.storage.blob.models.BlobItem;
 import com.azure.storage.blob.models.BlobStorageException;
 
 
@@ -18,9 +20,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.SocketTimeoutException;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
 
 import cli.indicators.IndicatorsEvaluation;
 import cli.indicators.IndicatorsEvaluationEvidenceReg;
@@ -66,6 +71,7 @@ public class FileManager {
     public static void refreshApi(){
         instance=new FileManager();
     }
+
     public static void uploadFile(InputStream inputStream, String containerName, String fileName){
         Runnable task=()->{
 
@@ -89,35 +95,70 @@ public class FileManager {
         task.run();
     }
 
+    public static void downloadPhotosProfileAsync(List<String> fileNames, final PhotosDownloadCallback callback) {
+        // Contador para esperar a que todas las descargas se completen
+        CountDownLatch latch = new CountDownLatch(fileNames.size());
+        List<ByteArrayOutputStream> resultStreams = new ArrayList<>();
 
-    public static CompletableFuture<ByteArrayOutputStream> downloadPhotoProfileAsync(String fileName){
-        return CompletableFuture.supplyAsync(() -> {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        for (String fileName : fileNames) {
             // Get the BlobContainerClient
             BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient("profile-photos");
             // Get the BlobClient
             BlobClient blobClient = containerClient.getBlobClient(fileName);
-            try {
-                blobClient.downloadStream(stream);
-                numAttempts=0;
-            } catch (Exception e) {
-                if(e.getCause() instanceof SocketTimeoutException){
-                    numAttempts++;
-                    if(numAttempts<3) {
-                        return downloadPhotoProfileAsync(fileName).join();
+
+            if(!fileName.isEmpty()) {
+                // Ejecutar cada descarga en un hilo separado
+                new Thread(() -> {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    try {
+                        blobClient.downloadStream(stream);
+                        numAttempts = 0;
+                        // Llamar al callback en caso de éxito
+                        callback.onPhotoDownloadSuccess(fileName, stream);
+                    } catch (Exception e) {
+                        if (e.getCause() instanceof SocketTimeoutException) {
+                            numAttempts++;
+                            if (numAttempts < 3) {
+                                // Intentar nuevamente la descarga recursivamente
+                                downloadPhotosProfileAsync(Collections.singletonList(fileName), callback);
+                            } else {
+                                numAttempts = 0;
+                                // Llamar al callback en caso de falla después de varios intentos
+                                callback.onPhotoDownloadFailure(fileName, new RuntimeException("Número máximo de intentos alcanzado", e));
+                            }
+                        } else {
+                            // Llamar al callback en caso de otro tipo de error
+                            callback.onPhotoDownloadFailure(fileName, new RuntimeException("Error en la descarga", e));
+                        }
+                    } finally {
+                        latch.countDown(); // Reducir el contador del latch cuando una descarga se completa
                     }
-                    else{
-                        numAttempts=0;
-                        return null;
-                    }
-                }
-                else{
-                    throw new RuntimeException(e);
-                }
+                }).start();
+            }else{
+
             }
-            return stream;
-        });
+        }
+
+        try {
+            latch.await(); // Esperar hasta que todas las descargas se completen
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
+
+    // Interfaz para el callback de descarga de fotos
+    public interface PhotosDownloadCallback {
+        void onPhotoDownloadSuccess(String fileName, ByteArrayOutputStream stream);
+        void onPhotoDownloadFailure(String fileName, Exception e);
+    }
+
+    public interface ReportsDeletionCallback{
+        void onSucess();
+
+        void onFailure();
+    }
+
 
     public static CompletableFuture<ByteArrayOutputStream> downloadReport(String fileName){
         return CompletableFuture.supplyAsync(() -> {
@@ -133,7 +174,7 @@ public class FileManager {
                 if(e.getCause() instanceof SocketTimeoutException){
                     numAttempts++;
                     if(numAttempts<3) {
-                        return downloadPhotoProfileAsync(fileName).join();
+                        return downloadReport(fileName).join();
                     }
                     else{
                         numAttempts=0;
@@ -179,6 +220,24 @@ public class FileManager {
             }
         });
     }
+
+    public static void deleteBlob(String containerName, String blobName) {
+        new Thread(()->{
+            // Obtener el BlobContainerClient
+            BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
+
+            // Obtener el BlobClient
+            BlobClient blobClient = containerClient.getBlobClient(blobName);
+
+            try {
+                // Eliminar el blob
+                blobClient.delete();
+            } catch (BlobStorageException e) {
+                throw new RuntimeException("Error al eliminar el blob", e);
+            }
+        }).start();
+    }
+
 
 
 

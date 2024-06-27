@@ -15,7 +15,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -37,20 +36,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import cli.organization.data.geo.Country;
-import cli.user.Request;
 import cli.user.User;
 import session.Session;
-import gui.adapters.OrgsAdapter;
 import gui.adapters.PhoneCodeAdapter;
 import misc.FieldChecker;
 import cli.organization.Organization;
 import misc.PasswordFormatter;
-import otea.connection.controller.CountriesController;
-import otea.connection.controller.OrganizationsController;
-import otea.connection.controller.RequestsController;
 import otea.connection.controller.UsersController;
 import session.FileManager;
 
@@ -88,7 +83,9 @@ public class Register extends AppCompatActivity {
         Request request=Session.getCurrRequest();
         String[] telephone=new String[2];
 
-        getCountries();
+        countries= new ArrayList<>();
+        countries.add(new Country("-2","País","Country","Pays","Herrialdea","País","Land","País","Land","Paese","País","-",""));
+        countries.addAll(Session.getInstance().getCountries());
         phoneCodeAdapter[0] = new PhoneCodeAdapter(Register.this,countries);
         phoneCodeAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
 
@@ -387,12 +384,7 @@ public class Register extends AppCompatActivity {
 
 
 
-    public List<Country> getCountries(){
-        if(countries==null){
-            countries= CountriesController.GetAll(Locale.getDefault().getLanguage());
-        }
-        return countries;
-    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

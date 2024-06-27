@@ -161,6 +161,7 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:text="@string/change_photo"
+                    android:textSize="20sp"
                     android:textColor="@color/black"
                     android:background="@drawable/round_button_background"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -217,7 +218,7 @@
                 <EditText
                     android:id="@+id/org_name_reg"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:hint="@string/org_name"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -233,7 +234,7 @@
                 <EditText
                     android:id="@+id/name_address_reg"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:hint="@string/org_address"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -264,7 +265,7 @@
                     <EditText
                         android:id="@+id/foreign_region_reg"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:hint="@string/org_region"
                         android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -309,7 +310,7 @@
                     <EditText
                         android:id="@+id/foreign_province_reg"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:hint="@string/org_province"
                         android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -353,7 +354,7 @@
                     <EditText
                         android:id="@+id/foreign_city_reg"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:hint="@string/org_city"
                         android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -389,7 +390,7 @@
                 <EditText
                     android:id="@+id/email_reg"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:hint="@string/email_reg"
                     android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -416,7 +417,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.25" />
+                    app:layout_constraintGuide_percent="0.15"  />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="0dp"
@@ -430,7 +431,7 @@
                     <EditText
                         android:id="@+id/phone_reg"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:hint="@string/telephone_reg"
                         android:inputType="phone" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -449,7 +450,7 @@
                 <EditText
                     android:id="@+id/more_info_org_reg"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:hint="@string/more_info"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -466,7 +467,7 @@
                 <EditText
                     android:id="@+id/email_dir_reg"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:hint="Email del director"
                     android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -492,7 +493,7 @@
                 android:background="@drawable/round_button_background"
                 android:text="@string/add_new_evaluated_org"
                 android:textColor="@color/black"
-                android:textSize="17sp" />
+                android:textSize="20sp" />
 
 
         </GridLayout>

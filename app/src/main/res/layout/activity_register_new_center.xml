@@ -349,16 +349,23 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <EditText
-                android:id="@+id/email_reg"
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
+                app:hintTextAppearance="@style/HelperTextAppearance">
 
-                android:ems="10"
-                android:hint="@string/email_reg"
-                android:inputType="textEmailAddress" />
+                <EditText
+                    android:id="@+id/email_reg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/email_reg"
+                    android:inputType="textEmailAddress"  />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <gui.customItems.CustomCheckBox
                 android:id="@+id/accept_LOPD"

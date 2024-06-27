@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import cli.organization.data.geo.City;
+import misc.ListCallback;
 import otea.connection.ConnectionClient;
 import otea.connection.api.CitiesApi;
 import retrofit2.Call;
@@ -62,7 +63,6 @@ public class CitiesController {
     }
 
 
-
     /**
      * Method that obtains a city from the database
      *
@@ -104,7 +104,7 @@ public class CitiesController {
      * @param idCountry - Country identifier
      * @return Cities of the province
      * */
-    public static List<City> GetCitiesByProvince(int idProvince, int idRegion, String idCountry){
+    public static void GetCitiesByProvince(int idProvince, int idRegion, String idCountry, ListCallback callback){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
@@ -118,7 +118,17 @@ public class CitiesController {
                 }
             }
         };
-        try {
+        executor.submit(()->{
+            try {
+                List<JsonObject> result = callable.call();
+                callback.onSuccess(result);
+            } catch (Exception e) {
+                callback.onError(e.getCause().toString());
+            } finally {
+                executor.shutdown();
+            }
+        });
+        /*try {
             Future<List<JsonObject>> future = executor.submit(callable);
             List<JsonObject> list = future.get();
             executor.shutdown();
@@ -155,7 +165,7 @@ public class CitiesController {
             else{
                 throw new RuntimeException(e);
             }
-        }
+        }*/
     }
 
 

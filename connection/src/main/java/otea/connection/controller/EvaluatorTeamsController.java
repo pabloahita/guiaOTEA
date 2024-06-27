@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import cli.organization.data.EvaluatorTeam;
+import misc.ListCallback;
 import otea.connection.ConnectionClient;
 import otea.connection.api.EvaluatorTeamsApi;
 import retrofit2.Call;
@@ -185,12 +186,48 @@ public class EvaluatorTeamsController {
      * @param illness - Organization illness or syndrome
      * @return Evaluator teams list
      * */
-    public static List<EvaluatorTeam> GetAllByCenter(int id, String orgType, int idCenter, String illness){
+    public static void GetAllByCenter(int id, String orgType, int idCenter, String illness, ListCallback callback){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
             public List<JsonObject> call() throws Exception {
                 Call<List<JsonObject>> call = api.GetAllByCenter(id,orgType,idCenter,illness,Session.getInstance().getToken());
+                Response<List<JsonObject>> response = call.execute();
+                if (response.isSuccessful()) {
+                    return response.body();
+                } else {
+                    throw new IOException("Error: " + response.code() + " " + response.message());
+                }
+            }
+        };
+        executor.submit(()->{
+            try {
+                List<JsonObject> result=callable.call();
+                callback.onSuccess(result);
+            } catch (Exception e) {
+                callback.onError(e.getCause().toString());
+            }finally {
+                executor.shutdown();
+            }
+        });
+
+    }
+
+    /**
+     * Method that obtains all the evaluator teams by organization
+     *
+     * @param id - Organization identifier
+     * @param orgType - Organization type
+     * @param illness - Organization illness or syndrome
+     * @return Evaluator teams list
+     * */
+
+    public static List<EvaluatorTeam> GetAllByOrganization(int id, String orgType, String illness){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
+            @Override
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call = api.GetAllByOrganization(id,orgType,illness,Session.getInstance().getToken());
                 Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -215,6 +252,7 @@ public class EvaluatorTeamsController {
                 String orgTypeEvaluator=evalTeam.getAsJsonPrimitive("orgTypeEvaluator").getAsString();
                 int idEvaluatedOrganization=evalTeam.getAsJsonPrimitive("idEvaluatedOrganization").getAsInt();
                 String orgTypeEvaluated=evalTeam.getAsJsonPrimitive("orgTypeEvaluated").getAsString();
+                int idCenter=evalTeam.getAsJsonPrimitive("idCenter").getAsInt();
                 String externalConsultant=evalTeam.getAsJsonPrimitive("externalConsultant").getAsString();
                 String patientName=evalTeam.getAsJsonPrimitive("patientName").getAsString();
                 String relativeName=evalTeam.getAsJsonPrimitive("relativeName").getAsString();
@@ -239,7 +277,7 @@ public class EvaluatorTeamsController {
             if(e.getCause() instanceof SocketTimeoutException){
                 numAttempts++;
                 if(numAttempts<3) {
-                    return GetAllByCenter(id,orgType,idCenter,illness);
+                    return GetAllByOrganization(id,orgType,illness);
                 }
                 else{
                     numAttempts=0;
@@ -250,9 +288,7 @@ public class EvaluatorTeamsController {
                 throw new RuntimeException(e);
             }
         }
-
     }
-
     /**
      * Method that obtains all the evaluator teams by organization
      *
@@ -261,7 +297,7 @@ public class EvaluatorTeamsController {
      * @param illness - Organization illness or syndrome
      * @return Evaluator teams list
      * */
-    public static List<EvaluatorTeam> GetAllByOrganization(int id, String orgType, String illness){
+    public static void GetAllByOrganizationAsync(int id, String orgType, String illness, ListCallback callback){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
@@ -275,7 +311,17 @@ public class EvaluatorTeamsController {
                 }
             }
         };
-        try {
+        executor.submit(()->{
+            try {
+                List<JsonObject> result=callable.call();
+                callback.onSuccess(result);
+            } catch (Exception e) {
+                callback.onError(e.getCause().toString());
+            }finally {
+                executor.shutdown();
+            }
+        });
+        /*try {
             Future<List<JsonObject>> future = executor.submit(callable);
             List<JsonObject> list = future.get();
             executor.shutdown();
@@ -326,7 +372,7 @@ public class EvaluatorTeamsController {
             else{
                 throw new RuntimeException(e);
             }
-        }
+        }*/
     }
 
     /**

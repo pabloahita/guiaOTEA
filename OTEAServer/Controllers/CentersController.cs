@@ -245,7 +245,47 @@ namespace OTEAServer.Controllers
                 if (center is null)
                     return NotFound();
 
+                var indicatorsEvaluationEvidenceRegs = _context.IndicatorsEvaluationsEvidencesRegs.Where(c => c.idEvaluatedOrganization == idOrganization && c.orgTypeEvaluated == orgType && c.illness == illness && c.idCenter == idCenter).ToList();
+                if(indicatorsEvaluationEvidenceRegs is not null) {
+                    foreach (var reg in indicatorsEvaluationEvidenceRegs)
+                    {
+                        _context.IndicatorsEvaluationsEvidencesRegs.Remove(reg);
+                    }
+                }
+
+                var indicatorsEvaluationIndicatorRegs = _context.IndicatorsEvaluationsIndicatorsRegs.Where(c => c.idEvaluatedOrganization == idOrganization && c.orgTypeEvaluated == orgType && c.illness == illness && c.idCenter == idCenter).ToList();
+                if (indicatorsEvaluationIndicatorRegs is not null)
+                {
+                    foreach (var reg in indicatorsEvaluationIndicatorRegs)
+                    {
+                        _context.IndicatorsEvaluationsIndicatorsRegs.Remove(reg);
+                    }
+                }
+
+                var indicatorsEvaluations = _context.IndicatorsEvaluations.Where(c => c.idEvaluatedOrganization == idOrganization && c.orgTypeEvaluated == orgType && c.illness == illness && c.idCenter == idCenter).ToList();
+                if (indicatorsEvaluations is not null) {
+                    foreach(var indEval in indicatorsEvaluations) {
+                        _context.IndicatorsEvaluations.Remove(indEval);
+                    }
+                }
+
+                var evaluatorTeams = _context.EvaluatorTeams.Where(c => c.idEvaluatedOrganization == idOrganization && c.orgTypeEvaluated == orgType && c.illness == illness && c.idCenter == idCenter);
+                if (evaluatorTeams is not null)
+                {
+                    foreach (var team in evaluatorTeams)
+                    {
+                        _context.EvaluatorTeams.Remove(team);
+                    }
+                }
+
                 _context.Centers.Remove(center);
+
+                var address = _context.Addresses.FirstOrDefault(c => c.idAddress == center.idAddress);
+                if (address is not null)
+                {
+                    _context.Addresses.Remove(address);
+                }
+
                 _context.SaveChanges();
                 return NoContent();
             }

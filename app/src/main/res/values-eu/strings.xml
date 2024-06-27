@@ -184,7 +184,7 @@
     <string name="last_name_user_menu">Abizena: abizena</string>
     <string name="org_name_user_menu">Erakundea</string>
     <string name="continue_indicators">Indikadoreen proba jarraitu</string>
-    <string name="see_results">Ikusi egin diren adierazleak proba</string>
+    <string name="see_results">Adierazleen ebaluazioak ikusi</string>
     <string name="generate_report">Txostena sortu</string>
     <string name="eval_team_members">Evaluatzaile taldeko kideak</string>
     <string name="key_dates">Gako datuak</string>
@@ -346,5 +346,13 @@
     <string name="improvable">Hobetzekoa</string>
     <string name="very_improvable">Asko hobetzekoa</string>
     <string name="ind_info_help">Hobekuntza aukerak gaztelaniaz daude. Mesedez, hautatu adierazleari buruzko hobekuntza aukeraren testua edo frogetako hobekuntza aukerak eta hautatu Itzuli.</string>
+    <string name="login_error">Ezin izan da saioa hasi. Mesedez, egiaztatu zure internet konexioa edo saiatu berriro geroago.</string>
+    <string name="edit_eval_team">Ebaluazio taldea editatu</string>
+    <string name="edit_user">Erabiltzailea editatu</string>
+    <string name="about_me">App-ari buruz</string>
+    <string name="edit">Editatu</string>
+    <string name="delete">Ezabatu</string>
+    <string name="no_center">Ez dago zure erakundearen zentro osagarririk. Mesedez, hautatu beste aukera bat menu nagusitik.</string>
+    <string name="no_existant_eval_team">Ez dago zure erakundean ebaluazio talderik. Mesedez, hautatu beste aukera bat menu nagusitik.</string>
 
 </resources>

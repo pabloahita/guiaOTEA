@@ -185,7 +185,7 @@
     <string name="last_name_user_menu">Cognom: cognom</string>
     <string name="org_name_user_menu">Organització</string>
     <string name="continue_indicators">Continua amb una prova d\'indicadors</string>
-    <string name="see_results">Veure proves d\'indicadors realitzats</string>
+    <string name="see_results">Veure avaluacions d\'indicadors</string>
     <string name="generate_report">Generar informe</string>
     <string name="eval_team_members">Membres de l\'equip d\'avaluació</string>
     <string name="key_dates">Dates clau</string>
@@ -347,5 +347,13 @@
     <string name="improvable">Millorable</string>
     <string name="very_improvable">Molt millorable</string>
     <string name="ind_info_help">Les oportunitats de millora estan en espanyol. Si us plau, seleccioneu el text de l\'oportunitat de millora sobre l\'indicador o les oportunitats de millora sobre les evidències i seleccioneu Traduir.</string>
+    <string name="login_error">No s\'ha pogut iniciar sessió. Si us plau, revisi la seva connexió a internet o torni-ho a intentar més tard.</string>
+    <string name="edit_eval_team">Editar equip avaluador</string>
+    <string name="edit_user">Editar usuari</string>
+    <string name="about_me">Sobre l\'app</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Eliminar</string>
+    <string name="no_center">No existeix cap centre addicional de la seva organització. Si us plau, seleccioni una altra opció del menú principal.</string>
+    <string name="no_existant_eval_team">No hi ha cap equip avaluador a la seva organització. Si us plau, seleccioni una altra opció del menú principal.</string>
 
 </resources>

@@ -182,7 +182,7 @@
     <string name="last_name_user_menu">Nachname: Nachname</string>
     <string name="org_name_user_menu">Organisation</string>
     <string name="continue_indicators">Weitermachen mit einem Indikatoren-Test</string>
-    <string name="see_results">Sehen Sie realisierte Indikatoren Test</string>
+    <string name="see_results">Indikatorenbewertungen anzeigen</string>
     <string name="generate_report">Bericht generieren</string>
     <string name="eval_team_members">Mitglieder des Bewertungsteams</string>
     <string name="key_dates">Wichtige termine</string>
@@ -344,6 +344,14 @@
     <string name="improvable">Verbesserungswürdig</string>
     <string name="very_improvable">Stark verbesserungswürdig</string>
     <string name="ind_info_help">Die Verbesserungschancen sind auf Spanisch. Bitte wählen Sie den Text der Verbesserungschance für den Indikator oder die Verbesserungschancen für die Beweise aus und wählen Sie Übersetzen.</string>
+    <string name="login_error">Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.</string>
+    <string name="edit_eval_team">Bewertungsteam bearbeiten</string>
+    <string name="edit_user">Benutzer bearbeiten</string>
+    <string name="about_me">Über die App</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="delete">Löschen</string>
+    <string name="no_center">Es gibt kein zusätzliches Zentrum in Ihrer Organisation. Bitte wählen Sie eine andere Option im Hauptmenü.</string>
+    <string name="no_existant_eval_team">Es gibt kein Bewertungsteam in Ihrer Organisation. Bitte wählen Sie eine andere Option im Hauptmenü.</string>
 
 
 </resources>

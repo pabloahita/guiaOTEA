@@ -9,7 +9,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -21,21 +20,19 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.JsonObject;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -62,8 +59,12 @@ import gui.adapters.PhoneCodeAdapter;
 import gui.adapters.ProvinceAdapter;
 import gui.adapters.RegionAdapter;
 import misc.FieldChecker;
+import misc.ListCallback;
 import otea.connection.controller.AddressesController;
 import otea.connection.controller.CentersController;
+import otea.connection.controller.CitiesController;
+import otea.connection.controller.ProvincesController;
+import otea.connection.controller.RegionsController;
 import otea.connection.controller.TranslatorController;
 import session.FileManager;
 import session.Session;
@@ -142,6 +143,8 @@ public class RegisterNewCenter extends AppCompatActivity {
 
     ImageButton helpButton;
 
+    int idCenter=-1;
+
 
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -152,7 +155,7 @@ public class RegisterNewCenter extends AppCompatActivity {
         countries= new ArrayList<>();
         countries.add(new Country("-2","País","Country","Pays","Herrialdea","País","Land","País","Land","Paese","País","-",""));
         countries.addAll(Session.getInstance().getCountries());
-        
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_new_center);
 
@@ -244,6 +247,8 @@ public class RegisterNewCenter extends AppCompatActivity {
                             imageCenter.setImageURI(uri);
                         } catch (FileNotFoundException e) {
                             throw new RuntimeException(e);
+                        } catch(NullPointerException ignored){
+
                         }
                     }
                 });
@@ -264,6 +269,8 @@ public class RegisterNewCenter extends AppCompatActivity {
                             bs.close();
                         } catch (IOException e) {
                             throw new RuntimeException(e);
+                        }catch(NullPointerException ignored){
+
                         }
                     }
                 });
@@ -628,11 +635,24 @@ public class RegisterNewCenter extends AppCompatActivity {
                 background.setVisibility(View.VISIBLE);
 
                 if(!fields.get("centerDescription").isEmpty() && !fields.get("address").isEmpty() && !idCountry[0].equals("-2") && !fields.get("nameProvince").isEmpty() && !fields.get("nameRegion").isEmpty() && !fields.get("nameCity").isEmpty()
-                        && FieldChecker.isACorrectPhone(fields.get("telephoneCode")+fields.get("telephone")) && checked){
+                        && FieldChecker.isACorrectPhone(fields.get("telephoneCode")+fields.get("telephone")) && checked &&
+                        ((FieldChecker.isPrecharged(idCountry[0]) && region[0] != null && idRegion[0] != -2 && province[0] != null && idProvince[0] != -2 && city[0] != null && idCity[0] != -2) ||
+                                (!idCountry[0].equals("-2") && !fields.get("nameRegion").isEmpty() && !fields.get("nameProvince").isEmpty() && !fields.get("nameCity").isEmpty()))){
 
                     Organization org=Session.getInstance().getOrganization();
-                    int numCenters= CentersController.GetAllByOrganization(org).size();
-                    int idCenter=numCenters+1;
+
+                    CentersController.GetAllByOrganization(org, new ListCallback() {
+                        @Override
+                        public void onSuccess(List<JsonObject> data) {
+                            idCenter=data.size()+1;
+                        }
+
+                        @Override
+                        public void onError(String errorResponse) {
+
+                        }
+                    });
+
                     int numAddresses= AddressesController.GetAll().size();
                     int idOrganization=org.getIdOrganization();
                     String orgType=org.getOrgType();
@@ -780,7 +800,7 @@ public class RegisterNewCenter extends AppCompatActivity {
                     }
 
 
-                    Center center=new Center(idOrganization,orgType,illness, numCenters+1,descriptionEnglish,descriptionSpanish,descriptionFrench,descriptionBasque,descriptionCatalan,descriptionDutch,descriptionGalician,descriptionGerman,descriptionItalian,descriptionPortuguese,address.getIdAddress(),fields.get("telephoneCode")+" "+fields.get("telephone"),fields.get("email"),imgCenterName);
+                    Center center=new Center(idOrganization,orgType,illness, idCenter,descriptionEnglish,descriptionSpanish,descriptionFrench,descriptionBasque,descriptionCatalan,descriptionDutch,descriptionGalician,descriptionGerman,descriptionItalian,descriptionPortuguese,address.getIdAddress(),fields.get("telephoneCode")+" "+fields.get("telephone"),fields.get("email"),imgCenterName);
                     CentersController.Create(center);
 
                     Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
@@ -804,15 +824,15 @@ public class RegisterNewCenter extends AppCompatActivity {
                         numErrors++;
                     }
                     if(FieldChecker.isPrecharged(country[0].getIdCountry())){
-                        if(idRegion[0]==-2){
+                        if(region[0]==null || idRegion[0]==-2){
                             msg+="<li><b>"+getString(R.string.please_sel_region)+"</b></li>";
                             numErrors++;
                         }
-                        if(idProvince[0]==-2){
+                        if(province[0]==null || idProvince[0]==-2){
                             msg+="<li><b>"+getString(R.string.please_sel_province)+"</b></li>";
                             numErrors++;
                         }
-                        if(idCity[0]==-2){
+                        if(city[0]==null || idCity[0]==-2){
                             msg+="<li><b>"+getString(R.string.please_sel_city)+"</b></li>";
                             numErrors++;
                         }
@@ -895,39 +915,16 @@ public class RegisterNewCenter extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if(keyCode==event.KEYCODE_BACK){
             Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-            intent.putExtra("userEmail",getIntent().getSerializableExtra("userEmail"));
 
             startActivity(intent);
         }
         return super.onKeyDown(keyCode,event);
     }
 
-
     private void regionSpinnerControl(){
         if(!idCountry[0].equals("-2")){
             if (FieldChecker.isPrecharged(idCountry[0])) {
-                regions=Session.getInstance().getRegionsByCountry(idCountry[0]);
-                if(regions.size()>1){
-                    regions.add(0,auxRegList.get(0));
-                    regionSpinner.setVisibility(View.VISIBLE);
-                    regionSpinnerAux.setVisibility(View.GONE);
-                    regionAdapter[0]=new RegionAdapter(RegisterNewCenter.this,regions);
-                    regionAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-                    regionSpinner.setAdapter(regionAdapter[0]);
-                }
-                else{
-                    region[0]=regions.get(0);
-                    idRegion[0]=-1;
-                    regionSpinner.setVisibility(View.GONE);
-                    regionSpinnerAux.setVisibility(View.VISIBLE);
-                    provinces=Session.getInstance().getProvincesByRegion(-1,idCountry[0]);
-                    provinces.add(auxProList.get(0));
-                    provinceSpinnerControl();
-                }
-
-                tilProvince.setVisibility(View.GONE);
-                tilRegion.setVisibility(View.GONE);
-                tilCity.setVisibility(View.GONE);
+                getRegionsByCountry(idCountry[0]);
             } else {
                 regionSpinner.setVisibility(View.GONE);
                 provinceSpinner.setVisibility(View.GONE);
@@ -979,21 +976,7 @@ public class RegisterNewCenter extends AppCompatActivity {
                 fields.replace("nameRegion",region[0].getNameEnglish());
             }
 
-            provinces=Session.getInstance().getProvincesByRegion(idRegion[0],idCountry[0]);
-            if(provinces.size()>1) {
-                provinces.add(0,auxProList.get(0));
-            }
-            provinceAdapter[0] = new ProvinceAdapter(RegisterNewCenter.this, provinces);
-            provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-            provinceSpinner.setAdapter(provinceAdapter[0]);
-            provinceSpinnerAux.setVisibility(View.GONE);
-            provinceSpinner.setVisibility(View.VISIBLE);
-            if(provinces.size()==1){
-                provinceSpinner.setSelection(0);
-                province[0]=(Province) provinceSpinner.getSelectedItem();
-                idProvince[0]=province[0].getIdProvince();
-                citySpinnerControl();
-            }
+            getProvincesByRegion(idRegion[0],idCountry[0]);
         }else{
             fields.replace("nameRegion","");
             fields.replace("nameProvince","");
@@ -1004,6 +987,7 @@ public class RegisterNewCenter extends AppCompatActivity {
             citySpinnerAux.setVisibility(View.VISIBLE);
         }
     }
+
 
     private void citySpinnerControl(){
         if(idProvince[0]!=-2){
@@ -1029,25 +1013,165 @@ public class RegisterNewCenter extends AppCompatActivity {
                 fields.replace("nameProvince", province[0].getNameEnglish());
             }
 
-            cities=Session.getInstance().getCitiesByProvince(idProvince[0], idRegion[0], idCountry[0]);
-            if(cities.size()>1) {
-                cities.add(0,auxCityList.get(0));
-            }
-            cityAdapter[0] = new CityAdapter(RegisterNewCenter.this, cities);
+            getCitiesByProvince(idProvince[0], idRegion[0], idCountry[0]);
 
-            cityAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-            citySpinner.setAdapter(cityAdapter[0]);
-            citySpinnerAux.setVisibility(View.GONE);
-            citySpinner.setVisibility(View.VISIBLE);
-            if(cities.size()==1){
-                citySpinner.setSelection(0);
-            }
         }else{
             fields.replace("nameProvince","");
             fields.replace("nameCity","");
             citySpinner.setVisibility(View.GONE);
             citySpinnerAux.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void getRegionsByCountry(String idCountry){
+        RegionsController.GetRegionsByCountry(idCountry, new ListCallback() {
+            @Override
+            public void onSuccess(List<JsonObject> data) {
+                runOnUiThread(()->{
+                    regions=new ArrayList<>();
+                    for(JsonObject reg: data){
+                        int idRegion=reg.getAsJsonPrimitive("idRegion").getAsInt();
+                        String nameSpanish=reg.getAsJsonPrimitive("nameSpanish").getAsString();
+                        String nameEnglish=reg.getAsJsonPrimitive("nameEnglish").getAsString();
+                        String nameFrench=reg.getAsJsonPrimitive("nameFrench").getAsString();
+                        String nameBasque=reg.getAsJsonPrimitive("nameBasque").getAsString();
+                        String nameCatalan=reg.getAsJsonPrimitive("nameCatalan").getAsString();
+                        String nameDutch=reg.getAsJsonPrimitive("nameDutch").getAsString();
+                        String nameGalician=reg.getAsJsonPrimitive("nameGalician").getAsString();
+                        String nameGerman=reg.getAsJsonPrimitive("nameGerman").getAsString();
+                        String nameItalian=reg.getAsJsonPrimitive("nameItalian").getAsString();
+                        String namePortuguese=reg.getAsJsonPrimitive("namePortuguese").getAsString();
+                        regions.add(new Region(idRegion,idCountry,nameSpanish,nameEnglish,nameFrench,nameBasque,nameCatalan,nameDutch,nameGalician,nameGerman,nameItalian,namePortuguese));
+                    }
+                    if(regions.size()>1){
+                        regions.add(0,auxRegList.get(0));
+                        regionSpinner.setVisibility(View.VISIBLE);
+                        regionSpinnerAux.setVisibility(View.GONE);
+                        regionAdapter[0]=new RegionAdapter(RegisterNewCenter.this,regions);
+                        regionAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                        regionSpinner.setAdapter(regionAdapter[0]);
+                    }
+                    else{
+                        region[0]=regions.get(0);
+                        idRegion[0]=-1;
+                        regionSpinner.setVisibility(View.GONE);
+                        regionSpinnerAux.setVisibility(View.VISIBLE);
+                        provinceSpinnerControl();
+                    }
+
+                    tilProvince.setVisibility(View.GONE);
+                    tilRegion.setVisibility(View.GONE);
+                    tilCity.setVisibility(View.GONE);
+                });
+            }
+
+            @Override
+            public void onError(String errorResponse) {
+                runOnUiThread(()->{
+                    Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+                    startActivity(intent);
+                });
+            }
+        });
+
+    }
+
+    public void getProvincesByRegion(int idRegion, String idCountry){
+        ProvincesController.GetProvincesByRegion(idRegion, idCountry, new ListCallback() {
+            @Override
+            public void onSuccess(List<JsonObject> data) {
+                runOnUiThread(()->{
+                    provinces=new ArrayList<>();
+                    for(JsonObject reg:data){
+                        int idProvince=reg.getAsJsonPrimitive("idProvince").getAsInt();
+                        String nameSpanish=reg.getAsJsonPrimitive("nameSpanish").getAsString();
+                        String nameEnglish=reg.getAsJsonPrimitive("nameEnglish").getAsString();
+                        String nameFrench=reg.getAsJsonPrimitive("nameFrench").getAsString();
+                        String nameBasque=reg.getAsJsonPrimitive("nameBasque").getAsString();
+                        String nameCatalan=reg.getAsJsonPrimitive("nameCatalan").getAsString();
+                        String nameDutch=reg.getAsJsonPrimitive("nameDutch").getAsString();
+                        String nameGalician=reg.getAsJsonPrimitive("nameGalician").getAsString();
+                        String nameGerman=reg.getAsJsonPrimitive("nameGerman").getAsString();
+                        String nameItalian=reg.getAsJsonPrimitive("nameItalian").getAsString();
+                        String namePortuguese=reg.getAsJsonPrimitive("namePortuguese").getAsString();
+                        provinces.add(new Province(idProvince,idRegion,idCountry,nameSpanish,nameEnglish,nameFrench,nameBasque,nameCatalan,nameDutch,nameGalician,nameGerman,nameItalian,namePortuguese));
+                    }
+                    if(provinces.size()>1) {
+                        provinces.add(0,auxProList.get(0));
+                    }
+                    provinceAdapter[0] = new ProvinceAdapter(RegisterNewCenter.this, provinces);
+                    provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                    provinceSpinner.setAdapter(provinceAdapter[0]);
+                    provinceSpinnerAux.setVisibility(View.GONE);
+                    provinceSpinner.setVisibility(View.VISIBLE);
+                    if(provinces.size()==1){
+                        provinceSpinner.setSelection(0);
+                        province[0]=(Province) provinceSpinner.getSelectedItem();
+                        idProvince[0]=province[0].getIdProvince();
+                        citySpinnerControl();
+                    }
+                });
+            }
+
+            @Override
+            public void onError(String errorResponse) {
+                runOnUiThread(()->{
+                    Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+                    startActivity(intent);
+                });
+            }
+        });
+    }
+
+
+    public void getCitiesByProvince(int idProvince, int idRegion, String idCountry) {
+        CitiesController.GetCitiesByProvince(idProvince, idRegion, idCountry, new ListCallback() {
+            @Override
+            public void onSuccess(List<JsonObject> data) {
+                runOnUiThread(() -> {
+                    cities = new ArrayList<>();
+                    for (JsonObject reg : data) {
+                        int idCity = reg.getAsJsonPrimitive("idCity").getAsInt();
+                        String nameSpanish = reg.getAsJsonPrimitive("nameSpanish").getAsString();
+                        String nameEnglish = reg.getAsJsonPrimitive("nameEnglish").getAsString();
+                        String nameFrench = reg.getAsJsonPrimitive("nameFrench").getAsString();
+                        String nameBasque = reg.getAsJsonPrimitive("nameBasque").getAsString();
+                        String nameCatalan = reg.getAsJsonPrimitive("nameCatalan").getAsString();
+                        String nameDutch = reg.getAsJsonPrimitive("nameDutch").getAsString();
+                        String nameGalician = reg.getAsJsonPrimitive("nameGalician").getAsString();
+                        String nameGerman = reg.getAsJsonPrimitive("nameGerman").getAsString();
+                        String nameItalian = reg.getAsJsonPrimitive("nameItalian").getAsString();
+                        String namePortuguese = reg.getAsJsonPrimitive("namePortuguese").getAsString();
+                        cities.add(new City(idCity, idProvince, idRegion, idCountry, nameSpanish, nameEnglish, nameFrench, nameBasque, nameCatalan, nameDutch, nameGalician, nameGerman, nameItalian, namePortuguese));
+                    }
+                    if(!cities.isEmpty()){
+                        if(cities.size()>1) {
+                            cities.add(0,auxCityList.get(0));
+                        }
+                        cityAdapter[0] = new CityAdapter(RegisterNewCenter.this, cities);
+
+                        cityAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                        citySpinner.setAdapter(cityAdapter[0]);
+                        citySpinnerAux.setVisibility(View.GONE);
+                        citySpinner.setVisibility(View.VISIBLE);
+                        if(cities.size()==1){
+                            citySpinner.setSelection(0);
+                            city[0]=(City) citySpinner.getSelectedItem();
+                            idCity[0]=city[0].getIdCity();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onError(String errorResponse) {
+                runOnUiThread(() -> {
+                    Intent intent = new Intent(getApplicationContext(), com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+                    startActivity(intent);
+                });
+            }
+        });
+
     }
 
 }

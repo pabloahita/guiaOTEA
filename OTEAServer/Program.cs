@@ -19,15 +19,17 @@ builder.Services.AddMvc(options =>
     options.SuppressAsyncSuffixInActionNames = false;
 });
 
+var sessionConfig = new SessionConfig();
+
+builder.Services.AddSingleton<SessionConfig>(sessionConfig);
+
 //Add DATABASE CONTEXT
 builder.Services.AddDbContext<DatabaseContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+        options.UseSqlServer(sessionConfig.connectionString));
 
 builder.Services.AddRouting();
 
-var secretaDePrueba = "EstaClaveEsSoloDePruebaNoVaASerLaOficial123"; //Clave secreta de prueba. Tratar de cambiarla mediante Azure Key Vault
 
-var sessionConfig = new SessionConfig {secret=secretaDePrueba};
 
 builder.Services.AddAuthentication(x =>
 {
@@ -62,7 +64,7 @@ builder.Services.AddAuthorization(options =>
 }
 );
 
-builder.Services.AddSingleton<SessionConfig>(sessionConfig);
+
 
 
 var app = builder.Build();

@@ -182,7 +182,7 @@
     <string name="last_name_user_menu">Achternaam: achternaam</string>
     <string name="org_name_user_menu">Organisatie</string>
     <string name="continue_indicators">Ga verder met een indicatoren test</string>
-    <string name="see_results">Zie gerealiseerde indicatoren test</string>
+    <string name="see_results">Indicatorbeoordelingen bekijken</string>
     <string name="generate_report">Rapport genereren</string>
     <string name="eval_team_members">Leden van het evaluatieteam</string>
     <string name="key_dates">Belangrijke data</string>
@@ -344,6 +344,14 @@
     <string name="improvable">Verbeterbaar</string>
     <string name="very_improvable">Zeer verbeterbaar</string>
     <string name="ind_info_help">De verbeterkansen zijn in het Spaans. Selecteer de tekst van de verbeterkans voor de indicator of de verbeterkansen voor het bewijs en selecteer Vertalen.</string>
+    <string name="login_error">Kan niet inloggen. Controleer uw internetverbinding of probeer het later opnieuw.</string>
+    <string name="edit_eval_team">Evaluatieteam bewerken</string>
+    <string name="edit_user">Gebruiker bewerken</string>
+    <string name="about_me">Over de app</string>
+    <string name="edit">Bewerken</string>
+    <string name="delete">Verwijderen</string>
+    <string name="no_center">Er is geen extra centrum in uw organisatie. Selecteer een andere optie in het hoofdmenu..</string>
+    <string name="no_existant_eval_team">Er is geen evaluatieteam in uw organisatie. Selecteer een andere optie in het hoofdmenu.</string>
 
 
 </resources>

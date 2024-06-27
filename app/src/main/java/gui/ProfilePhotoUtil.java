@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -29,42 +31,42 @@ public class ProfilePhotoUtil {
     CompletableFuture<ByteArrayOutputStream> orgPhotoFuture;
 
     CompletableFuture<ByteArrayOutputStream> userPhotoFuture;
+
+
     private ProfilePhotoUtil(String profilePhotoUsr,String profilePhotoOrg){
         this.profilePhotoUsr = profilePhotoUsr;
         this.profilePhotoOrg = profilePhotoOrg;
 
-        // Descargar fotos en paralelo
-        userPhotoFuture = profilePhotoUsr.isEmpty() ?
-                CompletableFuture.completedFuture(new ByteArrayOutputStream()) :
-                FileManager.downloadPhotoProfileAsync(profilePhotoUsr);
+        List<String> fileNames=new ArrayList<>();
+        if(!profilePhotoUsr.isEmpty()) {
+            fileNames.add(profilePhotoUsr);
+        }
+        if(!profilePhotoOrg.isEmpty()) {
+            fileNames.add(profilePhotoOrg);
+        }
 
-        orgPhotoFuture = profilePhotoOrg.isEmpty() ?
-                CompletableFuture.completedFuture(new ByteArrayOutputStream()) :
-                FileManager.downloadPhotoProfileAsync(profilePhotoOrg);
-
-        allOf = CompletableFuture.allOf(userPhotoFuture, orgPhotoFuture);
-    }
-
-    public void downloadPhotos(){
-        allOf.thenRun(() -> {
-            try {
-                if (!profilePhotoUsr.isEmpty()) {
-                    ByteArrayOutputStream userStream = userPhotoFuture.get();
-                    if(userStream!=null) {
-                        imgUser = getBitmapFromStream(userStream);
+        if(!fileNames.isEmpty()) {
+            // Descargar fotos en paralelo
+            FileManager.downloadPhotosProfileAsync(fileNames, new FileManager.PhotosDownloadCallback() {
+                @Override
+                public void onPhotoDownloadSuccess(String fileName, ByteArrayOutputStream stream) {
+                    if (fileName.equals(profilePhotoUsr)) {
+                        imgUser = getBitmapFromStream(stream);
+                    } else {
+                        imgOrg = getBitmapFromStream(stream);
                     }
                 }
-                if (!profilePhotoOrg.isEmpty()) {
-                    ByteArrayOutputStream orgStream = orgPhotoFuture.get();
-                    if(orgStream!=null) {
-                        imgOrg = getBitmapFromStream(orgStream);
-                    }
+
+                @Override
+                public void onPhotoDownloadFailure(String fileName, Exception e) {
+
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).join();
+
+
+            });
+        }
     }
+
 
     public static synchronized ProfilePhotoUtil getInstance(){return instance;}
 
@@ -73,6 +75,10 @@ public class ProfilePhotoUtil {
             instance=new ProfilePhotoUtil(profilePhotoUsr,profilePhotoOrg);
         }
         return instance;
+    }
+
+    public static synchronized void logout(){
+        instance=null;
     }
 
     /*public void updatePhotoOrg(String profilePhotoOrg){
@@ -105,11 +111,7 @@ public class ProfilePhotoUtil {
         this.imgOrg = imgOrg;
     }
 
-    /*private ByteArrayOutputStream getProfilePhoto(String profilePhotoUrl){
-        return FileManager.downloadPhotoProfile(profilePhotoUrl);
-    }*/
-
-    private Bitmap getBitmapFromStream (ByteArrayOutputStream stream){
+    public static Bitmap getBitmapFromStream(ByteArrayOutputStream stream){
         byte[] data=stream.toByteArray();
         return BitmapFactory.decodeByteArray(data,0,data.length);
     }

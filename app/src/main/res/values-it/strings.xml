@@ -179,7 +179,7 @@
     <string name="last_name_user_menu">Cognome: cognome</string>
     <string name="org_name_user_menu">Organizzazione</string>
     <string name="continue_indicators">Continua con un test degli indicatori</string>
-    <string name="see_results">Vedere test di indicatori realizzati</string>
+    <string name="see_results">Visualizzare le valutazioni degli indicatori</string>
     <string name="generate_report">Generare il rapporto</string>
     <string name="eval_team_members">Membri del team di valutazione</string>
     <string name="key_dates">Date chiave</string>
@@ -341,6 +341,14 @@
     <string name="improvable">Migliorabile</string>
     <string name="very_improvable">Molto migliorabile</string>
     <string name="ind_info_help">Le opportunità di miglioramento sono in spagnolo. Seleziona il testo dell\'opportunità di miglioramento sull\'indicatore o le opportunità di miglioramento sulle prove e seleziona Traduci.</string>
+    <string name="login_error">Impossibile effettuare l\'accesso. Si prega di controllare la connessione a internet o riprovare più tardi.</string>
+    <string name="edit_eval_team">Modifica squadra di valutazione</string>
+    <string name="edit_user">Modifica utente</string>
+    <string name="about_me">Informazioni sull\'app</string>
+    <string name="edit">Modificare</string>
+    <string name="delete">Eliminare</string>
+    <string name="no_center">Non esiste alcun centro aggiuntivo nella tua organizzazione. Si prega di selezionare un\'altra opzione dal menu principale.</string>
+    <string name="no_existant_eval_team">Non c\'è nessun team di valutazione nella tua organizzazione. Si prega di selezionare un\'altra opzione dal menu principale.</string>
 
 
 </resources>

@@ -15,6 +15,7 @@ import java.util.concurrent.Future;
 
 import cli.organization.Organization;
 import cli.organization.data.Center;
+import misc.ListCallback;
 import otea.connection.ConnectionClient;
 import otea.connection.api.CentersApi;
 import retrofit2.Call;
@@ -135,7 +136,7 @@ public class CentersController {
      * @param organization - Organization
      * @return All centers of an organization
      * */
-    public static List<Center> GetAllByOrganization(Organization organization){
+    public static void GetAllByOrganization(Organization organization, ListCallback callback){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
@@ -149,49 +150,16 @@ public class CentersController {
                 }
             }
         };
-        try {
-            Future<List<JsonObject>> future = executor.submit(callable);
-            List<JsonObject> list = future.get();
-            executor.shutdown();
-            numAttempts=0;
-            List<Center> centers=new ArrayList<>();
-            for(JsonObject center:list){
-                int idOrganization=center.getAsJsonPrimitive("idOrganization").getAsInt();
-                String orgType=center.getAsJsonPrimitive("orgType").getAsString();
-                String illness=center.getAsJsonPrimitive("illness").getAsString();
-                int idCenter=center.getAsJsonPrimitive("idCenter").getAsInt();
-                String descriptionEnglish=center.getAsJsonPrimitive("descriptionEnglish").getAsString();
-                String descriptionSpanish=center.getAsJsonPrimitive("descriptionSpanish").getAsString();
-                String descriptionFrench=center.getAsJsonPrimitive("descriptionFrench").getAsString();
-                String descriptionBasque=center.getAsJsonPrimitive("descriptionBasque").getAsString();
-                String descriptionCatalan=center.getAsJsonPrimitive("descriptionCatalan").getAsString();
-                String descriptionDutch=center.getAsJsonPrimitive("descriptionDutch").getAsString();
-                String descriptionGalician=center.getAsJsonPrimitive("descriptionGalician").getAsString();
-                String descriptionGerman=center.getAsJsonPrimitive("descriptionGerman").getAsString();
-                String descriptionItalian=center.getAsJsonPrimitive("descriptionItalian").getAsString();
-                String descriptionPortuguese=center.getAsJsonPrimitive("descriptionPortuguese").getAsString();
-                int idAddress=center.getAsJsonPrimitive("idAddress").getAsInt();
-                String telephone=center.getAsJsonPrimitive("telephone").getAsString();
-                String email=center.getAsJsonPrimitive("email").getAsString();
-                String profilePhoto=center.getAsJsonPrimitive("profilePhoto").getAsString();
-                centers.add(new Center(idOrganization, orgType, illness, idCenter, descriptionEnglish, descriptionSpanish, descriptionFrench, descriptionBasque, descriptionCatalan, descriptionDutch, descriptionGalician, descriptionGerman, descriptionItalian, descriptionPortuguese, idAddress, telephone, email, profilePhoto));
+        executor.submit(()->{
+            try {
+                List<JsonObject> result=callable.call();
+                callback.onSuccess(result);
+            } catch (Exception e) {
+                callback.onError(e.getCause().toString());
+            } finally {
+                executor.shutdown();
             }
-            return centers;
-        } catch (InterruptedException | ExecutionException e) {
-            if(e.getCause() instanceof SocketTimeoutException){
-                numAttempts++;
-                if(numAttempts<3) {
-                    return GetAllByOrganization(organization);
-                }
-                else{
-                    numAttempts=0;
-                    return null;
-                }
-            }
-            else{
-                throw new RuntimeException(e);
-            }
-        }
+        });
     }
 
     /**

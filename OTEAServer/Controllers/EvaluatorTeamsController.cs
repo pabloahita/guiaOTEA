@@ -151,13 +151,13 @@ namespace OTEAServer.Controllers
         /// <param name="idCenter">Organization center</param>
         /// <param name="illness">Organization illness or syndrome</param>
         /// <returns>Evaluator teams list</returns>
-        [HttpGet("allFinishedByCenter")]
+        [HttpGet("allByCenter")]
         [Authorize]
-        public IActionResult GetAllFinishedByCenter([FromQuery] int id, [FromQuery] string orgType, [FromQuery] int idCenter, [FromQuery] string illness, [FromHeader] string Authorization)
+        public IActionResult GetAllByCenter([FromQuery] int id, [FromQuery] string orgType, [FromQuery] int idCenter, [FromQuery] string illness, [FromHeader] string Authorization)
         {
             try
             {
-                var evaluatorTeams = _context.EvaluatorTeams.Where(e => e.idEvaluatedOrganization == id && e.orgTypeEvaluated == orgType && e.idCenter == idCenter && e.illness == illness && e.completedEvaluationDates == e.totalEvaluationDates).ToList();
+                var evaluatorTeams = _context.EvaluatorTeams.Where(e => e.idEvaluatedOrganization == id && e.orgTypeEvaluated == orgType && e.idCenter == idCenter && e.illness == illness).ToList();
                 List<JsonDocument> result = new List<JsonDocument>();
                 foreach( var evaluatorTeam in evaluatorTeams )
                 {
@@ -349,7 +349,7 @@ namespace OTEAServer.Controllers
                 existingEvaluatorTeam.idEvaluatorOrganization = idEvaluatorOrg;
                 existingEvaluatorTeam.orgTypeEvaluator = orgTypeEvaluator;
                 existingEvaluatorTeam.idEvaluatedOrganization = idEvaluatedOrg;
-                existingEvaluatorTeam.orgTypeEvaluated = orgTypeEvaluator;
+                existingEvaluatorTeam.orgTypeEvaluated = orgTypeEvaluated;
                 existingEvaluatorTeam.idCenter = idCenter;
                 existingEvaluatorTeam.illness = illness;
                 existingEvaluatorTeam.externalConsultant = evaluatorTeam.externalConsultant;
@@ -404,6 +404,33 @@ namespace OTEAServer.Controllers
                 if (evaluatorTeam is null)
                     return NotFound();
 
+                var indicatorsEvaluationEvidenceRegs = _context.IndicatorsEvaluationsEvidencesRegs.Where(e => e.idEvaluatorTeam == id && e.idEvaluatorOrganization == idEvaluatorOrg && e.orgTypeEvaluator == orgTypeEvaluator && e.idEvaluatedOrganization == idEvaluatedOrg && e.orgTypeEvaluated == orgTypeEvaluated && e.idCenter == idCenter && e.illness == illness).ToList();
+                if (indicatorsEvaluationEvidenceRegs is not null)
+                {
+                    foreach (var reg in indicatorsEvaluationEvidenceRegs)
+                    {
+                        _context.IndicatorsEvaluationsEvidencesRegs.Remove(reg);
+                    }
+                }
+
+                var indicatorsEvaluationIndicatorRegs = _context.IndicatorsEvaluationsIndicatorsRegs.Where(e => e.idEvaluatorTeam == id && e.idEvaluatorOrganization == idEvaluatorOrg && e.orgTypeEvaluator == orgTypeEvaluator && e.idEvaluatedOrganization == idEvaluatedOrg && e.orgTypeEvaluated == orgTypeEvaluated && e.idCenter == idCenter && e.illness == illness).ToList();
+                if (indicatorsEvaluationIndicatorRegs is not null)
+                {
+                    foreach (var reg in indicatorsEvaluationIndicatorRegs)
+                    {
+                        _context.IndicatorsEvaluationsIndicatorsRegs.Remove(reg);
+                    }
+                }
+
+                var indicatorsEvaluations = _context.IndicatorsEvaluations.Where(e => e.idEvaluatorTeam == id && e.idEvaluatorOrganization == idEvaluatorOrg && e.orgTypeEvaluator == orgTypeEvaluator && e.idEvaluatedOrganization == idEvaluatedOrg && e.orgTypeEvaluated == orgTypeEvaluated && e.idCenter == idCenter && e.illness == illness).ToList();
+                if (indicatorsEvaluations is not null)
+                {
+                    foreach (var indEval in indicatorsEvaluations)
+                    {
+                        _context.IndicatorsEvaluations.Remove(indEval);
+                    }
+                }
+                
                 _context.EvaluatorTeams.Remove(evaluatorTeam);
                 _context.SaveChanges();
 

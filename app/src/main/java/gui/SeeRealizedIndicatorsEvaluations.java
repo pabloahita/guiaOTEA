@@ -391,9 +391,9 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
                         about_ev_1.setTextIsSelectable(true);
                         about_ev_2.setTextIsSelectable(true);
                         about_ev_3.setTextIsSelectable(true);
-                        info_help.setVisibility(View.GONE);
-                    }else{
                         info_help.setVisibility(View.VISIBLE);
+                    }else{
+                        info_help.setVisibility(View.GONE);
                     }
                     if(isComplete) {
                         TextView about_ev_4=view.findViewById(R.id.about_ev_4);
@@ -742,7 +742,6 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
         if(keyCode==event.KEYCODE_BACK){
             IndicatorsEvaluationUtil.removeInstance();
             IndicatorsUtil.removeInstance();
-            Session.getInstance().setIndicatorsEvaluations(null);
             Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
             startActivity(intent);
         }

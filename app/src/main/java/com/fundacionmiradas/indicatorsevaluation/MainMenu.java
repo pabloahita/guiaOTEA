@@ -1,16 +1,18 @@
 package com.fundacionmiradas.indicatorsevaluation;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.KeyEvent;
@@ -21,18 +23,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Locale;
-
-import cli.indicators.IndicatorsEvaluation;
 import cli.organization.Organization;
 import cli.user.User;
 import gui.ConnectionErrorMessage;
 import gui.ProfilePhotoUtil;
-import otea.connection.controller.CountriesController;
-import otea.connection.controller.IndicatorsEvaluationsController;
-import session.FileManager;
+import gui.SelectToEditCenters;
+import session.AddNewEvalTeamUtil;
+import session.SelectToIndicatorsEvaluationUtil;
 import session.Session;
 
 
@@ -43,7 +40,11 @@ public class MainMenu extends AppCompatActivity {
 
     ImageButton continueIndicatorsTest;
 
-    ImageButton downloadImprovementPlan;
+    ImageButton editUser;
+
+    ImageButton editEvaluatorTeam;
+
+    ImageButton aboutMe;
 
     ImageButton addNewOrg;
 
@@ -74,11 +75,9 @@ public class MainMenu extends AppCompatActivity {
 
         GridLayout superuser=findViewById(R.id.superuser);
 
-        GridLayout evaluator=findViewById(R.id.evaluator);
-
         GridLayout dirEvaluated=findViewById(R.id.directorEvaluated);
 
-        GridLayout evaluated=findViewById(R.id.evaluated);
+        GridLayout organization=findViewById(R.id.organization);
 
         CardView chargingScreen=findViewById(R.id.chargingScreen);
         
@@ -95,6 +94,35 @@ public class MainMenu extends AppCompatActivity {
         ImageView vistaImgUser=findViewById(R.id.imgUser);
 
 
+        ActivityResultLauncher<Intent> activityEditCenterResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_CANCELED) {
+                        chargingScreen.setVisibility(View.GONE);
+                        new android.app.AlertDialog.Builder(MainMenu.this)
+                                .setIcon(android.R.drawable.stat_notify_error)
+                                .setTitle(getString(R.string.error))
+                                .setMessage(getString(R.string.no_center))
+                                .create()
+                                .show();
+                    }
+                });
+
+        ActivityResultLauncher<Intent> activityEditEvalTeamResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_CANCELED) {
+                        chargingScreen.setVisibility(View.GONE);
+                        new android.app.AlertDialog.Builder(MainMenu.this)
+                                .setIcon(android.R.drawable.stat_notify_error)
+                                .setTitle(getString(R.string.error))
+                                .setMessage(getString(R.string.no_existant_eval_team))
+                                .create()
+                                .show();
+                    }
+                });
+
+
         if(user!=null && org!=null) {
 
 
@@ -107,49 +135,39 @@ public class MainMenu extends AppCompatActivity {
 
             userInfo.setText(Html.fromHtml(info,0));
 
-            if(org.getIdOrganization()==1 && org.getOrgType().equals("EVALUATOR") && org.getIllness().equals("AUTISM")){
+
+            if(user.getUserType().equals("ADMIN")){
+                superuser.setVisibility(View.VISIBLE);
                 dirEvaluated.setVisibility(View.GONE);
-                evaluated.setVisibility(View.GONE);
-                if(user.getUserType().equals("ADMIN")){
-                    superuser.setVisibility(View.VISIBLE);
-                    evaluator.setVisibility(View.GONE);
-                    addNewIndicatorsTest=findViewById(R.id.addNewIndicatorsTestAdminButton);
-                    continueIndicatorsTest=findViewById(R.id.continueIndicatorsTestAdminButton);
-                    downloadImprovementPlan=findViewById(R.id.downloadImprovementPlanAdminButton);
-                    addNewOrg=findViewById(R.id.addNewOrgAdminButton);
-                    seeRealizedIndicatorTest=findViewById(R.id.seeRealizedIndicatorTestAdminButton);
+                organization.setVisibility(View.GONE);
+                addNewIndicatorsTest=findViewById(R.id.addNewIndicatorsTestAdminButton);
+                continueIndicatorsTest=findViewById(R.id.continueIndicatorsTestAdminButton);
+                editUser=findViewById(R.id.editUserAdminButton);
+                addNewOrg=findViewById(R.id.addNewOrgAdminButton);
+                seeRealizedIndicatorTest=findViewById(R.id.seeRealizedIndicatorTestAdminButton);
+                aboutMe=findViewById(R.id.aboutMeAdminButton);
 
-                }
-                else{
-                    superuser.setVisibility(View.GONE);
-                    evaluator.setVisibility(View.VISIBLE);
-                    addNewIndicatorsTest=findViewById(R.id.addNewIndicatorsTestEvaluatorButton);
-                    continueIndicatorsTest=findViewById(R.id.continueIndicatorsTestEvaluatorButton);
-                    seeRealizedIndicatorTest=findViewById(R.id.seeRealizedIndicatorTestEvaluatorButton);
-                }
-            }else{
+            }else if(user.getUserType().equals("DIRECTOR")){
+                dirEvaluated.setVisibility(View.VISIBLE);
                 superuser.setVisibility(View.GONE);
-                evaluator.setVisibility(View.GONE);
-                if(user.getUserType().equals("DIRECTOR")){
-                    dirEvaluated.setVisibility(View.VISIBLE);
-                    evaluated.setVisibility(View.GONE);
-                    addNewOrgCenter=findViewById(R.id.addNewOrgCenterDirEvalButton);
-                    addNewEvalTeam=findViewById(R.id.addNewEvalTeamDirEvalButton);
-                    seeRealizedIndicatorTest=findViewById(R.id.seeRealizedIndicatorTestDirEvalButton);
-                    editOrg=findViewById(R.id.editOrgDirEvalButton);
-                    editOrgCenters=findViewById(R.id.editOrgCenterDirEvalButton);
-                }else{
-                    dirEvaluated.setVisibility(View.GONE);
-                    evaluated.setVisibility(View.VISIBLE);
-                    seeRealizedIndicatorTest=findViewById(R.id.seeRealizedIndicatorTestEvaluatedButton);
-                }
+                organization.setVisibility(View.GONE);
+                addNewOrgCenter=findViewById(R.id.addNewOrgCenterDirEvalButton);
+                addNewEvalTeam=findViewById(R.id.addNewEvalTeamDirEvalButton);
+                seeRealizedIndicatorTest=findViewById(R.id.seeRealizedIndicatorTestDirEvalButton);
+                editOrg=findViewById(R.id.editOrgDirEvalButton);
+                editOrgCenters=findViewById(R.id.editOrgCenterDirEvalButton);
+                editUser=findViewById(R.id.editUserDirEvalButton);
+                aboutMe=findViewById(R.id.aboutMeDirEvalButton);
+                editEvaluatorTeam=findViewById(R.id.editEvaluatorTeamDirEvalButton);
+            }else{
+                dirEvaluated.setVisibility(View.VISIBLE);
+                superuser.setVisibility(View.GONE);
+                organization.setVisibility(View.GONE);
+                seeRealizedIndicatorTest=findViewById(R.id.seeRealizedIndicatorTestEvaluatedButton);
+                editUser=findViewById(R.id.editUserEvaluatedButton);
+                aboutMe=findViewById(R.id.aboutMeEvaluatedButton);
             }
 
-            if(!user.getProfilePhoto().isEmpty() && ProfilePhotoUtil.getInstance().getImgUser()==null
-            &&
-            !org.getProfilePhoto().isEmpty() && ProfilePhotoUtil.getInstance().getImgOrg()==null){
-                ProfilePhotoUtil.getInstance().downloadPhotos();
-            }
 
             imgOrg = ProfilePhotoUtil.getInstance().getImgOrg();
             if(imgOrg!=null) {
@@ -165,14 +183,15 @@ public class MainMenu extends AppCompatActivity {
             if(addNewIndicatorsTest!=null) {
                 addNewIndicatorsTest.setOnClickListener(v -> {
                     chargingScreen.setVisibility(View.VISIBLE);
-                    v.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            session.obtainOrgsAndEvalTeams();
-                            Intent intent = new Intent(getApplicationContext(), gui.SelectToDoIndicatorsEvaluations.class);
-                            startActivity(intent);
-                        }
-                    }, 200);
+                    if(!SelectToIndicatorsEvaluationUtil.getInstance().getOrganizations().isEmpty()) {
+                        Intent intent = new Intent(getApplicationContext(), gui.SelectToDoIndicatorsEvaluations.class);
+                        startActivity(intent);
+                    }else{
+                        new AlertDialog.Builder(MainMenu.this)
+                                .setTitle(getString(R.string.error))
+                                .setMessage(getString(R.string.non_existing_evaluated_organization))
+                                .create().show();
+                    }
 
                 });
             }
@@ -180,17 +199,31 @@ public class MainMenu extends AppCompatActivity {
             if(continueIndicatorsTest!=null) {
                 continueIndicatorsTest.setOnClickListener(v -> {
                     chargingScreen.setVisibility(View.VISIBLE);
-                    session.obtainOrgsAndEvalTeams();
-                    Intent intent = new Intent(getApplicationContext(), gui.SelectToContinueIndicatorsEvaluations.class);
+                    if(!SelectToIndicatorsEvaluationUtil.getInstance().getOrganizations().isEmpty()) {
+                        Intent intent = new Intent(getApplicationContext(), gui.SelectToContinueIndicatorsEvaluations.class);
+                        startActivity(intent);
+                    }else{
+                        new AlertDialog.Builder(MainMenu.this)
+                                .setTitle(getString(R.string.error))
+                                .setMessage(getString(R.string.non_existing_evaluated_organization))
+                                .create().show();
+                    }
+                });
+            }
+
+            if(editUser!=null) {
+                editUser.setOnClickListener(v -> {
+                    chargingScreen.setVisibility(View.VISIBLE);
+                    Intent intent = new Intent(getApplicationContext(), gui.EditUser.class);
                     startActivity(intent);
                 });
             }
 
-            if(downloadImprovementPlan!=null) {
-                downloadImprovementPlan.setOnClickListener(v -> {
+            if(editEvaluatorTeam!=null) {
+                editEvaluatorTeam.setOnClickListener(v -> {
                     chargingScreen.setVisibility(View.VISIBLE);
-                    Intent intent = new Intent(getApplicationContext(), gui.DownloadImprovementPlan.class);
-                    startActivity(intent);
+                    Intent intent = new Intent(getApplicationContext(), gui.SelectToEditEvaluatorTeam.class);
+                    activityEditEvalTeamResultLauncher.launch(intent);
                 });
             }
 
@@ -215,18 +248,26 @@ public class MainMenu extends AppCompatActivity {
             if(addNewEvalTeam!=null) {
                 addNewEvalTeam.setOnClickListener(v -> {
                     chargingScreen.setVisibility(View.VISIBLE);
-                    session.obtainUsersAndCenters();
-                    Intent intent = new Intent(getApplicationContext(), gui.RegisterNewEvaluatorTeam.class);
-                    startActivity(intent);
+                    if(AddNewEvalTeamUtil.getInstance()!=null){
+                        Intent intent = new Intent(getApplicationContext(), gui.RegisterNewEvaluatorTeam.class);
+                        startActivity(intent);
+                    }
+
                 });
             }
 
             if(seeRealizedIndicatorTest!=null) {
                 seeRealizedIndicatorTest.setOnClickListener(v -> {
                     chargingScreen.setVisibility(View.VISIBLE);
-                    session.obtainOrgsAndEvalTeams();
-                    Intent intent = new Intent(getApplicationContext(), gui.SelectToSeeRealizedIndicatorsEvaluations.class);
-                    startActivity(intent);
+                    if(!SelectToIndicatorsEvaluationUtil.getInstance().getOrganizations().isEmpty()) {
+                        Intent intent = new Intent(getApplicationContext(), gui.SelectToSeeRealizedIndicatorsEvaluations.class);
+                        startActivity(intent);
+                    }else{
+                        new AlertDialog.Builder(MainMenu.this)
+                                .setTitle(getString(R.string.error))
+                                .setMessage(getString(R.string.non_existing_evaluated_organization))
+                                .create().show();
+                    }
                 });
             }
 
@@ -241,8 +282,18 @@ public class MainMenu extends AppCompatActivity {
             if(editOrgCenters!=null) {
                 editOrgCenters.setOnClickListener(v -> {
                     chargingScreen.setVisibility(View.VISIBLE);
-                    Intent intent = new Intent(getApplicationContext(), gui.EditCenter.class);
-                    startActivity(intent);
+                    Intent intent = new Intent(getApplicationContext(), gui.SelectToEditCenters.class);
+                    activityEditCenterResultLauncher.launch(intent);
+
+                });
+            }
+
+            if(aboutMe!=null){
+                aboutMe.setOnClickListener(v->{
+                    new AlertDialog.Builder(this)
+                            .setMessage("Hola")
+                            .create()
+                            .show();
                 });
             }
         }
@@ -261,10 +312,9 @@ public class MainMenu extends AppCompatActivity {
                         .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(Intent.ACTION_MAIN);
-                                intent.addCategory(Intent.CATEGORY_HOME);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
+                                ProfilePhotoUtil.logout();
+                                Session.logout();
+                                finishAffinity();
                             }
                         }).setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                             @Override

@@ -87,10 +87,6 @@ namespace OTEAServer.Misc
         /// </summary>
         public DbSet<Region> Regions { get; set; }
 
-        /// <summary>
-        /// Database set for registration requests
-        /// </summary>
-        public DbSet<Request> Requests { get; set; }
 
         /// <summary>
         /// Database set for first level division of ambits
@@ -127,7 +123,6 @@ namespace OTEAServer.Misc
             modelBuilder.Entity<Organization>().HasKey(o => new { o.idOrganization,o.orgType,o.illness });
             modelBuilder.Entity<Province>().HasKey(p => new { p.idProvince,p.idRegion,p.idCountry });
             modelBuilder.Entity<Region>().HasKey(r => new { r.idRegion,r.idCountry });
-            modelBuilder.Entity<Request>().HasKey(r => new { r.email });
             modelBuilder.Entity<SubAmbit>().HasKey(a => new { a.idSubAmbit, a.idAmbit });
             modelBuilder.Entity<SubSubAmbit>().HasKey(a => new { a.idSubSubAmbit, a.idSubAmbit, a.idAmbit });
             modelBuilder.Entity<User>().HasKey(u => new { u.emailUser });

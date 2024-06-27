@@ -181,7 +181,7 @@
     <string name="last_name_user_menu">Apelido: apelido</string>
     <string name="org_name_user_menu">Organización</string>
     <string name="continue_indicators">Continúa cunha proba de indicadores</string>
-    <string name="see_results">Ver probas de indicadores realizados</string>
+    <string name="see_results">Ver avaliacións de indicadores</string>
     <string name="generate_report">Xerar informe</string>
     <string name="eval_team_members">Membros do equipo de avaliación</string>
     <string name="key_dates">Datas chave</string>
@@ -343,6 +343,14 @@
     <string name="improvable">Mellorable</string>
     <string name="very_improvable">Moi mellorable</string>
     <string name="ind_info_help">As oportunidades de mellora están en español. Por favor, seleccione sobre o texto da oportunidade de mellora sobre o indicador ou das oportunidades de mellora sobre as evidencias e seleccione Traducir.</string>
+    <string name="login_error">Non se puido iniciar sesión. Por favor, revise a súa conexión a internet ou inténteo de novo máis tarde.</string>
+    <string name="edit_eval_team">Editar equipo avaliador</string>
+    <string name="edit_user">Editar usuario</string>
+    <string name="about_me">Sobre a app</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Eliminar</string>
+    <string name="no_center">Non existe ningún centro adicional da súa organización. Por favor, seleccione outra opción do menú principal.</string>
+    <string name="no_existant_eval_team">Non hai ningún equipo avaliador na súa organización. Por favor, seleccione outra opción do menú principal.</string>
 
 
 </resources>

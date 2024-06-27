@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -16,6 +17,7 @@ import java.util.concurrent.Future;
 import cli.organization.data.geo.Province;
 import cli.organization.data.geo.Region;
 import cli.organization.data.geo.Region;
+import misc.ListCallback;
 import otea.connection.ConnectionClient;
 import otea.connection.api.RegionsApi;
 import retrofit2.Call;
@@ -36,6 +38,7 @@ public class RegionsController {
     private RegionsController(){
         api= ConnectionClient.getInstance().getRetrofit().create(RegionsApi.class);
     }
+
 
     /**
      * Method that obtains the singleton instance of the controller
@@ -95,7 +98,7 @@ public class RegionsController {
      * @param idCountry - Country identifier
      * @return Regions list
      * */
-    public static List<Region> GetRegionsByCountry(String idCountry){
+    public static void GetRegionsByCountry(String idCountry, ListCallback callback){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
@@ -109,7 +112,7 @@ public class RegionsController {
                 }
             }
         };
-        try {
+        /*try {
             Future<List<JsonObject>> future = executor.submit(callable);
             List<JsonObject> list = future.get();
             executor.shutdown();
@@ -143,7 +146,18 @@ public class RegionsController {
             else{
                 throw new RuntimeException(e);
             }
-        }
+        }*/
+
+        executor.submit(() -> {
+            try {
+                List<JsonObject> result = callable.call();
+                callback.onSuccess(result);
+            } catch (Exception e) {
+                callback.onError(e.getCause().toString());
+            } finally {
+                executor.shutdown();
+            }
+        });
     }
 
     /**

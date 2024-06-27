@@ -1,0 +1,7 @@
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\publish\GuiaOTEAAdmin.exe
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\publish\appsettings.Development.json
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\publish\appsettings.json
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\publish\GuiaOTEAAdmin.dll
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\publish\GuiaOTEAAdmin.deps.json
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\publish\GuiaOTEAAdmin.runtimeconfig.json
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\publish\GuiaOTEAAdmin.pdb

@@ -91,6 +91,24 @@
             android:text="TextView" />
 
         <TextView
+            android:id="@+id/strengthsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="@string/strengths" />
+
+        <TextView
+            android:id="@+id/strengths"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:text="TextView" />
+
+        <TextView
             android:id="@+id/resultsTitle"
             android:layout_width="match_parent"
             android:layout_height="50dp"

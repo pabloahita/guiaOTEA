@@ -178,7 +178,7 @@
     <string name="last_name_user_menu">Last Name: last name</string>
     <string name="org_name_user_menu">Organization</string>
     <string name="continue_indicators">Continue with an indicators test</string>
-    <string name="see_results">See realized indicators test</string>
+    <string name="see_results">View indicator evaluations</string>
     <string name="generate_report">Generate report</string>
     <string name="eval_team_members">Evaluator team members</string>
     <string name="key_dates">Key dates</string>
@@ -343,6 +343,14 @@
     <string name="improvable">Improvable</string>
     <string name="very_improvable">Very improvable</string>
     <string name="ind_info_help">The improvement opportunities are in Spanish. Please select the text of the improvement opportunity on the indicator or the improvement opportunities on the evidence and select Translate.</string>
+    <string name="login_error">Could not log in. Please check your internet connection or try again later.</string>
+    <string name="edit_eval_team">Edit evaluator team</string>
+    <string name="edit_user">Edit user</string>
+    <string name="about_me">About the app</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="no_center">There is no additional center in your organization. Please select another option from the main menu.</string>
+    <string name="no_existant_eval_team">There is no evaluator team in your organization. Please select another option from the main menu.</string>
 
 
 </resources>

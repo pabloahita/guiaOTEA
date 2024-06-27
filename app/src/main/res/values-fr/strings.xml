@@ -141,7 +141,7 @@
     <string name="last_name_user_menu">Nom: nom</string>
     <string name="org_name_user_menu">Organisation</string>
     <string name="continue_indicators">Poursuivre avec un test d\'indicateurs</string>
-    <string name="see_results">Voir les tests d\'indicateurs réalisés</string>
+    <string name="see_results">Voir les évaluations des indicateurs</string>
     <string name="generate_report">Générer le rapport</string>
     <string name="eval_team_members">Membres de l\'équipe d\'évaluation</string>
     <string name="key_dates">Dates clés</string>
@@ -303,4 +303,12 @@
     <string name="improvable">À améliorer</string>
     <string name="very_improvable">À améliorer considérablement</string>
     <string name="ind_info_help">Les opportunités d\'amélioration sont en espagnol. Veuillez sélectionner le texte de l\'opportunité d\'amélioration sur l\'indicateur ou les opportunités d\'amélioration sur les preuves et sélectionner Traduire.</string>
+    <string name="login_error">Impossible de se connecter. Veuillez vérifier votre connexion internet ou réessayer plus tard.</string>
+    <string name="edit_eval_team">Modifier l\'équipe d\'évaluation</string>
+    <string name="edit_user">Modifier l\'utilisateur</string>
+    <string name="about_me">À propos de l\'application</string>
+    <string name="edit">Éditer</string>
+    <string name="delete">Supprimer</string>
+    <string name="no_center">Il n\'existe aucun centre supplémentaire dans votre organisation. Veuillez sélectionner une autre option dans le menu principal.</string>
+    <string name="no_existant_eval_team">Il n\'y a aucune équipe d\'évaluation dans votre organisation. Veuillez sélectionner une autre option dans le menu principal.</string>
 </resources>

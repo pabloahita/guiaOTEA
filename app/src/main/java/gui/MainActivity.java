@@ -38,18 +38,13 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import cli.organization.Organization;
-import cli.user.Request;
 import cli.user.User;
 import gui.adapters.OrgsAdapter;
 import misc.FieldChecker;
 import misc.PasswordFormatter;
 import otea.connection.controller.*;
-import session.FileManager;
 import session.Session;
 
 public class MainActivity extends AppCompatActivity {
@@ -80,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
 
     EditText emailFieldReq;
 
-    EditText passFieldReq;
 
 
     ConstraintLayout final_background;
@@ -90,11 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
     GridLayout startSessionLayout;
 
-    GridLayout createAccount2GridLayout;
 
-    ConstraintLayout createAccount2ConstraintLayout;
-
-    ImageButton createAccount2Button;
 
     ConstraintLayout startSessionButtonLayout;
 
@@ -110,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
 
     TextView textProgress;
 
-    TextView requestFound;
 
     TextView requestNotFound;
 
@@ -122,8 +111,6 @@ public class MainActivity extends AppCompatActivity {
 
     String tempPasswd;
 
-
-    Request request;
 
     JsonObject data;
 
@@ -163,20 +150,13 @@ public class MainActivity extends AppCompatActivity {
         requestOrCreation=findViewById(R.id.requestOrCreateButton);
         //helpSignInButton=findViewById(R.id.helpSignInButton);
         helpRequestButton=findViewById(R.id.helpRequestButton);
-        createAccount2GridLayout=findViewById(R.id.createAccount2GridLayout);
-        createAccount2GridLayout.setVisibility(View.GONE);
         spinnerOrgs=findViewById(R.id.spinner_orgs);
         spinnerOrgs.setVisibility(View.GONE);
-        requestFound=findViewById(R.id.requestFound);
-        requestFound.setVisibility(View.GONE);
-        passFieldReq=findViewById(R.id.passFieldReq);
         send_request=findViewById(R.id.send_request);
         sendRequestButtonConstraintLayout=findViewById(R.id.sendRequestButtonConstraintLayout);
         sendRequestButton=findViewById(R.id.sendRequestButton);
         requestNotFound=findViewById(R.id.requestNotFound);
         requestNotFound.setVisibility(View.GONE);
-        createAccount2ConstraintLayout=findViewById(R.id.createAccount2ConstraintLayout);
-        createAccount2Button=findViewById(R.id.createAccount2Button);
         sendRequestLayout=findViewById(R.id.sendRequestLayout);
 
         sign_in.setOnClickListener(v -> {
@@ -332,125 +312,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        passFieldReq.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                tempPasswd=PasswordFormatter.codify(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        createAccount2Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                base.setVisibility(View.GONE);
-                final_background.setVisibility(View.VISIBLE);
-                String text="";
-                if(tempPasswd.isEmpty()){
-                    base.setVisibility(View.VISIBLE);
-                    final_background.setVisibility(View.GONE);
-                    if(Locale.getDefault().getLanguage().equals("es")){
-                        text="No se ha introducido la contraseña temporal. Por favor, inserte la contraseña temporal que le ha llegado a <b>"+request.getEmail()+"</b>";
-                    }
-                    else if(Locale.getDefault().getLanguage().equals("fr")){
-                        text="Le mot de passe temporaire n'a pas été saisi. Veuillez insérer le mot de passe temporaire qui a été envoyé à <b>"+request.getEmail()+"</b>";
-                    }
-                    else if(Locale.getDefault().getLanguage().equals("eu")){
-                        text="Pasahitz txartela ez da sartu. Mesedez, sartu <b>"+request.getEmail()+"</b> helbidera bidalitako pasahitz zaharra";
-                    }
-                    else if(Locale.getDefault().getLanguage().equals("ca")){
-                        text="No s'ha introduït la contrasenya temporal. Si us plau, inserti la contrasenya temporal que ha rebut a <b>"+request.getEmail()+"</b>";
-                    }
-                    else if(Locale.getDefault().getLanguage().equals("nl")){
-                        text="Het tijdelijke wachtwoord is niet ingevoerd. Voer het tijdelijke wachtwoord in dat is verzonden naar <b>"+request.getEmail()+"</b>";
-                    }
-                    else if(Locale.getDefault().getLanguage().equals("gl")){
-                        text="Non se introduciu o contrasinal temporal. Insira o contrasinal temporal que foi enviado a <b>"+request.getEmail()+"</b>";
-                    }
-                    else if(Locale.getDefault().getLanguage().equals("de")){
-                        text="Das temporäre Passwort wurde nicht eingegeben. Bitte geben Sie das temporäre Passwort ein, das an <b>"+request.getEmail()+"</b> gesendet wurde";
-                    }
-                    else if(Locale.getDefault().getLanguage().equals("it")){
-                        text="La password temporanea non è stata inserita. Inserisci la password temporanea che è stata inviata a <b>"+request.getEmail()+"</b>";
-                    }
-                    else if(Locale.getDefault().getLanguage().equals("pt")){
-                        text="A senha temporária não foi inserida. Por favor, insira a senha temporária que foi enviada para <b>"+request.getEmail()+"</b>";
-                    }
-                    else{//Default
-                        text="The temporary password has not been entered. Please insert the temporary password that has been sent to <b>"+request.getEmail()+"</b>";
-                    }
-                    new AlertDialog.Builder(MainActivity.this)
-                            .setTitle(getString(R.string.error))
-                            .setMessage(Html.fromHtml(text,0))
-                            //.setPositiveButton(android.R.string.yes, null)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
-                }
-                else{
-                    JsonObject creds=new JsonObject();
-                    creds.addProperty("email",credentials[0]);
-                    creds.addProperty("password",tempPasswd);
-                    RequestsController.goToUserReg(creds, new RequestsController.RequestCallback() {
-                        @Override
-                        public void onSuccess(JsonObject data) {
-                            Session.setCurrRequest(request);
-                            Intent intent=new Intent(getApplicationContext(),Register.class);
-                            startActivity(intent);
-                        }
-
-                        @Override
-                        public void onError(JsonObject errorResponse) {
-                            String text="";
-                            if(Locale.getDefault().getLanguage().equals("es")){
-                                text="No se ha introducido la contraseña temporal correcta. Por favor, inserte la contraseña temporal que le ha llegado a <b>"+request.getEmail()+"</b>";
-                            }
-                            else if(Locale.getDefault().getLanguage().equals("fr")){
-                                text="Le mot de passe temporaire correct n'a pas été saisi. Veuillez insérer le mot de passe temporaire qui a été envoyé à <b>"+request.getEmail()+"</b>";
-                            }
-                            else if(Locale.getDefault().getLanguage().equals("eu")){
-                                text="Pasahitza temporala zuzen sartu ez da. Mesedez, sartu <b>"+request.getEmail()+"</b> helbidera bidalitako pasahitz zaharra";
-                            }
-                            else if(Locale.getDefault().getLanguage().equals("ca")){
-                                text="No s'ha introduït la contrasenya temporal correcta. Si us plau, inserti la contrasenya temporal que ha rebut a <b>"+request.getEmail()+"</b>";
-                            }
-                            else if(Locale.getDefault().getLanguage().equals("nl")){
-                                text="Het juiste tijdelijke wachtwoord is niet ingevoerd. Voer het tijdelijke wachtwoord in dat is verzonden naar <b>"+request.getEmail()+"</b>";
-                            }
-                            else if(Locale.getDefault().getLanguage().equals("gl")){
-                                text="Non se introduciu o contrasinal temporal correcto. Insira o contrasinal temporal que foi enviado a <b>"+request.getEmail()+"</b>";
-                            }
-                            else if(Locale.getDefault().getLanguage().equals("de")){
-                                text="Das korrekte temporäre Passwort wurde nicht eingegeben. Bitte geben Sie das temporäre Passwort ein, das an <b>"+request.getEmail()+"</b> gesendet wurde";
-                            }
-                            else if(Locale.getDefault().getLanguage().equals("it")){
-                                text="La password temporanea corretta non è stata inserita. Inserisci la password temporanea che è stata inviata a <b>"+request.getEmail()+"</b>";
-                            }
-                            else if(Locale.getDefault().getLanguage().equals("pt")){
-                                text="A senha temporária correta não foi inserida. Por favor, insira a senha temporária que foi enviada para <b>"+request.getEmail()+"</b>";
-                            }
-                            else{//Default
-                                text="The correct temporary password has not been entered. Please insert the temporary password that has been sent to <b>"+request.getEmail()+"</b>";
-                            }
-                            new AlertDialog.Builder(MainActivity.this)
-                                    .setTitle(getString(R.string.error))
-                                    .setMessage(Html.fromHtml(text,0))
-                                    //.setPositiveButton(android.R.string.yes, null)
-                                    .setIcon(android.R.drawable.ic_dialog_alert)
-                                    .show();
-                        }
-                    });
-                }
-            }
-        });
 
 
 
@@ -466,68 +328,47 @@ public class MainActivity extends AppCompatActivity {
                 final_background.setVisibility(View.VISIBLE);
                 textProgress.setText(getString(R.string.checking_req));
 
-                request=RequestsController.Get(credentials[0]);
                 user=UsersController.Get(credentials[0]);
                 text="";
-                if(request!=null && user==null && request.getStatusReq()==1) {
-                    credentials[1]="";
-                    createAccount2GridLayout.setVisibility(View.VISIBLE);
-                    if(Locale.getDefault().getLanguage().equals("es")){
-                        text="Solicitud aceptada para <b>"+credentials[0]+"</b>. Por favor, introduzca la contraseña temporal que ha recibido en el mensaje de aceptación de la solicitud.";
-                    }else if(Locale.getDefault().getLanguage().equals("fr")){
-                        text="Demande acceptée pour <b>"+credentials[0]+"</b>. Veuillez entrer le mot de passe temporaire que vous avez reçu dans le message d'acceptation de la demande.";
-                    }else if(Locale.getDefault().getLanguage().equals("eu")){
-                        text="Eskaria onartuta <b>"+credentials[0]+"</b>-rentzat. Mesedez, sartu eskaria onartzeko mezuaren barruan jaso duzun pasahitz temporala.";
-                    }else if(Locale.getDefault().getLanguage().equals("ca")){
-                        text="Sol·licitud acceptada per a <b>"+credentials[0]+"</b>. Si us plau, introdueixi la contrasenya temporal que ha rebut en el missatge d'acceptació de la sol·licitud.";
-                    }else if(Locale.getDefault().getLanguage().equals("nl")){
-                        text="Aanvraag geaccepteerd voor <b>"+credentials[0]+"</b>. Voer alstublieft het tijdelijke wachtwoord in dat u heeft ontvangen in het acceptatiebericht van het verzoek.";
-                    }else if(Locale.getDefault().getLanguage().equals("gl")){
-                        text="Solicitude aceptada para <b>"+credentials[0]+"</b>. Introduza o contrasinal temporal que recibiu no mensaxe de aceptación da solicitude.";
-                    }else if(Locale.getDefault().getLanguage().equals("de")){
-                        text="Anfrage akzeptiert für <b>"+credentials[0]+"</b>. Bitte geben Sie das temporäre Passwort ein, das Sie in der Akzeptanznachricht der Anfrage erhalten haben.";
-                    }else if(Locale.getDefault().getLanguage().equals("it")){
-                        text="Richiesta accettata per <b>"+credentials[0]+"</b>. Si prega di inserire la password temporanea ricevuta nel messaggio di accettazione della richiesta.";
-                    }else if(Locale.getDefault().getLanguage().equals("pt")){
-                        text="Solicitação encontrada para <b>"+credentials[0]+"</b>. Por favor, insira a senha temporária que você recebeu na mensagem de aceitação da solicitação.";
-                    }else{ //Valor por defecto
-                        text="Solicitud aceptada para <b>"+credentials[0]+"</b>. Por favor, introduzca la contraseña temporal que ha recibido en el mensaje de aceptación de la solicitud.";
+                if(user!=null){
+                    if(user.getIsActive()==0) {
+                        Intent intent=new Intent(getApplicationContext(),Register.class);
+                        startActivity(intent);
+                    }else if(user.getIsActive()==1){
+                        credentials[1]="";
+                        if(Locale.getDefault().getLanguage().equals("es")){
+                            text="El usuario con email <b>"+credentials[0]+"</b> existe en la base de datos. Por favor, inicie sesión.";
+                        }else if(Locale.getDefault().getLanguage().equals("fr")){
+                            text="L'utilisateur avec l'email <b>"+credentials[0]+"</b> existe dans la base de données. Veuillez vous connecter.";
+                        }else if(Locale.getDefault().getLanguage().equals("eu")){
+                            text="<b>"+credentials[0]+"</b> helbideko erabiltzailea datu-basean existitzen da. Mesedez, saioa hasi.";
+                        }else if(Locale.getDefault().getLanguage().equals("ca")){
+                            text="L'usuari amb email <b>"+credentials[0]+"</b> existeix a la base de dades. Si us plau, inicieu sessió.";
+                        }else if(Locale.getDefault().getLanguage().equals("nl")){
+                            text="De gebruiker met het e-mailadres <b>"+credentials[0]+"</b> bestaat in de database. Gelieve in te loggen.";
+                        }else if(Locale.getDefault().getLanguage().equals("gl")){
+                            text="O usuario co email <b>"+credentials[0]+"</b> existe na base de datos. Por favor, inicie sesión.";
+                        }else if(Locale.getDefault().getLanguage().equals("de")){
+                            text="Der Benutzer mit der E-Mail <b>"+credentials[0]+"</b> existiert in der Datenbank. Bitte einloggen.";
+                        }else if(Locale.getDefault().getLanguage().equals("it")){
+                            text="L'utente con l'email <b>"+credentials[0]+"</b> esiste nel database. Si prega di effettuare l'accesso.";
+                        }else if(Locale.getDefault().getLanguage().equals("pt")){
+                            text="O usuário com o email <b>"+credentials[0]+"</b> existe no banco de dados. Por favor, faça login.";
+                        }else{ //Valor por defecto
+                            text="The user with email <b>"+credentials[0]+"</b> exists in the database. Please log in.";
+                        }
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle(getString(R.string.user_already_registered))
+                                .setMessage(Html.fromHtml(text,0))
+                                //.setPositiveButton(android.R.string.yes, null)
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                        emailField.setText(credentials[0]);
+                        passwordField.setText(credentials[1]);
+                        startSessionLayout.setVisibility(View.VISIBLE);
                     }
-                    requestFound.setText(Html.fromHtml(text,0));
-                    requestFound.setVisibility(View.VISIBLE);
-                }else if(request==null && user!=null){
-                    credentials[1]="";
-                    if(Locale.getDefault().getLanguage().equals("es")){
-                        text="El usuario con email <b>"+credentials[0]+"</b> existe en la base de datos. Por favor, inicie sesión.";
-                    }else if(Locale.getDefault().getLanguage().equals("fr")){
-                        text="L'utilisateur avec l'email <b>"+credentials[0]+"</b> existe dans la base de données. Veuillez vous connecter.";
-                    }else if(Locale.getDefault().getLanguage().equals("eu")){
-                        text="<b>"+credentials[0]+"</b> helbideko erabiltzailea datu-basean existitzen da. Mesedez, saioa hasi.";
-                    }else if(Locale.getDefault().getLanguage().equals("ca")){
-                        text="L'usuari amb email <b>"+credentials[0]+"</b> existeix a la base de dades. Si us plau, inicieu sessió.";
-                    }else if(Locale.getDefault().getLanguage().equals("nl")){
-                        text="De gebruiker met het e-mailadres <b>"+credentials[0]+"</b> bestaat in de database. Gelieve in te loggen.";
-                    }else if(Locale.getDefault().getLanguage().equals("gl")){
-                        text="O usuario co email <b>"+credentials[0]+"</b> existe na base de datos. Por favor, inicie sesión.";
-                    }else if(Locale.getDefault().getLanguage().equals("de")){
-                        text="Der Benutzer mit der E-Mail <b>"+credentials[0]+"</b> existiert in der Datenbank. Bitte einloggen.";
-                    }else if(Locale.getDefault().getLanguage().equals("it")){
-                        text="L'utente con l'email <b>"+credentials[0]+"</b> esiste nel database. Si prega di effettuare l'accesso.";
-                    }else if(Locale.getDefault().getLanguage().equals("pt")){
-                        text="O usuário com o email <b>"+credentials[0]+"</b> existe no banco de dados. Por favor, faça login.";
-                    }else{ //Valor por defecto
-                        text="The user with email <b>"+credentials[0]+"</b> exists in the database. Please log in.";
-                    }
-                    new AlertDialog.Builder(MainActivity.this)
-                            .setTitle(getString(R.string.user_already_registered))
-                            .setMessage(Html.fromHtml(text,0))
-                            //.setPositiveButton(android.R.string.yes, null)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
-                    emailField.setText(credentials[0]);
-                    passwordField.setText(credentials[1]);
-                    startSessionLayout.setVisibility(View.VISIBLE);
-                }else if(request==null){
+                }
+                else if(user==null){
                     //Si el request no existe y el usuario no existe
                     if(organizations==null){
                         organizations=new ArrayList<>();
@@ -778,33 +619,25 @@ public class MainActivity extends AppCompatActivity {
         UsersController.Login(creds, new UsersController.LoginCallback() {
             @Override
             public void onSuccess(JsonObject data) {
-                runOnUiThread(() -> {
+                // Run on a background thread
+                new Thread(() -> {
                     Session.createSession(data);
 
-                    CompletableFuture.runAsync(() -> {
-                        // Espera hasta que Session y sus propiedades estén inicializadas
-                        Session session = Session.getInstance();
-                        while (session == null || session.getUser() == null || session.getOrganization() == null) {
-                            try {
-                                Thread.sleep(100); // Espera 100 milisegundos antes de volver a verificar
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            session = Session.getInstance();
-                        }
+                    // Ensure Session and its properties are initialized before proceeding
+                    Session session = Session.getInstance();
 
-                        // Una vez que Session está inicializada, procede con las operaciones necesarias
-                        ProfilePhotoUtil.createInstance(
-                                session.getUser().getProfilePhoto(),
-                                session.getOrganization().getProfilePhoto()
-                        );
+                    // Initialize ProfilePhotoUtil
+                    ProfilePhotoUtil.createInstance(
+                            session.getUser().getProfilePhoto(),
+                            session.getOrganization().getProfilePhoto()
+                    );
 
-                        runOnUiThread(() -> {
-                            Intent intent = new Intent(getApplicationContext(), com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-                            startActivity(intent);
-                        });
+                    // Switch to UI thread for UI updates
+                    runOnUiThread(() -> {
+                        Intent intent = new Intent(getApplicationContext(), com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+                        startActivity(intent);
                     });
-                });
+                }).start();
             }
 
             @Override
@@ -812,30 +645,43 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     base.setVisibility(View.VISIBLE);
                     final_background.setVisibility(View.GONE);
+                    int idMsg = -1;
                     if (errorResponse.get("errorCode").getAsInt() == 404) {
-                        emailField.setError(getString(R.string.email_not_in_db));
+                        idMsg = R.string.email_not_in_db;
+                        emailField.setError(getString(idMsg));
                     } else if (errorResponse.get("errorCode").getAsInt() == 401) {
-                        passwordField.setError(getString(R.string.wrong_password));
+                        idMsg = R.string.wrong_password;
+                        passwordField.setError(getString(idMsg));
+                    } else {
+                        idMsg = R.string.login_error;
                     }
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle(getString(R.string.error))
+                            .setMessage(Html.fromHtml("<b>" + getString(idMsg) + "</b>", 0))
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
                 });
             }
         });
     }
 
+
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        if (startSessionLayout.getVisibility() == View.VISIBLE) {
-            //welcome.setVisibility(View.VISIBLE);
-            startSessionLayout.setVisibility(View.GONE);
-            firstButtons.setVisibility(View.VISIBLE);
-        } else if (requestLayout.getVisibility() == View.VISIBLE) {
-            requestLayout.setVisibility(View.GONE);
-            firstButtons.setVisibility(View.VISIBLE);
-        } else if (sendRequestLayout.getVisibility() == View.VISIBLE) {
-            sendRequestLayout.setVisibility(View.GONE);
-            firstButtons.setVisibility(View.VISIBLE);
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+        if(keyCode==event.KEYCODE_BACK){
+            if (startSessionLayout.getVisibility() == View.VISIBLE) {
+                //welcome.setVisibility(View.VISIBLE);
+                startSessionLayout.setVisibility(View.GONE);
+                firstButtons.setVisibility(View.VISIBLE);
+            } else if (requestLayout.getVisibility() == View.VISIBLE) {
+                requestLayout.setVisibility(View.GONE);
+                firstButtons.setVisibility(View.VISIBLE);
+            } else if (sendRequestLayout.getVisibility() == View.VISIBLE) {
+                sendRequestLayout.setVisibility(View.GONE);
+                firstButtons.setVisibility(View.VISIBLE);
+            }
         }
+        return super.onKeyDown(keyCode,event);
     }
 
 }

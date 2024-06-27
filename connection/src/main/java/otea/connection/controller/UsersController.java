@@ -109,7 +109,8 @@ public class UsersController {
                 } else if (e.getMessage().equals("Unauthorized")) {
                     errorResponse.addProperty("errorCode", 401);
                 } else {
-                    throw new RuntimeException(e);
+
+                    errorResponse.addProperty("errorCode",408);
                 }
                 callback.onError(errorResponse);
             } finally {

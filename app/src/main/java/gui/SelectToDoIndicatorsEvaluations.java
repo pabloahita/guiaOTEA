@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,9 +35,12 @@ import gui.adapters.EvalTypesAdapter;
 import gui.adapters.EvaluatorTeamsAdapter;
 import gui.adapters.OrgsAdapter;
 import misc.DateFormatter;
+import misc.ListCallback;
+import otea.connection.controller.CentersController;
+import otea.connection.controller.EvaluatorTeamsController;
 import session.IndicatorsEvaluationUtil;
 import session.IndicatorsUtil;
-import session.Session;
+import session.SelectToIndicatorsEvaluationUtil;
 
 public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
 
@@ -58,8 +63,7 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
         base.setVisibility(View.VISIBLE);
         final_background.setVisibility(View.GONE);
 
-        organizations= new ArrayList<>();
-        organizations.addAll(Session.getEvaluatedOrganizations());
+        organizations= SelectToIndicatorsEvaluationUtil.getInstance().getOrganizations();
         List<String> evaluationTypes=new LinkedList<String>();
         evaluationTypes.add(getString(R.string.eval_type));
         evaluationTypes.add(getString(R.string.complete));
@@ -161,13 +165,49 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
 
                     evaluatedOrganization[0] = orgsAdapter[0].getItem(position);
                     if(position>0) {
-                        centers=Session.getInstance().getCentersByOrganization(evaluatedOrganization[0]);
-                        centers.add(0,centerAuxList.get(0));
-                        centerAdapter[0] = new CenterAdapter(SelectToDoIndicatorsEvaluations.this, centers);
-                        centerAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-                        spinnerCenter.setAdapter(centerAdapter[0]);
-                        spinnerCenter.setVisibility(View.VISIBLE);
-                        spinnerCenterAux.setVisibility(View.GONE);
+                        CentersController.GetAllByOrganization(evaluatedOrganization[0],new ListCallback() {
+                            @Override
+                            public void onSuccess(List<JsonObject> data) {
+                                runOnUiThread(()->{
+                                    centers=new ArrayList<>();
+                                    centers.add(centerAuxList.get(0));
+                                    for(JsonObject center:data) {
+                                        int idOrganization = center.getAsJsonPrimitive("idOrganization").getAsInt();
+                                        String orgType = center.getAsJsonPrimitive("orgType").getAsString();
+                                        String illness = center.getAsJsonPrimitive("illness").getAsString();
+                                        int idCenter = center.getAsJsonPrimitive("idCenter").getAsInt();
+                                        String descriptionEnglish = center.getAsJsonPrimitive("descriptionEnglish").getAsString();
+                                        String descriptionSpanish = center.getAsJsonPrimitive("descriptionSpanish").getAsString();
+                                        String descriptionFrench = center.getAsJsonPrimitive("descriptionFrench").getAsString();
+                                        String descriptionBasque = center.getAsJsonPrimitive("descriptionBasque").getAsString();
+                                        String descriptionCatalan = center.getAsJsonPrimitive("descriptionCatalan").getAsString();
+                                        String descriptionDutch = center.getAsJsonPrimitive("descriptionDutch").getAsString();
+                                        String descriptionGalician = center.getAsJsonPrimitive("descriptionGalician").getAsString();
+                                        String descriptionGerman = center.getAsJsonPrimitive("descriptionGerman").getAsString();
+                                        String descriptionItalian = center.getAsJsonPrimitive("descriptionItalian").getAsString();
+                                        String descriptionPortuguese = center.getAsJsonPrimitive("descriptionPortuguese").getAsString();
+                                        int idAddress = center.getAsJsonPrimitive("idAddress").getAsInt();
+                                        String telephone = center.getAsJsonPrimitive("telephone").getAsString();
+                                        String email = center.getAsJsonPrimitive("email").getAsString();
+                                        String profilePhoto = center.getAsJsonPrimitive("profilePhoto").getAsString();
+                                        centers.add(new Center(idOrganization, orgType, illness, idCenter, descriptionEnglish, descriptionSpanish, descriptionFrench, descriptionBasque, descriptionCatalan, descriptionDutch, descriptionGalician, descriptionGerman, descriptionItalian, descriptionPortuguese, idAddress, telephone, email, profilePhoto));
+                                    }
+                                    centerAdapter[0] = new CenterAdapter(SelectToDoIndicatorsEvaluations.this, centers);
+                                    centerAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                                    spinnerCenter.setAdapter(centerAdapter[0]);
+                                    spinnerCenter.setVisibility(View.VISIBLE);
+                                    spinnerCenterAux.setVisibility(View.GONE);
+                                });
+
+                            }
+
+                            @Override
+                            public void onError(String errorResponse) {
+                                runOnUiThread(() -> {
+                                    // Manejar el error aquí, como mostrar un mensaje al usuario
+                                });
+                            }
+                        });
                     }
                     else{
                         spinnerCenter.setVisibility(View.GONE);
@@ -189,29 +229,62 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
 
             spinnerCenter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view,int position, long id) {
-                    center[0]=centerAdapter[0].getItem(position);
-                    if(position>0) {
-                        evaluatorTeams=Session.getInstance().getEvaluatorTeamsByCenter(center[0]);
-                        evaluatorTeams.add(0,evaluatorTeamAuxList.get(0));
-                        evaluatorTeamsAdapter[0] = new EvaluatorTeamsAdapter(SelectToDoIndicatorsEvaluations.this, evaluatorTeams);
-                        evaluatorTeamsAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-                        spinnerEvaluatorTeam.setAdapter(evaluatorTeamsAdapter[0]);
-                        spinnerEvaluatorTeam.setVisibility(View.VISIBLE);
-                        spinnerEvaluatorTeamAux.setVisibility(View.GONE);
-                        if(evaluatorTeams.size()==1){
-                            new AlertDialog.Builder(SelectToDoIndicatorsEvaluations.this)
-                                    .setTitle(getString(R.string.error))
-                                    .setIcon(android.R.drawable.ic_dialog_alert)
-                                    .setMessage(Html.fromHtml("<b>"+getString(R.string.no_eval_team)+"</b>",0))
-                                    .setPositiveButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    }).create().show();
-                        }
-                    }else{
+                public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                    center[0] = centerAdapter[0].getItem(position);
+                    if (position > 0) {
+                        EvaluatorTeamsController.GetAllByCenter(center[0].getIdOrganization(), center[0].getOrgType(), center[0].getIdCenter(), center[0].getIllness(), new ListCallback() {
+                            @Override
+                            public void onSuccess(List<JsonObject> data) {
+                                runOnUiThread(() -> {
+                                    evaluatorTeams = new ArrayList<>();
+                                    evaluatorTeams.add(0, evaluatorTeamAuxList.get(0));
+                                    for (JsonObject evalTeam : data) {
+                                        // Extraer información del JSON y crear objetos EvaluatorTeam
+                                        int idEvaluatorTeam = evalTeam.getAsJsonPrimitive("idEvaluatorTeam").getAsInt();
+                                        long creationDate = evalTeam.getAsJsonPrimitive("creationDate").getAsLong();
+                                        String emailProfessional = evalTeam.getAsJsonPrimitive("emailProfessional").getAsString();
+                                        String emailResponsible = evalTeam.getAsJsonPrimitive("emailResponsible").getAsString();
+                                        String otherMembers = evalTeam.getAsJsonPrimitive("otherMembers").getAsString();
+                                        int idEvaluatorOrganization = evalTeam.getAsJsonPrimitive("idEvaluatorOrganization").getAsInt();
+                                        String orgTypeEvaluator = evalTeam.getAsJsonPrimitive("orgTypeEvaluator").getAsString();
+                                        int idEvaluatedOrganization = evalTeam.getAsJsonPrimitive("idEvaluatedOrganization").getAsInt();
+                                        String orgTypeEvaluated = evalTeam.getAsJsonPrimitive("orgTypeEvaluated").getAsString();
+                                        String externalConsultant = evalTeam.getAsJsonPrimitive("externalConsultant").getAsString();
+                                        String patientName = evalTeam.getAsJsonPrimitive("patientName").getAsString();
+                                        String relativeName = evalTeam.getAsJsonPrimitive("relativeName").getAsString();
+                                        String observationsEnglish = evalTeam.getAsJsonPrimitive("observationsEnglish").getAsString();
+                                        String observationsSpanish = evalTeam.getAsJsonPrimitive("observationsSpanish").getAsString();
+                                        String observationsFrench = evalTeam.getAsJsonPrimitive("observationsFrench").getAsString();
+                                        String observationsBasque = evalTeam.getAsJsonPrimitive("observationsBasque").getAsString();
+                                        String observationsCatalan = evalTeam.getAsJsonPrimitive("observationsCatalan").getAsString();
+                                        String observationsDutch = evalTeam.getAsJsonPrimitive("observationsDutch").getAsString();
+                                        String observationsGalician = evalTeam.getAsJsonPrimitive("observationsGalician").getAsString();
+                                        String observationsGerman = evalTeam.getAsJsonPrimitive("observationsGerman").getAsString();
+                                        String observationsItalian = evalTeam.getAsJsonPrimitive("observationsItalian").getAsString();
+                                        String observationsPortuguese = evalTeam.getAsJsonPrimitive("observationsPortuguese").getAsString();
+                                        String evaluationDates = evalTeam.getAsJsonPrimitive("evaluationDates").getAsString();
+                                        int completedEvaluationDates = evalTeam.getAsJsonPrimitive("completedEvaluationDates").getAsInt();
+                                        int totalEvaluationDates = evalTeam.getAsJsonPrimitive("totalEvaluationDates").getAsInt();
+                                        String profilePhoto = evalTeam.getAsJsonPrimitive("profilePhoto").getAsString();
+                                        evaluatorTeams.add(new EvaluatorTeam(idEvaluatorTeam, creationDate, emailProfessional, emailResponsible, otherMembers, idEvaluatorOrganization, orgTypeEvaluator, idEvaluatedOrganization, orgTypeEvaluated, center[0].getIdCenter(), center[0].getIllness(), externalConsultant, patientName, relativeName, observationsEnglish, observationsSpanish, observationsFrench, observationsBasque, observationsCatalan, observationsDutch, observationsGalician, observationsGerman, observationsItalian, observationsPortuguese, evaluationDates, completedEvaluationDates, totalEvaluationDates, profilePhoto));
+                                    }
+                                    evaluatorTeamsAdapter[0] = new EvaluatorTeamsAdapter(SelectToDoIndicatorsEvaluations.this, evaluatorTeams);
+                                    evaluatorTeamsAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                                    spinnerEvaluatorTeam.setAdapter(evaluatorTeamsAdapter[0]);
+                                    spinnerEvaluatorTeam.setVisibility(View.VISIBLE);
+                                    spinnerEvaluatorTeamAux.setVisibility(View.GONE);
+                                    Log.d("EvaluatorTeams", "Received data: " + data.toString());
+                                });
+                            }
+
+                            @Override
+                            public void onError(String errorResponse) {
+                                runOnUiThread(() -> {
+                                    // Manejar el error aquí, como mostrar un mensaje al usuario
+                                });
+                            }
+                        });
+                    } else {
                         spinnerEvaluatorTeam.setVisibility(View.GONE);
                         spinnerEvaluatorTeamAux.setVisibility(View.VISIBLE);
                         spinnerEvaluatorTeamAux.setAlpha(0.5f);
@@ -301,6 +374,7 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
                                         "", "", "",
                                         0, evaluationType[0],""));
                                 IndicatorsUtil.createInstance(evaluationType[0]);
+                                SelectToIndicatorsEvaluationUtil.removeInstance();
                                 startActivity(intent);
                             }
                         }, 100);
@@ -330,6 +404,7 @@ public class SelectToDoIndicatorsEvaluations extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if(keyCode==event.KEYCODE_BACK){
+            SelectToIndicatorsEvaluationUtil.removeInstance();
             Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
             startActivity(intent);
         }

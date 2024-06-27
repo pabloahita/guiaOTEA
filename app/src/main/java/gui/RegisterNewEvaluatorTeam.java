@@ -39,6 +39,7 @@ import com.aminography.primedatepicker.picker.PrimeDatePicker;
 import com.aminography.primedatepicker.picker.callback.MultipleDaysPickCallback;
 import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback;
 import com.fundacionmiradas.indicatorsevaluation.R;
+import com.google.gson.JsonObject;
 
 ;
 import java.io.ByteArrayInputStream;
@@ -61,8 +62,11 @@ import gui.adapters.CenterAdapter;
 import gui.adapters.OrgsAdapter;
 import gui.adapters.UsersAdapter;
 import misc.DateFormatter;
+import misc.ListCallback;
+import otea.connection.controller.CentersController;
 import otea.connection.controller.EvaluatorTeamsController;
 import otea.connection.controller.TranslatorController;
+import session.AddNewEvalTeamUtil;
 import session.FileManager;
 import session.Session;
 
@@ -72,9 +76,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
 
     EditText evaluationDatesEditText;
 
-    List<Organization> evaluatedOrganizations;
 
-    List<User> evaluatorUsers;
 
     List<User> evaluatedUsers;
 
@@ -115,10 +117,9 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_new_evaluator_team);
 
-        evaluatorUsers = Session.getEvaluatorUsers();
-        evaluatedUsers=Session.getEvaluatedUsers();
+        evaluatedUsers= AddNewEvalTeamUtil.getInstance().getEvaluatedUsers();
 
-        if (!evaluatedUsers.isEmpty() && !evaluatorUsers.isEmpty()) {
+        if (!evaluatedUsers.isEmpty()) {
 
             Spinner centerSpinner = findViewById(R.id.spinner_select_center);
             Spinner responsibleSpinner = findViewById(R.id.spinner_select_responsible);
@@ -128,8 +129,13 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
             userAuxList.add(new User("-1","-",getString(R.string.responsible),"-","","",-1,"-","-","-"));
             userAuxList.add(new User("-1","-",getString(R.string.professional),"-","","",-1,"-","-","-"));
 
-            evaluatorUsers.add(0,userAuxList.get(0));
-            evaluatedUsers.add(0,userAuxList.get(1));
+            List<User> responsibles=new ArrayList<>();
+            responsibles.add(0,userAuxList.get(0));
+            responsibles.addAll(evaluatedUsers);
+
+            List<User> professionals=new ArrayList<>();
+            professionals.add(0,userAuxList.get(1));
+            professionals.addAll(evaluatedUsers);
 
             otherMembers=new ArrayList<>();
 
@@ -147,18 +153,50 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
 
             UsersAdapter[] usersAdapter=new UsersAdapter[2];
             CenterAdapter[] centerAdapters=new CenterAdapter[1];
-            centers = Session.getInstance().getCentersByOrganization(Session.getInstance().getOrganization());
-            centers.add(0,new Center(-1,"-","-",-1,"Center of the organization or service","Centro de la organización o servicio","Centre de l'organisation ou du service","Erakundearen edo zerbitzuaren zentroa","Centre de l'organització o servei","Centrum van de organisatie of dienst","Centro da organización ou servizo","Center der Organisation oder des Dienstes","Centro dell'organizzazione o del servizio","Centro da organização ou serviço",-1,"-","-1","-"));
-            centerAdapters[0]=new CenterAdapter(getApplicationContext(),centers);
-            centerAdapters[0].setDropDownViewResource(R.layout.spinner_item_layout);
-            centerSpinner.setAdapter(centerAdapters[0]);
+            CentersController.GetAllByOrganization(Session.getInstance().getOrganization(), new ListCallback() {
+                @Override
+                public void onSuccess(List<JsonObject> data) {
+                    centers=new ArrayList<>();
+                    for(JsonObject center:data){
+                        int idOrganization=center.getAsJsonPrimitive("idOrganization").getAsInt();
+                        String orgType=center.getAsJsonPrimitive("orgType").getAsString();
+                        String illness=center.getAsJsonPrimitive("illness").getAsString();
+                        int idCenter=center.getAsJsonPrimitive("idCenter").getAsInt();
+                        String descriptionEnglish=center.getAsJsonPrimitive("descriptionEnglish").getAsString();
+                        String descriptionSpanish=center.getAsJsonPrimitive("descriptionSpanish").getAsString();
+                        String descriptionFrench=center.getAsJsonPrimitive("descriptionFrench").getAsString();
+                        String descriptionBasque=center.getAsJsonPrimitive("descriptionBasque").getAsString();
+                        String descriptionCatalan=center.getAsJsonPrimitive("descriptionCatalan").getAsString();
+                        String descriptionDutch=center.getAsJsonPrimitive("descriptionDutch").getAsString();
+                        String descriptionGalician=center.getAsJsonPrimitive("descriptionGalician").getAsString();
+                        String descriptionGerman=center.getAsJsonPrimitive("descriptionGerman").getAsString();
+                        String descriptionItalian=center.getAsJsonPrimitive("descriptionItalian").getAsString();
+                        String descriptionPortuguese=center.getAsJsonPrimitive("descriptionPortuguese").getAsString();
+                        int idAddress=center.getAsJsonPrimitive("idAddress").getAsInt();
+                        String telephone=center.getAsJsonPrimitive("telephone").getAsString();
+                        String email=center.getAsJsonPrimitive("email").getAsString();
+                        String profilePhoto=center.getAsJsonPrimitive("profilePhoto").getAsString();
+                        centers.add(new Center(idOrganization, orgType, illness, idCenter, descriptionEnglish, descriptionSpanish, descriptionFrench, descriptionBasque, descriptionCatalan, descriptionDutch, descriptionGalician, descriptionGerman, descriptionItalian, descriptionPortuguese, idAddress, telephone, email, profilePhoto));
+                    }
+                    centers.add(0,new Center(-1,"-","-",-1,"Center of the organization or service","Centro de la organización o servicio","Centre de l'organisation ou du service","Erakundearen edo zerbitzuaren zentroa","Centre de l'organització o servei","Centrum van de organisatie of dienst","Centro da organización ou servizo","Center der Organisation oder des Dienstes","Centro dell'organizzazione o del servizio","Centro da organização ou serviço",-1,"-","-1","-"));
+                    centerAdapters[0]=new CenterAdapter(getApplicationContext(),centers);
+                    centerAdapters[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                    centerSpinner.setAdapter(centerAdapters[0]);
+                }
+
+                @Override
+                public void onError(String errorResponse) {
+
+                }
+            });
 
 
-            usersAdapter[1]=new UsersAdapter(getApplicationContext(),evaluatorUsers);
+
+            usersAdapter[1]=new UsersAdapter(getApplicationContext(),responsibles);
             usersAdapter[1].setDropDownViewResource(R.layout.spinner_item_layout);
             responsibleSpinner.setAdapter(usersAdapter[1]);
 
-            usersAdapter[0]=new UsersAdapter(getApplicationContext(),evaluatedUsers);
+            usersAdapter[0]=new UsersAdapter(getApplicationContext(),professionals);
             usersAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
             professionalSpinner.setAdapter(usersAdapter[0]);
 
@@ -519,7 +557,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                         @Override
                         public void run() {
 
-                                int idEvaluatorTeam= EvaluatorTeamsController.GetAllByOrganization(1,"EVALUATOR","AUTISM").size()+1;
+                                int idEvaluatorTeam= EvaluatorTeamsController.GetAllByOrganization(centerSelected.getIdOrganization(),centerSelected.getOrgType(),centerSelected.getIllness()).size()+1;
 
 
                                 long creation_date= creationDate.getTimeInMillis();
@@ -752,10 +790,6 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
             String msg="<ul>";
             int numErrors=0;
             if(evaluatedUsers.isEmpty()){
-                msg+="<li><b>"+getString(R.string.please_select_center)+"</b></li>";
-                numErrors++;
-            }
-            if(evaluatorUsers.isEmpty()){
                 msg+="<li><b>"+getString(R.string.please_select_center)+"</b></li>";
                 numErrors++;
             }
