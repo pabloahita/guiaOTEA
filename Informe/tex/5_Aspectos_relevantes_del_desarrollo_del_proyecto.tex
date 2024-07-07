@@ -214,7 +214,7 @@ responsabilidades que tienen los usuarios en los que cada una de las tres capas
     puede realizar todo tipo de operaciones \textit{CRUD (Create, Read, Update,
     Delete)} de la base de datos, encargándose también de marcar los endpoints
     en los que se van a realizar dichas operaciones. Dichos métodos del
-    controlador se apoyan en el context de \textit{Entity Framework} que realizan la consulta de
+    controlador se apoyan en el contexto de base de datos de \textit{Entity Framework} que realizan la consulta de
     la base de datos, todo ello en el lado del servidor.
 \end{itemize}
 
@@ -654,6 +654,9 @@ Los cambios que se realizaron a partir del Trabajo de Final de Grado son los sig
     \item Se han creado layouts específicos para tablet y para pantallas
     horizontales, al igual que bloquear la orientación en la mayoría de
     actividades.
+    \item Se han añadido apartados de ayuda en actividades clave de la
+    aplicación, ayudando a que el usuario tenga mayor intituividad en el uso de
+    la misma.
 \end{itemize}
 
 \subsubsection{Funcionalidades descartadas}
@@ -855,7 +858,7 @@ Adicionalmente a eso, se ha creado un usuario adicional para la organización \t
 La finalidad es tener dos usuarios, el director y un usuario de organización,
 para poder asignar al equipo evaluador de turno.
 \subsection{Equipo evaluador creado}
-Para el equipo de evaluador, se han introducido los siguientes datos:
+Para el equipo evaluador de prueba, se han introducido los siguientes datos:
 \begin{itemize}
     \item \textbf{Identificador de equipo evaluador: }1
     \item \textbf{Fecha de creación: }16 de mayo de 2024
@@ -874,3 +877,24 @@ Para el equipo de evaluador, se han introducido los siguientes datos:
     \item \textbf{Fechas de evaluación: }18 de mayo de 2024, 19 de mayo de 2024 y 20 de mayo de 2024
 \end{itemize}
 \subsection{Evaluación de indicadores creada}
+Con todo lo necesario creado, la parte más importante se pone a prueba con una
+evaluación de tipo completo, la cual, como hemos mencionado con anterioridad,
+consta de 70 indicadores con 4 evidencias como máximo a seleccionar.
+\\
+La intención de dicha prueba es marcar los indicadores de la siguiente manera:
+\begin{itemize}
+    \item Los indicadores del 1 al 30 deben de ser de estado \texttt{REACHED}, los cuales deben tener las cuatro evidencias marcadas.
+    \item Los indicadores del 31 al 60 deben de ser de estado \texttt{IN\_PROCESS}, los cuales deben tener o dos o tres evidencias marcadas.
+    \item Los indicadores del 61 al 70 deben de ser de estado \texttt{IN\_START}, los cuales deben tener una o ninguna evidencia marcada.
+\end{itemize}
+Dicha prueba garantiza que se cumplan todas las posibilidades dentro de la
+evaluación de indicadores, además de poner en marcha el sistema experto
+anteriormente mencionado y generar el informe para que se almacene en la nube.
+\\
+La prueba se fue guardando en tres fases, las cuales son las mismas que se han
+mencionado con anterioridad para el marcado de las evidencias de los
+indicadores, con la finalidad de que se puedan guardar y después obtener gracias
+al almacenaje de los registros de indicadores y evidencias \textit{(Véase
+Anexos)}.
+\\
+Tras haber realizado dicha prueba de indicadores, se han obtenido los siguientes resultados:
