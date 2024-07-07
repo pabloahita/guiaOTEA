@@ -1,0 +1,34 @@
+﻿@page
+@model GuiaOTEAAdmin.Pages.ActiveUsersManagementModel
+@{
+}
+<h2>Gestión de usuarios activos</h2>
+
+@if (Model.Users != null && Model.Users.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td>@user.emailUser</td>
+                    <td>
+                        <form method="post" asp-page-handler="Accept" asp-route-emailUser="@user.emailUser">
+                            <button type="submit" class="btn btn-success">Eliminar usuario</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No hay usuarios activos.</p>
+}

@@ -1,0 +1,182 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\GuiaOTEAAdmin\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{05808760-08DF-42EE-960D-D10CDF353445}|GuiaOTEAAdmin.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\guiaoteaadmin\\pages\\activeusersmanagement.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{05808760-08DF-42EE-960D-D10CDF353445}|GuiaOTEAAdmin.csproj|solutionrelative:pages\\activeusersmanagement.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{05808760-08DF-42EE-960D-D10CDF353445}|GuiaOTEAAdmin.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\guiaoteaadmin\\pages\\activeusersmanagement.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{05808760-08DF-42EE-960D-D10CDF353445}|GuiaOTEAAdmin.csproj|solutionrelative:pages\\activeusersmanagement.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{05808760-08DF-42EE-960D-D10CDF353445}|GuiaOTEAAdmin.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\guiaoteaadmin\\pages\\registerrequestsmanagement.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{05808760-08DF-42EE-960D-D10CDF353445}|GuiaOTEAAdmin.csproj|solutionrelative:pages\\registerrequestsmanagement.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{05808760-08DF-42EE-960D-D10CDF353445}|GuiaOTEAAdmin.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\guiaoteaadmin\\pages\\registerrequestsmanagement.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{05808760-08DF-42EE-960D-D10CDF353445}|GuiaOTEAAdmin.csproj|solutionrelative:pages\\registerrequestsmanagement.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{05808760-08DF-42EE-960D-D10CDF353445}|GuiaOTEAAdmin.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\guiaoteaadmin\\pages\\mainmenu.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{05808760-08DF-42EE-960D-D10CDF353445}|GuiaOTEAAdmin.csproj|solutionrelative:pages\\mainmenu.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{05808760-08DF-42EE-960D-D10CDF353445}|GuiaOTEAAdmin.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\guiaoteaadmin\\pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{05808760-08DF-42EE-960D-D10CDF353445}|GuiaOTEAAdmin.csproj|solutionrelative:pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{05808760-08DF-42EE-960D-D10CDF353445}|GuiaOTEAAdmin.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\guiaoteaadmin\\organization.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{05808760-08DF-42EE-960D-D10CDF353445}|GuiaOTEAAdmin.csproj|solutionrelative:organization.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{05808760-08DF-42EE-960D-D10CDF353445}|GuiaOTEAAdmin.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\guiaoteaadmin\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{05808760-08DF-42EE-960D-D10CDF353445}|GuiaOTEAAdmin.csproj|solutionrelative:pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{05808760-08DF-42EE-960D-D10CDF353445}|GuiaOTEAAdmin.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\guiaoteaadmin\\session.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{05808760-08DF-42EE-960D-D10CDF353445}|GuiaOTEAAdmin.csproj|solutionrelative:session.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{05808760-08DF-42EE-960D-D10CDF353445}|GuiaOTEAAdmin.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\guiaoteaadmin\\usersession.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{05808760-08DF-42EE-960D-D10CDF353445}|GuiaOTEAAdmin.csproj|solutionrelative:usersession.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 611,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ActiveUsersManagement.cshtml.cs",
+              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\GuiaOTEAAdmin\\Pages\\ActiveUsersManagement.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\ActiveUsersManagement.cshtml.cs",
+              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\GuiaOTEAAdmin\\Pages\\ActiveUsersManagement.cshtml.cs",
+              "RelativeToolTip": "Pages\\ActiveUsersManagement.cshtml.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAA0AAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-07T20:12:25.974Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "RegisterRequestsManagement.cshtml.cs",
+              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\GuiaOTEAAdmin\\Pages\\RegisterRequestsManagement.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\RegisterRequestsManagement.cshtml.cs",
+              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\GuiaOTEAAdmin\\Pages\\RegisterRequestsManagement.cshtml.cs",
+              "RelativeToolTip": "Pages\\RegisterRequestsManagement.cshtml.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAuwBMAAAA0AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-28T16:30:50.587Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ActiveUsersManagement.cshtml",
+              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\GuiaOTEAAdmin\\Pages\\ActiveUsersManagement.cshtml",
+              "RelativeDocumentMoniker": "Pages\\ActiveUsersManagement.cshtml",
+              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\GuiaOTEAAdmin\\Pages\\ActiveUsersManagement.cshtml",
+              "RelativeToolTip": "Pages\\ActiveUsersManagement.cshtml",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAACAAAAAeAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-07-07T20:12:03.097Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RegisterRequestsManagement.cshtml",
+              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\GuiaOTEAAdmin\\Pages\\RegisterRequestsManagement.cshtml",
+              "RelativeDocumentMoniker": "Pages\\RegisterRequestsManagement.cshtml",
+              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\GuiaOTEAAdmin\\Pages\\RegisterRequestsManagement.cshtml",
+              "RelativeToolTip": "Pages\\RegisterRequestsManagement.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-06-28T16:30:45.36Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MainMenu.cshtml",
+              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\GuiaOTEAAdmin\\Pages\\MainMenu.cshtml",
+              "RelativeDocumentMoniker": "Pages\\MainMenu.cshtml",
+              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\GuiaOTEAAdmin\\Pages\\MainMenu.cshtml",
+              "RelativeToolTip": "Pages\\MainMenu.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-06-28T16:01:09.293Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Index.cshtml.cs",
+              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\GuiaOTEAAdmin\\Pages\\Index.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\Index.cshtml.cs",
+              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\GuiaOTEAAdmin\\Pages\\Index.cshtml.cs",
+              "RelativeToolTip": "Pages\\Index.cshtml.cs",
+              "ViewState": "AQIAACgAAAAAAAAAAAAwwEAAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-27T20:31:38.247Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Organization.cs",
+              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\GuiaOTEAAdmin\\Organization.cs",
+              "RelativeDocumentMoniker": "Organization.cs",
+              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\GuiaOTEAAdmin\\Organization.cs",
+              "RelativeToolTip": "Organization.cs",
+              "ViewState": "AQIAACsAAAAAAAAAAAAQwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-07T20:10:48.594Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\GuiaOTEAAdmin\\Pages\\Index.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Index.cshtml",
+              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\GuiaOTEAAdmin\\Pages\\Index.cshtml",
+              "RelativeToolTip": "Pages\\Index.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAmAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-06-28T18:37:19.146Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "UserSession.cs",
+              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\GuiaOTEAAdmin\\UserSession.cs",
+              "RelativeDocumentMoniker": "UserSession.cs",
+              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\GuiaOTEAAdmin\\UserSession.cs",
+              "RelativeToolTip": "UserSession.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAAwBEAAADOAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-28T15:57:17.438Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Session.cs",
+              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\GuiaOTEAAdmin\\Session.cs",
+              "RelativeDocumentMoniker": "Session.cs",
+              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\GuiaOTEAAdmin\\Session.cs",
+              "RelativeToolTip": "Session.cs",
+              "ViewState": "AQIAADcAAAAAAAAAAAAkwEQAAABXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-28T16:32:16.828Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,7 +1,11 @@
+using WebApplication1;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddSingleton<Session>(Session.Instance);
 
 var app = builder.Build();
 

@@ -11,6 +11,7 @@ import cli.indicators.Evidence;
 import cli.indicators.IndicatorsEvaluation;
 import cli.indicators.IndicatorsEvaluationEvidenceReg;
 import cli.indicators.IndicatorsEvaluationIndicatorReg;
+import cli.indicators.IndicatorsEvaluationSimpleEvidenceReg;
 import otea.connection.controller.IndicatorsEvaluationsController;
 
 public class IndicatorsEvaluationRegsUtil {
@@ -21,6 +22,8 @@ public class IndicatorsEvaluationRegsUtil {
     private List<IndicatorsEvaluationIndicatorReg> indicatorRegs;
 
     private List<IndicatorsEvaluationEvidenceReg> evidenceRegs;
+
+    private List<IndicatorsEvaluationSimpleEvidenceReg> evidenceSimpleRegs;
 
 
     private IndicatorsEvaluationRegsUtil(IndicatorsEvaluation indicatorsEvaluation){
@@ -55,17 +58,26 @@ public class IndicatorsEvaluationRegsUtil {
         this.evidenceRegs = evidenceRegs;
     }
 
+    public List<IndicatorsEvaluationSimpleEvidenceReg> getEvidenceSimpleRegs() {
+        return evidenceSimpleRegs;
+    }
+
+    public void setEvidenceSimpleRegs(List<IndicatorsEvaluationSimpleEvidenceReg> evidenceSimpleRegs) {
+        this.evidenceSimpleRegs = evidenceSimpleRegs;
+    }
+
     public void getRegsByIndicatorsEvaluation(IndicatorsEvaluation indicatorsEvaluation) {
         List<JsonObject> regs= IndicatorsEvaluationsController.GetRegsByIndicatorsEvaluation(indicatorsEvaluation);
         List<IndicatorsEvaluationIndicatorReg> indicatorsRegsList=new ArrayList<>();
         List<IndicatorsEvaluationEvidenceReg> evidencesRegsList=new ArrayList<>();
+        List<IndicatorsEvaluationSimpleEvidenceReg> evidenceSimpleRegsList=new ArrayList<>();
         List<JsonObject> indicatorsRegs;
+        JsonObject tams=regs.get(regs.size()-1);
+        int numIndicatorsRegs=tams.getAsJsonPrimitive("numIndicatorsRegs").getAsInt();
+        int numEvidencesRegs=tams.getAsJsonPrimitive("numEvidencesRegs").getAsInt();
+        indicatorsRegs=regs.subList(0,numIndicatorsRegs);
+        List<JsonObject> evidencesRegs=regs.subList(numIndicatorsRegs,numEvidencesRegs+numIndicatorsRegs);
         if(indicatorsEvaluation.getEvaluationType().equals("COMPLETE")){
-            JsonObject tams=regs.get(regs.size()-1);
-            int numIndicatorsRegs=tams.getAsJsonPrimitive("numIndicatorsRegs").getAsInt();
-            int numEvidencesRegs=tams.getAsJsonPrimitive("numEvidencesRegs").getAsInt();
-            indicatorsRegs=regs.subList(0,numIndicatorsRegs);
-            List<JsonObject> evidencesRegs=regs.subList(numIndicatorsRegs,numEvidencesRegs+numIndicatorsRegs);
             for(JsonObject reg: evidencesRegs){
                 int idSubSubAmbit=reg.getAsJsonPrimitive("idSubSubAmbit").getAsInt();
                 int idSubAmbit=reg.getAsJsonPrimitive("idSubAmbit").getAsInt();
@@ -89,10 +101,45 @@ public class IndicatorsEvaluationRegsUtil {
                         observationsDutch, observationsGalician, observationsGerman, observationsItalian, observationsPortuguese));
             }
 
+            setEvidenceRegs(evidencesRegsList);
         }
-        else {
-            indicatorsRegs = regs;
+        else{
+            for(JsonObject reg: evidencesRegs){
+                int idSubSubAmbit=reg.getAsJsonPrimitive("idSubSubAmbit").getAsInt();
+                int idSubAmbit=reg.getAsJsonPrimitive("idSubAmbit").getAsInt();
+                int idAmbit=reg.getAsJsonPrimitive("idAmbit").getAsInt();
+                int idIndicator=reg.getAsJsonPrimitive("idIndicator").getAsInt();
+                int idEvidence=reg.getAsJsonPrimitive("idEvidence").getAsInt();
+                String descriptionSpanish=reg.getAsJsonPrimitive("descriptionSpanish").getAsString();
+                String descriptionEnglish=reg.getAsJsonPrimitive("descriptionEnglish").getAsString();
+                String descriptionFrench=reg.getAsJsonPrimitive("descriptionFrench").getAsString();
+                String descriptionBasque=reg.getAsJsonPrimitive("descriptionBasque").getAsString();
+                String descriptionCatalan=reg.getAsJsonPrimitive("descriptionCatalan").getAsString();
+                String descriptionDutch=reg.getAsJsonPrimitive("descriptionDutch").getAsString();
+                String descriptionGalician=reg.getAsJsonPrimitive("descriptionGalician").getAsString();
+                String descriptionGerman=reg.getAsJsonPrimitive("descriptionGerman").getAsString();
+                String descriptionItalian=reg.getAsJsonPrimitive("descriptionItalian").getAsString();
+                String descriptionPortuguese=reg.getAsJsonPrimitive("descriptionPortuguese").getAsString();
+                int indicatorVersion=reg.getAsJsonPrimitive("indicatorVersion").getAsInt();
+                String observationsSpanish=reg.getAsJsonPrimitive("observationsSpanish").getAsString();
+                String observationsEnglish=reg.getAsJsonPrimitive("observationsEnglish").getAsString();
+                String observationsFrench=reg.getAsJsonPrimitive("observationsFrench").getAsString();
+                String observationsBasque=reg.getAsJsonPrimitive("observationsBasque").getAsString();
+                String observationsCatalan=reg.getAsJsonPrimitive("observationsCatalan").getAsString();
+                String observationsDutch=reg.getAsJsonPrimitive("observationsDutch").getAsString();
+                String observationsGalician=reg.getAsJsonPrimitive("observationsGalician").getAsString();
+                String observationsGerman=reg.getAsJsonPrimitive("observationsGerman").getAsString();
+                String observationsItalian=reg.getAsJsonPrimitive("observationsItalian").getAsString();
+                String observationsPortuguese=reg.getAsJsonPrimitive("observationsPortuguese").getAsString();
+                evidenceSimpleRegsList.add(new IndicatorsEvaluationSimpleEvidenceReg(indicatorsEvaluation.getEvaluationDate(), indicatorsEvaluation.getIdEvaluatedOrganization(), indicatorsEvaluation.getOrgTypeEvaluated(), indicatorsEvaluation.getIdEvaluatorTeam(), indicatorsEvaluation.getIdEvaluatorOrganization(), indicatorsEvaluation.getOrgTypeEvaluator(), indicatorsEvaluation.getIllness(), indicatorsEvaluation.getIdCenter(), idIndicator, idEvidence,
+                descriptionSpanish, descriptionEnglish, descriptionFrench, descriptionBasque, descriptionCatalan,
+                        descriptionDutch, descriptionGalician, descriptionGerman, descriptionItalian, descriptionPortuguese,
+                idSubSubAmbit, idSubAmbit, idAmbit, indicatorVersion, indicatorsEvaluation.getEvaluationType(), observationsSpanish, observationsEnglish, observationsFrench, observationsBasque, observationsCatalan,
+                        observationsDutch, observationsGalician, observationsGerman, observationsItalian, observationsPortuguese));
+            }
+            setEvidenceSimpleRegs(evidenceSimpleRegsList);
         }
+
         for(JsonObject reg: indicatorsRegs){
             int idSubSubAmbit=reg.getAsJsonPrimitive("idSubSubAmbit").getAsInt();
             int idSubAmbit=reg.getAsJsonPrimitive("idSubAmbit").getAsInt();
@@ -117,7 +164,6 @@ public class IndicatorsEvaluationRegsUtil {
         }
 
         setIndicatorRegs(indicatorsRegsList);
-        setEvidenceRegs(evidencesRegsList);
 
     }
 
@@ -132,6 +178,18 @@ public class IndicatorsEvaluationRegsUtil {
             }
         };
         return evidenceRegs.stream().filter(evidenceOfThatIndicatorExist).collect(Collectors.toList());
+    }
+
+    public List<IndicatorsEvaluationSimpleEvidenceReg> getSimpleEvidencesRegsByIndicator(int idSubSubAmbit, int idSubAmbit, int idAmbit, int idIndicator, int indicatorVersion, String evaluationType){
+        Predicate<IndicatorsEvaluationSimpleEvidenceReg> evidenceOfThatIndicatorExist=new Predicate<IndicatorsEvaluationSimpleEvidenceReg>() {
+            @Override
+            public boolean test(IndicatorsEvaluationSimpleEvidenceReg reg) {
+                return reg.getIdSubSubAmbit()==idSubSubAmbit && reg.getIdSubAmbit()==idSubAmbit &&
+                        reg.getIdAmbit()==idAmbit && reg.getIdIndicator()==idIndicator &&
+                        reg.getIndicatorVersion()==indicatorVersion && reg.getEvaluationType().equals(evaluationType);
+            }
+        };
+        return evidenceSimpleRegs.stream().filter(evidenceOfThatIndicatorExist).collect(Collectors.toList());
     }
 
 

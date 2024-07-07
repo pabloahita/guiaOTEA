@@ -74,7 +74,7 @@
     <string name="add_new_center">Añadir nuevo centro de organización evaluada</string>
     <string name="add_new_indicators_evaluation">Añadir nueva evaluación de indicadores</string>
     <string name="add_new_evaluated_organization">Añadir organización o servicio</string>
-    <string name="org_name">Nombre de la organización o servicio</string>
+    <string name="org_name">Nombre de la organización</string>
     <string name="org_address">Dirección</string>
     <string name="org_zipcode">Código postal</string>
     <string name="org_city">Ciudad</string>
@@ -98,8 +98,8 @@
     <string name="please_director">Por favor introduzca un director de la organización</string>
     <string name="please_professional">Por favor seleccione un profesional de atención directa</string>
     <string name="please_wait_login">Conectando a la base de datos para iniciar sesión. Por favor espere unos segundos...</string>
-    <string name="please_wait_register_user">"Conectando a la base de datos para registrar el usuario. Por favor, espere unos segundos... "</string>
-    <string name="please_wait_reg_orgs">Conectando a la base de datos para registrar la organización. Por favor, espere unos segundos...</string>
+    <string name="please_wait_register_user">Registrando usuario... Por favor, espere unos segundos...</string>
+    <string name="please_wait_reg_orgs">Registrando organización... Por favor, espere unos segundos...</string>
     <string name="please_wait">Conectando a la base de datos... Por favor espere unos segundos</string>
     <string name="do_you_want_to_exit_otea">¿Quiere salir de OTEA?</string>
     <string name="yes">Sí</string>
@@ -117,7 +117,7 @@
     <string name="please_evaluated_org">Por favor seleccione una organización evaluada</string>
     <string name="please_consultant">Por favor seleccione un consultor externo</string>
     <string name="please_responsible">Por favor seleccione un responsable</string>
-    <string name="evaluated_org">Organización o servicio</string>
+    <string name="evaluated_org">Organización</string>
     <string name="consultant">Consultor externo</string>
     <string name="professional">Profesional de atención directa</string>
     <string name="responsible">Responsable</string>
@@ -313,5 +313,25 @@
     <string name="delete">Eliminar</string>
     <string name="no_center">No existe ningún centro adicional de su organización. Por favor, seleccione otra opción del menú principal.</string>
     <string name="no_existant_eval_team">No hay ningún equipo evaluador en su organización. Por favor, seleccione otra opción del menú principal.</string>
+    <string name="sending_request">Enviando solicitud de registro...</string>
+    <string name="registering_user">Registrando usuario...</string>
+    <string name="back_to_login_str">Volviendo a la pantalla de inicio de sesión...</string>
+    <string name="eval_team_added_sucessful">El equipo evaluador ha sido añadido satisfactoriamente</string>
+    <string name="eval_team_edited_sucessful">El equipo evaluador ha sido modificado satisfactoriamente</string>
+    <string name="user_edited">Su usuario se ha modificado satisfactoriamente</string>
+    <string name="ind_eval_reg_suc">La evaluación de indicadores ha sido registrada satisfactoriamente. Podrá continuarla más adelante</string>
+    <string name="ind_eval_reg_suc_end">La evaluación de indicadores ha finalizado y ha sido registrada satisfactoriamente</string>
+    <string name="email_dir">Email del director</string>
+    <string name="in_this_sec_see_ind">En esta sección puede ver los resultados del test de indicadores, pudiendo elegir entre las siguientes opciones:</string>
+    <string name="info_see_ind_hlp">Presionando en este botón accederá a los datos de identificación del equipo evaluador, sus componentes, el proceso de evaluación, la valoración general, los puntos fuertes y los resultados por nivel y número de evidencias marcadas.</string>
+    <string name="res_see_ind_hlp">Presionando en este botón accederá a la tabla de resultados de los indicadores. Funciona como una fotografía de su aplicación de Galería, puede ampliar y reducir el tamaño de la misma, además de desplazarse sobre ella. Al presionar sobre un indicador, aparecerá información sobre las evidencias marcadas y las oportunidades de mejora relacionadas con ese indicador.</string>
+    <string name="hlp_see_ind_hlp">Si presiona este botón, accederá a este menú de ayuda.</string>
+    <string name="please_wait_save_changes">Guardando cambios... Por favor, espere unos segundos...</string>
+    <string name="please_wait_register_center">Registrando centro o servicio... Por favor, espere unos segundos...</string>
+    <string name="please_wait_eval_team">Registrando equipo evaluador... Por favor, espere unos segundos...</string>
+    <string name="are_you_sure_del_center">¿Está seguro que desea eliminar este centro? Tenga en cuenta que todos los equipos evaluadores y evaluaciones de indicadores relacionados a este centro serán eliminados también</string>
+    <string name="center_deleted">Centro eliminado satisfactoriamente</string>
+    <string name="are_you_sure_del_eval_team">¿Está seguro que desea eliminar este equipo evaluador? Tenga en cuenta que todas las evaluaciones de indicadores relacionadas a este equipo evaluador serán eliminados también</string>
+    <string name="eval_team_deleted">Equipo evaluador eliminado satisfactoriamente</string>
 
 </resources>

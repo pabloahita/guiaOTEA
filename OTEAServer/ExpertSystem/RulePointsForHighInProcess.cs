@@ -5,7 +5,6 @@ namespace OTEAServer.ExpertSystem
 {
     public class RulePointsForHighInProcess : Rule
     {
-        private static int regsHighInProcessCount = 0;
         public override void Define()
         {
             List<Indicator> indicators = default;
@@ -13,26 +12,24 @@ namespace OTEAServer.ExpertSystem
             IndicatorsEvaluation indicatorsEvaluation = default;
             When()
                 .Match<List<IndicatorsEvaluationIndicatorReg>>(() => regs)
-                .Match<List<Indicator>>(() => indicators, ctx => SetRegsHighInProcessCount(indicators, regs))
+                .Match<List<Indicator>>(() => indicators)
                 .Match<IndicatorsEvaluation>(() => indicatorsEvaluation);
             Then()
-                .Do(ctx => calculatePoints(indicatorsEvaluation));
+                .Do(ctx => calculatePoints(indicatorsEvaluation, indicators, regs));
         }
 
 
-        private static bool SetRegsHighInProcessCount(List<Indicator> indicators, List<IndicatorsEvaluationIndicatorReg> regs)
+        private static void calculatePoints(IndicatorsEvaluation indicatorsEvaluation, List<Indicator> indicators, List<IndicatorsEvaluationIndicatorReg> regs)
         {
-            if (regs != null && indicators != null)
+            int count = 0;
+            for (int i = 0; i < regs.Count; i++)
             {
-                var fundamentalIndicators = indicators.Where(indicator => indicator.indicatorPriority == "HIGH_INTEREST").Select(indicator => indicator.idIndicator).ToHashSet();
-                regsHighInProcessCount = regs.Count(reg => reg.status == "IN_PROCESS" && fundamentalIndicators.Contains(reg.idIndicator));
+                if (indicators[i].indicatorPriority == "HIGH_INTEREST" && regs[i].status == "IN_PROCESS")
+                {
+                    count++;
+                }
             }
-            return regsHighInProcessCount > 0;
-        }
-
-        private static void calculatePoints(IndicatorsEvaluation indicatorsEvaluation)
-        {
-            indicatorsEvaluation.scorePriorityTwoColourYellow = regsHighInProcessCount * 3;
+            indicatorsEvaluation.scorePriorityTwoColourYellow = count * 3;
         }
     }
 }

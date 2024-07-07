@@ -5,33 +5,31 @@ namespace OTEAServer.ExpertSystem
 {
     public class RulePointsForMediumInProcess : Rule
     {
-        private static int regsMediumInProcessCount = 0;
         public override void Define()
         {
             List<Indicator> indicators = default;
             List<IndicatorsEvaluationIndicatorReg> regs = default;
             IndicatorsEvaluation indicatorsEvaluation = default;
             When()
+                .Match<List<IndicatorsEvaluationIndicatorReg>>(() => regs)
                 .Match<List<Indicator>>(() => indicators)
-                .Match<List<IndicatorsEvaluationIndicatorReg>>(() => regs, ctx=>SetRegsMediumInProcessCount(indicators,regs))
                 .Match<IndicatorsEvaluation>(() => indicatorsEvaluation);
             Then()
-                .Do(ctx => calculatePoints(indicatorsEvaluation));
+                .Do(ctx => calculatePoints(indicatorsEvaluation, indicators, regs));
         }
 
-        private static bool SetRegsMediumInProcessCount(List<Indicator> indicators, List<IndicatorsEvaluationIndicatorReg> regs)
+
+        private static void calculatePoints(IndicatorsEvaluation indicatorsEvaluation, List<Indicator> indicators, List<IndicatorsEvaluationIndicatorReg> regs)
         {
-            if (regs != null && indicators != null)
+            int count = 0;
+            for (int i = 0; i < regs.Count; i++)
             {
-                var fundamentalIndicators = indicators.Where(indicator => indicator.indicatorPriority == "MEDIUM_INTEREST").Select(indicator => indicator.idIndicator).ToHashSet();
-                regsMediumInProcessCount = regs.Count(reg => reg.status == "IN_PROCESS" && fundamentalIndicators.Contains(reg.idIndicator));
+                if (indicators[i].indicatorPriority == "MEDIUM_INTEREST" && regs[i].status == "IN_PROCESS")
+                {
+                    count++;
+                }
             }
-            return regsMediumInProcessCount > 0;
-        }
-
-        private static void calculatePoints(IndicatorsEvaluation indicatorsEvaluation)
-        {
-            indicatorsEvaluation.scorePriorityOneColourYellow = regsMediumInProcessCount * 2;
+            indicatorsEvaluation.scorePriorityTwoColourYellow = count * 2;
         }
     }
 }

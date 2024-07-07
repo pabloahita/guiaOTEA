@@ -6,7 +6,6 @@ namespace OTEAServer.ExpertSystem
 {
     public class RulePointsForFundamentalReached : Rule
     {
-        private static int regsFundamentalReachedCount = 0;
         public override void Define()
         {
             List<Indicator> indicators = default;
@@ -14,26 +13,24 @@ namespace OTEAServer.ExpertSystem
             IndicatorsEvaluation indicatorsEvaluation = default;
             When()
                 .Match<List<IndicatorsEvaluationIndicatorReg>>(() => regs)
-                .Match<List<Indicator>>(() => indicators, ctx => SetRegsFundamentalInProcessCount(indicators, regs))
+                .Match<List<Indicator>>(() => indicators)
                 .Match<IndicatorsEvaluation>(() => indicatorsEvaluation);
             Then()
-                .Do(ctx => calculatePoints(indicatorsEvaluation));
+                .Do(ctx => calculatePoints(indicatorsEvaluation, indicators, regs));
         }
 
 
-        private static bool SetRegsFundamentalInProcessCount(List<Indicator> indicators, List<IndicatorsEvaluationIndicatorReg> regs)
+        private static void calculatePoints(IndicatorsEvaluation indicatorsEvaluation, List<Indicator> indicators, List<IndicatorsEvaluationIndicatorReg> regs)
         {
-            if (regs != null && indicators != null)
+            int count = 0;
+            for (int i = 0; i < regs.Count; i++)
             {
-                var fundamentalIndicators = indicators.Where(indicator => indicator.indicatorPriority == "FUNDAMENTAL_INTEREST").Select(indicator => indicator.idIndicator).ToHashSet();
-                regsFundamentalReachedCount = regs.Count(reg => reg.status == "IN_PROCESS" && fundamentalIndicators.Contains(reg.idIndicator));
+                if (indicators[i].indicatorPriority == "FUNDAMENTAL_INTEREST" && regs[i].status == "REACHED")
+                {
+                    count++;
+                }
             }
-            return regsFundamentalReachedCount > 0;
-        }
-
-        private static void calculatePoints(IndicatorsEvaluation indicatorsEvaluation)
-        {
-            indicatorsEvaluation.scorePriorityThreeColourGreen = regsFundamentalReachedCount * 5;
+            indicatorsEvaluation.scorePriorityThreeColourGreen = count * 5;
         }
 
     }

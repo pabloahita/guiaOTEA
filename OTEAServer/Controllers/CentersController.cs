@@ -158,7 +158,7 @@ namespace OTEAServer.Controllers
         /// <param name="center">Center to append</param>
         /// <returns>Center appended if sucess, null if not</returns>
         [HttpPost]
-        [Authorize(Policy = "Director")]
+        [Authorize]
         public ActionResult<Center> Create([FromBody] Center center, [FromHeader] string Authorization)
         {
             try

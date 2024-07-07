@@ -105,7 +105,7 @@
     <string name="add_new_center">Voeg nieuw centrum van beoordeelde organisatie toe</string>
     <string name="add_new_indicators_evaluation">Voeg nieuwe indicatorenbeoordeling toe</string>
     <string name="add_new_evaluated_organization">Organisatie of dienst toevoegen</string>
-    <string name="org_name">Naam organisatie of dienst</string>
+    <string name="org_name">Naam organisatie</string>
     <string name="org_address">Adres</string>
     <string name="org_zipcode">Postcode</string>
     <string name="org_city">Stad</string>
@@ -137,8 +137,8 @@
     <string name="please_director">Voer een organisatiedirecteur in</string>
     <string name="please_professional">Selecteer een directe zorgprofessional</string>
     <string name="please_wait_login">Verbinding maken met de database om in te loggen. Even geduld a.u.b., enkele seconden...</string>
-    <string name="please_wait_register_user">Verbinding maken met de database om de gebruiker te registreren. Even geduld a.u.b., enkele seconden...</string>
-    <string name="please_wait_reg_orgs">Verbinding maken met de database om de organisatie te registreren. Even geduld a.u.b., enkele seconden...</string>
+    <string name="please_wait_register_user">Gebruiker registreren... Even geduld aub...</string>
+    <string name="please_wait_reg_orgs">Registreren van organisatie... Even geduld alstublieft...</string>
     <string name="please_wait">Verbinding maken met de database... Even geduld a.u.b., enkele seconden...</string>
     <string name="do_you_want_to_exit_otea">Wil je OTEA verlaten?</string>
     <string name="yes">Ja</string>
@@ -156,7 +156,7 @@
     <string name="please_evaluated_org">Selecteer een beoordeelde organisatie</string>
     <string name="please_consultant">Selecteer een externe consultant</string>
     <string name="please_responsible">Selecteer een verantwoordelijke</string>
-    <string name="evaluated_org">Organisatie of dienst</string>
+    <string name="evaluated_org">Organisatie</string>
     <string name="consultant">Externe consultant</string>
     <string name="professional">Directe zorgprofessional</string>
     <string name="responsible">Verantwoordelijke</string>
@@ -352,6 +352,26 @@
     <string name="delete">Verwijderen</string>
     <string name="no_center">Er is geen extra centrum in uw organisatie. Selecteer een andere optie in het hoofdmenu..</string>
     <string name="no_existant_eval_team">Er is geen evaluatieteam in uw organisatie. Selecteer een andere optie in het hoofdmenu.</string>
+    <string name="sending_request">Registratieverzoek verzenden...</string>
+    <string name="registering_user">Gebruiker registreren...</string>
+    <string name="back_to_login_str">Terugkeren naar het inlogscherm...</string>
+    <string name="eval_team_added_sucessful">Het evaluatieteam is succesvol toegevoegd</string>
+    <string name="eval_team_edited_sucessful">Het evaluatieteam is op bevredigende wijze aangepast</string>
+    <string name="user_edited">Uw gebruiker is succesvol gewijzigd</string>
+    <string name="ind_eval_reg_suc">De evaluatie van de indicatoren is op bevredigende wijze vastgelegd. Je kunt er later mee doorgaan</string>
+    <string name="ind_eval_reg_suc_end">De evaluatie van de indicatoren is afgerond en naar tevredenheid vastgelegd</string>
+    <string name="email_dir">E-mail van de directeur</string>
+    <string name="in_this_sec_see_ind">In deze sectie kunt u de resultaten van de indicatorentest bekijken, waarbij u kunt kiezen uit de volgende opties:</string>
+    <string name="info_see_ind_hlp">Door op deze knop te drukken, krijgt u toegang tot de identificatiegegevens van het evaluatieteam, de leden, het evaluatieproces, de algemene beoordeling, de sterke punten en de resultaten per niveau en aantal gemarkeerde bewijzen.</string>
+    <string name="res_see_ind_hlp">Als u op deze knop drukt, gaat u naar de resultaten tabel van de indicatoren. Het werkt als een foto in uw Galerij-app; u kunt in- en uitzoomen en erover scrollen. Wanneer u op een indicator drukt, verschijnt er informatie over de gemarkeerde bewijzen en de verbeterkansen die met die indicator verband houden.</string>
+    <string name="hlp_see_ind_hlp">Als u op deze knop drukt, krijgt u toegang tot dit helpmenu.</string>
+    <string name="please_wait_save_changes">Wijzigingen opslaan... Even geduld alstublieft...</string>
+    <string name="please_wait_register_center">Registreren van centrum of dienst... Even geduld alstublieft...</string>
+    <string name="please_wait_eval_team">Evaluatieteam registreren... Gelieve een paar seconden te wachten...</string>
+    <string name="are_you_sure_del_center">Weet u zeker dat u dit centrum wilt verwijderen? Houd er rekening mee dat alle evaluatieteams en indicatorbeoordelingen die aan dit centrum zijn gekoppeld ook worden verwijderd</string>
+    <string name="center_deleted">Centrum succesvol verwijderd</string>
+    <string name="are_you_sure_del_eval_team">Weet u zeker dat u dit evaluatieteam wilt verwijderen? Houd er rekening mee dat alle indicatorbeoordelingen die aan dit evaluatieteam zijn gekoppeld ook worden verwijderd</string>
+    <string name="eval_team_deleted">Evaluatieteam succesvol verwijderd</string>
 
 
 </resources>

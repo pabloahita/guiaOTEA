@@ -3,6 +3,7 @@ package com.fundacionmiradas.indicatorsevaluation;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -16,12 +17,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import androidx.gridlayout.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
+import java.util.Locale;
 
 import cli.organization.Organization;
 import cli.user.User;
@@ -31,9 +35,10 @@ import gui.SelectToEditCenters;
 import session.AddNewEvalTeamUtil;
 import session.SelectToIndicatorsEvaluationUtil;
 import session.Session;
+import session.StringPasser;
 
 
-public class MainMenu extends AppCompatActivity {
+public class MainMenu extends AppCompatActivity{
 
 
     ImageButton addNewIndicatorsTest;
@@ -93,6 +98,17 @@ public class MainMenu extends AppCompatActivity {
 
         ImageView vistaImgUser=findViewById(R.id.imgUser);
 
+        if(StringPasser.getInstance()!=null && StringPasser.getInstance().getFlag()==1){
+            String msg= StringPasser.getInstance().getString();
+            StringPasser.removeInstance();
+
+            new AlertDialog.Builder(MainMenu.this)
+                    .setIcon(android.R.drawable.ic_dialog_info)
+                    .setMessage(Html.fromHtml(msg,0))
+                    .setPositiveButton(R.string.understood,null)
+                    .create().show();
+        }
+
 
         ActivityResultLauncher<Intent> activityEditCenterResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -119,6 +135,22 @@ public class MainMenu extends AppCompatActivity {
                                 .setMessage(getString(R.string.no_existant_eval_team))
                                 .create()
                                 .show();
+                    }
+                });
+
+        ActivityResultLauncher<Intent> activitySuccessResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    chargingScreen.setVisibility(View.GONE);
+                    if (result.getResultCode() == RESULT_OK) {
+                        String msg= StringPasser.getInstance().getString();
+                        StringPasser.removeInstance();
+
+                        new AlertDialog.Builder(MainMenu.this)
+                                .setIcon(android.R.drawable.ic_dialog_info)
+                                .setMessage(Html.fromHtml(msg,0))
+                                .setPositiveButton(R.string.understood,null)
+                                .create().show();
                     }
                 });
 
@@ -160,9 +192,9 @@ public class MainMenu extends AppCompatActivity {
                 aboutMe=findViewById(R.id.aboutMeDirEvalButton);
                 editEvaluatorTeam=findViewById(R.id.editEvaluatorTeamDirEvalButton);
             }else{
-                dirEvaluated.setVisibility(View.VISIBLE);
+                dirEvaluated.setVisibility(View.GONE);
                 superuser.setVisibility(View.GONE);
-                organization.setVisibility(View.GONE);
+                organization.setVisibility(View.VISIBLE);
                 seeRealizedIndicatorTest=findViewById(R.id.seeRealizedIndicatorTestEvaluatedButton);
                 editUser=findViewById(R.id.editUserEvaluatedButton);
                 aboutMe=findViewById(R.id.aboutMeEvaluatedButton);
@@ -203,6 +235,7 @@ public class MainMenu extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), gui.SelectToContinueIndicatorsEvaluations.class);
                         startActivity(intent);
                     }else{
+                        chargingScreen.setVisibility(View.GONE);
                         new AlertDialog.Builder(MainMenu.this)
                                 .setTitle(getString(R.string.error))
                                 .setMessage(getString(R.string.non_existing_evaluated_organization))
@@ -215,7 +248,7 @@ public class MainMenu extends AppCompatActivity {
                 editUser.setOnClickListener(v -> {
                     chargingScreen.setVisibility(View.VISIBLE);
                     Intent intent = new Intent(getApplicationContext(), gui.EditUser.class);
-                    startActivity(intent);
+                    activitySuccessResultLauncher.launch(intent);
                 });
             }
 
@@ -231,7 +264,7 @@ public class MainMenu extends AppCompatActivity {
                 addNewOrg.setOnClickListener(v -> {
                     chargingScreen.setVisibility(View.VISIBLE);
                     Intent intent = new Intent(getApplicationContext(), gui.RegisterOrganization.class);
-                    startActivity(intent);
+                    activitySuccessResultLauncher.launch(intent);
 
                 });
             }
@@ -240,7 +273,7 @@ public class MainMenu extends AppCompatActivity {
                 addNewOrgCenter.setOnClickListener(v -> {
                     chargingScreen.setVisibility(View.VISIBLE);
                     Intent intent = new Intent(getApplicationContext(), gui.RegisterNewCenter.class);
-                    startActivity(intent);
+                    activitySuccessResultLauncher.launch(intent);
 
                 });
             }
@@ -250,7 +283,7 @@ public class MainMenu extends AppCompatActivity {
                     chargingScreen.setVisibility(View.VISIBLE);
                     if(AddNewEvalTeamUtil.getInstance()!=null){
                         Intent intent = new Intent(getApplicationContext(), gui.RegisterNewEvaluatorTeam.class);
-                        startActivity(intent);
+                        activitySuccessResultLauncher.launch(intent);
                     }
 
                 });
@@ -263,6 +296,7 @@ public class MainMenu extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), gui.SelectToSeeRealizedIndicatorsEvaluations.class);
                         startActivity(intent);
                     }else{
+                        chargingScreen.setVisibility(View.GONE);
                         new AlertDialog.Builder(MainMenu.this)
                                 .setTitle(getString(R.string.error))
                                 .setMessage(getString(R.string.non_existing_evaluated_organization))
@@ -275,7 +309,7 @@ public class MainMenu extends AppCompatActivity {
                 editOrg.setOnClickListener(v -> {
                     chargingScreen.setVisibility(View.VISIBLE);
                     Intent intent = new Intent(getApplicationContext(), gui.EditEvaluatedOrganization.class);
-                    startActivity(intent);
+                    activitySuccessResultLauncher.launch(intent);
                 });
             }
 
@@ -290,8 +324,84 @@ public class MainMenu extends AppCompatActivity {
 
             if(aboutMe!=null){
                 aboutMe.setOnClickListener(v->{
+                    LayoutInflater inflater=getLayoutInflater();
+                    View view=inflater.inflate(R.layout.about_me,null);
+                    TextView textView=view.findViewById(R.id.textView18);
+                    String txt="";
+                    if(Locale.getDefault().getLanguage().equals("es")){
+                        txt="<ul>" +
+                                "<li>Curso 2022-2023 <b>Trabajo de Final de Grado</b></li>" +
+                                "<li>Curso 2023-2024 <b>Trabajo de Final de Máster</b></li>" +
+                                "<li><b>Universidad de Burgos</b></li>" +
+                                "<li><b>Alumno: </b>Pablo Ahíta del Barrio</li>" +
+                                "</ul>";
+                    }else if(Locale.getDefault().getLanguage().equals("fr")){
+                        txt="<ul>" +
+                                "<li>Année universitaire 2022-2023 <b>Projet de fin d'études</b></li>" +
+                                "<li>Année universitaire 2023-2024 <b>Projet final de Master</b></li>" +
+                                "<li><b>Université de Burgos</b></li>" +
+                                "<li><b>Étudiant: </b>Pablo Ahita del Barrio</li>" +
+                                "</ul>";
+                    }else if(Locale.getDefault().getLanguage().equals("eu")){
+                        txt="<ul>" +
+                                "<li>2022-2023 ikasturtea <b>Gradu Amaierako Proiektua</b></li>" +
+                                "<li>2023-2024 ikasturtea <b>Master Amaierako Proiektua</b></li>" +
+                                "<li><b>Burgosko Unibertsitatea</b></li>" +
+                                "<li><b>Ikaslea: </b>Pablo Ahita del Barrio</li>" +
+                                "</ul>";
+                    }else if(Locale.getDefault().getLanguage().equals("ca")){
+                        txt="<ul>" +
+                                "<li>Curs 2022-2023 <b>Treball de Final de Grau</b></li>" +
+                                "<li>Curs 2023-2024 <b>Treball de Final de Màster</b></li>" +
+                                "<li><b>Universitat de Burgos</b></li>" +
+                                "<li><b>Alumne: </b>Pablo Ahíta del Barrio</li>" +
+                                "</ul>";
+                    }else if(Locale.getDefault().getLanguage().equals("nl")){
+                        txt="<ul>" +
+                                "<li>Academisch jaar 2022-2023 <b>Afstudeerproject</b></li>" +
+                                "<li>Academisch jaar 2023-2024 <b>Master eindproject</b></li>" +
+                                "<li><b>Universiteit van Burgos</b></li>" +
+                                "<li><b>Leerling: </b>Pablo Ahita del Barrio</li>" +
+                                "</ul>";
+                    }else if(Locale.getDefault().getLanguage().equals("gl")){
+                        txt="<ul>" +
+                                "<li>Curso 2022-2023 <b>Traballo Fin de Grao</b></li>" +
+                                "<li>Curso 2023-2024 <b>Traballo Fin de Máster</b></li>" +
+                                "<li><b>Universidade de Burgos</b></li>" +
+                                "<li><b>Estudante: </b>Pablo Ahita del Barrio</li>" +
+                                "</ul>";
+                    }else if(Locale.getDefault().getLanguage().equals("de")){
+                        txt="<ul>" +
+                                "<li>Studienjahr 2022–2023 <b>Abschlussprojekt</b></li>" +
+                                "<li>Studienjahr 2023–2024 <b>Master-Abschlussprojekt</b></li>" +
+                                "<li><b>Universität Burgos</b></li>" +
+                                "<li><b>Student: </b>Pablo Ahita del Barrio</li>" +
+                                "</ul>";
+                    }else if(Locale.getDefault().getLanguage().equals("it")){
+                        txt="<ul>" +
+                                "<li>Anno accademico 2022-2023 <b>Progetto di Laurea</b></li>" +
+                                "<li>Anno accademico 2023-2024 <b>Progetto finale del Master</b></li>" +
+                                "<li><b>Università di Burgos</b></li>" +
+                                "<li><b>Studente: </b>Pablo Ahita del Barrio</li>" +
+                                "</ul>";
+                    }else if(Locale.getDefault().getLanguage().equals("pt")){
+                        txt="<ul>" +
+                                "<li>Ano letivo 2022-2023 <b>Projeto final de licenciatura</b></li>" +
+                                "<li>Ano letivo 2023-2024 <b>Projeto Final de Mestrado</b></li>" +
+                                "<li><b>Universidade de Burgos</b></li>" +
+                                "<li><b>Aluno: </b>Pablo Ahita del Barrio</li>" +
+                                "</ul>";
+                    }else{
+                        txt="<ul>" +
+                                "<li>2022-2023 academic year <b>Final Degree Project</b></li>" +
+                                "<li>2023-2024 academic year <b>Master's Final Project</b></li>" +
+                                "<li><b>University of Burgos</b></li>" +
+                                "<li><b>Student: </b>Pablo Ahita del Barrio</li>" +
+                                "</ul>";
+                    }
+                    textView.setText(Html.fromHtml(txt,0));
                     new AlertDialog.Builder(this)
-                            .setMessage("Hola")
+                            .setView(view)
                             .create()
                             .show();
                 });
@@ -343,8 +453,6 @@ public class MainMenu extends AppCompatActivity {
             dialog.dismiss();
         }
     }
-
-
 
 
 }

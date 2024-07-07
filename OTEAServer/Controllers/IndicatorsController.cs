@@ -71,9 +71,8 @@ namespace OTEAServer.Controllers
                 }
 
                 int tamEvidences = 0;
-           
-                if (evaluationType == "COMPLETE")
-                {
+
+                if (evaluationType == "COMPLETE") {
                     var evidences = _context.Evidences
                         .Where(e => e.evaluationType == evaluationType)
                         .OrderBy(e => e.idIndicator)
@@ -104,6 +103,7 @@ namespace OTEAServer.Controllers
                     }
                     tamEvidences = evidences.Count;
                 }
+                
 
                 var ambits = _context.Ambits.ToList();
                 foreach (var ambit in ambits) {
@@ -159,7 +159,7 @@ namespace OTEAServer.Controllers
                 if (evaluationType == "COMPLETE") {
                     tams += "\"numEvidences\":\"" + tamEvidences + "\",";
                 }
-                tams += "\"numAmbits\":\"" + ambits.Count + "\"," +
+                 tams+="\"numAmbits\":\"" + ambits.Count + "\"," +
                         "\"numSubAmbits\":\"" + subAmbits.Count + "\"," +
                         "\"numSubSubAmbits\":\"" + subSubAmbits.Count + "\"}";
                 allData.Add(JsonDocument.Parse(tams));

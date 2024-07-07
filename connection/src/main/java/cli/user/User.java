@@ -49,12 +49,14 @@ public class User implements Serializable{
     @SerializedName("illness")
     public String illness;
 
-    @SerializedName("isDirector")
-    public int isDirector;
 
     /**Profile photo*/
     @SerializedName("profilePhoto")
     public String profilePhoto;
+
+    /**Profile photo*/
+    @SerializedName("isActive")
+    public int isActive;
 
 
     /**
@@ -70,8 +72,9 @@ public class User implements Serializable{
      * @param orgType - User organization type
      * @param illness - User organization illness or syndrome
      * @param profilePhoto - Profile photo
+     * @param isActive - User is active -1=Unanswered, 0=Inactive, 1=Active
      * */
-    public User(String emailUser, String userType, String first_name, String last_name, String passwordUser, String telephone, int idOrganization, String orgType, String illness, String profilePhoto){
+    public User(String emailUser, String userType, String first_name, String last_name, String passwordUser, String telephone, int idOrganization, String orgType, String illness, String profilePhoto, int isActive){
         setEmailUser(emailUser);
         setUserType(userType);
         setFirst_name(first_name);
@@ -82,6 +85,7 @@ public class User implements Serializable{
         setOrganizationType(orgType);
         setIllness(illness);
         setProfilePhoto(profilePhoto);
+        setIsActive(isActive);
     }
 
     /**
@@ -264,4 +268,21 @@ public class User implements Serializable{
         this.profilePhoto = profilePhoto;
     }
 
+    /**
+     * Method that obtains if the user is active
+     *
+     * @return -1=Unanswered, 0=Inactive, 1=Active
+     * */
+    public int getIsActive() {
+        return isActive;
+    }
+
+    /**
+     * Method that sets the new the user is active
+     *
+     * @param isActive - -1=Unanswered, 0=Inactive, 1=Active
+     * */
+    public void setIsActive(int isActive) {
+        this.isActive = isActive;
+    }
 }

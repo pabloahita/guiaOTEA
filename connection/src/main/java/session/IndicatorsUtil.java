@@ -54,10 +54,6 @@ public class IndicatorsUtil {
             List<JsonObject> allData= IndicatorsController.GetAll(evaluationType);
             JsonObject tams=allData.get(allData.size()-1);
             int numIndicators=tams.getAsJsonPrimitive("numIndicators").getAsInt();
-            int numEvidences=-1;
-            if(evaluationType.equals("COMPLETE")){
-                numEvidences=tams.getAsJsonPrimitive("numEvidences").getAsInt();
-            }
             int numAmbits=tams.getAsJsonPrimitive("numAmbits").getAsInt();
             int numSubAmbits=tams.getAsJsonPrimitive("numSubAmbits").getAsInt();
             int numSubSubAmbits=tams.getAsJsonPrimitive("numSubSubAmbits").getAsInt();
@@ -75,20 +71,31 @@ public class IndicatorsUtil {
             List<JsonObject> ambitsJson;
             List<JsonObject> subAmbitsJson;
             List<JsonObject> subSubAmbitsJson;
-            evidencesJson=allData.subList(numIndicators,numIndicators+numEvidences);
-            ambitsJson=allData.subList(numIndicators+numEvidences,numIndicators+numEvidences+numAmbits);
-            subAmbitsJson=allData.subList(numIndicators+numEvidences+numAmbits,numIndicators+numEvidences+numAmbits+numSubAmbits);
-            subSubAmbitsJson=allData.subList(numIndicators+numEvidences+numAmbits+numSubAmbits,numIndicators+numEvidences+numAmbits+numSubAmbits+numSubSubAmbits);
+            if(indicators.get(0).getEvaluationType().equals("COMPLETE")){
+                int numEvidences=tams.getAsJsonPrimitive("numEvidences").getAsInt();
+                evidencesJson=allData.subList(numIndicators,numIndicators+numEvidences);
+                for(JsonObject ev:evidencesJson){
+                    evidences.add(new Evidence(ev.getAsJsonPrimitive("idEvidence").getAsInt(),ev.getAsJsonPrimitive("idIndicator").getAsInt(), ev.getAsJsonPrimitive("indicatorType").getAsString(),
+                            ev.getAsJsonPrimitive("idSubSubAmbit").getAsInt(), ev.getAsJsonPrimitive("idSubAmbit").getAsInt(), ev.getAsJsonPrimitive("idAmbit").getAsInt(),
+                            ev.getAsJsonPrimitive("descriptionEnglish").getAsString(), ev.getAsJsonPrimitive("descriptionSpanish").getAsString(), ev.getAsJsonPrimitive("descriptionFrench").getAsString(),
+                            ev.getAsJsonPrimitive("descriptionBasque").getAsString(), ev.getAsJsonPrimitive("descriptionCatalan").getAsString(), ev.getAsJsonPrimitive("descriptionDutch").getAsString(),
+                            ev.getAsJsonPrimitive("descriptionGalician").getAsString(), ev.getAsJsonPrimitive("descriptionGerman").getAsString(),
+                            ev.getAsJsonPrimitive("descriptionItalian").getAsString(), ev.getAsJsonPrimitive("descriptionPortuguese").getAsString(),
+                            ev.getAsJsonPrimitive("evidenceValue").getAsInt(), ev.getAsJsonPrimitive("indicatorVersion").getAsInt(), evaluationType));
+                }
+                ambitsJson=allData.subList(numIndicators+numEvidences,numIndicators+numEvidences+numAmbits);
+                subAmbitsJson=allData.subList(numIndicators+numEvidences+numAmbits,numIndicators+numEvidences+numAmbits+numSubAmbits);
+                subSubAmbitsJson=allData.subList(numIndicators+numEvidences+numAmbits+numSubAmbits,numIndicators+numEvidences+numAmbits+numSubAmbits+numSubSubAmbits);
 
-            for(JsonObject ev:evidencesJson){
-                evidences.add(new Evidence(ev.getAsJsonPrimitive("idEvidence").getAsInt(),ev.getAsJsonPrimitive("idIndicator").getAsInt(), ev.getAsJsonPrimitive("indicatorType").getAsString(),
-                        ev.getAsJsonPrimitive("idSubSubAmbit").getAsInt(), ev.getAsJsonPrimitive("idSubAmbit").getAsInt(), ev.getAsJsonPrimitive("idAmbit").getAsInt(),
-                        ev.getAsJsonPrimitive("descriptionEnglish").getAsString(), ev.getAsJsonPrimitive("descriptionSpanish").getAsString(), ev.getAsJsonPrimitive("descriptionFrench").getAsString(),
-                        ev.getAsJsonPrimitive("descriptionBasque").getAsString(), ev.getAsJsonPrimitive("descriptionCatalan").getAsString(), ev.getAsJsonPrimitive("descriptionDutch").getAsString(),
-                        ev.getAsJsonPrimitive("descriptionGalician").getAsString(), ev.getAsJsonPrimitive("descriptionGerman").getAsString(),
-                        ev.getAsJsonPrimitive("descriptionItalian").getAsString(), ev.getAsJsonPrimitive("descriptionPortuguese").getAsString(),
-                        ev.getAsJsonPrimitive("evidenceValue").getAsInt(), ev.getAsJsonPrimitive("indicatorVersion").getAsInt(), evaluationType));
             }
+            else{
+                ambitsJson=allData.subList(numIndicators,numIndicators+numAmbits);
+                subAmbitsJson=allData.subList(numIndicators+numAmbits,numIndicators+numAmbits+numSubAmbits);
+                subSubAmbitsJson=allData.subList(numIndicators+numAmbits+numSubAmbits,numIndicators+numAmbits+numSubAmbits+numSubSubAmbits);
+            }
+
+
+
 
             for(JsonObject amb:ambitsJson){
                 ambits.add(new Ambit(amb.getAsJsonPrimitive("idAmbit").getAsInt(), amb.getAsJsonPrimitive("descriptionEnglish").getAsString(), amb.getAsJsonPrimitive("descriptionSpanish").getAsString(), amb.getAsJsonPrimitive("descriptionFrench").getAsString(),

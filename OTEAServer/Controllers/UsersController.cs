@@ -76,6 +76,36 @@ namespace OTEAServer.Controllers
             }
         }
 
+        [HttpGet("allActiveUsers")]
+        [Authorize(Policy = "Administrator")]
+        public IActionResult GetAllActiveUsers([FromHeader] string Authorization)
+        {
+            try
+            {
+                var users = _context.Users.Where(u => u.isActive == 1 && u.userType == "ORGANIZATION").ToList();
+                List<JsonDocument> result = new List<JsonDocument>();
+                foreach (var user in users)
+                {
+                    String usr = "{\"emailUser\":\"" + user.emailUser + "\"," +
+                    "\"userType\":\"" + user.userType + "\"," +
+                        "\"first_name\":\"" + user.first_name + "\"," +
+                        "\"last_name\":\"" + user.last_name + "\"," +
+                        "\"telephone\":\"" + user.telephone + "\"," +
+                        "\"idOrganization\":" + user.idOrganization + "," +
+                        "\"orgType\":\"" + user.orgType + "\"," +
+                        "\"illness\":\"" + user.illness + "\"," +
+                        "\"profilePhoto\":\"" + user.profilePhoto + "\"," +
+                        "\"isActive\":\"" + user.isActive + "\"}";
+                    result.Add(JsonDocument.Parse(usr));
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
 
 
@@ -182,6 +212,7 @@ namespace OTEAServer.Controllers
         }
 
         [HttpGet("getDirector")]
+        [Authorize]
         public ActionResult<JsonDocument> GetDirector([FromQuery] int idOrganization, [FromQuery] string organizationType, [FromQuery] string illness, [FromHeader] string Authorization)
         {
             try
@@ -430,7 +461,8 @@ namespace OTEAServer.Controllers
         /// <param name="user">User</param>
         /// <returns>User if success, null if not</returns>
         [HttpPut]
-        public IActionResult Update([FromQuery] string email, [FromBody] User user, [FromHeader] string Authorization)
+        [AllowAnonymous]
+        public IActionResult Update([FromQuery] string email, [FromBody] User user)
         {
             try
             {

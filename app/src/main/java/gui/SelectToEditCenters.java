@@ -26,7 +26,9 @@ import cli.organization.data.Center;
 import gui.adapters.CenterAdapter;
 import misc.ListCallback;
 import otea.connection.controller.CentersController;
+import otea.connection.controller.EvaluatorTeamsController;
 import session.EditCenterUtil;
+import session.FileManager;
 import session.Session;
 
 public class SelectToEditCenters extends AppCompatActivity {
@@ -127,19 +129,51 @@ public class SelectToEditCenters extends AppCompatActivity {
                             public void onClick(View v) {
                                 if(center.getIdCenter()!=-1) {
                                     new AlertDialog.Builder(SelectToEditCenters.this)
-                                            .setMessage("¿Está seguro que desea eliminar este centro? Tenga en cuenta que todos los equipos evaluadores y evaluaciones de indicadores relacionados a este centro serán eliminados también")
+                                            .setMessage(R.string.are_you_sure_del_center)
                                             .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
-                                                    CentersController.Delete(center.getIdOrganization(),center.getOrgType(),center.getIllness(),center.getIdCenter());
+                                                    List<String> blobs=new ArrayList<>();
+                                                    EvaluatorTeamsController.GetAllByCenter(center.getIdOrganization(), center.getOrgType(), center.getIdCenter(), center.getIllness(), new ListCallback() {
+                                                        @Override
+                                                        public void onSuccess(List<JsonObject> data) {
+                                                            for(JsonObject jsonObject:data){
+                                                                if(!jsonObject.getAsJsonPrimitive("profilePhoto").getAsString().isEmpty()){
+                                                                    blobs.add(jsonObject.getAsJsonPrimitive("profilePhoto").getAsString());
+                                                                }
+                                                            }
+                                                            if(!center.getProfilePhoto().isEmpty() && center.getProfilePhoto().startsWith("CENTER")){
+                                                                blobs.add(center.getProfilePhoto());
+                                                            }
+                                                            if(!blobs.isEmpty()) {
+                                                                FileManager.deleteBlobsAsync(blobs);
+                                                            }
+                                                            new Thread(()->{
+                                                                CentersController.Delete(center.getIdOrganization(),center.getOrgType(),center.getIllness(),center.getIdCenter());
 
-                                                    centers.remove(center);
-                                                    Center aux=centers.get(0);
-                                                    centers.remove(0);
-                                                    centers.add(aux);
-                                                    adapter=new CenterAdapter(SelectToEditCenters.this,centers);
-                                                    centerSpinner.setAdapter(adapter);
-                                                    Toast.makeText(SelectToEditCenters.this,"Centro eliminado satisfactoriamente",Toast.LENGTH_LONG).show();
+                                                                centers.remove(center);
+                                                                Center aux=centers.get(0);
+                                                                centers.remove(0);
+                                                                centers.add(aux);
+                                                                runOnUiThread(()->{
+                                                                    adapter=new CenterAdapter(SelectToEditCenters.this,centers);
+                                                                    centerSpinner.setAdapter(adapter);
+                                                                    new AlertDialog.Builder(SelectToEditCenters.this)
+                                                                            .setMessage(R.string.center_deleted)
+                                                                            .setPositiveButton(R.string.understood,null)
+                                                                            .create().show();
+                                                                });
+
+                                                            }).start();
+                                                        }
+
+                                                        @Override
+                                                        public void onError(String errorResponse) {
+
+                                                        }
+                                                    });
+
+
                                                 }
                                             })
                                             .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
@@ -162,7 +196,7 @@ public class SelectToEditCenters extends AppCompatActivity {
 
                     }else{
                         Intent intent=new Intent(SelectToEditCenters.this, MainMenu.class);
-                        setResult(RESULT_CANCELED, intent);
+                        startActivity(intent);
                         finish();
                     }
                 });

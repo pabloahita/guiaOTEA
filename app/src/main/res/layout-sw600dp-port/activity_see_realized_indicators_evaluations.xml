@@ -51,7 +51,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:maxZoom="4"
+        app:maxZoom="6"
         app:maxZoomType="zoom"
         app:minZoom="1"
         app:minZoomType="zoom"
@@ -89,7 +89,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:maxZoom="4"
+        app:maxZoom="6"
         app:maxZoomType="zoom"
         app:minZoom="1"
         app:minZoomType="zoom"
@@ -155,7 +155,7 @@
             app:layout_rowWeight="1"/>
 
         <ImageButton
-            android:id="@+id/helpIndButton"
+            android:id="@+id/helpButton"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_columnWeight="1"

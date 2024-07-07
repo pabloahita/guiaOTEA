@@ -10,9 +10,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -53,6 +58,7 @@ import cli.indicators.Indicator;
 import cli.indicators.IndicatorsEvaluation;
 import cli.indicators.IndicatorsEvaluationEvidenceReg;
 import cli.indicators.IndicatorsEvaluationIndicatorReg;
+import cli.indicators.IndicatorsEvaluationSimpleEvidenceReg;
 import misc.DateFormatter;
 import misc.FieldChecker;
 import session.FileManager;
@@ -70,6 +76,8 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
     List<IndicatorsEvaluationIndicatorReg> indicatorRegs;
 
     List<IndicatorsEvaluationEvidenceReg> evidenceRegs;
+
+    List<IndicatorsEvaluationSimpleEvidenceReg> simpleEvidenceRegs;
 
     int[] completeIndicatorIds={R.id.ind1,R.id.ind2,R.id.ind3,R.id.ind4,R.id.ind5,R.id.ind6,R.id.ind7,R.id.ind8,R.id.ind9,R.id.ind10,
             R.id.ind11,R.id.ind12,R.id.ind13,R.id.ind14,R.id.ind15,R.id.ind16,R.id.ind17,R.id.ind18,R.id.ind19,R.id.ind20,
@@ -127,12 +135,19 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
 
         indicatorRegs= IndicatorsEvaluationRegsUtil.getInstance().getIndicatorRegs();
 
+        isComplete=evaluation.getEvaluationType().equals("COMPLETE");
 
-        evidenceRegs=IndicatorsEvaluationRegsUtil.getInstance().getEvidenceRegs();
+        if(isComplete){
+            evidenceRegs=IndicatorsEvaluationRegsUtil.getInstance().getEvidenceRegs();
+        }
+        else{
+            simpleEvidenceRegs=IndicatorsEvaluationRegsUtil.getInstance().getEvidenceSimpleRegs();
+        }
+
 
         indicators= IndicatorsUtil.getInstance().getIndicators();
 
-        isComplete=indicatorRegs.get(0).getEvaluationType().equals("COMPLETE");
+
 
         int[] indicatorIds;
 
@@ -147,7 +162,7 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
 
         int idIndicator=1;
         for(int buttonId : indicatorIds){
-            Button button=findViewById(buttonId);
+            Button button=layout.findViewById(buttonId);
             button.setOnClickListener(generateClickListener(idIndicator));
             button.setBackground(getBackground(idIndicator));
             idIndicator++;
@@ -202,6 +217,84 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
             }
         });
 
+        helpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater=getLayoutInflater();
+                View view=inflater.inflate(R.layout.help_see_ind,null);
+                TextView downloadTxt=view.findViewById(R.id.textView22);
+                SpannableStringBuilder sb = new SpannableStringBuilder();
+                int start, end=-1;
+                String url="https://guiaoteainformes.azurewebsites.net";
+                if(Locale.getDefault().getLanguage().equals("es")){
+                    sb.append("Presionando en este botón descargará el informe relacionado con este test de indicadores. También puede descargarlo en ");
+                    start=sb.length();
+                    sb.append(url);
+                    end=sb.length();
+                }else if(Locale.getDefault().getLanguage().equals("fr")){
+                    sb.append("En appuyant sur ce bouton, vous téléchargerez le rapport lié à ce test d'indicateurs. Vous pouvez également le télécharger sur ");
+                    start=sb.length();
+                    sb.append(url);
+                    end=sb.length();
+                }else if(Locale.getDefault().getLanguage().equals("eu")){
+                    sb.append("Boton honetan sakatuz, adierazleen testekin erlazionatutako txostena deskargatuko duzu. Horrez gain, ");
+                    start=sb.length();
+                    sb.append(url);
+                    end=sb.length();
+                    sb.append(" webgunean ere deskargatu dezakezu");
+                }else if(Locale.getDefault().getLanguage().equals("ca")){
+                    sb.append("Premen en aquest botó descarregarà l'informe relacionat amb aquest test d'indicadors. També el pot descarregar a ");
+                    start=sb.length();
+                    sb.append(url);
+                    end=sb.length();
+                }else if(Locale.getDefault().getLanguage().equals("nl")){
+                    sb.append("Door op deze knop te drukken wordt het rapport gedownload dat gerelateerd is aan deze indicatorentest. U kunt het ook downloaden op ");
+                    start=sb.length();
+                    sb.append(url);
+                    end=sb.length();
+                }else if(Locale.getDefault().getLanguage().equals("gl")){
+                    sb.append("Premendo neste botón descargará o informe relacionado con este test de indicadores. Tamén pode descargalo en ");
+                    start=sb.length();
+                    sb.append(url);
+                    end=sb.length();
+                }else if(Locale.getDefault().getLanguage().equals("de")){
+                    sb.append("Durch Drücken dieses Buttons wird der Bericht zum Indikatortest heruntergeladen. Sie können ihn auch unter ");
+                    start=sb.length();
+                    sb.append(url);
+                    end=sb.length();
+                }else if(Locale.getDefault().getLanguage().equals("it")){
+                    sb.append("Premendo su questo pulsante verrà scaricato il rapporto relativo a questo test degli indicatori. Puoi anche scaricarlo su ");
+                    start=sb.length();
+                    sb.append(url);
+                    end=sb.length();
+                }else if(Locale.getDefault().getLanguage().equals("pt")){
+                    sb.append("Ao pressionar este botão, você irá baixar o relatório relacionado a este teste de indicadores. Você também pode baixá-lo em ");
+                    start=sb.length();
+                    sb.append(url);
+                    end=sb.length();
+                }else{
+                    sb.append("Pressing this button will download the report related to this indicator test. You can also download it at ");
+                    start=sb.length();
+                    sb.append(url);
+                    end=sb.length();
+                }
+                sb.setSpan(new ClickableSpan() {
+                    @Override
+                    public void onClick(View textView) {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(browserIntent);
+                    }
+                }, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                downloadTxt.setText(sb);
+                downloadTxt.setMovementMethod(LinkMovementMethod.getInstance());
+                new AlertDialog.Builder(SeeRealizedIndicatorsEvaluations.this)
+                        .setIcon(android.R.drawable.ic_menu_help)
+                        .setTitle(R.string.help)
+                        .setView(view)
+                        .create().show();
+            }
+        });
+
 
     }
 
@@ -225,23 +318,140 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
                     CheckBox ev2=null;
                     CheckBox ev3=null;
                     CheckBox ev4=null;
+                    TextView ev_1=null;
+                    TextView ev_2=null;
+                    TextView ev_3=null;
+                    TextView ev_4=null;
                     CheckBox requires_improvement_plan=null;
                     String ev1Caption="";
                     String ev2Caption="";
                     String ev3Caption="";
                     String ev4Caption="";
-                    evidences= IndicatorsUtil.getInstance().getEvidencesByIndicator(indicators.get(idInd-1).getIdSubSubAmbit(),indicators.get(idInd-1).getIdSubAmbit(),indicators.get(idInd-1).getIdAmbit(),idInd,indicators.get(idInd-1).getIndicatorType(),indicators.get(idInd-1).getIndicatorVersion(),indicators.get(idInd-1).getEvaluationType());
+                    int idEvidenceBase=4*(idInd-1);
                     if(isComplete){
                         view=inflater.inflate(R.layout.indicator_complete_result,null);
-                        ev4=view.findViewById(R.id.evidence4);
-                    }else{
+                        evidences= IndicatorsUtil.getInstance().getEvidencesByIndicator(indicators.get(idInd-1).getIdSubSubAmbit(),indicators.get(idInd-1).getIdSubAmbit(),indicators.get(idInd-1).getIdAmbit(),idInd,indicators.get(idInd-1).getIndicatorType(),indicators.get(idInd-1).getIndicatorVersion(),indicators.get(idInd-1).getEvaluationType());
+                    }
+                    else{
                         view=inflater.inflate(R.layout.indicator_simple_result,null);
                     }
-                    ev1=view.findViewById(R.id.evidence1);
-                    ev2=view.findViewById(R.id.evidence2);
-                    ev3=view.findViewById(R.id.evidence3);
+                    TextView about_ev_1=view.findViewById(R.id.about_ev_1);
+                    TextView about_ev_2=view.findViewById(R.id.about_ev_2);
+                    TextView about_ev_3=view.findViewById(R.id.about_ev_3);
+                    TextView about_ev_4=view.findViewById(R.id.about_ev_4);
+                    if(isComplete){
+                        ev1=view.findViewById(R.id.evidence1);
+                        ev2=view.findViewById(R.id.evidence2);
+                        ev3=view.findViewById(R.id.evidence3);
+                        ev4=view.findViewById(R.id.evidence4);
+                        if(Locale.getDefault().getLanguage().equals("es")){
+                            ev1Caption="<b>Evidencia 1: </b>" + evidences.get(0).getDescriptionSpanish();
+                            ev2Caption="<b>Evidencia 2: </b>" + evidences.get(1).getDescriptionSpanish();
+                            ev3Caption="<b>Evidencia 3: </b>" + evidences.get(2).getDescriptionSpanish();
+                            ev4Caption = "<b>Evidencia 4: </b>" + evidences.get(3).getDescriptionSpanish();
+                        }else if(Locale.getDefault().getLanguage().equals("fr")){
+                            ev1Caption="<b>Preuve 1: </b>" + evidences.get(0).getDescriptionFrench();
+                            ev2Caption="<b>Preuve 2: </b>" + evidences.get(1).getDescriptionFrench();
+                            ev3Caption="<b>Preuve 3: </b>" + evidences.get(2).getDescriptionFrench();
+                            ev4Caption = "<b>Preuve 4: </b>" + evidences.get(3).getDescriptionFrench();
+
+                        }else if(Locale.getDefault().getLanguage().equals("eu")){
+                            ev1Caption="<b>1. froga: </b>" + evidences.get(0).getDescriptionBasque();
+                            ev2Caption="<b>2. froga: </b>" + evidences.get(1).getDescriptionBasque();
+                            ev3Caption="<b>3. froga: </b>" + evidences.get(2).getDescriptionBasque();
+                            ev4Caption = "<b>4. froga: </b>" + evidences.get(3).getDescriptionBasque();
+
+                        }else if(Locale.getDefault().getLanguage().equals("ca")){
+                            ev1Caption="<b>Evidència 1: </b>" + evidences.get(0).getDescriptionCatalan();
+                            ev2Caption="<b>Evidència 2: </b>" + evidences.get(1).getDescriptionCatalan();
+                            ev3Caption="<b>Evidència 3: </b>" + evidences.get(2).getDescriptionCatalan();
+                            ev4Caption = "<b>Evidència 4: </b>" + evidences.get(3).getDescriptionCatalan();
+
+                        }else if(Locale.getDefault().getLanguage().equals("nl")){
+                            ev1Caption="<b>Bewijs 1: </b>" + evidences.get(0).getDescriptionDutch();
+                            ev2Caption="<b>Bewijs 2: </b>" + evidences.get(1).getDescriptionDutch();
+                            ev3Caption="<b>Bewijs 3: </b>" + evidences.get(2).getDescriptionDutch();
+                            ev4Caption = "<b>Bewijs 4: </b>" + evidences.get(3).getDescriptionDutch();
+
+                        }else if(Locale.getDefault().getLanguage().equals("gl")){
+                            ev1Caption="<b>Evidencia 1: </b>" + evidences.get(0).getDescriptionGalician();
+                            ev2Caption="<b>Evidencia 2: </b>" + evidences.get(1).getDescriptionGalician();
+                            ev3Caption="<b>Evidencia 3: </b>" + evidences.get(2).getDescriptionGalician();
+                            ev4Caption = "<b>Evidencia 4: </b>" + evidences.get(3).getDescriptionGalician();
+
+                        }else if(Locale.getDefault().getLanguage().equals("de")){
+                            ev1Caption="<b>Beweis 1: </b>" + evidences.get(0).getDescriptionGerman();
+                            ev2Caption="<b>Beweis 2: </b>" + evidences.get(1).getDescriptionGerman();
+                            ev3Caption="<b>Beweis 3: </b>" + evidences.get(2).getDescriptionGerman();
+                            ev4Caption = "<b>Beweis 4: </b>" + evidences.get(3).getDescriptionGerman();
+
+                        }else if(Locale.getDefault().getLanguage().equals("it")){
+                            ev1Caption="<b>Prova 1: </b>" + evidences.get(0).getDescriptionItalian();
+                            ev2Caption="<b>Prova 2: </b>" + evidences.get(1).getDescriptionItalian();
+                            ev3Caption="<b>Prova 3: </b>" + evidences.get(2).getDescriptionItalian();
+                            ev4Caption = "<b>Prova 4: </b>" + evidences.get(3).getDescriptionItalian();
+
+                        }else if(Locale.getDefault().getLanguage().equals("pt")){
+                            ev1Caption="<b>Evidência 1: </b>" + evidences.get(0).getDescriptionPortuguese();
+                            ev2Caption="<b>Evidência 2: </b>" + evidences.get(1).getDescriptionPortuguese();
+                            ev3Caption="<b>Evidência 3: </b>" + evidences.get(2).getDescriptionPortuguese();
+                            ev4Caption = "<b>Evidência 4: </b>" + evidences.get(3).getDescriptionPortuguese();
+
+                        }else{
+                            ev1Caption="<b>Evidence 1: </b>" + evidences.get(0).getDescriptionEnglish();
+                            ev2Caption="<b>Evidence 2: </b>" + evidences.get(1).getDescriptionEnglish();
+                            ev3Caption="<b>Evidence 3: </b>" + evidences.get(2).getDescriptionEnglish();
+                            ev4Caption = "<b>Evidence 4: </b>" + evidences.get(3).getDescriptionEnglish();
+
+                        }
+
+                        if(evidenceRegs.get(idEvidenceBase).getIsMarked()==1){
+                            ev1.setChecked(true);
+                        }else{
+                            ev1.setChecked(false);
+                        }
+                        if(evidenceRegs.get(idEvidenceBase+1).getIsMarked()==1){
+                            ev2.setChecked(true);
+                        }else{
+                            ev2.setChecked(false);
+                        }
+                        if(evidenceRegs.get(idEvidenceBase+2).getIsMarked()==1){
+                            ev3.setChecked(true);
+                        }else{
+                            ev3.setChecked(false);
+                        }
+                        if(evidenceRegs.get(idEvidenceBase+3).getIsMarked()==1){
+                            ev4.setChecked(true);
+                        }else{
+                            ev4.setChecked(false);
+                        }
+                        ev1.setText(Html.fromHtml(ev1Caption,0));
+                        ev2.setText(Html.fromHtml(ev2Caption,0));
+                        ev3.setText(Html.fromHtml(ev3Caption,0));
+                        ev4.setText(Html.fromHtml(ev4Caption,0));
+                        about_ev_1.setText(evidenceRegs.get(idEvidenceBase).getObservationsSpanish());
+                        about_ev_2.setText(evidenceRegs.get(idEvidenceBase+1).getObservationsSpanish());
+                        about_ev_3.setText(evidenceRegs.get(idEvidenceBase+2).getObservationsSpanish());
+                        about_ev_4.setText(evidenceRegs.get(idEvidenceBase+3).getObservationsSpanish());
+                    }else{
+                        ev_1=view.findViewById(R.id.ev_1);
+                        ev_1.setText(simpleEvidenceRegs.get(idEvidenceBase).getObservationsSpanish());
+                        ev_2=view.findViewById(R.id.ev_2);
+                        ev_2.setText(simpleEvidenceRegs.get(idEvidenceBase+1).getObservationsSpanish());
+                        ev_3=view.findViewById(R.id.ev_3);
+                        ev_3.setText(simpleEvidenceRegs.get(idEvidenceBase+2).getObservationsSpanish());
+                        ev_4=view.findViewById(R.id.ev_4);
+                        ev_4.setText(simpleEvidenceRegs.get(idEvidenceBase+3).getObservationsSpanish());
+                        about_ev_1.setText(simpleEvidenceRegs.get(idEvidenceBase).getObservationsSpanish());
+                        about_ev_2.setText(simpleEvidenceRegs.get(idEvidenceBase+1).getObservationsSpanish());
+                        about_ev_3.setText(simpleEvidenceRegs.get(idEvidenceBase+2).getObservationsSpanish());
+                        about_ev_4.setText(simpleEvidenceRegs.get(idEvidenceBase+3).getObservationsSpanish());
+                    }
+
                     requires_improvement_plan=view.findViewById(R.id.requires_improvement_plan);
                     TextView indicatorCaption=view.findViewById(R.id.indicator_caption);
+
+                    TextView info_help=view.findViewById(R.id.info_help);
                     String indCaption="";
                     if(Locale.getDefault().getLanguage().equals("es")){
                         indCaption="<b>Indicador " + idInd + ": </b>" + indicators.get(idInd-1).getDescriptionSpanish();
@@ -271,136 +481,28 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
                     else{
                         requires_improvement_plan.setChecked(false);
                     }
-                    if(Locale.getDefault().getLanguage().equals("es")){
-                        ev1Caption="<b>Evidencia 1: </b>" + evidences.get(0).getDescriptionSpanish();
-                        ev2Caption="<b>Evidencia 2: </b>" + evidences.get(1).getDescriptionSpanish();
-                        ev3Caption="<b>Evidencia 3: </b>" + evidences.get(2).getDescriptionSpanish();
-                        if(isComplete) {
-                            ev4Caption = "<b>Evidencia 4: </b>" + evidences.get(3).getDescriptionSpanish();
-                        }
-                    }else if(Locale.getDefault().getLanguage().equals("fr")){
-                        ev1Caption="<b>Preuve 1: </b>" + evidences.get(0).getDescriptionFrench();
-                        ev2Caption="<b>Preuve 2: </b>" + evidences.get(1).getDescriptionFrench();
-                        ev3Caption="<b>Preuve 3: </b>" + evidences.get(2).getDescriptionFrench();
-                        if(isComplete) {
-                            ev4Caption = "<b>Preuve 4: </b>" + evidences.get(3).getDescriptionFrench();
-                        }
-                    }else if(Locale.getDefault().getLanguage().equals("eu")){
-                        ev1Caption="<b>1. froga: </b>" + evidences.get(0).getDescriptionBasque();
-                        ev2Caption="<b>2. froga: </b>" + evidences.get(1).getDescriptionBasque();
-                        ev3Caption="<b>3. froga: </b>" + evidences.get(2).getDescriptionBasque();
-                        if(isComplete) {
-                            ev4Caption = "<b>4. froga: </b>" + evidences.get(3).getDescriptionBasque();
-                        }
-                    }else if(Locale.getDefault().getLanguage().equals("ca")){
-                        ev1Caption="<b>Evidència 1: </b>" + evidences.get(0).getDescriptionCatalan();
-                        ev2Caption="<b>Evidència 2: </b>" + evidences.get(1).getDescriptionCatalan();
-                        ev3Caption="<b>Evidència 3: </b>" + evidences.get(2).getDescriptionCatalan();
-                        if(isComplete) {
-                            ev4Caption = "<b>Evidència 4: </b>" + evidences.get(3).getDescriptionCatalan();
-                        }
-                    }else if(Locale.getDefault().getLanguage().equals("nl")){
-                        ev1Caption="<b>Bewijs 1: </b>" + evidences.get(0).getDescriptionDutch();
-                        ev2Caption="<b>Bewijs 2: </b>" + evidences.get(1).getDescriptionDutch();
-                        ev3Caption="<b>Bewijs 3: </b>" + evidences.get(2).getDescriptionDutch();
-                        if(isComplete) {
-                            ev4Caption = "<b>Bewijs 4: </b>" + evidences.get(3).getDescriptionDutch();
-                        }
-                    }else if(Locale.getDefault().getLanguage().equals("gl")){
-                        ev1Caption="<b>Evidencia 1: </b>" + evidences.get(0).getDescriptionGalician();
-                        ev2Caption="<b>Evidencia 2: </b>" + evidences.get(1).getDescriptionGalician();
-                        ev3Caption="<b>Evidencia 3: </b>" + evidences.get(2).getDescriptionGalician();
-                        if(isComplete) {
-                            ev4Caption = "<b>Evidencia 4: </b>" + evidences.get(3).getDescriptionGalician();
-                        }
-                    }else if(Locale.getDefault().getLanguage().equals("de")){
-                        ev1Caption="<b>Beweis 1: </b>" + evidences.get(0).getDescriptionGerman();
-                        ev2Caption="<b>Beweis 2: </b>" + evidences.get(1).getDescriptionGerman();
-                        ev3Caption="<b>Beweis 3: </b>" + evidences.get(2).getDescriptionGerman();
-                        if(isComplete) {
-                            ev4Caption = "<b>Beweis 4: </b>" + evidences.get(3).getDescriptionGerman();
-                        }
-                    }else if(Locale.getDefault().getLanguage().equals("it")){
-                        ev1Caption="<b>Prova 1: </b>" + evidences.get(0).getDescriptionItalian();
-                        ev2Caption="<b>Prova 2: </b>" + evidences.get(1).getDescriptionItalian();
-                        ev3Caption="<b>Prova 3: </b>" + evidences.get(2).getDescriptionItalian();
-                        if(isComplete) {
-                            ev4Caption = "<b>Prova 4: </b>" + evidences.get(3).getDescriptionItalian();
-                        }
-                    }else if(Locale.getDefault().getLanguage().equals("pt")){
-                        ev1Caption="<b>Evidência 1: </b>" + evidences.get(0).getDescriptionPortuguese();
-                        ev2Caption="<b>Evidência 2: </b>" + evidences.get(1).getDescriptionPortuguese();
-                        ev3Caption="<b>Evidência 3: </b>" + evidences.get(2).getDescriptionPortuguese();
-                        if(isComplete) {
-                            ev4Caption = "<b>Evidência 4: </b>" + evidences.get(3).getDescriptionPortuguese();
-                        }
-                    }else{
-                        ev1Caption="<b>Evidence 1: </b>" + evidences.get(0).getDescriptionEnglish();
-                        ev2Caption="<b>Evidence 2: </b>" + evidences.get(1).getDescriptionEnglish();
-                        ev3Caption="<b>Evidence 3: </b>" + evidences.get(2).getDescriptionEnglish();
-                        if(isComplete) {
-                            ev4Caption = "<b>Evidence 4: </b>" + evidences.get(3).getDescriptionEnglish();
-                        }
-                    }
-                    int idEvidenceBase=-1;
-                    if(isComplete){
-                        idEvidenceBase=4*(idInd-1);
-                    }
-                    else{
-                        idEvidenceBase=3*(idInd-1);
-                    }
-                    if(evidenceRegs.get(idEvidenceBase).getIsMarked()==1){
-                        ev1.setChecked(true);
-                    }else{
-                        ev1.setChecked(false);
-                    }
-                    if(evidenceRegs.get(idEvidenceBase+1).getIsMarked()==1){
-                        ev2.setChecked(true);
-                    }else{
-                        ev2.setChecked(false);
-                    }
-                    if(evidenceRegs.get(idEvidenceBase+2).getIsMarked()==1){
-                        ev3.setChecked(true);
-                    }else{
-                        ev3.setChecked(false);
-                    }
-                    if(isComplete){
-                        if(evidenceRegs.get(idEvidenceBase+3).getIsMarked()==1){
-                            ev4.setChecked(true);
-                        }else{
-                            ev4.setChecked(false);
-                        }
-                        ev4.setText(Html.fromHtml(ev4Caption,0));
-                    }
-                    ev1.setText(Html.fromHtml(ev1Caption,0));
-                    ev2.setText(Html.fromHtml(ev2Caption,0));
-                    ev3.setText(Html.fromHtml(ev3Caption,0));
+
+
+
+
+
+
 
                     TextView about_indicator=view.findViewById(R.id.about_indicator);
                     about_indicator.setText(indicatorRegs.get(idInd-1).getObservationsSpanish());
 
-                    TextView about_ev_1=view.findViewById(R.id.about_ev_1);
-                    TextView about_ev_2=view.findViewById(R.id.about_ev_2);
-                    TextView about_ev_3=view.findViewById(R.id.about_ev_3);
-                    TextView info_help=view.findViewById(R.id.info_help);
-                    about_ev_1.setText(evidenceRegs.get(idEvidenceBase).getObservationsSpanish());
-                    about_ev_2.setText(evidenceRegs.get(idEvidenceBase+1).getObservationsSpanish());
-                    about_ev_3.setText(evidenceRegs.get(idEvidenceBase+2).getObservationsSpanish());
+
+
+
                     if(!Locale.getDefault().getLanguage().equals("es")){
                         about_indicator.setTextIsSelectable(true);
                         about_ev_1.setTextIsSelectable(true);
                         about_ev_2.setTextIsSelectable(true);
                         about_ev_3.setTextIsSelectable(true);
+                        about_ev_4.setTextIsSelectable(true);
                         info_help.setVisibility(View.VISIBLE);
                     }else{
                         info_help.setVisibility(View.GONE);
-                    }
-                    if(isComplete) {
-                        TextView about_ev_4=view.findViewById(R.id.about_ev_4);
-                        about_ev_4.setText(evidenceRegs.get(idEvidenceBase+3).getObservationsSpanish());
-                        if(!Locale.getDefault().getLanguage().equals("es")){
-                            about_ev_4.setTextIsSelectable(true);
-                        }
                     }
                     dialog.setView(view);
                 }else{

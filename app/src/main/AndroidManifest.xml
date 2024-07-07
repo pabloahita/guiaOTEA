@@ -33,9 +33,6 @@
             android:name="gui.EditUser"
             android:exported="false" />
         <activity
-            android:name="gui.DownloadImprovementPlan"
-            android:exported="false" />
-        <activity
             android:name="gui.SelectToSeeRealizedIndicatorsEvaluations"
             android:exported="false" />
         <activity

@@ -1,7 +1,13 @@
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\obj\Release\net8.0\PubTmp\Out\GuiaOTEAAdmin.exe
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\obj\Release\net8.0\PubTmp\Out\publish\web.config
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\obj\Release\net8.0\PubTmp\Out\appsettings.Development.json
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\obj\Release\net8.0\PubTmp\Out\appsettings.json
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\obj\Release\net8.0\PubTmp\Out\publish\appsettings.Development.json
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\obj\Release\net8.0\PubTmp\Out\publish\appsettings.json
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\obj\Release\net8.0\PubTmp\Out\publish\GuiaOTEAAdmin.deps.json
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\obj\Release\net8.0\PubTmp\Out\publish\GuiaOTEAAdmin.runtimeconfig.json
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\obj\Release\net8.0\PubTmp\Out\GuiaOTEAAdmin.dll
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\obj\Release\net8.0\PubTmp\Out\GuiaOTEAAdmin.deps.json
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\obj\Release\net8.0\PubTmp\Out\GuiaOTEAAdmin.runtimeconfig.json
 C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\obj\Release\net8.0\PubTmp\Out\GuiaOTEAAdmin.pdb
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin\obj\Release\net8.0\PubTmp\Out\Newtonsoft.Json.dll

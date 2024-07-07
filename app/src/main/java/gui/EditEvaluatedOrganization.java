@@ -69,6 +69,7 @@ import otea.connection.controller.TranslatorController;
 import otea.connection.controller.UsersController;
 import session.FileManager;
 import session.Session;
+import session.StringPasser;
 
 public class EditEvaluatedOrganization extends AppCompatActivity {
 
@@ -284,7 +285,7 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
         Organization orga=Session.getInstance().getOrganization();
         evaluatedUsers=UsersController.GetAllOrgUsersByOrganization(orga.getIdOrganization(),orga.getOrgType(),orga.getIllness());
 
-        evaluatedUsers.add(0,new User("-1","-",getString(R.string.edit_director),"-","","",-1,"-","-","-"));
+        evaluatedUsers.add(0,new User("-1","-",getString(R.string.edit_director),"-","","",-1,"-","-","-",-1));
         userAdapter[0]=new UsersAdapter(EditEvaluatedOrganization.this,evaluatedUsers);
         userAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
 
@@ -675,28 +676,146 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
             public void onClick(View v) {
                 String msg="";
                 if(Locale.getDefault().getLanguage().equals("es")){
-                    msg="Para poder registrar una organización o servicio, debe rellenar los siguientes campos:<ul><li>Para poder añadir una foto de perfil, presione sobre <i>Cambiar foto</i>. Posteriormente se le solicitará si quiere usar la cámara de su dispositivo o por lo contrario obtener alguna desde la galería de imágenes de su dispositivo.</li><li><b><i>Nombre de la organización o del servicio: </i></b>En este campo deberá introducir el nombre de la organización o del servicio. </li><li><b><i>Dirección: </i></b>En este campo deberá introducir la dirección postal de la organización o del servicio. No debe introducir ni el país, ni la región, ni la provincia, ni la ciudad. Por ejemplo:<i>Calle Las Rebolledas, s/n</i> o <i>Calle Valdenúñez, 8</i>. Se permiten también formatos de otros países al ser un campo de texto libre </li><li><b><i>País: </i></b>En este campo deberá seleccionar un país de los que se muestran en el desplegable.</li><li><b><i>Región: </i></b>En este campo, si el país seleccionado es <i>España, Estados Unidos de América, Argentina, Bolivia,  Chile, Colombia, Costa Rica, República Dominicana, Ecuador, El Salvador, Guatemala, Honduras, México, Nicaragua, Panamá, Paraguay, Portugal, Perú o Venezuela</i>, este campo será  un desplegable con las diferentes regiones del país seleccionado, por lo contrario deberá de introducir el nombre de la región manualmente. Si el país seleccionado es <i>Andorra,  Cuba, Puerto Rico o Uruguay</i>, no precisa de seleccionar o escribir un nombre de región dada la división territorial de estos países </li><li><b><i>Provincia: </i></b>En este campo, si el país seleccionado es <i>España, Andorra, Estados Unidos de América, Argentina, Bolivia,  Chile, Colombia, Costa Rica, Cuba, República Dominicana, Ecuador, El Salvador, Guatemala, Honduras, México, Nicaragua, Panamá, Paraguay, Portugal, Perú, Puerto Rico, Uruguay o Venezuela</i>, este campo será un desplegable con las diferentes provincias de la región (si procede) o país seleccionado, por lo contrario deberá de introducir el nombre de la provincia manualmente. </li><li><b><i>Ciudad: </i></b>En este campo, si el país seleccionado es <i>España, Andorra, Estados Unidos de América, Argentina, Bolivia,  Chile, Colombia, Costa Rica, Cuba, República Dominicana, Ecuador, El Salvador, Guatemala, Honduras, México, Nicaragua, Panamá, Paraguay, Portugal, Perú, Puerto Rico, Uruguay o Venezuela</i>, este campo será un desplegable con las diferentes ciudades correspondientes a la provincia seleccionada, por lo contrario deberá de introducir el nombre de la ciudad manualmente. </li><li><b><i>Email:  </i></b>En este campo deberá introducir el correo electrónico de la organización o del servicio.</li><li><b><i>Número de teléfono:  </i></b>En este campo deberá de introducir el número de teléfono de la organización o del servicio. A la izquierda de dicho campo, puede seleccionar el prefijo telefónico correspondiente al país de su número de teléfono, aunque también se seleccione automáticamente al cambiar el valor del desplegable de países.</li><li><b><i>Más información:  </i></b>En este campo podrá introducir información adicional de la organización o del servicio.</li><li><b><i>Email del director:  </i></b>En este campo deberá introducir el correo electrónico del director de la organización o del servicio.</li></ul><b>No olvide aceptar que <i>Fundación Miradas</i> guarde registro sobre sus datos de acuerdo con la Ley Orgánica de Protección de Datos.</b>";
+                    msg="Para poder editar correctamente una organización, debe complimentar con los siguientes campos:" +
+                            "<ul>" +
+                            "<li><b>Nombre de la organización: </b>En este campo deberá introducir el nombre de la organización a añadir.</li>" +
+                            "<li><b>Dirección: </b>En este campo deberá introducir la dirección postal de la organización, sin introducir ciudad, ni región, ni provincia ni país. Por ejemplo: <i>Calle Valdenúñez, 8</i>.</li>" +
+                            "<li><b>País: </b>En este campo debe seleccionar el país donde se ubica su organización. Si el país seleccionado es <i>España, Andorra, Argentina, Bolivia, Chile, Colombia, Costa Rica, Cuba, República Dominicana, Ecuador, El Salvador, Guatemala, Honduras, México, Nicaragua, Panamá, Paraguay, Portugal, Perú, Puerto Rico, Uruguay o Venezuela</i>, los campos de <i><b>Región</b></i>, <i><b>Provincia</b></i> y <i><b>Ciudad</b></i> serán seleccionables, por lo contrario tendrá que escribirlos de forma manual.</li>" +
+                            "<li><b>Región: </b>En este campo deberá introducir o seleccionar la región donde se ubica la organización. Campo no disponible para los siguientes países: <i>Andorra, Cuba, Puerto Rico y Uruguay</i> por la de división territorial de dichos países.</li>" +
+                            "<li><b>Provincia: </b>En este campo deberá introducir o seleccionar la provincia donde se ubica la organización.</li>" +
+                            "<li><b>Ciudad: </b>En este campo deberá introducir o seleccionar la ciudad donde se ubica la organización.</li>" +
+                            "<li><b>Email: </b>En este campo deberá introducir el email correspondiente a la organización.</li>" +
+                            "<li><b>Número de teléfono: </b>En este campo deberá introducir el número de teléfono de la organización. Si lo desea, puede seleccionar el prefijo correspondiente al país seleccionándolo en el desplegable de la parte izquierda, aunque también puede cambiarlo con el desplegable <i><b>País</b></i>.</li>" +
+                            "<li><b>Más información: </b>En este campo podrá introducir información adicional sobre la información si así lo considera oportuno.</li>" +
+                            "<li><b>Email del director: </b>En este campo deberá seleccionar el email correspondiente al del director de la organización.</li>" +
+                            "</ul>" +
+                            "Si lo desea, puede agregar una fotografía de perfil presionando sobre <i><b>Cambiar foto</b>.</i>";
                 }else if(Locale.getDefault().getLanguage().equals("fr")){
-                    msg="Afin d'enregistrer une organisation ou un service, vous devez remplir les champs suivants:<ul><li>Pour pouvoir ajouter une photo de profil, cliquez sur <i>Changer de photo</i>. Plus tard, il vous sera demandé si vous souhaitez utiliser l'appareil photo de votre appareil ou en obtenir un à partir de la galerie d'images de votre appareil. </li><li><b><i>Nom de l'organisation ou du service: </li><li>. <b><i>Nom de l'organisation ou du service: </ i></b>Dans ce champ, vous devez saisir le nom de l'organisation ou du service. </li><li><b><i>Adresse: </i></b>Dans ce champ, vous devez saisir l'adresse postale de l'organisme ou du service. Vous ne devez pas indiquer le pays, la région, la province ou la ville. Par exemple:<i>Calle Las Rebolledas, s/n</i> ou <i>Calle Valdenúñez, 8</i>. Les formats d'autres pays sont également autorisés car il s'agit d'un champ de texte libre </li><li><b><i>Pays: </i></b>Dans ce champ, vous devez sélectionner un pays parmi ceux affichés dans le champ </li><li><b><i>Région: </i></b>Dans ce champ, si le pays sélectionné est <i>Espagne, États-Unis d'Amérique, Argentine, Bolivie, Chili, Colombie, Costa Rica, République Dominicaine, Équateur, El Salvador, Guatemala, Honduras, Mexique, Nicaragua, Panama, Paraguay, Portugal, Pérou ou Venezuela</i>, ce champ sera une liste déroulante avec les différentes régions du pays sélectionné, sinon vous devrez saisir le nom de la région manuellement. Si le pays sélectionné est <i>Andorre, Cuba, Porto Rico ou l'Uruguay</i>, vous n'avez pas besoin de sélectionner ou d'écrire un nom de région étant donné la division territoriale de ces pays </li><li><b>< i >Province: </i></b>Dans ce champ, si le pays sélectionné est <i>Espagne, Andorre, États-Unis d'Amérique, Argentine, Bolivie, Chili, Colombie, Costa Rica, Cuba, République Dominicaine, Équateur , El Salvador, Guatemala, Honduras, Mexique, Nicaragua, Panama, Paraguay, Portugal, Pérou, Porto Rico, Uruguay ou Venezuela</i>, ce champ sera une liste déroulante avec les différentes provinces de la région (le cas échéant ) ou le pays sélectionné. Sinon, vous devez saisir manuellement le nom de la province. </li><li><b><i>Ville: </i></b>Dans ce champ, si le pays sélectionné est <i>Espagne, Andorre, États-Unis d'Amérique, Argentine, Bolivie, Chili, Colombie, Costa Rica, Cuba, République dominicaine, Équateur, El Salvador, Guatemala, Honduras, Mexique, Nicaragua, Panama, Paraguay, Portugal, Pérou, Porto Rico, Uruguay ou Venezuela</i>, ce champ sera une liste déroulante liste avec les différentes villes correspondant à la province sélectionnée, sinon vous devez saisir le nom de la ville manuellement. </li><li><b><i>E-mail: </i></b>Dans ce champ, vous devez saisir l'adresse e-mail de l'organisation ou du service.</li><li><b><i >Numéro de téléphone: </i></b>Dans ce champ, vous devez saisir le numéro de téléphone de l'organisme ou du service. À gauche de ce champ, vous pouvez sélectionner le préfixe téléphonique correspondant au pays de votre numéro de téléphone, bien qu'il soit également sélectionné automatiquement lors de la modification de la valeur du menu déroulant pays.</li><li><b> <i>Plus d'informations: </i></b>Dans ce champ, vous pouvez saisir des informations supplémentaires sur l'organisation ou le service.</li><li><b><i>E-mail du directeur: </i></ b>Dans ce champ, vous devez saisir l'adresse e-mail du directeur de l'organisation ou du service </li></ul><b>N'oubliez pas d'accepter que la <i>Fundación Miradas</i> conserve des enregistrements de votre. données conformément à la Loi Organique de Protection des Données.</b>";
+                    msg="Afin de modifier correctement une organisation, vous devez remplir les champs suivants:" +
+                            "<ul>" +
+                            "<li><b>Nom de l'organisation: </b>Dans ce champ vous devez saisir le nom de l'organisation à ajouter.</li>" +
+                            "<li><b>Adresse: </b>Dans ce champ, vous devez saisir l'adresse postale de l'organisation, sans saisir de ville, de région, de province ou de pays. Par exemple: <i>Calle Valdenúñez, 8</i> .</li>" +
+                            "<li><b>Pays: </b>Dans ce champ, vous devez sélectionner le pays où se trouve votre organisation. Si le pays sélectionné est <i>Espagne, Andorre, Argentine, Bolivie, Chili, Colombie, Costa Rica, Cuba, la République dominicaine, l'Équateur, le Salvador, le Guatemala, le Honduras, le Mexique, le Nicaragua, le Panama, le Paraguay, le Portugal, le Pérou, Porto Rico, l'Uruguay ou le Venezuela</i>, les champs <i><b>Région</b> </i>, <i><b>Province</b></i> et <i><b>Ville</b></i> seront sélectionnables, sinon vous devrez les écrire manuellement.</li>" +
+                            "<li><b>Région: </b>Dans ce champ, vous devez saisir ou sélectionner la région où se trouve l'organisation. Champ non disponible pour les pays suivants: <i>Andorre, Cuba, Porto Rico et Uruguay</ i> par la division territoriale desdits pays.</li>" +
+                            "<li><b>Province: </b>Dans ce champ, vous devez saisir ou sélectionner la province où est située l'organisation.</li>" +
+                            "<li><b>Ville: </b>Dans ce champ, vous devez saisir ou sélectionner la ville où se trouve l'organisation.</li>" +
+                            "<li><b>Email: </b>Dans ce champ vous devez saisir l'email correspondant à l'organisation.</li>" +
+                            "<li><b>Numéro de téléphone: </b>Dans ce champ vous devez saisir le numéro de téléphone de l'organisation. Si vous le souhaitez, vous pouvez sélectionner le préfixe correspondant au pays en le sélectionnant dans le menu déroulant sur à gauche, bien que vous puissiez également le modifier avec le menu déroulant <i><b>Pays</b></i>.</li>" +
+                            "<li><b>Plus d'informations: </b>Dans ce champ, vous pouvez saisir des informations supplémentaires sur les informations si vous le jugez approprié.</li>" +
+                            "<li><b>Email du directeur: </b>Dans ce champ vous devez sélectionner l'email correspondant au directeur de l'organisme.</li>" +
+                            "</ul>" +
+                            "Si vous le souhaitez, vous pouvez ajouter une photo de profil en cliquant sur <i><b>Changer de photo</b>.</i>";
                 }else if(Locale.getDefault().getLanguage().equals("eu")){
-                    msg="Erakunde edo zerbitzu bat erregistratzeko, eremu hauek bete behar dituzu:<ul><li>Profileko argazki bat gehitu ahal izateko, egin klik <i>Aldatu argazkia</i> aukeran. Geroago, zure gailuko kamera erabili nahi duzun edo bestela zure gailuko irudi-galeriatik lortu nahi duzun galdetuko zaizu </li><li><b><i>Erakundearen edo zerbitzuaren izena: </li><li> <b><i>Erakunde edo zerbitzuaren izena: </ i></b>Eremu honetan erakunde edo zerbitzuaren izena idatzi behar duzu. </li><li><b><i>Helbidea: </i></b>Eremu honetan erakunde edo zerbitzuaren posta helbidea idatzi behar duzu. Ez zenuke herrialdean, eskualdean, probintzian edo hirian sartu behar. Adibidez:<i>Calle Las Rebolledas, s/n</i> edo <i>Calle Valdenúñez, 8</i>. Beste herrialde batzuetako formatuak ere onartzen dira testu libreko eremua denez </li><li><b><i>Herrialdea: </i></b>Eremu honetan herrialde bat aukeratu behar duzu herrialdean agertzen direnetatik. goitibehitza </li><li><b><i>Eskualdea: </i></b>Eremu honetan, hautatutako herrialdea <i>Espainia, Amerikako Estatu Batuak, Argentina, Bolivia, Txile , Kolonbia, Costa Rica, Dominikar Errepublika, Ekuador, El Salvador, Guatemala, Honduras, Mexiko, Nikaragua, Panama, Paraguai, Portugal, Peru edo Venezuela</i>, eremu hau goitibeherako zerrenda bat izango da eskualde ezberdinekin. hautatutako herrialdea, Bestela eskualdearen izena eskuz sartu beharko duzu. Hautatutako herrialdea <i>Andorra, Kuba, Puerto Rico edo Uruguai bada</i> bada, ez duzu eskualde-izenik hautatu edo idatzi behar herrialde horien lurralde-zatiketa kontuan hartuta </li><li><b>< i >Probintzia: </i></b>Eremu honetan, aukeratutako herrialdea <i>Espainia, Andorra, Amerikako Estatu Batuak, Argentina, Bolivia, Txile, Kolonbia, Costa Rica, Kuba, Dominikar Errepublika, Ekuador bada. , El Salvador, Guatemala, Honduras, Mexiko, Nikaragua, Panama, Paraguai, Portugal, Peru, Puerto Rico, Uruguai edo Venezuela</i>, eremu hau goitibeherako zerrenda bat izango da eskualdeko probintzia ezberdinekin (hala badagokio ) edo hautatutako herrialdea, Bestela, eskuz idatzi behar duzu probintziaren izena. </li><li><b><i>Hiria: </i></b>Eremu honetan, aukeratutako herrialdea <i>Espainia, Andorra, Amerikako Estatu Batuak, Argentina, Bolivia, Txile bada, Kolonbia, Costa Rica, Kuba, Dominikar Errepublika, Ekuador, El Salvador, Guatemala, Honduras, Mexiko, Nikaragua, Panama, Paraguai, Portugal, Peru, Puerto Rico, Uruguai edo Venezuela</i>, eremu hau goitibeherakoa izango da. zerrenda hautatutako probintziari dagozkion hiri ezberdinekin, bestela eskuz sartu behar duzu hiriaren izena. </li><li><b><i>Eposta elektronikoa: </i></b>Eremu honetan erakundearen edo zerbitzuaren helbide elektronikoa idatzi behar duzu.</li><li><b><i >Telefono-zenbakia: </i></b>Eremu honetan erakundearen edo zerbitzuaren telefono-zenbakia sartu behar duzu. Eremu honen ezkerraldean, zure telefono-zenbakiaren herrialdeari dagokion telefono-aurrizkia hauta dezakezu, nahiz eta automatikoki hautatzen den herrialdearen goitibeherako menuaren balioa aldatzean.</li><li><b> <i>Informazio gehiago : </i></b>Eremu honetan erakundeari edo zerbitzuari buruzko informazio gehigarria sar dezakezu.</li><li><b><i>Zuzendariaren helbide elektronikoa: </i></ b>Eremu honetan erakundearen edo zerbitzuaren zuzendariaren helbide elektronikoa sartu behar duzu </li></ul><b>Ez ahaztu <i>Fundación Miradas</i> zure erregistroak gordetzen dituela onartzea. datuak Datuak Babesteko Lege Organikoaren arabera.</b>";
+                    msg="Erakunde bat behar bezala editatzeko, eremu hauek bete behar dituzu:" +
+                            "<ul>" +
+                            "<li><b>Erakundearen izena: </b>Eremu honetan gehitu nahi duzun erakundearen izena idatzi behar duzu.</li>" +
+                            "<li><b>Helbidea: </b>Eremu honetan erakundearen posta helbidea idatzi behar duzu, hiria, eskualdea, probintzia edo herrialdea sartu gabe. Adibidez: <i>Valdenúñez kalea, 8</i > .</li>" +
+                            "<li><b>Herrialdea: </b>Eremu honetan zure erakundea dagoen herrialdea hautatu behar duzu. Aukeratutako herrialdea <i>Espainia, Andorra, Argentina, Bolivia, Txile, Kolonbia, Costa Rica bada, Kuba, Dominikar Errepublika, Ekuador, El Salvador, Guatemala, Honduras, Mexiko, Nikaragua, Panama, Paraguai, Portugal, Peru, Puerto Rico, Uruguai edo Venezuela</i>, <i><b>Eskualdea</b> eremuak </i>, <i><b>Probintzia</b></i> eta <i><b>Hiria</b></i> hautagarriak izango dira, bestela eskuz idatzi beharko dituzu.< /li>" +
+                            "<li><b>Eskualdea: </b>Eremu honetan erakundea dagoen eskualdea sartu edo hautatu behar duzu. Eremua ez dago erabilgarri herrialde hauetarako: <i>Andorra, Kuba, Puerto Rico eta Uruguai</i> i > esandako herrialdeen lurralde-banaketaren arabera.</li>" +
+                            "<li><b>Probintzia: </b>Eremu honetan erakundea dagoen probintzia sartu edo hautatu behar duzu.</li>" +
+                            "<li><b>Hiria: </b>Eremu honetan erakundea dagoen hiria sartu edo hautatu behar duzu.</li>" +
+                            "<li><b>Emaila: </b>Eremu honetan erakundeari dagokion e-posta idatzi behar duzu.</li>" +
+                            "<li><b>Telefono zenbakia: </b>Eremu honetan erakundearen telefono zenbakia sartu behar duzu. Nahi izanez gero, herrialdeari dagokion aurrizkia hauta dezakezu goitibeherako menuan hautatuta. ezkerrean, nahiz eta ere egin dezakezun. <i><b>Herrialdea</b></i> goitibeherako aukerarekin alda dezakezu.</li>" +
+                            "<li><b>Informazio gehiago: </b>Eremu honetan informazioari buruzko informazio gehigarria sar dezakezu egokitzat jotzen baduzu.</li>" +
+                            "<li><b>Zuzendariaren emaila: </b>Eremu honetan erakundeko zuzendariari dagokion emaila hautatu behar duzu.</li>" +
+                            "</ul>" +
+                            "Nahi baduzu, profileko argazki bat gehi dezakezu <i><b>Argazkia aldatu</b> aukeran klik eginez.</i>.";
                 }else if(Locale.getDefault().getLanguage().equals("ca")){
-                    msg="Per poder registrar una organització o servei, heu d'emplenar els camps següents:<ul><li>Per poder afegir una foto de perfil, premeu sobre <i>Canviar foto</i>. Posteriorment se us demanarà si voleu utilitzar la càmera del vostre dispositiu o en cas contrari obtenir-ne des de la galeria d'imatges del vostre dispositiu.</li><li><b><i>Nom de l'organització o del servei: </ i></b>En aquest camp heu d'introduir el nom de l'organització o del servei. </li><li><b><i>Adreça: </i></b>En aquest camp heu d'introduir l'adreça postal de l'organització o del servei. No heu d'introduir ni el país, ni la regió, ni la província, ni la ciutat. Per exemple:<i>Carrer Les Rebolledas, s/n</i> o <i>Carrer Valdenúñez, 8</i>. Es permeten també formats d'altres països en ser un camp de text lliure </li><li><b><i>País: </i></b>En aquest camp haureu de seleccionar un país dels que es mostren a el desplegable.</li><li><b><i>Regió: </i></b>En aquest camp, si el país seleccionat és <i>Espanya, Estats Units d'Amèrica, Argentina, Bolívia, Xile , Colòmbia, Costa Rica, República Dominicana, Equador, El Salvador, Guatemala, Hondures, Mèxic, Nicaragua, Panamà, Paraguai, Portugal, Perú o Veneçuela</i>, aquest camp serà un desplegable amb les diferents regions del país seleccionat, per el contrari haurà dintroduir el nom de la regió manualment. Si el país seleccionat és <i>Andorra, Cuba, Puerto Rico o Uruguai</i>, no cal seleccionar o escriure un nom de regió atesa la divisió territorial d'aquests països </li><li><b><i >Província: </i></b>En aquest camp, si el país seleccionat és <i>Espanya, Andorra, Estats Units d'Amèrica, Argentina, Bolívia, Xile, Colòmbia, Costa Rica, Cuba, República Dominicana, Equador, El Salvador, Guatemala, Hondures, Mèxic, Nicaragua, Panamà, Paraguai, Portugal, Perú, Puerto Rico, Uruguai o Veneçuela</i>, aquest camp serà un desplegable amb les diferents províncies de la regió (si escau) o país seleccionat, altrament haurà d'introduir el nom de la província manualment. </li><li><b><i>Ciutat: </i></b>En aquest camp, si el país seleccionat és <i>Espanya, Andorra, Estats Units d'Amèrica, Argentina, Bolívia, Xile, Colòmbia, Costa Rica, Cuba, República Dominicana, Equador, El Salvador, Guatemala, Hondures, Mèxic, Nicaragua, Panamà, Paraguai, Portugal, Perú, Puerto Rico, Uruguai o Veneçuela</i>, aquest camp serà un desplegable amb les diferents ciutats corresponents a la província seleccionada, altrament haurà d'introduir el nom de la ciutat manualment. </li><li><b><i>Email: </i></b>En aquest camp haureu d'introduir el correu electrònic de l'organització o del servei.</li><li><b><i >Nombre de telèfon: </i></b>En aquest camp haureu d'introduir el número de telèfon de l'organització o del servei. A l'esquerra del camp, podeu seleccionar el prefix telefònic corresponent al país del vostre número de telèfon, encara que també se seleccioneu automàticament en canviar el valor del desplegable de països.</li><li><b><i>Més informació : </i></b>En aquest camp podreu introduir informació addicional de l'organització o del servei.</li><li><b><i>Email del director: </i></b>En aquest camp camp haurà d'introduir el correu electrònic del director de l'organització o del servei.</li></ul><b>No oblideu acceptar que <i>Fundación Miradas</i> guardi registre sobre les vostres dades d'acord amb la Llei Orgànica de Protecció de Dades.</b>";
+                    msg="Per poder editar correctament una organització, heu de complir amb els camps següents:" +
+                            "<ul>" +
+                            "<li><b>Nom de l'organització: </b>En aquest camp haureu d'introduir el nom de l'organització a afegir.</li>" +
+                            "<li><b>Direcció: </b>En aquest camp haureu d'introduir l'adreça postal de l'organització, sense introduir ciutat, ni regió, ni província ni país. Per exemple: <i>Carrer Valdenúñez, 8</i >.</li>" +
+                            "<li><b>País: </b>En aquest camp heu de seleccionar el país on s'ubica la vostra organització. Si el país seleccionat és <i>Espanya, Andorra, Argentina, Bolívia, Xile, Colòmbia, Costa Rica, Cuba , República Dominicana, Equador, El Salvador, Guatemala, Hondures, Mèxic, Nicaragua, Panamà, Paraguai, Portugal, Perú, Puerto Rico, Uruguai o Veneçuela</i>, els camps de <i><b>Regió</b> </i>, <i><b>Província</b></i> i <i><b>Ciutat</b></i> seran seleccionables, per contra els haurà d'escriure de forma manual.< /li>" +
+                            "<li><b>Regió: </b>En aquest camp haureu d'introduir o seleccionar la regió on s'ubica l'organització. Camp no disponible per als països següents: <i>Andorra, Cuba, Puerto Rico i Uruguai</i > per la de divisió territorial d'aquests països.</li>" +
+                            "<li><b>Província: </b>En aquest camp haureu d'introduir o seleccionar la província on s'ubica l'organització.</li>" +
+                            "<li><b>Ciutat: </b>En aquest camp haureu d'introduir o seleccionar la ciutat on s'ubica l'organització.</li>" +
+                            "<li><b>Email: </b>En aquest camp haureu d'introduir el correu electrònic corresponent a l'organització.</li>" +
+                            "<li><b>Nombre de telèfon: </b>En aquest camp haureu d'introduir el número de telèfon de l'organització. Si voleu, podeu seleccionar el prefix corresponent al país seleccionant-lo al desplegable de la part esquerra, encara que també podeu canviar-lo amb el desplegable <i><b>País</b></i>.</li>" +
+                            "<li><b>Més informació: </b>En aquest camp podreu introduir informació addicional sobre la informació si així ho considereu oportú.</li>" +
+                            "<li><b>Email del director: </b>En aquest camp haureu de seleccionar l'email corresponent al del director de l'organització.</li>" +
+                            "</ul>" +
+                            "Si voleu, podeu afegir una fotografia de perfil prement sobre <i><b>Canviar foto</b>.</i>";
                 }else if(Locale.getDefault().getLanguage().equals("nl")){
-                    msg="Om een organisatie of dienst te registreren, moet u de volgende velden invullen:<ul><li>Om een profielfoto toe te kunnen voegen, klikt u op <i>Foto wijzigen</i>. Later wordt u gevraagd of u de camera van uw apparaat wilt gebruiken of er op een andere manier een wilt aanschaffen uit de afbeeldingengalerij van uw apparaat. </li><li><b><i>Naam van de organisatie of dienst: </li><li> <b><i>Naam van de organisatie of dienst: </ i></b>In dit veld moet u de naam van de organisatie of dienst invullen. </li><li><b><i>Adres: </i></b>In dit veld moet u het postadres van de organisatie of dienst invullen. U mag het land, de regio, de provincie of de stad niet betreden. Bijvoorbeeld:<i>Calle Las Rebolledas, s/n</i> of <i>Calle Valdenúñez, 8</i>. Formaten uit andere landen zijn ook toegestaan omdat het een vrij tekstveld is. </li><li><b><i>Land: </i></b>In dit veld moet u een land selecteren uit de landen die in het veld worden weergegeven. vervolgkeuzelijst </li><li><b><i>Regio: </i></b>Als het geselecteerde land in dit veld <i>Spanje, Verenigde Staten van Amerika, Argentinië, Bolivia, Chili is, Colombia, Costa Rica, Dominicaanse Republiek, Ecuador, El Salvador, Guatemala, Honduras, Mexico, Nicaragua, Panama, Paraguay, Portugal, Peru of Venezuela</i>, dit veld zal een vervolgkeuzelijst zijn met de verschillende regio's van de geselecteerde land, anders moet u de regionaam handmatig invoeren. Als het geselecteerde land <i>Andorra, Cuba, Puerto Rico of Uruguay</i> is, hoeft u geen regionaam te selecteren of te schrijven gezien de territoriale indeling van deze landen </li><li><b>< i >Provincie: </i></b>Als het geselecteerde land in dit veld <i>Spanje, Andorra, Verenigde Staten van Amerika, Argentinië, Bolivia, Chili, Colombia, Costa Rica, Cuba, Dominicaanse Republiek, Ecuador is , El Salvador, Guatemala, Honduras, Mexico, Nicaragua, Panama, Paraguay, Portugal, Peru, Puerto Rico, Uruguay of Venezuela</i>, dit veld is een vervolgkeuzelijst met de verschillende provincies van de regio (indien van toepassing ) of geselecteerd land. Anders moet u de naam van de provincie handmatig invoeren. </li><li><b><i>Stad: </i></b>In dit veld, als het geselecteerde land <i>Spanje, Andorra, Verenigde Staten van Amerika, Argentinië, Bolivia, Chili, Colombia, Costa Rica, Cuba, Dominicaanse Republiek, Ecuador, El Salvador, Guatemala, Honduras, Mexico, Nicaragua, Panama, Paraguay, Portugal, Peru, Puerto Rico, Uruguay of Venezuela</i>, dit veld is een vervolgkeuzelijst lijst met de verschillende steden die overeenkomen met de geselecteerde provincie, anders moet u de stadsnaam handmatig invoeren. </li><li><b><i>E-mail: </i></b>In dit veld moet u het e-mailadres van de organisatie of dienst invullen.</li><li><b><i >Telefoonnummer: </i></b>In dit veld moet u het telefoonnummer van de organisatie of dienst invullen. Links van dit veld kunt u het telefoonvoorvoegsel selecteren dat overeenkomt met het land van uw telefoonnummer, maar dit wordt ook automatisch geselecteerd wanneer u de waarde van het landkeuzemenu wijzigt.</li><li><b> <i>Meer informatie: </i></b>In dit veld kunt u aanvullende informatie over de organisatie of dienst invoeren.</li><li><b><i>E-mail van de directeur: </i></i></i></b> b>In dit veld moet u het e-mailadres van de directeur van de organisatie of dienst invullen. </li></ul><b>Vergeet niet te accepteren dat <i>Fundación Miradas</i> uw administratie bijhoudt. gegevens in overeenstemming met de organieke wet op de gegevensbescherming.</b>";
+                    msg="Om een organisatie correct te kunnen bewerken, moet u de volgende velden invullen:" +
+                            "<ul>" +
+                            "<li><b>Naam van de organisatie: </b>In dit veld moet u de naam invoeren van de organisatie die u wilt toevoegen.</li>" +
+                            "<li><b>Adres: </b>In dit veld moet u het postadres van de organisatie invoeren, zonder stad, regio, provincie of land in te vullen. Bijvoorbeeld: <i>Calle Valdenúñez, 8</i> .</li>" +
+                            "<li><b>Land: </b>In dit veld moet u het land selecteren waar uw organisatie is gevestigd. Als het geselecteerde land <i>Spanje, Andorra, Argentinië, Bolivia, Chili, Colombia, Costa Rica, Cuba, Dominicaanse Republiek, Ecuador, El Salvador, Guatemala, Honduras, Mexico, Nicaragua, Panama, Paraguay, Portugal, Peru, Puerto Rico, Uruguay of Venezuela</i>, de velden <i><b>Regio</b> </i>, <i><b>Provincie</b></i> en <i><b>Plaats</b></i> zijn selecteerbaar, anders moet u ze handmatig schrijven.</li>" +
+                            "<li><b>Regio: </b>In dit veld moet u de regio invoeren of selecteren waar de organisatie gevestigd is. Veld niet beschikbaar voor de volgende landen: <i>Andorra, Cuba, Puerto Rico en Uruguay</ i> door de territoriale verdeling van genoemde landen.</li>" +
+                            "<li><b>Provincie: </b>In dit veld moet u de provincie invoeren of selecteren waar de organisatie gevestigd is.</li>" +
+                            "<li><b>Plaats: </b>In dit veld moet u de stad invoeren of selecteren waar de organisatie gevestigd is.</li>" +
+                            "<li><b>E-mail: </b>In dit veld moet u het e-mailadres invoeren dat overeenkomt met de organisatie.</li>" +
+                            "<li><b>Telefoonnummer: </b>In dit veld moet u het telefoonnummer van de organisatie invoeren. Als u dat wenst, kunt u het voorvoegsel dat overeenkomt met het land selecteren door dit te selecteren in het vervolgkeuzemenu op aan de linkerkant, maar dat kan ook. U kunt dit wijzigen met de vervolgkeuzelijst <i><b>Land</b></i>.</li>" +
+                            "<li><b>Meer informatie: </b>In dit veld kunt u aanvullende informatie over de informatie invoeren als u dit passend acht.</li>" +
+                            "<li><b>E-mailadres van de directeur: </b>In dit veld moet u het e-mailadres selecteren dat overeenkomt met de directeur van de organisatie.</li>" +
+                            "</ul>" +
+                            "Als je wilt, kun je een profielfoto toevoegen door op <i><b>Foto wijzigen</b> te klikken.</i>";
                 }else if(Locale.getDefault().getLanguage().equals("gl")){
-                    msg="Para rexistrar unha organización ou servizo, debes cubrir os seguintes campos:<ul><li>Para poder engadir unha foto de perfil, fai clic en <i>Cambiar foto</i>. Máis tarde preguntaráselle se queres utilizar a cámara do teu dispositivo ou obter unha da galería de imaxes do teu dispositivo </li><li><b><i>Nome da organización ou servizo: </li><li> <b><i>Nome da organización ou servizo: </ i></b>Neste campo debes introducir o nome da organización ou servizo. </li><li><b><i>Enderezo: </i></b>Neste campo debes introducir o enderezo postal da organización ou servizo. Non debes entrar no país, na rexión, na provincia ou na cidade. Por exemplo:<i>Calle Las Rebolledas, s/n</i> ou <i>Calle Valdenúñez, 8</i>. Tamén se permiten formatos doutros países xa que é un campo de texto libre </li><li><b><i>País: </i></b>Neste campo debes seleccionar un país entre os que aparecen no menú despregable </li><li><b><i>Rexión: </i></b>Neste campo, se o país seleccionado é <i>España, Estados Unidos de América, Arxentina, Bolivia, Chile , Colombia, Costa Rica, República Dominicana, Ecuador, O Salvador, Guatemala, Honduras, México, Nicaragua, Panamá, Paraguai, Portugal, Perú ou Venezuela</i>, este campo será unha lista despregable coas diferentes rexións do país. país seleccionado, para En caso contrario, terá que introducir o nome da rexión manualmente. Se o país seleccionado é <i>Andorra, Cuba, Porto Rico ou Uruguai</i>, non é necesario seleccionar nin escribir un nome de rexión dada a división territorial destes países </li><li><b>< i >Provincia: </i></b>Neste campo, se o país seleccionado é <i>España, Andorra, Estados Unidos de América, Arxentina, Bolivia, Chile, Colombia, Costa Rica, Cuba, República Dominicana, Ecuador , El Salvador, Guatemala, Honduras, México, Nicaragua, Panamá, Paraguai, Portugal, Perú, Porto Rico, Uruguai ou Venezuela</i>, este campo será unha lista despregable coas distintas provincias da rexión (se procede ) ou país seleccionado, En caso contrario, debe introducir o nome da provincia manualmente. </li><li><b><i>Cidade: </i></b>Neste campo, se o país seleccionado é <i>España, Andorra, Estados Unidos de América, Arxentina, Bolivia, Chile, Colombia, Costa Rica, Cuba, República Dominicana, Ecuador, O Salvador, Guatemala, Honduras, México, Nicaragua, Panamá, Paraguai, Portugal, Perú, Porto Rico, Uruguai ou Venezuela</i>, este campo será un menú despregable lista coas distintas cidades correspondentes á provincia seleccionada, se non, deberá introducir o nome da cidade manualmente. </li><li><b><i>Correo electrónico: </i></b>Neste campo debes introducir o enderezo de correo electrónico da organización ou servizo.</li><li><b><i >Número de teléfono: </i></b>Neste campo debe introducir o número de teléfono da organización ou servizo. Á esquerda deste campo, pode seleccionar o prefixo de teléfono correspondente ao país do seu número de teléfono, aínda que tamén se selecciona automaticamente ao cambiar o valor do menú despregable de país.</li><li><b> <i>Máis información : </i></b>Neste campo podes introducir información adicional sobre a organización ou o servizo.</li><li><b><i>Correo electrónico do director: </i></i></p> b>Neste campo debes introducir o enderezo de correo electrónico do director da organización ou servizo </li></ul><b>Non esquezas aceptar que a <i>Fundación Miradas</i> garda rexistros da túa. datos conforme a Lei Orgánica de Protección de Datos.</b>";
+                    msg="Para editar correctamente unha organización, debes completar os seguintes campos:" +
+                            "<ul>" +
+                            "<li><b>Nome da organización: </b>Neste campo debes introducir o nome da organización que queres engadir.</li>" +
+                            "<li><b>Enderezo: </b>Neste campo debes introducir o enderezo postal da organización, sen introducir cidade, comarca, provincia ou país. Por exemplo: <i>Cale Valdenúñez, 8</i> .</li>" +
+                            "<li><b>País: </b>Neste campo debes seleccionar o país onde se atopa a túa organización. Se o país seleccionado é <i>España, Andorra, Arxentina, Bolivia, Chile, Colombia, Costa Rica, Cuba , República Dominicana, Ecuador, O Salvador, Guatemala, Honduras, México, Nicaragua, Panamá, Paraguai, Portugal, Perú, Porto Rico, Uruguai ou Venezuela</i>, os campos <i><b>Rexión</b> Poderanse seleccionar </i>, <i><b>Provincia</b></i> e <i><b>Cidade</b></i>, se non, terás que escribilas manualmente.</li>" +
+                            "<li><b>Rexión: </b>Neste campo debes introducir ou seleccionar a rexión onde se atopa a organización. O campo non está dispoñible para os seguintes países: <i>Andorra, Cuba, Porto Rico e Uruguai</i> i> pola división territorial dos devanditos países.</li>" +
+                            "<li><b>Provincia: </b>Neste campo debes introducir ou seleccionar a provincia onde se atopa a organización.</li>" +
+                            "<li><b>Cidade: </b>Neste campo debes introducir ou seleccionar a cidade onde se atopa a organización.</li>" +
+                            "<li><b>Email: </b>Neste campo debes introducir o correo electrónico correspondente á organización.</li>" +
+                            "<li><b>Número de teléfono: </b>Neste campo debes introducir o número de teléfono da organización. Se o desexas, podes seleccionar o prefixo correspondente ao país seleccionándoo no menú despregable de á esquerda, aínda que tamén podes. Podes cambialo co menú despregable <i><b>País</b></i>.</li>" +
+                            "<li><b>Máis información: </b>Neste campo podes introducir información adicional sobre a información se o consideras axeitado.</li>" +
+                            "<li><b>Email do director: </b>Neste campo debes seleccionar o correo electrónico correspondente ao director da organización.</li>" +
+                            "</ul>" +
+                            "Se queres, podes engadir unha foto de perfil facendo clic en <i><b>Cambiar foto</b>.</i>";
                 }else if(Locale.getDefault().getLanguage().equals("de")){
-                    msg="Um eine Organisation oder einen Dienst zu registrieren, müssen Sie die folgenden Felder ausfüllen:<ul><li>Um ein Profilfoto hinzufügen zu können, klicken Sie auf <i>Foto ändern</i>. Später werden Sie gefragt, ob Sie die Kamera Ihres Geräts verwenden oder auf andere Weise eine aus der Bildergalerie Ihres Geräts beziehen möchten. </li><li><b><i>Name der Organisation oder des Dienstes: </li><li> <b><i>Name der Organisation oder des Dienstes: </ i></b>In dieses Feld müssen Sie den Namen der Organisation oder des Dienstes eingeben. </li><li><b><i>Adresse: </i></b>In diesem Feld müssen Sie die Postanschrift der Organisation oder des Dienstes eingeben. Sie sollten nicht das Land, die Region, die Provinz oder die Stadt eingeben. Zum Beispiel:<i>Calle Las Rebolledas, s/n</i> oder <i>Calle Valdenúñez, 8</i>. Formate aus anderen Ländern sind ebenfalls zulässig, da es sich um ein Freitextfeld handelt. </li><li><b><i>Land:</i></b>In diesem Feld müssen Sie ein Land aus den angezeigten Ländern auswählen Dropdown-Liste. </li><li><b><i>Region: </i></b>Wenn das ausgewählte Land <i>Spanien, Vereinigte Staaten von Amerika, Argentinien, Bolivien, Chile ist, Kolumbien, Costa Rica, Dominikanische Republik, Ecuador, El Salvador, Guatemala, Honduras, Mexiko, Nicaragua, Panama, Paraguay, Portugal, Peru oder Venezuela</i>, dieses Feld ist eine Dropdown-Liste mit den verschiedenen Regionen der ausgewähltes Land, andernfalls müssen Sie den Regionsnamen manuell eingeben. Wenn das ausgewählte Land <i>Andorra, Kuba, Puerto Rico oder Uruguay</i> ist, müssen Sie angesichts der territorialen Aufteilung dieser Länder keinen Regionsnamen auswählen oder eingeben </li><li><b>< i >Provinz: </i></b>In diesem Feld, wenn das ausgewählte Land <i>Spanien, Andorra, Vereinigte Staaten von Amerika, Argentinien, Bolivien, Chile, Kolumbien, Costa Rica, Kuba, Dominikanische Republik, Ecuador ist , El Salvador, Guatemala, Honduras, Mexiko, Nicaragua, Panama, Paraguay, Portugal, Peru, Puerto Rico, Uruguay oder Venezuela</i>, dieses Feld ist eine Dropdown-Liste mit den verschiedenen Provinzen der Region (falls zutreffend). ) oder ausgewähltes Land, andernfalls müssen Sie den Namen der Provinz manuell eingeben. </li><li><b><i>Stadt: </i></b>Wenn in diesem Feld das ausgewählte Land <i>Spanien, Andorra, Vereinigte Staaten von Amerika, Argentinien, Bolivien, Chile, Kolumbien, Costa Rica, Kuba, Dominikanische Republik, Ecuador, El Salvador, Guatemala, Honduras, Mexiko, Nicaragua, Panama, Paraguay, Portugal, Peru, Puerto Rico, Uruguay oder Venezuela</i>, dieses Feld ist ein Dropdown-Feld Liste mit den verschiedenen Städten, die der ausgewählten Provinz entsprechen, andernfalls müssen Sie den Stadtnamen manuell eingeben. </li><li><b><i>E-Mail: </i></b>In diesem Feld müssen Sie die E-Mail-Adresse der Organisation oder des Dienstes eingeben.</li><li><b><i >Telefonnummer: </i></b>In diesem Feld müssen Sie die Telefonnummer der Organisation oder des Dienstes eingeben. Links von diesem Feld können Sie die Telefonvorwahl auswählen, die dem Land Ihrer Telefonnummer entspricht. Diese wird jedoch auch automatisch ausgewählt, wenn Sie den Wert im Dropdown-Menü „Land“ ändern.</li><li><b> <i>Weitere Informationen: </i></b>In diesem Feld können Sie zusätzliche Informationen über die Organisation oder den Dienst eingeben.</li><li><b><i>E-Mail des Direktors: </i></ b>In diesem Feld müssen Sie die E-Mail-Adresse des Direktors der Organisation oder des Dienstes eingeben. </li></ul><b>Vergessen Sie nicht zu akzeptieren, dass die <i>Fundación Miradas</i> Aufzeichnungen über Sie führt Daten gemäß dem Datenschutzgesetz.</b>";
+                    msg="Um eine Organisation korrekt zu bearbeiten, müssen Sie die folgenden Felder ausfüllen:" +
+                            "<ul>" +
+                            "<li><b>Name der Organisation: </b>In diesem Feld müssen Sie den Namen der Organisation eingeben, die hinzugefügt werden soll.</li>" +
+                            "<li><b>Adresse:</b>In diesem Feld müssen Sie die Postanschrift der Organisation eingeben, ohne Stadt, Region, Provinz oder Land einzugeben. Zum Beispiel: <i>Calle Valdenúñez, 8</i> .</li>" +
+                            "<li><b>Land:</b>In diesem Feld müssen Sie das Land auswählen, in dem sich Ihre Organisation befindet. Wenn das ausgewählte Land <i>Spanien, Andorra, Argentinien, Bolivien, Chile, Kolumbien, Costa Rica ist, Kuba, Dominikanische Republik, Ecuador, El Salvador, Guatemala, Honduras, Mexiko, Nicaragua, Panama, Paraguay, Portugal, Peru, Puerto Rico, Uruguay oder Venezuela</i>, die Felder <i><b>Region</b> </i>, <i><b>Provinz</b></i> und <i><b>Stadt</b></i> sind auswählbar, andernfalls müssen Sie sie manuell schreiben.</li>" +
+                            "<li><b>Region:</b>In diesem Feld müssen Sie die Region eingeben oder auswählen, in der sich die Organisation befindet. Das Feld ist für die folgenden Länder nicht verfügbar: <i>Andorra, Kuba, Puerto Rico und Uruguay</ i> durch die territoriale Aufteilung dieser Länder.</li>" +
+                            "<li><b>Provinz:</b>In diesem Feld müssen Sie die Provinz eingeben oder auswählen, in der sich die Organisation befindet.</li>" +
+                            "<li><b>Stadt:</b>In diesem Feld müssen Sie die Stadt eingeben oder auswählen, in der sich die Organisation befindet.</li>" +
+                            "<li><b>E-Mail: </b>In diesem Feld müssen Sie die E-Mail-Adresse der Organisation eingeben.</li>" +
+                            "<li><b>Telefonnummer: </b>In diesem Feld müssen Sie die Telefonnummer der Organisation eingeben. Wenn Sie möchten, können Sie das dem Land entsprechende Präfix auswählen, indem Sie es aus dem Dropdown-Menü auswählen Sie können es aber auch mit der Dropdown-Liste <i><b>Land</b></i> ändern.</li>" +
+                            "<li><b>Weitere Informationen:</b>In diesem Feld können Sie zusätzliche Informationen zu den Informationen eingeben, wenn Sie dies für angemessen halten.</li>" +
+                            "<li><b>E-Mail-Adresse des Direktors: </b>In diesem Feld müssen Sie die E-Mail-Adresse des Direktors der Organisation auswählen.</li>" +
+                            "</ul>" +
+                            "Wenn Sie möchten, können Sie ein Profilfoto hinzufügen, indem Sie auf <i><b>Foto ändern</b> klicken.</i>";
                 }else if(Locale.getDefault().getLanguage().equals("it")){
-                    msg="Per registrare un'organizzazione o un servizio, è necessario compilare i seguenti campi:<ul><li>Per poter aggiungere una foto del profilo, fare clic su <i>Cambia foto</i>. Successivamente ti verrà chiesto se desideri utilizzare la fotocamera del tuo dispositivo o altrimenti ottenerne una dalla galleria di immagini del tuo dispositivo </li><li><b><i>Nome dell'organizzazione o del servizio: </li><li> <b><i>Nome dell'organizzazione o del servizio: </ i></b>In questo campo è necessario inserire il nome dell'organizzazione o del servizio. </li><li><b><i>Indirizzo: </i></b>In questo campo è necessario inserire l'indirizzo postale dell'organizzazione o del servizio. Non dovresti inserire il paese, la regione, la provincia o la città. Ad esempio:<i>Calle Las Rebolledas, s/n</i> o <i>Calle Valdenúñez, 8</i>. Sono ammessi anche formati provenienti da altri paesi in quanto è un campo di testo libero </li><li><b><i>Paese: </i></b>In questo campo è necessario selezionare un paese tra quelli mostrati nel riquadro menu a discesa </li><li><b><i>Regione: </i></b>in questo campo, se il paese selezionato è <i>Spagna, Stati Uniti d'America, Argentina, Bolivia, Cile , Colombia, Costa Rica, Repubblica Dominicana, Ecuador, El Salvador, Guatemala, Honduras, Messico, Nicaragua, Panama, Paraguay, Portogallo, Perù o Venezuela</i>, questo campo sarà un elenco a discesa con le diverse regioni del paese selezionato, altrimenti dovrai inserire manualmente il nome della regione. Se il Paese selezionato è <i>Andorra, Cuba, Porto Rico o Uruguay</i>, non è necessario selezionare o scrivere il nome di una regione data la divisione territoriale di questi Paesi </li><li><b>< i >Provincia: </i></b>In questo campo, se il paese selezionato è <i>Spagna, Andorra, Stati Uniti d'America, Argentina, Bolivia, Cile, Colombia, Costa Rica, Cuba, Repubblica Dominicana, Ecuador , El Salvador, Guatemala, Honduras, Messico, Nicaragua, Panama, Paraguay, Portogallo, Perù, Porto Rico, Uruguay o Venezuela</i>, questo campo sarà un elenco a discesa con le diverse province della regione (se applicabile ) o il paese selezionato, altrimenti è necessario inserire manualmente il nome della provincia. </li><li><b><i>Città: </i></b>In questo campo, se il paese selezionato è <i>Spagna, Andorra, Stati Uniti d'America, Argentina, Bolivia, Cile, Colombia, Costa Rica, Cuba, Repubblica Dominicana, Ecuador, El Salvador, Guatemala, Honduras, Messico, Nicaragua, Panama, Paraguay, Portogallo, Perù, Porto Rico, Uruguay o Venezuela</i>, questo campo sarà un menu a discesa elenco con le diverse città corrispondenti alla provincia selezionata, altrimenti è necessario inserire manualmente il nome della città. </li><li><b><i>Email: </i></b>In questo campo è necessario inserire l'indirizzo email dell'organizzazione o del servizio.</li><li><b><i >Numero di telefono: </i></b>In questo campo è necessario inserire il numero di telefono dell'organizzazione o del servizio. A sinistra di questo campo puoi selezionare il prefisso telefonico corrispondente al paese del tuo numero di telefono, sebbene venga selezionato anche automaticamente quando si modifica il valore del menu a discesa del paese.</li><li><b> <i>Ulteriori informazioni: </i></b>In questo campo è possibile inserire ulteriori informazioni sull'organizzazione o sul servizio.</li><li><b><i>E-mail del direttore: </i></ b>In questo campo devi inserire l'indirizzo email del direttore dell'organizzazione o del servizio </li></ul><b>Non dimenticare di accettare che <i>Fundación Miradas</i> conservi un registro dei tuoi dati. dati in conformità con la Legge organica sulla protezione dei dati.</b>";
+                    msg="Per modificare correttamente un'organizzazione è necessario completare i seguenti campi:" +
+                            "<ul>" +
+                            "<li><b>Nome dell'organizzazione: </b>In questo campo devi inserire il nome dell'organizzazione da aggiungere.</li>" +
+                            "<li><b>Indirizzo: </b>In questo campo è necessario inserire l'indirizzo postale dell'organizzazione, senza inserire città, regione, provincia o paese. Ad esempio: <i>Calle Valdenúñez, 8</i> .</li>" +
+                            "<li><b>Paese: </b>in questo campo devi selezionare il paese in cui si trova la tua organizzazione. Se il paese selezionato è <i>Spagna, Andorra, Argentina, Bolivia, Cile, Colombia, Costa Rica, Cuba, Repubblica Dominicana, Ecuador, El Salvador, Guatemala, Honduras, Messico, Nicaragua, Panama, Paraguay, Portogallo, Perù, Porto Rico, Uruguay o Venezuela</i>, i campi <i><b>Regione</b> </i>, <i><b>Provincia</b></i> e <i><b>Città</b></i> saranno selezionabili, altrimenti dovrai scriverli manualmente.</li>" +
+                            "<li><b>Regione: </b>in questo campo è necessario inserire o selezionare la regione in cui si trova l'organizzazione. Campo non disponibile per i seguenti paesi: <i>Andorra, Cuba, Porto Rico e Uruguay</ i> dalla divisione territoriale di detti paesi.</li>" +
+                            "<li><b>Provincia: </b>In questo campo è necessario inserire o selezionare la provincia in cui ha sede l'organizzazione.</li>" +
+                            "<li><b>Città: </b>In questo campo è necessario inserire o selezionare la città in cui ha sede l'organizzazione.</li>" +
+                            "<li><b>E-mail: </b>In questo campo è necessario inserire l'e-mail corrispondente all'organizzazione.</li>" +
+                            "<li><b>Numero di telefono: </b>In questo campo è necessario inserire il numero di telefono dell'organizzazione. Se lo desideri, puoi selezionare il prefisso corrispondente al Paese selezionandolo dal menu a tendina su a sinistra, anche se puoi anche modificarlo dal menu a discesa <i><b>Paese</b></i>.</li>" +
+                            "<li><b>Ulteriori informazioni: </b>In questo campo puoi inserire ulteriori informazioni sulle informazioni se lo ritieni opportuno.</li>" +
+                            "<li><b>E-mail del direttore: </b>In questo campo è necessario selezionare l'e-mail corrispondente al direttore dell'organizzazione.</li>" +
+                            "</ul>" +
+                            "Se lo desideri, puoi aggiungere una foto del profilo facendo clic su <i><b>Cambia foto</b>.</i>";
                 }else if(Locale.getDefault().getLanguage().equals("pt")){
-                    msg="Para cadastrar uma organização ou serviço você deve preencher os seguintes campos:<ul><li>Para poder adicionar uma foto de perfil, clique em <i>Alterar foto</i>. Posteriormente, você será perguntado se deseja usar a câmera do seu dispositivo ou obter uma da galeria de imagens do seu dispositivo </li><li><b><i>Nome da organização ou serviço: </li><li>. <b><i>Nome da organização ou serviço: </ i></b>Neste campo você deve inserir o nome da organização ou serviço. </li><li><b><i>Endereço: </i></b>Neste campo você deve inserir o endereço postal da organização ou serviço. Você não deve entrar no país, na região, na província ou na cidade. Por exemplo:<i>Calle Las Rebolledas, s/n</i> ou <i>Calle Valdenúñez, 8</i>. Formatos de outros países também são permitidos por se tratar de um campo de texto livre </li><li><b><i>País: </i></b>Neste campo você deve selecionar um país dentre aqueles mostrados na caixa menu suspenso </li><li><b><i>Região: </i></b>Neste campo, se o país selecionado for <i>Espanha, Estados Unidos da América, Argentina, Bolívia, Chile, Colômbia, Costa Rica, República Dominicana, Equador, El Salvador, Guatemala, Honduras, México, Nicarágua, Panamá, Paraguai, Portugal, Peru ou Venezuela</i>, este campo será uma lista suspensa com as diferentes regiões do país selecionado, caso contrário você terá que inserir o nome da região manualmente. Se o país selecionado for <i>Andorra, Cuba, Porto Rico ou Uruguai</i>, não será necessário selecionar ou escrever um nome de região dada a divisão territorial desses países </li><li><b>< i >Província: </i></b>Neste campo, se o país selecionado for <i>Espanha, Andorra, Estados Unidos da América, Argentina, Bolívia, Chile, Colômbia, Costa Rica, Cuba, República Dominicana, Equador , El Salvador, Guatemala, Honduras, México, Nicarágua, Panamá, Paraguai, Portugal, Peru, Porto Rico, Uruguai ou Venezuela</i>, este campo será uma lista suspensa com as diferentes províncias da região (se aplicável ) ou país selecionado, caso contrário, você deverá inserir o nome da província manualmente. </li><li><b><i>Cidade: </i></b>Neste campo, se o país selecionado for <i>Espanha, Andorra, Estados Unidos da América, Argentina, Bolívia, Chile, Colômbia, Costa Rica, Cuba, República Dominicana, Equador, El Salvador, Guatemala, Honduras, México, Nicarágua, Panamá, Paraguai, Portugal, Peru, Porto Rico, Uruguai ou Venezuela</i>, este campo será um menu suspenso lista com as diferentes cidades correspondentes à província selecionada, caso contrário deverá inserir o nome da cidade manualmente. </li><li><b><i>E-mail: </i></b>Neste campo você deve inserir o endereço de e-mail da organização ou serviço.</li><li><b><i >Número de telefone: </i></b>Neste campo você deve inserir o número de telefone da organização ou serviço. À esquerda deste campo, você pode selecionar o prefixo telefônico correspondente ao país do seu número de telefone, embora também seja selecionado automaticamente ao alterar o valor do menu suspenso do país.</li><li><b> <i>Mais informações: </i></b>Neste campo você pode inserir informações adicionais sobre a organização ou serviço.</li><li><b><i>E-mail do diretor: </i></ b>Neste campo você deve inserir o endereço de e-mail do diretor da organização ou serviço </li></ul><b>Não se esqueça de aceitar que a <i>Fundación Miradas</i> mantenha registros de seus dados. dados de acordo com a Lei Orgânica de Proteção de Dados.</b>";
+                    msg="Para editar corretamente uma organização, deve preencher os seguintes campos:" +
+                    "<ul>" +
+                            "<li><b>Nome da organização: </b>Neste campo deve introduzir o nome da organização a adicionar.</li>" +
+                            "<li><b>Endereço: </b>Neste campo deve introduzir o endereço postal da organização, sem introduzir cidade, região, província ou país. Por exemplo: <i>Calle Valdenúñez, 8</i> .</li>" +
+                            "<li><b>País: </b>Neste campo deve selecionar o país onde se encontra a sua organização. Se o país selecionado for <i>Espanha, Andorra, Argentina, Bolívia, Chile, Colômbia, Costa Rica, Cuba , República Dominicana, Equador, El Salvador, Guatemala, Honduras, México, Nicarágua, Panamá, Paraguai, Portugal, Peru, Porto Rico, Uruguai ou Venezuela</i>, os campos <i><b>Região</b> </i>, <i><b>Província</b></i> e <i><b>Cidade</b></i> serão seleccionáveis, caso contrário terá de os escrever manualmente. </ li>" +
+                            "<li><b>Região: </b>Neste campo deve introduzir ou selecionar a região onde se encontra a organização. Campo não disponível para os seguintes países: <i>Andorra, Cuba, Porto Rico e Uruguai</ i> pela divisão territorial dos referidos países.</li>" +
+                            "<li><b>Província: </b>Neste campo deve introduzir ou selecionar a província onde se encontra a organização.</li>" +
+                            "<li><b>Cidade: </b>Neste campo deve introduzir ou selecionar a cidade onde se encontra a organização.</li>" +
+                            "<li><b>E-mail: </b>Neste campo deve introduzir o e-mail correspondente à organização.</li>" +
+                            "<li><b>Número de telefone: </b>Neste campo deve introduzir o número de telefone da organização. Se desejar, pode selecionar o prefixo correspondente ao país, selecionando-o no menu suspenso em à esquerda, embora possa também pode alterá-lo com o menu suspenso <i><b>País</b></i>.</li>" +
+                            "<li><b>Mais informação: </b>Neste campo pode introduzir informação adicional sobre a informação se considerar apropriado.</li>" +
+                            "<li><b>E-mail do diretor: </b>Neste campo deve selecionar o e-mail correspondente ao diretor da organização.</li>" +
+                            "</ul>" +
+                            "Se desejar, pode adicionar uma fotografia de perfil clicando em <i><b>Alterar fotografia</b>.</i>";
                 }else{
-                    msg="In order to register an organization or service, you must fill out the following fields:<ul><li>To be able to add a profile photo, click on <i>Change photo</i>. Later you will be asked if you want to use your device's camera or otherwise obtain one from your device's image gallery. </li><li><b><i>Name of the organization or service: </li><li><b><i>Name of the organization or service: </ i></b>In this field you must enter the name of the organization or service. </li><li><b><i>Address: </i></b>In this field you must enter the postal address of the organization or service. You should not enter the country, the region, the province, or the city. For example:<i>Calle Las Rebolledas, s/n</i> or <i>Calle Valdenúñez, 8</i>. Formats from other countries are also allowed as it is a free text field </li><li><b><i>Country: </i></b>In this field you must select a country from those shown in the dropdown. </li><li><b><i>Region: </i></b>In this field, if the selected country is <i>Spain, United States of America, Argentina, Bolivia, Chile , Colombia, Costa Rica, Dominican Republic, Ecuador, El Salvador, Guatemala, Honduras, Mexico, Nicaragua, Panama, Paraguay, Portugal, Peru or Venezuela</i>, this field will be a drop-down list with the different regions of the selected country, for Otherwise you will have to enter the region name manually. If the selected country is <i>Andorra, Cuba, Puerto Rico or Uruguay</i>, you do not need to select or write a region name given the territorial division of these countries </li><li><b><i >Province: </i></b>In this field, if the selected country is <i>Spain, Andorra, United States of America, Argentina, Bolivia, Chile, Colombia, Costa Rica, Cuba, Dominican Republic, Ecuador, El Salvador, Guatemala, Honduras, Mexico, Nicaragua, Panama, Paraguay, Portugal, Peru, Puerto Rico, Uruguay or Venezuela</i>, this field will be a drop-down list with the different provinces of the region (if applicable) or selected country, Otherwise, you must enter the name of the province manually. </li><li><b><i>City: </i></b>In this field, if the selected country is <i>Spain, Andorra, United States of America, Argentina, Bolivia, Chile, Colombia, Costa Rica, Cuba, Dominican Republic, Ecuador, El Salvador, Guatemala, Honduras, Mexico, Nicaragua, Panama, Paraguay, Portugal, Peru, Puerto Rico, Uruguay or Venezuela</i>, this field will be a drop-down list with the different cities corresponding to the selected province, otherwise you must enter the city name manually. </li><li><b><i>Email: </i></b>In this field you must enter the email address of the organization or service.</li><li><b><i >Phone number: </i></b>In this field you must enter the telephone number of the organization or service. To the left of this field, you can select the telephone prefix corresponding to the country of your telephone number, although it is also selected automatically when changing the value of the country drop-down menu.</li><li><b><i>More information : </i></b>In this field you can enter additional information about the organization or service.</li><li><b><i>Director's email: </i></b>In this field you must enter the email address of the director of the organization or service. </li></ul><b>Do not forget to accept that <i>Fundación Miradas</i> keeps records of your data in accordance with the Organic Law of Data Protection.</b>";
+                    msg="In order to register an organization or service, you must fill out the following fields:<ul><li>To be able to add a profile photo, click on <i>Change photo</i>. Later you will be asked if you want to use your device's camera or otherwise obtain one from your device's image gallery. </li><li><b><i>Name of the organization or service: </li><li><b><i>Name of the organization or service: </ i></b>In this field you must enter the name of the organization or service. </li><li><b><i>Address: </i></b>In this field you must enter the postal address of the organization or service. You should not enter the country, the region, the province, or the city. For example:<i>Calle Las Rebolledas, s/n</i> or <i>Calle Valdenúñez, 8</i>. Formats from other countries are also allowed as it is a free text field </li><li><b><i>Country: </i></b>In this field you must select a country from those shown in the dropdown. </li><li><b><i>Region: </i></b>In this field, if the selected country is <i>Spain, United States of America, Argentina, Bolivia, Chile , Colombia, Costa Rica, Dominican Republic, Ecuador, El Salvador, Guatemala, Honduras, Mexico, Nicaragua, Panama, Paraguay, Portugal, Peru or Venezuela</i>, this field will be a drop-down list with the different regions of the selected country, for Otherwise you will have to enter the region name manually. If the selected country is <i>Andorra, Cuba, Puerto Rico or Uruguay</i>, you do not need to select or write a region name given the territorial division of these countries </li><li><b><i>Province: </i></b>In this field, if the selected country is <i>Spain, Andorra, United States of America, Argentina, Bolivia, Chile, Colombia, Costa Rica, Cuba, Dominican Republic, Ecuador, El Salvador, Guatemala, Honduras, Mexico, Nicaragua, Panama, Paraguay, Portugal, Peru, Puerto Rico, Uruguay or Venezuela</i>, this field will be a drop-down list with the different provinces of the region (if applicable) or selected country, Otherwise, you must enter the name of the province manually. </li><li><b><i>City: </i></b>In this field, if the selected country is <i>Spain, Andorra, United States of America, Argentina, Bolivia, Chile, Colombia, Costa Rica, Cuba, Dominican Republic, Ecuador, El Salvador, Guatemala, Honduras, Mexico, Nicaragua, Panama, Paraguay, Portugal, Peru, Puerto Rico, Uruguay or Venezuela</i>, this field will be a drop-down list with the different cities corresponding to the selected province, otherwise you must enter the city name manually. </li><li><b><i>Email: </i></b>In this field you must enter the email address of the organization or service.</li><li><b><i>Phone number: </i></b>In this field you must enter the telephone number of the organization or service. To the left of this field, you can select the telephone prefix corresponding to the country of your telephone number, although it is also selected automatically when changing the value of the country drop-down menu.</li><li><b><i>More information : </i></b>In this field you can enter additional information about the organization or service.</li><li><b><i>Director's email: </i></b>In this field you must enter the email address of the director of the organization or service. </li></ul><b>Do not forget to accept that <i>Fundación Miradas</i> keeps records of your data in accordance with the Organic Law of Data Protection.</b>";
                 }
                 new android.app.AlertDialog.Builder(EditEvaluatedOrganization.this)
                         .setTitle(getString(R.string.help))
+                        .setIcon(android.R.drawable.ic_menu_help)
                         .setMessage(Html.fromHtml(msg,0))
                         .create().show();
             }
@@ -719,178 +838,211 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
                         ((FieldChecker.isPrecharged(idCountry[0]) && region[0] != null && idRegion[0] != -2 && province[0] != null && idProvince[0] != -2 && city[0] != null && idCity[0] != -2) ||
                                 (!idCountry[0].equals("-2") && !fields.get("nameRegion").isEmpty() && !fields.get("nameProvince").isEmpty() && !fields.get("nameCity").isEmpty()))){
 
-                    String informationEnglish="";
-                    String informationSpanish="";
-                    String informationFrench="";
-                    String informationBasque="";
-                    String informationCatalan="";
-                    String informationDutch="";
-                    String informationGalician="";
-                    String informationGerman="";
-                    String informationItalian="";
-                    String informationPortuguese="";
 
-                    String informationText=fields.get("information");
                     imgOrgName=Session.getInstance().getOrganization().getProfilePhoto();
 
                     if(photoChanged){
-                        FileManager.uploadFile(profilePhotoOrg, "profile-photos", imgOrgName);
-                        try{
-                            profilePhotoOrg.close();
-                            List<String> photo=new ArrayList<>();
-                            photo.add(imgOrgName);
-                            FileManager.downloadPhotosProfileAsync(photo, new FileManager.PhotosDownloadCallback() {
-                                @Override
-                                public void onPhotoDownloadSuccess(String fileName, ByteArrayOutputStream stream) {
-                                    ProfilePhotoUtil.getInstance().setImgOrg(ProfilePhotoUtil.getBitmapFromStream(stream));
-                                }
+                        new Thread(()->{
+                            FileManager.uploadFile(profilePhotoOrg, "profile-photos", imgOrgName);
+                            try{
+                                profilePhotoOrg.close();
+                                List<String> photo=new ArrayList<>();
+                                photo.add(imgOrgName);
+                                FileManager.downloadPhotosProfileAsync(photo, new FileManager.PhotosDownloadCallback() {
+                                    @Override
+                                    public void onPhotoDownloadSuccess(String fileName, ByteArrayOutputStream stream) {
+                                        ProfilePhotoUtil.getInstance().setImgOrg(ProfilePhotoUtil.getBitmapFromStream(stream));
+                                    }
 
-                                @Override
-                                public void onPhotoDownloadFailure(String fileName, Exception e) {
+                                    @Override
+                                    public void onPhotoDownloadFailure(String fileName, Exception e) {
 
-                                }
-                            });
-                        }catch(IOException e){
-                            e.printStackTrace();
-                        }
+                                    }
+                                });
+                            }catch(IOException e){
+                                e.printStackTrace();
+                            }
+                        }).start();
+
                     }
 
-                    if(!informationText.isEmpty()){
-                        List<String> translations= TranslatorController.getInstance().translate(informationText, Locale.getDefault().getLanguage());
+                    new Thread(()->{
+                        String informationEnglish="";
+                        String informationSpanish="";
+                        String informationFrench="";
+                        String informationBasque="";
+                        String informationCatalan="";
+                        String informationDutch="";
+                        String informationGalician="";
+                        String informationGerman="";
+                        String informationItalian="";
+                        String informationPortuguese="";
+
+                        String informationText=fields.get("information");
+                        if(!informationText.isEmpty()){
+                            List<String> translations= TranslatorController.getInstance().translate(informationText, Locale.getDefault().getLanguage());
+                            if(Locale.getDefault().getLanguage().equals("es")){
+                                informationEnglish= translations.get(0);
+                                informationSpanish= informationText;
+                                informationFrench= translations.get(1);
+                                informationBasque= translations.get(2);
+                                informationCatalan= translations.get(3);
+                                informationDutch= translations.get(4);
+                                informationGalician= translations.get(5);
+                                informationGerman= translations.get(6);
+                                informationItalian= translations.get(7);
+                                informationPortuguese= translations.get(8);
+                            }else if(Locale.getDefault().getLanguage().equals("fr")){
+                                informationEnglish= translations.get(0);
+                                informationSpanish= translations.get(1);
+                                informationFrench=informationText;
+                                informationBasque= translations.get(2);
+                                informationCatalan= translations.get(3);
+                                informationDutch= translations.get(4);
+                                informationGalician= translations.get(5);
+                                informationGerman= translations.get(6);
+                                informationItalian= translations.get(7);
+                                informationPortuguese= translations.get(8);
+                            }else if(Locale.getDefault().getLanguage().equals("eu")){
+                                informationEnglish= translations.get(0);
+                                informationSpanish= translations.get(1);
+                                informationFrench= translations.get(2);
+                                informationBasque=informationText;
+                                informationCatalan= translations.get(3);
+                                informationDutch= translations.get(4);
+                                informationGalician= translations.get(5);
+                                informationGerman= translations.get(6);
+                                informationItalian= translations.get(7);
+                                informationPortuguese= translations.get(8);
+                            }else if(Locale.getDefault().getLanguage().equals("ca")){
+                                informationEnglish= translations.get(0);
+                                informationSpanish= translations.get(1);
+                                informationFrench= translations.get(2);
+                                informationBasque= translations.get(3);
+                                informationCatalan=informationText;
+                                informationDutch= translations.get(4);
+                                informationGalician= translations.get(5);
+                                informationGerman= translations.get(6);
+                                informationItalian= translations.get(7);
+                                informationPortuguese= translations.get(8);
+                            }else if(Locale.getDefault().getLanguage().equals("nl")){
+                                informationEnglish= translations.get(0);
+                                informationSpanish= translations.get(1);
+                                informationFrench= translations.get(2);
+                                informationBasque= translations.get(3);
+                                informationCatalan= translations.get(4);
+                                informationDutch=informationText;
+                                informationGalician= translations.get(5);
+                                informationGerman= translations.get(6);
+                                informationItalian= translations.get(7);
+                                informationPortuguese= translations.get(8);
+                            }else if(Locale.getDefault().getLanguage().equals("gl")){
+                                informationEnglish= translations.get(0);
+                                informationSpanish= translations.get(1);
+                                informationFrench= translations.get(2);
+                                informationBasque= translations.get(3);
+                                informationCatalan= translations.get(4);
+                                informationDutch= translations.get(5);
+                                informationGalician=informationText;
+                                informationGerman= translations.get(6);
+                                informationItalian= translations.get(7);
+                                informationPortuguese= translations.get(8);
+                            }else if(Locale.getDefault().getLanguage().equals("de")){
+                                informationEnglish= translations.get(0);
+                                informationSpanish= translations.get(1);
+                                informationFrench= translations.get(2);
+                                informationBasque= translations.get(3);
+                                informationCatalan= translations.get(4);
+                                informationDutch= translations.get(5);
+                                informationGalician= translations.get(6);
+                                informationGerman=informationText;
+                                informationItalian= translations.get(7);
+                                informationPortuguese= translations.get(8);
+                            }else if(Locale.getDefault().getLanguage().equals("it")){
+                                informationEnglish= translations.get(0);
+                                informationSpanish= translations.get(1);
+                                informationFrench= translations.get(2);
+                                informationBasque= translations.get(3);
+                                informationCatalan= translations.get(4);
+                                informationDutch= translations.get(5);
+                                informationGalician= translations.get(6);
+                                informationGerman= translations.get(7);
+                                informationItalian=informationText;
+                                informationPortuguese= translations.get(8);
+                            }else if(Locale.getDefault().getLanguage().equals("pt")){
+                                informationEnglish= translations.get(0);
+                                informationSpanish= translations.get(1);
+                                informationFrench= translations.get(2);
+                                informationBasque= translations.get(3);
+                                informationCatalan= translations.get(4);
+                                informationDutch= translations.get(5);
+                                informationGalician= translations.get(6);
+                                informationGerman= translations.get(7);
+                                informationItalian= translations.get(8);
+                                informationPortuguese=informationText;
+                            }else{
+                                informationEnglish= informationText;
+                                informationSpanish= translations.get(0);
+                                informationFrench= translations.get(1);
+                                informationBasque= translations.get(2);
+                                informationCatalan= translations.get(3);
+                                informationDutch= translations.get(4);
+                                informationGalician= translations.get(5);
+                                informationGerman= translations.get(6);
+                                informationItalian= translations.get(7);
+                                informationPortuguese= translations.get(8);
+                            }
+
+                        }
+
+
+                        Address address = new Address(idAddress, fields.get("address"), idCity[0],idProvince[0],idRegion[0],idCountry[0],fields.get("nameCity"),fields.get("nameProvince"),fields.get("nameRegion"));
+
+                        Organization organization=new Organization(idOrganization,orgType,illness,fields.get("nameOrg"),idAddress,fields.get("emailOrg"),fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),informationSpanish,informationEnglish,informationFrench,informationBasque,informationCatalan,informationDutch,informationGalician,informationGerman,informationItalian,informationPortuguese,imgOrgName);
+
+                        AddressesController.getInstance().Update(idAddress,address);
+                        OrganizationsController.getInstance().Update(idOrganization,orgType,illness,organization);
+                        Session.getInstance().setOrganization(organization);
+                        CentersController.getInstance().Update(idOrganization,orgType,illness,1,new Center(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),1,"Headquarters","Sede principal","Siège social","Egoitza","Seu principal","Hoofdkwartier","Sede principal","Hauptsitz","Sede principale","Sede principal",idAddress,fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),fields.get("emailOrg"),imgOrgName));
+                        if(!Session.getInstance().getUser().getEmailUser().equals(director.getEmailUser())) {
+                            director.setUserType("DIRECTOR");
+                            User user=Session.getInstance().getUser();
+                            user.setUserType("ORGANIZATION");
+                            UsersController.Update(director.getEmailUser(),director);
+                            UsersController.Update(user.getEmailUser(),user);
+                            Session.getInstance().setUser(user);
+                        }
+
+                        String msg="";
                         if(Locale.getDefault().getLanguage().equals("es")){
-                            informationEnglish= translations.get(0);
-                            informationSpanish= informationText;
-                            informationFrench= translations.get(1);
-                            informationBasque= translations.get(2);
-                            informationCatalan= translations.get(3);
-                            informationDutch= translations.get(4);
-                            informationGalician= translations.get(5);
-                            informationGerman= translations.get(6);
-                            informationItalian= translations.get(7);
-                            informationPortuguese= translations.get(8);
+                            msg="La organización <b>"+organization.getNameOrg()+"</b> se ha modificado correctamente" ;
                         }else if(Locale.getDefault().getLanguage().equals("fr")){
-                            informationEnglish= translations.get(0);
-                            informationSpanish= translations.get(1);
-                            informationFrench=informationText;
-                            informationBasque= translations.get(2);
-                            informationCatalan= translations.get(3);
-                            informationDutch= translations.get(4);
-                            informationGalician= translations.get(5);
-                            informationGerman= translations.get(6);
-                            informationItalian= translations.get(7);
-                            informationPortuguese= translations.get(8);
+                            msg="L'organisation <b>"+organization.getNameOrg()+"</b> a été modifiée avec succès" ;
                         }else if(Locale.getDefault().getLanguage().equals("eu")){
-                            informationEnglish= translations.get(0);
-                            informationSpanish= translations.get(1);
-                            informationFrench= translations.get(2);
-                            informationBasque=informationText;
-                            informationCatalan= translations.get(3);
-                            informationDutch= translations.get(4);
-                            informationGalician= translations.get(5);
-                            informationGerman= translations.get(6);
-                            informationItalian= translations.get(7);
-                            informationPortuguese= translations.get(8);
+                            msg="<b>"+organization.getNameOrg()+"</b> erakundea behar bezala aldatu da" ;
                         }else if(Locale.getDefault().getLanguage().equals("ca")){
-                            informationEnglish= translations.get(0);
-                            informationSpanish= translations.get(1);
-                            informationFrench= translations.get(2);
-                            informationBasque= translations.get(3);
-                            informationCatalan=informationText;
-                            informationDutch= translations.get(4);
-                            informationGalician= translations.get(5);
-                            informationGerman= translations.get(6);
-                            informationItalian= translations.get(7);
-                            informationPortuguese= translations.get(8);
+                            msg="L'organització <b>"+organization.getNameOrg()+"</b> s'ha modificat correctament" ;
                         }else if(Locale.getDefault().getLanguage().equals("nl")){
-                            informationEnglish= translations.get(0);
-                            informationSpanish= translations.get(1);
-                            informationFrench= translations.get(2);
-                            informationBasque= translations.get(3);
-                            informationCatalan= translations.get(4);
-                            informationDutch=informationText;
-                            informationGalician= translations.get(5);
-                            informationGerman= translations.get(6);
-                            informationItalian= translations.get(7);
-                            informationPortuguese= translations.get(8);
+                            msg="De organisatie <b>"+organization.getNameOrg()+"</b> is met succes aangepast" ;
                         }else if(Locale.getDefault().getLanguage().equals("gl")){
-                            informationEnglish= translations.get(0);
-                            informationSpanish= translations.get(1);
-                            informationFrench= translations.get(2);
-                            informationBasque= translations.get(3);
-                            informationCatalan= translations.get(4);
-                            informationDutch= translations.get(5);
-                            informationGalician=informationText;
-                            informationGerman= translations.get(6);
-                            informationItalian= translations.get(7);
-                            informationPortuguese= translations.get(8);
+                            msg="A organización <b>"+organization.getNameOrg()+"</b> modificouse correctamente" ;
                         }else if(Locale.getDefault().getLanguage().equals("de")){
-                            informationEnglish= translations.get(0);
-                            informationSpanish= translations.get(1);
-                            informationFrench= translations.get(2);
-                            informationBasque= translations.get(3);
-                            informationCatalan= translations.get(4);
-                            informationDutch= translations.get(5);
-                            informationGalician= translations.get(6);
-                            informationGerman=informationText;
-                            informationItalian= translations.get(7);
-                            informationPortuguese= translations.get(8);
+                            msg="Die <b>"+organization.getNameOrg()+"</b>-Organisation wurde erfolgreich geändert";
                         }else if(Locale.getDefault().getLanguage().equals("it")){
-                            informationEnglish= translations.get(0);
-                            informationSpanish= translations.get(1);
-                            informationFrench= translations.get(2);
-                            informationBasque= translations.get(3);
-                            informationCatalan= translations.get(4);
-                            informationDutch= translations.get(5);
-                            informationGalician= translations.get(6);
-                            informationGerman= translations.get(7);
-                            informationItalian=informationText;
-                            informationPortuguese= translations.get(8);
-                        }else if(Locale.getDefault().getLanguage().equals("pt")){
-                            informationEnglish= translations.get(0);
-                            informationSpanish= translations.get(1);
-                            informationFrench= translations.get(2);
-                            informationBasque= translations.get(3);
-                            informationCatalan= translations.get(4);
-                            informationDutch= translations.get(5);
-                            informationGalician= translations.get(6);
-                            informationGerman= translations.get(7);
-                            informationItalian= translations.get(8);
-                            informationPortuguese=informationText;
+                            msg="L'organizzazione <b>"+organization.getNameOrg()+"</b> è stata modificata con successo" ;
+                        }else if(Locale.getDefault().getLanguage().equals("pt")) {
+                            msg = "A organização <b>"+organization.getNameOrg()+"</b> foi modificada com sucesso";
                         }else{
-                            informationEnglish= informationText;
-                            informationSpanish= translations.get(0);
-                            informationFrench= translations.get(1);
-                            informationBasque= translations.get(2);
-                            informationCatalan= translations.get(3);
-                            informationDutch= translations.get(4);
-                            informationGalician= translations.get(5);
-                            informationGerman= translations.get(6);
-                            informationItalian= translations.get(7);
-                            informationPortuguese= translations.get(8);
+                            msg="The <b>"+organization.getNameOrg()+"</b> organization has been successfully modified" ;
                         }
+                        StringPasser.createInstance(msg);
+                        runOnUiThread(()->{
+                            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+                            setResult(RESULT_OK,intent);
+                            finish();
+                        });
+                    }).start();
 
-                    }
-
-
-                    Address address = new Address(idAddress, fields.get("address"), idCity[0],idProvince[0],idRegion[0],idCountry[0],fields.get("nameCity"),fields.get("nameProvince"),fields.get("nameRegion"));
-
-                    Organization organization=new Organization(idOrganization,orgType,illness,fields.get("nameOrg"),idAddress,fields.get("emailOrg"),fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),informationSpanish,informationEnglish,informationFrench,informationBasque,informationCatalan,informationDutch,informationGalician,informationGerman,informationItalian,informationPortuguese,imgOrgName);
-
-                    AddressesController.getInstance().Update(idAddress,address);
-                    OrganizationsController.getInstance().Update(idOrganization,orgType,illness,organization);
-                    Session.getInstance().setOrganization(organization);
-                    CentersController.getInstance().Update(idOrganization,orgType,illness,1,new Center(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),1,"Headquarters","Sede principal","Siège social","Egoitza","Seu principal","Hoofdkwartier","Sede principal","Hauptsitz","Sede principale","Sede principal",idAddress,fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),fields.get("emailOrg"),imgOrgName));
-                    if(!Session.getInstance().getUser().getEmailUser().equals(director.getEmailUser())) {
-                        director.setUserType("DIRECTOR");
-                        User user=Session.getInstance().getUser();
-                        user.setUserType("ORGANIZATION");
-                        UsersController.Update(director.getEmailUser(),director);
-                        UsersController.Update(user.getEmailUser(),user);
-                        Session.getInstance().setUser(user);
-                    }
-
-                    Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-                    startActivity(intent);
 
 
                 }else{
@@ -1003,7 +1155,8 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if(keyCode==event.KEYCODE_BACK){
             Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-            startActivity(intent);
+            setResult(RESULT_CANCELED,intent);
+            finish();
         }
         return super.onKeyDown(keyCode,event);
     }
@@ -1157,7 +1310,8 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
             public void onError(String errorResponse) {
                 runOnUiThread(()->{
                     Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-                    startActivity(intent);
+                    setResult(RESULT_CANCELED,intent);
+                    finish();
                 });
             }
         });
@@ -1205,7 +1359,8 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
             public void onError(String errorResponse) {
                 runOnUiThread(()->{
                     Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-                    startActivity(intent);
+                    setResult(RESULT_CANCELED,intent);
+                    finish();
                 });
             }
         });
@@ -1256,7 +1411,8 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
             public void onError(String errorResponse) {
                 runOnUiThread(()->{
                     Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-                    startActivity(intent);
+                    setResult(RESULT_CANCELED,intent);
+                    finish();
                 });
             }
         });

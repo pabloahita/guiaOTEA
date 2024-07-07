@@ -168,7 +168,7 @@ public class SelectToEditEvaluatorTeam extends AppCompatActivity {
                             public void onClick(View v) {
                                 if (evaluatorTeam.getIdEvaluatorTeam() != -1) {
                                     new AlertDialog.Builder(SelectToEditEvaluatorTeam.this)
-                                            .setMessage("¿Está seguro que desea eliminar este equipo evaluador? Tenga en cuenta que todas las evaluaciones de indicadores relacionadas a este equipo evaluador serán eliminados también")
+                                            .setMessage(R.string.are_you_sure_del_eval_team)
                                             .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
@@ -189,7 +189,10 @@ public class SelectToEditEvaluatorTeam extends AppCompatActivity {
                                                             evaluatorTeam=evaluatorTeams.get(0);
                                                             base.setVisibility(View.VISIBLE);
                                                             final_background.setVisibility(View.GONE);
-                                                            Toast.makeText(SelectToEditEvaluatorTeam.this, "Equipo evaluador eliminado satisfactoriamente", Toast.LENGTH_LONG).show();
+                                                            new AlertDialog.Builder(SelectToEditEvaluatorTeam.this)
+                                                                    .setMessage(R.string.eval_team_deleted)
+                                                                    .setPositiveButton(R.string.understood,null)
+                                                                    .create().show();
                                                         });
                                                     }).start();
                                                 }

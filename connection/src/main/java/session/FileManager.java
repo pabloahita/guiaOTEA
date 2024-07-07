@@ -238,6 +238,51 @@ public class FileManager {
         }).start();
     }
 
+    public static void deleteBlobsAsync(List<String> fileNames) {
+        CountDownLatch latch = new CountDownLatch(fileNames.size());
+        List<ByteArrayOutputStream> resultStreams = new ArrayList<>();
+
+        for (String fileName : fileNames) {
+            // Get the BlobContainerClient
+            BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient("profile-photos");
+            // Get the BlobClient
+            BlobClient blobClient = containerClient.getBlobClient(fileName);
+
+            if(!fileName.isEmpty()) {
+                new Thread(() -> {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    try {
+                        blobClient.delete();
+                        numAttempts = 0;
+                    } catch (Exception e) {
+                        if (e.getCause() instanceof SocketTimeoutException) {
+                            numAttempts++;
+                            if (numAttempts < 3) {
+                                // Intentar nuevamente la descarga recursivamente
+                                deleteBlobsAsync(Collections.singletonList(fileName));
+                            } else {
+                                numAttempts = 0;
+                                // Llamar al callback en caso de falla después de varios intentos
+                            }
+                        } else {
+                            // Llamar al callback en caso de otro tipo de error
+                        }
+                    } finally {
+                        latch.countDown(); // Reducir el contador del latch cuando una descarga se completa
+                    }
+                }).start();
+            }else{
+
+            }
+        }
+
+        try {
+            latch.await(); // Esperar hasta que todas las descargas se completen
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 

@@ -72,7 +72,7 @@
     <string name="add_new_center">Ajouter un nouveau centre d\'organisation évaluée</string>
     <string name="add_new_indicators_evaluation">Ajouter un nouveau test d\'indicateurs</string>
     <string name="add_new_evaluated_organization">Ajouter une organisation ou un service</string>
-    <string name="org_name">Nom de l\'organisation ou du service</string>
+    <string name="org_name">Nom de l\'organisation</string>
     <string name="org_address">Adresse</string>
     <string name="org_zipcode">Code postal</string>
     <string name="org_city">Ville</string>
@@ -96,8 +96,8 @@
     <string name="please_director">Veuillez entrez un directeur d\'organisation</string>
     <string name="please_professional">Veuillez sélectionner un professionnel des soins directs</string>
     <string name="please_wait_login">Connexion à la base de données pour se connecter. Veuillez patienter quelques secondes...</string>
-    <string name="please_wait_register_user">Connexion à la base de données pour enregistrer l\'utilisateur. Veuillez patienter quelques secondes...</string>
-    <string name="please_wait_reg_orgs">Connexion à la base de données pour enregistrer l\'organisation. Veuillez patienter quelques secondes....</string>
+    <string name="please_wait_register_user">Enregistrement de l\'utilisateur... Veuillez patienter quelques secondes...</string>
+    <string name="please_wait_reg_orgs">Enregistrement de l\'organisation... Veuillez patienter quelques instants...</string>
     <string name="please_wait">Connexion à la base de données... Veuillez patienter quelques secondes...</string>
     <string name="do_you_want_to_exit_otea">Voulez-vous quitter OTEA?</string>
     <string name="yes">Oui</string>
@@ -115,7 +115,7 @@
     <string name="please_evaluated_org">Veuillez sélectionner une organisation évaluée</string>
     <string name="please_consultant">Veuillez sélectionner un consultant externe</string>
     <string name="please_responsible">Veuillez sélectionner un responsable</string>
-    <string name="evaluated_org">Organisation ou service</string>
+    <string name="evaluated_org">Organisation</string>
     <string name="consultant">Consultant externe</string>
     <string name="professional">Professionnel de la fréquentation directe</string>
     <string name="responsible">Responsable</string>
@@ -311,4 +311,24 @@
     <string name="delete">Supprimer</string>
     <string name="no_center">Il n\'existe aucun centre supplémentaire dans votre organisation. Veuillez sélectionner une autre option dans le menu principal.</string>
     <string name="no_existant_eval_team">Il n\'y a aucune équipe d\'évaluation dans votre organisation. Veuillez sélectionner une autre option dans le menu principal.</string>
+    <string name="sending_request">Envoi de la demande d\'enregistrement...</string>
+    <string name="registering_user">Enregistrement de l\'utilisateur...</string>
+    <string name="back_to_login_str">Retour à l\'écran de connexion...</string>
+    <string name="eval_team_added_sucessful">L\'équipe d\'évaluation a été ajoutée avec succès</string>
+    <string name="eval_team_edited_sucessful">L’équipe d’évaluation a été modifiée de manière satisfaisante</string>
+    <string name="user_edited">Votre utilisateur a été modifié avec succès</string>
+    <string name="ind_eval_reg_suc">L\'évaluation des indicateurs a été enregistrée de manière satisfaisante. Vous pourrez continuer plus tard</string>
+    <string name="ind_eval_reg_suc_end">L\'évaluation des indicateurs est terminée et a été enregistrée de manière satisfaisante</string>
+    <string name="email_dir">Courriel du directeur</string>
+    <string name="in_this_sec_see_ind">Dans cette section, vous pouvez voir les résultats du test des indicateurs, en choisissant parmi les options suivantes :</string>
+    <string name="info_see_ind_hlp">En appuyant sur ce bouton, vous aurez accès aux données d\'identification de l\'équipe d\'évaluation, à ses membres, au processus d\'évaluation, à l\'évaluation générale, aux points forts et aux résultats par niveau et nombre de preuves marquées.</string>
+    <string name="res_see_ind_hlp">En appuyant sur ce bouton, vous accéderez au tableau des résultats des indicateurs. Il fonctionne comme une photo dans votre application Galerie; vous pouvez zoomer et dézoomer, ainsi que faire défiler dessus. En appuyant sur un indicateur, des informations sur les preuves marquées et les opportunités d\'amélioration liées à cet indicateur apparaîtront.</string>
+    <string name="hlp_see_ind_hlp">En appuyant sur ce bouton, vous accéderez à ce menu d\'aide.</string>
+    <string name="please_wait_save_changes">Enregistrement des modifications... Veuillez patienter quelques secondes...</string>
+    <string name="please_wait_register_center">Enregistrement du centre ou du service... Veuillez patienter quelques instants...</string>
+    <string name="please_wait_eval_team">Enregistrement de l\'équipe d\'évaluation... Veuillez patienter quelques secondes...</string>
+    <string name="are_you_sure_del_center">Êtes-vous sûr de vouloir supprimer ce centre? Veuillez noter que toutes les équipes d\'évaluation et les évaluations des indicateurs liés à ce centre seront également supprimées</string>
+    <string name="center_deleted">Centre supprimé avec succès</string>
+    <string name="are_you_sure_del_eval_team">Êtes-vous sûr de vouloir supprimer cette équipe d\'évaluation ? Veuillez noter que toutes les évaluations d\'indicateurs liées à cette équipe d\'évaluation seront également supprimées</string>
+    <string name="eval_team_deleted">Équipe d\'évaluation supprimée avec succès</string>
 </resources>

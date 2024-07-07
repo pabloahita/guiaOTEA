@@ -295,15 +295,15 @@ En contraparte, los principales inconvenientes de Android Studio son los siguien
 \subsection{Lado del cliente}
 \subsubsection{\textit{Java}} En el lado del cliente se ha utilizado Java como
 lenguaje de programación debido a que, como se ha mencionado en la sección
-anterior, dicho lenguaje ya se había utilizado en las asignaturas de Metodología
-de la Programación, Estructuras de Datos, Interacción Hombre-Máquina,
-Programación Concurrente y de Tiempo Real, Aplicaciones de Bases de Datos,
-Testes e Qualidade de Software (equivalente en el \textit{Instituto Superior de
-Engenharia de Coimbra} a la asignatura Validación de Datos de esta universidad)
-y Sistemas Distribuidos, por lo que esta decisión viene respaldada por la
-experiencia otorgada por los docentes de dichas asignaturas durante todo el
-grado.
-\\
+anterior, dicho lenguaje ya se había utilizado en las asignaturas del grado de
+Metodología de la Programación, Estructuras de Datos, Interacción
+Hombre-Máquina, Programación Concurrente y de Tiempo Real, Aplicaciones de Bases
+de Datos, Testes e Qualidade de Software (equivalente en el \textit{Instituto
+Superior de Engenharia de Coimbra} a la asignatura Validación de Datos de esta
+universidad) y Sistemas Distribuidos, además de las asignaturas de máster
+Arquitectura y servicios de internet y Sistemas de Información Avanzados. Por lo
+que esta decisión viene respaldada por la experiencia otorgada por los docentes
+de dichas asignaturas durante todo el grado. \\
 Java es un lenguaje de programación y una plataforma informática que fue
 comercializada por primera vez en 1995 por Sun Microsystems.
 \\
@@ -317,64 +317,12 @@ virtual Java (JVM) sin importar la arquitectura de la computadora subyacente.
 \\
 Por lo tanto, para el lado del cliente se han utilizado las siguientes herramientas de Java:
 \begin{itemize}
-    \item \textit{ASyncTask: } \textit{ASyncTask} es una herramienta que se
-    utiliza en el código para realizar las peticiones al servidor desde el
-    cliente en segundo plano. A pesar de que lleva depreciada desde la API 30,
-    sigue siendo una herramienta de gran utilidad para realizar estas peticiones
-    a la base de datos y para obtener la respuesta a las mismas, por lo que
-    supone una gran ayuda para la comunicación con el servidor de
-    \textit{Azure}. Entre las herramientas similares a \textit{ASyncTask} se
-    podía haber utilizado el paquete \textit{java.util.concurrent} y
-    \textit{call} de \textit{Retrofit} (que sí que se utiliza para construir el
-    enlace base para la comunicación del cliente). El motivo por el cual se ha
-    optado por utilizar ASyncTask es por ser una herramienta específica de
-    Android y por la posibilidad que tiene de devolver los resultados de las
-    operaciones, algo que es más complicado en las alternativas anteriormente
-    mencionadas. \textit{ASyncTask} está diseñado para ser una clase auxiliar
-    que no constituye un marco genérico de subprocesos. Idealmente, AsyncTask
-    debe usarse para operaciones cortas (unos pocos segundos como máximo). Si
-    necesita mantener subprocesos en ejecución durante largos períodos de
-    tiempo, se recomienda encarecidamente que use las diversas API
-    proporcionadas por el paquete java.util.concurrent, como Executor,
-    ThreadPoolExecutor y FutureTask, lo cual no se ha llegado a necesitar en
-    este caso. La tarea asincrónica se define mediante un cálculo que se ejecuta
-    en un subproceso en segundo plano y cuyo resultado se publica en el
-    subproceso de la interfaz de usuario. Una tarea asíncrona se define por 3
-    tipos genéricos, llamados \texttt{Params}, \texttt{Progress} y
-    \texttt{Result}, y 4 pasos, llamados \texttt{onPreExecute},
-    \texttt{doInBackground}, \texttt{onProgressUpdate} y \texttt{onPostExecute}
-    (sólo se han utilizado \texttt{doInBackground} y \texttt{onPostExecute}). 
-
-    Aquí se muestra un pequeño ejemplo sobre el uso de \textit{ASyncTask}:
+    %Sustituir AsyncTask. Decir que AsyncTask ha sido sustituido por java.util.concurrent y por CompletableFuture dependiendo de las exigencias 
+    \item \texttt{java.util.concurrent}
     \begin{lstlisting}
-        private class DownloadFilesTask extends AsyncTask<URL, Integer, Long> {
-            protected Long doInBackground(URL... urls) {
-                int count = urls.length;
-                long totalSize = 0;
-                for (int i = 0; i < count; i++) {
-                    totalSize += Downloader.downloadFile(urls[i]);
-                    publishProgress((int) ((i / (float) count) * 100));
-                    // Escape early if cancel() is called
-                    if (isCancelled()) break;
-                }
-                return totalSize;
-            }
-
-            protected void onProgressUpdate(Integer... progress) {
-                setProgressPercent(progress[0]);
-            }
-
-            protected void onPostExecute(Long result) {
-                showDialog("Downloaded " + result + " bytes");
-            }
-        }
+        
     \end{lstlisting}
-    Como se puede comprobar, en primer lugar se van descargando los ficheros en
-    el \texttt{doInBackground}, los cuales se obtienen del parámetro
-    \texttt{Params} que es URL, luego el progreso se va estableciendo en el
-    \texttt{onProgressUpdate} a medida que van avanzando las descargas y, por
-    último, muestra un mensaje en el \texttt{onPostExecute} en el que se muestra
-    el número de bytes descargados, como tercer parámetro \texttt{Result}.
+    
     \item \textit{OKHttp: }
     OkHttp es un cliente HTTP que es eficiente por defecto, ya que:
     \begin{itemize}
@@ -511,5 +459,150 @@ En cuanto a las opciones de implementación de base de datos de Azure SQL, podem
     puede permitir el movimiento de una sola base de datos. Éste no se ha implementado en esta aplicación, aunque 
 \end{itemize}
 
+\section{Sistema experto}
+\cite{innovaciondigital360SistemasExpertos}
+Los sistemas expertos, enmarcados en el campo de la Inteligencia Artificial
+(IA), son programas informáticos que emulan la capacidad de una persona experta
+en un dominio de conocimiento o área de actividad específica.
+\\
+Su evolución y historia se remontan a las décadas de 1960 y 1970, cuando los
+pioneros en la IA, como Allen Newell y Herbert A. Simon, desarrollaron los
+primeros sistemas de razonamiento basados en reglas. Estos sistemas se centraron
+en la resolución de problemas mediante la aplicación de lógica inductiva y
+deductiva.
+\\
+A medida que avanzaba el tiempo, los sistemas de conocimiento experimentaron un
+crecimiento significativo en la década de 1980, con el desarrollo de
+herramientas como MYCIN para el diagnóstico médico y Dendral para la
+identificación de compuestos químicos. Esta era también vio la creación de
+herramientas de desarrollo de sistemas expertos, como CLIPS. Sin embargo, a
+medida que avanzaba la década de 1990, los sistemas expertos enfrentaron
+desafíos debido a su dependencia en la representación de conocimiento y la
+captura de reglas, lo que llevó a una mayor exploración de otras ramas de la IA,
+como el aprendizaje automático. A pesar de esto, los sistemas expertos siguen
+siendo una parte importante de la IA, y con la evolución tecnológica actual,
+continúan desempeñando un papel relevante en la toma de decisiones automatizada.
+\\
+La tecnología subyacente que impulsa a los sistemas expertos se basa en varios conceptos fundamentales, entre los que se incluyen:
+\begin{itemize}
+    \item \textbf{Reglas Heurísticas:} Las reglas heurísticas son pautas o
+    principios empíricos que guían el razonamiento humano. En los sistemas
+    expertos, se utilizan reglas heurísticas para codificar el conocimiento de
+    expertos en forma de \textit{si-entonces}. Por ejemplo, \textit{Si se han marcado 4
+    evidencias en el indicador, el indicador se marca como conseguido.} Estas
+    reglas permiten que el sistema experto tome decisiones basadas en la
+    experiencia acumulada.
+    \item \textbf{Lógica Difusa:} La lógica difusa es un enfoque que permite
+    manejar la incertidumbre y la imprecisión en el razonamiento. A diferencia
+    de la lógica binaria convencional (verdadero o falso), la lógica difusa
+    permite representar grados de verdad. Esto es especialmente útil cuando se
+    trata con conceptos vagos o subjetivos. Por ejemplo, en la obtención del
+    nivel de la evaluación de indicadores, obtenemos cinco niveles a partir de
+    la puntuación total, los cuales son: \textit{excelente, muy bueno, bueno,
+    mejorable} y \textit{muy mejorable}, lo cual ayuda a determinar cómo de
+    bien se ha cumplido la evaluación de indicadores, más allá de determinar si
+    se ha cumplido o no la misma evaluación de indicadores.
+    \item \textbf{Redes Bayesianas:} Las redes bayesianas son modelos
+    probabilísticos que utilizan teoremas de probabilidad bayesiana para
+    representar y actualizar la incertidumbre en un sistema. Son especialmente
+    útiles cuando se deben tomar decisiones basadas en evidencia acumulada. Por
+    ejemplo, en medicina, una red bayesiana puede ayudar a calcular la
+    probabilidad de que un paciente tenga una enfermedad en función de múltiples
+    factores, como síntomas, historial médico y resultados de pruebas.    
+\end{itemize}
+\imagen{./Figuras/Sistema experto/Figura-2-Estructura-de-un-Sistema-Experto.png}{Estructura de un sistema experto}{0.9}
+La estructura básica de un sistema experto tiene los siguientes componentes:
+\begin{itemize}
+    \item \textbf{Usuario:} Es la persona o el sistema que interactúa con el sistema
+    experto para obtener soluciones a problemas específicos. En nuestro caso se
+    trata del administrador de \textit{Fundación Miradas}, quien se encarga de
+    proporcionar los datos necesarios sobre las evidencias para que el sistema
+    experto comience a trabajar.
+    \item \textbf{Interfaz:} Es el medio por el cual el usuario interactúa con
+    el sistema experto. En nuestro caso es la interfaz gráfica de la aplicación
+    Android, lugar donde el administrador de \textit{Fundación Miradas} se
+    encarga de señalar las evidencias que se cumplen de cada uno de los
+    indicadores.
+    \item \textbf{Motor de Inferencia:} Es el corazón del sistema experto.
+    Utiliza las reglas y datos en la base de conocimientos para inferir
+    conclusiones. También interactúa con la base de hechos.
+    \item \textbf{Base de hechos:} Contiene datos o hechos específicos del
+    problema actual que el usuario está tratando de resolver. En nuestro caso
+    son por los registros de los indicadores y la evaluación de indicadores
+    correspondiente, los cuales contienen toda la información necesaria para que
+    sea proporcionada al motor de inferencia.
+    \item \textbf{Base de Conocimiento:} Contiene el conocimiento experto en
+    forma de hechos y reglas. Este conocimiento es generalmente adquirido de
+    expertos humanos y codificado en una forma que el motor de inferencia puede
+    utilizar. En nuestro caso contiene todo el conjunto de reglas sobre estado
+    de los indicadores a partir del número de evidencias marcadas, si dichos
+    indicadores requieren estar en el plan de mejora, la puntuación para cada
+    combinación interés del indicador-estado del indicador y el nivel de
+    puntuación de la evaluación de indicadores.
+    \item \textbf{Sistema de Adquisición de Conocimiento:} Es el componente que
+    facilita la adquisición de conocimiento de los expertos humanos y su
+    incorporación a la base de conocimientos.
+    \item \textbf{Subsistema de Justificación:} Proporciona explicaciones sobre
+    cómo se llegó a una determinada conclusión o por qué se pide cierta
+    información. Esto aumenta la confianza del usuario en las conclusiones del
+    sistema.
+    \item \textbf{Conocimiento Experto:} Es el conocimiento que los expertos
+    humanos tienen sobre el dominio del problema. Este conocimiento es adquirido
+    por el sistema de adquisición de conocimiento y almacenado en la base de
+    conocimientos.
+\end{itemize}
 
+
+En nuestro caso, utilizaremos un \textbf{sistema basado en reglas (SBR)}, que son sistemas basados
+en reglas clásicas bien conocidas por el mundo de la informática en la forma IF
+(condición) y THEN (acción). Dado un conjunto de hechos, los sistemas de
+conocimiento son capaces de deducir nuevos hechos gracias a sus reglas.
+
+Por ejemplo, para nuestro caso con la evaluación de indicadores, se ha aplicado para el cálculo de resultados y para determinar el nivel de los mismos:
+\begin{enumerate}
+    \item Por un lado, se tiene que determinar qué indicadores necesitan estar incluidos en el plan de mejora y qué indicadores no necesitan estar en el plan de mejora, aplicando las reglas en dos fases:
+    \begin{enumerate}
+        \item En primer lugar, se comprueba para cada indicador el número de evidencias marcadas, teniendo las siguientes reglas para ello:
+        \begin{itemize}
+            \item \texttt{IF indicadorN.numEvidenciasCumplidas=0 \\OR\\ indicadorN.numEvidenciasCumplidas=1 \\THEN\\ indicadorN.estado=en\_comienzo}
+            \item \texttt{IF indicadorN.numEvidenciasCumplidas=2 \\OR\\ indicadorN.numEvidenciasCumplidas=3 \\THEN\\ indicadorN.estado=en\_proceso}
+            \item \texttt{IF indicadorN.numEvidenciasCumplidas=4 \\THEN\\ indicadorN.estado=conseguido}
+        \end{itemize}
+        \item Posteriormente, a partir del estado, determinamos si un indicador requiere o no requiere estar en el plan de mejora:
+        \begin{itemize}
+            \item \texttt{IF indicadorN.estado=en\_comienzo \\OR\\ indicadorN.estado=en\_proceso \\THEN\\ indicadorN.necesitaEstarEnPlanDeMejora=SI}
+            \item \texttt{IF indicadorN.estado=conseguido \\THEN\\ indicadorN.necesitaEstarEnPlanDeMejora=NO}
+        \end{itemize}
+    \end{enumerate} 
+    \item Por otro lado, a partir de los resultados se determina la puntuación para cada combinación de interés y de estado de indicador, y a partir de ahí obtener el nivel:
+    \begin{enumerate}
+        \item En primer lugar obtenemos el valor del indicador para añadirlo a
+        la suma total y de paso para calcular la puntuación para cada
+        combinación de interés y de estado de indicador:
+        \begin{itemize}
+            \item \texttt{IF indicadorN.estado=conseguido \\AND\\ indicadorN.interes=interes\_fundamental \\THEN\\ indicadorN.valor=5}
+            \item \texttt{IF indicadorN.estado=en\_proceso \\AND\\ indicadorN.interes=interes\_fundamental \\THEN\\ indicadorN.valor=4}
+            \item \texttt{IF indicadorN.estado=conseguido \\AND\\ indicadorN.interes=interes\_alto \\THEN\\ indicadorN.valor=4}
+            \item \texttt{IF indicadorN.estado=en\_proceso \\AND\\ indicadorN.interes=interes\_alto \\THEN\\ indicadorN.valor=3}
+            \item \texttt{IF indicadorN.estado=conseguido \\AND\\ indicadorN.interes=interes\_medio \\THEN\\ indicadorN.valor=3}
+            \item \texttt{IF indicadorN.estado=en\_proceso \\AND\\ indicadorN.interes=interes\_medio \\THEN\\ indicadorN.valor=2}
+            \item \texttt{IF indicadorN.estado=conseguido \\AND\\ indicadorN.interes=interes\_bajo \\THEN\\ indicadorN.valor=2}
+            \item \texttt{IF indicadorN.estado=en\_proceso \\AND\\ indicadorN.interes=interes\_bajo \\THEN\\ indicadorN.valor=1}
+        \end{itemize}
+        \item Posteriormente, a partir del tipo de evaluación y de la puntuación total, se obtiene un nivel del test de indicadores:
+        \begin{itemize}
+            \item \texttt{IF testIndicadores.tipo=completo \\AND\\ testIndicadores.puntuacion>=200 \\OR\\ testIndicadores.puntuacion<=250 \\THEN\\ testIndicadores.nivel=excelente}
+            \item \texttt{IF testIndicadores.tipo=completo \\AND\\ testIndicadores.puntuacion>=150 \\OR\\ testIndicadores.puntuacion<=200 \\THEN\\ testIndicadores.nivel=muy\_bueno}
+            \item \texttt{IF testIndicadores.tipo=completo \\AND\\ testIndicadores.puntuacion>=100 \\OR\\ testIndicadores.puntuacion<=150 \\THEN\\ testIndicadores.nivel=bueno}
+            \item \texttt{IF testIndicadores.tipo=completo \\AND\\ testIndicadores.puntuacion>=50 \\OR\\ testIndicadores.puntuacion<=100 \\THEN\\ testIndicadores.nivel=mejorable}
+            \item \texttt{IF testIndicadores.tipo=completo \\AND\\ testIndicadores.puntuacion>=0 \\OR\\ testIndicadores.puntuacion<=50 \\THEN\\ testIndicadores.nivel=muy\_mejorable}
+            \item \texttt{IF testIndicadores.tipo=simple \\AND\\ testIndicadores.puntuacion>=118 \\OR\\ testIndicadores.puntuacion<=143 \\THEN\\ testIndicadores.nivel=excelente}
+            \item \texttt{IF testIndicadores.tipo=simple \\AND\\ testIndicadores.puntuacion>=89 \\OR\\ testIndicadores.puntuacion<=118 \\THEN\\ testIndicadores.nivel=muy\_bueno}
+            \item \texttt{IF testIndicadores.tipo=simple \\AND\\ testIndicadores.puntuacion>=60 \\OR\\ testIndicadores.puntuacion<=88 \\THEN\\ testIndicadores.nivel=bueno}
+            \item \texttt{IF testIndicadores.tipo=simple \\AND\\ testIndicadores.puntuacion>=30 \\OR\\ testIndicadores.puntuacion<=59 \\THEN\\ testIndicadores.nivel=mejorable}
+            \item \texttt{IF testIndicadores.tipo=simple \\AND\\ testIndicadores.puntuacion>=0 \\OR\\ testIndicadores.puntuacion<=29 \\THEN\\ testIndicadores.nivel=muy\_mejorable}
+        \end{itemize}
+    \end{enumerate} 
     
+\end{enumerate}
+

@@ -65,7 +65,7 @@
     <string name="title_activity_register">Rexistrarse</string>
     <string name="first_name_user">Nome</string>
     <string name="last_name_user">Apelido</string>
-    <string name="email_reg">Correo electrónico</string>
+    <string name="email_reg">Email</string>
     <string name="password_reg">Contrasinal</string>
     <string name="telephone_reg">Número de teléfono</string>
 
@@ -105,7 +105,7 @@
     <string name="add_new_center">Engadir novo centro de organización avaliada</string>
     <string name="add_new_indicators_evaluation">Engadir nova avaliación de indicadores</string>
     <string name="add_new_evaluated_organization">Engadir organización ou servizo</string>
-    <string name="org_name">Nome da organización ou servizo</string>
+    <string name="org_name">Nome da organización</string>
     <string name="org_address">Enderezo</string>
     <string name="org_zipcode">Código postal</string>
     <string name="org_city">Cidade</string>
@@ -136,8 +136,8 @@
     <string name="please_director">Por favor, selecciona un director da organización</string>
     <string name="please_professional">Por favor, selecciona un profesional de atención directa</string>
     <string name="please_wait_login">Conectando á base de datos para iniciar sesión. Por favor, agarda uns segundos...</string>
-    <string name="please_wait_register_user">Conectando á base de datos para rexistrar o usuario. Por favor, agarda uns segundos...</string>
-    <string name="please_wait_reg_orgs">Conectando á base de datos para rexistrar a organización. Por favor, agarda uns segundos...</string>
+    <string name="please_wait_register_user">Rexistrando usuario... Por favor, espere uns segundos...</string>
+    <string name="please_wait_reg_orgs">Rexistrando organización... Por favor, agarde uns segundos...</string>
     <string name="please_wait">Conectando á base de datos... Por favor, agarda uns segundos...</string>
     <string name="do_you_want_to_exit_otea">Queres saír de OTEA?</string>
     <string name="yes">Si</string>
@@ -155,7 +155,7 @@
     <string name="please_evaluated_org">Por favor, selecciona unha organización avaliada</string>
     <string name="please_consultant">Por favor, selecciona un consultor externo</string>
     <string name="please_responsible">Por favor, selecciona un responsable</string>
-    <string name="evaluated_org">Organización ou servizo</string>
+    <string name="evaluated_org">Organización</string>
     <string name="consultant">Consultor externo</string>
     <string name="professional">Profesional de atención directa</string>
     <string name="responsible">Responsable</string>
@@ -351,6 +351,26 @@
     <string name="delete">Eliminar</string>
     <string name="no_center">Non existe ningún centro adicional da súa organización. Por favor, seleccione outra opción do menú principal.</string>
     <string name="no_existant_eval_team">Non hai ningún equipo avaliador na súa organización. Por favor, seleccione outra opción do menú principal.</string>
+    <string name="sending_request">Enviando solicitude de rexistro...</string>
+    <string name="registering_user">Rexistrando usuario...</string>
+    <string name="back_to_login_str">Volvendo á pantalla de inicio de sesión...</string>
+    <string name="eval_team_added_sucessful">Engadiuse con éxito o equipo de avaliación</string>
+    <string name="eval_team_edited_sucessful">O equipo de avaliación foi modificado satisfactoriamente</string>
+    <string name="user_edited">O teu usuario foi modificado correctamente</string>
+    <string name="ind_eval_reg_suc">A avaliación dos indicadores foi rexistrada satisfactoriamente. Podes continuar máis tarde</string>
+    <string name="ind_eval_reg_suc_end">A avaliación dos indicadores rematou e rexistrouse satisfactoriamente</string>
+    <string name="email_dir">Email do director</string>
+    <string name="in_this_sec_see_ind">Nesta sección pode ver os resultados do test de indicadores, podendo elixir entre as seguintes opcións:</string>
+    <string name="info_see_ind_hlp">Premendo neste botón accederá aos datos de identificación do equipo avaliador, os seus compoñentes, o proceso de avaliación, a valoración xeral, os puntos fortes e os resultados por nivel e número de evidencias marcadas.</string>
+    <string name="res_see_ind_hlp">Premendo neste botón accederá á táboa de resultados dos indicadores. Funciona como unha fotografía da súa aplicación de Galería, pode ampliar e reducir o tamaño da mesma, ademais de desprazarse sobre ela. Ao premer sobre un indicador, aparecerá información sobre as evidencias marcadas e as oportunidades de mellora relacionadas con ese indicador.</string>
+    <string name="hlp_see_ind_hlp">Se premes este botón, accederás a este menú de axuda.</string>
+    <string name="please_wait_save_changes">Gardando cambios... Por favor, agarde uns segundos...</string>
+    <string name="please_wait_register_center">Rexistrando centro ou servizo... Por favor, agarde uns segundos...</string>
+    <string name="please_wait_eval_team">Rexistrando equipo avaliador... Por favor, espere uns segundos...</string>
+    <string name="are_you_sure_del_center">Está seguro de que desexa eliminar este centro? Teña en conta que todos os equipos avaliadores e avaliacións de indicadores relacionados con este centro serán eliminados tamén</string>
+    <string name="center_deleted">Centro eliminado satisfactoriamente</string>
+    <string name="are_you_sure_del_eval_team">Está seguro de que desexa eliminar este equipo avaliador? Teña en conta que todas as avaliacións de indicadores relacionadas con este equipo avaliador serán eliminadas tamén</string>
+    <string name="eval_team_deleted">Equipo avaliador eliminado satisfactoriamente</string>
 
 
 </resources>

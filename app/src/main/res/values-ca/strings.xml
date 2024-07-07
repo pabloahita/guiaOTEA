@@ -65,7 +65,7 @@
     <string name="title_activity_register">Registrar-se</string>
     <string name="first_name_user">Nom</string>
     <string name="last_name_user">Cognom</string>
-    <string name="email_reg">Correu electrònic</string>
+    <string name="email_reg">Email</string>
     <string name="password_reg">Contrasenya</string>
     <string name="telephone_reg">Número de telèfon</string>
 
@@ -107,7 +107,7 @@
     <string name="add_new_center">Afegir nou centre de l\'organització avaluada</string>
     <string name="add_new_indicators_evaluation">Afegir nova avaluació d\'indicadors</string>
     <string name="add_new_evaluated_organization">Afegir organització o servei</string>
-    <string name="org_name">Nom de l\'organització o el servei</string>
+    <string name="org_name">Nom de l\'organització</string>
     <string name="org_address">Adreça</string>
     <string name="org_zipcode">Codi postal</string>
     <string name="org_city">Ciutat</string>
@@ -140,8 +140,8 @@
     <string name="please_director">Si us plau, introduïu el director de l\'organització</string>
     <string name="please_professional">Si us plau, seleccioneu un professional de cures directes</string>
     <string name="please_wait_login">Connectant a la base de dades per iniciar sessió. Espereu uns segons...</string>
-    <string name="please_wait_register_user">Connectant a la base de dades per registrar l\'usuari. Espereu uns segons...</string>
-    <string name="please_wait_reg_orgs">Connectant a la base de dades per registrar l\'organització. Espereu uns segons...</string>
+    <string name="please_wait_register_user">Registrant usuari... Si us plau, esperi uns segons...</string>
+    <string name="please_wait_reg_orgs">Registrant organització... Si us plau, esperi uns segons...</string>
     <string name="please_wait">Connectant a la base de dades... Espereu uns segons...</string>
     <string name="do_you_want_to_exit_otea">Voleu sortir de l\'OTEA?</string>
     <string name="yes">Sí</string>
@@ -159,7 +159,7 @@
     <string name="please_evaluated_org">Si us plau, seleccioneu una organització avaluadora</string>
     <string name="please_consultant">Si us plau, seleccioneu un consultor extern</string>
     <string name="please_responsible">Si us plau, seleccioneu un responsable</string>
-    <string name="evaluated_org">Organització o servei</string>
+    <string name="evaluated_org">Organització</string>
     <string name="consultant">Consultor extern</string>
     <string name="professional">Professional d\'assistència directa</string>
     <string name="responsible">Responsable</string>
@@ -355,5 +355,25 @@
     <string name="delete">Eliminar</string>
     <string name="no_center">No existeix cap centre addicional de la seva organització. Si us plau, seleccioni una altra opció del menú principal.</string>
     <string name="no_existant_eval_team">No hi ha cap equip avaluador a la seva organització. Si us plau, seleccioni una altra opció del menú principal.</string>
+    <string name="sending_request">Enviant sol·licitud de registre...</string>
+    <string name="registering_user">Registrant usuari...</string>
+    <string name="back_to_login_str">Tornant a la pantalla d\'inici de sessió...</string>
+    <string name="eval_team_added_sucessful">L\'equip avaluador ha estat afegit satisfactòriament</string>
+    <string name="eval_team_edited_sucessful">L\'equip avaluador ha estat modificat satisfactòriament</string>
+    <string name="user_edited">El vostre usuari s\'ha modificat satisfactòriament</string>
+    <string name="ind_eval_reg_suc">L\'avaluació d\'indicadors ha estat registrada satisfactòriament. Podrà continuar-la més endavant</string>
+    <string name="ind_eval_reg_suc_end">L\'avaluació d\'indicadors ha finalitzat i s\'ha registrat satisfactòriament</string>
+    <string name="email_dir">Email del director</string>
+    <string name="in_this_sec_see_ind">En aquesta secció pot veure els resultats del test d\'indicadors, podent triar entre les següents opcions:</string>
+    <string name="info_see_ind_hlp">Prement aquest botó accedirà a les dades d\'identificació de l\'equip avaluador, els seus components, el procés d\'avaluació, la valoració general, els punts forts i els resultats per nivell i nombre d\'evidències marcades.</string>
+    <string name="res_see_ind_hlp">Prement aquest botó accedirà a la taula de resultats dels indicadors. Funciona com una fotografia de la seva aplicació de Galeria, pot ampliar i reduir la seva mida, a més de desplaçar-se per ella. En prémer sobre un indicador, apareixerà informació sobre les evidències marcades i les oportunitats de millora relacionades amb aquest indicador.</string>
+    <string name="hlp_see_ind_hlp">Si prems aquest botó, accediràs a aquest menú d\'ajuda.</string>
+    <string name="please_wait_save_changes">Guardant canvis... Si us plau, esperi uns segons...</string>
+    <string name="please_wait_register_center">Registrant centre o servei... Si us plau, esperi uns segons...</string>
+    <string name="please_wait_eval_team">Registrant equip avaluador... Si us plau, esperi uns segons...</string>
+    <string name="are_you_sure_del_center">Està segur que vol eliminar aquest centre? Tingui en compte que tots els equips avaluadors i avaluacions d\'indicadors relacionats amb aquest centre també seran eliminats</string>
+    <string name="center_deleted">Centre eliminat satisfactòriament</string>
+    <string name="are_you_sure_del_eval_team">Està segur que desitja eliminar aquest equip avaluador? Tingui en compte que totes les avaluacions d\'indicadors relacionades amb aquest equip avaluador també s\'eliminaran</string>
+    <string name="eval_team_deleted">Equip avaluador eliminat satisfactòriament</string>
 
 </resources>

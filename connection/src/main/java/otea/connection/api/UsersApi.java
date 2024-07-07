@@ -48,7 +48,7 @@ public interface UsersApi {
      * @param user - User
      * */
     @PUT("Users")
-    Call<User> Update(@Query("email") String email, @Body User user, @Header("Authorization") String Authorization);
+    Call<User> Update(@Query("email") String email, @Body User user);
 
     /**
      * Deletes an user

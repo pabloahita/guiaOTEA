@@ -5,7 +5,6 @@ namespace OTEAServer.ExpertSystem
 {
     public class RulePointsForHighReached : Rule
     {
-        private static int regsHighReachedCount = 0;
         public override void Define()
         {
             List<Indicator> indicators = default;
@@ -13,26 +12,24 @@ namespace OTEAServer.ExpertSystem
             IndicatorsEvaluation indicatorsEvaluation = default;
             When()
                 .Match<List<IndicatorsEvaluationIndicatorReg>>(() => regs)
-                .Match<List<Indicator>>(() => indicators, ctx => SetRegsHighReachedCount(indicators, regs))
+                .Match<List<Indicator>>(() => indicators)
                 .Match<IndicatorsEvaluation>(() => indicatorsEvaluation);
             Then()
-                .Do(ctx => calculatePoints(indicatorsEvaluation));
+                .Do(ctx => calculatePoints(indicatorsEvaluation, indicators, regs));
         }
 
 
-        private static bool SetRegsHighReachedCount(List<Indicator> indicators, List<IndicatorsEvaluationIndicatorReg> regs)
+        private static void calculatePoints(IndicatorsEvaluation indicatorsEvaluation, List<Indicator> indicators, List<IndicatorsEvaluationIndicatorReg> regs)
         {
-            if (regs != null && indicators != null)
+            int count = 0;
+            for (int i = 0; i < regs.Count; i++)
             {
-                var fundamentalIndicators = indicators.Where(indicator => indicator.indicatorPriority == "HIGH_INTEREST").Select(indicator => indicator.idIndicator).ToHashSet();
-                regsHighReachedCount = regs.Count(reg => reg.status == "REACHED" && fundamentalIndicators.Contains(reg.idIndicator));
+                if (indicators[i].indicatorPriority == "HIGH_INTEREST" && regs[i].status == "REACHED")
+                {
+                    count++;
+                }
             }
-            return regsHighReachedCount > 0;
-        }
-
-        private static void calculatePoints(IndicatorsEvaluation indicatorsEvaluation)
-        {
-            indicatorsEvaluation.scorePriorityTwoColourGreen = regsHighReachedCount * 4;
+            indicatorsEvaluation.scorePriorityTwoColourGreen = count * 4;
         }
     }
 }

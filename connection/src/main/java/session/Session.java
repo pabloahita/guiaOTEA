@@ -22,6 +22,7 @@ import otea.connection.controller.EvaluatorTeamsController;
 import otea.connection.controller.EvidencesController;
 import otea.connection.controller.IndicatorsController;
 import otea.connection.controller.IndicatorsEvaluationEvidenceRegsController;
+import otea.connection.controller.IndicatorsEvaluationEvidenceSimpleRegsController;
 import otea.connection.controller.IndicatorsEvaluationIndicatorRegsController;
 import otea.connection.controller.IndicatorsEvaluationsController;
 import otea.connection.controller.OrganizationsController;
@@ -49,15 +50,13 @@ public class Session {
 
     private static List<Organization> evaluatorOrganizations;
 
-    private static Request currRequest;
-
 
 
     private Session(JsonObject data) {
         setToken(data.getAsJsonPrimitive("token").getAsString());
         JsonObject jsonUser = data.getAsJsonObject("user");
         JsonObject jsonOrg = data.getAsJsonObject("organization");
-        setUser(new User(jsonUser.getAsJsonPrimitive("emailUser").getAsString(), jsonUser.getAsJsonPrimitive("userType").getAsString(), jsonUser.getAsJsonPrimitive("first_name").getAsString(), jsonUser.getAsJsonPrimitive("last_name").getAsString(), "", jsonUser.getAsJsonPrimitive("telephone").getAsString(), jsonUser.getAsJsonPrimitive("idOrganization").getAsInt(), jsonUser.getAsJsonPrimitive("orgType").getAsString(), jsonUser.getAsJsonPrimitive("illness").getAsString(), jsonUser.getAsJsonPrimitive("profilePhoto").getAsString()));
+        setUser(new User(jsonUser.getAsJsonPrimitive("emailUser").getAsString(), jsonUser.getAsJsonPrimitive("userType").getAsString(), jsonUser.getAsJsonPrimitive("first_name").getAsString(), jsonUser.getAsJsonPrimitive("last_name").getAsString(), "", jsonUser.getAsJsonPrimitive("telephone").getAsString(), jsonUser.getAsJsonPrimitive("idOrganization").getAsInt(), jsonUser.getAsJsonPrimitive("orgType").getAsString(), jsonUser.getAsJsonPrimitive("illness").getAsString(), jsonUser.getAsJsonPrimitive("profilePhoto").getAsString(),jsonUser.getAsJsonPrimitive("isActive").getAsInt()));
         setOrganization(new Organization(jsonOrg.getAsJsonPrimitive("idOrganization").getAsInt(), jsonOrg.getAsJsonPrimitive("orgType").getAsString(), jsonOrg.getAsJsonPrimitive("illness").getAsString(), jsonOrg.getAsJsonPrimitive("nameOrg").getAsString(), jsonOrg.getAsJsonPrimitive("idAddress").getAsInt(), jsonOrg.getAsJsonPrimitive("email").getAsString(), jsonOrg.getAsJsonPrimitive("telephone").getAsString(), jsonOrg.getAsJsonPrimitive("informationSpanish").getAsString(), jsonOrg.getAsJsonPrimitive("informationEnglish").getAsString(), jsonOrg.getAsJsonPrimitive("informationFrench").getAsString(), jsonOrg.getAsJsonPrimitive("informationBasque").getAsString(), jsonOrg.getAsJsonPrimitive("informationCatalan").getAsString(), jsonOrg.getAsJsonPrimitive("informationDutch").getAsString(), jsonOrg.getAsJsonPrimitive("informationGalician").getAsString(), jsonOrg.getAsJsonPrimitive("informationGerman").getAsString(), jsonOrg.getAsJsonPrimitive("informationItalian").getAsString(), jsonOrg.getAsJsonPrimitive("informationPortuguese").getAsString(), jsonOrg.getAsJsonPrimitive("profilePhoto").getAsString()));
     }
 
@@ -88,11 +87,11 @@ public class Session {
         IndicatorsController.getInstance();
         IndicatorsEvaluationIndicatorRegsController.getInstance();
         IndicatorsEvaluationEvidenceRegsController.getInstance();
+        IndicatorsEvaluationEvidenceSimpleRegsController.getInstance();
         IndicatorsEvaluationsController.getInstance();
         OrganizationsController.getInstance();
         ProvincesController.getInstance();
         RegionsController.getInstance();
-        RequestsController.getInstance();
         UsersController.getInstance();
         TranslatorController.getInstance();
         FileManager.getInstance();
@@ -173,14 +172,6 @@ public class Session {
 
 
 
-
-    public static Request getCurrRequest() {
-        return currRequest;
-    }
-
-    public static void setCurrRequest(Request currRequest) {
-        Session.currRequest = currRequest;
-    }
 
 
 

@@ -18,6 +18,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\GuiaOTEAAdmin
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Programas/AndroidStudioOTEA/StudioProjects/guiaOTEA/GuiaOTEAAdmin/Pages/ActiveUsersManagement.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWN0aXZlVXNlcnNNYW5hZ2VtZW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Programas/AndroidStudioOTEA/StudioProjects/guiaOTEA/GuiaOTEAAdmin/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -26,8 +30,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Programas/AndroidStudioOTEA/StudioProjects/guiaOTEA/GuiaOTEAAdmin/Pages/MainMenu.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWFpbk1lbnUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Programas/AndroidStudioOTEA/StudioProjects/guiaOTEA/GuiaOTEAAdmin/Pages/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Programas/AndroidStudioOTEA/StudioProjects/guiaOTEA/GuiaOTEAAdmin/Pages/RegisterRequestsManagement.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVnaXN0ZXJSZXF1ZXN0c01hbmFnZW1lbnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Programas/AndroidStudioOTEA/StudioProjects/guiaOTEA/GuiaOTEAAdmin/Pages/Shared/_ValidationScriptsPartial.cshtml]

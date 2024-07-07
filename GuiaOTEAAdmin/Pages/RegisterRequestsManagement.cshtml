@@ -1,0 +1,39 @@
+﻿@page
+@model WebApplication1.Pages.RegisterRequestsManagementModel
+@{
+    ViewData["Title"] = "Gestión de Solicitudes de Registro";
+}
+
+<h2>Gestión de Solicitudes de Registro</h2>
+
+@if (Model.Users != null && Model.Users.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td>@user.emailUser</td>
+                    <td>
+                        <form method="post" asp-page-handler="Accept" asp-route-emailUser="@user.emailUser">
+                            <button type="submit" class="btn btn-success">Aceptar</button>
+                        </form>
+                        <form method="post" asp-page-handler="Reject" asp-route-emailUser="@user.emailUser">
+                            <button type="submit" class="btn btn-danger">Rechazar</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No hay solicitudes de registro.</p>
+}

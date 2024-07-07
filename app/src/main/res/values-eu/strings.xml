@@ -108,7 +108,7 @@
     <string name="add_new_center">Gehitu ebaluatzeko erakundeko erdi berri bat</string>
     <string name="add_new_indicators_evaluation">Gehitu adierazle ebaluazio berri bat</string>
     <string name="add_new_evaluated_organization">Erakunde edo zerbitzu bat gehitu</string>
-    <string name="org_name">Erakundearen edo zerbitzuaren izena</string>
+    <string name="org_name">Erakundearen izena</string>
     <string name="org_address">Helbidea</string>
     <string name="org_zipcode">Posta kodea</string>
     <string name="org_city">Hiria</string>
@@ -139,8 +139,8 @@
     <string name="please_director">Mesedez, sartu erakundearen zuzendaria</string>
     <string name="please_professional">Mesedez, hautatu arduradun zuzendaria</string>
     <string name="please_wait_login">Datu-basearekin konektatzen hasi da logeatu nahi zaren momentuan. Itxoin segundo batzuk...</string>
-    <string name="please_wait_register_user">Datu-basearekin konektatzen hasi da erabiltzailea erregistratu nahi den momentuan. Itxoin segundo batzuk...</string>
-    <string name="please_wait_reg_orgs">Datu-basearekin konektatzen hasi da erakunde bat erregistratu nahi den momentuan. Itxoin segundo batzuk...</string>
+    <string name="please_wait_register_user">Erabiltzailea erregistratzen... Mesedez, itxaron segundo batzuk...</string>
+    <string name="please_wait_reg_orgs">Erakundea erregistratzen... Mesedez, itxaron segundo batzuk...</string>
     <string name="please_wait">Datu-basearekin konektatzen... Itxoin segundo batzuk...</string>
     <string name="do_you_want_to_exit_otea">OTEA-tik irten nahi duzu?</string>
     <string name="yes">Bai</string>
@@ -158,7 +158,7 @@
     <string name="please_evaluated_org">Mesedez, hautatu ebaluatzeko erakunde bat</string>
     <string name="please_consultant">Mesedez, hautatu kanpoko aholkulari bat</string>
     <string name="please_responsible">Mesedez, hautatu arduradun bat</string>
-    <string name="evaluated_org">Erakundea edo zerbitzua</string>
+    <string name="evaluated_org">Erakundea</string>
     <string name="consultant">Kanpoko aholkularia</string>
     <string name="professional">Zuzenduko duen arduraduna</string>
     <string name="responsible">Arduraduna</string>
@@ -354,5 +354,25 @@
     <string name="delete">Ezabatu</string>
     <string name="no_center">Ez dago zure erakundearen zentro osagarririk. Mesedez, hautatu beste aukera bat menu nagusitik.</string>
     <string name="no_existant_eval_team">Ez dago zure erakundean ebaluazio talderik. Mesedez, hautatu beste aukera bat menu nagusitik.</string>
+    <string name="sending_request">Erregistro eskaera bidaltzen...</string>
+    <string name="registering_user">Erabiltzailea erregistratzen...</string>
+    <string name="back_to_login_str">Saio hasierako pantailara itzultzen...</string>
+    <string name="eval_team_added_sucessful">Ebaluazio taldea arrakastaz gehitu da</string>
+    <string name="eval_team_edited_sucessful">Ebaluazio taldea behar bezala aldatu da</string>
+    <string name="user_edited">Zure erabiltzailea behar bezala aldatu da</string>
+    <string name="ind_eval_reg_suc">Adierazleen ebaluazioa behar bezala erregistratu da. Geroago jarraitu dezakezu</string>
+    <string name="ind_eval_reg_suc_end">Adierazleen ebaluazioa amaitu da eta behar bezala erregistratu da</string>
+    <string name="email_dir">Zuzendariaren emaila</string>
+    <string name="in_this_sec_see_ind">Atal honetan adierazleen testaren emaitzak ikus ditzakezu, aukera hauek hautatuz:</string>
+    <string name="info_see_ind_hlp">Botoi hau sakatuz, ebaluazio taldearen identifikazio datuak, kideak, ebaluazio prozesua, balorazio orokorra, indar puntu nagusiak eta mailaren arabera emaitzak eta markatutako froga kopuruak eskuratu ahal izango dituzu.</string>
+    <string name="res_see_ind_hlp">Botoi honetan sakatuta adierazleen emaitza-taulara sartuko zara. Zure Galeria aplikazioko argazki baten antzera funtzionatzen du; haren tamaina handitu eta txikitu dezakezu, gainera haren gainean desplazatu. Adierazle batean sakatzen duzunean, adierazle horrekin lotutako frogak eta hobekuntza-aukerak agertuko dira.</string>
+    <string name="hlp_see_ind_hlp">Boton hau sakatzen baduzu, laguntza menu honetara joango zara.</string>
+    <string name="please_wait_save_changes">Aldaketak gordetzen... Mesedez, itxaron segundo batzuk...</string>
+    <string name="please_wait_register_center">Zentroa edo zerbitzua erregistratzen... Mesedez, itxaron segundo batzuk...</string>
+    <string name="please_wait_eval_team">Ebaluazio taldea erregistratzen... Mesedez, itxaron segundo batzuk...</string>
+    <string name="are_you_sure_del_center">Ziur zaude zentro hau ezabatu nahi duzula? Kontuan izan zentro honetako ebaluazio talde eta adierazleen ebaluazio guztiak ere ezabatuko direla</string>
+    <string name="center_deleted">Zentroa arrakastaz ezabatuta</string>
+    <string name="are_you_sure_del_eval_team">Ziur zaude ebaluazio talde hau ezabatu nahi duzula? Kontuan izan ebaluazio talde honekin lotutako adierazleen ebaluazio guztiak ere ezabatuko direla</string>
+    <string name="eval_team_deleted">Ebaluazio taldea arrakastaz ezabatuta</string>
 
 </resources>

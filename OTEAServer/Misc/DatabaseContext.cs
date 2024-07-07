@@ -68,6 +68,11 @@ namespace OTEAServer.Misc
         public DbSet<IndicatorsEvaluationEvidenceReg> IndicatorsEvaluationsEvidencesRegs { get; set; }
 
         /// <summary>
+        /// Database set for simple evidence registers of indicators evaluations
+        /// </summary>
+        public DbSet<IndicatorsEvaluationSimpleEvidenceReg> IndicatorsEvaluationsSimpleEvidencesRegs { get; set; }
+
+        /// <summary>
         /// Database set for indicator registers of indicators evaluations
         /// </summary>
         public DbSet<IndicatorsEvaluationIndicatorReg> IndicatorsEvaluationsIndicatorsRegs { get; set; }
@@ -119,6 +124,7 @@ namespace OTEAServer.Misc
             modelBuilder.Entity<Indicator>().HasKey(i => new { i.idSubSubAmbit, i.idSubAmbit, i.idAmbit, i.idIndicator,i.indicatorType,i.indicatorVersion});
             modelBuilder.Entity<IndicatorsEvaluation>().HasKey(e => new { e.evaluationDate, e.idEvaluatorTeam, e.idEvaluatorOrganization, e.orgTypeEvaluator, e.idEvaluatedOrganization, e.orgTypeEvaluated, e.illness, e.idCenter });
             modelBuilder.Entity<IndicatorsEvaluationEvidenceReg>().HasKey(r => new { r.evaluationDate,r.idEvaluatorTeam, r.idEvaluatorOrganization, r.orgTypeEvaluator,r.idEvaluatedOrganization,r.orgTypeEvaluated,r.illness,r.idCenter, r.idSubSubAmbit, r.idSubAmbit, r.idAmbit, r.idIndicator,r.idEvidence,r.indicatorVersion, r.evaluationType });
+            modelBuilder.Entity<IndicatorsEvaluationSimpleEvidenceReg>().HasKey(r => new { r.evaluationDate, r.idEvaluatorTeam, r.idEvaluatorOrganization, r.orgTypeEvaluator, r.idEvaluatedOrganization, r.orgTypeEvaluated, r.illness, r.idCenter, r.idSubSubAmbit, r.idSubAmbit, r.idAmbit, r.idIndicator, r.idEvidence, r.indicatorVersion, r.evaluationType });
             modelBuilder.Entity<IndicatorsEvaluationIndicatorReg>().HasKey(r => new { r.evaluationDate, r.idEvaluatorTeam, r.idEvaluatorOrganization, r.orgTypeEvaluator, r.idEvaluatedOrganization, r.orgTypeEvaluated, r.illness, r.idCenter, r.idSubSubAmbit, r.idSubAmbit, r.idAmbit, r.idIndicator, r.indicatorVersion, r.evaluationType });
             modelBuilder.Entity<Organization>().HasKey(o => new { o.idOrganization,o.orgType,o.illness });
             modelBuilder.Entity<Province>().HasKey(p => new { p.idProvince,p.idRegion,p.idCountry });

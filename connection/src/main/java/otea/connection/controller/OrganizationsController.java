@@ -77,7 +77,7 @@ public class OrganizationsController {
         Callable<Organization> callable = new Callable<Organization>() {
             @Override
             public Organization call() throws Exception {
-                Call<Organization> call = api.Get(idOrganization,orgType,illness,Session.getInstance().getToken());
+                Call<Organization> call = api.Get(idOrganization,orgType,illness);
                 Response<Organization> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

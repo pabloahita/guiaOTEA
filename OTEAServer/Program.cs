@@ -27,6 +27,7 @@ builder.Services.AddSingleton<SessionConfig>(sessionConfig);
 builder.Services.AddDbContext<DatabaseContext>(options =>
         options.UseSqlServer(sessionConfig.connectionString));
 
+
 builder.Services.AddRouting();
 
 

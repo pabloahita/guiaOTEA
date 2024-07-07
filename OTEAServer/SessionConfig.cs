@@ -6,13 +6,15 @@ namespace OTEAServer
 {
     public class SessionConfig
     {
-        private static SessionConfig instance;
+
+        private static readonly Lazy<SessionConfig> instance = new Lazy<SessionConfig>(() => new SessionConfig());
+
         public SessionConfig() {
 
             try
             {
                 var kVUrl = $"https://guiaoteakeyvault.vault.azure.net/";
-                var client = new SecretClient(new Uri(kVUrl), new DefaultAzureCredential());
+                var client = new SecretClient(new Uri(kVUrl), new ManagedIdentityCredential());
                 connectionString = client.GetSecret("connectionString").Value.Value;
                 secret = client.GetSecret("secretKeyGuiaOtea").Value.Value;
             }
@@ -24,16 +26,10 @@ namespace OTEAServer
 
         }
 
-        public static SessionConfig GetInstance()
-        {
-            if (instance == null)
-            {
-                instance = new SessionConfig();
-            }
-            return instance;
-        }
+        private static SessionConfig Instance => instance.Value;
         public String secret { get; set; }
 
         public String connectionString { get; set; }
+
     }
 }

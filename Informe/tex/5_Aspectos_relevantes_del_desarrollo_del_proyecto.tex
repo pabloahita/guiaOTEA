@@ -91,19 +91,25 @@ esta nueva versión:
     directamente en el apartado de equipos evaluadores. Los usuarios se segregan
     en tres categorías diferentes:
     \begin{itemize}
-        \item \textbf{Usuarios de la Fundación Miradas o usuarios de
-        organización evaluadora: }Estos usuarios tienen la capacidad de crear
-        equipos evaluadores, de añadir organizaciones nuevas y centros nuevos, y
-        de poder crear y visualizar evaluaciones de indicadores. 
-        \item \textbf{Usuarios de organización evaluada: }Estos usuarios
-        pertenecen a las organizaciones que participan en estos test de
-        indicadores junto con la \textit{Fundación Miradas}. Dichos usuarios
-        tienen la capacidad de ver los resultados de los diferentes equipos
-        evaluadores 
-        \item \textbf{Administrador: }Es el encargado de gestionar las tablas de
-        la base de datos, ya sea creando nuevas, eliminando existentes y
-        modificando las columnas de las mismas. Es el único de los tres tipos de usuarios
-        que no se puede registrar de la forma habitual.
+        \item \textit{\textbf{Administrador:}} Es el usuario que posee más
+        permisos en cuanto a funcionalidades de la aplicación se refiere. Dicho
+        actor será el director de \textit{Fundación Miradas}, quien tendrá la
+        potestad de manejar quiénes pueden acceder a la organización y qué
+        organizaciones pueden acceder a ella, además de poder gestionar aquellas
+        operaciones relacionadas con las evaluaciones de indicadores, rellenando
+        los valores de las evidencias y calculando el valor total de cada
+        indicador a partir de las mismas, también calculando el valor total
+        obtenido mediante el valor total de cada indicador, operaciones que
+        ejerce el sistema experto del lado del servidor.
+        \item \textit{\textbf{Director de organización externa: }}Este actor
+        actúa como una especie de \"ayudante\" para el actor
+        \textit{Administrador}, puesto que tiene la potestad de añadir los
+        equipos evaluadores y los centros de su organización, aparte de
+        modificarlos y gestionarlos, con tal de no depender de \textit{Fundación
+        Miradas} para poder realizar esos cometidos. 
+        \item \textit{\textbf{Usuario de organización: }}Es un usuario el cual
+        únicamente puede ver los resultados de los test de indicadores a los que
+        pertenece.
     \end{itemize}
     Se ha decidido segregar de esta forma a los usuarios por pura distinción de
     sus responsabilidades (\textit{Para ver más detalles ir al capítulo de
@@ -115,7 +121,7 @@ esta nueva versión:
     por lo contrario si es un usuario de otra organización. Cada una de las
     organizaciones se identifican por \textbf{identificador de organización} de
     tipo entero, un \textbf{tipo de organización} que puede ser
-    \textit{EVALUATED} o \textit{EVALUATOR} y una \textbf{enfermedad}, que en
+    \textit{EVALUATED} o \textit{EVALUATOR} y un \textbf{trastorno}, que en
     nuestro caso siempre es \textit{AUTISM}. Se ha decidido que se identifiquen
     de esta manera para que esta entidad pueda ser utilizada también para otro
     tipo de diagnósticos o enfermedades, requisito exigido por el tribunal antes
@@ -127,9 +133,7 @@ esta nueva versión:
         aplicación, ya que la propia \textit{Fundación Miradas} es la encargada
         de añadir organizaciones evaluadas, como se ha relatado con
         anterioridad. Para poder añadir una se tendría que utilizar
-        \textit{cURL} o \textit{Azure Studio}. También tiene la potestad de
-        añadir nuevos equivos evaluadores y de gestionar los test de
-        indicadores.
+        \textit{cURL} o \textit{Azure Studio}. 
         \item \textbf{Organizaciones evaluadas: }Son las organizaciones que se
         someten a los diferentes test de indicadores. En contraparte con el otro
         tipo de organizaciones, éstas sí que pueden ser añadidas a partir de la
@@ -159,7 +163,7 @@ gran parte del tiempo de desarrollo de la aplicación, se han ido encontrando
 diferentes dificultades para poder ejecutar dichas órdenes en la base de datos,
 puesto que todo aquello que requiera una conexión a internet desde una
 aplicación Android, requiere que sea ejecutado en segundo plano, ya sea mediante
-\textit{ASyncTask}, mediante callbacks o mediante técnicas de programación
+\textit{java.util.concurrent}, mediante callbacks o mediante técnicas de programación
 concurrente. Ese inconveniente obligó a empezar a trabajar con las operaciones
 al servidor en segundo plano, puesto que en un hilo tiene que estar ejecutándose
 la aplicación y en otro tiene que estar ejecutándose la solicitud al servidor.
@@ -190,9 +194,8 @@ responsabilidades que tienen los usuarios en los que cada una de las tres capas
     peticiones y poder devolver correctamente la respuesta al cliente, previa
     serialización en el cliente y previa deserialización en el servidor. En este
     caso el modelo consta de las clases \textit{User, Organization, Indicator,
-    Evidence, Center, Address, City, Province, Region, Country, EvaluatorTeam,
-    EvaluatorTeamMember, IndicatorsEvaluation} e
-    \textit{IndicatorsEvaluationReg} (\textit{Véase más información acerca de
+    Evidence, Center, Address, City, Province, Region, Country, EvaluatorTeam, IndicatorsEvaluation, IndicatorsEvaluationEvidencesReg, IndicatorsEvaluationIndicatorsReg} e
+    \textit{IndicatorsEvaluationSimpleEvidencesReg} (\textit{Véase más información acerca de
     los modelos en el capítulo de Diseño de los Anexos}). Cabe resaltar también
     que el modelo tiene que ser idéntico tanto en el cliente como en el
     servidor, para evitar así diferentes problemas en la serialización y
@@ -203,7 +206,7 @@ responsabilidades que tienen los usuarios en los que cada una de las tres capas
     usuarios. En este caso, como cada tipo de usuario tiene responsabilidades
     diferentes, se considera que esta aplicación tiene diferentes vistas, todo
     por las responsabilidades que tienen los usuarios. En nuestro caso, la vista
-    es proporcionada al cliente mediante las clases denominadas \textit{Caller},
+    es proporcionada al cliente mediante las clases de tipo controlador o \textit{Controller},
     las cuales se encargan de enviar la solicitud al endpoint correspondiente
     del servidor y de procesar correctamente la respuesta que éste le da.
     \item \textbf{Controlador: }El controlador se encarga de realizar las
@@ -211,7 +214,7 @@ responsabilidades que tienen los usuarios en los que cada una de las tres capas
     puede realizar todo tipo de operaciones \textit{CRUD (Create, Read, Update,
     Delete)} de la base de datos, encargándose también de marcar los endpoints
     en los que se van a realizar dichas operaciones. Dichos métodos del
-    controlador se apoyan en los \textit{Services} que realizan la consulta de
+    controlador se apoyan en el context de \textit{Entity Framework} que realizan la consulta de
     la base de datos, todo ello en el lado del servidor.
 \end{itemize}
 
@@ -256,9 +259,10 @@ largo del tiempo son los siguientes:
     gestión de hilos. Para evitar que salte esta excepción en el cliente, se
     tiene que montar esa estructura \textit{Modelo-Vista-Controlador} en el
     cliente vista con anterioridad, utilizando cualquier técnica de manejo de
-    hilos, decantándome por \textit{ASyncTask} por la razón mencionada en el
-    capítulo anterior, donde se menciona la herramienta y las posibles
-    alternativas a la misma.
+    hilos, decantándome por herramientas de manejo de tareas en segundo plano,
+    como \textit{Future} de \textit{java.util.concurrent}, por la razón
+    mencionada en el capítulo anterior, donde se menciona la herramienta y las
+    posibles alternativas a la misma.
     \item \texttt{400 Bad Request: } Esta excepción ha saltado debido a que el
     JSON no ha sido generado correctamente. Este fallo surge debido a un
     problema en la estructura del modelo o la serialización en el lado del
@@ -270,6 +274,7 @@ largo del tiempo son los siguientes:
     \item {500 Internal Server Error: } Esta excepción surge por un problema interno en el servidor, por lo que el cliente no tiene por qué tener fallos en el modelo o en el procesamiento de la respuesta. Este fallo puede surgir por diferentes razones, por lo que es buena práctica hacer un debug en local del lado del servidor mediante una llamada al endpoint desde herramientas como  \textit{cURL}. Ejemplo: \begin{lstlisting}
         curl -X POST -H "Content-Type: application/json" -d "{\"idOrganization\":1,\"orgType\":\"EVALUATED\",\"illness\":\"AUTISM\",\"idCenter\":1,\"centerDescription\":\"Sede principal\",\"idAddress\":2,\"telephone\":987654321}" https://localhost:7049/Centers
     \end{lstlisting}
+    \item 
     Hay que considerar también que los puntos clave o breakpoints tienen que
     estar activados según la conveniencia que tenga el usuario en ese momento,
     así se puede observar paso a paso el motivo los pasos a seguir hasta llegar
@@ -278,6 +283,424 @@ largo del tiempo son los siguientes:
     tipo de error que surja en el servidor.
 \end{itemize}
 
+\subsubsection{Cambios realizados}
+Los cambios que se realizaron a partir del Trabajo de Final de Grado son los siguientes:
+\begin{itemize}
+    \item Se ha dejado de utilizar \texttt{ASyncTask} debido a que es una clase
+    deprecada desde la API 30\cite{asynctask}, por lo que Google recomienda en su lugar el uso de las diferentes
+    implementaciones de \texttt{java.util.concurrent}.
+    \item Se ha implementado la opción de poder detener la evaluación de
+    indicadores para poder almacenar los registros y poder continuar desde la
+    último indicador revisado.
+    \item Se han utilizado diferentes bibliotecas para poder generar los
+    gráficos a dos vías: En primer lugar se han utilizado la biblioteca de
+    diseño de Android para poder construir las tablas a partir de los elementos
+    prediseñados de Android Studio, y por otro lado se ha usado la biblioteca
+    \texttt{com.otaila.ZoomLayout}\cite{githubGitHubNatario1ZoomLayout} para poder añadir la movilidad necesaria con
+    posibilidad de ampliar o reducir el tamaño de la tabla. Se añade de la
+    siguiente manera en layout:
+    \begin{lstlisting}
+        <com.otaliastudios.zoom.ZoomLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical|horizontal"   
+            app:transformation="centerInside"                                
+            app:transformationGravity="auto"
+            app:alignment="center"
+            app:overScrollHorizontal="true"
+            app:overScrollVertical="true"
+            app:overPinchable="true"
+            app:horizontalPanEnabled="true"
+            app:verticalPanEnabled="true"
+            app:zoomEnabled="true"
+            app:flingEnabled="true"
+            app:scrollEnabled="true"
+            app:oneFingerScrollEnabled="true"
+            app:twoFingersScrollEnabled="true"
+            app:threeFingersScrollEnabled="true"
+            app:minZoom="0.7"
+            app:minZoomType="zoom"
+            app:maxZoom="2.5"
+            app:maxZoomType="zoom"
+            app:animationDuration="280"
+            app:hasClickableChildren="false">
+
+            <!-- Content here. -->
+
+        </com.otaliastudios.zoom.ZoomLayout>
+    \end{lstlisting}
+    \item Para la generación de informes se ha utilizado \texttt{XWPFDocument}
+    de la biblioteca \texttt{org.apache.poi}\cite{apacheXWPFDocumentPOI}. Un ejemplo se puede apreciar en el siguiente fragmento de código:
+    \begin{lstlisting}
+
+        try (InputStream is = FileManager.getInstance().downloadReportTemplate(current_evaluation.getEvaluationType()).join()) {
+
+;
+        // Abrir el documento Word
+        XWPFDocument document = null;//Obtencion del documento con el InputStream
+        try {
+            document = new XWPFDocument(is);
+
+            // Obtener todas las tablas en el documento
+            List<XWPFTable> tables = document.getTables();//Obtener las tablas
+
+                XWPFTable indicatorsTable=tables.get(3);//Obtener la cuarta tabla
+
+                List<XWPFTableRow> rows4=indicatorsTable.getRows();//Obtener las filas de la cuarta tabla
+
+
+                for(XWPFTableRow row:rows4){
+                    List<XWPFTableCell> cells=row.getTableCells();
+                    for(XWPFTableCell cell:cells){
+                        try{
+                            int numIndicator=Integer.parseInt(cell.getText());//Intenta obtener el numero del indicador
+                            if(numIndicator<=indicatorRegs.size()){
+                                String color="";
+                                //Asignamos color a partir del estado
+                                if(indicatorRegs.get(numIndicator-1).getStatus().equals("IN_START")){
+                                    color="FF0000";
+                                } else if (indicatorRegs.get(numIndicator-1).getStatus().equals("IN_PROCESS")) {
+                                    color="FFFF00";
+                                }else{
+                                    color="00FF00";
+                                }
+                                setCellFormat(cell, false, color,"");//Formateamos la tabla
+                            }
+                        }catch(NumberFormatException e){
+                            //Continuamos si no hay numero
+                        }
+                    }
+
+                }
+        }
+         catch (IOException e) {
+                e.printStackTrace();
+            }
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    \end{lstlisting}
+    \item Se ha cambiado la estructura del equipo evaluador para poder soportar
+    más de cuatro fechas de evaluación, las cuales no necesitan introducirse
+    manualmente gracias a la biblioteca \texttt{com.aminography}, y a las clases
+    \texttt{PrimeCalendar}\cite{githubGitHubAminographyPrimeCalendar}, la cual se utiliza para almacenar las fechas y
+    \texttt{PrimeDataPicker}\cite{githubGitHubAminographyPrimeDatePicker}, la cual proporciona los selectores de varias
+    fechas de forma libre. En primer lugar, para seleccionar una única fecha, se utiliza el método \texttt{pickSingleDay}:
+    \begin{lstlisting}
+        creationDateEditText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PrimeCalendar today = new CivilCalendar();//Dia de hoy en calendario gregoriano
+
+                    PrimeDatePicker datePicker = PrimeDatePicker.Companion.dialogWith(today)
+                            .pickSingleDay(new SingleDayPickCallback() {
+                                @Override
+                                public void onSingleDayPicked(PrimeCalendar singleDay) {
+                                    creationDate=singleDay;
+                                    creationDateEditText.setText(creationDate.getLongDateString().split(", ")[1]);//Formateo de la fecha
+                                }
+                            })
+                            .minPossibleDate(today)
+                            .build();
+
+                    datePicker.show(getSupportFragmentManager(), "CREATION_DATE");
+                }
+            });
+    \end{lstlisting}
+    Y para seleccionar varias fechas, lo haríamos con \texttt{pickMultipleDays}:
+    \begin{lstlisting}
+        evaluationDatesEditText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PrimeCalendar today = new CivilCalendar();
+
+                    if(evaluationDates==null){
+                        evaluationDates=new ArrayList<>();
+                    }
+                    PrimeDatePicker datePicker = PrimeDatePicker.Companion.dialogWith(today)
+                            .pickMultipleDays(new MultipleDaysPickCallback() {
+                                @Override
+                                public void onMultipleDaysPicked(List<PrimeCalendar> list) {
+                                    if(!evaluationDates.isEmpty()) {
+                                        evaluationDates.clear();
+                                    }
+                                    evaluationDates.addAll(list);
+                                    String text="";
+                                    Collections.sort(evaluationDates, new Comparator<PrimeCalendar>() {
+                                        @Override
+                                        public int compare(PrimeCalendar o1, PrimeCalendar o2) {
+                                            if(o1.getTimeInMillis() < o2.getTimeInMillis()){
+                                                return -1;
+                                            } else if(o1.getTimeInMillis() > o2.getTimeInMillis()){
+                                                return 1;
+                                            }
+                                            return 0;
+                                        }
+                                    });
+                                    if(evaluationDates.size()>=MIN_NUM_EVAL_DATES && evaluationDates.get(evaluationDates.size()-1).getTimeInMillis()-evaluationDates.get(0).getTimeInMillis()<2629800000L){
+                                        StringBuilder sb=new StringBuilder();
+                                        for(int i=0;i<evaluationDates.size();i++){
+                                            sb.append(evaluationDates.get(i).getLongDateString().split(", ")[1]);
+                                            if(i<evaluationDates.size()-1){
+                                                sb.append(", ");
+                                            }
+                                        }
+                                        text=sb.toString();
+                                    }else{
+                                        if(!evaluationDates.isEmpty()) {
+                                            evaluationDates.clear();
+                                        }
+                                        String msg="";
+                                        if(evaluationDates.size()<MIN_NUM_EVAL_DATES){
+                                            msg="<b>"+getString(R.string.must_select_three_eval_dates)+"</b>";
+                                        }
+                                        else if(evaluationDates.get(evaluationDates.size()-1).getTimeInMillis()-evaluationDates.get(0).getTimeInMillis()>=2629800000L){
+                                            msg="<b>"+getString(R.string.difference_between_dates_is_equal_or_greater_than_a_month)+"</b>";
+                                        }
+                                        new AlertDialog.Builder(RegisterNewEvaluatorTeam.this)
+                                                .setTitle(getString(R.string.error))
+                                                .setMessage(Html.fromHtml(msg,0))
+                                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                                .setPositiveButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                    }
+                                                })
+                                                .create().show();
+
+                                    }
+                                    evaluationDatesEditText.setText(text);
+
+                                }
+                            })
+                            .initiallyPickedMultipleDays(evaluationDates)
+                            .minPossibleDate(today)
+                            .build();
+                    datePicker.show(getSupportFragmentManager(), "EVALUATION_DATES");
+                }
+            });
+    \end{lstlisting}
+    \item Se ha añadido la posibilidad de añadir fotos de perfil a usuarios,
+    organizaciones, equipos evaluadores y centros. Para subir los ficheros a
+    un contenedor de Azure, se ha creado el siguiente método en la clase
+    \texttt{FileManager}:
+    \begin{lstlisting}
+        public static void uploadFile(InputStream inputStream, String containerName, String fileName){
+        Runnable task=()->{
+
+            // Get the BlobContainerClient;
+            containerClient = blobServiceClient.getBlobContainerClient(containerName);
+
+
+            // Get the BlobClient
+            blobClient = containerClient.getBlobClient(fileName);
+
+            try {
+                BinaryData data=BinaryData.fromStream(inputStream);
+                blobClient.upload(data,true);
+            }catch(Throwable t){
+                if(!(t instanceof IllegalArgumentException)){//Exception appears, but file uploads correctly, obtaining a blob url
+                    throw t;
+                }
+            }
+        };
+
+        task.run();
+    }
+    \end{lstlisting}
+    Como punto adicional, al inicio de sesión se descargan las fotos de perfil del usuario y de la organización de forma paralela. Para ello se utiliza un \texttt{CountDownLatch} con tantos hilos como ficheros querramos descargar.
+    \begin{lstlisting}
+        public static void downloadPhotosProfileAsync(List<String> fileNames, final PhotosDownloadCallback callback) {
+        // Contador para esperar a que todas las descargas se completen
+        CountDownLatch latch = new CountDownLatch(fileNames.size());
+        List<ByteArrayOutputStream> resultStreams = new ArrayList<>();
+
+        for (String fileName : fileNames) {
+            // Get the BlobContainerClient
+            BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient("profile-photos");
+            // Get the BlobClient
+            BlobClient blobClient = containerClient.getBlobClient(fileName);
+
+            if(!fileName.isEmpty()) {
+                // Ejecutar cada descarga en un hilo separado
+                new Thread(() -> {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    try {
+                        blobClient.downloadStream(stream);
+                        numAttempts = 0;
+                        // Llamar al callback en caso de exito
+                        callback.onPhotoDownloadSuccess(fileName, stream);
+                    } catch (Exception e) {
+                        if (e.getCause() instanceof SocketTimeoutException) {
+                            numAttempts++;
+                            if (numAttempts < 3) {
+                                // Intentar nuevamente la descarga recursivamente
+                                downloadPhotosProfileAsync(Collections.singletonList(fileName), callback);
+                            } else {
+                                numAttempts = 0;
+                                // Llamar al callback en caso de falla despues de varios intentos
+                                callback.onPhotoDownloadFailure(fileName, new RuntimeException("Numero maximo de intentos alcanzado", e));
+                            }
+                        } else {
+                            // Llamar al callback en caso de otro tipo de error
+                            callback.onPhotoDownloadFailure(fileName, new RuntimeException("Error en la descarga", e));
+                        }
+                    } finally {
+                        latch.countDown(); // Reducir el contador del latch cuando una descarga se completa
+                    }
+                }).start();
+            }else{
+
+            }
+        }
+
+        try {
+            latch.await(); // Esperar hasta que todas las descargas se completen
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+    \end{lstlisting}
+    Y en la clase \texttt{ProfilePhotoUtil}, creamos un callback para asignar la fotografía al correspondiente bitmap.
+    \begin{lstlisting}
+    private ProfilePhotoUtil(String profilePhotoUsr,String profilePhotoOrg){
+        this.profilePhotoUsr = profilePhotoUsr;
+        this.profilePhotoOrg = profilePhotoOrg;
+
+        List<String> fileNames=new ArrayList<>();
+        if(!profilePhotoUsr.isEmpty()) {
+            fileNames.add(profilePhotoUsr);
+        }
+        if(!profilePhotoOrg.isEmpty()) {
+            fileNames.add(profilePhotoOrg);
+        }
+
+        if(!fileNames.isEmpty()) {
+            // Descargar fotos en paralelo
+            FileManager.downloadPhotosProfileAsync(fileNames, new FileManager.PhotosDownloadCallback() {
+                @Override
+                public void onPhotoDownloadSuccess(String fileName, ByteArrayOutputStream stream) {
+                    if (fileName.equals(profilePhotoUsr)) {
+                        imgUser = getBitmapFromStream(stream);
+                    } else {
+                        imgOrg = getBitmapFromStream(stream);
+                    }
+                }
+
+                @Override
+                public void onPhotoDownloadFailure(String fileName, Exception e) {
+
+                }
+
+
+            });
+        }
+    }
+    \end{lstlisting}
+    \item Los informes, al igual que las fotografías de perfil, son almacenados en un contenedor de Azure, utilizando un método de \texttt{FileManager} para dicho cometido:
+    \begin{lstlisting}
+        public static CompletableFuture<ByteArrayOutputStream> downloadReport(String fileName){
+        return CompletableFuture.supplyAsync(() -> {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            // Get the BlobContainerClient
+            BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient("reports");
+            // Get the BlobClient
+            BlobClient blobClient = containerClient.getBlobClient(fileName);
+            try {
+                blobClient.downloadStream(stream);
+                numAttempts=0;
+            } catch (Exception e) {
+                if(e.getCause() instanceof SocketTimeoutException){
+                    numAttempts++;
+                    if(numAttempts<3) {
+                        return downloadReport(fileName).join();
+                    }
+                    else{
+                        numAttempts=0;
+                        return null;
+                    }
+                }
+                else{
+                    throw new RuntimeException(e);
+                }
+            }
+            return stream;
+        });
+    }
+    \end{lstlisting}
+    Posteriormente, en el método donde se llame, se añade el método \texttt{join()} de \texttt{CompletableFuture}:
+    \begin{lstlisting}
+        FileManager.downloadReport(fileName).join();
+    \end{lstlisting}
+    \item Se han añadido actividades en la aplicación para editar usuarios, organizaciones, equipos evaluadores y centros.
+    \item Se ha ampliado la precarga geográfica (para los desplegables) a todos los países de Hispanoamérica y de Portugal.
+    \item Los campos de número de teléfono han pasado de ser \texttt{Long} o
+    \texttt{BIGINT} a ser \texttt{String} o \texttt{VARCHAR}, puesto que añadimos el prefijo telefónico de cada país.
+    \item En las evaluaciones de indicadores, se permite la adición de conclusiones al finalizar la evaluación de indicadores.
+    \item En las evaluaciones de indicadores, se permite la adición de
+    oportunidades de mejora, ya sea para la generalidad del indicador o para
+    cada una de las cuatro evidencias, ayudando a determinar por qué no se
+    cumple una evidencia o no se ha alcanzado un indicador.
+    \item Se ha creado una web app sencilla que ayuda al administrador a
+    gestionar los registros, con la finalidad de que cualquier usuario no pueda
+    registrarse sin previa autorización de este actor. Dicha web
+    app\cite{guiaoteaadminHerramientaAdministracixF3n} garantiza la seguridad
+    que necesita una operación de tal importancia.
+    \item Se ha implementado la implementación continua de GitHub en Azure, la
+    cual permite que en cada commit se implemente la web app del lado del
+    servidor.
+    \item Se han creado layouts específicos para tablet y para pantallas
+    horizontales, al igual que bloquear la orientación en la mayoría de
+    actividades.
+\end{itemize}
+
+\subsubsection{Funcionalidades descartadas}
+Aparte de eso, se han descartado otras funcionalidades adicionales por su falta de necesidad prioritaria:
+\begin{itemize}
+    \item En primer lugar, se ha desechado la funcionalidad de editar, añadir y
+    eliminar indicadores, evidencias, ámbitos y subdivisiones, ya que dicho
+    contenido no es variable a lo largo del tiempo, sino que dicho contenido es
+    fijo y no pretende cambiarse por el momento, al tratarse de una referencia
+    clara para la mejora de la calidad de vida de las personas con trastorno del
+    espectro autista.
+    \item Aunque se haya implementado un sistema de traducción en el lado del
+    servidor, y habiendo colocado diez columnas para cada idioma, es una API muy
+    limitada, por lo que se ha desechado su uso porque supondría un sobrecoste
+    adicional por dicho servicio, ya sea a través de Azure o a través de otros
+    servicios. Además, el mercado del proyecto va a ser hispanohablante, por lo
+    que no es una funcionalidad estrictamente necesaria en este momento.
+    \item De igual manera, se ha desechado la opción de implementar un servicio
+    de correo electrónico y de SMS para la gestión de registros de usuario, ya
+    que de igual manera el coste de dichos servicios es muy elevado, además de
+    que bajo el contexto de funcionamiento del trabajo de \textit{Fundación
+    Miradas}, la comunicación constante es primordial para la notificación de
+    cualquier novedad.
+    \item Se ha eliminado la clase \texttt{EvaluatorTeamMember}, ya que era
+    innecesaria para poder agregar a los usuarios de los equipos evaluadores.
+    \item Se ha desechado la pantalla de \textit{Actividad reciente} y se ha
+    sustituido con un menú principal personalizado para cada tipo de usuario,
+    favoreciendo la intituividad de la aplicación.
+    \item Se han generado los gráficos de manera manual mediante bibliotecas de
+    Java, al igual que el uso de \texttt{XWPFDocument} con plantillas para la
+    generación de las tablas, en lugar de realizar los gráficos mediante Azure.
+    \item Si utilizamos el campo \texttt{passwordUser} de la entidad
+    \texttt{User} como internal, no se puede acceder a él dentro de la
+    serialización en cliente, por lo que en cliente se utiliza
+    \texttt{JsonDocument} (C\#) y \texttt{JsonObject} (Java) para los getters de
+    usuario, sin mostrar la contraseña.
+    \item Se ha desechado el uso de un menú de preferencias, ya que no es
+    estrictamente necesaria. Para solventarlo, se han utilizado pictogramas en
+    las imágenes y se ha mejorado la visualización de la interfaz para que no
+    sea tan necesario.
+    \item Es muy complicado hacer que \textit{Apple} acepte un proyecto de
+    código abierto, por lo que se ha desechado por el momento, por lo que los
+    sistemas \texttt{Android}, siendo más económicos que los dispositivos
+    \texttt{Apple}, son la opción principal para el desarrollo de la aplicación.
+    Aun eso, ciertas funcionalidades se utilizan mediante web apps.
+    
+\end{itemize}
 
 \subsection{Internacionalización}
 
@@ -286,24 +709,27 @@ accesibilidad y usabilidad en diferentes países y culturas. En el caso de una
 aplicación de Android Studio, es posible implementar la internacionalización de
 manera efectiva utilizando diferentes recursos proporcionados por la plataforma.
 A continuación, se presenta un apartado sobre la internacionalización de la
-aplicación, considerando los idiomas español, inglés y francés, y la posibilidad
-de ampliarlo a otros idiomas en el futuro:
+aplicación, considerando los idiomas español, inglés, francés, euskera, catalán,
+neerlandés, gallego, alemán, italiano y portugués, y la posibilidad de ampliarlo
+a otros idiomas en el futuro:
 
 \begin{itemize}
     \item \textbf{Internacionalización de la interfaz gráfica: }La interfaz
-    gráfica de la aplicación se ha traducido a tres idiomas: español, inglés y
-    francés. Android Studio proporciona una herramienta llamada\textit{
-    Translations Editor} que facilita la gestión de los ficheros strings.xml
-    para cada idioma. Esta herramienta permite configurar de manera interactiva
-    los textos de la interfaz en los diferentes idiomas. ara implementar la
-    internacionalización de la interfaz gráfica en la aplicación, se deben
-    seguir los siguientes pasos:
+    gráfica de la aplicación se tradujo el curso pasado a tres idiomas: español,
+    inglés y francés. Este año se han añadido siete idiomas más a la interfaz:
+    euskera, catalán, gallego, neerlandés, alemán, italiano y portugués. Android
+    Studio proporciona una herramienta llamada\textit{ Translations Editor} que
+    facilita la gestión de los ficheros strings.xml para cada idioma. Esta
+    herramienta permite configurar de manera interactiva los textos de la
+    interfaz en los diferentes idiomas. ara implementar la internacionalización
+    de la interfaz gráfica en la aplicación, se deben seguir los siguientes
+    pasos:
     \begin{itemize}
         \item \textit{Creación de ficheros strings.xml:} Para cada idioma, se deben crear
         ficheros strings.xml separados en diferentes directorios. Por ejemplo:
         strings.xml para el idioma por defecto (inglés) en el directorio
         \textit{values}, strings.xml para el español en el directorio
-        \textit{values-es} y strings.xml para el francés en el directorio \textit{strings-fr}.
+        \textit{values-es} y strings.xml para el francés en el directorio \textit{values-fr}, así para los diez idiomas disponibles.
     
         \item \textit{Definición de cadenas de texto:} En cada fichero strings.xml, se
         deben definir las cadenas de texto utilizadas en la interfaz gráfica de
@@ -337,8 +763,9 @@ de ampliarlo a otros idiomas en el futuro:
     datos de indicadores y evidencias de la base de datos, se deben considerar
     las traducciones correspondientes para cada idioma. Por ejemplo, si el
     idioma del dispositivo es español, se deben obtener los datos en español; si
-    es francés, se deben obtener en francés; de lo contrario, se obtienen en
-    inglés.
+    es francés, se deben obtener en francés, así con cada uno de los idiomas
+    mencionados. El idioma predefinido en caso de no estar registrado en la
+    aplicación es el idioma inglés.
     \item \textit{Visualización de los datos en la interfaz:} Una vez obtenidos
     los datos en el idioma correspondiente, se pueden mostrar enla interfaz de
     la aplicación según el diseño y la estructura definida.
@@ -354,5 +781,96 @@ de ampliarlo a otros idiomas en el futuro:
 
 
 
-
-
+\section{Pruebas}
+Las pruebas realizadas con la aplicación suponen la comprobación de que todos
+los aspectos de la misma funcionan correctamente, sobre todo desde el punto de
+la funcionalidad básica de la misma. 
+\subsection{Organización evaluadora creada}
+A la \texttt{Fundación Miradas} y a su administrador se les ha añadido desde
+\texttt{Azure Data Studio}, ya que la propia aplicación no permite la creación
+de usuarios y organizaciones de tan altos privilegios:
+\begin{itemize}
+    \item En primer lugar se ha añadido a la \textit{Fundación Miradas} como organización:
+    \begin{itemize}
+        \item \textbf{Identificador de organización: }1
+        \item \textbf{Tipo de organización: }Evaluadora
+        \item \textbf{Trastorno/enfermedad: }Autismo
+        \item \textbf{Nombre: }Fundación Miradas
+        \item \textbf{Dirección: }Calle Valdenúñez, 8, Burgos.
+        \item \textbf{Email: }fmiradas@fundacionmiradas.org
+        \item \textbf{Teléfono: }+34 622434974
+    \end{itemize}
+    \item Posteriormente se ha creado una cuenta de administrador de
+    \texttt{Fundación Miradas} para poder realizar las operaciones a partir de la
+    aplicación:
+    \begin{itemize}
+        \item \textbf{Nombre: }Miguel
+        \item \textbf{Apellidos: }Gómez Gentil
+        \item \textbf{Tipo de usuario: }Administrador
+        \item \textbf{Email: }fmiradas@fundacionmiradas.org
+        \item \textbf{Teléfono: }+34 654545454
+        \item \textbf{Identificador de organización: }1
+        \item \textbf{Tipo de organización: }Evaluadora
+        \item \textbf{Trastorno/enfermedad: }Autismo
+    \end{itemize}
+\end{itemize}
+A partir de estos datos de base, podemos crear ejemplo de uso real.
+\subsection{Organización evaluada creada}
+Para crear una organización, se ha tenido que crear tanto a la propia organización como a su director:
+\begin{itemize}
+    \item En primer lugar se han introducido los siguientes datos para la organización:
+    \begin{itemize}
+        \item \textbf{Identificador de organización: }1
+        \item \textbf{Tipo de organización: }Evaluada
+        \item \textbf{Trastorno/enfermedad: }Autismo
+        \item \textbf{Nombre: }Españita Power
+        \item \textbf{Dirección: }Calle Fernando Alonso, 33, Oviedo.
+        \item \textbf{Email: }espanitapower@hotmail.com
+        \item \textbf{Teléfono: }+34 654545454
+    \end{itemize}
+    \item Posteriormente, tras añadir el email del director de la organización, este tiene los siguientes datos:
+    \begin{itemize}
+        \item \textbf{Nombre: }Pablo
+        \item \textbf{Apellidos: }Ahíta del Barrio
+        \item \textbf{Tipo de usuario: }Director
+        \item \textbf{Email: }pablete@hotmail.com
+        \item \textbf{Teléfono: }+34 654545454
+        \item \textbf{Identificador de organización: }1
+        \item \textbf{Tipo de organización: }Evaluada
+        \item \textbf{Trastorno/enfermedad: }Autismo
+    \end{itemize}
+\end{itemize}
+\subsection{Usuario creado}
+Adicionalmente a eso, se ha creado un usuario adicional para la organización \textit{Españita Power}, el cual tiene los siguientes datos:
+\begin{itemize}
+    \item \textbf{Nombre: }Luisito
+    \item \textbf{Apellidos: }Comunica
+    \item \textbf{Tipo de usuario: }Organización
+    \item \textbf{Email: }luisito@hotmail.com
+    \item \textbf{Teléfono: }+52 5521123456
+    \item \textbf{Identificador de organización: }1
+    \item \textbf{Tipo de organización: }Evaluada
+    \item \textbf{Trastorno/enfermedad: }Autismo
+\end{itemize}
+La finalidad es tener dos usuarios, el director y un usuario de organización,
+para poder asignar al equipo evaluador de turno.
+\subsection{Equipo evaluador creado}
+Para el equipo de evaluador, se han introducido los siguientes datos:
+\begin{itemize}
+    \item \textbf{Identificador de equipo evaluador: }1
+    \item \textbf{Fecha de creación: }16 de mayo de 2024
+    \item \textbf{Consultor externo: }Flavio Briatore
+    \item \textbf{Email del responsable: }pablete@hotmail.com
+    \item \textbf{Email del profesional de atención directa: }luisito@hotmail.com
+    \item \textbf{Otros miembros: }Lawrence Stroll, Matt Watson, Mikey Brown, Dan Fallows
+    \item \textbf{Identificador de organización evaluadora: }1
+    \item \textbf{Tipo de organización evaluadora: }Evaluadora
+    \item \textbf{Identificador de organización evaluada: }1
+    \item \textbf{Tipo de organización evaluada: }Evaluada
+    \item \textbf{Identificador de centro: }1
+    \item \textbf{Trastorno/enfermedad: }Autismo
+    \item \textbf{Nombre de la persona con TEA: }Esteban Ocon
+    \item \textbf{Nombre del familiar de la persona con TEA: }Fernando Alonso
+    \item \textbf{Fechas de evaluación: }18 de mayo de 2024, 19 de mayo de 2024 y 20 de mayo de 2024
+\end{itemize}
+\subsection{Evaluación de indicadores creada}

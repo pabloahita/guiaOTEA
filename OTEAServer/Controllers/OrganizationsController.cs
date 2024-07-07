@@ -167,8 +167,8 @@ namespace OTEAServer.Controllers
         /// <param name="illness">Organization illness or syndrome</param>
         /// <returns>Organization if success, null if not</returns>
         [HttpGet("get")]
-        [Authorize]
-        public ActionResult<Organization> Get([FromQuery] int id,[FromQuery] string orgType,[FromQuery] string illness, [FromHeader] string Authorization)
+        [AllowAnonymous]
+        public ActionResult<Organization> Get([FromQuery] int id,[FromQuery] string orgType,[FromQuery] string illness)
         {
             try
             {

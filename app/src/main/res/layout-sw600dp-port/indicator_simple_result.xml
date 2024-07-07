@@ -43,39 +43,76 @@
             android:padding="35dp"
             android:textColor="@color/black" />
 
-        <CheckBox
-            android:id="@+id/evidence1"
+        <TextView
+            android:id="@+id/ev_1_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/evidence1"
-            android:textSize="20sp"
-            android:layoutDirection="rtl"
-            android:background="@drawable/switch_style"
-            android:buttonTint="@color/checkbox_color"
+            android:textSize="21sp"
             android:padding="15dp"
-            android:clickable="false"/>
-        <CheckBox
-            android:id="@+id/evidence2"
+            android:textStyle="bold|italic"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/ev_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/improvement_opportunities"
+            android:textSize="20sp"
+            android:padding="15dp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/ev_2_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/evidence2"
-            android:textSize="20sp"
-            android:layoutDirection="rtl"
-            android:background="@drawable/switch_style"
-            android:buttonTint="@color/checkbox_color"
+            android:textStyle="bold|italic"
+            android:textSize="21sp"
             android:padding="15dp"
-            android:clickable="false"/>
-        <CheckBox
-            android:id="@+id/evidence3"
+            android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/ev_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/improvement_opportunities"
+            android:textSize="20sp"
+            android:padding="15dp"
+            android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/ev_3_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/evidence3"
-            android:textSize="20sp"
-            android:layoutDirection="rtl"
-            android:background="@drawable/switch_style"
-            android:buttonTint="@color/checkbox_color"
+            android:textStyle="bold|italic"
+            android:textSize="21sp"
             android:padding="15dp"
-            android:clickable="false"/>
+            android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/ev_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/improvement_opportunities"
+            android:textSize="20sp"
+            android:padding="15dp"
+            android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/ev_4_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/evidence4"
+            android:textStyle="bold|italic"
+            android:textSize="21sp"
+            android:padding="15dp"
+            android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/ev_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/improvement_opportunities"
+            android:textSize="20sp"
+            android:padding="15dp"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/improvement_proposals"
@@ -166,6 +203,24 @@
             android:textColor="@color/black" />
         <TextView
             android:id="@+id/about_ev_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/improvement_opportunities"
+            android:textSize="20sp"
+            android:padding="15dp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/about_ev_4_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_the_evidence_4"
+            android:textSize="21sp"
+            android:padding="15dp"
+            android:textStyle="bold|italic"
+            android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/about_ev_4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/improvement_opportunities"

@@ -286,10 +286,50 @@ namespace OTEAServer.Controllers
                             "\"observationsPortuguese\":\"" + reg.observationsPortuguese + "\"}";
                         regs.Add(JsonDocument.Parse(rg));
                     }
-                    String tams= "{\"numIndicatorsRegs\":\"" + IndicatorsEvaluationsIndicatorsRegs.Count + "\"," +
-                        "\"numEvidencesRegs\":\"" + IndicatorsEvaluationsEvidencesRegs.Count + "\"}";
+                    String tams = "{\"numIndicatorsRegs\":\"" + IndicatorsEvaluationsIndicatorsRegs.Count + "\"," +
+                            "\"numEvidencesRegs\":\"" + IndicatorsEvaluationsEvidencesRegs.Count + "\"}";
                     regs.Add(JsonDocument.Parse(tams));
                 }
+                else {
+                    var IndicatorsEvaluationsEvidencesRegs = _context.IndicatorsEvaluationsSimpleEvidencesRegs.Where(r => r.evaluationDate == evaluationDate && r.idEvaluatorTeam == idEvaluatorTeam && r.idEvaluatorOrganization == idEvaluatorOrganization && r.orgTypeEvaluator == orgTypeEvaluator && r.idEvaluatedOrganization == idEvaluatedOrganization && r.orgTypeEvaluated == orgTypeEvaluated && r.illness == illness && r.idCenter == idCenter && r.evaluationType == evaluationType)
+                        .OrderBy(r => r.idIndicator)
+                        .ThenBy(r => r.idEvidence)
+                        .ToList();
+                    foreach (IndicatorsEvaluationSimpleEvidenceReg reg in IndicatorsEvaluationsEvidencesRegs)
+                    {
+                        String rg = "{\"idSubSubAmbit\":\"" + reg.idSubSubAmbit + "\"," +
+                            "\"idSubAmbit\":\"" + reg.idSubAmbit + "\"," +
+                            "\"idAmbit\":\"" + reg.idAmbit + "\"," +
+                            "\"idIndicator\":\"" + reg.idIndicator + "\"," +
+                            "\"idEvidence\":\"" + reg.idEvidence + "\"," +
+                            "\"descriptionSpanish\":\"" + reg.descriptionSpanish + "\"," +
+                            "\"descriptionEnglish\":\"" + reg.descriptionEnglish + "\"," +
+                            "\"descriptionFrench\":\"" + reg.descriptionFrench + "\"," +
+                            "\"descriptionBasque\":\"" + reg.descriptionBasque + "\"," +
+                            "\"descriptionCatalan\":\"" + reg.descriptionCatalan + "\"," +
+                            "\"descriptionDutch\":\"" + reg.descriptionDutch + "\"," +
+                            "\"descriptionGalician\":\"" + reg.descriptionGalician + "\"," +
+                            "\"descriptionGerman\":\"" + reg.descriptionGerman + "\"," +
+                            "\"descriptionItalian\":\"" + reg.descriptionItalian + "\"," +
+                            "\"descriptionPortuguese\":\"" + reg.descriptionPortuguese + "\"," +
+                            "\"indicatorVersion\":\"" + reg.indicatorVersion + "\"," +
+                            "\"observationsSpanish\":\"" + reg.observationsSpanish + "\"," +
+                            "\"observationsEnglish\":\"" + reg.observationsEnglish + "\"," +
+                            "\"observationsFrench\":\"" + reg.observationsFrench + "\"," +
+                            "\"observationsBasque\":\"" + reg.observationsBasque + "\"," +
+                            "\"observationsCatalan\":\"" + reg.observationsCatalan + "\"," +
+                            "\"observationsDutch\":\"" + reg.observationsDutch + "\"," +
+                            "\"observationsGalician\":\"" + reg.observationsGalician + "\"," +
+                            "\"observationsGerman\":\"" + reg.observationsGerman + "\"," +
+                            "\"observationsItalian\":\"" + reg.observationsItalian + "\"," +
+                            "\"observationsPortuguese\":\"" + reg.observationsPortuguese + "\"}";
+                        regs.Add(JsonDocument.Parse(rg));
+                    }
+                    String tams = "{\"numIndicatorsRegs\":\"" + IndicatorsEvaluationsIndicatorsRegs.Count + "\"," +
+                            "\"numEvidencesRegs\":\"" + IndicatorsEvaluationsEvidencesRegs.Count + "\"}";
+                    regs.Add(JsonDocument.Parse(tams));
+                }
+                
                 return Ok(regs);
             }
             catch (Exception ex)

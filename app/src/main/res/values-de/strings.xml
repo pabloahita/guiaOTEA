@@ -104,7 +104,7 @@
     <string name="add_new_center">Neues Zentrum der bewerteten Organisation hinzufügen</string>
     <string name="add_new_indicators_evaluation">Neue Indikatoren-Bewertung hinzufügen</string>
     <string name="add_new_evaluated_organization">Organisation oder Dienst hinzufügen</string>
-    <string name="org_name">Name der Organisation oder des Dienstes</string>
+    <string name="org_name">Name der Organisation</string>
     <string name="org_address">Adresse</string>
     <string name="org_zipcode">PLZ</string>
     <string name="org_city">Stadt</string>
@@ -137,8 +137,8 @@
     <string name="please_director">Bitte geben Sie einen Organisationsleiter ein</string>
     <string name="please_professional">Bitte wählen Sie eine direkte Betreuungsfachkraft aus</string>
     <string name="please_wait_login">Verbindung zur Datenbank zum Einloggen wird hergestellt. Bitte warten Sie einige Sekunden...</string>
-    <string name="please_wait_register_user">Verbindung zur Datenbank zur Registrierung des Benutzers wird hergestellt. Bitte warten Sie einige Sekunden...</string>
-    <string name="please_wait_reg_orgs">Verbindung zur Datenbank zur Registrierung der Organisation wird hergestellt. Bitte warten Sie einige Sekunden...</string>
+    <string name="please_wait_register_user">Benutzer wird registriert... Bitte warten Sie einen Moment...</string>
+    <string name="please_wait_reg_orgs">Organisation wird registriert... Bitte warten Sie einen Moment...</string>
     <string name="please_wait">Verbindung zur Datenbank wird hergestellt... Bitte warten Sie einige Sekunden...</string>
     <string name="do_you_want_to_exit_otea">Möchten Sie OTEA verlassen?</string>
     <string name="yes">Ja</string>
@@ -156,7 +156,7 @@
     <string name="please_evaluated_org">Bitte wählen Sie eine bewertete Organisation aus</string>
     <string name="please_consultant">Bitte wählen Sie einen externen Berater aus</string>
     <string name="please_responsible">Bitte wählen Sie einen Verantwortlichen aus</string>
-    <string name="evaluated_org">Organisation oder Dienst</string>
+    <string name="evaluated_org">Organisation</string>
     <string name="consultant">Externer Berater</string>
     <string name="professional">Direkte Betreuungsfachkraft</string>
     <string name="responsible">Verantwortlicher</string>
@@ -352,6 +352,26 @@
     <string name="delete">Löschen</string>
     <string name="no_center">Es gibt kein zusätzliches Zentrum in Ihrer Organisation. Bitte wählen Sie eine andere Option im Hauptmenü.</string>
     <string name="no_existant_eval_team">Es gibt kein Bewertungsteam in Ihrer Organisation. Bitte wählen Sie eine andere Option im Hauptmenü.</string>
+    <string name="sending_request">Registrierungsanfrage senden...</string>
+    <string name="registering_user">Benutzer wird registriert...</string>
+    <string name="back_to_login_str">Rückkehr zum Anmeldebildschirm...</string>
+    <string name="eval_team_added_sucessful">Das Evaluierungsteam wurde erfolgreich hinzugefügt</string>
+    <string name="eval_team_edited_sucessful">Das Evaluierungsteam wurde zufriedenstellend modifiziert</string>
+    <string name="user_edited">Ihr Benutzer wurde erfolgreich geändert</string>
+    <string name="ind_eval_reg_suc">Die Bewertung der Indikatoren wurde zufriedenstellend erfasst. Sie können es später fortsetzen</string>
+    <string name="ind_eval_reg_suc_end">Die Auswertung der Indikatoren ist abgeschlossen und wurde zufriedenstellend erfasst</string>
+    <string name="email_dir">E-Mail des Direktors</string>
+    <string name="in_this_sec_see_ind">In diesem Abschnitt können Sie die Ergebnisse des Indikatortests einsehen und aus den folgenden Optionen wählen:</string>
+    <string name="info_see_ind_hlp">Durch Drücken dieser Schaltfläche erhalten Sie Zugriff auf die Identifikationsdaten des Bewertungsteams, dessen Mitglieder, den Bewertungsprozess, die Gesamtbewertung, die Stärken und die Ergebnisse nach Niveau und Anzahl der markierten Nachweise.</string>
+    <string name="res_see_ind_hlp">Wenn Sie auf diese Schaltfläche drücken, gelangen Sie zur Ergebnistabelle der Indikatoren. Es funktioniert wie ein Foto in Ihrer Galerie-App; Sie können es vergrößern und verkleinern sowie darüber scrollen. Wenn Sie auf einen Indikator drücken, erscheinen Informationen über die markierten Nachweise und die Verbesserungschancen in Bezug auf diesen Indikator.</string>
+    <string name="hlp_see_ind_hlp">Wenn Sie diesen Button drücken, gelangen Sie zu diesem Hilfemenü.</string>
+    <string name="please_wait_save_changes">Änderungen werden gespeichert... Bitte warten Sie einen Moment...</string>
+    <string name="please_wait_register_center">Zentrum oder Service wird registriert... Bitte warten Sie einen Moment...</string>
+    <string name="please_wait_eval_team">Bewertungsteam wird registriert... Bitte warten Sie einige Sekunden...</string>
+    <string name="are_you_sure_del_center">Sind Sie sicher, dass Sie dieses Zentrum löschen möchten? Bitte beachten Sie, dass alle Bewertungsteams und Indikatorenbewertungen, die mit diesem Zentrum in Verbindung stehen, ebenfalls gelöscht werden</string>
+    <string name="center_deleted">Zentrum erfolgreich gelöscht</string>
+    <string name="are_you_sure_del_eval_team">Sind Sie sicher, dass Sie dieses Bewertungsteam löschen möchten? Bitte beachten Sie, dass alle mit diesem Bewertungsteam verbundenen Indikatorbewertungen ebenfalls gelöscht werden</string>
+    <string name="eval_team_deleted">Bewertungsteam erfolgreich gelöscht</string>
 
 
 </resources>
