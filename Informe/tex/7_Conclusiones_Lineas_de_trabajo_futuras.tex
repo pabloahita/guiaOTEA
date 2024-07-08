@@ -8,45 +8,13 @@ resulta muy útil realizar un informe crítico indicando cómo se puede mejorar 
 proyecto, o cómo se puede continuar trabajando en la línea del proyecto
 realizado. 
 
-Por lo tanto las posibles mejoras que se pueden aplicar a esta aplicación,
-podemos destacar las siguientes:%Rechazados ya añadidos como aspectos relevantes
+Por lo tanto las posibles ampliaciones que pueden realizarse en el futuro,
+aunque no sean estrictamente necesarias en el corto plazo, son las siguientes:
 \begin{itemize}
-
-  
-    \item Se va a desarrollar la generación de los gráficos de los resultados de
-    los test de indicadores, disponiendo para ello de la estructura necesaria para
-    ello, teniendo \textit{Azure} diferentes recursos para la generación de los mismos. %Se ha optado por bibliotecas de Java para generar informes
-    \item Se va a desarrollar una pantalla para que la propia \textit{Fundación
-    Miradas} pueda añadir, eliminar y modificar los indicadores y sus
-    respectivas evidencias de igual forma que otras actividades de tipo formulario. %Infactible puesto que la información no va a cambiar a largo plazo
-    \item Se va a implementar en \textit{Azure} un despliegue de tipo dinámico,
-    en el cual cada vez que se haga un commit en el repositorio de
-    \textit{GitHub}, los cambios en el despliegue se harán efectivos de forma
-    automática. %Hecho
-    \item Se pretende mejorar la seguridad en la muestra de los endpoints,
-    buscando la manera de que algunos campos sensibles sean invisibles a la hora
-    de mostrar los endpoint. Se ha tratado de poner el campo
-    \texttt{passwordUser} en el servidor como \texttt{internal}, el cual sólo
-    es visible en el ensamblado, pero finalmente se desechó esa idea debido a
-    que genera complicaciones entre cliente y servidor. %Todos los endpoints de User pasan la información como JsonDocument y no como user, sin mostrar las contraseñas aunque estém hasheadas
-    \item En la versión final no se va a utilizar HTTP para la realización de
-    las peticiones, buscando alternativas bastante más seguras, como puede ser
-    el uso de \textit{Entity Framework}, una ORM (Object-Relational Mapping) que
-    puede realizar esas operaciones CRUD sin escribir las consultas SQL en el
-    código del servidor. %Hecho
-    \item Se va a configurar un menú de opciones para que la aplicación pueda
-    configurar la interfaz gráfica de la aplicación a su gusto y necesidades,
-    incluyendo entre estas características el modo de lectura fácil para
-    aquellas personas que lo necesitan. %Se han puesto botones con pictogramas para ayudar a la comprensión
-    \item Se pretende a su vez también desarrollar esta aplicación también en
-    forma de aplicación web y para \textit{iOS}, ampliando sobremanera el marco
-    de usuarios ya de por sí amplio con los usuarios de \textit{Android}. Para
-    ello puede utilizarse también herramientas de \textit{Visual Studio 2022} y
-    de \textit{C\#}, tal y como se menciona en el capítulo de \textit{Técnicas y
-    Herramientas} de esta memoria.%La app web sirve para descargar los informes desde ordenador y desde espacios en la nube sencillos.
-    \item Se pretende ampliar la internacionalización de la aplicación mediante
-    las herramientas mencionadas en el capítulo de Aspectos relevantes del
-    desarrollo %Ampliado a 10 idiomas, aunque sea innecesario por el momento.
+    \item Se puede ampliar la web app para poder pasar las funcionalidades de la
+    app Android a una web app, como la de administración.
+    \item Se puede ampliar aún más la internacionalización, ya sea ampliando más
+    idiomas o haciendo un sistema de traducción.
 \end{itemize}
 
 En cuanto al propio proyecto en sí, ha sido un proyecto que me ha llenado

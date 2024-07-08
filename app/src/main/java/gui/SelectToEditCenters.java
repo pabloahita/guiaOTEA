@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.fundacionmiradas.indicatorsevaluation.MainMenu;
 import com.fundacionmiradas.indicatorsevaluation.R;
@@ -44,6 +45,10 @@ public class SelectToEditCenters extends AppCompatActivity {
     ImageButton edit;
 
     ImageButton delete;
+
+    ConstraintLayout final_background;
+
+    ConstraintLayout base;
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
 
@@ -90,7 +95,9 @@ public class SelectToEditCenters extends AppCompatActivity {
 
                         centerSpinner.setAdapter(adapter);
 
+                        final_background=findViewById(R.id.final_background);
 
+                        base=findViewById(R.id.base);
 
                         centerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
@@ -108,11 +115,15 @@ public class SelectToEditCenters extends AppCompatActivity {
                         edit.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                final_background.setVisibility(View.VISIBLE);
+                                base.setVisibility(View.GONE);
                                 if(center.getIdCenter()!=1) {
                                     EditCenterUtil.createInstance(center);
                                     Intent intent = new Intent(SelectToEditCenters.this, EditCenter.class);
                                     startActivity(intent);
                                 }else{
+                                    final_background.setVisibility(View.GONE);
+                                    base.setVisibility(View.VISIBLE);
                                     new AlertDialog.Builder(SelectToEditCenters.this)
                                             .setIcon(android.R.drawable.stat_notify_error)
                                             .setTitle(getString(R.string.error))
@@ -133,6 +144,8 @@ public class SelectToEditCenters extends AppCompatActivity {
                                             .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
+                                                    final_background.setVisibility(View.VISIBLE);
+                                                    base.setVisibility(View.GONE);
                                                     List<String> blobs=new ArrayList<>();
                                                     EvaluatorTeamsController.GetAllByCenter(center.getIdOrganization(), center.getOrgType(), center.getIdCenter(), center.getIllness(), new ListCallback() {
                                                         @Override
@@ -162,10 +175,13 @@ public class SelectToEditCenters extends AppCompatActivity {
                                                                             .setMessage(R.string.center_deleted)
                                                                             .setPositiveButton(R.string.understood,null)
                                                                             .create().show();
+                                                                    final_background.setVisibility(View.GONE);
+                                                                    base.setVisibility(View.VISIBLE);
                                                                 });
 
                                                             }).start();
                                                         }
+
 
                                                         @Override
                                                         public void onError(String errorResponse) {

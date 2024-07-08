@@ -423,6 +423,173 @@ favorecido al rápido aprendizaje de este lenguaje.\cite{CSharp}
         \item Herramientas que simplifican el desarrollo web moderno.
     \end{itemize}
 
+\subsubsection{Inicio de sesión}
+Para poder iniciar sesión, se ha creado un método \texttt{POST} denominado \texttt{login:}
+El método \texttt{Login} es un controlador en ASP.NET que maneja peticiones HTTP POST en la ruta \texttt{"login"}. Este método permite a los usuarios autenticarse proporcionando sus credenciales en formato JSON. A continuación se describe su funcionamiento, destacando especialmente cómo se genera el token y bajo qué condiciones se generan.
+
+\begin{itemize}
+    \item El método está decorado con los atributos \texttt{[HttpPost("login")]} y \texttt{[AllowAnonymous]}, lo que indica que este método responderá a las solicitudes POST en la ruta \texttt{"login"} y no requiere autenticación previa para acceder.
+    \item El método recibe un parámetro \texttt{credentials} del cuerpo de la solicitud (\texttt{[FromBody]}), que es un documento JSON. Se espera que este JSON contenga las propiedades \texttt{email} y \texttt{password}.
+    \item Dentro del bloque \texttt{try}, se extraen el \texttt{email} y \texttt{password} del \texttt{credentials}:
+    \begin{lstlisting}
+    string email = credentials.RootElement.GetProperty("email").ToString();
+    string password = credentials.RootElement.GetProperty("password").ToString();
+    \end{lstlisting}
+    \item Se busca al usuario en la base de datos utilizando el contexto \texttt{\_context}:
+    \begin{lstlisting}
+    var user = _context.Users.FirstOrDefault(u => u.emailUser == email && u.passwordUser == password && u.isActive == 1);
+    \end{lstlisting}
+    \item Si el usuario no se encuentra o no está activo (\texttt{isActive == 1}), se realiza otra búsqueda solo por \texttt{email} para verificar si el usuario existe:
+    \begin{itemize}
+        \item Si no se encuentra ningún usuario con ese \texttt{email}, se devuelve un \texttt{NotFound()}.
+        \item Si el \texttt{password} es incorrecto, se devuelve un \texttt{Unauthorized()}.
+    \end{itemize}
+    \item Si el usuario es encontrado y las credenciales son correctas, se procede a generar un token JWT:
+    \begin{lstlisting}
+    var tokenHandler = new JwtSecurityTokenHandler();
+    var key = Encoding.ASCII.GetBytes(_sessionConfig.secret);
+    var tokenDescriptor = new SecurityTokenDescriptor
+    {
+        Subject = new ClaimsIdentity(new Claim[]
+        {
+            new Claim(ClaimTypes.Name, user.emailUser),
+            new Claim(ClaimTypes.Role, user.userType)
+        }),
+        Expires = DateTime.UtcNow.AddHours(12),
+        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+    };
+    var token = tokenHandler.CreateToken(tokenDescriptor);
+    string sessionToken = tokenHandler.WriteToken(token);
+    \end{lstlisting}
+    \item El token JWT se genera usando el \texttt{JwtSecurityTokenHandler} y contiene los siguientes elementos:
+    \begin{itemize}
+        \item \texttt{ClaimsIdentity} con dos claims: el nombre del usuario (\texttt{ClaimTypes.Name}) y el rol del usuario (\texttt{ClaimTypes.Role}).
+        \item La fecha de expiración del token, configurada para 12 horas desde la generación.
+        \item Credenciales de firma (\texttt{SigningCredentials}) utilizando una clave simétrica (\texttt{SymmetricSecurityKey}) y el algoritmo HMAC-SHA256.
+    \end{itemize}
+    \item Se crea un objeto \texttt{usr} que contiene información del usuario autenticado.
+    \item Se busca la organización asociada al usuario:
+    \begin{lstlisting}
+    var organization = _context.Organizations.FirstOrDefault(o => o.idOrganization == user.idOrganization && o.orgType == user.orgType && o.illness == user.illness);
+    \end{lstlisting}
+    \item Si no se encuentra la organización, se devuelve un \texttt{BadRequest()}.
+    \item Se crea un objeto \texttt{org} con la información de la organización.
+    \item Finalmente, se construye una respuesta que contiene la información del usuario, la información de la organización y el token JWT:
+    \begin{lstlisting}
+    var response = new
+    {
+        user = usr,
+        organization = org,
+        token = "Bearer " + sessionToken
+    };
+    return Ok(response);
+    \end{lstlisting}
+\end{itemize}
+
+En resumen, el método \texttt{Login} autentica al usuario mediante sus
+credenciales, genera un token JWT si las credenciales son correctas y el usuario
+está activo, y devuelve una respuesta que incluye la información del usuario, la
+organización y el token JWT.
+\\
+El proceso de autorización de acceso a ciertos métodos en una aplicación
+ASP.NET, después de que un usuario obtiene un token JWT en el login, se maneja
+mediante políticas de autorización definidas en el archivo Program.cs y los
+atributos de autorización en los controladores. Aquí está una explicación
+detallada del funcionamiento:
+\\
+\begin{itemize}
+    \item \textbf{Definición de Políticas de Autorización: }En
+    \texttt{Program.cs}, se definen varias políticas de autorización con roles
+    específicos:
+    \begin{lstlisting}
+        builder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy("Administrator", policy =>
+                policy.RequireRole("ADMIN")); 
+
+            options.AddPolicy("Director", policy =>
+                policy.RequireRole("DIRECTOR"));
+
+            options.AddPolicy("Organization", policy => 
+                policy.RequireRole("ORGANIZATION"));
+        });
+    \end{lstlisting}
+    \begin{itemize}
+        \item Política \textbf{\textit{Administrator:}} Solo los usuarios con el
+        rol \texttt{ADMIN} pueden acceder a métodos que requieren esta política.
+        \item Política \textbf{\textit{Director:}} Solo los usuarios con el rol
+        \texttt{DIRECTOR} pueden acceder a métodos que requieren esta política.
+        \item Política \textbf{\textit{Organization:}} Solo los usuarios con el
+        rol \texttt{ORGANIZATION} pueden acceder a métodos que requieren esta
+        política.
+    \end{itemize}
+    \item \textbf{Uso de los Métodos con Autorización: }
+    \begin{itemize}
+        \item Este método está marcado con el atributo \texttt{[AllowAnonymous]}, lo que
+        significa que no requiere autenticación ni autorización:
+        \begin{lstlisting}
+            [HttpGet("get")]
+            [AllowAnonymous]
+            public ActionResult<Organization> Get([FromQuery] int id, [FromQuery] string orgType, [FromQuery] string illness)
+            {
+                // Implementacion del metodo
+            }
+
+        \end{lstlisting}
+        \item Este método está protegido por la política \texttt{Administrator}:
+        \begin{lstlisting}
+            [HttpPost]
+            [Authorize(Policy = "Administrator")]
+            public IActionResult Create([FromBody] Organization organization, [FromHeader] string Authorization)
+            {
+                // Implementacion del metodo
+            }
+
+        \end{lstlisting}
+        Solo los usuarios con el rol \texttt{ADMIN} pueden acceder a este método. El
+        cliente debe enviar el token JWT en el encabezado de la solicitud
+        \texttt{Authorization}, y el servidor verificará si el token es válido y
+        contiene el rol necesario.
+        \item Este método está protegido por la política \texttt{Director}:
+        \begin{lstlisting}
+            [HttpPut]
+            [Authorize(Policy = "Director")]
+            public IActionResult Update([FromQuery] int id, [FromQuery] string orgType, [FromQuery] string illness, [FromBody] Organization organization, [FromHeader] string Authorization)
+            {
+                // Implementacion del metodo
+            }
+        \end{lstlisting}
+        Solo los usuarios con el rol \texttt{DIRECTOR} pueden acceder a este método. El
+        cliente debe enviar el token JWT en el encabezado de la solicitud
+        \texttt{Authorization}, y el servidor verificará si el token es válido y
+        contiene el rol necesario.    
+    \end{itemize}
+    
+\end{itemize}
+
+Por tanto, el flujo de ejecución es el siguiente:
+\begin{enumerate}
+    \item \textbf{Login y Obtención del Token:}
+    \begin{itemize}
+        \item El cliente envía una solicitud de login con las credenciales del usuario.
+        \item Si las credenciales son correctas, el servidor genera un token JWT que incluye información sobre el usuario y sus roles.
+        \item El token se devuelve al cliente.
+    \end{itemize}
+    \item \textbf{Acceso a Métodos Protegidos:}
+    \begin{itemize}
+        \item Para acceder a métodos protegidos (Create, Update), el cliente debe incluir el token JWT en el encabezado Authorization de la solicitud, en formato Bearer <token>.
+        \item El servidor extrae el token del encabezado y lo valida:
+        \begin{itemize}
+            \item Verifica la firma del token.
+            \item Verifica la fecha de expiración del token.
+            \item Verifica que el token contenga los roles necesarios según la política aplicada al método.
+        \end{itemize}
+        
+        \item Si el token es válido y contiene los roles necesarios, el servidor permite el acceso al método.
+        \item Si el token es inválido o no contiene los roles necesarios, el servidor devuelve un error de autorización (por ejemplo, 401 Unauthorized o 403 Forbidden).
+    \end{itemize}
+\end{enumerate}
+
 
 \subsubsection{\textit{Azure SQL}}
 \cite{AzureSQL}
@@ -606,3 +773,142 @@ Por ejemplo, para nuestro caso con la evaluación de indicadores, se ha aplicado
     
 \end{enumerate}
 
+Para poder programar el sistema experto, se utilizó \texttt{NRules} en el lado del servidor.
+
+\subsection{NRules}
+\texttt{NRules} es un motor de reglas de código abierto para .NET que se basa en el
+algoritmo de coincidencia Rete. Las reglas se crean en C\# mediante DSL interno.\cite{nrulesRulesEngine}
+\\
+NRules también es un motor de inferencia donde, a diferencia de los motores de
+secuencias de comandos, no existe un orden predefinido en el que se ejecutan las
+reglas. En cambio, el motor de inferencia determina qué reglas deben activarse
+en función de los hechos que se le proporcionan y luego las ejecuta de acuerdo
+con un algoritmo de resolución de conflictos. Entre otras características,
+NRules admite encadenamiento directo, consultas de hechos complejos y
+cuantificadores negativos, existenciales y universales.\cite{nrulesRulesEngine}
+\\
+Antes de nada, debemos añadir el paquete de nuget de la siguiente manera:\cite{nrulesRulesEngine}
+\begin{lstlisting}
+    dotnet add package NRules
+\end{lstlisting}
+
+El uso básico de NRules se resume en diferentes pasos:\cite{nrulesGettingStarted}
+\begin{itemize}
+    \item En primer lugar, debemos crear diferentes modelos, algo que ya tenemos
+    hecho. NRules sugiere en su documentación como comienzo crear una clase
+    \texttt{Customer} y una clase llamada \texttt{Order}:\cite{nrulesGettingStarted}
+    \begin{lstlisting}
+        public class Customer
+        {
+            public string Name { get; }
+            public bool IsPreferred { get; set; }
+
+            public Customer(string name)
+            {
+                Name = name;
+            }
+
+            public void NotifyAboutDiscount()
+            {
+                Console.WriteLine($"Customer {Name} was notified about a discount");
+            }
+        }
+
+        public class Order
+        {
+            public int Id { get; }
+            public Customer Customer { get; }
+            public int Quantity { get; }
+            public double UnitPrice { get; }
+            public double PercentDiscount { get; set; }
+            public bool IsOpen { get; set; } = true;
+
+            public Order(int id, Customer customer, int quantity, double unitPrice)
+            {
+                Id = id;
+                Customer = customer;
+                Quantity = quantity;
+                UnitPrice = unitPrice;
+            }
+        }
+    \end{lstlisting}
+    \item Posteriormente, con estos modelos, se crean diferentes reglas. Por
+    ejemplo, una regla que determina que si en caso de que un cliente es
+    preferente se le asigna un descuento del 10\%:\cite{nrulesGettingStarted}
+    \begin{lstlisting}
+        public class PreferredCustomerDiscountRule : Rule
+        {
+            public override void Define()
+            {
+                Customer customer = default;
+                IEnumerable<Order> orders = default;
+
+                When()
+                    .Match<Customer>(() => customer, c => c.IsPreferred)
+                    .Query(() => orders, x => x
+                        .Match<Order>(
+                            o => o.Customer == customer,
+                            o => o.IsOpen,
+                            o => o.PercentDiscount == 0.0)
+                        .Collect()
+                        .Where(c => c.Any()));
+
+                Then()
+                    .Do(ctx => ApplyDiscount(orders, 10.0))
+                    .Do(ctx => ctx.UpdateAll(orders));
+            }
+
+            private static void ApplyDiscount(IEnumerable<Order> orders, double discount)
+            {
+                foreach (var order in orders)
+                {
+                    order.PercentDiscount = discount;
+                }
+            }
+        }
+    \end{lstlisting}
+    Tras aplicar el descuento, se envía la etiqueta con que el descuento ha sido aplicado:
+    \begin{lstlisting}
+        public class DiscountNotificationRule : Rule
+        {
+            public override void Define()
+            {
+                Customer customer = default;
+
+                When()
+                    .Match<Customer>(() => customer)
+                    .Exists<Order>(o => o.Customer == customer, o => o.PercentDiscount > 0.0);
+
+                Then()
+                    .Do(_ => customer.NotifyAboutDiscount());
+            }
+        }
+    \end{lstlisting}
+    \item Por último, se cargan las reglas según se desea en el repositorio de
+    reglas, se compilan, se crea una sesión de trabajo y se insertan los objetos
+    a la base de hechos, para luego lanzar las reglas.\cite{nrulesGettingStarted}
+    \begin{lstlisting}
+        //Cargamos las reglas
+        var repository = new RuleRepository();
+        repository.Load(x => x.From(typeof(PreferredCustomerDiscountRule).Assembly));
+
+        //Compilamos las reglas
+        var factory = repository.Compile();
+
+        //Creamos la sesion
+        var session = factory.CreateSession();
+
+        //Creamos los modelos
+        var customer = new Customer("John Doe") {IsPreferred = true};
+        var order1 = new Order(123456, customer, 2, 25.0);
+        var order2 = new Order(123457, customer, 1, 100.0);
+
+        //Insertamos los hechos a la base de hechos
+        session.Insert(customer);
+        session.Insert(order1);
+        session.Insert(order2);
+
+        //Lanzamos las reglas
+        session.Fire();
+    \end{lstlisting}
+\end{itemize}

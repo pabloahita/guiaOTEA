@@ -30,15 +30,21 @@ import com.fundacionmiradas.indicatorsevaluation.MainMenu;
 import com.fundacionmiradas.indicatorsevaluation.R;
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.apache.poi.xwpf.usermodel.XWPFAbstractNum;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFNumbering;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+import org.apache.xmlbeans.XmlException;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTAbstractNum;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTLvl;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTShd;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTcBorders;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STBorder;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.STNumberFormat;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STShd;
 
 import java.io.ByteArrayInputStream;
@@ -48,6 +54,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -1237,49 +1244,56 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                 TextView textView2=view.findViewById(R.id.textView2);
                 String text="";
                 String text2="";
-                if(num_evidences==3){
-                    if(Locale.getDefault().getLanguage().equals("es")){
-                        text="En la parte superior de su pantalla aparecerá el título del indicador junto con el ámbito y subdivisiones a las que pertenece. Al tratarse de una <b>evaluación simple</b>, debajo dispone de <b>tres</b> evidencias, las cuales pueden tener un valor de <i>Evidencia Cumplida</i> o de <i>Evidencia No Cumplida</i>. Para cambiar el valor de la evidencia, simplemente debe <b><i>tocar sobre el recuadro de cualquiera de las evidencias</i></b>, mostrándose en pantalla uno de los siguientes dos valores:";
-                    }else if(Locale.getDefault().getLanguage().equals("fr")){
-                        text="En haut de votre écran, vous verrez le titre de l'indicateur ainsi que le champ d'application et les subdivisions auxquelles il appartient. Comme il s'agit d'une <b>évaluation simple</b>, vous disposez de <b>trois</b> preuves ci-dessous, qui peuvent avoir une valeur de <i>Preuve remplie</i> ou de <i>Preuve non remplie</i>. Pour changer la valeur de la preuve, il vous <b><i>suffit de toucher la case de l'une des preuves</i></b>, affichant l'une des deux valeurs suivantes à l'écran :";
-                    }else if(Locale.getDefault().getLanguage().equals("eu")){
-                        text="Adierazlearen izenburua zure pantailaren goialdean agertuko da dagokion esparru eta azpizatiketekin batera. <b>Ebaluazio sinplea</b> denez, behean <b>hiru</b> froga daude, <i>Osagarria beteta</i> edo <i>Osagarria ez beteta</i> balio izan dezaketenak. Frogaren balioa aldatzeko, <b><i>frogaren edozein laukia ukitu besterik ez duzu</i></b> egin behar, pantailan bi balio hauetako bat erakutsiz:";
-                    }else if(Locale.getDefault().getLanguage().equals("ca")){
-                        text="A la part superior de la pantalla, apareixerà el títol de l'indicador juntament amb l'àmbit i les subdivisions a les quals pertany. Com que es tracta d'una <b>avaluació simple</b>, a continuació tindrà <b>tres</b> evidències, les quals poden tenir un valor d'<i>Evidència Complerta</i> o d'<i>Evidència No Complerta</i>. Per canviar el valor de l'evidència, simplement cal que <b><i>toqui sobre el quadre de qualsevol de les evidències</i></b>, mostrant-se a la pantalla un dels dos valors següents:";
-                    }else if(Locale.getDefault().getLanguage().equals("nl")){
-                        text="Aan de bovenkant van uw scherm ziet u de titel van de indicator samen met het bereik en de onderverdelingen waartoe het behoort. Omdat dit een <b>eenvoudige evaluatie</b> is, heeft u hieronder <b>drie</b> stukken bewijs, die een waarde kunnen hebben van <i>Voltooid bewijs</i> of <i>Niet-voltooid bewijs</i>. Om de waarde van het bewijs te wijzigen, hoeft u alleen maar <b><i>op het vakje van een van de bewijzen te tikken</i></b>, waarbij een van de volgende twee waarden op het scherm wordt weergegeven:";
-                    }else if(Locale.getDefault().getLanguage().equals("gl")){
-                        text="Na parte superior da súa pantalla, verá o título do indicador xunto co alcance e as subdivisións ás que pertence. Ao tratarse dunha <b>avaliación sinxela</b>, a continuación terá <b>tres</b> probas, que poden ter un valor de <i>Evidencia cumprida</i> ou de <i>Evidencia non cumprida</i>. Para cambiar o valor da evidencia, simplemente <b><i>toque na caixa de calquera das evidencias</i></b>, amosando un dos seguintes dous valores na pantalla:";
-                    }else if(Locale.getDefault().getLanguage().equals("de")){
-                        text="Oben auf Ihrem Bildschirm sehen Sie den Titel des Indikators zusammen mit dem Umfang und den Unterteilungen, zu denen er gehört. Da es sich um eine <b>einfache Bewertung</b> handelt, haben Sie unten <b>drei</b> Beweise, die einen Wert von <i>Erfüllte Evidenz</i> oder <i>Nicht erfüllte Evidenz</i> haben können. Um den Wert des Beweises zu ändern, <b><i>tippen Sie einfach auf das Feld eines der Beweise</i></b>, wobei einer der folgenden beiden Werte auf dem Bildschirm angezeigt wird:";
-                    }else if(Locale.getDefault().getLanguage().equals("it")){
-                        text="In alto sullo schermo vedrai il titolo dell'indicatore insieme all'ambito e alle suddivisioni a cui appartiene. Poiché si tratta di una <b>valutazione semplice</b>, di seguito avrai <b>tre</b> prove, che possono avere un valore di <i>Evidenza soddisfatta</i> o di <i>Evidenza non soddisfatta</i>. Per cambiare il valore della prova, basta <b><i>toccare sulla casella di una qualsiasi delle prove</i></b>, mostrando sullo schermo uno dei seguenti due valori:";
-                    }else if(Locale.getDefault().getLanguage().equals("pt")){
-                        text="No topo da tela, você verá o título do indicador junto com o escopo e as subdivisões às quais ele pertence. Como se trata de uma <b>avaliação simples</b>, abaixo você tem <b>três</b> evidências, que podem ter um valor de <i>Evidência cumprida</i> ou de <i>Evidência não cumprida</i>. Para alterar o valor da evidência, basta <b><i>tocar na caixa de qualquer uma das evidências</i></b>, exibindo na tela um dos dois valores a seguir:";
-                    }else{
-                        text="At the top of your screen, you will see the title of the indicator along with the scope and subdivisions to which it belongs. As this is a <b>simple evaluation</b>, below you have <b>three</b> pieces of evidence, which can have a value of <i>Fulfilled Evidence</i> or <i>Unfulfilled Evidence</i>. To change the value of the evidence, simply <b><i>tap on the box of any of the evidences</i></b>, displaying one of the following two values on the screen:";
-                    }
-                }else if(num_evidences==4){
+                CheckBox enabledEv=view.findViewById(R.id.enabledEv);
+                CheckBox disabledEv=view.findViewById(R.id.disabledEv);
+                if(isComplete){
+                    enabledEv.setVisibility(View.VISIBLE);
+                    disabledEv.setVisibility(View.VISIBLE);
                     if(Locale.getDefault().getLanguage().equals("es")){
                         text="En la parte superior de su pantalla aparecerá el título del indicador junto con el ámbito y subdivisiones a las que pertenece. Al tratarse de una <b>evaluación completa</b>, debajo dispone de <b>cuatro</b> evidencias, las cuales pueden tener un valor de <i>Evidencia Cumplida</i> o de <i>Evidencia No Cumplida</i>. Para cambiar el valor de la evidencia, simplemente debe <b><i>tocar sobre el recuadro de cualquiera de las evidencias</i></b>, mostrándose en pantalla uno de los siguientes dos valores:";
                     }else if(Locale.getDefault().getLanguage().equals("fr")){
-                        text="En haut de votre écran, vous verrez le titre de l'indicateur ainsi que le champ d'application et les subdivisions auxquelles il appartient. Comme il s'agit d'une <b>évaluation complète</b>, vous disposez de <b>quatre</b> preuves ci-dessous, qui peuvent avoir une valeur de <i>Preuve remplie</i> ou de <i>Preuve non remplie</i>. Pour changer la valeur de la preuve, il vous <b><i>suffit de toucher la case de l'une des preuves</i></b>, affichant l'une des deux valeurs suivantes à l'écran :";
+                        text="Le titre de l’indicateur apparaîtra en haut de votre écran ainsi que le périmètre et les subdivisions auxquelles il appartient. Vous trouverez ci-dessous <b>quatre</b> éléments de preuve, qui peuvent avoir une valeur de <i>Preuve conforme</i> ou de <i>Preuve non conforme</i>. Pour modifier la valeur de la preuve, il vous suffit de <b><i>appuyer sur la case de l'une des preuves</i></b>, en affichant à l'écran l'une des deux valeurs suivantes :";
                     }else if(Locale.getDefault().getLanguage().equals("eu")){
-                        text="Adierazlearen izenburua zure pantailaren goialdean agertuko da dagokion esparru eta azpizatiketekin batera. <b>Ebaluazio osoa</b> denez, behean <b>lau</b> froga daude, <i>Osagarria beteta</i> edo <i>Osagarria ez beteta</i> balio izan dezaketenak. Frogaren balioa aldatzeko, <b><i>frogaren edozein laukia ukitu besterik ez duzu</i></b> egin behar, pantailan bi balio hauetako bat erakutsiz:";
+                        text="Adierazlearen izenburua zure pantailaren goialdean agertuko da dagokion esparru eta azpizatiketekin batera. Jarraian, <b>lau</b> froga dituzu, <i>Froga beteak</i> edo <i>Froga ez betetzen</i> balio izan dezaketenak. Frogaren balioa aldatzeko, <b><i>ebidentziaren edozein laukia sakatu</i></b> besterik ez duzu egin behar, pantailan bi balio hauetako bat erakutsiz:";
                     }else if(Locale.getDefault().getLanguage().equals("ca")){
-                        text="A la part superior de la pantalla, apareixerà el títol de l'indicador juntament amb l'àmbit i les subdivisions a les quals pertany. Com que es tracta d'una <b>avaluació completa</b>, a continuació tindrà <b>quatre</b> evidències, les quals poden tenir un valor d'<i>Evidència Complerta</i> o d'<i>Evidència No Complerta</i>. Per canviar el valor de l'evidència, simplement cal que <b><i>toqui sobre el quadre de qualsevol de les evidències</i></b>, mostrant-se a la pantalla un dels dos valors següents:";
+                        text="A la part superior de la pantalla apareixerà el títol de l'indicador juntament amb l'àmbit i les subdivisions a què pertany. A sota hi ha <b>quatre</b> evidències, les quals poden tenir un valor de <i>Evidència Complida</i> o de <i>Evidència No Complida</i>. Per canviar el valor de l'evidència, simplement heu de <b><i>tocar sobre el requadre de qualsevol de les evidències</i></b>, mostrant-vos en pantalla un dels dos valors següents:";
                     }else if(Locale.getDefault().getLanguage().equals("nl")){
-                        text="Aan de bovenkant van uw scherm ziet u de titel van de indicator samen met het bereik en de onderverdelingen waartoe het behoort. Omdat dit een <b>volledige evaluatie</b> is, heeft u hieronder <b>vier</b> stukken bewijs, die een waarde kunnen hebben van <i>Voltooid bewijs</i> of <i>Niet-voltooid bewijs</i>. Om de waarde van het bewijs te wijzigen, hoeft u alleen maar <b><i>op het vakje van een van de bewijzen te tikken</i></b>, waarbij een van de volgende twee waarden op het scherm wordt weergegeven:";
+                        text="De titel van de indicator verschijnt bovenaan uw scherm, samen met de reikwijdte en onderverdelingen waartoe deze behoort. Hieronder vindt u <b>vier</b> bewijsstukken, die de waarde <i>Voldoend bewijs</i> of <i>Niet-conform bewijs</i> kunnen hebben. Om de waarde van het bewijsmateriaal te wijzigen, hoeft u alleen maar <b><i>op het vakje van een van de bewijsstukken te tikken</i></b>, waarbij een van de volgende twee waarden op het scherm wordt weergegeven:";
                     }else if(Locale.getDefault().getLanguage().equals("gl")){
-                        text="Na parte superior da súa pantalla, verá o título do indicador xunto co alcance e as subdivisións ás que pertence. Ao tratarse dunha <b>avaliación completa</b>, a continuación terá <b>catro</b> probas, que poden ter un valor de <i>Evidencia cumprida</i> ou de <i>Evidencia non cumprida</i>. Para cambiar o valor da evidencia, simplemente <b><i>toque na caixa de calquera das evidencias</i></b>, amosando un dos seguintes dous valores na pantalla:";
+                        text="O título do indicador aparecerá na parte superior da pantalla xunto co ámbito e as subdivisións aos que pertence. A continuación tes <b>catro</b> probas, que poden ter un valor de <i>Evidencia cumprida</i> ou <i>Evidencia non conforme</i>. Para cambiar o valor da proba, só tes que <b><i>tocar na caixa de calquera das probas</i></b>, mostrando na pantalla un dos dous valores seguintes:";
                     }else if(Locale.getDefault().getLanguage().equals("de")){
-                        text="Oben auf Ihrem Bildschirm sehen Sie den Titel des Indikators zusammen mit dem Umfang und den Unterteilungen, zu denen er gehört. Da es sich um eine <b>vollständige Bewertung</b> handelt, haben Sie unten <b>drei</b> Beweise, die einen Wert von <i>Erfüllte Evidenz</i> oder <i>Nicht erfüllte Evidenz</i> haben können. Um den Wert des Beweises zu ändern, <b><i>tippen Sie einfach auf das Feld eines der Beweise</i></b>, wobei einer der folgenden beiden Werte auf dem Bildschirm angezeigt wird:";
+                        text="Der Titel des Indikators wird oben auf Ihrem Bildschirm angezeigt, zusammen mit dem Umfang und den Unterteilungen, zu denen er gehört. Nachfolgend finden Sie <b>vier</b> Beweisstücke, die den Wert <i>Erfüllter Beweis</i> oder <i>Nicht konformer Beweis</i> haben können. Um den Wert des Beweises zu ändern, müssen Sie einfach <b><i>auf das Kästchen eines beliebigen Beweises tippen</i></b>, woraufhin einer der folgenden beiden Werte auf dem Bildschirm angezeigt wird:";
                     }else if(Locale.getDefault().getLanguage().equals("it")){
-                        text="In alto sullo schermo vedrai il titolo dell'indicatore insieme all'ambito e alle suddivisioni a cui appartiene. Poiché si tratta di una <b>valutazione completa</b>, di seguito avrai <b>quattro</b> prove, che possono avere un valore di <i>Evidenza soddisfatta</i> o di <i>Evidenza non soddisfatta</i>. Per cambiare il valore della prova, basta <b><i>toccare sulla casella di una qualsiasi delle prove</i></b>, mostrando sullo schermo uno dei seguenti due valori:";
+                        text="Il titolo dell'indicatore apparirà nella parte superiore dello schermo insieme all'ambito e alle suddivisioni a cui appartiene. Di seguito sono riportate <b>quattro</b> prove, che possono avere un valore di <i>Prova conforme</i> o <i>Prova non conforme</i>. Per modificare il valore della prova, devi semplicemente <b><i>toccare la casella di una qualsiasi prova</i></b>, visualizzando sullo schermo uno dei due valori seguenti:";
                     }else if(Locale.getDefault().getLanguage().equals("pt")){
-                        text="No topo da tela, você verá o título do indicador junto com o escopo e as subdivisões às quais ele pertence. Como se trata de uma <b>avaliação simples</b>, abaixo você tem <b>quatro</b> evidências, que podem ter um valor de <i>Evidência cumprida</i> ou de <i>Evidência não cumprida</i>. Para alterar o valor da evidência, basta <b><i>tocar na caixa de qualquer uma das evidências</i></b>, exibindo na tela um dos dois valores a seguir:";
+                        text="O título do indicador aparecerá no topo do ecrã juntamente com o âmbito e subdivisões a que pertence. Abaixo tem <b>quatro</b> evidências, que podem ter um valor de <i>Evidência Cumprida</i> ou <i>Evidência Não Conforme</i>. Para alterar o valor da prova, basta <b><i>tocar na caixa de qualquer uma das provas</i></b>, apresentando no ecrã um dos dois valores seguintes:";
                     }else{
-                        text="At the top of your screen, you will see the title of the indicator along with the scope and subdivisions to which it belongs. As this is a <b>complete evaluation</b>, below you have <b>four</b> pieces of evidence, which can have a value of <i>Fulfilled Evidence</i> or <i>Unfulfilled Evidence</i>. To change the value of the evidence, simply <b><i>tap on the box of any of the evidences</i></b>, displaying one of the following two values on the screen:";
+                        text="The title of the indicator will appear at the top of your screen along with the scope and subdivisions to which it belongs. Below you have <b>four</b> pieces of evidence, which can have a value of <i>Complied Evidence</i> or <i>Not Compliant Evidence</i>. To change the value of the evidence, you simply have to <b><i>tap on the box of any of the evidence</i></b>, displaying one of the following two values \u200B\u200Bon the screen:";
+                    }
+                }
+                else{
+                    enabledEv.setVisibility(View.GONE);
+                    disabledEv.setVisibility(View.GONE);
+                    if(Locale.getDefault().getLanguage().equals("es")){
+                        text="En la parte superior de su pantalla aparecerá el título del indicador junto con el ámbito y subdivisiones a las que pertenece. Debajo dispone de <b>cuatro</b> evidencias, las cuales pueden tener un valor de <i>Evidencia Cumplida</i> o de <i>Evidencia No Cumplida</i>. Dependiendo de las evidencias que haya, puede introducir hasta un máximo de cuatro para cada indicador";
+                    }else if(Locale.getDefault().getLanguage().equals("fr")){
+                        text="A la part superior de la pantalla apareixerà el títol de l'indicador juntament amb l'àmbit i les subdivisions a què pertany. A sota hi ha <b>quatre</b> evidències, les quals poden tenir un valor de <i>Evidència Complida</i> o de <i>Evidència No Complida</i>. Depenent de les evidències que hi hagi, podeu introduir fins a un màxim de quatre per a cada indicador";
+                    }else if(Locale.getDefault().getLanguage().equals("eu")){
+                        text="A la part superior de la pantalla apareixerà el títol de l'indicador juntament amb l'àmbit i les subdivisions a què pertany. A sota hi ha <b>quatre</b> evidències, les quals poden tenir un valor de <i>Evidència Complida</i> o de <i>Evidència No Complida</i>. Depenent de les evidències que hi hagi, podeu introduir fins a un màxim de quatre per a cada indicador";
+                    }else if(Locale.getDefault().getLanguage().equals("ca")){
+                        text="A la part superior de la pantalla apareixerà el títol de l'indicador juntament amb l'àmbit i les subdivisions a què pertany. A sota hi ha <b>quatre</b> evidències, les quals poden tenir un valor de <i>Evidència Complida</i> o de <i>Evidència No Complida</i>. Depenent de les evidències que hi hagi, podeu introduir fins a un màxim de quatre per a cada indicador";
+                    }else if(Locale.getDefault().getLanguage().equals("nl")){
+                        text="De titel van de indicator verschijnt bovenaan uw scherm, samen met de reikwijdte en onderverdelingen waartoe deze behoort. Hieronder vindt u <b>vier</b> bewijsstukken, die de waarde <i>Voldoend bewijs</i> of <i>Niet-conform bewijs</i> kunnen hebben. Afhankelijk van het bewijsmateriaal dat u heeft, kunt u voor elke indicator maximaal vier invoeren.";
+                    }else if(Locale.getDefault().getLanguage().equals("gl")){
+                        text="O título do indicador aparecerá na parte superior da pantalla xunto co ámbito e as subdivisións aos que pertence. A continuación tes <b>catro</b> probas, que poden ter un valor de <i>Evidencia cumprida</i> ou <i>Evidencia non conforme</i>. Segundo as probas que teñas, podes introducir ata un máximo de catro por cada indicador.";
+                    }else if(Locale.getDefault().getLanguage().equals("de")){
+                        text="Der Titel des Indikators wird oben auf Ihrem Bildschirm angezeigt, zusammen mit dem Umfang und den Unterteilungen, zu denen er gehört. Nachfolgend finden Sie <b>vier</b> Beweisstücke, die den Wert <i>Erfüllter Beweis</i> oder <i>Nicht konformer Beweis</i> haben können. Je nachdem, welche Nachweise Ihnen vorliegen, können Sie für jeden Indikator maximal vier angeben.";
+                    }else if(Locale.getDefault().getLanguage().equals("it")){
+                        text="Il titolo dell'indicatore apparirà nella parte superiore dello schermo insieme all'ambito e alle suddivisioni a cui appartiene. Di seguito sono riportate <b>quattro</b> prove, che possono avere un valore di <i>Prova conforme</i> o <i>Prova non conforme</i>. A seconda delle prove in tuo possesso puoi inserirne fino ad un massimo di quattro per ciascun indicatore.";
+                    }else if(Locale.getDefault().getLanguage().equals("pt")){
+                        text="O título do indicador aparecerá no topo do ecrã juntamente com o âmbito e subdivisões a que pertence. Abaixo tem <b>quatro</b> evidências, que podem ter um valor de <i>Evidência Cumprida</i> ou <i>Evidência Não Conforme</i>. Dependendo das provas que possui, pode introduzir um máximo de quatro para cada indicador.";
+                    }else{
+                        text="The title of the indicator will appear at the top of your screen along with the scope and subdivisions to which it belongs. Below you have <b>four</b> pieces of evidence, which can have a value of <i>Complied Evidence</i> or <i>Not Compliant Evidence</i>. Depending on the evidence you have, you can enter up to a maximum of four for each indicator.";
                     }
                 }
 
@@ -2199,45 +2213,64 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                         }
                     }
                 }
-                else{
-                    int idEvidenceBase=0;
-                    int incr=4;
-                    List<IndicatorsEvaluationSimpleEvidenceReg> evRegs=IndicatorsEvaluationRegsUtil.getInstance().getEvidenceSimpleRegs();
-                    int max=4+(evRegs.size()/4);
-                    for(int i=4;i<=max;i++){
-                        XWPFTable currTable= tables.get(i);
-                        List<XWPFTableRow> rows6=currTable.getRows();
-                        rows6.get(1).getTableCells().get(0).setText("----V-----A-----A---");
-                        rows6.get(2).getTableCells().get(0).setText("----V-----A-----A---");
+                else {
+                    int idEvidenceBase = 0;
+                    int incr = 4;
+                    List<IndicatorsEvaluationIndicatorReg> indRegs = IndicatorsEvaluationRegsUtil.getInstance().getIndicatorRegs();
+                    List<IndicatorsEvaluationSimpleEvidenceReg> evRegs = IndicatorsEvaluationRegsUtil.getInstance().getEvidenceSimpleRegs();
+                    int max = 4 + (evRegs.size() / 4);
+                    int idIndicator=0;
+                    for (int i = 5; i <= max; i++) {
+
+                        XWPFTable currTable = tables.get(i);
+                        List<XWPFTableRow> rows6 = currTable.getRows();
+                        XWPFTableCell cell = rows6.get(0).getTableCells().get(0);
+                        XWPFParagraph para1 = cell.addParagraph();
+                        XWPFRun run1 = para1.createRun();
+                        run1.setText("Evidencias aportadas desde la organización o servicio:");
+                        run1.setBold(true);
 
 
-                        /*rows6.get(1).getTableCells().get(0).setText(rows6.get(1).getTableCells().get(0).getText()+": "+evRegs.get(idEvidenceBase).getDescriptionSpanish());
-                        rows6.get(2).getTableCells().get(0).setText(rows6.get(2).getTableCells().get(0).getText()+": "+evRegs.get(idEvidenceBase+1).getDescriptionSpanish());
-                        rows6.get(3).getTableCells().get(0).setText(rows6.get(3).getTableCells().get(0).getText()+": "+evRegs.get(idEvidenceBase+2).getDescriptionSpanish());
-                        rows6.get(4).getTableCells().get(0).setText(rows6.get(4).getTableCells().get(0).getText()+": "+evRegs.get(idEvidenceBase+3).getDescriptionSpanish());
-
-                        int numIndicator=evRegs.get(idEvidenceBase).getIdIndicator()-1;
-                        String color="";
-                        int ind=-1;
-                        if(indicatorRegs.get(numIndicator).getStatus().equals("IN_START")){
-                            color="FF0000";
-                            ind=0;
-                        } else if (indicatorRegs.get(numIndicator).getStatus().equals("IN_PROCESS")) {
-                            color="FFFF00";
-                            ind=1;
-                        }else{
-                            color="00FF00";
-                            ind=2;
+                        if(evRegs.get(idEvidenceBase)!=null && !evRegs.get(idEvidenceBase).getDescriptionSpanish().isEmpty()) {
+                            addSubItemToCell(cell, evRegs.get(idEvidenceBase).getDescriptionSpanish());
+                        }
+                        if(evRegs.get(idEvidenceBase+1)!=null && !evRegs.get(idEvidenceBase+1).getDescriptionSpanish().isEmpty()) {
+                            addSubItemToCell(cell, evRegs.get(idEvidenceBase+1).getDescriptionSpanish());
+                        }
+                        if(evRegs.get(idEvidenceBase+2)!=null && !evRegs.get(idEvidenceBase+2).getDescriptionSpanish().isEmpty()) {
+                            addSubItemToCell(cell, evRegs.get(idEvidenceBase+2).getDescriptionSpanish());
+                        }
+                        if(evRegs.get(idEvidenceBase+3)!=null && !evRegs.get(idEvidenceBase+3).getDescriptionSpanish().isEmpty()) {
+                            addSubItemToCell(cell, evRegs.get(idEvidenceBase+3).getDescriptionSpanish());
                         }
 
-                        XWPFTableCell cell=rows6.get(6).getTableCells().get(ind);
-                        setCellFormat(cell, false, color,cell.getText());
-*/
 
-                        idEvidenceBase+=incr;
+                        XWPFParagraph para2 = cell.addParagraph();
+                        XWPFRun run2 = para2.createRun();
+                        String status="";
+                        if(indRegs.get(idIndicator).getStatus().equals("IN_START")){
+                            status="En comienzo";
+                        }
+                        if(indRegs.get(idIndicator).getStatus().equals("IN_PROCESS")){
+                            status="En proceso";
+                        }
+                        else{
+                            status="Conseguido";
+                        }
+                        run2.setText("Estado de consecución del indicador: "+status);
+                        run2.setBold(true);
+
+
+                        XWPFParagraph para3 = cell.addParagraph();
+                        XWPFRun run3 = para3.createRun();
+                        run3.setText("Observaciones:");
+                        run3.setBold(true);
+
+
+                        idEvidenceBase += incr;
+                        idIndicator++;
                     }
                 }
-
 
 
 
@@ -2268,6 +2301,44 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
         }
     }
 
+    private static void addSubItemToCell(XWPFTableCell cell, String text) {
+        XWPFParagraph para = cell.addParagraph();
+        XWPFRun run = para.createRun();
+        run.setText(text);
+        para.setNumID(addListStyle(cell.getTableRow().getTable().getBody().getXWPFDocument()));
+    }
+
+    private static BigInteger addListStyle(XWPFDocument doc) {
+        XWPFNumbering numbering = doc.createNumbering();
+
+        try {
+            return numbering.addNum(numbering.addAbstractNum(createAbstractNum(doc)));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (XmlException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private static XWPFAbstractNum createAbstractNum(XWPFDocument doc) throws IOException, XmlException {
+        XWPFNumbering numbering = doc.createNumbering();
+        XWPFAbstractNum abstractNum = numbering.getAbstractNum(BigInteger.valueOf(0));
+
+        if (abstractNum == null) {
+            CTAbstractNum ctAbstractNum = CTAbstractNum.Factory.newInstance();
+            ctAbstractNum.setAbstractNumId(BigInteger.valueOf(0));
+            CTLvl lvl = ctAbstractNum.addNewLvl();
+            lvl.setIlvl(BigInteger.valueOf(0));
+            lvl.addNewNumFmt().setVal(STNumberFormat.BULLET);
+            lvl.addNewLvlText().setVal("•");
+            lvl.addNewStart().setVal(BigInteger.valueOf(1));
+
+            abstractNum = new XWPFAbstractNum(ctAbstractNum);
+        }
+
+        return abstractNum;
+    }
 
     private static void setCellFormat(XWPFTableCell cell, boolean bold, String shadingColor, String text) {
         // Aplicar sombreado si se especifica

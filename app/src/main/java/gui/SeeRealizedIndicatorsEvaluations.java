@@ -435,13 +435,13 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
                         about_ev_4.setText(evidenceRegs.get(idEvidenceBase+3).getObservationsSpanish());
                     }else{
                         ev_1=view.findViewById(R.id.ev_1);
-                        ev_1.setText(simpleEvidenceRegs.get(idEvidenceBase).getObservationsSpanish());
+                        ev_1.setText(simpleEvidenceRegs.get(idEvidenceBase).getDescriptionSpanish());
                         ev_2=view.findViewById(R.id.ev_2);
-                        ev_2.setText(simpleEvidenceRegs.get(idEvidenceBase+1).getObservationsSpanish());
+                        ev_2.setText(simpleEvidenceRegs.get(idEvidenceBase+1).getDescriptionSpanish());
                         ev_3=view.findViewById(R.id.ev_3);
-                        ev_3.setText(simpleEvidenceRegs.get(idEvidenceBase+2).getObservationsSpanish());
+                        ev_3.setText(simpleEvidenceRegs.get(idEvidenceBase+2).getDescriptionSpanish());
                         ev_4=view.findViewById(R.id.ev_4);
-                        ev_4.setText(simpleEvidenceRegs.get(idEvidenceBase+3).getObservationsSpanish());
+                        ev_4.setText(simpleEvidenceRegs.get(idEvidenceBase+3).getDescriptionSpanish());
                         about_ev_1.setText(simpleEvidenceRegs.get(idEvidenceBase).getObservationsSpanish());
                         about_ev_2.setText(simpleEvidenceRegs.get(idEvidenceBase+1).getObservationsSpanish());
                         about_ev_3.setText(simpleEvidenceRegs.get(idEvidenceBase+2).getObservationsSpanish());

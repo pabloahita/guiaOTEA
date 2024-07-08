@@ -16,6 +16,8 @@ namespace WebApplication1
 
         private List<UserSession> userList;
 
+        private List<Organization> orgsList;
+
         public Session() { }
 
         private Session(JsonDocument data) {
@@ -67,6 +69,10 @@ namespace WebApplication1
         public List<UserSession> getUserList() { return userList; }
 
         public void setUserList(List<UserSession> userList) { this.userList=userList; }
+
+        public List<Organization> getOrganizationList() { return orgsList; }
+
+        public void setOrgList(List<Organization> orgsList) { this.orgsList = orgsList; }
 
     }
 }

@@ -179,6 +179,17 @@ public class EditCenter extends AppCompatActivity {
 
         EditText descriptionCenterField=findViewById(R.id.description_center_reg);
         String descr="";
+
+        fields=new HashMap<String,String>();
+        fields.put("centerDescription","");
+        fields.put("address","");
+        fields.put("nameCity","");
+        fields.put("nameProvince","");
+        fields.put("nameRegion","");
+        fields.put("telephoneCode","");
+        fields.put("telephone","");
+        fields.put("email","");
+
         if(Locale.getDefault().getLanguage().equals("es")) {
             descr=currCenter.getDescriptionSpanish();
         }else if(Locale.getDefault().getLanguage().equals("fr")){
@@ -201,15 +212,20 @@ public class EditCenter extends AppCompatActivity {
             descr=currCenter.getDescriptionEnglish();
         }
         descriptionCenterField.setText(descr);
+        fields.put("centerDescription",descr);
         EditText addressNameField=findViewById(R.id.name_address_reg);
         addressNameField.setText(address.getName());
+        fields.put("address",address.getName());
         nameProvinceField = findViewById(R.id.foreign_province_reg);
         nameRegionField = findViewById(R.id.foreign_region_reg);
         nameCityField = findViewById(R.id.foreign_city_reg);
         EditText phoneField=findViewById(R.id.phone_reg);
         phoneField.setText(currCenter.getTelephone().split(" ")[1]);
+        fields.put("telephoneCode",currCenter.getTelephone().split(" ")[0]);
+        fields.put("telephone",currCenter.getTelephone().split(" ")[1]);
         EditText emailField = findViewById(R.id.email_reg);
         emailField.setText(currCenter.getEmail());
+        fields.put("email",currCenter.getEmail());
         countrySpinner = findViewById(R.id.spinner_countries_reg);
         regionSpinner = findViewById(R.id.spinner_regions_reg);
         regionSpinnerAux = findViewById(R.id.spinner_regions_reg_aux);
@@ -244,15 +260,7 @@ public class EditCenter extends AppCompatActivity {
         citySpinnerAux.setEnabled(false);
         citySpinnerAux.setAlpha(0.5f);
 
-        fields=new HashMap<String,String>();
-        fields.put("centerDescription","");
-        fields.put("address","");
-        fields.put("nameCity","");
-        fields.put("nameProvince","");
-        fields.put("nameRegion","");
-        fields.put("telephoneCode","");
-        fields.put("telephone","");
-        fields.put("email","");
+
 
         ConstraintLayout background=findViewById(R.id.final_background);
 
@@ -765,161 +773,166 @@ public class EditCenter extends AppCompatActivity {
                         ((FieldChecker.isPrecharged(idCountry[0]) && region[0] != null && idRegion[0] != -2 && province[0] != null && idProvince[0] != -2 && city[0] != null && idCity[0] != -2) ||
                                 (!idCountry[0].equals("-2") && !fields.get("nameRegion").isEmpty() && !fields.get("nameProvince").isEmpty() && !fields.get("nameCity").isEmpty()))){
 
-                    int idCenter=currCenter.getIdCenter();
-                    int idAddress=currCenter.getIdAddress();
-                    int idOrganization=currCenter.getIdOrganization();
-                    String orgType=currCenter.getOrgType();
-                    String illness=currCenter.getIllness();
+                    new Thread(()->{
+                        int idCenter=currCenter.getIdCenter();
+                        int idAddress=currCenter.getIdAddress();
+                        int idOrganization=currCenter.getIdOrganization();
+                        String orgType=currCenter.getOrgType();
+                        String illness=currCenter.getIllness();
 
-                    if(profilePhotoCenter!=null){
-                        imgCenterName=currCenter.getProfilePhoto();
-                        FileManager.uploadFile(profilePhotoCenter, "profile-photos", imgCenterName);
-                        try{
-                            profilePhotoCenter.close();
-                        }catch(IOException e){
-                            e.printStackTrace();
+                        if(profilePhotoCenter!=null){
+                            imgCenterName=currCenter.getProfilePhoto();
+                            FileManager.uploadFile(profilePhotoCenter, "profile-photos", imgCenterName);
+                            try{
+                                profilePhotoCenter.close();
+                            }catch(IOException e){
+                                e.printStackTrace();
+                            }
                         }
-                    }
 
 
 
-                    Address address=new Address(idAddress,fields.get("address"),idCity[0],idProvince[0],idRegion[0],idCountry[0],fields.get("nameCity"),fields.get("nameProvince"),fields.get("nameRegion"));
-                    AddressesController.Update(idAddress,address);
+                        Address address=new Address(idAddress,fields.get("address"),idCity[0],idProvince[0],idRegion[0],idCountry[0],fields.get("nameCity"),fields.get("nameProvince"),fields.get("nameRegion"));
+                        AddressesController.Update(idAddress,address);
 
-                    String descriptionEnglish="";
-                    String descriptionSpanish="";
-                    String descriptionFrench="";
-                    String descriptionBasque="";
-                    String descriptionCatalan="";
-                    String descriptionDutch="";
-                    String descriptionGalician="";
-                    String descriptionGerman="";
-                    String descriptionItalian="";
-                    String descriptionPortuguese="";
+                        String descriptionEnglish="";
+                        String descriptionSpanish="";
+                        String descriptionFrench="";
+                        String descriptionBasque="";
+                        String descriptionCatalan="";
+                        String descriptionDutch="";
+                        String descriptionGalician="";
+                        String descriptionGerman="";
+                        String descriptionItalian="";
+                        String descriptionPortuguese="";
 
-                    String descriptionText=fields.get("centerDescription");
+                        String descriptionText=fields.get("centerDescription");
 
-                    List<String> translations= TranslatorController.getInstance().translate(descriptionText,Locale.getDefault().getLanguage());
-                    if(Locale.getDefault().getLanguage().equals("es")){
-                        descriptionEnglish= translations.get(0);
-                        descriptionSpanish=descriptionText;
-                        descriptionFrench=translations.get(1);
-                        descriptionBasque=translations.get(2);
-                        descriptionCatalan=translations.get(3);
-                        descriptionDutch=translations.get(4);
-                        descriptionGalician=translations.get(5);
-                        descriptionGerman=translations.get(6);
-                        descriptionItalian=translations.get(7);
-                        descriptionPortuguese=translations.get(8);
-                    }else if(Locale.getDefault().getLanguage().equals("fr")){
-                        descriptionEnglish= translations.get(0);
-                        descriptionSpanish=translations.get(1);
-                        descriptionFrench=descriptionText;
-                        descriptionBasque=translations.get(2);
-                        descriptionCatalan=translations.get(3);
-                        descriptionDutch=translations.get(4);
-                        descriptionGalician=translations.get(5);
-                        descriptionGerman=translations.get(6);
-                        descriptionItalian=translations.get(7);
-                        descriptionPortuguese=translations.get(8);
-                    }else if(Locale.getDefault().getLanguage().equals("eu")){
-                        descriptionEnglish= translations.get(0);
-                        descriptionSpanish=translations.get(1);
-                        descriptionFrench=translations.get(2);
-                        descriptionBasque=descriptionText;
-                        descriptionCatalan=translations.get(3);
-                        descriptionDutch=translations.get(4);
-                        descriptionGalician=translations.get(5);
-                        descriptionGerman=translations.get(6);
-                        descriptionItalian=translations.get(7);
-                        descriptionPortuguese=translations.get(8);
-                    }else if(Locale.getDefault().getLanguage().equals("ca")){
-                        descriptionEnglish= translations.get(0);
-                        descriptionSpanish=translations.get(1);
-                        descriptionFrench=translations.get(2);
-                        descriptionBasque=translations.get(3);
-                        descriptionCatalan=descriptionText;
-                        descriptionDutch=translations.get(4);
-                        descriptionGalician=translations.get(5);
-                        descriptionGerman=translations.get(6);
-                        descriptionItalian=translations.get(7);
-                        descriptionPortuguese=translations.get(8);
-                    }else if(Locale.getDefault().getLanguage().equals("nl")){
-                        descriptionEnglish= translations.get(0);
-                        descriptionSpanish=translations.get(1);
-                        descriptionFrench=translations.get(2);
-                        descriptionBasque=translations.get(3);
-                        descriptionCatalan=translations.get(4);
-                        descriptionDutch=descriptionText;
-                        descriptionGalician=translations.get(5);
-                        descriptionGerman=translations.get(6);
-                        descriptionItalian=translations.get(7);
-                        descriptionPortuguese=translations.get(8);
-                    }else if(Locale.getDefault().getLanguage().equals("gl")){
-                        descriptionEnglish= translations.get(0);
-                        descriptionSpanish=translations.get(1);
-                        descriptionFrench=translations.get(2);
-                        descriptionBasque=translations.get(3);
-                        descriptionCatalan=translations.get(4);
-                        descriptionDutch=translations.get(5);
-                        descriptionGalician=descriptionText;
-                        descriptionGerman=translations.get(6);
-                        descriptionItalian=translations.get(7);
-                        descriptionPortuguese=translations.get(8);
-                    }else if(Locale.getDefault().getLanguage().equals("de")){
-                        descriptionEnglish= translations.get(0);
-                        descriptionSpanish=translations.get(1);
-                        descriptionFrench=translations.get(2);
-                        descriptionBasque=translations.get(3);
-                        descriptionCatalan=translations.get(4);
-                        descriptionDutch=translations.get(5);
-                        descriptionGalician=translations.get(6);
-                        descriptionGerman=descriptionText;
-                        descriptionItalian=translations.get(7);
-                        descriptionPortuguese=translations.get(8);
-                    }else if(Locale.getDefault().getLanguage().equals("it")){
-                        descriptionEnglish= translations.get(0);
-                        descriptionSpanish=translations.get(1);
-                        descriptionFrench=translations.get(2);
-                        descriptionBasque=translations.get(3);
-                        descriptionCatalan=translations.get(4);
-                        descriptionDutch=translations.get(5);
-                        descriptionGalician=translations.get(6);
-                        descriptionGerman=translations.get(7);
-                        descriptionItalian=descriptionText;
-                        descriptionPortuguese=translations.get(8);
-                    }else if(Locale.getDefault().getLanguage().equals("pt")){
-                        descriptionEnglish= translations.get(0);
-                        descriptionSpanish=translations.get(1);
-                        descriptionFrench=translations.get(2);
-                        descriptionBasque=translations.get(3);
-                        descriptionCatalan=translations.get(4);
-                        descriptionDutch=translations.get(5);
-                        descriptionGalician=translations.get(6);
-                        descriptionGerman=translations.get(7);
-                        descriptionItalian=translations.get(8);
-                        descriptionPortuguese=descriptionText;
-                    }else{
-                        descriptionEnglish= descriptionText;
-                        descriptionSpanish=translations.get(0);
-                        descriptionFrench=translations.get(1);
-                        descriptionBasque=translations.get(2);
-                        descriptionCatalan=translations.get(3);
-                        descriptionDutch=translations.get(4);
-                        descriptionGalician=translations.get(5);
-                        descriptionGerman=translations.get(6);
-                        descriptionItalian=translations.get(7);
-                        descriptionPortuguese=translations.get(8);
-                    }
+                        List<String> translations= TranslatorController.getInstance().translate(descriptionText,Locale.getDefault().getLanguage());
+                        if(Locale.getDefault().getLanguage().equals("es")){
+                            descriptionEnglish= translations.get(0);
+                            descriptionSpanish=descriptionText;
+                            descriptionFrench=translations.get(1);
+                            descriptionBasque=translations.get(2);
+                            descriptionCatalan=translations.get(3);
+                            descriptionDutch=translations.get(4);
+                            descriptionGalician=translations.get(5);
+                            descriptionGerman=translations.get(6);
+                            descriptionItalian=translations.get(7);
+                            descriptionPortuguese=translations.get(8);
+                        }else if(Locale.getDefault().getLanguage().equals("fr")){
+                            descriptionEnglish= translations.get(0);
+                            descriptionSpanish=translations.get(1);
+                            descriptionFrench=descriptionText;
+                            descriptionBasque=translations.get(2);
+                            descriptionCatalan=translations.get(3);
+                            descriptionDutch=translations.get(4);
+                            descriptionGalician=translations.get(5);
+                            descriptionGerman=translations.get(6);
+                            descriptionItalian=translations.get(7);
+                            descriptionPortuguese=translations.get(8);
+                        }else if(Locale.getDefault().getLanguage().equals("eu")){
+                            descriptionEnglish= translations.get(0);
+                            descriptionSpanish=translations.get(1);
+                            descriptionFrench=translations.get(2);
+                            descriptionBasque=descriptionText;
+                            descriptionCatalan=translations.get(3);
+                            descriptionDutch=translations.get(4);
+                            descriptionGalician=translations.get(5);
+                            descriptionGerman=translations.get(6);
+                            descriptionItalian=translations.get(7);
+                            descriptionPortuguese=translations.get(8);
+                        }else if(Locale.getDefault().getLanguage().equals("ca")){
+                            descriptionEnglish= translations.get(0);
+                            descriptionSpanish=translations.get(1);
+                            descriptionFrench=translations.get(2);
+                            descriptionBasque=translations.get(3);
+                            descriptionCatalan=descriptionText;
+                            descriptionDutch=translations.get(4);
+                            descriptionGalician=translations.get(5);
+                            descriptionGerman=translations.get(6);
+                            descriptionItalian=translations.get(7);
+                            descriptionPortuguese=translations.get(8);
+                        }else if(Locale.getDefault().getLanguage().equals("nl")){
+                            descriptionEnglish= translations.get(0);
+                            descriptionSpanish=translations.get(1);
+                            descriptionFrench=translations.get(2);
+                            descriptionBasque=translations.get(3);
+                            descriptionCatalan=translations.get(4);
+                            descriptionDutch=descriptionText;
+                            descriptionGalician=translations.get(5);
+                            descriptionGerman=translations.get(6);
+                            descriptionItalian=translations.get(7);
+                            descriptionPortuguese=translations.get(8);
+                        }else if(Locale.getDefault().getLanguage().equals("gl")){
+                            descriptionEnglish= translations.get(0);
+                            descriptionSpanish=translations.get(1);
+                            descriptionFrench=translations.get(2);
+                            descriptionBasque=translations.get(3);
+                            descriptionCatalan=translations.get(4);
+                            descriptionDutch=translations.get(5);
+                            descriptionGalician=descriptionText;
+                            descriptionGerman=translations.get(6);
+                            descriptionItalian=translations.get(7);
+                            descriptionPortuguese=translations.get(8);
+                        }else if(Locale.getDefault().getLanguage().equals("de")){
+                            descriptionEnglish= translations.get(0);
+                            descriptionSpanish=translations.get(1);
+                            descriptionFrench=translations.get(2);
+                            descriptionBasque=translations.get(3);
+                            descriptionCatalan=translations.get(4);
+                            descriptionDutch=translations.get(5);
+                            descriptionGalician=translations.get(6);
+                            descriptionGerman=descriptionText;
+                            descriptionItalian=translations.get(7);
+                            descriptionPortuguese=translations.get(8);
+                        }else if(Locale.getDefault().getLanguage().equals("it")){
+                            descriptionEnglish= translations.get(0);
+                            descriptionSpanish=translations.get(1);
+                            descriptionFrench=translations.get(2);
+                            descriptionBasque=translations.get(3);
+                            descriptionCatalan=translations.get(4);
+                            descriptionDutch=translations.get(5);
+                            descriptionGalician=translations.get(6);
+                            descriptionGerman=translations.get(7);
+                            descriptionItalian=descriptionText;
+                            descriptionPortuguese=translations.get(8);
+                        }else if(Locale.getDefault().getLanguage().equals("pt")){
+                            descriptionEnglish= translations.get(0);
+                            descriptionSpanish=translations.get(1);
+                            descriptionFrench=translations.get(2);
+                            descriptionBasque=translations.get(3);
+                            descriptionCatalan=translations.get(4);
+                            descriptionDutch=translations.get(5);
+                            descriptionGalician=translations.get(6);
+                            descriptionGerman=translations.get(7);
+                            descriptionItalian=translations.get(8);
+                            descriptionPortuguese=descriptionText;
+                        }else{
+                            descriptionEnglish= descriptionText;
+                            descriptionSpanish=translations.get(0);
+                            descriptionFrench=translations.get(1);
+                            descriptionBasque=translations.get(2);
+                            descriptionCatalan=translations.get(3);
+                            descriptionDutch=translations.get(4);
+                            descriptionGalician=translations.get(5);
+                            descriptionGerman=translations.get(6);
+                            descriptionItalian=translations.get(7);
+                            descriptionPortuguese=translations.get(8);
+                        }
 
 
-                    Address currAddress=new Address(address.getIdAddress(),fields.get("address"),idCity[0],idProvince[0],idRegion[0],idCountry[0],fields.get("nameCity"),fields.get("nameProvince"),fields.get("nameRegion"));
-                    AddressesController.Update(address.getIdAddress(),currAddress);
-                    Center center=new Center(idOrganization,orgType,illness, idCenter,descriptionEnglish,descriptionSpanish,descriptionFrench,descriptionBasque,descriptionCatalan,descriptionDutch,descriptionGalician,descriptionGerman,descriptionItalian,descriptionPortuguese,address.getIdAddress(),fields.get("telephoneCode")+" "+fields.get("telephone"),fields.get("email"),currCenter.getProfilePhoto());
-                    CentersController.Update(idOrganization,orgType,illness, idCenter,center);
+                        Address currAddress=new Address(address.getIdAddress(),fields.get("address"),idCity[0],idProvince[0],idRegion[0],idCountry[0],fields.get("nameCity"),fields.get("nameProvince"),fields.get("nameRegion"));
+                        AddressesController.Update(address.getIdAddress(),currAddress);
+                        Center center=new Center(idOrganization,orgType,illness, idCenter,descriptionEnglish,descriptionSpanish,descriptionFrench,descriptionBasque,descriptionCatalan,descriptionDutch,descriptionGalician,descriptionGerman,descriptionItalian,descriptionPortuguese,address.getIdAddress(),fields.get("telephoneCode")+" "+fields.get("telephone"),fields.get("email"),currCenter.getProfilePhoto());
+                        CentersController.Update(idOrganization,orgType,illness, idCenter,center);
 
-                    Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-                    startActivity(intent);
+                        runOnUiThread(()->{
+                            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+                            startActivity(intent);
+                        });
+
+                    }).start();
                 }
                 else{
 

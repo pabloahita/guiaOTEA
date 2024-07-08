@@ -4,6 +4,7 @@
 
 \section{Diseño de datos}
 %Clases
+\subsection{Diseño de las entidades de la base de datos}
 En cuanto al diseño de los datos, se han utilizado las siguientes clases o entidades, que son idénticas tanto en la base de datos, como en el servidor, como en el cliente:
 \begin{itemize}
     
@@ -527,6 +528,150 @@ En cuanto al diseño de los datos, se han utilizado las siguientes clases o enti
 
     
 \end{itemize}
+\subsection{Diseño del sistema experto}
+En cuanto al diseño experto, como se ha mencionado anteriormente en la memoria,
+se ha utilizado \textit{NRules}. Pero como se ha mencionado con anterioridad,
+las reglas no se lanzan en un determinado orden, por lo que es necesario tener
+un control muy estricto sobre las reglas que se necesitan marcar. Para ello, en
+el lado del servidor, se ha creado un paquete \texttt{ExpertSystem}, el cual
+está compuesto por todas las reglas y una clase singleton que se encarga de
+lanzarlas.
+\begin{itemize}
+    \item \textbf{Clase singleton:} La clase singleton se llama
+    \texttt{ExpertSystem}, la cual es una clase Singleton que se encarga de
+    gestionar las reglas a voluntad:
+    \imagen{./Figuras/Diagramas/ExpertSystem.png}{Clase \texttt{ExpertSystem}}{0.9}
+    \begin{itemize}
+        \item \texttt{Instance}: Es la instancia singleton que es cargada cada vez que se necesita.
+        \item \texttt{CreateSessionWithRules}: Es el método que se encarga de
+        crear una sesión con unas reglas pasadas por parámetro.
+        \item \texttt{LoadRules}: Se cargan las reglas que se encuentran
+        disponibles en el repositorio pasado por parámetro, además de las clases
+        correspondientes a dichas reglas.
+        \item \texttt{CompileRules}: Se encarga de compilar las reglas que tiene
+        el repositorio pasado por parámetro.
+        \item \texttt{RunRules}: Se encarga de correr las reglas de una
+        determinada sesión con unos hechos pasados por parámetro.
+    \end{itemize}
+    \item \textbf{Estructura de las reglas: }Las clases de las dieciocho reglas
+    del sistema experto se estructuran en dos métodos:
+    \begin{itemize}
+        \item Método \texttt{Define}: Es el método que se encarga de definir las
+        condiciones que están detrás de una determinada regla y de obtener los
+        hechos necesarios para poder comprobar dicha condición para que la regla
+        pueda ser lanzada.
+        \item Método \texttt{Set}: Se encarga de establecer una variable o
+        conjunto de variables a aquellos hechos que cumplan con la regla. Se le
+        pasa todo lo necesario a partir de \texttt{Define} y se establece una
+        etiqueta o un valor.
+    \end{itemize}
+    \begin{lstlisting}
+        namespace OTEAServer.ExpertSystem
+        {
+            public class RuleExcellentIndicatorEvaluation : Rule
+            {
+                public override void Define()
+                {
+                    IndicatorsEvaluation indEval = default;
+
+                    When()
+                    .Match<IndicatorsEvaluation>(() => indEval, indEval => (indEval.evaluationType == "COMPLETE" && indEval.totalScore >= 200) || (indEval.evaluationType == "SIMPLE" && indEval.totalScore >= 143));
+
+                    Then()
+                        .Do(ctx=>SetExcellent(indEval));
+                }
+
+                private static void SetExcellent(IndicatorsEvaluation indEval) {
+                    indEval.level = "EXCELLENT";
+                }
+            }
+    }
+    \end{lstlisting}
+\end{itemize}
+Por lo tanto, para poder ejecutar las reglas, se tiene que llamar siempre a la
+instancia de \texttt{ExpertSystem}, como por ejemplo, a la hora de asignar, primero el estado de los indicadores y después si necesitan o no necesitan estar en el plan de mejora:
+\begin{lstlisting}
+    [HttpPost("fromList")]
+    [Authorize(Policy = "Administrator")]
+    public IActionResult CreateRegs([FromBody] List<IndicatorsEvaluationIndicatorReg> regs, [FromHeader] string Authorization)
+    {
+        if (regs == null)
+        {
+            return BadRequest();
+        }
+        try
+        {
+
+            var session=ExpertSystemUtil.Instance.CreateSessionWithRules(typeof(RuleIndicatorInProcess), typeof(RuleIndicatorInStart), typeof(RuleIndicatorReached));
+            List<object> facts=new List<object>();
+            facts.Add(regs);
+            ExpertSystemUtil.Instance.RunRules(session,facts);
+
+            session = ExpertSystemUtil.Instance.CreateSessionWithRules(typeof(RuleDoesntRequireImprovementPlan), typeof(RuleRequiresImprovementPlan));
+            facts = new List<object>();
+            facts.Add(regs);
+            ExpertSystemUtil.Instance.RunRules(session, facts);
+
+
+            foreach (IndicatorsEvaluationIndicatorReg reg in regs)
+            {
+                if (reg == null) { continue; }
+                IndicatorsEvaluationIndicatorReg aux = _context.IndicatorsEvaluationsIndicatorsRegs.FirstOrDefault(r => r.evaluationDate == reg.evaluationDate && r.idEvaluatorTeam == reg.idEvaluatorTeam && r.idEvaluatorOrganization == reg.idEvaluatorOrganization && r.orgTypeEvaluator == reg.orgTypeEvaluator && r.idEvaluatedOrganization == reg.idEvaluatedOrganization && r.orgTypeEvaluated == reg.orgTypeEvaluated && r.illness == reg.illness && r.idCenter == reg.idCenter && r.idSubSubAmbit == reg.idSubSubAmbit && r.idSubAmbit == reg.idSubAmbit && r.idAmbit == reg.idAmbit && r.idIndicator == reg.idIndicator && r.indicatorVersion == reg.indicatorVersion && r.evaluationType == reg.evaluationType);
+
+                if (aux == null)
+                {
+                    _context.IndicatorsEvaluationsIndicatorsRegs.Add(reg);
+                }
+                else {
+                    aux.evaluationDate = reg.evaluationDate;
+                    aux.idEvaluatorTeam = reg.idEvaluatorTeam;
+                    aux.idEvaluatorOrganization = reg.idEvaluatorOrganization;
+                    aux.orgTypeEvaluator = reg.orgTypeEvaluator;
+                    aux.idEvaluatedOrganization = reg.idEvaluatedOrganization;
+                    aux.orgTypeEvaluated = reg.orgTypeEvaluated;
+                    aux.illness = reg.illness;
+                    aux.idCenter = reg.idCenter;
+                    aux.idSubSubAmbit = reg.idSubSubAmbit;
+                    aux.idSubAmbit = reg.idSubAmbit;
+                    aux.idAmbit = reg.idAmbit;
+                    aux.idIndicator = reg.idIndicator;
+                    aux.indicatorVersion = reg.indicatorVersion;
+                    aux.evaluationType = reg.evaluationType;
+
+                    aux.observationsSpanish = reg.observationsSpanish;
+                    aux.observationsEnglish = reg.observationsEnglish;
+                    aux.observationsFrench = reg.observationsFrench;
+                    aux.observationsBasque = reg.observationsBasque;
+                    aux.observationsCatalan = reg.observationsCatalan;
+                    aux.observationsDutch = reg.observationsDutch;
+                    aux.observationsGalician = reg.observationsGalician;
+                    aux.observationsGerman = reg.observationsGerman;
+                    aux.observationsItalian = reg.observationsItalian;
+                    aux.observationsPortuguese = reg.observationsPortuguese;
+                    aux.numEvidencesMarked = reg.numEvidencesMarked;
+                    aux.status = reg.status;
+                    aux.requiresImprovementPlan = reg.requiresImprovementPlan;
+                }
+                
+            }
+            _context.SaveChanges();
+            return Ok(regs);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+\end{lstlisting}
+Como se puede comprobar, los pasos que sigue en este caso el sistema experto son los siguientes:
+\begin{enumerate}
+    \item En primer lugar se crea la sesión llamada \texttt{session} con \texttt{ExpertSystemUtil.Instance.CreateSessionWithRules}, pasando las clases de las reglas \texttt{RuleIndicatorInStart}, \texttt{RuleIndicatorInProcess} y \texttt{RuleIndicatorReached}.
+    \item Posteriormente, se añaden como hechos los diferentes registros de indicadores.
+    \item Más adelante, mediante \texttt{ExpertSystemUtil.Instance.RunRules},
+    pasamos el objeto de sesión y la lista de hechos para lanzar las diferentes
+    reglas.
+    \item Tras haber lanzado las reglas, repetimos una vez más el procedimiento, pero esta vez con las reglas \texttt{RuleDoesntRequireImprovementPlan} y \texttt{RuleRequiresImprovementPlan}.
+\end{enumerate}
 \section{Diseño procedimental}
 %Algoritmos
 En cuanto al diseño procedimental de la aplicación, se tiene que tener en cuenta
@@ -573,9 +718,7 @@ tenemos varias funcionalidades diferentes:
     nombre de la organización. Si no se ha introducido vuelve al punto de
     arranque y en caso contrario pasa a comprobar la dirección. En caso de que
     no se haya introducido ninguna dirección vuelve al punto de arranque y en
-    caso contrario pasa a comprobar el código postal. En caso de que no se haya
-    introducido ningún código postal vuelve al punto de arranque y en caso
-    contrario pasa a comprobar la ciudad. Si no se ha introducido ninguna ciudad
+    caso contrario pasa a comprobar la ciudad. Si no se ha introducido ninguna ciudad
     vuelve al punto de arranque y en caso contrario pasa a comprobar el email.
     Si no se ha introducido el email vuelve al punto de arranque y en caso
     contrario pasa a comprobar el teléfono. Si no se ha introducido ningún

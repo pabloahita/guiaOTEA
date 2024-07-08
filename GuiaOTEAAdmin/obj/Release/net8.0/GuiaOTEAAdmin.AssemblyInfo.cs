@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GuiaOTEAAdmin")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6bd5275ca9b8ea4cafdb549bfc291cf87c470503")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7af62b42adb3e3307974a45176bbb05631e0f05d")]
 [assembly: System.Reflection.AssemblyProductAttribute("GuiaOTEAAdmin")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GuiaOTEAAdmin")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

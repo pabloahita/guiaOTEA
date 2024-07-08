@@ -510,6 +510,27 @@ namespace OTEAServer.Controllers
                 if (user is null)
                     return NotFound();
 
+                if (user.isActive == 1)
+                {
+                    var director = _context.Users.FirstOrDefault(u => u.idOrganization == user.idOrganization && u.orgType == user.orgType && u.illness == user.illness && u.userType == "DIRECTOR");
+                    if (director is null)
+                        return NotFound();
+                    var evaluatorTeams = _context.EvaluatorTeams.Where(e => e.emailProfessional == email || e.emailResponsible == email);
+                    if (evaluatorTeams.Count() > 0) {
+                        foreach (var evaluatorTeam in evaluatorTeams) {
+                            if (evaluatorTeam.emailProfessional == email) {
+                                evaluatorTeam.emailProfessional = director.emailUser;
+                            }
+                            if (evaluatorTeam.emailResponsible == email)
+                            {
+                                evaluatorTeam.emailResponsible = director.emailUser;
+                            }
+                        }
+                    }
+                    _context.SaveChanges();
+                }
+                
+
                 _context.Users.Remove(user);
                 _context.SaveChanges();
 
