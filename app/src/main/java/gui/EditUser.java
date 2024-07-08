@@ -428,11 +428,15 @@ public class EditUser extends AppCompatActivity {
                 String first_name=firstNameField.getText().toString();
                 String last_name=lastNameField.getText().toString();
                 String password= passwordField.getText().toString();
-                String imgUsrName=user.getProfilePhoto();
+
 
                 if(!first_name.isEmpty() && !last_name.isEmpty() && FieldChecker.passwordHasCorrectFormat(password) && FieldChecker.isACorrectPhone(telephone[0]+telephone[1])){
                     new Thread(()->{
+                        String imgUsrName=user.getProfilePhoto();
                         if(photoHasChanged){
+                            if(imgUsrName.isEmpty()){
+                                imgUsrName="USER_" + (user.getEmailUser().replace("@", "_").replace(".", "_")) + ".webp";;
+                            }
                             FileManager.uploadFile(profilePhotoUsr, "profile-photos", imgUsrName);
                             try{
                                 profilePhotoUsr.close();

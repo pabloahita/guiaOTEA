@@ -70,6 +70,7 @@ import otea.connection.controller.TranslatorController;
 import session.EditCenterUtil;
 import session.FileManager;
 import session.Session;
+import session.StringPasser;
 
 public class EditCenter extends AppCompatActivity {
 
@@ -146,6 +147,8 @@ public class EditCenter extends AppCompatActivity {
     Center currCenter;
 
     Address address;
+
+    boolean photoHasChanged=false;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -282,6 +285,7 @@ public class EditCenter extends AppCompatActivity {
                         try {
                             profilePhotoCenter = getContentResolver().openInputStream(uri);
                             imageCenter.setImageURI(uri);
+                            photoHasChanged=true;
                         } catch (FileNotFoundException e) {
                             throw new RuntimeException(e);
                         } catch(NullPointerException ignored){
@@ -304,6 +308,7 @@ public class EditCenter extends AppCompatActivity {
                             profilePhotoCenter = bs;
                             imageCenter.setImageBitmap(bitmap);
                             bs.close();
+                            photoHasChanged=true;
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }catch(NullPointerException ignored){
@@ -780,8 +785,11 @@ public class EditCenter extends AppCompatActivity {
                         String orgType=currCenter.getOrgType();
                         String illness=currCenter.getIllness();
 
-                        if(profilePhotoCenter!=null){
+                        if(photoHasChanged){
                             imgCenterName=currCenter.getProfilePhoto();
+                            if(imgCenterName.isEmpty()){
+                                imgCenterName="CENTER_"+idCenter+"_"+idOrganization+"_"+orgType+"_"+illness+".webp";
+                            }
                             FileManager.uploadFile(profilePhotoCenter, "profile-photos", imgCenterName);
                             try{
                                 profilePhotoCenter.close();
@@ -926,7 +934,29 @@ public class EditCenter extends AppCompatActivity {
                         AddressesController.Update(address.getIdAddress(),currAddress);
                         Center center=new Center(idOrganization,orgType,illness, idCenter,descriptionEnglish,descriptionSpanish,descriptionFrench,descriptionBasque,descriptionCatalan,descriptionDutch,descriptionGalician,descriptionGerman,descriptionItalian,descriptionPortuguese,address.getIdAddress(),fields.get("telephoneCode")+" "+fields.get("telephone"),fields.get("email"),currCenter.getProfilePhoto());
                         CentersController.Update(idOrganization,orgType,illness, idCenter,center);
-
+                        String msg="";
+                        if(Locale.getDefault().getLanguage().equals("es")){
+                            msg="La organización <b>"+descriptionSpanish+"</b> se ha modificado correctamente" ;
+                        }else if(Locale.getDefault().getLanguage().equals("fr")){
+                            msg="Le centre <b>"+descriptionFrench+"</b> a été modifiée avec succès" ;
+                        }else if(Locale.getDefault().getLanguage().equals("eu")){
+                            msg="<b>"+descriptionBasque+"</b> zentroa behar bezala aldatu da" ;
+                        }else if(Locale.getDefault().getLanguage().equals("ca")){
+                            msg="El centre <b>"+descriptionCatalan+"</b> s'ha modificat correctament" ;
+                        }else if(Locale.getDefault().getLanguage().equals("nl")){
+                            msg="Het<b>"+descriptionDutch+"</b>-centrum is correct aangepast" ;
+                        }else if(Locale.getDefault().getLanguage().equals("gl")){
+                            msg="O centro <b>"+descriptionGalician+"</b> modificouse correctamente" ;
+                        }else if(Locale.getDefault().getLanguage().equals("de")){
+                            msg="Das <b>"+descriptionGerman+"</b>-Zentrum wurde erfolgreich geändert";
+                        }else if(Locale.getDefault().getLanguage().equals("it")){
+                            msg="Il centro <b>"+descriptionItalian+"</b> è stato modificato correttamente" ;
+                        }else if(Locale.getDefault().getLanguage().equals("pt")) {
+                            msg = "O centro <b>"+descriptionPortuguese+"</b> foi modificado com sucesso";
+                        }else{
+                            msg="The <b>"+descriptionEnglish+"</b> center has been successfully modified" ;
+                        }
+                        StringPasser.createInstance(msg);
                         runOnUiThread(()->{
                             Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
                             startActivity(intent);

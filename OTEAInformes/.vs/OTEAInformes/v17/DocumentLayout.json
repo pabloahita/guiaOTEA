@@ -1,0 +1,88 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAInformes\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{61FFF130-7515-4431-A885-803155A8811A}|OTEAInformes.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\oteainformes\\blobservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{61FFF130-7515-4431-A885-803155A8811A}|OTEAInformes.csproj|solutionrelative:blobservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{61FFF130-7515-4431-A885-803155A8811A}|OTEAInformes.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\oteainformes\\oteainformes.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{61FFF130-7515-4431-A885-803155A8811A}|OTEAInformes.csproj|solutionrelative:oteainformes.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{61FFF130-7515-4431-A885-803155A8811A}|OTEAInformes.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\oteainformes\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{61FFF130-7515-4431-A885-803155A8811A}|OTEAInformes.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{61FFF130-7515-4431-A885-803155A8811A}|OTEAInformes.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\oteainformes\\pages\\blobmenu.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{61FFF130-7515-4431-A885-803155A8811A}|OTEAInformes.csproj|solutionrelative:pages\\blobmenu.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 611,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "OTEAInformes",
+              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAInformes\\OTEAInformes.csproj",
+              "RelativeDocumentMoniker": "OTEAInformes.csproj",
+              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAInformes\\OTEAInformes.csproj",
+              "RelativeToolTip": "OTEAInformes.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-07-08T14:50:04.795Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAInformes\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAInformes\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-07-08T14:56:23.352Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BlobService.cs",
+              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAInformes\\BlobService.cs",
+              "RelativeDocumentMoniker": "BlobService.cs",
+              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAInformes\\BlobService.cs",
+              "RelativeToolTip": "BlobService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAFQAAABAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-08T14:50:10.022Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BlobMenu.cshtml.cs",
+              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAInformes\\Pages\\BlobMenu.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\BlobMenu.cshtml.cs",
+              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAInformes\\Pages\\BlobMenu.cshtml.cs",
+              "RelativeToolTip": "Pages\\BlobMenu.cshtml.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAUwBoAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-08T14:34:41.491Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

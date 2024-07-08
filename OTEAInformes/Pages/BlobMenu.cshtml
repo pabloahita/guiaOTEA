@@ -1,0 +1,23 @@
+﻿@page
+@model OTEAInformes.Pages.BlobMenuModel
+@{
+}
+<h1>Blobs</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Blob Name</th>
+            <th>Download</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var blob in Model.BlobNames)
+        {
+            <tr>
+                <td>@blob</td>
+                <td><a href="@Model.GetBlobUrl(blob)" target="_blank">Download</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

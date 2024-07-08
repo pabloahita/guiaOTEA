@@ -25,8 +25,11 @@ import otea.connection.controller.EvaluatorTeamsController;
 public class IndicatorsEvaluationAdapter extends ArrayAdapter<IndicatorsEvaluation> {
 
     String text;
+
+    Context context;
     public IndicatorsEvaluationAdapter(@NonNull Context context, List<IndicatorsEvaluation> objects) {
         super(context, 0,objects);
+        this.context=context;
     }
 
     @NonNull
@@ -47,25 +50,30 @@ public class IndicatorsEvaluationAdapter extends ArrayAdapter<IndicatorsEvaluati
             IndicatorsEvaluation title=getItem(0);
             String evalDate=DateFormatter.timeStampToStrDate(indicatorsEvaluation.getEvaluationDate());
             if(Locale.getDefault().getLanguage().equals("es")){
-                text= "<b>"+title.getEvaluationType()+"</b>: <ul><li><b>Fecha de inicio de evaluación de indicadores:</b><i>"+ evalDate +"</i></li></ul>";
+                text= "<b>"+title.getEvaluationType()+"</b>: <ul><li><b>Fecha de inicio de evaluación de indicadores:</b><i>"+ evalDate +"</i></li>";
             }else if(Locale.getDefault().getLanguage().equals("fr")){
-                text= "<b>"+title.getEvaluationType()+"</b>: <ul><li><b>Date de début de l'évaluation des indicateurs:</b><i>"+ evalDate +"</i></li></ul>";
+                text= "<b>"+title.getEvaluationType()+"</b>: <ul><li><b>Date de début de l'évaluation des indicateurs:</b><i>"+ evalDate +"</i></li>";
             }else if(Locale.getDefault().getLanguage().equals("eu")){
-                text= "<b>"+title.getEvaluationType()+"</b>: <ul><li><b>Adierazleak ebaluatzeko hasiera data:</b><i>"+ evalDate +"</i></li></ul>";
+                text= "<b>"+title.getEvaluationType()+"</b>: <ul><li><b>Adierazleak ebaluatzeko hasiera data:</b><i>"+ evalDate +"</i></li>";
             }else if(Locale.getDefault().getLanguage().equals("ca")){
-                text= "<b>"+title.getEvaluationType()+"</b>: <ul><li><b>Data d'inici de l'avaluació dels indicadors:</b><i>"+ evalDate +"</i></li></ul>";
+                text= "<b>"+title.getEvaluationType()+"</b>: <ul><li><b>Data d'inici de l'avaluació dels indicadors:</b><i>"+ evalDate +"</i></li>";
             }else if(Locale.getDefault().getLanguage().equals("nl")){
-                text= "<b>"+title.getEvaluationType()+"</b>: <ul><li><b>Startdatum van de evaluatie van indicatoren:</b><i>"+ evalDate +"</i></li></ul>";
+                text= "<b>"+title.getEvaluationType()+"</b>: <ul><li><b>Startdatum van de evaluatie van indicatoren:</b><i>"+ evalDate +"</i></li>";
             }else if(Locale.getDefault().getLanguage().equals("gl")){
-                text= "<b>"+title.getEvaluationType()+"</b>: <ul><li><b>Data de inicio da avaliación dos indicadores:</b><i>"+ evalDate +"</i></li></ul>";
+                text= "<b>"+title.getEvaluationType()+"</b>: <ul><li><b>Data de inicio da avaliación dos indicadores:</b><i>"+ evalDate +"</i></li>";
             }else if(Locale.getDefault().getLanguage().equals("de")){
-                text= "<b>"+title.getEvaluationType()+"</b>: <ul><li><b>Startdatum der Bewertung von Indikatoren:</b><i>"+ evalDate +"</i></li></ul>";
+                text= "<b>"+title.getEvaluationType()+"</b>: <ul><li><b>Startdatum der Bewertung von Indikatoren:</b><i>"+ evalDate +"</i></li>";
             }else if(Locale.getDefault().getLanguage().equals("it")){
-                text= "<b>"+title.getEvaluationType()+"</b>: <ul><li><b>Data di inizio della valutazione degli indicatori:</b><i>"+ evalDate +"</i></li></ul>";
+                text= "<b>"+title.getEvaluationType()+"</b>: <ul><li><b>Data di inizio della valutazione degli indicatori:</b><i>"+ evalDate +"</i></li>";
             }else if(Locale.getDefault().getLanguage().equals("pt")){
-                text= "<b>"+title.getEvaluationType()+"</b>: <ul><li><b>Data de início da avaliação dos indicadores:</b><i>"+ evalDate +"</i></li></ul>";
+                text= "<b>"+title.getEvaluationType()+"</b>: <ul><li><b>Data de início da avaliação dos indicadores:</b><i>"+ evalDate +"</i></li>";
             }else{//Default: English
-                text= "<b>"+title.getEvaluationType()+"</b>: <ul><li><b>Start date of indicators evaluation:</b><i>"+ evalDate +"</i></li></ul>";
+                text= "<b>"+title.getEvaluationType()+"</b>: <ul><li><b>Start date of indicators evaluation:</b><i>"+ evalDate +"</i></li>";
+            }
+            if(indicatorsEvaluation.getEvaluationType().equals("COMPLETE")){
+                text+="<li><i>"+context.getString(R.string.complete)+"</i></li></ul>";
+            }else{
+                text+="<li><i>"+context.getString(R.string.simple)+"</i></li></ul>";
             }
         }
         textView.setText(Html.fromHtml(text,0));
@@ -89,25 +97,30 @@ public class IndicatorsEvaluationAdapter extends ArrayAdapter<IndicatorsEvaluati
         else{
             String evalDate=DateFormatter.timeStampToStrDate(indicatorsEvaluation.getEvaluationDate());
             if(Locale.getDefault().getLanguage().equals("es")){
-                text= "<ul><li><b>Fecha de inicio de evaluación de indicadores:</b><i>"+ evalDate +"</i></li></ul>";
+                text= "<ul><li><b>Fecha de inicio de evaluación de indicadores:</b><i>"+ evalDate +"</i></li>";
             }else if(Locale.getDefault().getLanguage().equals("fr")){
-                text= "<ul><li><b>Date de début de l'évaluation des indicateurs:</b><i>"+ evalDate +"</i></li></ul>";
+                text= "<ul><li><b>Date de début de l'évaluation des indicateurs:</b><i>"+ evalDate +"</i></li>";
             }else if(Locale.getDefault().getLanguage().equals("eu")){
-                text= "<ul><li><b>Adierazleak ebaluatzeko hasiera data:</b><i>"+ evalDate +"</i></li></ul>";
+                text= "<ul><li><b>Adierazleak ebaluatzeko hasiera data:</b><i>"+ evalDate +"</i></li>";
             }else if(Locale.getDefault().getLanguage().equals("ca")){
-                text= "<ul><li><b>Data d'inici de l'avaluació dels indicadors:</b><i>"+ evalDate +"</i></li></ul>";
+                text= "<ul><li><b>Data d'inici de l'avaluació dels indicadors:</b><i>"+ evalDate +"</i></li>";
             }else if(Locale.getDefault().getLanguage().equals("nl")){
-                text= "<ul><li><b>Startdatum van de evaluatie van indicatoren:</b><i>"+ evalDate +"</i></li></ul>";
+                text= "<ul><li><b>Startdatum van de evaluatie van indicatoren:</b><i>"+ evalDate +"</i></li>";
             }else if(Locale.getDefault().getLanguage().equals("gl")){
-                text= "<ul><li><b>Data de inicio da avaliación dos indicadores:</b><i>"+ evalDate +"</i></li></ul>";
+                text= "<ul><li><b>Data de inicio da avaliación dos indicadores:</b><i>"+ evalDate +"</i></li>";
             }else if(Locale.getDefault().getLanguage().equals("de")){
-                text= "<ul><li><b>Startdatum der Bewertung von Indikatoren:</b><i>"+ evalDate +"</i></li></ul>";
+                text= "<ul><li><b>Startdatum der Bewertung von Indikatoren:</b><i>"+ evalDate +"</i></li>";
             }else if(Locale.getDefault().getLanguage().equals("it")){
-                text= "<ul><li><b>Data di inizio della valutazione degli indicatori:</b><i>"+ evalDate +"</i></li></ul>";
+                text= "<ul><li><b>Data di inizio della valutazione degli indicatori:</b><i>"+ evalDate +"</i></li>";
             }else if(Locale.getDefault().getLanguage().equals("pt")){
-                text= "<ul><li><b>Data de início da avaliação dos indicadores:</b><i>"+ evalDate +"</i></li></ul>";
+                text= "<ul><li><b>Data de início da avaliação dos indicadores:</b><i>"+ evalDate +"</i></li>";
             }else{//Default: English
-                text= "<ul><li><b>Start date of indicators evaluation:</b><i>"+ evalDate +"</i></li></ul>";
+                text= "<ul><li><b>Start date of indicators evaluation:</b><i>"+ evalDate +"</i></li>";
+            }
+            if(indicatorsEvaluation.getEvaluationType().equals("COMPLETE")){
+                text+="<li><i>"+context.getString(R.string.complete)+"</i></li></ul>";
+            }else{
+                text+="<li><i>"+context.getString(R.string.simple)+"</i></li></ul>";
             }
         }
         textView.setText(Html.fromHtml(text,0));

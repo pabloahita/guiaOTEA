@@ -720,6 +720,9 @@ public class EditEvaluatorTeam extends AppCompatActivity {
                         if(photoHasChanged){
 
                             new Thread(()->{
+                                if(imgEvalTeamName.isEmpty()){
+                                    imgEvalTeamName="EVALTEAM_"+evaluatorTeam.getIdEvaluatorTeam()+"_"+ centerSelected.getIdCenter()+"_"+centerSelected.getIdOrganization()+"_"+centerSelected.getOrgType()+"_"+centerSelected.getIllness()+".webp";
+                                }
                                 FileManager.uploadFile(profilePhotoEvalTeam, "profile-photos", imgEvalTeamName);
                                 try{
                                     profilePhotoEvalTeam.close();

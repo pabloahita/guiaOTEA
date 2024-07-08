@@ -843,6 +843,9 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
 
                     if(photoChanged){
                         new Thread(()->{
+                            if(imgOrgName.isEmpty()){
+                                imgOrgName="ORG_"+idOrganization+"_"+orgType+"_"+illness+".webp";
+                            }
                             FileManager.uploadFile(profilePhotoOrg, "profile-photos", imgOrgName);
                             try{
                                 profilePhotoOrg.close();
