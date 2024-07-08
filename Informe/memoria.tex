@@ -396,7 +396,7 @@
 
 \noindent Expone:
 
-\noindent Que el alumno D. \nombre, con DNI \dni, ha realizado el Trabajo final de Grado en Ingeniería Informática titulado título de TFG. 
+\noindent Que el alumno D. \nombre, con DNI \dni, ha realizado el Trabajo final de Grado en Ingeniería Informática titulado Seguimiento de requerimientos para gestionar, medir, evaluar y mejorar. 
 
 \noindent Y que dicho trabajo ha sido realizado por el alumno bajo la dirección del que suscribe, en virtud de lo cual se autoriza su presentación y defensa.
 
@@ -454,25 +454,23 @@ D. nombre co-tutor
   solicitan. \\ En cuanto a la arquitectura, el cliente es la propia aplicación
   de Android desarrollada en \textit{Java}, con su interfaz gráfica y su código
   interno para manejar las peticiones HTTP al servidor mediante
-  \textit{Retrofit} y \textit{OkHttp} con la ayuda de \textit{ASyncTask} que
-  ejecuta esas órdenes en un hilo diferente al de la propia aplicación y para
-  realizar toda la funcionalidad esperada dependiendo del tipo de usuario que
-  maneje dicha aplicación. Mientras tanto el servidor se ha desarrollado en
-  \textit{C\#}, utilizando para el manejo de las peticiones HTTP la API de
-  \textit{ASP.NET}, la cual se encarga de recibir las peticiones por parte del
-  cliente y de enviar la respuesta del endpoint solicitado, utilizando el
-  paquete \textit{System.Data.SqlClient} para comunicarse con la base de datos y
-  el paquete \textit{Newtosnsoft.Json} para transformar a JSON el objeto y
-  serializar sus parámetros para que el cliente mediante \textit{Retrofit} los
-  deserialice y los utilice para crear las instancias correspondientes. \\
+  \textit{Retrofit} y \textit{OkHttp} con la ayuda de
+  \textit{java.util.concurrent} que ejecuta esas órdenes en un hilo diferente al
+  de la propia aplicación y para realizar toda la funcionalidad esperada
+  dependiendo del tipo de usuario que maneje dicha aplicación. Mientras tanto el
+  servidor se ha desarrollado en \textit{C\#}, utilizando para el manejo de las
+  peticiones HTTP la API de \textit{ASP.NET}, la cual se encarga de recibir las
+  peticiones por parte del cliente y de enviar la respuesta del endpoint
+  solicitado, utilizando  \textit{Entity Framework} para comunicarse con la
+  base de datos y el paquete \textit{Newtosnsoft.Json} para transformar a JSON
+  el objeto y serializar sus parámetros para que el cliente mediante
+  \textit{Retrofit} los deserialice y los utilice para crear las instancias
+  correspondientes. \\
   Los tipos de usuarios distinguidos por la aplicación ayudan a distinguir
   correctamente las acciones que cada uno de ellos puede realizar en la
-  aplicación. En primer lugar tenemos los \textbf{administradores} que controlan
-  las tablas de la base de datos, los \textbf{usuarios de organización evaluada}
-  que reciben los test de indicadores para luego mostrar su evolución y los
-  \textbf{usuarios de la \textit{Fundación Miradas}}, que se encargan de
-  realizar diferentes evaluaciones de indicadores a cualquier organización
-  evaluada y de añadir las nuevas organizaciones evaluadas. 
+  aplicación. En primer lugar tenemos los \textbf{administradores} que realizan
+  las pruebas de indicadores, los \textbf{directores de organización evaluada}
+  que gestionan su organización y los \textbf{usuarios de organización}. 
   
 \end{abstract}
 
@@ -504,18 +502,16 @@ Android, Azure, Azure SQL, C\#, cliente-servidor, evidencias, indicadores, JSON,
   server was developed using \textit{C\#}, using \textit{ASP.NET} to control all
   the HTTP requests that are received from the client and then sending the
   requested endpoint's response, using for that the
-  \textit{System.Data.SQLClient} package to communicate with the database and
+  \textit{Entity Framework} to communicate with the database and
   the \textit{Newtonsoft.Json} to convert to Json the object and serialice its
   parameters before the client deserialices it using \textit{Retrofit} and then
   uses it to build the corresponding instances.\\
   The types of users distinguished by the application help to distinguish
   correctly the actions that each one of them can carry out in the
-  application. First of all we have the \textbf{administrators} who control
-  the database tables, the \textbf{evaluated organization users}
-  that receive the indicator tests to later show their evolution and the
-  \textbf{\textit{Fundación Miradas}'s users}, who are in charge of
-  carry out different evaluations of indicators to any organization
-  evaluated and to add the new organizations evaluated.
+  application. First of all we have the \textbf{administrators} who are in charge of
+  carry out different evaluations of indicators, the \textbf{evaluated organization directors}
+  that manage their own organization and the
+  \textbf{\textit{organizations users}}.
 \end{abstract}
 \renewcommand*\abstractname{Keywords}
 \begin{abstract}

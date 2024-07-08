@@ -2,13 +2,13 @@
 @model OTEAInformes.Pages.BlobMenuModel
 @{
 }
-<h1>Blobs</h1>
+<h1>Lista de informes</h1>
 
 <table class="table">
     <thead>
         <tr>
-            <th>Blob Name</th>
-            <th>Download</th>
+            <th>Informe</th>
+            <th>Descargar</th>
         </tr>
     </thead>
     <tbody>
@@ -16,7 +16,7 @@
         {
             <tr>
                 <td>@blob</td>
-                <td><a href="@Model.GetBlobUrl(blob)" target="_blank">Download</a></td>
+                <td><a href="@Model.GetBlobUrl(blob)" target="_blank">Descargar</a></td>
             </tr>
         }
     </tbody>

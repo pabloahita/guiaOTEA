@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OTEAInformes")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b61dec1748ce29d195afab68e168a7ea75c7f49d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d67b7361a7bce2f3861ec45c62e5fb8558e114a1")]
 [assembly: System.Reflection.AssemblyProductAttribute("OTEAInformes")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OTEAInformes")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

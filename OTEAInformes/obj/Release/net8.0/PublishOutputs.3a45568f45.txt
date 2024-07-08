@@ -1,0 +1,15 @@
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAInformes\obj\Release\net8.0\PubTmp\Out\OTEAInformes.exe
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAInformes\obj\Release\net8.0\PubTmp\Out\appsettings.Development.json
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAInformes\obj\Release\net8.0\PubTmp\Out\appsettings.json
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAInformes\obj\Release\net8.0\PubTmp\Out\OTEAInformes.dll
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAInformes\obj\Release\net8.0\PubTmp\Out\OTEAInformes.deps.json
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAInformes\obj\Release\net8.0\PubTmp\Out\OTEAInformes.runtimeconfig.json
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAInformes\obj\Release\net8.0\PubTmp\Out\OTEAInformes.pdb
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAInformes\obj\Release\net8.0\PubTmp\Out\Azure.Core.dll
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAInformes\obj\Release\net8.0\PubTmp\Out\Azure.Storage.Blobs.dll
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAInformes\obj\Release\net8.0\PubTmp\Out\Azure.Storage.Common.dll
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAInformes\obj\Release\net8.0\PubTmp\Out\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAInformes\obj\Release\net8.0\PubTmp\Out\Newtonsoft.Json.dll
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAInformes\obj\Release\net8.0\PubTmp\Out\System.ClientModel.dll
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAInformes\obj\Release\net8.0\PubTmp\Out\System.IO.Hashing.dll
+C:\Programas\AndroidStudioOTEA\StudioProjects\guiaOTEA\OTEAInformes\obj\Release\net8.0\PubTmp\Out\System.Memory.Data.dll
