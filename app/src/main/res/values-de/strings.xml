@@ -372,6 +372,7 @@
     <string name="center_deleted">Zentrum erfolgreich gelöscht</string>
     <string name="are_you_sure_del_eval_team">Sind Sie sicher, dass Sie dieses Bewertungsteam löschen möchten? Bitte beachten Sie, dass alle mit diesem Bewertungsteam verbundenen Indikatorbewertungen ebenfalls gelöscht werden</string>
     <string name="eval_team_deleted">Bewertungsteam erfolgreich gelöscht</string>
+    <string name="dir_email_in_db">Die für den Organisationsleiter eingegebene E-Mail-Adresse ist bereits in unserer Datenbank vorhanden. Bitte geben Sie eine andere E-Mail-Adresse ein</string>
 
 
 </resources>

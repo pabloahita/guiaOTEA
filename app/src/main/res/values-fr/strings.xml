@@ -331,4 +331,5 @@
     <string name="center_deleted">Centre supprimé avec succès</string>
     <string name="are_you_sure_del_eval_team">Êtes-vous sûr de vouloir supprimer cette équipe d\'évaluation ? Veuillez noter que toutes les évaluations d\'indicateurs liées à cette équipe d\'évaluation seront également supprimées</string>
     <string name="eval_team_deleted">Équipe d\'évaluation supprimée avec succès</string>
+    <string name="dir_email_in_db">L\'email saisi pour le directeur de l\'organisation figure déjà dans notre base de données. Veuillez entrer un autre email</string>
 </resources>

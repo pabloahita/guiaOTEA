@@ -2374,70 +2374,39 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
     }
     private void addToDatabase(){
 
-        CountDownLatch latch = new CountDownLatch(3);
+        if (youVeFinished) {
+            current_evaluation.setIsFinished(1);
+        }
+        if (IndicatorsEvaluationsController.Get(current_evaluation.getEvaluationDate(), current_evaluation.getIdEvaluatorTeam(), current_evaluation.getIdEvaluatorOrganization(), current_evaluation.getOrgTypeEvaluator(), current_evaluation.getIdEvaluatedOrganization(), current_evaluation.getOrgTypeEvaluated(), current_evaluation.getIllness(), current_evaluation.getIdCenter(), current_evaluation.getEvaluationType()) == null) {
+            IndicatorsEvaluationsController.Create(current_evaluation);
+        } else {
+            IndicatorsEvaluationsController.Update(current_evaluation.getEvaluationDate(), current_evaluation.getIdEvaluatorTeam(), current_evaluation.getIdEvaluatorOrganization(), current_evaluation.getOrgTypeEvaluator(), current_evaluation.getIdEvaluatedOrganization(), current_evaluation.getOrgTypeEvaluated(), current_evaluation.getIllness(), current_evaluation.getIdCenter(), current_evaluation.getEvaluationType(), current_evaluation);
+        }
+        if(isComplete) {
+            IndicatorsEvaluationEvidenceRegsController.CreateRegs(evidenceRegs);
+        }else{
+            IndicatorsEvaluationEvidenceSimpleRegsController.CreateRegs(simpleEvidenceRegs);
+        }
+        IndicatorsEvaluationIndicatorRegsController.CreateRegs(indicatorRegs);
+        IndicatorsEvaluationsController.calculateResults(current_evaluation);
+        IndicatorsEvaluationRegsUtil.removeInstance();
 
-        new Thread(() -> {
-            try {
-                if (youVeFinished) {
-                    current_evaluation.setIsFinished(1);
-                }
-                if (IndicatorsEvaluationsController.Get(current_evaluation.getEvaluationDate(), current_evaluation.getIdEvaluatorTeam(), current_evaluation.getIdEvaluatorOrganization(), current_evaluation.getOrgTypeEvaluator(), current_evaluation.getIdEvaluatedOrganization(), current_evaluation.getOrgTypeEvaluated(), current_evaluation.getIllness(), current_evaluation.getIdCenter(), current_evaluation.getEvaluationType()) == null) {
-                    IndicatorsEvaluationsController.Create(current_evaluation);
-                } else {
-                    IndicatorsEvaluationsController.Update(current_evaluation.getEvaluationDate(), current_evaluation.getIdEvaluatorTeam(), current_evaluation.getIdEvaluatorOrganization(), current_evaluation.getOrgTypeEvaluator(), current_evaluation.getIdEvaluatedOrganization(), current_evaluation.getOrgTypeEvaluated(), current_evaluation.getIllness(), current_evaluation.getIdCenter(), current_evaluation.getEvaluationType(), current_evaluation);
-                }
-            } finally {
-                latch.countDown();
+        current_evaluation = IndicatorsEvaluationsController.Get(current_evaluation.getEvaluationDate(), current_evaluation.getIdEvaluatorTeam(), current_evaluation.getIdEvaluatorOrganization(), current_evaluation.getOrgTypeEvaluator(), current_evaluation.getIdEvaluatedOrganization(), current_evaluation.getOrgTypeEvaluated(), current_evaluation.getIllness(), current_evaluation.getIdCenter(), current_evaluation.getEvaluationType());
+        IndicatorsEvaluationUtil.getInstance().setIndicatorsEvaluation(current_evaluation);
+        IndicatorsEvaluationRegsUtil.createInstance(current_evaluation);
+        generateReport();
+        runOnUiThread(()->{
+            int idMsg=-1;
+            if(current_evaluation.getIsFinished()==1){
+                idMsg=R.string.ind_eval_reg_suc_end;
+            }else{
+                idMsg=R.string.ind_eval_reg_suc;
             }
-        }).start();
-
-        new Thread(() -> {
-            try {
-                if(isComplete) {
-                    IndicatorsEvaluationEvidenceRegsController.CreateRegs(evidenceRegs);
-                }else{
-                    IndicatorsEvaluationEvidenceSimpleRegsController.CreateRegs(simpleEvidenceRegs);
-                }
-            } finally {
-                latch.countDown();
-            }
-        }).start();
-
-        new Thread(() -> {
-            try {
-                IndicatorsEvaluationIndicatorRegsController.CreateRegs(indicatorRegs);
-            } finally {
-                latch.countDown();
-            }
-        }).start();
-
-        new Thread(() -> {
-            try {
-                latch.await();
-                IndicatorsEvaluationsController.calculateResults(current_evaluation);
-                IndicatorsEvaluationRegsUtil.removeInstance();
-
-                current_evaluation = IndicatorsEvaluationsController.Get(current_evaluation.getEvaluationDate(), current_evaluation.getIdEvaluatorTeam(), current_evaluation.getIdEvaluatorOrganization(), current_evaluation.getOrgTypeEvaluator(), current_evaluation.getIdEvaluatedOrganization(), current_evaluation.getOrgTypeEvaluated(), current_evaluation.getIllness(), current_evaluation.getIdCenter(), current_evaluation.getEvaluationType());
-                IndicatorsEvaluationUtil.getInstance().setIndicatorsEvaluation(current_evaluation);
-                IndicatorsEvaluationRegsUtil.createInstance(current_evaluation);
-                generateReport();
-                runOnUiThread(()->{
-                    int idMsg=-1;
-                    if(current_evaluation.getIsFinished()==1){
-                        idMsg=R.string.ind_eval_reg_suc_end;
-                    }else{
-                        idMsg=R.string.ind_eval_reg_suc;
-                    }
-                    StringPasser.createInstance(getString(idMsg));
-                    StringPasser.getInstance().setFlag(1);
-                    Intent intent = new Intent(DoIndicatorsEvaluation.this, com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-                    startActivity(intent);
-                });
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                e.printStackTrace();
-            }
-        }).start();
+            StringPasser.createInstance(getString(idMsg));
+            StringPasser.getInstance().setFlag(1);
+            Intent intent = new Intent(DoIndicatorsEvaluation.this, com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+            startActivity(intent);
+        });
 
 
     }

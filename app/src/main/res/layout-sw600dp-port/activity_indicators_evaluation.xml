@@ -402,6 +402,7 @@
                     app:hintTextAppearance="@style/HelperTextAppearance">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/ev1txt"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="@string/evidence1" />
@@ -414,6 +415,7 @@
                     app:hintTextAppearance="@style/HelperTextAppearance">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/ev2txt"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="@string/evidence2" />
@@ -427,6 +429,7 @@
                     app:hintTextAppearance="@style/HelperTextAppearance">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/ev3txt"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="@string/evidence3" />
@@ -437,6 +440,7 @@
                     android:layout_height="280dp">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/ev4txt"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="@string/evidence4" />

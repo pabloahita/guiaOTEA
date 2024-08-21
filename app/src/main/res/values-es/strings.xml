@@ -333,5 +333,6 @@
     <string name="center_deleted">Centro eliminado satisfactoriamente</string>
     <string name="are_you_sure_del_eval_team">¿Está seguro que desea eliminar este equipo evaluador? Tenga en cuenta que todas las evaluaciones de indicadores relacionadas a este equipo evaluador serán eliminados también</string>
     <string name="eval_team_deleted">Equipo evaluador eliminado satisfactoriamente</string>
+    <string name="dir_email_in_db">El email introducido para el director de la organización ya aparece en nuestra base de datos. Por favor, introduzca un email diferente</string>
 
 </resources>

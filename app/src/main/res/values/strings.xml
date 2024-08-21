@@ -371,6 +371,7 @@
     <string name="center_deleted">Center successfully deleted</string>
     <string name="are_you_sure_del_eval_team">Are you sure you want to delete this evaluation team? Please note that all indicator evaluations related to this evaluation team will also be deleted</string>
     <string name="eval_team_deleted">Evaluator team successfully deleted</string>
+    <string name="dir_email_in_db">The email entered for the organization director is already in our database. Please enter a different email</string>
 
 
 </resources>

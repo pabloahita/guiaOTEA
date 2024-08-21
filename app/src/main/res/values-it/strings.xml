@@ -369,6 +369,7 @@
     <string name="center_deleted">Centro eliminato con successo</string>
     <string name="are_you_sure_del_eval_team">Sei sicuro di voler eliminare questo team di valutazione? Tieni presente che tutte le valutazioni degli indicatori relative a questo team di valutazione saranno anch\'esse eliminate</string>
     <string name="eval_team_deleted">Team di valutazione eliminato con successo</string>
+    <string name="dir_email_in_db">L\'email inserita per il direttore dell\'organizzazione è già presente nel nostro database. Si prega di inserire un\'email diversa</string>
 
 
 </resources>

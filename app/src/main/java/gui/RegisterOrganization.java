@@ -71,6 +71,8 @@ import session.StringPasser;
 
 public class RegisterOrganization extends AppCompatActivity {
 
+    int numAttempts=0;
+
     List<Country> countries;
 
     List<Region> regions;
@@ -836,357 +838,375 @@ public class RegisterOrganization extends AppCompatActivity {
 
                 base.setVisibility(View.GONE);
                 loading.setVisibility(View.VISIBLE);
-                if(!fields.get("nameOrg").isEmpty() && !fields.get("address").isEmpty() && (FieldChecker.isACorrectPhone(fields.get("telephoneCodeOrg")+fields.get("telephoneOrg")))
-                        && FieldChecker.emailHasCorrectFormat(fields.get("emailOrg")) && FieldChecker.emailHasCorrectFormat(fields.get("emailDir")) &&
-                        ((FieldChecker.isPrecharged(idCountry[0]) && idRegion[0]!=-2 && idProvince[0]!=-2 && idCity[0]!=-2) ||
-                                (!idCountry[0].equals("-2") && !fields.get("nameRegion").isEmpty() && !fields.get("nameProvince").isEmpty() && !fields.get("nameCity").isEmpty()))){
 
+                new Thread(()->{
+                    if(!fields.get("nameOrg").isEmpty() && !fields.get("address").isEmpty() && (FieldChecker.isACorrectPhone(fields.get("telephoneCodeOrg")+fields.get("telephoneOrg")))
+                            && FieldChecker.emailHasCorrectFormat(fields.get("emailOrg")) && FieldChecker.emailHasCorrectFormat(fields.get("emailDir")) &&
+                            UsersController.Get(fields.get("emailDir")) == null &&
+                            ((FieldChecker.isPrecharged(idCountry[0]) && idRegion[0]!=-2 && idProvince[0]!=-2 && idCity[0]!=-2) ||
+                                    (!idCountry[0].equals("-2") && !fields.get("nameRegion").isEmpty() && !fields.get("nameProvince").isEmpty() && !fields.get("nameCity").isEmpty()))){
 
-
-
-
-                    if(profilePhotoOrg!=null){
-                        imgOrgName="ORG_"+idOrganization+"_"+orgType+"_"+illness+".webp";
-                        new Thread(()->{
-                            FileManager.uploadFile(profilePhotoOrg, "profile-photos", imgOrgName);
-                            try{
-                                profilePhotoOrg.close();
-                            }catch(IOException e){
-                                e.printStackTrace();
-                            }
-                        }).start();
-                    }
-
-
-                    new Thread(()->{
-                        String informationEnglish="";
-                        String informationSpanish="";
-                        String informationFrench="";
-                        String informationBasque="";
-                        String informationCatalan="";
-                        String informationDutch="";
-                        String informationGalician="";
-                        String informationGerman="";
-                        String informationItalian="";
-                        String informationPortuguese="";
-
-                        String informationText=fields.get("information");
-                        if(!informationText.isEmpty()){
-                            List<String> translations=TranslatorController.getInstance().translate(informationText, Locale.getDefault().getLanguage());
-                            if(Locale.getDefault().getLanguage().equals("es")){
-                                informationEnglish= translations.get(0);
-                                informationSpanish= informationText;
-                                informationFrench= translations.get(1);
-                                informationBasque= translations.get(2);
-                                informationCatalan= translations.get(3);
-                                informationDutch= translations.get(4);
-                                informationGalician= translations.get(5);
-                                informationGerman= translations.get(6);
-                                informationItalian= translations.get(7);
-                                informationPortuguese= translations.get(8);
-                            }else if(Locale.getDefault().getLanguage().equals("fr")){
-                                informationEnglish= translations.get(0);
-                                informationSpanish= translations.get(1);
-                                informationFrench=informationText;
-                                informationBasque= translations.get(2);
-                                informationCatalan= translations.get(3);
-                                informationDutch= translations.get(4);
-                                informationGalician= translations.get(5);
-                                informationGerman= translations.get(6);
-                                informationItalian= translations.get(7);
-                                informationPortuguese= translations.get(8);
-                            }else if(Locale.getDefault().getLanguage().equals("eu")){
-                                informationEnglish= translations.get(0);
-                                informationSpanish= translations.get(1);
-                                informationFrench= translations.get(2);
-                                informationBasque=informationText;
-                                informationCatalan= translations.get(3);
-                                informationDutch= translations.get(4);
-                                informationGalician= translations.get(5);
-                                informationGerman= translations.get(6);
-                                informationItalian= translations.get(7);
-                                informationPortuguese= translations.get(8);
-                            }else if(Locale.getDefault().getLanguage().equals("ca")){
-                                informationEnglish= translations.get(0);
-                                informationSpanish= translations.get(1);
-                                informationFrench= translations.get(2);
-                                informationBasque= translations.get(3);
-                                informationCatalan=informationText;
-                                informationDutch= translations.get(4);
-                                informationGalician= translations.get(5);
-                                informationGerman= translations.get(6);
-                                informationItalian= translations.get(7);
-                                informationPortuguese= translations.get(8);
-                            }else if(Locale.getDefault().getLanguage().equals("nl")){
-                                informationEnglish= translations.get(0);
-                                informationSpanish= translations.get(1);
-                                informationFrench= translations.get(2);
-                                informationBasque= translations.get(3);
-                                informationCatalan= translations.get(4);
-                                informationDutch=informationText;
-                                informationGalician= translations.get(5);
-                                informationGerman= translations.get(6);
-                                informationItalian= translations.get(7);
-                                informationPortuguese= translations.get(8);
-                            }else if(Locale.getDefault().getLanguage().equals("gl")){
-                                informationEnglish= translations.get(0);
-                                informationSpanish= translations.get(1);
-                                informationFrench= translations.get(2);
-                                informationBasque= translations.get(3);
-                                informationCatalan= translations.get(4);
-                                informationDutch= translations.get(5);
-                                informationGalician=informationText;
-                                informationGerman= translations.get(6);
-                                informationItalian= translations.get(7);
-                                informationPortuguese= translations.get(8);
-                            }else if(Locale.getDefault().getLanguage().equals("de")){
-                                informationEnglish= translations.get(0);
-                                informationSpanish= translations.get(1);
-                                informationFrench= translations.get(2);
-                                informationBasque= translations.get(3);
-                                informationCatalan= translations.get(4);
-                                informationDutch= translations.get(5);
-                                informationGalician= translations.get(6);
-                                informationGerman=informationText;
-                                informationItalian= translations.get(7);
-                                informationPortuguese= translations.get(8);
-                            }else if(Locale.getDefault().getLanguage().equals("it")){
-                                informationEnglish= translations.get(0);
-                                informationSpanish= translations.get(1);
-                                informationFrench= translations.get(2);
-                                informationBasque= translations.get(3);
-                                informationCatalan= translations.get(4);
-                                informationDutch= translations.get(5);
-                                informationGalician= translations.get(6);
-                                informationGerman= translations.get(7);
-                                informationItalian=informationText;
-                                informationPortuguese= translations.get(8);
-                            }else if(Locale.getDefault().getLanguage().equals("pt")){
-                                informationEnglish= translations.get(0);
-                                informationSpanish= translations.get(1);
-                                informationFrench= translations.get(2);
-                                informationBasque= translations.get(3);
-                                informationCatalan= translations.get(4);
-                                informationDutch= translations.get(5);
-                                informationGalician= translations.get(6);
-                                informationGerman= translations.get(7);
-                                informationItalian= translations.get(8);
-                                informationPortuguese=informationText;
-                            }else{
-                                informationEnglish= informationText;
-                                informationSpanish= translations.get(0);
-                                informationFrench= translations.get(1);
-                                informationBasque= translations.get(2);
-                                informationCatalan= translations.get(3);
-                                informationDutch= translations.get(4);
-                                informationGalician= translations.get(5);
-                                informationGerman= translations.get(6);
-                                informationItalian= translations.get(7);
-                                informationPortuguese= translations.get(8);
-                            }
-
-                        }
-
-
-
-                        Address address = new Address(idAddress, fields.get("address"), idCity[0],idProvince[0],idRegion[0],idCountry[0],fields.get("nameCity"),fields.get("nameProvince"),fields.get("nameRegion"));
-
-                        Organization organization=new Organization(idOrganization,orgType,illness,fields.get("nameOrg"),idAddress,fields.get("emailOrg"),fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),informationSpanish,informationEnglish,informationFrench,informationBasque,informationCatalan,informationDutch,informationGalician,informationGerman,informationItalian,informationPortuguese,imgOrgName);
-                        User director=new User(fields.get("emailDir"),"DIRECTOR","","","","",idOrganization,orgType,illness,"",0);
-                        AddressesController.getInstance().Create(address);
-                        OrganizationsController.getInstance().Create(organization);
-                        UsersController.getInstance().Create(director);
-                        CentersController.getInstance().Create(new Center(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),1,"Headquarters","Sede principal","Siège social","Egoitza","Seu principal","Hoofdkwartier","Sede principal","Hauptsitz","Sede principale","Sede principal",idAddress,fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),fields.get("emailOrg"),imgOrgName));
-
-                        String msg="";
-                        if(Locale.getDefault().getLanguage().equals("es")){
-                            msg="La organización <b>"+organization.getNameOrg()+"</b> se ha registrado correctamente. Por favor, notifique al director de la organización que siga los siguientes pasos:" +
-                                    "<ul>" +
-                                    "<li><b>Descargar la aplicación</b></li>" +
-                                    "<li><b>Al abrir la aplicación, presionar sobre <i>Crear cuenta</i></b></li>" +
-                                    "<li><b>Introducir el email y seleccionar en <i>Comprobar solicitud</i>, para así acceder directamente sobre la pantalla de registro de usuario.</b></li>" +
-                                    "</ul>";
-                        }else if(Locale.getDefault().getLanguage().equals("fr")){
-                            msg="L'organisation <b>"+organization.getNameOrg()+"</b> a été enregistrée avec succès. Veuillez aviser le directeur de l'organisme de prendre les mesures suivantes :" +
-                                    "<ul>" +
-                                    "<li><b>Téléchargez l'application</b></li>" +
-                                    "<li><b>Lors de l'ouverture de l'application, cliquez sur <i>Créer un compte</i></b></li>" +
-                                    "<li><b>Saisissez l'e-mail et sélectionnez <i>Demande de vérification</i> pour accéder directement à l'écran d'enregistrement de l'utilisateur.</b></li>" +
-                                    "</ul>";
-                        }else if(Locale.getDefault().getLanguage().equals("eu")){
-                            msg="<b>"+organization.getNameOrg()+"</b> erakundea behar bezala erregistratu da. Mesedez, jakinarazi erakundeko zuzendariari urrats hauek egiteko:" +
-                                    "<ul>" +
-                                    "<li><b>Deskargatu aplikazioa</b></li>" +
-                                    "<li><b>Aplikazioa irekitzean, egin klik <i>Sortu kontua</i></b></li> aukeran." +
-                                    "<li><b>Sartu e-posta eta hautatu <i>Egiaztatu eskaera</i>, erabiltzailea erregistratzeko pantailara zuzenean sartzeko.</b></li>" +
-                                    "</ul>";
-                        }else if(Locale.getDefault().getLanguage().equals("ca")){
-                            msg="L'organització <b>"+organization.getNameOrg()+"</b> s'ha registrat correctament. Si us plau, notifiqueu al director de l'organització que seguiu els passos següents:" +
-                                    "<ul>" +
-                                    "<li><b>Descarregar l'aplicació</b></li>" +
-                                    "<li><b>En obrir l'aplicació, pressionar sobre <i>Crear compte</i></b></li>" +
-                                    "<li><b>Introduir el correu electrònic i seleccionar a <i>Comprovar sol·licitud</i>, per així accedir directament sobre la pantalla de registre d'usuari.</b></li>" +
-                                    "</ul>";
-                        }else if(Locale.getDefault().getLanguage().equals("nl")){
-                            msg="De organisatie <b>"+organization.getNameOrg()+"</b> is succesvol geregistreerd. Geef de directeur van de organisatie een seintje om de volgende stappen te ondernemen:" +
-                                    "<ul>" +
-                                    "<li><b>Download de applicatie</b></li>" +
-                                    "<li><b>Klik bij het openen van de applicatie op <i>Account aanmaken</i></b></li>" +
-                                    "<li><b>Voer de e-mail in en selecteer <i>Verzoek controleren</i> om rechtstreeks naar het gebruikersregistratiescherm te gaan.</b></li>" +
-                                    "</ul>";
-                        }else if(Locale.getDefault().getLanguage().equals("gl")){
-                            msg="A organización <b>"+organization.getNameOrg()+"</b> rexistrouse correctamente. Informe ao director da organización para que tome as seguintes medidas:" +
-                                    "<ul>" +
-                                    "<li><b>Descarga a aplicación</b></li>" +
-                                    "<li><b>Cando abra a aplicación, faga clic en <i>Crear conta</i></b></li>" +
-                                    "<li><b>Introduce o correo electrónico e selecciona <i>Comprobar solicitude</i> para acceder directamente á pantalla de rexistro do usuario.</b></li>" +
-                                    "</ul>";
-                        }else if(Locale.getDefault().getLanguage().equals("de")){
-                            msg="Die Organisation <b>"+organization.getNameOrg()+"</b> wurde erfolgreich registriert. Bitte benachrichtigen Sie den Direktor der Organisation, um die folgenden Schritte zu unternehmen:" +
-                                    "<ul>" +
-                                    "<li><b>Laden Sie die Anwendung herunter</b></li>" +
-                                    "<li><b>Klicken Sie beim Öffnen der Anwendung auf <i>Konto erstellen</i></b></li>" +
-                                    "<li><b>Geben Sie die E-Mail-Adresse ein und wählen Sie <i>Anfrage prüfen</i>, um direkt auf den Benutzerregistrierungsbildschirm zuzugreifen.</b></li>" +
-                                    "</ul>";
-                        }else if(Locale.getDefault().getLanguage().equals("it")){
-                            msg="L'organizzazione <b>"+organization.getNameOrg()+"</b> è stata registrata con successo. Si prega di avvisare il direttore dell'organizzazione di adottare le seguenti misure:" +
-                                    "<ul>" +
-                                    "<li><b>Scarica l'applicazione</b></li>" +
-                                    "<li><b>Quando si apre l'applicazione, fare clic su <i>Crea account</i></b></li>" +
-                                    "<li><b>Inserisci l'e-mail e seleziona <i>Verifica richiesta</i>, per accedere direttamente alla schermata di registrazione dell'utente.</b></li>" +
-                                    "</ul>";
-                        }else if(Locale.getDefault().getLanguage().equals("pt")){
-                            msg="A organização <b>"+organization.getNameOrg()+"</b> foi registada com sucesso. Por favor, notifique o diretor da organização para tomar as seguintes medidas:" +
-                                    "<ul>" +
-                                    "<li><b>Descarregue a aplicação</b></li>" +
-                                    "<li><b>Ao abrir a aplicação, clique em <i>Criar conta</i></b></li>" +
-                                    "<li><b>Introduza o e-mail e selecione <i>Verificar pedido</i> para aceder diretamente ao ecrã de registo do utilizador.</b></li>" +
-                                    "</ul>";
-                        }else{
-                            msg="The <b>"+organization.getNameOrg()+"</b> organization has been successfully registered. Please notify the director of the organization to take the following steps:" +
-                                    "<ul>" +
-                                    "<li><b>Download the application</b></li>" +
-                                    "<li><b>When opening the application, click on <i>Create account</i></b></li>" +
-                                    "<li><b>Enter the email and select <i>Check request</i>, to directly access the user registration screen.</b></li>" +
-                                    "</ul>";
-                        }
-                        StringPasser.createInstance(msg);
-                        
 
                         runOnUiThread(()->{
-                            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-                            setResult(RESULT_OK, intent);
-                            finish();
+                            if(profilePhotoOrg!=null){
+                                imgOrgName="ORG_"+idOrganization+"_"+orgType+"_"+illness+".webp";
+                                new Thread(()->{
+                                    FileManager.uploadFile(profilePhotoOrg, "profile-photos", imgOrgName);
+                                    try{
+                                        profilePhotoOrg.close();
+                                    }catch(IOException e){
+                                        e.printStackTrace();
+                                    }
+                                }).start();
+                            }
+
+
+                            new Thread(()->{
+                                String informationEnglish="";
+                                String informationSpanish="";
+                                String informationFrench="";
+                                String informationBasque="";
+                                String informationCatalan="";
+                                String informationDutch="";
+                                String informationGalician="";
+                                String informationGerman="";
+                                String informationItalian="";
+                                String informationPortuguese="";
+
+                                String informationText=fields.get("information");
+                                if(!informationText.isEmpty()){
+                                    List<String> translations=TranslatorController.getInstance().translate(informationText, Locale.getDefault().getLanguage());
+                                    if(Locale.getDefault().getLanguage().equals("es")){
+                                        informationEnglish= translations.get(0);
+                                        informationSpanish= informationText;
+                                        informationFrench= translations.get(1);
+                                        informationBasque= translations.get(2);
+                                        informationCatalan= translations.get(3);
+                                        informationDutch= translations.get(4);
+                                        informationGalician= translations.get(5);
+                                        informationGerman= translations.get(6);
+                                        informationItalian= translations.get(7);
+                                        informationPortuguese= translations.get(8);
+                                    }else if(Locale.getDefault().getLanguage().equals("fr")){
+                                        informationEnglish= translations.get(0);
+                                        informationSpanish= translations.get(1);
+                                        informationFrench=informationText;
+                                        informationBasque= translations.get(2);
+                                        informationCatalan= translations.get(3);
+                                        informationDutch= translations.get(4);
+                                        informationGalician= translations.get(5);
+                                        informationGerman= translations.get(6);
+                                        informationItalian= translations.get(7);
+                                        informationPortuguese= translations.get(8);
+                                    }else if(Locale.getDefault().getLanguage().equals("eu")){
+                                        informationEnglish= translations.get(0);
+                                        informationSpanish= translations.get(1);
+                                        informationFrench= translations.get(2);
+                                        informationBasque=informationText;
+                                        informationCatalan= translations.get(3);
+                                        informationDutch= translations.get(4);
+                                        informationGalician= translations.get(5);
+                                        informationGerman= translations.get(6);
+                                        informationItalian= translations.get(7);
+                                        informationPortuguese= translations.get(8);
+                                    }else if(Locale.getDefault().getLanguage().equals("ca")){
+                                        informationEnglish= translations.get(0);
+                                        informationSpanish= translations.get(1);
+                                        informationFrench= translations.get(2);
+                                        informationBasque= translations.get(3);
+                                        informationCatalan=informationText;
+                                        informationDutch= translations.get(4);
+                                        informationGalician= translations.get(5);
+                                        informationGerman= translations.get(6);
+                                        informationItalian= translations.get(7);
+                                        informationPortuguese= translations.get(8);
+                                    }else if(Locale.getDefault().getLanguage().equals("nl")){
+                                        informationEnglish= translations.get(0);
+                                        informationSpanish= translations.get(1);
+                                        informationFrench= translations.get(2);
+                                        informationBasque= translations.get(3);
+                                        informationCatalan= translations.get(4);
+                                        informationDutch=informationText;
+                                        informationGalician= translations.get(5);
+                                        informationGerman= translations.get(6);
+                                        informationItalian= translations.get(7);
+                                        informationPortuguese= translations.get(8);
+                                    }else if(Locale.getDefault().getLanguage().equals("gl")){
+                                        informationEnglish= translations.get(0);
+                                        informationSpanish= translations.get(1);
+                                        informationFrench= translations.get(2);
+                                        informationBasque= translations.get(3);
+                                        informationCatalan= translations.get(4);
+                                        informationDutch= translations.get(5);
+                                        informationGalician=informationText;
+                                        informationGerman= translations.get(6);
+                                        informationItalian= translations.get(7);
+                                        informationPortuguese= translations.get(8);
+                                    }else if(Locale.getDefault().getLanguage().equals("de")){
+                                        informationEnglish= translations.get(0);
+                                        informationSpanish= translations.get(1);
+                                        informationFrench= translations.get(2);
+                                        informationBasque= translations.get(3);
+                                        informationCatalan= translations.get(4);
+                                        informationDutch= translations.get(5);
+                                        informationGalician= translations.get(6);
+                                        informationGerman=informationText;
+                                        informationItalian= translations.get(7);
+                                        informationPortuguese= translations.get(8);
+                                    }else if(Locale.getDefault().getLanguage().equals("it")){
+                                        informationEnglish= translations.get(0);
+                                        informationSpanish= translations.get(1);
+                                        informationFrench= translations.get(2);
+                                        informationBasque= translations.get(3);
+                                        informationCatalan= translations.get(4);
+                                        informationDutch= translations.get(5);
+                                        informationGalician= translations.get(6);
+                                        informationGerman= translations.get(7);
+                                        informationItalian=informationText;
+                                        informationPortuguese= translations.get(8);
+                                    }else if(Locale.getDefault().getLanguage().equals("pt")){
+                                        informationEnglish= translations.get(0);
+                                        informationSpanish= translations.get(1);
+                                        informationFrench= translations.get(2);
+                                        informationBasque= translations.get(3);
+                                        informationCatalan= translations.get(4);
+                                        informationDutch= translations.get(5);
+                                        informationGalician= translations.get(6);
+                                        informationGerman= translations.get(7);
+                                        informationItalian= translations.get(8);
+                                        informationPortuguese=informationText;
+                                    }else{
+                                        informationEnglish= informationText;
+                                        informationSpanish= translations.get(0);
+                                        informationFrench= translations.get(1);
+                                        informationBasque= translations.get(2);
+                                        informationCatalan= translations.get(3);
+                                        informationDutch= translations.get(4);
+                                        informationGalician= translations.get(5);
+                                        informationGerman= translations.get(6);
+                                        informationItalian= translations.get(7);
+                                        informationPortuguese= translations.get(8);
+                                    }
+
+                                }
+
+
+
+                                Address address = new Address(idAddress, fields.get("address"), idCity[0],idProvince[0],idRegion[0],idCountry[0],fields.get("nameCity"),fields.get("nameProvince"),fields.get("nameRegion"));
+
+                                Organization organization=new Organization(idOrganization,orgType,illness,fields.get("nameOrg"),idAddress,fields.get("emailOrg"),fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),informationSpanish,informationEnglish,informationFrench,informationBasque,informationCatalan,informationDutch,informationGalician,informationGerman,informationItalian,informationPortuguese,imgOrgName);
+                                User director=new User(fields.get("emailDir"),"DIRECTOR","","","","",idOrganization,orgType,illness,"",0);
+                                AddressesController.getInstance().Create(address);
+                                OrganizationsController.getInstance().Create(organization);
+                                UsersController.getInstance().Create(director);
+                                CentersController.getInstance().Create(new Center(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),1,"Headquarters","Sede principal","Siège social","Egoitza","Seu principal","Hoofdkwartier","Sede principal","Hauptsitz","Sede principale","Sede principal",idAddress,fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),fields.get("emailOrg"),imgOrgName));
+
+                                String msg="";
+                                if(Locale.getDefault().getLanguage().equals("es")){
+                                    msg="La organización <b>"+organization.getNameOrg()+"</b> se ha registrado correctamente. Por favor, notifique al director de la organización que siga los siguientes pasos:" +
+                                            "<ul>" +
+                                            "<li><b>Descargar la aplicación</b></li>" +
+                                            "<li><b>Al abrir la aplicación, presionar sobre <i>Crear cuenta</i></b></li>" +
+                                            "<li><b>Introducir el email y seleccionar en <i>Comprobar solicitud</i>, para así acceder directamente sobre la pantalla de registro de usuario.</b></li>" +
+                                            "</ul>";
+                                }else if(Locale.getDefault().getLanguage().equals("fr")){
+                                    msg="L'organisation <b>"+organization.getNameOrg()+"</b> a été enregistrée avec succès. Veuillez aviser le directeur de l'organisme de prendre les mesures suivantes :" +
+                                            "<ul>" +
+                                            "<li><b>Téléchargez l'application</b></li>" +
+                                            "<li><b>Lors de l'ouverture de l'application, cliquez sur <i>Créer un compte</i></b></li>" +
+                                            "<li><b>Saisissez l'e-mail et sélectionnez <i>Demande de vérification</i> pour accéder directement à l'écran d'enregistrement de l'utilisateur.</b></li>" +
+                                            "</ul>";
+                                }else if(Locale.getDefault().getLanguage().equals("eu")){
+                                    msg="<b>"+organization.getNameOrg()+"</b> erakundea behar bezala erregistratu da. Mesedez, jakinarazi erakundeko zuzendariari urrats hauek egiteko:" +
+                                            "<ul>" +
+                                            "<li><b>Deskargatu aplikazioa</b></li>" +
+                                            "<li><b>Aplikazioa irekitzean, egin klik <i>Sortu kontua</i></b></li> aukeran." +
+                                            "<li><b>Sartu e-posta eta hautatu <i>Egiaztatu eskaera</i>, erabiltzailea erregistratzeko pantailara zuzenean sartzeko.</b></li>" +
+                                            "</ul>";
+                                }else if(Locale.getDefault().getLanguage().equals("ca")){
+                                    msg="L'organització <b>"+organization.getNameOrg()+"</b> s'ha registrat correctament. Si us plau, notifiqueu al director de l'organització que seguiu els passos següents:" +
+                                            "<ul>" +
+                                            "<li><b>Descarregar l'aplicació</b></li>" +
+                                            "<li><b>En obrir l'aplicació, pressionar sobre <i>Crear compte</i></b></li>" +
+                                            "<li><b>Introduir el correu electrònic i seleccionar a <i>Comprovar sol·licitud</i>, per així accedir directament sobre la pantalla de registre d'usuari.</b></li>" +
+                                            "</ul>";
+                                }else if(Locale.getDefault().getLanguage().equals("nl")){
+                                    msg="De organisatie <b>"+organization.getNameOrg()+"</b> is succesvol geregistreerd. Geef de directeur van de organisatie een seintje om de volgende stappen te ondernemen:" +
+                                            "<ul>" +
+                                            "<li><b>Download de applicatie</b></li>" +
+                                            "<li><b>Klik bij het openen van de applicatie op <i>Account aanmaken</i></b></li>" +
+                                            "<li><b>Voer de e-mail in en selecteer <i>Verzoek controleren</i> om rechtstreeks naar het gebruikersregistratiescherm te gaan.</b></li>" +
+                                            "</ul>";
+                                }else if(Locale.getDefault().getLanguage().equals("gl")){
+                                    msg="A organización <b>"+organization.getNameOrg()+"</b> rexistrouse correctamente. Informe ao director da organización para que tome as seguintes medidas:" +
+                                            "<ul>" +
+                                            "<li><b>Descarga a aplicación</b></li>" +
+                                            "<li><b>Cando abra a aplicación, faga clic en <i>Crear conta</i></b></li>" +
+                                            "<li><b>Introduce o correo electrónico e selecciona <i>Comprobar solicitude</i> para acceder directamente á pantalla de rexistro do usuario.</b></li>" +
+                                            "</ul>";
+                                }else if(Locale.getDefault().getLanguage().equals("de")){
+                                    msg="Die Organisation <b>"+organization.getNameOrg()+"</b> wurde erfolgreich registriert. Bitte benachrichtigen Sie den Direktor der Organisation, um die folgenden Schritte zu unternehmen:" +
+                                            "<ul>" +
+                                            "<li><b>Laden Sie die Anwendung herunter</b></li>" +
+                                            "<li><b>Klicken Sie beim Öffnen der Anwendung auf <i>Konto erstellen</i></b></li>" +
+                                            "<li><b>Geben Sie die E-Mail-Adresse ein und wählen Sie <i>Anfrage prüfen</i>, um direkt auf den Benutzerregistrierungsbildschirm zuzugreifen.</b></li>" +
+                                            "</ul>";
+                                }else if(Locale.getDefault().getLanguage().equals("it")){
+                                    msg="L'organizzazione <b>"+organization.getNameOrg()+"</b> è stata registrata con successo. Si prega di avvisare il direttore dell'organizzazione di adottare le seguenti misure:" +
+                                            "<ul>" +
+                                            "<li><b>Scarica l'applicazione</b></li>" +
+                                            "<li><b>Quando si apre l'applicazione, fare clic su <i>Crea account</i></b></li>" +
+                                            "<li><b>Inserisci l'e-mail e seleziona <i>Verifica richiesta</i>, per accedere direttamente alla schermata di registrazione dell'utente.</b></li>" +
+                                            "</ul>";
+                                }else if(Locale.getDefault().getLanguage().equals("pt")){
+                                    msg="A organização <b>"+organization.getNameOrg()+"</b> foi registada com sucesso. Por favor, notifique o diretor da organização para tomar as seguintes medidas:" +
+                                            "<ul>" +
+                                            "<li><b>Descarregue a aplicação</b></li>" +
+                                            "<li><b>Ao abrir a aplicação, clique em <i>Criar conta</i></b></li>" +
+                                            "<li><b>Introduza o e-mail e selecione <i>Verificar pedido</i> para aceder diretamente ao ecrã de registo do utilizador.</b></li>" +
+                                            "</ul>";
+                                }else{
+                                    msg="The <b>"+organization.getNameOrg()+"</b> organization has been successfully registered. Please notify the director of the organization to take the following steps:" +
+                                            "<ul>" +
+                                            "<li><b>Download the application</b></li>" +
+                                            "<li><b>When opening the application, click on <i>Create account</i></b></li>" +
+                                            "<li><b>Enter the email and select <i>Check request</i>, to directly access the user registration screen.</b></li>" +
+                                            "</ul>";
+                                }
+                                StringPasser.createInstance(msg);
+
+
+                                runOnUiThread(()->{
+                                    Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+                                    setResult(RESULT_OK, intent);
+                                    finish();
+                                });
+                            }).start();
                         });
-                    }).start();
 
 
-                }else{
-                    String msg="<ul>";
-                    int numErrors=0;
-                    base.setVisibility(View.VISIBLE);
-                    loading.setVisibility(View.GONE);
-                    if(fields.get("nameOrg").isEmpty()){
-                        nameOrgField.setError(getString(R.string.please_org_name));
-                        numErrors++;
-                        msg+="<li><b>"+getString(R.string.please_org_name)+"</b></li>";
-                    }
-                    if(fields.get("address").isEmpty()){
-                        addressNameField.setError(getString(R.string.please_address));
-                        numErrors++;
-                        msg+="<li><b>"+getString(R.string.please_address)+"</b></li>";
-                    }
-                    if(FieldChecker.isPrecharged(country[0].getIdCountry())){
-                        if(region[0]==null || region[0].getIdRegion()==-2){
-                            msg+="<li><b>"+getString(R.string.please_sel_region)+"</b></li>";
-                            numErrors++;
-                        }
-                        if(province[0]==null || province[0].getIdProvince()==-2){
-                            msg+="<li><b>"+getString(R.string.please_sel_province)+"</b></li>";
-                            numErrors++;
-                        }
-                        if(city[0]==null || city[0].getIdCity()==-2){
-                            msg+="<li><b>"+getString(R.string.please_sel_city)+"</b></li>";
-                            numErrors++;
-                        }
-                    }else if(country[0].getIdCountry().equals("-2")){
-                        msg+="<li><b>"+getString(R.string.please_country)+"</b></li>";
-                        numErrors++;
-                    }else{
-                        if(fields.get("nameRegion").isEmpty()){
-                            nameRegionField.setError(getString(R.string.please_region));
-                            msg+="<li><b>"+getString(R.string.please_region)+"</b></li>";
-                            numErrors++;
-                        }
-                        if(fields.get("nameProvince").isEmpty()){
-                            nameProvinceField.setError(getString(R.string.please_province));
-                            msg+="<li><b>"+getString(R.string.please_province)+"</b></li>";
-                            numErrors++;
-                        }
-                        if(fields.get("nameCity").isEmpty()){
-                            nameCityField.setError(getString(R.string.please_city));
-                            msg+="<li><b>"+getString(R.string.please_city)+"</b></li>";
-                            numErrors++;
-                        }
-                    }
-                    if(!FieldChecker.isACorrectPhone(fields.get("telephoneCodeOrg")+fields.get("telephoneOrg"))){int idErr=-1;
-                        if(fields.get("telephoneOrg").isEmpty()){
-                            idErr=R.string.please_org_phone;
-                        }
-                        else{
-                            idErr=R.string.wrong_org_phone;
-                        }
-                        orgPhoneField.setError(getString(idErr));
-                        msg+="<li><b>"+getString(idErr)+"</b></li>";
-                        numErrors++;
-                    }
-                    if(!FieldChecker.emailHasCorrectFormat(fields.get("emailOrg"))){
-                        int idErr=-1;
-                        if(fields.get("emailOrg").isEmpty()){
-                            idErr=R.string.please_email_org;
-                        }
-                        else{
-                            idErr=R.string.wrong_email_org;
-                        }
-                        emailField.setError(getString(idErr));
-                        msg+="<li><b>"+getString(idErr)+"</b></li>";
-                        numErrors++;
-                    }
-                    if(!FieldChecker.emailHasCorrectFormat(fields.get("emailDir"))){
-                        int idErr=-1;
-                        if(fields.get("emailOrg").isEmpty()){
-                            idErr=R.string.please_email_dir;
-                        }
-                        else{
-                            idErr=R.string.wrong_email_dir;
-                        }
-                        emailDirField.setError(getString(idErr));
-                        msg+="<li><b>"+getString(idErr)+"</b></li>";
-                        numErrors++;
-                    }
-                    if(!checked){
-                        msg+="<li><b>"+getString(R.string.you_must_LOPD)+"</b></li>";
-                        numErrors++;
-                    }
-                    int idTitle=-1;
-                    if(numErrors==1){
-                        idTitle=R.string.error;
+
+
                     }
                     else{
-                        idTitle=R.string.errors;
-                    }
-                    msg+="</ul>";
-                    new android.app.AlertDialog.Builder(RegisterOrganization.this)
-                            .setTitle(getString(idTitle))
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .setMessage(Html.fromHtml(msg,0))
-                            .setPositiveButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
+                        runOnUiThread(()->{
+                            String msg="<ul>";
+                            int numErrors=0;
+                            base.setVisibility(View.VISIBLE);
+                            loading.setVisibility(View.GONE);
+                            if(fields.get("nameOrg").isEmpty()){
+                                nameOrgField.setError(getString(R.string.please_org_name));
+                                numErrors++;
+                                msg+="<li><b>"+getString(R.string.please_org_name)+"</b></li>";
+                            }
+                            if(fields.get("address").isEmpty()){
+                                addressNameField.setError(getString(R.string.please_address));
+                                numErrors++;
+                                msg+="<li><b>"+getString(R.string.please_address)+"</b></li>";
+                            }
+                            if(FieldChecker.isPrecharged(country[0].getIdCountry())){
+                                if(region[0]==null || region[0].getIdRegion()==-2){
+                                    msg+="<li><b>"+getString(R.string.please_sel_region)+"</b></li>";
+                                    numErrors++;
                                 }
-                            }).create().show();
-                }
+                                if(province[0]==null || province[0].getIdProvince()==-2){
+                                    msg+="<li><b>"+getString(R.string.please_sel_province)+"</b></li>";
+                                    numErrors++;
+                                }
+                                if(city[0]==null || city[0].getIdCity()==-2){
+                                    msg+="<li><b>"+getString(R.string.please_sel_city)+"</b></li>";
+                                    numErrors++;
+                                }
+                            }else if(country[0].getIdCountry().equals("-2")){
+                                msg+="<li><b>"+getString(R.string.please_country)+"</b></li>";
+                                numErrors++;
+                            }else{
+                                if(fields.get("nameRegion").isEmpty()){
+                                    nameRegionField.setError(getString(R.string.please_region));
+                                    msg+="<li><b>"+getString(R.string.please_region)+"</b></li>";
+                                    numErrors++;
+                                }
+                                if(fields.get("nameProvince").isEmpty()){
+                                    nameProvinceField.setError(getString(R.string.please_province));
+                                    msg+="<li><b>"+getString(R.string.please_province)+"</b></li>";
+                                    numErrors++;
+                                }
+                                if(fields.get("nameCity").isEmpty()){
+                                    nameCityField.setError(getString(R.string.please_city));
+                                    msg+="<li><b>"+getString(R.string.please_city)+"</b></li>";
+                                    numErrors++;
+                                }
+                            }
+                            if(!FieldChecker.isACorrectPhone(fields.get("telephoneCodeOrg")+fields.get("telephoneOrg"))){int idErr=-1;
+                                if(fields.get("telephoneOrg").isEmpty()){
+                                    idErr=R.string.please_org_phone;
+                                }
+                                else{
+                                    idErr=R.string.wrong_org_phone;
+                                }
+                                orgPhoneField.setError(getString(idErr));
+                                msg+="<li><b>"+getString(idErr)+"</b></li>";
+                                numErrors++;
+                            }
+                            if(!FieldChecker.emailHasCorrectFormat(fields.get("emailOrg"))){
+                                int idErr=-1;
+                                if(fields.get("emailOrg").isEmpty()){
+                                    idErr=R.string.please_email_org;
+                                }
+                                else{
+                                    idErr=R.string.wrong_email_org;
+                                }
+                                emailField.setError(getString(idErr));
+                                msg+="<li><b>"+getString(idErr)+"</b></li>";
+                                numErrors++;
+                            }
+                            if(!FieldChecker.emailHasCorrectFormat(fields.get("emailDir"))){
+                                int idErr=-1;
+                                if(fields.get("emailOrg").isEmpty()){
+                                    idErr=R.string.please_email_dir;
+                                }
+                                else{
+                                    idErr=R.string.wrong_email_dir;
+                                }
+                                emailDirField.setError(getString(idErr));
+                                msg+="<li><b>"+getString(idErr)+"</b></li>";
+                                numErrors++;
+                            }
+                            else{
+                                int idErr=R.string.dir_email_in_db;
+                                emailDirField.setError(getString(idErr));
+                                msg+="<li><b>"+getString(idErr)+"</b></li>";
+                                numErrors++;
+                            }
+                            if(!checked){
+                                msg+="<li><b>"+getString(R.string.you_must_LOPD)+"</b></li>";
+                                numErrors++;
+                            }
+                            int idTitle=-1;
+                            if(numErrors==1){
+                                idTitle=R.string.error;
+                            }
+                            else{
+                                idTitle=R.string.errors;
+                            }
+                            msg+="</ul>";
+                            new android.app.AlertDialog.Builder(RegisterOrganization.this)
+                                    .setTitle(getString(idTitle))
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .setMessage(Html.fromHtml(msg,0))
+                                    .setPositiveButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    }).create().show();
+                        });
+
+                    }
+                }).start();
+
+
+
 
             }
         });
@@ -1416,21 +1436,21 @@ public class RegisterOrganization extends AppCompatActivity {
         CitiesController.GetCitiesByProvince(idProvince, idRegion, idCountry, new ListCallback() {
             @Override
             public void onSuccess(List<JsonObject> data) {
-                runOnUiThread(()->{
-                    cities=new ArrayList<>();
-                    for(JsonObject reg:data){
-                        int idCity=reg.getAsJsonPrimitive("idCity").getAsInt();
-                        String nameSpanish=reg.getAsJsonPrimitive("nameSpanish").getAsString();
-                        String nameEnglish=reg.getAsJsonPrimitive("nameEnglish").getAsString();
-                        String nameFrench=reg.getAsJsonPrimitive("nameFrench").getAsString();
-                        String nameBasque=reg.getAsJsonPrimitive("nameBasque").getAsString();
-                        String nameCatalan=reg.getAsJsonPrimitive("nameCatalan").getAsString();
-                        String nameDutch=reg.getAsJsonPrimitive("nameDutch").getAsString();
-                        String nameGalician=reg.getAsJsonPrimitive("nameGalician").getAsString();
-                        String nameGerman=reg.getAsJsonPrimitive("nameGerman").getAsString();
-                        String nameItalian=reg.getAsJsonPrimitive("nameItalian").getAsString();
-                        String namePortuguese=reg.getAsJsonPrimitive("namePortuguese").getAsString();
-                        cities.add(new City(idCity,idProvince,idRegion,idCountry,nameSpanish,nameEnglish,nameFrench,nameBasque,nameCatalan,nameDutch,nameGalician,nameGerman,nameItalian,namePortuguese));
+                runOnUiThread(() -> {
+                    cities = new ArrayList<>();
+                    for (JsonObject reg : data) {
+                        int idCity = reg.getAsJsonPrimitive("idCity").getAsInt();
+                        String nameSpanish = reg.getAsJsonPrimitive("nameSpanish").getAsString();
+                        String nameEnglish = reg.getAsJsonPrimitive("nameEnglish").getAsString();
+                        String nameFrench = reg.getAsJsonPrimitive("nameFrench").getAsString();
+                        String nameBasque = reg.getAsJsonPrimitive("nameBasque").getAsString();
+                        String nameCatalan = reg.getAsJsonPrimitive("nameCatalan").getAsString();
+                        String nameDutch = reg.getAsJsonPrimitive("nameDutch").getAsString();
+                        String nameGalician = reg.getAsJsonPrimitive("nameGalician").getAsString();
+                        String nameGerman = reg.getAsJsonPrimitive("nameGerman").getAsString();
+                        String nameItalian = reg.getAsJsonPrimitive("nameItalian").getAsString();
+                        String namePortuguese = reg.getAsJsonPrimitive("namePortuguese").getAsString();
+                        cities.add(new City(idCity, idProvince, idRegion, idCountry, nameSpanish, nameEnglish, nameFrench, nameBasque, nameCatalan, nameDutch, nameGalician, nameGerman, nameItalian, namePortuguese));
                     }
                     if(!cities.isEmpty()){
                         if(cities.size()>1) {
@@ -1448,19 +1468,19 @@ public class RegisterOrganization extends AppCompatActivity {
                             idCity[0]=city[0].getIdCity();
                         }
                     }
-
                 });
             }
 
             @Override
             public void onError(String errorResponse) {
-                runOnUiThread(()->{
-                    Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+                runOnUiThread(() -> {
+                    Intent intent = new Intent(getApplicationContext(), com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
                     setResult(RESULT_CANCELED,intent);
                     finish();
                 });
             }
         });
+
     }
 
 

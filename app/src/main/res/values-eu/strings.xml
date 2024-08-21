@@ -374,5 +374,6 @@
     <string name="center_deleted">Zentroa arrakastaz ezabatuta</string>
     <string name="are_you_sure_del_eval_team">Ziur zaude ebaluazio talde hau ezabatu nahi duzula? Kontuan izan ebaluazio talde honekin lotutako adierazleen ebaluazio guztiak ere ezabatuko direla</string>
     <string name="eval_team_deleted">Ebaluazio taldea arrakastaz ezabatuta</string>
+    <string name="dir_email_in_db">Erakundeko zuzendariarentzat sartutako posta elektronikoa gure datu-basean agertzen da dagoeneko. Mesedez, sartu beste email bat</string>
 
 </resources>

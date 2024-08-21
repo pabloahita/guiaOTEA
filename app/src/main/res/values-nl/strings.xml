@@ -372,6 +372,7 @@
     <string name="center_deleted">Centrum succesvol verwijderd</string>
     <string name="are_you_sure_del_eval_team">Weet u zeker dat u dit evaluatieteam wilt verwijderen? Houd er rekening mee dat alle indicatorbeoordelingen die aan dit evaluatieteam zijn gekoppeld ook worden verwijderd</string>
     <string name="eval_team_deleted">Evaluatieteam succesvol verwijderd</string>
+    <string name="dir_email_in_db">Het ingevoerde e-mailadres voor de directeur van de organisatie staat al in onze database. Voer een ander e-mailadres in</string>
 
 
 </resources>
