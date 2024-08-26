@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -121,16 +122,38 @@ public class CountriesController {
             List<Country> countries=new ArrayList<>();
             for(JsonObject reg:list){
                 String idCountry=reg.getAsJsonPrimitive("idCountry").getAsString();
-                String nameSpanish=reg.getAsJsonPrimitive("nameSpanish").getAsString();
-                String nameEnglish=reg.getAsJsonPrimitive("nameEnglish").getAsString();
-                String nameFrench=reg.getAsJsonPrimitive("nameFrench").getAsString();
-                String nameBasque=reg.getAsJsonPrimitive("nameBasque").getAsString();
-                String nameCatalan=reg.getAsJsonPrimitive("nameCatalan").getAsString();
-                String nameDutch=reg.getAsJsonPrimitive("nameDutch").getAsString();
-                String nameGalician=reg.getAsJsonPrimitive("nameGalician").getAsString();
-                String nameGerman=reg.getAsJsonPrimitive("nameGerman").getAsString();
-                String nameItalian=reg.getAsJsonPrimitive("nameItalian").getAsString();
-                String namePortuguese=reg.getAsJsonPrimitive("namePortuguese").getAsString();
+                String name=reg.getAsJsonPrimitive("name").getAsString();
+                String nameSpanish = "";
+                String nameEnglish = "";
+                String nameFrench = "";
+                String nameBasque = "";
+                String nameCatalan = "";
+                String nameDutch = "";
+                String nameGalician = "";
+                String nameGerman = "";
+                String nameItalian = "";
+                String namePortuguese = "";
+                if(Locale.getDefault().getLanguage().equals("es")){
+                    nameSpanish=name;
+                }else if(Locale.getDefault().getLanguage().equals("fr")){
+                    nameFrench=name;
+                }else if(Locale.getDefault().getLanguage().equals("eu")){
+                    nameBasque=name;
+                }else if(Locale.getDefault().getLanguage().equals("ca")){
+                    nameCatalan=name;
+                }else if(Locale.getDefault().getLanguage().equals("nl")){
+                    nameDutch=name;
+                }else if(Locale.getDefault().getLanguage().equals("gl")){
+                    nameGalician=name;
+                }else if(Locale.getDefault().getLanguage().equals("de")){
+                    nameGerman=name;
+                }else if(Locale.getDefault().getLanguage().equals("it")){
+                    nameItalian=name;
+                }else if(Locale.getDefault().getLanguage().equals("pt")){
+                    namePortuguese=name;
+                }else{
+                    nameEnglish=name;
+                }
                 String phone_code=reg.getAsJsonPrimitive("phone_code").getAsString();
                 String flag=reg.getAsJsonPrimitive("flag").getAsString();
                 countries.add(new Country(idCountry,nameSpanish,nameEnglish,nameFrench,nameBasque,nameCatalan,nameDutch,nameGalician,nameGerman,nameItalian,namePortuguese,phone_code,flag));

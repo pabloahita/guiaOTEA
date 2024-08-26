@@ -252,6 +252,8 @@
                 android:layout_columnWeight="1"
                 >
 
+
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilRegion"
                     android:layout_width="0dp"
@@ -297,6 +299,7 @@
                 >
 
 
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilProvince"
                     android:layout_width="0dp"
@@ -340,6 +343,8 @@
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 >
+
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilCity"

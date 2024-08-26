@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -163,7 +164,7 @@ public class IndicatorsEvaluationsController {
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
             public List<JsonObject> call() throws Exception {
-                Call<List<JsonObject>> call = api.GetRegsByIndicatorsEvaluation(indicatorsEvaluation.getEvaluationDate(),indicatorsEvaluation.getIdEvaluatorTeam(),indicatorsEvaluation.getIdEvaluatorOrganization(),indicatorsEvaluation.getOrgTypeEvaluator(),indicatorsEvaluation.getIdEvaluatedOrganization(),indicatorsEvaluation.getOrgTypeEvaluated(),indicatorsEvaluation.getIllness(),indicatorsEvaluation.getIdCenter(),indicatorsEvaluation.getEvaluationType(),Session.getInstance().getToken());
+                Call<List<JsonObject>> call = api.GetRegsByIndicatorsEvaluation(indicatorsEvaluation.getEvaluationDate(),indicatorsEvaluation.getIdEvaluatorTeam(),indicatorsEvaluation.getIdEvaluatorOrganization(),indicatorsEvaluation.getOrgTypeEvaluator(),indicatorsEvaluation.getIdEvaluatedOrganization(),indicatorsEvaluation.getOrgTypeEvaluated(),indicatorsEvaluation.getIllness(),indicatorsEvaluation.getIdCenter(),indicatorsEvaluation.getEvaluationType(), Locale.getDefault().getLanguage(),Session.getInstance().getToken());
                 Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

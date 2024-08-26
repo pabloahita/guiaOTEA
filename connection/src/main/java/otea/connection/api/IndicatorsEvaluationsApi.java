@@ -29,7 +29,7 @@ public interface IndicatorsEvaluationsApi {
 
     /**Gets all indicators evaluations*/
     @GET("IndicatorsEvaluations/allRegs")
-    Call<List<JsonObject>> GetRegsByIndicatorsEvaluation(@Query("evaluationDate") long evaluationDate,@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("evaluationType") String evaluationType,@Header("Authorization") String Authorization);
+    Call<List<JsonObject>> GetRegsByIndicatorsEvaluation(@Query("evaluationDate") long evaluationDate,@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("evaluationType") String evaluationType, @Query("language") String language, @Header("Authorization") String Authorization);
 
     /**
      * Gets all indicators evaluations of an evaluator team

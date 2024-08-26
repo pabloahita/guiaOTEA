@@ -1,11 +1,14 @@
+using GTranslate;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using NRules;
 using NRules.Fluent;
 using OTEAServer.ExpertSystem;
 using OTEAServer.Misc;
 using OTEAServer.Models;
+using System.Linq.Expressions;
 using System.Net.NetworkInformation;
 using System.Text.Json;
 
@@ -32,6 +35,44 @@ namespace OTEAServer.Controllers
         public IndicatorsEvaluationsController(DatabaseContext context)
         {
             _context=context;
+        }
+
+        private class IndicatorsEvaluationIndicatorRegDto
+        {
+            public int idSubSubAmbit;
+            public int idSubAmbit;
+            public int idAmbit;
+            public int idIndicator;
+            public int indicatorVersion;
+            public string observations;
+            public int numEvidencesMarked;
+            public string status;
+            public int requiresImprovementPlan;
+        
+        }
+
+        private class IndicatorsEvaluationEvidenceRegDto {
+            public int idSubSubAmbit;
+            public int idSubAmbit;
+            public int idAmbit;
+            public int idIndicator;
+            public string indicatorType;
+            public int idEvidence;
+            public int indicatorVersion;
+            public int isMarked;
+            public string observations;
+        }
+
+        private class IndicatorsEvaluationSimpleEvidenceRegDto {
+
+            public int idSubSubAmbit;
+            public int idSubAmbit;
+            public int idAmbit;
+            public int idIndicator;
+            public int idEvidence;
+            public string description;
+            public int indicatorVersion;
+            public string observations;
         }
 
 
@@ -229,30 +270,176 @@ namespace OTEAServer.Controllers
 
         [HttpGet("allRegs")]
         [Authorize]
-        public IActionResult GetRegsByIndicatorsEvaluation([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] string evaluationType, [FromHeader] string Authorization)
+        public IActionResult GetRegsByIndicatorsEvaluation([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] string evaluationType, [FromQuery] string language, [FromHeader] string Authorization)
         {
             try
             {
                 List<JsonDocument> regs=new List<JsonDocument>();
-                var IndicatorsEvaluationsIndicatorsRegs = _context.IndicatorsEvaluationsIndicatorsRegs.Where(r => r.evaluationDate == evaluationDate && r.idEvaluatorTeam==idEvaluatorTeam && r.idEvaluatorOrganization == idEvaluatorOrganization && r.orgTypeEvaluator == orgTypeEvaluator && r.idEvaluatedOrganization == idEvaluatedOrganization && r.orgTypeEvaluated == orgTypeEvaluated && r.illness == illness && r.idCenter == idCenter && r.evaluationType == evaluationType)
-                    .OrderBy(r => r.idIndicator)
-                    .ToList();
-                foreach (IndicatorsEvaluationIndicatorReg reg in IndicatorsEvaluationsIndicatorsRegs) {
+                var auxIr = _context.IndicatorsEvaluationsIndicatorsRegs.Where(r => r.evaluationDate == evaluationDate && r.idEvaluatorTeam == idEvaluatorTeam && r.idEvaluatorOrganization == idEvaluatorOrganization && r.orgTypeEvaluator == orgTypeEvaluator && r.idEvaluatedOrganization == idEvaluatedOrganization && r.orgTypeEvaluated == orgTypeEvaluated && r.illness == illness && r.idCenter == idCenter && r.evaluationType == evaluationType)
+                    .OrderBy(r => r.idIndicator);
+                Expression<Func<IndicatorsEvaluationIndicatorReg, IndicatorsEvaluationIndicatorRegDto>> selectorIndReg = ir => new IndicatorsEvaluationIndicatorRegDto
+                {
+                    idSubSubAmbit=ir.idSubSubAmbit,
+                    idSubAmbit=ir.idSubAmbit,
+                    idAmbit = ir.idAmbit,
+                    idIndicator = ir.idIndicator,
+                    indicatorVersion=ir.indicatorVersion,
+                    observations=ir.observationsEnglish,
+                    numEvidencesMarked = ir.numEvidencesMarked,
+                    status=ir.status,
+                    requiresImprovementPlan=ir.requiresImprovementPlan
+                };
+                switch (language)
+                {
+                    case "es":
+                        selectorIndReg = ir => new IndicatorsEvaluationIndicatorRegDto
+                        {
+                            idSubSubAmbit = ir.idSubSubAmbit,
+                            idSubAmbit = ir.idSubAmbit,
+                            idAmbit = ir.idAmbit,
+                            idIndicator = ir.idIndicator,
+                            indicatorVersion = ir.indicatorVersion,
+                            observations = ir.observationsSpanish,
+                            numEvidencesMarked = ir.numEvidencesMarked,
+                            status = ir.status,
+                            requiresImprovementPlan = ir.requiresImprovementPlan
+                        };
+                        break;
+                    case "fr":
+                        selectorIndReg = ir => new IndicatorsEvaluationIndicatorRegDto
+                        {
+                            idSubSubAmbit = ir.idSubSubAmbit,
+                            idSubAmbit = ir.idSubAmbit,
+                            idAmbit = ir.idAmbit,
+                            idIndicator = ir.idIndicator,
+                            indicatorVersion = ir.indicatorVersion,
+                            observations = ir.observationsFrench,
+                            numEvidencesMarked = ir.numEvidencesMarked,
+                            status = ir.status,
+                            requiresImprovementPlan = ir.requiresImprovementPlan
+                        };
+                        break;
+                    case "eu":
+                        selectorIndReg = ir => new IndicatorsEvaluationIndicatorRegDto
+                        {
+                            idSubSubAmbit = ir.idSubSubAmbit,
+                            idSubAmbit = ir.idSubAmbit,
+                            idAmbit = ir.idAmbit,
+                            idIndicator = ir.idIndicator,
+                            indicatorVersion = ir.indicatorVersion,
+                            observations = ir.observationsBasque,
+                            numEvidencesMarked = ir.numEvidencesMarked,
+                            status = ir.status,
+                            requiresImprovementPlan = ir.requiresImprovementPlan
+                        };
+                        break;
+                    case "ca":
+                        selectorIndReg = ir => new IndicatorsEvaluationIndicatorRegDto
+                        {
+                            idSubSubAmbit = ir.idSubSubAmbit,
+                            idSubAmbit = ir.idSubAmbit,
+                            idAmbit = ir.idAmbit,
+                            idIndicator = ir.idIndicator,
+                            indicatorVersion = ir.indicatorVersion,
+                            observations = ir.observationsCatalan,
+                            numEvidencesMarked = ir.numEvidencesMarked,
+                            status = ir.status,
+                            requiresImprovementPlan = ir.requiresImprovementPlan
+                        };
+                        break;
+                    case "gl":
+                        selectorIndReg = ir => new IndicatorsEvaluationIndicatorRegDto
+                        {
+                            idSubSubAmbit = ir.idSubSubAmbit,
+                            idSubAmbit = ir.idSubAmbit,
+                            idAmbit = ir.idAmbit,
+                            idIndicator = ir.idIndicator,
+                            indicatorVersion = ir.indicatorVersion,
+                            observations = ir.observationsGalician,
+                            numEvidencesMarked = ir.numEvidencesMarked,
+                            status = ir.status,
+                            requiresImprovementPlan = ir.requiresImprovementPlan
+                        };
+                        break;
+                    case "pt":
+                        selectorIndReg = ir => new IndicatorsEvaluationIndicatorRegDto
+                        {
+                            idSubSubAmbit = ir.idSubSubAmbit,
+                            idSubAmbit = ir.idSubAmbit,
+                            idAmbit = ir.idAmbit,
+                            idIndicator = ir.idIndicator,
+                            indicatorVersion = ir.indicatorVersion,
+                            observations = ir.observationsPortuguese,
+                            numEvidencesMarked = ir.numEvidencesMarked,
+                            status = ir.status,
+                            requiresImprovementPlan = ir.requiresImprovementPlan
+                        };
+                        break;
+                    case "de":
+                        selectorIndReg = ir => new IndicatorsEvaluationIndicatorRegDto
+                        {
+                            idSubSubAmbit = ir.idSubSubAmbit,
+                            idSubAmbit = ir.idSubAmbit,
+                            idAmbit = ir.idAmbit,
+                            idIndicator = ir.idIndicator,
+                            indicatorVersion = ir.indicatorVersion,
+                            observations = ir.observationsGerman,
+                            numEvidencesMarked = ir.numEvidencesMarked,
+                            status = ir.status,
+                            requiresImprovementPlan = ir.requiresImprovementPlan
+                        };
+                        break;
+                    case "it":
+                        selectorIndReg = ir => new IndicatorsEvaluationIndicatorRegDto
+                        {
+                            idSubSubAmbit = ir.idSubSubAmbit,
+                            idSubAmbit = ir.idSubAmbit,
+                            idAmbit = ir.idAmbit,
+                            idIndicator = ir.idIndicator,
+                            indicatorVersion = ir.indicatorVersion,
+                            observations = ir.observationsItalian,
+                            numEvidencesMarked = ir.numEvidencesMarked,
+                            status = ir.status,
+                            requiresImprovementPlan = ir.requiresImprovementPlan
+                        };
+                        break;
+                    case "nl":
+                        selectorIndReg = ir => new IndicatorsEvaluationIndicatorRegDto
+                        {
+                            idSubSubAmbit = ir.idSubSubAmbit,
+                            idSubAmbit = ir.idSubAmbit,
+                            idAmbit = ir.idAmbit,
+                            idIndicator = ir.idIndicator,
+                            indicatorVersion = ir.indicatorVersion,
+                            observations = ir.observationsDutch,
+                            numEvidencesMarked = ir.numEvidencesMarked,
+                            status = ir.status,
+                            requiresImprovementPlan = ir.requiresImprovementPlan
+                        };
+                        break;
+                    default:
+                        selectorIndReg = ir => new IndicatorsEvaluationIndicatorRegDto
+                        {
+                            idSubSubAmbit = ir.idSubSubAmbit,
+                            idSubAmbit = ir.idSubAmbit,
+                            idAmbit = ir.idAmbit,
+                            idIndicator = ir.idIndicator,
+                            indicatorVersion = ir.indicatorVersion,
+                            observations = ir.observationsEnglish,
+                            numEvidencesMarked = ir.numEvidencesMarked,
+                            status = ir.status,
+                            requiresImprovementPlan = ir.requiresImprovementPlan
+                        };
+                        break;
+                }
+                var IndicatorsEvaluationsIndicatorsRegs=auxIr.Select(selectorIndReg).ToList();
+                foreach (IndicatorsEvaluationIndicatorRegDto reg in IndicatorsEvaluationsIndicatorsRegs) {
                     String rg= "{\"idSubSubAmbit\":\"" + reg.idSubSubAmbit + "\"," +
                         "\"idSubAmbit\":\"" + reg.idSubAmbit + "\"," +
                         "\"idAmbit\":\"" + reg.idAmbit + "\"," +
                         "\"idIndicator\":\"" + reg.idIndicator + "\"," +
                         "\"indicatorVersion\":\"" + reg.indicatorVersion + "\"," +
-                        "\"observationsSpanish\":\"" + reg.observationsSpanish + "\"," +
-                        "\"observationsEnglish\":\"" + reg.observationsEnglish + "\"," +
-                        "\"observationsFrench\":\"" + reg.observationsFrench + "\"," +
-                        "\"observationsBasque\":\"" + reg.observationsBasque + "\"," +
-                        "\"observationsCatalan\":\"" + reg.observationsCatalan + "\"," +
-                        "\"observationsDutch\":\"" + reg.observationsDutch + "\"," +
-                        "\"observationsGalician\":\"" + reg.observationsGalician + "\"," +
-                        "\"observationsGerman\":\"" + reg.observationsGerman + "\"," +
-                        "\"observationsItalian\":\"" + reg.observationsItalian + "\"," +
-                        "\"observationsPortuguese\":\"" + reg.observationsPortuguese + "\"," +
+                        "\"observations\":\"" + reg.observations + "\"," +
                         "\"numEvidencesMarked\":\"" + reg.numEvidencesMarked + "\"," +
                         "\"status\":\"" + reg.status + "\","+
                         "\"requiresImprovementPlan\":\"" + reg.requiresImprovementPlan + "\"}";
@@ -260,11 +447,169 @@ namespace OTEAServer.Controllers
                 }
                 if (evaluationType == "COMPLETE")
                 {
-                    var IndicatorsEvaluationsEvidencesRegs = _context.IndicatorsEvaluationsEvidencesRegs.Where(r => r.evaluationDate == evaluationDate && r.idEvaluatorTeam == idEvaluatorTeam && r.idEvaluatorOrganization == idEvaluatorOrganization && r.orgTypeEvaluator == orgTypeEvaluator && r.idEvaluatedOrganization == idEvaluatedOrganization && r.orgTypeEvaluated == orgTypeEvaluated && r.illness == illness && r.idCenter == idCenter && r.evaluationType == evaluationType)
+                    var auxEvReg = _context.IndicatorsEvaluationsEvidencesRegs.Where(r => r.evaluationDate == evaluationDate && r.idEvaluatorTeam == idEvaluatorTeam && r.idEvaluatorOrganization == idEvaluatorOrganization && r.orgTypeEvaluator == orgTypeEvaluator && r.idEvaluatedOrganization == idEvaluatedOrganization && r.orgTypeEvaluated == orgTypeEvaluated && r.illness == illness && r.idCenter == idCenter && r.evaluationType == evaluationType)
                         .OrderBy(r => r.idIndicator)
-                        .ThenBy(r => r.idEvidence)
-                        .ToList();
-                    foreach (IndicatorsEvaluationEvidenceReg reg in IndicatorsEvaluationsEvidencesRegs)
+                        .ThenBy(r => r.idEvidence);
+
+                    Expression<Func<IndicatorsEvaluationEvidenceReg, IndicatorsEvaluationEvidenceRegDto>> selectorEvReg = er => new IndicatorsEvaluationEvidenceRegDto
+                    {
+                        idSubSubAmbit = er.idSubSubAmbit,
+                        idSubAmbit = er.idSubAmbit,
+                        idAmbit = er.idAmbit,
+                        idIndicator = er.idIndicator,
+                        indicatorType = er.indicatorType,
+                        idEvidence = er.idEvidence,
+                        indicatorVersion = er.indicatorVersion,
+                        isMarked = er.isMarked,
+                        observations = er.observationsEnglish
+                    };
+
+                    switch (language)
+                    {
+                        case "es":
+                            selectorEvReg = er => new IndicatorsEvaluationEvidenceRegDto
+                            {
+                                idSubSubAmbit = er.idSubSubAmbit,
+                                idSubAmbit = er.idSubAmbit,
+                                idAmbit = er.idAmbit,
+                                idIndicator = er.idIndicator,
+                                indicatorType = er.indicatorType,
+                                idEvidence = er.idEvidence,
+                                indicatorVersion = er.indicatorVersion,
+                                isMarked = er.isMarked,
+                                observations = er.observationsSpanish
+                            };
+                            break;
+                        case "fr":
+                            selectorEvReg = er => new IndicatorsEvaluationEvidenceRegDto
+                            {
+                                idSubSubAmbit = er.idSubSubAmbit,
+                                idSubAmbit = er.idSubAmbit,
+                                idAmbit = er.idAmbit,
+                                idIndicator = er.idIndicator,
+                                indicatorType = er.indicatorType,
+                                idEvidence = er.idEvidence,
+                                indicatorVersion = er.indicatorVersion,
+                                isMarked = er.isMarked,
+                                observations = er.observationsFrench
+                            };
+                            break;
+                        case "eu":
+                            selectorEvReg = er => new IndicatorsEvaluationEvidenceRegDto
+                            {
+                                idSubSubAmbit = er.idSubSubAmbit,
+                                idSubAmbit = er.idSubAmbit,
+                                idAmbit = er.idAmbit,
+                                idIndicator = er.idIndicator,
+                                indicatorType = er.indicatorType,
+                                idEvidence = er.idEvidence,
+                                indicatorVersion = er.indicatorVersion,
+                                isMarked = er.isMarked,
+                                observations = er.observationsBasque
+                            };
+                            break;
+                        case "ca":
+                            selectorEvReg = er => new IndicatorsEvaluationEvidenceRegDto
+                            {
+                                idSubSubAmbit = er.idSubSubAmbit,
+                                idSubAmbit = er.idSubAmbit,
+                                idAmbit = er.idAmbit,
+                                idIndicator = er.idIndicator,
+                                indicatorType = er.indicatorType,
+                                idEvidence = er.idEvidence,
+                                indicatorVersion = er.indicatorVersion,
+                                isMarked = er.isMarked,
+                                observations = er.observationsCatalan
+                            };
+                            break;
+                        case "gl":
+                            selectorEvReg = er => new IndicatorsEvaluationEvidenceRegDto
+                            {
+                                idSubSubAmbit = er.idSubSubAmbit,
+                                idSubAmbit = er.idSubAmbit,
+                                idAmbit = er.idAmbit,
+                                idIndicator = er.idIndicator,
+                                indicatorType = er.indicatorType,
+                                idEvidence = er.idEvidence,
+                                indicatorVersion = er.indicatorVersion,
+                                isMarked = er.isMarked,
+                                observations = er.observationsGalician
+                            };
+                            break;
+                        case "pt":
+                            selectorEvReg = er => new IndicatorsEvaluationEvidenceRegDto
+                            {
+                                idSubSubAmbit = er.idSubSubAmbit,
+                                idSubAmbit = er.idSubAmbit,
+                                idAmbit = er.idAmbit,
+                                idIndicator = er.idIndicator,
+                                indicatorType = er.indicatorType,
+                                idEvidence = er.idEvidence,
+                                indicatorVersion = er.indicatorVersion,
+                                isMarked = er.isMarked,
+                                observations = er.observationsPortuguese
+                            };
+                            break;
+                        case "de":
+                            selectorEvReg = er => new IndicatorsEvaluationEvidenceRegDto
+                            {
+                                idSubSubAmbit = er.idSubSubAmbit,
+                                idSubAmbit = er.idSubAmbit,
+                                idAmbit = er.idAmbit,
+                                idIndicator = er.idIndicator,
+                                indicatorType = er.indicatorType,
+                                idEvidence = er.idEvidence,
+                                indicatorVersion = er.indicatorVersion,
+                                isMarked = er.isMarked,
+                                observations = er.observationsGerman
+                            };
+                            break;
+                        case "it":
+                            selectorEvReg = er => new IndicatorsEvaluationEvidenceRegDto
+                            {
+                                idSubSubAmbit = er.idSubSubAmbit,
+                                idSubAmbit = er.idSubAmbit,
+                                idAmbit = er.idAmbit,
+                                idIndicator = er.idIndicator,
+                                indicatorType = er.indicatorType,
+                                idEvidence = er.idEvidence,
+                                indicatorVersion = er.indicatorVersion,
+                                isMarked = er.isMarked,
+                                observations = er.observationsItalian
+                            };
+                            break;
+                        case "nl":
+                            selectorEvReg = er => new IndicatorsEvaluationEvidenceRegDto
+                            {
+                                idSubSubAmbit = er.idSubSubAmbit,
+                                idSubAmbit = er.idSubAmbit,
+                                idAmbit = er.idAmbit,
+                                idIndicator = er.idIndicator,
+                                indicatorType = er.indicatorType,
+                                idEvidence = er.idEvidence,
+                                indicatorVersion = er.indicatorVersion,
+                                isMarked = er.isMarked,
+                                observations = er.observationsDutch
+                            };
+                            break;
+                        default:
+                            selectorEvReg = er => new IndicatorsEvaluationEvidenceRegDto
+                            {
+                                idSubSubAmbit = er.idSubSubAmbit,
+                                idSubAmbit = er.idSubAmbit,
+                                idAmbit = er.idAmbit,
+                                idIndicator = er.idIndicator,
+                                indicatorType = er.indicatorType,
+                                idEvidence = er.idEvidence,
+                                indicatorVersion = er.indicatorVersion,
+                                isMarked = er.isMarked,
+                                observations = er.observationsEnglish
+                            };
+                            break;
+                    }
+                    var IndicatorsEvaluationsEvidencesRegs=auxEvReg.Select(selectorEvReg).ToList();
+
+                    foreach (IndicatorsEvaluationEvidenceRegDto reg in IndicatorsEvaluationsEvidencesRegs)
                     {
                         String rg = "{\"idSubSubAmbit\":\"" + reg.idSubSubAmbit + "\"," +
                             "\"idSubAmbit\":\"" + reg.idSubAmbit + "\"," +
@@ -274,16 +619,7 @@ namespace OTEAServer.Controllers
                             "\"idEvidence\":\"" + reg.idEvidence + "\"," +
                             "\"indicatorVersion\":\"" + reg.indicatorVersion + "\"," +
                             "\"isMarked\":\"" + reg.isMarked + "\"," +
-                            "\"observationsSpanish\":\"" + reg.observationsSpanish + "\"," +
-                            "\"observationsEnglish\":\"" + reg.observationsEnglish + "\"," +
-                            "\"observationsFrench\":\"" + reg.observationsFrench + "\"," +
-                            "\"observationsBasque\":\"" + reg.observationsBasque + "\"," +
-                            "\"observationsCatalan\":\"" + reg.observationsCatalan + "\"," +
-                            "\"observationsDutch\":\"" + reg.observationsDutch + "\"," +
-                            "\"observationsGalician\":\"" + reg.observationsGalician + "\"," +
-                            "\"observationsGerman\":\"" + reg.observationsGerman + "\"," +
-                            "\"observationsItalian\":\"" + reg.observationsItalian + "\"," +
-                            "\"observationsPortuguese\":\"" + reg.observationsPortuguese + "\"}";
+                            "\"observations\":\"" + reg.observations + "\"}";
                         regs.Add(JsonDocument.Parse(rg));
                     }
                     String tams = "{\"numIndicatorsRegs\":\"" + IndicatorsEvaluationsIndicatorsRegs.Count + "\"," +
@@ -291,38 +627,168 @@ namespace OTEAServer.Controllers
                     regs.Add(JsonDocument.Parse(tams));
                 }
                 else {
-                    var IndicatorsEvaluationsEvidencesRegs = _context.IndicatorsEvaluationsSimpleEvidencesRegs.Where(r => r.evaluationDate == evaluationDate && r.idEvaluatorTeam == idEvaluatorTeam && r.idEvaluatorOrganization == idEvaluatorOrganization && r.orgTypeEvaluator == orgTypeEvaluator && r.idEvaluatedOrganization == idEvaluatedOrganization && r.orgTypeEvaluated == orgTypeEvaluated && r.illness == illness && r.idCenter == idCenter && r.evaluationType == evaluationType)
+                    var auxSer = _context.IndicatorsEvaluationsSimpleEvidencesRegs.Where(r => r.evaluationDate == evaluationDate && r.idEvaluatorTeam == idEvaluatorTeam && r.idEvaluatorOrganization == idEvaluatorOrganization && r.orgTypeEvaluator == orgTypeEvaluator && r.idEvaluatedOrganization == idEvaluatedOrganization && r.orgTypeEvaluated == orgTypeEvaluated && r.illness == illness && r.idCenter == idCenter && r.evaluationType == evaluationType)
                         .OrderBy(r => r.idIndicator)
-                        .ThenBy(r => r.idEvidence)
-                        .ToList();
-                    foreach (IndicatorsEvaluationSimpleEvidenceReg reg in IndicatorsEvaluationsEvidencesRegs)
+                        .ThenBy(r => r.idEvidence);
+
+                    Expression<Func<IndicatorsEvaluationSimpleEvidenceReg, IndicatorsEvaluationSimpleEvidenceRegDto>> selectorSimpleEvReg = ser => new IndicatorsEvaluationSimpleEvidenceRegDto
+                    {
+                        idSubSubAmbit = ser.idSubSubAmbit,
+                        idSubAmbit = ser.idSubAmbit,
+                        idAmbit = ser.idAmbit,
+                        idIndicator = ser.idIndicator,
+                        idEvidence = ser.idEvidence,
+                        description = ser.descriptionEnglish,
+                        indicatorVersion = ser.indicatorVersion,
+                        observations = ser.observationsEnglish
+                    };
+
+                    switch (language)
+                    {
+                        case "es":
+                            selectorSimpleEvReg = ser => new IndicatorsEvaluationSimpleEvidenceRegDto
+                            {
+                                idSubSubAmbit = ser.idSubSubAmbit,
+                                idSubAmbit = ser.idSubAmbit,
+                                idAmbit = ser.idAmbit,
+                                idIndicator = ser.idIndicator,
+                                idEvidence = ser.idEvidence,
+                                description = ser.descriptionSpanish,
+                                indicatorVersion = ser.indicatorVersion,
+                                observations = ser.observationsSpanish
+                            };
+                            break;
+                        case "fr":
+                            selectorSimpleEvReg = ser => new IndicatorsEvaluationSimpleEvidenceRegDto
+                            {
+                                idSubSubAmbit = ser.idSubSubAmbit,
+                                idSubAmbit = ser.idSubAmbit,
+                                idAmbit = ser.idAmbit,
+                                idIndicator = ser.idIndicator,
+                                idEvidence = ser.idEvidence,
+                                description = ser.descriptionFrench,
+                                indicatorVersion = ser.indicatorVersion,
+                                observations = ser.observationsFrench
+                            };
+                            break;
+                        case "eu":
+                            selectorSimpleEvReg = ser => new IndicatorsEvaluationSimpleEvidenceRegDto
+                            {
+                                idSubSubAmbit = ser.idSubSubAmbit,
+                                idSubAmbit = ser.idSubAmbit,
+                                idAmbit = ser.idAmbit,
+                                idIndicator = ser.idIndicator,
+                                idEvidence = ser.idEvidence,
+                                description = ser.descriptionBasque,
+                                indicatorVersion = ser.indicatorVersion,
+                                observations = ser.observationsBasque
+                            };
+                            break;
+                        case "ca":
+                            selectorSimpleEvReg = ser => new IndicatorsEvaluationSimpleEvidenceRegDto
+                            {
+                                idSubSubAmbit = ser.idSubSubAmbit,
+                                idSubAmbit = ser.idSubAmbit,
+                                idAmbit = ser.idAmbit,
+                                idIndicator = ser.idIndicator,
+                                idEvidence = ser.idEvidence,
+                                description = ser.descriptionCatalan,
+                                indicatorVersion = ser.indicatorVersion,
+                                observations = ser.observationsCatalan
+                            };
+                            break;
+                        case "gl":
+                            selectorSimpleEvReg = ser => new IndicatorsEvaluationSimpleEvidenceRegDto
+                            {
+                                idSubSubAmbit = ser.idSubSubAmbit,
+                                idSubAmbit = ser.idSubAmbit,
+                                idAmbit = ser.idAmbit,
+                                idIndicator = ser.idIndicator,
+                                idEvidence = ser.idEvidence,
+                                description = ser.descriptionGalician,
+                                indicatorVersion = ser.indicatorVersion,
+                                observations = ser.observationsGalician
+                            };
+                            break;
+                        case "pt":
+                            selectorSimpleEvReg = ser => new IndicatorsEvaluationSimpleEvidenceRegDto
+                            {
+                                idSubSubAmbit = ser.idSubSubAmbit,
+                                idSubAmbit = ser.idSubAmbit,
+                                idAmbit = ser.idAmbit,
+                                idIndicator = ser.idIndicator,
+                                idEvidence = ser.idEvidence,
+                                description = ser.descriptionPortuguese,
+                                indicatorVersion = ser.indicatorVersion,
+                                observations = ser.observationsPortuguese
+                            };
+                            break;
+                        case "de":
+                            selectorSimpleEvReg = ser => new IndicatorsEvaluationSimpleEvidenceRegDto
+                            {
+                                idSubSubAmbit = ser.idSubSubAmbit,
+                                idSubAmbit = ser.idSubAmbit,
+                                idAmbit = ser.idAmbit,
+                                idIndicator = ser.idIndicator,
+                                idEvidence = ser.idEvidence,
+                                description = ser.descriptionGerman,
+                                indicatorVersion = ser.indicatorVersion,
+                                observations = ser.observationsGerman
+                            };
+                            break;
+                        case "it":
+                            selectorSimpleEvReg = ser => new IndicatorsEvaluationSimpleEvidenceRegDto
+                            {
+                                idSubSubAmbit = ser.idSubSubAmbit,
+                                idSubAmbit = ser.idSubAmbit,
+                                idAmbit = ser.idAmbit,
+                                idIndicator = ser.idIndicator,
+                                idEvidence = ser.idEvidence,
+                                description = ser.descriptionItalian,
+                                indicatorVersion = ser.indicatorVersion,
+                                observations = ser.observationsItalian
+                            };
+                            break;
+                        case "nl":
+                            selectorSimpleEvReg = ser => new IndicatorsEvaluationSimpleEvidenceRegDto
+                            {
+                                idSubSubAmbit = ser.idSubSubAmbit,
+                                idSubAmbit = ser.idSubAmbit,
+                                idAmbit = ser.idAmbit,
+                                idIndicator = ser.idIndicator,
+                                idEvidence = ser.idEvidence,
+                                description = ser.descriptionDutch,
+                                indicatorVersion = ser.indicatorVersion,
+                                observations = ser.observationsDutch
+                            };
+                            break;
+                        default:
+                            selectorSimpleEvReg = ser => new IndicatorsEvaluationSimpleEvidenceRegDto
+                            {
+                                idSubSubAmbit = ser.idSubSubAmbit,
+                                idSubAmbit = ser.idSubAmbit,
+                                idAmbit = ser.idAmbit,
+                                idIndicator = ser.idIndicator,
+                                idEvidence = ser.idEvidence,
+                                description = ser.descriptionEnglish,
+                                indicatorVersion = ser.indicatorVersion,
+                                observations = ser.observationsEnglish
+                            };
+                            break;
+                    }
+
+                    var IndicatorsEvaluationsEvidencesRegs=auxSer.Select(selectorSimpleEvReg).ToList();
+
+                    foreach (IndicatorsEvaluationSimpleEvidenceRegDto reg in IndicatorsEvaluationsEvidencesRegs)
                     {
                         String rg = "{\"idSubSubAmbit\":\"" + reg.idSubSubAmbit + "\"," +
                             "\"idSubAmbit\":\"" + reg.idSubAmbit + "\"," +
                             "\"idAmbit\":\"" + reg.idAmbit + "\"," +
                             "\"idIndicator\":\"" + reg.idIndicator + "\"," +
                             "\"idEvidence\":\"" + reg.idEvidence + "\"," +
-                            "\"descriptionSpanish\":\"" + reg.descriptionSpanish + "\"," +
-                            "\"descriptionEnglish\":\"" + reg.descriptionEnglish + "\"," +
-                            "\"descriptionFrench\":\"" + reg.descriptionFrench + "\"," +
-                            "\"descriptionBasque\":\"" + reg.descriptionBasque + "\"," +
-                            "\"descriptionCatalan\":\"" + reg.descriptionCatalan + "\"," +
-                            "\"descriptionDutch\":\"" + reg.descriptionDutch + "\"," +
-                            "\"descriptionGalician\":\"" + reg.descriptionGalician + "\"," +
-                            "\"descriptionGerman\":\"" + reg.descriptionGerman + "\"," +
-                            "\"descriptionItalian\":\"" + reg.descriptionItalian + "\"," +
-                            "\"descriptionPortuguese\":\"" + reg.descriptionPortuguese + "\"," +
+                            "\"description\":\"" + reg.description + "\"," +
                             "\"indicatorVersion\":\"" + reg.indicatorVersion + "\"," +
-                            "\"observationsSpanish\":\"" + reg.observationsSpanish + "\"," +
-                            "\"observationsEnglish\":\"" + reg.observationsEnglish + "\"," +
-                            "\"observationsFrench\":\"" + reg.observationsFrench + "\"," +
-                            "\"observationsBasque\":\"" + reg.observationsBasque + "\"," +
-                            "\"observationsCatalan\":\"" + reg.observationsCatalan + "\"," +
-                            "\"observationsDutch\":\"" + reg.observationsDutch + "\"," +
-                            "\"observationsGalician\":\"" + reg.observationsGalician + "\"," +
-                            "\"observationsGerman\":\"" + reg.observationsGerman + "\"," +
-                            "\"observationsItalian\":\"" + reg.observationsItalian + "\"," +
-                            "\"observationsPortuguese\":\"" + reg.observationsPortuguese + "\"}";
+                            "\"observations\":\"" + reg.observations + "\"}";
                         regs.Add(JsonDocument.Parse(rg));
                     }
                     String tams = "{\"numIndicatorsRegs\":\"" + IndicatorsEvaluationsIndicatorsRegs.Count + "\"," +

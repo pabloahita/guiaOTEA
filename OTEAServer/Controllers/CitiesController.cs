@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OTEAServer.Misc;
 using OTEAServer.Models;
+using System.Dynamic;
+using System.Linq.Expressions;
 using System.Text.Json;
 
 namespace OTEAServer.Controllers
@@ -32,56 +34,118 @@ namespace OTEAServer.Controllers
             _context=context;
         }
 
+        private class CityDto
+        {
+            public int IdCity { get; set; }
+            public string Name { get; set; }
+        }
+
         /// <summary>
         /// Method that obtains from the database all the cities of a province
         /// </summary>
         /// <param name="idCountry"></param>
         /// <returns>Cities of the province</returns>
+
+
+
         [HttpGet("allByProvince")]
         public IActionResult GetAllByProvince([FromQuery] int idProvince, [FromQuery] int idRegion, [FromQuery] string idCountry, [FromQuery] string language)
         {
             try
             {
-                IQueryable<City> query = _context.Cities
+                var query = _context.Cities
                     .Where(c => c.idProvince == idProvince && c.idRegion == idRegion && c.idCountry == idCountry)
                     .AsQueryable();
+
+
+                Expression<Func<City, CityDto>> selector = c => new CityDto
+                {
+                    IdCity = c.idCity,
+                    Name = c.nameEnglish // Default value
+                };
                 switch (language)
                 {
                     case "es":
-                        query = query.OrderBy(c => c.nameSpanish); break;
+                    selector = c => new CityDto
+                    {
+                        IdCity = c.idCity,
+                        Name = c.nameSpanish
+                    };
+                    break;
                     case "fr":
-                        query = query.OrderBy(c => c.nameFrench); break;
+                        selector = c => new CityDto
+                        {
+                            IdCity = c.idCity,
+                            Name = c.nameFrench
+                        };
+                        break;
                     case "eu":
-                        query = query.OrderBy(c => c.nameBasque); break;
+                        selector = c => new CityDto
+                        {
+                            IdCity = c.idCity,
+                            Name = c.nameBasque
+                        };
+                        break;
                     case "ca":
-                        query = query.OrderBy(c => c.nameCatalan); break;
+                        selector = c => new CityDto
+                        {
+                            IdCity = c.idCity,
+                            Name = c.nameCatalan
+                        };
+                        break;
                     case "gl":
-                        query = query.OrderBy(c => c.nameGalician); break;
+                        selector = c => new CityDto
+                        {
+                            IdCity = c.idCity,
+                            Name = c.nameGalician
+                        };
+                        break;
                     case "pt":
-                        query = query.OrderBy(c => c.namePortuguese); break;
+                        selector = c => new CityDto
+                        {
+                            IdCity = c.idCity,
+                            Name = c.namePortuguese
+                        };
+                        break;
                     case "de":
-                        query = query.OrderBy(c => c.nameGerman); break;
+                        selector = c => new CityDto
+                        {
+                            IdCity = c.idCity,
+                            Name = c.nameGerman
+                        };
+                        break;
                     case "it":
-                        query = query.OrderBy(c => c.nameItalian); break;
+                        selector = c => new CityDto
+                        {
+                            IdCity = c.idCity,
+                            Name = c.nameItalian
+                        };
+                        break;
                     case "nl":
-                        query = query.OrderBy(c => c.nameDutch); break;
+                        selector = c => new CityDto
+                        {
+                            IdCity = c.idCity,
+                            Name = c.nameDutch
+                        };
+                        break;
                     default:
-                        query = query.OrderBy(c => c.nameEnglish); break;
+                        selector = c => new CityDto
+                        {
+                            IdCity = c.idCity,
+                            Name = c.nameEnglish
+                        };
+                        break;
                 }
-                var cities = query.ToList();
+
+                // Aplica la proyección y la ordenación
+                var cities=query
+                    .Select(selector)
+                    .OrderBy(c => c.Name).ToList();
+
+
                 List<JsonDocument> result = new List<JsonDocument>();
-                foreach(City city in cities){
-                    String rg = "{\"idCity\":\"" + city.idCity + "\"," +
-                            "\"nameSpanish\":\"" + city.nameSpanish + "\"," +
-                            "\"nameEnglish\":\"" + city.nameEnglish + "\"," +
-                            "\"nameFrench\":\"" + city.nameFrench + "\"," +
-                            "\"nameBasque\":\"" + city.nameBasque + "\"," +
-                            "\"nameCatalan\":\"" + city.nameCatalan + "\"," +
-                            "\"nameDutch\":\"" + city.nameDutch + "\"," +
-                            "\"nameGalician\":\"" + city.nameGalician + "\"," +
-                            "\"nameGerman\":\"" + city.nameGerman + "\"," +
-                            "\"nameItalian\":\"" + city.nameItalian + "\"," +
-                            "\"namePortuguese\":\"" + city.namePortuguese + "\"}";
+                foreach(CityDto city in cities){
+                    String rg = "{\"idCity\":\"" + city.IdCity + "\", \"name\":\""+city.Name+"\"}";
                     result.Add(JsonDocument.Parse(rg));
                 }
                 return Ok(result);

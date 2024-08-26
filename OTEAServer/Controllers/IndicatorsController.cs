@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Misc;
 using OTEAServer.Models;
+using System.Linq.Expressions;
 using System.Security.Policy;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace OTEAServer.Controllers
 {
@@ -29,6 +31,53 @@ namespace OTEAServer.Controllers
             _context = context;
         }
 
+        private class IndicatorDto {
+            public int idIndicator { get; set; }
+            public string indicatorType { get; set; }
+            public int idSubSubAmbit { get; set; }
+            public int idSubAmbit { get; set; }
+            public int idAmbit { get; set; }
+            public string description { get; set; }
+            public string indicatorPriority { get; set; }
+            public int indicatorVersion { get; set; }
+            public int isActive { get; set; }
+            public string evaluationType { get; set; }
+        }
+
+        private class EvidenceDto
+        {
+            public int idEvidence { get; set; }
+            public int idIndicator { get; set; }
+            public string indicatorType { get; set; }
+            public int idSubSubAmbit { get; set; }
+            public int idSubAmbit { get; set; }
+            public int idAmbit { get; set; }
+            public string description { get; set; }
+            public int evidenceValue { get; set; }
+            public int indicatorVersion { get; set; }
+            public string evaluationType { get; set; }
+        }
+
+        private class AmbitDto
+        {
+            public int idAmbit { get; set; }
+            public string description { get; set; }
+        }
+
+        private class SubAmbitDto
+        {
+            public int idSubAmbit { get; set; }
+            public int idAmbit { get; set; }
+            public string description { get; set; }
+        }
+
+        private class SubSubAmbitDto
+        {
+            public int idSubSubAmbit { get; set; }
+            public int idSubAmbit { get; set; }
+            public int idAmbit { get; set; }
+            public string description { get; set; }
+        }
 
         /// <summary>
         /// Method that obtains all the indicators
@@ -37,32 +86,194 @@ namespace OTEAServer.Controllers
         /// <returns>Indicators list</returns>
         [HttpGet("all")]
         [Authorize]
-        public IActionResult GetAll([FromQuery] string evaluationType, [FromHeader] string Authorization)
+        public IActionResult GetAll([FromQuery] string evaluationType, [FromQuery] string language, [FromHeader] string Authorization)
         {
             try
             {
                 List<JsonDocument> allData=new List<JsonDocument>();
-                var indicators = _context.Indicators
-                    .Where(i => i.evaluationType==evaluationType && i.isActive == 1)
-                    .OrderBy(i => i.idIndicator)
-                    .ToList();
-                foreach (var indicator in indicators)
+                var auxInd = _context.Indicators
+                    .Where(i => i.evaluationType == evaluationType && i.isActive == 1)
+                    .OrderBy(i => i.idIndicator);
+                 
+
+                Expression<Func<Indicator, IndicatorDto>> selectorInd = i => new IndicatorDto
+                {
+                    idIndicator = i.idIndicator,
+                    indicatorType = i.indicatorType,
+                    idSubSubAmbit = i.idSubSubAmbit,
+                    idSubAmbit = i.idSubAmbit,
+                    idAmbit = i.idAmbit,
+                    description = i.descriptionEnglish,
+                    indicatorPriority = i.indicatorPriority,
+                    indicatorVersion = i.indicatorVersion,
+                    isActive = i.isActive,
+                    evaluationType = i.evaluationType
+                };
+
+                switch (language)
+                {
+                    case "es":
+                        selectorInd = i => new IndicatorDto
+                        {
+                            idIndicator = i.idIndicator,
+                            indicatorType = i.indicatorType,
+                            idSubSubAmbit = i.idSubSubAmbit,
+                            idSubAmbit = i.idSubAmbit,
+                            idAmbit = i.idAmbit,
+                            description = i.descriptionSpanish,
+                            indicatorPriority = i.indicatorPriority,
+                            indicatorVersion = i.indicatorVersion,
+                            isActive = i.isActive,
+                            evaluationType = i.evaluationType
+                        };
+                        break;
+                    case "fr":
+                        selectorInd = i => new IndicatorDto
+                        {
+                            idIndicator = i.idIndicator,
+                            indicatorType = i.indicatorType,
+                            idSubSubAmbit = i.idSubSubAmbit,
+                            idSubAmbit = i.idSubAmbit,
+                            idAmbit = i.idAmbit,
+                            description = i.descriptionFrench,
+                            indicatorPriority = i.indicatorPriority,
+                            indicatorVersion = i.indicatorVersion,
+                            isActive = i.isActive,
+                            evaluationType = i.evaluationType
+                        };
+                        break;
+                    case "eu":
+                        selectorInd = i => new IndicatorDto
+                        {
+                            idIndicator = i.idIndicator,
+                            indicatorType = i.indicatorType,
+                            idSubSubAmbit = i.idSubSubAmbit,
+                            idSubAmbit = i.idSubAmbit,
+                            idAmbit = i.idAmbit,
+                            description = i.descriptionBasque,
+                            indicatorPriority = i.indicatorPriority,
+                            indicatorVersion = i.indicatorVersion,
+                            isActive = i.isActive,
+                            evaluationType = i.evaluationType
+                        };
+                        break;
+                    case "ca":
+                        selectorInd = i => new IndicatorDto
+                        {
+                            idIndicator = i.idIndicator,
+                            indicatorType = i.indicatorType,
+                            idSubSubAmbit = i.idSubSubAmbit,
+                            idSubAmbit = i.idSubAmbit,
+                            idAmbit = i.idAmbit,
+                            description = i.descriptionCatalan,
+                            indicatorPriority = i.indicatorPriority,
+                            indicatorVersion = i.indicatorVersion,
+                            isActive = i.isActive,
+                            evaluationType = i.evaluationType
+                        };
+                        break;
+                    case "gl":
+                        selectorInd = i => new IndicatorDto
+                        {
+                            idIndicator = i.idIndicator,
+                            indicatorType = i.indicatorType,
+                            idSubSubAmbit = i.idSubSubAmbit,
+                            idSubAmbit = i.idSubAmbit,
+                            idAmbit = i.idAmbit,
+                            description = i.descriptionGalician,
+                            indicatorPriority = i.indicatorPriority,
+                            indicatorVersion = i.indicatorVersion,
+                            isActive = i.isActive,
+                            evaluationType = i.evaluationType
+                        };
+                        break;
+                    case "pt":
+                        selectorInd = i => new IndicatorDto
+                        {
+                            idIndicator = i.idIndicator,
+                            indicatorType = i.indicatorType,
+                            idSubSubAmbit = i.idSubSubAmbit,
+                            idSubAmbit = i.idSubAmbit,
+                            idAmbit = i.idAmbit,
+                            description = i.descriptionPortuguese,
+                            indicatorPriority = i.indicatorPriority,
+                            indicatorVersion = i.indicatorVersion,
+                            isActive = i.isActive,
+                            evaluationType = i.evaluationType
+                        };
+                        break;
+                    case "de":
+                        selectorInd = i => new IndicatorDto
+                        {
+                            idIndicator = i.idIndicator,
+                            indicatorType = i.indicatorType,
+                            idSubSubAmbit = i.idSubSubAmbit,
+                            idSubAmbit = i.idSubAmbit,
+                            idAmbit = i.idAmbit,
+                            description = i.descriptionGerman,
+                            indicatorPriority = i.indicatorPriority,
+                            indicatorVersion = i.indicatorVersion,
+                            isActive = i.isActive,
+                            evaluationType = i.evaluationType
+                        };
+                        break;
+                    case "it":
+                        selectorInd = i => new IndicatorDto
+                        {
+                            idIndicator = i.idIndicator,
+                            indicatorType = i.indicatorType,
+                            idSubSubAmbit = i.idSubSubAmbit,
+                            idSubAmbit = i.idSubAmbit,
+                            idAmbit = i.idAmbit,
+                            description = i.descriptionItalian,
+                            indicatorPriority = i.indicatorPriority,
+                            indicatorVersion = i.indicatorVersion,
+                            isActive = i.isActive,
+                            evaluationType = i.evaluationType
+                        };
+                        break;
+                    case "nl":
+                        selectorInd = i => new IndicatorDto
+                        {
+                            idIndicator = i.idIndicator,
+                            indicatorType = i.indicatorType,
+                            idSubSubAmbit = i.idSubSubAmbit,
+                            idSubAmbit = i.idSubAmbit,
+                            idAmbit = i.idAmbit,
+                            description = i.descriptionDutch,
+                            indicatorPriority = i.indicatorPriority,
+                            indicatorVersion = i.indicatorVersion,
+                            isActive = i.isActive,
+                            evaluationType = i.evaluationType
+                        };
+                        break;
+                    default:
+                        selectorInd = i => new IndicatorDto
+                        {
+                            idIndicator = i.idIndicator,
+                            indicatorType = i.indicatorType,
+                            idSubSubAmbit = i.idSubSubAmbit,
+                            idSubAmbit = i.idSubAmbit,
+                            idAmbit = i.idAmbit,
+                            description = i.descriptionEnglish,
+                            indicatorPriority = i.indicatorPriority,
+                            indicatorVersion = i.indicatorVersion,
+                            isActive = i.isActive,
+                            evaluationType = i.evaluationType
+                        };
+                        break;
+                }
+
+                var indicators= auxInd.Select(selectorInd).ToList();
+
+                foreach (IndicatorDto indicator in indicators)
                 {                    
                     String ind= "{\"idIndicator\":\"" + indicator.idIndicator + "\"," +
                         "\"indicatorType\":\"" + indicator.indicatorType + "\"," +
                         "\"idSubSubAmbit\":\"" + indicator.idSubSubAmbit + "\"," +
                         "\"idSubAmbit\":\"" + indicator.idSubAmbit + "\"," +
                         "\"idAmbit\":\"" + indicator.idAmbit + "\"," +
-                        "\"descriptionSpanish\":\"" + indicator.descriptionSpanish + "\"," +
-                        "\"descriptionEnglish\":\"" + indicator.descriptionEnglish + "\"," +
-                        "\"descriptionFrench\":\"" + indicator.descriptionFrench + "\"," +
-                        "\"descriptionBasque\":\"" + indicator.descriptionBasque + "\"," +
-                        "\"descriptionCatalan\":\"" + indicator.descriptionCatalan + "\"," +
-                        "\"descriptionDutch\":\"" + indicator.descriptionDutch + "\"," +
-                        "\"descriptionGalician\":\"" + indicator.descriptionGalician + "\"," +
-                        "\"descriptionGerman\":\"" + indicator.descriptionGerman + "\"," +
-                        "\"descriptionItalian\":\"" + indicator.descriptionItalian + "\"," +
-                        "\"descriptionPortuguese\":\"" + indicator.descriptionPortuguese + "\"," +
+                        "\"description\":\"" + indicator.description + "\"," +
                         "\"indicatorPriority\":\"" + indicator.indicatorPriority + "\"," +
                         "\"indicatorVersion\":\"" + indicator.indicatorVersion + "\"," +
                         "\"isActive\":\"" + indicator.indicatorVersion + "\"," +
@@ -73,12 +284,181 @@ namespace OTEAServer.Controllers
                 int tamEvidences = 0;
 
                 if (evaluationType == "COMPLETE") {
-                    var evidences = _context.Evidences
+                    var auxEv = _context.Evidences
                         .Where(e => e.evaluationType == evaluationType)
                         .OrderBy(e => e.idIndicator)
-                        .ThenBy(e => e.idEvidence)
-                        .ToList();
-                    foreach (var evidence in evidences)
+                        .ThenBy(e => e.idEvidence);
+
+                    Expression<Func<OTEAServer.Models.Evidence,EvidenceDto>> selectorEv = e => new EvidenceDto
+                    {
+                        idEvidence=e.idEvidence,
+                        idIndicator = e.idIndicator,
+                        indicatorType = e.indicatorType,
+                        idSubSubAmbit = e.idSubSubAmbit,
+                        idSubAmbit = e.idSubAmbit,
+                        idAmbit = e.idAmbit,
+                        description = e.descriptionEnglish,
+                        evidenceValue = e.evidenceValue,
+                        indicatorVersion = e.indicatorVersion,
+                        evaluationType = e.evaluationType
+                    };
+
+                    switch (language)
+                    {
+                        case "es":
+                            selectorEv = e => new EvidenceDto
+                            {
+                                idEvidence = e.idEvidence,
+                                idIndicator = e.idIndicator,
+                                indicatorType = e.indicatorType,
+                                idSubSubAmbit = e.idSubSubAmbit,
+                                idSubAmbit = e.idSubAmbit,
+                                idAmbit = e.idAmbit,
+                                description = e.descriptionSpanish,
+                                evidenceValue = e.evidenceValue,
+                                indicatorVersion = e.indicatorVersion,
+                                evaluationType = e.evaluationType
+                            };
+                            break;
+                        case "fr":
+                            selectorEv = e => new EvidenceDto
+                            {
+                                idEvidence = e.idEvidence,
+                                idIndicator = e.idIndicator,
+                                indicatorType = e.indicatorType,
+                                idSubSubAmbit = e.idSubSubAmbit,
+                                idSubAmbit = e.idSubAmbit,
+                                idAmbit = e.idAmbit,
+                                description = e.descriptionFrench,
+                                evidenceValue = e.evidenceValue,
+                                indicatorVersion = e.indicatorVersion,
+                                evaluationType = e.evaluationType
+                            };
+                            break;
+                        case "eu":
+                            selectorEv = e => new EvidenceDto
+                            {
+                                idEvidence = e.idEvidence,
+                                idIndicator = e.idIndicator,
+                                indicatorType = e.indicatorType,
+                                idSubSubAmbit = e.idSubSubAmbit,
+                                idSubAmbit = e.idSubAmbit,
+                                idAmbit = e.idAmbit,
+                                description = e.descriptionBasque,
+                                evidenceValue = e.evidenceValue,
+                                indicatorVersion = e.indicatorVersion,
+                                evaluationType = e.evaluationType
+                            };
+                            break;
+                        case "ca":
+                            selectorEv = e => new EvidenceDto
+                            {
+                                idEvidence = e.idEvidence,
+                                idIndicator = e.idIndicator,
+                                indicatorType = e.indicatorType,
+                                idSubSubAmbit = e.idSubSubAmbit,
+                                idSubAmbit = e.idSubAmbit,
+                                idAmbit = e.idAmbit,
+                                description = e.descriptionCatalan,
+                                evidenceValue = e.evidenceValue,
+                                indicatorVersion = e.indicatorVersion,
+                                evaluationType = e.evaluationType
+                            };
+                            break;
+                        case "gl":
+                            selectorEv = e => new EvidenceDto
+                            {
+                                idEvidence = e.idEvidence,
+                                idIndicator = e.idIndicator,
+                                indicatorType = e.indicatorType,
+                                idSubSubAmbit = e.idSubSubAmbit,
+                                idSubAmbit = e.idSubAmbit,
+                                idAmbit = e.idAmbit,
+                                description = e.descriptionGalician,
+                                evidenceValue = e.evidenceValue,
+                                indicatorVersion = e.indicatorVersion,
+                                evaluationType = e.evaluationType
+                            };
+                            break;
+                        case "pt":
+                            selectorEv = e => new EvidenceDto
+                            {
+                                idEvidence = e.idEvidence,
+                                idIndicator = e.idIndicator,
+                                indicatorType = e.indicatorType,
+                                idSubSubAmbit = e.idSubSubAmbit,
+                                idSubAmbit = e.idSubAmbit,
+                                idAmbit = e.idAmbit,
+                                description = e.descriptionPortuguese,
+                                evidenceValue = e.evidenceValue,
+                                indicatorVersion = e.indicatorVersion,
+                                evaluationType = e.evaluationType
+                            };
+                            break;
+                        case "de":
+                            selectorEv = e => new EvidenceDto
+                            {
+                                idEvidence = e.idEvidence,
+                                idIndicator = e.idIndicator,
+                                indicatorType = e.indicatorType,
+                                idSubSubAmbit = e.idSubSubAmbit,
+                                idSubAmbit = e.idSubAmbit,
+                                idAmbit = e.idAmbit,
+                                description = e.descriptionGerman,
+                                evidenceValue = e.evidenceValue,
+                                indicatorVersion = e.indicatorVersion,
+                                evaluationType = e.evaluationType
+                            };
+                            break;
+                        case "it":
+                            selectorEv = e => new EvidenceDto
+                            {
+                                idEvidence = e.idEvidence,
+                                idIndicator = e.idIndicator,
+                                indicatorType = e.indicatorType,
+                                idSubSubAmbit = e.idSubSubAmbit,
+                                idSubAmbit = e.idSubAmbit,
+                                idAmbit = e.idAmbit,
+                                description = e.descriptionItalian,
+                                evidenceValue = e.evidenceValue,
+                                indicatorVersion = e.indicatorVersion,
+                                evaluationType = e.evaluationType
+                            };
+                            break;
+                        case "nl":
+                            selectorEv = e => new EvidenceDto
+                            {
+                                idEvidence = e.idEvidence,
+                                idIndicator = e.idIndicator,
+                                indicatorType = e.indicatorType,
+                                idSubSubAmbit = e.idSubSubAmbit,
+                                idSubAmbit = e.idSubAmbit,
+                                idAmbit = e.idAmbit,
+                                description = e.descriptionDutch,
+                                evidenceValue = e.evidenceValue,
+                                indicatorVersion = e.indicatorVersion,
+                                evaluationType = e.evaluationType
+                            };
+                            break;
+                        default:
+                            selectorEv = e => new EvidenceDto
+                            {
+                                idEvidence = e.idEvidence,
+                                idIndicator = e.idIndicator,
+                                indicatorType = e.indicatorType,
+                                idSubSubAmbit = e.idSubSubAmbit,
+                                idSubAmbit = e.idSubAmbit,
+                                idAmbit = e.idAmbit,
+                                description = e.descriptionEnglish,
+                                evidenceValue = e.evidenceValue,
+                                indicatorVersion = e.indicatorVersion,
+                                evaluationType = e.evaluationType
+                            };
+                            break;
+                    }
+
+                    var evidences=auxEv.Select(selectorEv).ToList();
+                    foreach (EvidenceDto evidence in evidences)
                     {
                         String ev = "{\"idEvidence\":\"" + evidence.idEvidence + "\"," +
                                 "\"idIndicator\":\"" + evidence.idIndicator + "\"," +
@@ -86,16 +466,7 @@ namespace OTEAServer.Controllers
                                 "\"idSubSubAmbit\":\"" + evidence.idSubSubAmbit + "\"," +
                                 "\"idSubAmbit\":\"" + evidence.idSubAmbit + "\"," +
                                 "\"idAmbit\":\"" + evidence.idAmbit + "\"," +
-                                "\"descriptionSpanish\":\"" + evidence.descriptionSpanish + "\"," +
-                                "\"descriptionEnglish\":\"" + evidence.descriptionEnglish + "\"," +
-                                "\"descriptionFrench\":\"" + evidence.descriptionFrench + "\"," +
-                                "\"descriptionBasque\":\"" + evidence.descriptionBasque + "\"," +
-                                "\"descriptionCatalan\":\"" + evidence.descriptionCatalan + "\"," +
-                                "\"descriptionDutch\":\"" + evidence.descriptionDutch + "\"," +
-                                "\"descriptionGalician\":\"" + evidence.descriptionGalician + "\"," +
-                                "\"descriptionGerman\":\"" + evidence.descriptionGerman + "\"," +
-                                "\"descriptionItalian\":\"" + evidence.descriptionItalian + "\"," +
-                                "\"descriptionPortuguese\":\"" + evidence.descriptionPortuguese + "\"," +
+                                "\"description\":\"" + evidence.description + "\"," +
                                 "\"evidenceValue\":\"" + evidence.evidenceValue + "\"," +
                                 "\"indicatorVersion\":\"" + evidence.indicatorVersion + "\"," +
                                 "\"evaluationType\":\"" + evidence.evaluationType + "\"}";
@@ -103,56 +474,304 @@ namespace OTEAServer.Controllers
                     }
                     tamEvidences = evidences.Count;
                 }
-                
 
-                var ambits = _context.Ambits.ToList();
-                foreach (var ambit in ambits) {
+                Expression<Func<Ambit, AmbitDto>> selectorAmbit = a => new AmbitDto
+                {
+                    idAmbit = a.idAmbit,
+                    description = a.descriptionEnglish
+                };
+
+
+                switch (language)
+                {
+                    case "es":
+                        selectorAmbit = a => new AmbitDto
+                        {
+                            idAmbit = a.idAmbit,
+                            description = a.descriptionSpanish
+                        };
+                        break;
+                    case "fr":
+                        selectorAmbit = a => new AmbitDto
+                        {
+                            idAmbit = a.idAmbit,
+                            description = a.descriptionFrench
+                        };
+                        break;
+                    case "eu":
+                        selectorAmbit = a => new AmbitDto
+                        {
+                            idAmbit = a.idAmbit,
+                            description = a.descriptionBasque
+                        };
+                        break;
+                    case "ca":
+                        selectorAmbit = a => new AmbitDto
+                        {
+                            idAmbit = a.idAmbit,
+                            description = a.descriptionCatalan
+                        };
+                        break;
+                    case "gl":
+                        selectorAmbit = a => new AmbitDto
+                        {
+                            idAmbit = a.idAmbit,
+                            description = a.descriptionGalician
+                        };
+                        break;
+                    case "pt":
+                        selectorAmbit = a => new AmbitDto
+                        {
+                            idAmbit = a.idAmbit,
+                            description = a.descriptionPortuguese
+                        };
+                        break;
+                    case "de":
+                        selectorAmbit = a => new AmbitDto
+                        {
+                            idAmbit = a.idAmbit,
+                            description = a.descriptionGerman
+                        };
+                        break;
+                    case "it":
+                        selectorAmbit = a => new AmbitDto
+                        {
+                            idAmbit = a.idAmbit,
+                            description = a.descriptionItalian
+                        };
+                        break;
+                    case "nl":
+                        selectorAmbit = a => new AmbitDto
+                        {
+                            idAmbit = a.idAmbit,
+                            description = a.descriptionDutch
+                        };
+                        break;
+                    default:
+                        selectorAmbit = a => new AmbitDto
+                        {
+                            idAmbit = a.idAmbit,
+                            description = a.descriptionEnglish
+                        };
+                        break;
+                }
+
+                var ambits = _context.Ambits.Select(selectorAmbit).ToList();
+                foreach (AmbitDto ambit in ambits) {
                     String amb= "{\"idAmbit\":\"" + ambit.idAmbit + "\"," +
-                            "\"descriptionSpanish\":\"" + ambit.descriptionSpanish + "\"," +
-                            "\"descriptionEnglish\":\"" + ambit.descriptionEnglish + "\"," +
-                            "\"descriptionFrench\":\"" + ambit.descriptionFrench + "\"," +
-                            "\"descriptionBasque\":\"" + ambit.descriptionBasque + "\"," +
-                            "\"descriptionCatalan\":\"" + ambit.descriptionCatalan + "\"," +
-                            "\"descriptionDutch\":\"" + ambit.descriptionDutch + "\"," +
-                            "\"descriptionGalician\":\"" + ambit.descriptionGalician + "\"," +
-                            "\"descriptionGerman\":\"" + ambit.descriptionGerman + "\"," +
-                            "\"descriptionItalian\":\"" + ambit.descriptionItalian + "\"," +
-                            "\"descriptionPortuguese\":\"" + ambit.descriptionPortuguese + "\"}";
+                            "\"description\":\"" + ambit.description + "\"}";
                     allData.Add(JsonDocument.Parse(amb));
                 }
 
-                var subAmbits = _context.SubAmbits.ToList();
-                foreach (var subAmbit in subAmbits) {
+                Expression<Func<SubAmbit, SubAmbitDto>> selectorSubAmbit = sa => new SubAmbitDto
+                {
+                    idSubAmbit = sa.idSubAmbit,
+                    idAmbit = sa.idAmbit,
+                    description = sa.descriptionEnglish
+                };
+
+                switch (language)
+                {
+                    case "es":
+                        selectorSubAmbit = sa => new SubAmbitDto
+                        {
+                            idSubAmbit = sa.idSubAmbit,
+                            idAmbit = sa.idAmbit,
+                            description = sa.descriptionSpanish
+                        };
+                        break;
+                    case "fr":
+                        selectorSubAmbit = sa => new SubAmbitDto
+                        {
+                            idSubAmbit = sa.idSubAmbit,
+                            idAmbit = sa.idAmbit,
+                            description = sa.descriptionFrench
+                        };
+                        break;
+                    case "eu":
+                        selectorSubAmbit = sa => new SubAmbitDto
+                        {
+                            idSubAmbit = sa.idSubAmbit,
+                            idAmbit = sa.idAmbit,
+                            description = sa.descriptionBasque
+                        };
+                        break;
+                    case "ca":
+                        selectorSubAmbit = sa => new SubAmbitDto
+                        {
+                            idSubAmbit = sa.idSubAmbit,
+                            idAmbit = sa.idAmbit,
+                            description = sa.descriptionCatalan
+                        };
+                        break;
+                    case "gl":
+                        selectorSubAmbit = sa => new SubAmbitDto
+                        {
+                            idSubAmbit = sa.idSubAmbit,
+                            idAmbit = sa.idAmbit,
+                            description = sa.descriptionGalician
+                        };
+                        break;
+                    case "pt":
+                        selectorSubAmbit = sa => new SubAmbitDto
+                        {
+                            idSubAmbit = sa.idSubAmbit,
+                            idAmbit = sa.idAmbit,
+                            description = sa.descriptionPortuguese
+                        };
+                        break;
+                    case "de":
+                        selectorSubAmbit = sa => new SubAmbitDto
+                        {
+                            idSubAmbit = sa.idSubAmbit,
+                            idAmbit = sa.idAmbit,
+                            description = sa.descriptionGerman
+                        };
+                        break;
+                    case "it":
+                        selectorSubAmbit = sa => new SubAmbitDto
+                        {
+                            idSubAmbit = sa.idSubAmbit,
+                            idAmbit = sa.idAmbit,
+                            description = sa.descriptionItalian
+                        };
+                        break;
+                    case "nl":
+                        selectorSubAmbit = sa => new SubAmbitDto
+                        {
+                            idSubAmbit = sa.idSubAmbit,
+                            idAmbit = sa.idAmbit,
+                            description = sa.descriptionDutch
+                        };
+                        break;
+                    default:
+                        selectorSubAmbit = sa => new SubAmbitDto
+                        {
+                            idSubAmbit = sa.idSubAmbit,
+                            idAmbit = sa.idAmbit,
+                            description = sa.descriptionEnglish
+                        };
+                        break;
+                }
+
+                var subAmbits = _context.SubAmbits.Select(selectorSubAmbit).ToList();
+                foreach (SubAmbitDto subAmbit in subAmbits) {
                     String subAmb = "{\"idSubAmbit\":\"" + subAmbit.idSubAmbit + "\"," +
                                 "\"idAmbit\":\"" + subAmbit.idAmbit + "\"," +
-                                "\"descriptionSpanish\":\"" + subAmbit.descriptionSpanish + "\"," +
-                                "\"descriptionEnglish\":\"" + subAmbit.descriptionEnglish + "\"," +
-                                "\"descriptionFrench\":\"" + subAmbit.descriptionFrench + "\"," +
-                                "\"descriptionBasque\":\"" + subAmbit.descriptionBasque + "\"," +
-                                "\"descriptionCatalan\":\"" + subAmbit.descriptionCatalan + "\"," +
-                                "\"descriptionDutch\":\"" + subAmbit.descriptionDutch + "\"," +
-                                "\"descriptionGalician\":\"" + subAmbit.descriptionGalician + "\"," +
-                                "\"descriptionGerman\":\"" + subAmbit.descriptionGerman + "\"," +
-                                "\"descriptionItalian\":\"" + subAmbit.descriptionItalian + "\"," +
-                                "\"descriptionPortuguese\":\"" + subAmbit.descriptionPortuguese + "\"}";
+                                "\"description\":\"" + subAmbit.description + "\"}";
                     allData.Add(JsonDocument.Parse(subAmb));
                 }
 
-                var subSubAmbits = _context.SubSubAmbits.ToList();
+
+
+                Expression<Func<SubSubAmbit, SubSubAmbitDto>> selectorSubSubAmbit = ssa => new SubSubAmbitDto
+                {
+                    idSubSubAmbit = ssa.idSubSubAmbit,
+                    idSubAmbit = ssa.idSubAmbit,
+                    idAmbit = ssa.idAmbit,
+                    description = ssa.descriptionEnglish
+                };
+
+                switch (language)
+                {
+                    case "es":
+                        selectorSubSubAmbit = ssa => new SubSubAmbitDto
+                        {
+                            idSubSubAmbit = ssa.idSubSubAmbit,
+                            idSubAmbit = ssa.idSubAmbit,
+                            idAmbit = ssa.idAmbit,
+                            description = ssa.descriptionSpanish
+                        };
+                        break;
+                    case "fr":
+                        selectorSubSubAmbit = ssa => new SubSubAmbitDto
+                        {
+                            idSubSubAmbit = ssa.idSubSubAmbit,
+                            idSubAmbit = ssa.idSubAmbit,
+                            idAmbit = ssa.idAmbit,
+                            description = ssa.descriptionFrench
+                        };
+                        break;
+                    case "eu":
+                        selectorSubSubAmbit = ssa => new SubSubAmbitDto
+                        {
+                            idSubSubAmbit = ssa.idSubSubAmbit,
+                            idSubAmbit = ssa.idSubAmbit,
+                            idAmbit = ssa.idAmbit,
+                            description = ssa.descriptionBasque
+                        };
+                        break;
+                    case "ca":
+                        selectorSubSubAmbit = ssa => new SubSubAmbitDto
+                        {
+                            idSubSubAmbit = ssa.idSubSubAmbit,
+                            idSubAmbit = ssa.idSubAmbit,
+                            idAmbit = ssa.idAmbit,
+                            description = ssa.descriptionCatalan
+                        };
+                        break;
+                    case "gl":
+                        selectorSubSubAmbit = ssa => new SubSubAmbitDto
+                        {
+                            idSubSubAmbit = ssa.idSubSubAmbit,
+                            idSubAmbit = ssa.idSubAmbit,
+                            idAmbit = ssa.idAmbit,
+                            description = ssa.descriptionGalician
+                        };
+                        break;
+                    case "pt":
+                        selectorSubSubAmbit = ssa => new SubSubAmbitDto
+                        {
+                            idSubSubAmbit = ssa.idSubSubAmbit,
+                            idSubAmbit = ssa.idSubAmbit,
+                            idAmbit = ssa.idAmbit,
+                            description = ssa.descriptionPortuguese
+                        };
+                        break;
+                    case "de":
+                        selectorSubSubAmbit = ssa => new SubSubAmbitDto
+                        {
+                            idSubSubAmbit = ssa.idSubSubAmbit,
+                            idSubAmbit = ssa.idSubAmbit,
+                            idAmbit = ssa.idAmbit,
+                            description = ssa.descriptionGerman
+                        };
+                        break;
+                    case "it":
+                        selectorSubSubAmbit = ssa => new SubSubAmbitDto
+                        {
+                            idSubSubAmbit = ssa.idSubSubAmbit,
+                            idSubAmbit = ssa.idSubAmbit,
+                            idAmbit = ssa.idAmbit,
+                            description = ssa.descriptionItalian
+                        };
+                        break;
+                    case "nl":
+                        selectorSubSubAmbit = ssa => new SubSubAmbitDto
+                        {
+                            idSubSubAmbit = ssa.idSubSubAmbit,
+                            idSubAmbit = ssa.idSubAmbit,
+                            idAmbit = ssa.idAmbit,
+                            description = ssa.descriptionDutch
+                        };
+                        break;
+                    default:
+                        selectorSubSubAmbit = ssa => new SubSubAmbitDto
+                        {
+                            idSubSubAmbit = ssa.idSubSubAmbit,
+                            idSubAmbit = ssa.idSubAmbit,
+                            idAmbit = ssa.idAmbit,
+                            description = ssa.descriptionEnglish
+                        };
+                        break;
+                }
+
+                var subSubAmbits = _context.SubSubAmbits.Select(selectorSubSubAmbit).ToList();
                 foreach (var subSubAmbit in subSubAmbits) {
                     String subSubAmb = "{\"idSubSubAmbit\":\"" + subSubAmbit.idSubSubAmbit + "\"," +
                                 "\"idSubAmbit\":\"" + subSubAmbit.idSubAmbit + "\"," +
                                 "\"idAmbit\":\"" + subSubAmbit.idAmbit + "\"," +
-                                "\"descriptionSpanish\":\"" + subSubAmbit.descriptionSpanish + "\"," +
-                                "\"descriptionEnglish\":\"" + subSubAmbit.descriptionEnglish + "\"," +
-                                "\"descriptionFrench\":\"" + subSubAmbit.descriptionFrench + "\"," +
-                                "\"descriptionBasque\":\"" + subSubAmbit.descriptionBasque + "\"," +
-                                "\"descriptionCatalan\":\"" + subSubAmbit.descriptionCatalan + "\"," +
-                                "\"descriptionDutch\":\"" + subSubAmbit.descriptionDutch + "\"," +
-                                "\"descriptionGalician\":\"" + subSubAmbit.descriptionGalician + "\"," +
-                                "\"descriptionGerman\":\"" + subSubAmbit.descriptionGerman + "\"," +
-                                "\"descriptionItalian\":\"" + subSubAmbit.descriptionItalian + "\"," +
-                                "\"descriptionPortuguese\":\"" + subSubAmbit.descriptionPortuguese + "\"}";
+                                "\"description\":\"" + subSubAmbit.description + "\"}";
                     allData.Add(JsonDocument.Parse(subSubAmb));
                 }
                 String tams = "{\"numIndicators\":\"" + indicators.Count + "\",";

@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Misc;
 using OTEAServer.Models;
+using System.Linq.Expressions;
 using System.Text.Json;
+using static OTEAServer.Controllers.CitiesController;
+using static OTEAServer.Controllers.CountriesController;
 
 namespace OTEAServer.Controllers
 {
@@ -30,6 +33,15 @@ namespace OTEAServer.Controllers
             _context = context;
         }
 
+        private class CountryDto {
+            public string IdCountry { get; set; }
+            public string Name { get; set; }
+
+            public string PhoneCode { get; set; }
+
+            public string Flag { get; set; }
+        }
+
         /// <summary>
         /// Method that obtains all the countries in language order
         /// </summary>
@@ -42,6 +54,13 @@ namespace OTEAServer.Controllers
             {
                 IQueryable<Country> query = _context.Countries.AsQueryable();
 
+                Expression<Func<Country, CountryDto>> selector = c => new CountryDto
+                {
+                    IdCountry = c.idCountry,
+                    Name = c.nameEnglish, // Default value
+                    PhoneCode = c.phone_code,
+                    Flag = c.flag
+                };
                 switch (language)
                 {
                     case "es":
@@ -67,7 +86,15 @@ namespace OTEAServer.Controllers
                                     .ThenByDescending(c => c.idCountry == "DOM")
                                     .ThenByDescending(c => c.idCountry == "URY")
                                     .ThenByDescending(c => c.idCountry == "VEN")
-                                    .ThenBy(c => c.nameSpanish); break;
+                                    .ThenBy(c => c.nameSpanish);
+                        selector = c => new CountryDto
+                        {
+                            IdCountry = c.idCountry,
+                            Name = c.nameSpanish,
+                            PhoneCode = c.phone_code,
+                            Flag = c.flag
+                        };
+                        break;
                     case "fr":
                         query = query.OrderByDescending(c => c.idCountry == "FRA")
                                     .ThenByDescending(c => c.idCountry == "MCO")
@@ -77,7 +104,15 @@ namespace OTEAServer.Controllers
                                     .ThenByDescending(c => c.idCountry == "CAN")
                                     .ThenByDescending(c => c.idCountry == "MAR")
                                     .ThenByDescending(c => c.idCountry == "DZA")
-                                    .ThenBy(c => c.nameFrench); break;
+                                    .ThenBy(c => c.nameFrench);
+                        selector = c => new CountryDto
+                        {
+                            IdCountry = c.idCountry,
+                            Name = c.nameFrench,
+                            PhoneCode = c.phone_code,
+                            Flag = c.flag
+                        };
+                        break;
                     case "eu":
                         query = query.OrderByDescending(c => c.idCountry == "ESP")
                                     .ThenByDescending(c => c.idCountry == "FRA")
@@ -102,7 +137,15 @@ namespace OTEAServer.Controllers
                                     .ThenByDescending(c => c.idCountry == "DOM")
                                     .ThenByDescending(c => c.idCountry == "URY")
                                     .ThenByDescending(c => c.idCountry == "VEN")
-                                    .ThenBy(c => c.nameBasque); break;
+                                    .ThenBy(c => c.nameBasque);
+                        selector = c => new CountryDto
+                        {
+                            IdCountry = c.idCountry,
+                            Name = c.nameBasque,
+                            PhoneCode = c.phone_code,
+                            Flag = c.flag
+                        };
+                        break;
                     case "ca":
                         query = query.OrderByDescending(c => c.idCountry == "ESP")
                                     .ThenByDescending(c => c.idCountry == "AND")
@@ -126,7 +169,15 @@ namespace OTEAServer.Controllers
                                     .ThenByDescending(c => c.idCountry == "DOM")
                                     .ThenByDescending(c => c.idCountry == "URY")
                                     .ThenByDescending(c => c.idCountry == "VEN")
-                                    .ThenBy(c => c.nameCatalan); break;
+                                    .ThenBy(c => c.nameCatalan);
+                        selector = c => new CountryDto
+                        {
+                            IdCountry = c.idCountry,
+                            Name = c.nameCatalan,
+                            PhoneCode = c.phone_code,
+                            Flag = c.flag
+                        };
+                        break;
                     case "gl":
                         query = query.OrderByDescending(c => c.idCountry == "ESP")
                                     .ThenByDescending(c => c.idCountry == "AND")
@@ -150,7 +201,15 @@ namespace OTEAServer.Controllers
                                     .ThenByDescending(c => c.idCountry == "DOM")
                                     .ThenByDescending(c => c.idCountry == "URY")
                                     .ThenByDescending(c => c.idCountry == "VEN")
-                                    .ThenBy(c => c.nameGalician); break;
+                                    .ThenBy(c => c.nameGalician);
+                        selector = c => new CountryDto
+                        {
+                            IdCountry = c.idCountry,
+                            Name = c.nameGalician,
+                            PhoneCode = c.phone_code,
+                            Flag = c.flag
+                        };
+                        break;
                     case "pt":
                         query = query.OrderByDescending(c => c.idCountry == "PRT")
                                     .ThenByDescending(c => c.idCountry == "BRA")
@@ -158,7 +217,15 @@ namespace OTEAServer.Controllers
                                     .ThenByDescending(c => c.idCountry == "MOZ")
                                     .ThenByDescending(c => c.idCountry == "STP")
                                     .ThenByDescending(c => c.idCountry == "TLS")
-                                    .ThenBy(c => c.namePortuguese); break;
+                                    .ThenBy(c => c.namePortuguese);
+                        selector = c => new CountryDto
+                        {
+                            IdCountry = c.idCountry,
+                            Name = c.namePortuguese,
+                            PhoneCode = c.phone_code,
+                            Flag = c.flag
+                        };
+                        break;
                     case "de":
                         query = query.OrderByDescending(c => c.idCountry == "DEU")
                                     .ThenByDescending(c => c.idCountry == "AUT")
@@ -166,20 +233,44 @@ namespace OTEAServer.Controllers
                                     .ThenByDescending(c => c.idCountry == "LUX")
                                     .ThenByDescending(c => c.idCountry == "LIE")
                                     .ThenByDescending(c => c.idCountry == "CHE")
-                                    .ThenBy(c => c.nameGerman); break;
+                                    .ThenBy(c => c.nameGerman);
+                        selector = c => new CountryDto
+                        {
+                            IdCountry = c.idCountry,
+                            Name = c.nameGerman,
+                            PhoneCode = c.phone_code,
+                            Flag = c.flag
+                        };
+                        break;
                     case "it":
                         query = query.OrderByDescending(c => c.idCountry == "ITA")
                                     .ThenByDescending(c => c.idCountry == "CHE")
                                     .ThenByDescending(c => c.idCountry == "SMR")
                                     .ThenByDescending(c => c.idCountry == "VAT")
-                                    .ThenBy(c => c.nameItalian); break;
+                                    .ThenBy(c => c.nameItalian);
+                        selector = c => new CountryDto
+                        {
+                            IdCountry = c.idCountry,
+                            Name = c.nameItalian,
+                            PhoneCode = c.phone_code,
+                            Flag = c.flag
+                        };
+                        break;
                     case "nl":
                         query = query.OrderByDescending(c => c.idCountry == "NLD")
                                     .ThenByDescending(c => c.idCountry == "BEL")
                                     .ThenByDescending(c => c.idCountry == "FRA")
                                     .ThenByDescending(c => c.idCountry == "ABW")
                                     .ThenByDescending(c => c.idCountry == "SUR")
-                                    .ThenBy(c => c.nameDutch); break;
+                                    .ThenBy(c => c.nameDutch);
+                        selector = c => new CountryDto
+                        {
+                            IdCountry = c.idCountry,
+                            Name = c.nameDutch,
+                            PhoneCode = c.phone_code,
+                            Flag = c.flag
+                        };
+                        break;
                     default:
                         query = query.OrderByDescending(c => c.idCountry == "USA")
                                     .ThenByDescending(c => c.idCountry == "GBR")
@@ -191,26 +282,25 @@ namespace OTEAServer.Controllers
                                     .ThenByDescending(c => c.idCountry == "IRL")
                                     .ThenByDescending(c => c.idCountry == "NZF")
                                     .ThenByDescending(c => c.idCountry == "ZAF")
-                                    .ThenBy(c => c.nameEnglish); break;
+                                    .ThenBy(c => c.nameEnglish);
+                        selector = c => new CountryDto
+                        {
+                            IdCountry = c.idCountry,
+                            Name = c.nameEnglish,
+                            PhoneCode = c.phone_code,
+                            Flag = c.flag
+                        };
+                        break;
                 }
 
-                var countries = query.ToList();
+                var countries = query.Select(selector).ToList();
                 List<JsonDocument> result = new List<JsonDocument>();
-                foreach (Country country in countries)
+                foreach (CountryDto country in countries)
                 {
-                    String rg = "{\"idCountry\":\"" + country.idCountry + "\"," +
-                            "\"nameSpanish\":\"" + country.nameSpanish + "\"," +
-                            "\"nameEnglish\":\"" + country.nameEnglish + "\"," +
-                            "\"nameFrench\":\"" + country.nameFrench + "\"," +
-                            "\"nameBasque\":\"" + country.nameBasque + "\"," +
-                            "\"nameCatalan\":\"" + country.nameCatalan + "\"," +
-                            "\"nameDutch\":\"" + country.nameDutch + "\"," +
-                            "\"nameGalician\":\"" + country.nameGalician + "\"," +
-                            "\"nameGerman\":\"" + country.nameGerman + "\"," +
-                            "\"nameItalian\":\"" + country.nameItalian + "\"," +
-                            "\"namePortuguese\":\"" + country.namePortuguese + "\"," +
-                            "\"phone_code\":\"" + country.phone_code + "\"," +
-                            "\"flag\":\"" + country.flag + "\"}";
+                    String rg = "{\"idCountry\":\"" + country.IdCountry + "\"," +
+                            "\"name\":\"" + country.Name + "\"," +
+                            "\"phone_code\":\"" + country.PhoneCode + "\"," +
+                            "\"flag\":\"" + country.Flag + "\"}";
                     result.Add(JsonDocument.Parse(rg));
                 }
                 return Ok(result);

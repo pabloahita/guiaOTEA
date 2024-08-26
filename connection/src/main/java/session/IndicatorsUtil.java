@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -59,12 +60,41 @@ public class IndicatorsUtil {
             int numSubSubAmbits=tams.getAsJsonPrimitive("numSubSubAmbits").getAsInt();
             List<JsonObject> indicatorsJson=allData.subList(0,numIndicators);
             for(JsonObject ind:indicatorsJson){
+                String description=ind.getAsJsonPrimitive("description").getAsString();
+                String descriptionSpanish="";
+                String descriptionEnglish="";
+                String descriptionFrench="";
+                String descriptionBasque="";
+                String descriptionCatalan="";
+                String descriptionDutch="";
+                String descriptionGalician="";
+                String descriptionGerman="";
+                String descriptionItalian="";
+                String descriptionPortuguese="";
+                if(Locale.getDefault().getLanguage().equals("es")){
+                    descriptionSpanish=description;
+                }else if(Locale.getDefault().getLanguage().equals("fr")){
+                    descriptionFrench=description;
+                }else if(Locale.getDefault().getLanguage().equals("eu")){
+                    descriptionBasque=description;
+                }else if(Locale.getDefault().getLanguage().equals("ca")){
+                    descriptionCatalan=description;
+                }else if(Locale.getDefault().getLanguage().equals("nl")){
+                    descriptionDutch=description;
+                }else if(Locale.getDefault().getLanguage().equals("gl")){
+                    descriptionGalician=description;
+                }else if(Locale.getDefault().getLanguage().equals("de")){
+                    descriptionGerman=description;
+                }else if(Locale.getDefault().getLanguage().equals("it")){
+                    descriptionItalian=description;
+                }else if(Locale.getDefault().getLanguage().equals("pt")){
+                    descriptionPortuguese=description;
+                }else{
+                    descriptionEnglish=description;
+                }
                 indicators.add(new Indicator(ind.getAsJsonPrimitive("idIndicator").getAsInt(), ind.getAsJsonPrimitive("indicatorType").getAsString()
                         , ind.getAsJsonPrimitive("idSubSubAmbit").getAsInt(), ind.getAsJsonPrimitive("idSubAmbit").getAsInt(), ind.getAsJsonPrimitive("idAmbit").getAsInt(),
-                        ind.getAsJsonPrimitive("descriptionEnglish").getAsString(), ind.getAsJsonPrimitive("descriptionSpanish").getAsString(), ind.getAsJsonPrimitive("descriptionFrench").getAsString(),
-                        ind.getAsJsonPrimitive("descriptionBasque").getAsString(), ind.getAsJsonPrimitive("descriptionCatalan").getAsString(), ind.getAsJsonPrimitive("descriptionDutch").getAsString(),
-                        ind.getAsJsonPrimitive("descriptionGalician").getAsString(), ind.getAsJsonPrimitive("descriptionGerman").getAsString(),
-                        ind.getAsJsonPrimitive("descriptionItalian").getAsString(), ind.getAsJsonPrimitive("descriptionPortuguese").getAsString(), ind.getAsJsonPrimitive("indicatorPriority").getAsString(),
+                        descriptionEnglish,descriptionSpanish,descriptionFrench,descriptionBasque,descriptionCatalan,descriptionDutch,descriptionGalician,descriptionGerman,descriptionItalian,descriptionPortuguese, ind.getAsJsonPrimitive("indicatorPriority").getAsString(),
                         ind.getAsJsonPrimitive("indicatorVersion").getAsInt(), ind.getAsJsonPrimitive("isActive").getAsInt(), evaluationType));
             }
             List<JsonObject> evidencesJson;
@@ -75,12 +105,41 @@ public class IndicatorsUtil {
                 int numEvidences=tams.getAsJsonPrimitive("numEvidences").getAsInt();
                 evidencesJson=allData.subList(numIndicators,numIndicators+numEvidences);
                 for(JsonObject ev:evidencesJson){
+                    String description=ev.getAsJsonPrimitive("description").getAsString();
+                    String descriptionSpanish="";
+                    String descriptionEnglish="";
+                    String descriptionFrench="";
+                    String descriptionBasque="";
+                    String descriptionCatalan="";
+                    String descriptionDutch="";
+                    String descriptionGalician="";
+                    String descriptionGerman="";
+                    String descriptionItalian="";
+                    String descriptionPortuguese="";
+                    if(Locale.getDefault().getLanguage().equals("es")){
+                        descriptionSpanish=description;
+                    }else if(Locale.getDefault().getLanguage().equals("fr")){
+                        descriptionFrench=description;
+                    }else if(Locale.getDefault().getLanguage().equals("eu")){
+                        descriptionBasque=description;
+                    }else if(Locale.getDefault().getLanguage().equals("ca")){
+                        descriptionCatalan=description;
+                    }else if(Locale.getDefault().getLanguage().equals("nl")){
+                        descriptionDutch=description;
+                    }else if(Locale.getDefault().getLanguage().equals("gl")){
+                        descriptionGalician=description;
+                    }else if(Locale.getDefault().getLanguage().equals("de")){
+                        descriptionGerman=description;
+                    }else if(Locale.getDefault().getLanguage().equals("it")){
+                        descriptionItalian=description;
+                    }else if(Locale.getDefault().getLanguage().equals("pt")){
+                        descriptionPortuguese=description;
+                    }else{
+                        descriptionEnglish=description;
+                    }
                     evidences.add(new Evidence(ev.getAsJsonPrimitive("idEvidence").getAsInt(),ev.getAsJsonPrimitive("idIndicator").getAsInt(), ev.getAsJsonPrimitive("indicatorType").getAsString(),
                             ev.getAsJsonPrimitive("idSubSubAmbit").getAsInt(), ev.getAsJsonPrimitive("idSubAmbit").getAsInt(), ev.getAsJsonPrimitive("idAmbit").getAsInt(),
-                            ev.getAsJsonPrimitive("descriptionEnglish").getAsString(), ev.getAsJsonPrimitive("descriptionSpanish").getAsString(), ev.getAsJsonPrimitive("descriptionFrench").getAsString(),
-                            ev.getAsJsonPrimitive("descriptionBasque").getAsString(), ev.getAsJsonPrimitive("descriptionCatalan").getAsString(), ev.getAsJsonPrimitive("descriptionDutch").getAsString(),
-                            ev.getAsJsonPrimitive("descriptionGalician").getAsString(), ev.getAsJsonPrimitive("descriptionGerman").getAsString(),
-                            ev.getAsJsonPrimitive("descriptionItalian").getAsString(), ev.getAsJsonPrimitive("descriptionPortuguese").getAsString(),
+                            descriptionEnglish,descriptionSpanish,descriptionFrench,descriptionBasque,descriptionCatalan,descriptionDutch,descriptionGalician,descriptionGerman,descriptionItalian,descriptionPortuguese,
                             ev.getAsJsonPrimitive("evidenceValue").getAsInt(), ev.getAsJsonPrimitive("indicatorVersion").getAsInt(), evaluationType));
                 }
                 ambitsJson=allData.subList(numIndicators+numEvidences,numIndicators+numEvidences+numAmbits);
@@ -98,24 +157,111 @@ public class IndicatorsUtil {
 
 
             for(JsonObject amb:ambitsJson){
-                ambits.add(new Ambit(amb.getAsJsonPrimitive("idAmbit").getAsInt(), amb.getAsJsonPrimitive("descriptionEnglish").getAsString(), amb.getAsJsonPrimitive("descriptionSpanish").getAsString(), amb.getAsJsonPrimitive("descriptionFrench").getAsString(),
-                        amb.getAsJsonPrimitive("descriptionBasque").getAsString(), amb.getAsJsonPrimitive("descriptionCatalan").getAsString(), amb.getAsJsonPrimitive("descriptionDutch").getAsString(),
-                        amb.getAsJsonPrimitive("descriptionGalician").getAsString(), amb.getAsJsonPrimitive("descriptionGerman").getAsString(),
-                        amb.getAsJsonPrimitive("descriptionItalian").getAsString(), amb.getAsJsonPrimitive("descriptionPortuguese").getAsString()));
+                String description=amb.getAsJsonPrimitive("description").getAsString();
+                String descriptionSpanish="";
+                String descriptionEnglish="";
+                String descriptionFrench="";
+                String descriptionBasque="";
+                String descriptionCatalan="";
+                String descriptionDutch="";
+                String descriptionGalician="";
+                String descriptionGerman="";
+                String descriptionItalian="";
+                String descriptionPortuguese="";
+                if(Locale.getDefault().getLanguage().equals("es")){
+                    descriptionSpanish=description;
+                }else if(Locale.getDefault().getLanguage().equals("fr")){
+                    descriptionFrench=description;
+                }else if(Locale.getDefault().getLanguage().equals("eu")){
+                    descriptionBasque=description;
+                }else if(Locale.getDefault().getLanguage().equals("ca")){
+                    descriptionCatalan=description;
+                }else if(Locale.getDefault().getLanguage().equals("nl")){
+                    descriptionDutch=description;
+                }else if(Locale.getDefault().getLanguage().equals("gl")){
+                    descriptionGalician=description;
+                }else if(Locale.getDefault().getLanguage().equals("de")){
+                    descriptionGerman=description;
+                }else if(Locale.getDefault().getLanguage().equals("it")){
+                    descriptionItalian=description;
+                }else if(Locale.getDefault().getLanguage().equals("pt")){
+                    descriptionPortuguese=description;
+                }else{
+                    descriptionEnglish=description;
+                }
+                ambits.add(new Ambit(amb.getAsJsonPrimitive("idAmbit").getAsInt(), descriptionEnglish,descriptionSpanish,descriptionFrench,descriptionBasque,descriptionCatalan,descriptionDutch,descriptionGalician,descriptionGerman,descriptionItalian,descriptionPortuguese));
             }
 
             for(JsonObject subAmb:subAmbitsJson){
-                subAmbits.add(new SubAmbit(subAmb.getAsJsonPrimitive("idSubAmbit").getAsInt(), subAmb.getAsJsonPrimitive("idAmbit").getAsInt(), subAmb.getAsJsonPrimitive("descriptionEnglish").getAsString(), subAmb.getAsJsonPrimitive("descriptionSpanish").getAsString(), subAmb.getAsJsonPrimitive("descriptionFrench").getAsString(),
-                        subAmb.getAsJsonPrimitive("descriptionBasque").getAsString(), subAmb.getAsJsonPrimitive("descriptionCatalan").getAsString(), subAmb.getAsJsonPrimitive("descriptionDutch").getAsString(),
-                        subAmb.getAsJsonPrimitive("descriptionGalician").getAsString(), subAmb.getAsJsonPrimitive("descriptionGerman").getAsString(),
-                        subAmb.getAsJsonPrimitive("descriptionItalian").getAsString(), subAmb.getAsJsonPrimitive("descriptionPortuguese").getAsString()));
+                String description=subAmb.getAsJsonPrimitive("description").getAsString();
+                String descriptionSpanish="";
+                String descriptionEnglish="";
+                String descriptionFrench="";
+                String descriptionBasque="";
+                String descriptionCatalan="";
+                String descriptionDutch="";
+                String descriptionGalician="";
+                String descriptionGerman="";
+                String descriptionItalian="";
+                String descriptionPortuguese="";
+                if(Locale.getDefault().getLanguage().equals("es")){
+                    descriptionSpanish=description;
+                }else if(Locale.getDefault().getLanguage().equals("fr")){
+                    descriptionFrench=description;
+                }else if(Locale.getDefault().getLanguage().equals("eu")){
+                    descriptionBasque=description;
+                }else if(Locale.getDefault().getLanguage().equals("ca")){
+                    descriptionCatalan=description;
+                }else if(Locale.getDefault().getLanguage().equals("nl")){
+                    descriptionDutch=description;
+                }else if(Locale.getDefault().getLanguage().equals("gl")){
+                    descriptionGalician=description;
+                }else if(Locale.getDefault().getLanguage().equals("de")){
+                    descriptionGerman=description;
+                }else if(Locale.getDefault().getLanguage().equals("it")){
+                    descriptionItalian=description;
+                }else if(Locale.getDefault().getLanguage().equals("pt")){
+                    descriptionPortuguese=description;
+                }else{
+                    descriptionEnglish=description;
+                }
+                subAmbits.add(new SubAmbit(subAmb.getAsJsonPrimitive("idSubAmbit").getAsInt(), subAmb.getAsJsonPrimitive("idAmbit").getAsInt(), descriptionEnglish,descriptionSpanish,descriptionFrench,descriptionBasque,descriptionCatalan,descriptionDutch,descriptionGalician,descriptionGerman,descriptionItalian,descriptionPortuguese));
             }
 
             for(JsonObject subSubAmb:subSubAmbitsJson){
-                subSubAmbits.add(new SubSubAmbit(subSubAmb.getAsJsonPrimitive("idSubSubAmbit").getAsInt(), subSubAmb.getAsJsonPrimitive("idSubAmbit").getAsInt(), subSubAmb.getAsJsonPrimitive("idAmbit").getAsInt(), subSubAmb.getAsJsonPrimitive("descriptionEnglish").getAsString(), subSubAmb.getAsJsonPrimitive("descriptionSpanish").getAsString(), subSubAmb.getAsJsonPrimitive("descriptionFrench").getAsString(),
-                        subSubAmb.getAsJsonPrimitive("descriptionBasque").getAsString(), subSubAmb.getAsJsonPrimitive("descriptionCatalan").getAsString(), subSubAmb.getAsJsonPrimitive("descriptionDutch").getAsString(),
-                        subSubAmb.getAsJsonPrimitive("descriptionGalician").getAsString(), subSubAmb.getAsJsonPrimitive("descriptionGerman").getAsString(),
-                        subSubAmb.getAsJsonPrimitive("descriptionItalian").getAsString(), subSubAmb.getAsJsonPrimitive("descriptionPortuguese").getAsString()));
+                String description=subSubAmb.getAsJsonPrimitive("description").getAsString();
+                String descriptionSpanish="";
+                String descriptionEnglish="";
+                String descriptionFrench="";
+                String descriptionBasque="";
+                String descriptionCatalan="";
+                String descriptionDutch="";
+                String descriptionGalician="";
+                String descriptionGerman="";
+                String descriptionItalian="";
+                String descriptionPortuguese="";
+                if(Locale.getDefault().getLanguage().equals("es")){
+                    descriptionSpanish=description;
+                }else if(Locale.getDefault().getLanguage().equals("fr")){
+                    descriptionFrench=description;
+                }else if(Locale.getDefault().getLanguage().equals("eu")){
+                    descriptionBasque=description;
+                }else if(Locale.getDefault().getLanguage().equals("ca")){
+                    descriptionCatalan=description;
+                }else if(Locale.getDefault().getLanguage().equals("nl")){
+                    descriptionDutch=description;
+                }else if(Locale.getDefault().getLanguage().equals("gl")){
+                    descriptionGalician=description;
+                }else if(Locale.getDefault().getLanguage().equals("de")){
+                    descriptionGerman=description;
+                }else if(Locale.getDefault().getLanguage().equals("it")){
+                    descriptionItalian=description;
+                }else if(Locale.getDefault().getLanguage().equals("pt")){
+                    descriptionPortuguese=description;
+                }else{
+                    descriptionEnglish=description;
+                }
+                subSubAmbits.add(new SubSubAmbit(subSubAmb.getAsJsonPrimitive("idSubSubAmbit").getAsInt(), subSubAmb.getAsJsonPrimitive("idSubAmbit").getAsInt(), subSubAmb.getAsJsonPrimitive("idAmbit").getAsInt(), descriptionEnglish,descriptionSpanish,descriptionFrench,descriptionBasque,descriptionCatalan,descriptionDutch,descriptionGalician,descriptionGerman,descriptionItalian,descriptionPortuguese));
             }
         }
     }

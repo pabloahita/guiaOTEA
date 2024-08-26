@@ -1181,42 +1181,66 @@ public class EditCenter extends AppCompatActivity {
         RegionsController.GetRegionsByCountry(idCountry, new ListCallback() {
             @Override
             public void onSuccess(List<JsonObject> data) {
-                runOnUiThread(()->{
+                new Thread(()-> {
                     regions=new ArrayList<>();
                     for(JsonObject reg: data){
                         int idRegion=reg.getAsJsonPrimitive("idRegion").getAsInt();
-                        String nameSpanish=reg.getAsJsonPrimitive("nameSpanish").getAsString();
-                        String nameEnglish=reg.getAsJsonPrimitive("nameEnglish").getAsString();
-                        String nameFrench=reg.getAsJsonPrimitive("nameFrench").getAsString();
-                        String nameBasque=reg.getAsJsonPrimitive("nameBasque").getAsString();
-                        String nameCatalan=reg.getAsJsonPrimitive("nameCatalan").getAsString();
-                        String nameDutch=reg.getAsJsonPrimitive("nameDutch").getAsString();
-                        String nameGalician=reg.getAsJsonPrimitive("nameGalician").getAsString();
-                        String nameGerman=reg.getAsJsonPrimitive("nameGerman").getAsString();
-                        String nameItalian=reg.getAsJsonPrimitive("nameItalian").getAsString();
-                        String namePortuguese=reg.getAsJsonPrimitive("namePortuguese").getAsString();
+                        String name=reg.getAsJsonPrimitive("name").getAsString();
+                        String nameSpanish = "";
+                        String nameEnglish = "";
+                        String nameFrench = "";
+                        String nameBasque = "";
+                        String nameCatalan = "";
+                        String nameDutch = "";
+                        String nameGalician = "";
+                        String nameGerman = "";
+                        String nameItalian = "";
+                        String namePortuguese = "";
+                        if(Locale.getDefault().getLanguage().equals("es")){
+                            nameSpanish=name;
+                        }else if(Locale.getDefault().getLanguage().equals("fr")){
+                            nameFrench=name;
+                        }else if(Locale.getDefault().getLanguage().equals("eu")){
+                            nameBasque=name;
+                        }else if(Locale.getDefault().getLanguage().equals("ca")){
+                            nameCatalan=name;
+                        }else if(Locale.getDefault().getLanguage().equals("nl")){
+                            nameDutch=name;
+                        }else if(Locale.getDefault().getLanguage().equals("gl")){
+                            nameGalician=name;
+                        }else if(Locale.getDefault().getLanguage().equals("de")){
+                            nameGerman=name;
+                        }else if(Locale.getDefault().getLanguage().equals("it")){
+                            nameItalian=name;
+                        }else if(Locale.getDefault().getLanguage().equals("pt")){
+                            namePortuguese=name;
+                        }else{
+                            nameEnglish=name;
+                        }
                         regions.add(new Region(idRegion,idCountry,nameSpanish,nameEnglish,nameFrench,nameBasque,nameCatalan,nameDutch,nameGalician,nameGerman,nameItalian,namePortuguese));
                     }
-                    if(regions.size()>1){
-                        regions.add(0,auxRegList.get(0));
-                        regionSpinner.setVisibility(View.VISIBLE);
-                        regionSpinnerAux.setVisibility(View.GONE);
-                        regionAdapter[0]=new RegionAdapter(EditCenter.this,regions);
-                        regionAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-                        regionSpinner.setAdapter(regionAdapter[0]);
-                    }
-                    else{
-                        region[0]=regions.get(0);
-                        idRegion[0]=-1;
-                        regionSpinner.setVisibility(View.GONE);
-                        regionSpinnerAux.setVisibility(View.VISIBLE);
-                        provinceSpinnerControl();
-                    }
+                    runOnUiThread(() -> {
 
-                    tilProvince.setVisibility(View.GONE);
-                    tilRegion.setVisibility(View.GONE);
-                    tilCity.setVisibility(View.GONE);
-                });
+                        if (regions.size() > 1) {
+                            regions.add(0, auxRegList.get(0));
+                            regionSpinner.setVisibility(View.VISIBLE);
+                            regionSpinnerAux.setVisibility(View.GONE);
+                            regionAdapter[0] = new RegionAdapter(EditCenter.this, regions);
+                            regionAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                            regionSpinner.setAdapter(regionAdapter[0]);
+                        } else {
+                            region[0] = regions.get(0);
+                            idRegion[0] = -1;
+                            regionSpinner.setVisibility(View.GONE);
+                            regionSpinnerAux.setVisibility(View.VISIBLE);
+                            provinceSpinnerControl();
+                        }
+
+                        tilProvince.setVisibility(View.GONE);
+                        tilRegion.setVisibility(View.GONE);
+                        tilCity.setVisibility(View.GONE);
+                    });
+                }).start();
             }
 
             @Override
@@ -1234,37 +1258,62 @@ public class EditCenter extends AppCompatActivity {
         ProvincesController.GetProvincesByRegion(idRegion, idCountry, new ListCallback() {
             @Override
             public void onSuccess(List<JsonObject> data) {
-                runOnUiThread(()->{
+                new Thread(()->{
                     provinces=new ArrayList<>();
                     for(JsonObject reg:data){
                         int idProvince=reg.getAsJsonPrimitive("idProvince").getAsInt();
-                        String nameSpanish=reg.getAsJsonPrimitive("nameSpanish").getAsString();
-                        String nameEnglish=reg.getAsJsonPrimitive("nameEnglish").getAsString();
-                        String nameFrench=reg.getAsJsonPrimitive("nameFrench").getAsString();
-                        String nameBasque=reg.getAsJsonPrimitive("nameBasque").getAsString();
-                        String nameCatalan=reg.getAsJsonPrimitive("nameCatalan").getAsString();
-                        String nameDutch=reg.getAsJsonPrimitive("nameDutch").getAsString();
-                        String nameGalician=reg.getAsJsonPrimitive("nameGalician").getAsString();
-                        String nameGerman=reg.getAsJsonPrimitive("nameGerman").getAsString();
-                        String nameItalian=reg.getAsJsonPrimitive("nameItalian").getAsString();
-                        String namePortuguese=reg.getAsJsonPrimitive("namePortuguese").getAsString();
+                        String name=reg.getAsJsonPrimitive("name").getAsString();
+                        String nameSpanish = "";
+                        String nameEnglish = "";
+                        String nameFrench = "";
+                        String nameBasque = "";
+                        String nameCatalan = "";
+                        String nameDutch = "";
+                        String nameGalician = "";
+                        String nameGerman = "";
+                        String nameItalian = "";
+                        String namePortuguese = "";
+                        if(Locale.getDefault().getLanguage().equals("es")){
+                            nameSpanish=name;
+                        }else if(Locale.getDefault().getLanguage().equals("fr")){
+                            nameFrench=name;
+                        }else if(Locale.getDefault().getLanguage().equals("eu")){
+                            nameBasque=name;
+                        }else if(Locale.getDefault().getLanguage().equals("ca")){
+                            nameCatalan=name;
+                        }else if(Locale.getDefault().getLanguage().equals("nl")){
+                            nameDutch=name;
+                        }else if(Locale.getDefault().getLanguage().equals("gl")){
+                            nameGalician=name;
+                        }else if(Locale.getDefault().getLanguage().equals("de")){
+                            nameGerman=name;
+                        }else if(Locale.getDefault().getLanguage().equals("it")){
+                            nameItalian=name;
+                        }else if(Locale.getDefault().getLanguage().equals("pt")){
+                            namePortuguese=name;
+                        }else{
+                            nameEnglish=name;
+                        }
                         provinces.add(new Province(idProvince,idRegion,idCountry,nameSpanish,nameEnglish,nameFrench,nameBasque,nameCatalan,nameDutch,nameGalician,nameGerman,nameItalian,namePortuguese));
                     }
-                    if(provinces.size()>1) {
-                        provinces.add(0,auxProList.get(0));
-                    }
-                    provinceAdapter[0] = new ProvinceAdapter(EditCenter.this, provinces);
-                    provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-                    provinceSpinner.setAdapter(provinceAdapter[0]);
-                    provinceSpinnerAux.setVisibility(View.GONE);
-                    provinceSpinner.setVisibility(View.VISIBLE);
-                    if(provinces.size()==1){
-                        provinceSpinner.setSelection(0);
-                        province[0]=(Province) provinceSpinner.getSelectedItem();
-                        idProvince[0]=province[0].getIdProvince();
-                        citySpinnerControl();
-                    }
-                });
+
+                    runOnUiThread(()->{
+                        if(provinces.size()>1) {
+                            provinces.add(0,auxProList.get(0));
+                        }
+                        provinceAdapter[0] = new ProvinceAdapter(EditCenter.this, provinces);
+                        provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                        provinceSpinner.setAdapter(provinceAdapter[0]);
+                        provinceSpinnerAux.setVisibility(View.GONE);
+                        provinceSpinner.setVisibility(View.VISIBLE);
+                        if(provinces.size()==1){
+                            provinceSpinner.setSelection(0);
+                            province[0]=(Province) provinceSpinner.getSelectedItem();
+                            idProvince[0]=province[0].getIdProvince();
+                            citySpinnerControl();
+                        }
+                    });
+                }).start();
             }
 
             @Override
@@ -1282,39 +1331,64 @@ public class EditCenter extends AppCompatActivity {
         CitiesController.GetCitiesByProvince(idProvince, idRegion, idCountry, new ListCallback() {
             @Override
             public void onSuccess(List<JsonObject> data) {
-                runOnUiThread(() -> {
+                new Thread(()->{
                     cities = new ArrayList<>();
                     for (JsonObject reg : data) {
                         int idCity = reg.getAsJsonPrimitive("idCity").getAsInt();
-                        String nameSpanish = reg.getAsJsonPrimitive("nameSpanish").getAsString();
-                        String nameEnglish = reg.getAsJsonPrimitive("nameEnglish").getAsString();
-                        String nameFrench = reg.getAsJsonPrimitive("nameFrench").getAsString();
-                        String nameBasque = reg.getAsJsonPrimitive("nameBasque").getAsString();
-                        String nameCatalan = reg.getAsJsonPrimitive("nameCatalan").getAsString();
-                        String nameDutch = reg.getAsJsonPrimitive("nameDutch").getAsString();
-                        String nameGalician = reg.getAsJsonPrimitive("nameGalician").getAsString();
-                        String nameGerman = reg.getAsJsonPrimitive("nameGerman").getAsString();
-                        String nameItalian = reg.getAsJsonPrimitive("nameItalian").getAsString();
-                        String namePortuguese = reg.getAsJsonPrimitive("namePortuguese").getAsString();
+                        String name=reg.getAsJsonPrimitive("name").getAsString();
+                        String nameSpanish = "";
+                        String nameEnglish = "";
+                        String nameFrench = "";
+                        String nameBasque = "";
+                        String nameCatalan = "";
+                        String nameDutch = "";
+                        String nameGalician = "";
+                        String nameGerman = "";
+                        String nameItalian = "";
+                        String namePortuguese = "";
+                        if(Locale.getDefault().getLanguage().equals("es")){
+                            nameSpanish=name;
+                        }else if(Locale.getDefault().getLanguage().equals("fr")){
+                            nameFrench=name;
+                        }else if(Locale.getDefault().getLanguage().equals("eu")){
+                            nameBasque=name;
+                        }else if(Locale.getDefault().getLanguage().equals("ca")){
+                            nameCatalan=name;
+                        }else if(Locale.getDefault().getLanguage().equals("nl")){
+                            nameDutch=name;
+                        }else if(Locale.getDefault().getLanguage().equals("gl")){
+                            nameGalician=name;
+                        }else if(Locale.getDefault().getLanguage().equals("de")){
+                            nameGerman=name;
+                        }else if(Locale.getDefault().getLanguage().equals("it")){
+                            nameItalian=name;
+                        }else if(Locale.getDefault().getLanguage().equals("pt")){
+                            namePortuguese=name;
+                        }else{
+                            nameEnglish=name;
+                        }
                         cities.add(new City(idCity, idProvince, idRegion, idCountry, nameSpanish, nameEnglish, nameFrench, nameBasque, nameCatalan, nameDutch, nameGalician, nameGerman, nameItalian, namePortuguese));
                     }
-                    if(!cities.isEmpty()){
-                        if(cities.size()>1) {
-                            cities.add(0,auxCityList.get(0));
-                        }
-                        cityAdapter[0] = new CityAdapter(EditCenter.this, cities);
+                    runOnUiThread(() -> {
 
-                        cityAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-                        citySpinner.setAdapter(cityAdapter[0]);
-                        citySpinnerAux.setVisibility(View.GONE);
-                        citySpinner.setVisibility(View.VISIBLE);
-                        if(cities.size()==1){
-                            citySpinner.setSelection(0);
-                            city[0]=(City) citySpinner.getSelectedItem();
-                            idCity[0]=city[0].getIdCity();
+                        if(!cities.isEmpty()){
+                            if(cities.size()>1) {
+                                cities.add(0,auxCityList.get(0));
+                            }
+                            cityAdapter[0] = new CityAdapter(EditCenter.this, cities);
+
+                            cityAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                            citySpinner.setAdapter(cityAdapter[0]);
+                            citySpinnerAux.setVisibility(View.GONE);
+                            citySpinner.setVisibility(View.VISIBLE);
+                            if(cities.size()==1){
+                                citySpinner.setSelection(0);
+                                city[0]=(City) citySpinner.getSelectedItem();
+                                idCity[0]=city[0].getIdCity();
+                            }
                         }
-                    }
-                });
+                    });
+                }).start();
             }
 
             @Override

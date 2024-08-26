@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Misc;
 using OTEAServer.Models;
+using System.Linq.Expressions;
 using System.Text.Json;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 namespace OTEAServer.Controllers
@@ -28,6 +29,12 @@ namespace OTEAServer.Controllers
             _context = context;
         }
 
+        private class RegionDto
+        {
+            public int IdRegion { get; set; }
+            public string Name { get; set; }
+        }
+
         /// <summary>
         /// Method that obtains all regions of a country
         /// </summary>
@@ -40,44 +47,90 @@ namespace OTEAServer.Controllers
             {
                 IQueryable<Region> query = _context.Regions.Where(r => r.idCountry == idCountry).AsQueryable();
 
+                Expression<Func<Region, RegionDto>> selector = r => new RegionDto
+                {
+                    IdRegion = r.idRegion,
+                    Name = r.nameEnglish // Default value
+                };
                 switch (language)
                 {
                     case "es":
+                        selector = r => new RegionDto
+                        {
+                            IdRegion = r.idRegion,
+                            Name = r.nameSpanish
+                        };
                         query = query.OrderBy(r => r.nameSpanish); break;
                     case "fr":
+                        selector = r => new RegionDto
+                        {
+                            IdRegion = r.idRegion,
+                            Name = r.nameFrench
+                        };
                         query = query.OrderBy(r => r.nameFrench); break;
                     case "eu":
+                        selector = r => new RegionDto
+                        {
+                            IdRegion = r.idRegion,
+                            Name = r.nameBasque
+                        };
                         query = query.OrderBy(r => r.nameBasque); break;
                     case "ca":
+                        selector = r => new RegionDto
+                        {
+                            IdRegion = r.idRegion,
+                            Name = r.nameCatalan
+                        };
                         query = query.OrderBy(r => r.nameCatalan); break;
                     case "gl":
+                        selector = r => new RegionDto
+                        {
+                            IdRegion = r.idRegion,
+                            Name = r.nameGalician
+                        };
                         query = query.OrderBy(r => r.nameGalician); break;
                     case "pt":
+                        selector = r => new RegionDto
+                        {
+                            IdRegion = r.idRegion,
+                            Name = r.namePortuguese
+                        };
                         query = query.OrderBy(r => r.namePortuguese); break;
                     case "de":
+                        selector = r => new RegionDto
+                        {
+                            IdRegion = r.idRegion,
+                            Name = r.nameGerman
+                        };
                         query = query.OrderBy(r => r.nameGerman); break;
                     case "it":
+                        selector = r => new RegionDto
+                        {
+                            IdRegion = r.idRegion,
+                            Name = r.nameItalian
+                        };
                         query = query.OrderBy(r => r.nameItalian); break;
                     case "nl":
+                        selector = r => new RegionDto
+                        {
+                            IdRegion = r.idRegion,
+                            Name = r.nameDutch
+                        };
                         query = query.OrderBy(r => r.nameDutch); break;
                     default:
+                        selector = r => new RegionDto
+                        {
+                            IdRegion = r.idRegion,
+                            Name = r.nameEnglish // Default value
+                        };
                         query = query.OrderBy(r => r.nameEnglish); break;
                 }
-                var regions = query.ToList();
+                var regions = query.Select(selector).ToList();
                 List<JsonDocument> result = new List<JsonDocument>();
-                foreach (Region region in regions)
+                foreach (RegionDto region in regions)
                 {
-                    String rg = "{\"idRegion\":\"" + region.idRegion + "\"," +
-                            "\"nameSpanish\":\"" + region.nameSpanish + "\"," +
-                            "\"nameEnglish\":\"" + region.nameEnglish + "\"," +
-                            "\"nameFrench\":\"" + region.nameFrench + "\"," +
-                            "\"nameBasque\":\"" + region.nameBasque + "\"," +
-                            "\"nameCatalan\":\"" + region.nameCatalan + "\"," +
-                            "\"nameDutch\":\"" + region.nameDutch + "\"," +
-                            "\"nameGalician\":\"" + region.nameGalician + "\"," +
-                            "\"nameGerman\":\"" + region.nameGerman + "\"," +
-                            "\"nameItalian\":\"" + region.nameItalian + "\"," +
-                            "\"namePortuguese\":\"" + region.namePortuguese + "\"}";
+                    String rg = "{\"idRegion\":\"" + region.IdRegion + "\"," +
+                            "\"name\":\"" + region.Name + "\"}";
                     result.Add(JsonDocument.Parse(rg));
                 }
                 return Ok(result);

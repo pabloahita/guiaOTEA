@@ -54,7 +54,7 @@ public interface IndicatorsApi {
 
     /**Gets all indicators*/
     @GET("Indicators/all")
-    Call<List<JsonObject>> GetAll(@Query("evaluationType") String evaluationType,@Header("Authorization") String Authorization);
+    Call<List<JsonObject>> GetAll(@Query("evaluationType") String evaluationType,@Query("language") String language,@Header("Authorization") String Authorization);
 
     /**
      * Gets all ambits by ambit identifier

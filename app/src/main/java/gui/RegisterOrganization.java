@@ -28,6 +28,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.fundacionmiradas.indicatorsevaluation.R;
@@ -148,11 +149,11 @@ public class RegisterOrganization extends AppCompatActivity {
 
     ImageButton helpButton;
 
-    boolean hasRegion=false;
+    ProgressBar pbRegion;
 
-    boolean hasProvince=false;
+    ProgressBar pbProvince;
 
-    boolean hasCity=false;
+    ProgressBar pbCity;
 
 
 
@@ -199,6 +200,9 @@ public class RegisterOrganization extends AppCompatActivity {
         citySpinner = findViewById(R.id.spinner_cities_reg);
         citySpinnerAux = findViewById(R.id.spinner_cities_reg_aux);
         Spinner phoneCode1 = findViewById(R.id.phonecode1);
+        pbRegion=findViewById(R.id.progressBarRegion);
+        pbProvince=findViewById(R.id.progressBarProvince);
+        pbCity=findViewById(R.id.progressBarCity);
 
         tilRegion=findViewById(R.id.tilRegion);
         tilProvince=findViewById(R.id.tilProvince);
@@ -1229,6 +1233,18 @@ public class RegisterOrganization extends AppCompatActivity {
 
 
     private void regionSpinnerControl(){
+        if(citySpinner.getVisibility()==View.VISIBLE){
+            citySpinner.setVisibility(View.GONE);
+            citySpinnerAux.setVisibility(View.VISIBLE);
+        }
+        if(provinceSpinner.getVisibility()==View.VISIBLE){
+            provinceSpinner.setVisibility(View.GONE);
+            provinceSpinnerAux.setVisibility(View.VISIBLE);
+        }
+        if(regionSpinner.getVisibility()==View.VISIBLE){
+            regionSpinner.setVisibility(View.GONE);
+            regionSpinnerAux.setVisibility(View.VISIBLE);
+        }
         if(!idCountry[0].equals("-2")){
             if (FieldChecker.isPrecharged(idCountry[0])) {
                 getRegionsByCountry(idCountry[0]);
@@ -1260,6 +1276,14 @@ public class RegisterOrganization extends AppCompatActivity {
     }
 
     private void provinceSpinnerControl(){
+        if(citySpinner.getVisibility()==View.VISIBLE){
+            citySpinner.setVisibility(View.GONE);
+            citySpinnerAux.setVisibility(View.VISIBLE);
+        }
+        if(provinceSpinner.getVisibility()==View.VISIBLE){
+            provinceSpinner.setVisibility(View.GONE);
+            provinceSpinnerAux.setVisibility(View.VISIBLE);
+        }
         if(idRegion[0]!=-2){
             if(Locale.getDefault().getLanguage().equals("es")) {
                 fields.replace("nameRegion",region[0].getNameSpanish());
@@ -1296,6 +1320,10 @@ public class RegisterOrganization extends AppCompatActivity {
     }
 
     private void citySpinnerControl(){
+        if(citySpinner.getVisibility()==View.VISIBLE){
+            citySpinner.setVisibility(View.GONE);
+            citySpinnerAux.setVisibility(View.VISIBLE);
+        }
         if(idProvince[0]!=-2){
             if (Locale.getDefault().getLanguage().equals("es")) {
                 fields.replace("nameProvince", province[0].getNameSpanish());
@@ -1330,45 +1358,73 @@ public class RegisterOrganization extends AppCompatActivity {
     }
 
     public void getRegionsByCountry(String idCountry){
+
+        pbRegion.setVisibility(View.VISIBLE);
         RegionsController.GetRegionsByCountry(idCountry, new ListCallback() {
             @Override
             public void onSuccess(List<JsonObject> data) {
-                runOnUiThread(()->{
+                new Thread(()-> {
                     regions=new ArrayList<>();
                     for(JsonObject reg: data){
                         int idRegion=reg.getAsJsonPrimitive("idRegion").getAsInt();
-                        String nameSpanish=reg.getAsJsonPrimitive("nameSpanish").getAsString();
-                        String nameEnglish=reg.getAsJsonPrimitive("nameEnglish").getAsString();
-                        String nameFrench=reg.getAsJsonPrimitive("nameFrench").getAsString();
-                        String nameBasque=reg.getAsJsonPrimitive("nameBasque").getAsString();
-                        String nameCatalan=reg.getAsJsonPrimitive("nameCatalan").getAsString();
-                        String nameDutch=reg.getAsJsonPrimitive("nameDutch").getAsString();
-                        String nameGalician=reg.getAsJsonPrimitive("nameGalician").getAsString();
-                        String nameGerman=reg.getAsJsonPrimitive("nameGerman").getAsString();
-                        String nameItalian=reg.getAsJsonPrimitive("nameItalian").getAsString();
-                        String namePortuguese=reg.getAsJsonPrimitive("namePortuguese").getAsString();
+                        String name=reg.getAsJsonPrimitive("name").getAsString();
+                        String nameSpanish = "";
+                        String nameEnglish = "";
+                        String nameFrench = "";
+                        String nameBasque = "";
+                        String nameCatalan = "";
+                        String nameDutch = "";
+                        String nameGalician = "";
+                        String nameGerman = "";
+                        String nameItalian = "";
+                        String namePortuguese = "";
+                        if(Locale.getDefault().getLanguage().equals("es")){
+                            nameSpanish=name;
+                        }else if(Locale.getDefault().getLanguage().equals("fr")){
+                            nameFrench=name;
+                        }else if(Locale.getDefault().getLanguage().equals("eu")){
+                            nameBasque=name;
+                        }else if(Locale.getDefault().getLanguage().equals("ca")){
+                            nameCatalan=name;
+                        }else if(Locale.getDefault().getLanguage().equals("nl")){
+                            nameDutch=name;
+                        }else if(Locale.getDefault().getLanguage().equals("gl")){
+                            nameGalician=name;
+                        }else if(Locale.getDefault().getLanguage().equals("de")){
+                            nameGerman=name;
+                        }else if(Locale.getDefault().getLanguage().equals("it")){
+                            nameItalian=name;
+                        }else if(Locale.getDefault().getLanguage().equals("pt")){
+                            namePortuguese=name;
+                        }else{
+                            nameEnglish=name;
+                        }
                         regions.add(new Region(idRegion,idCountry,nameSpanish,nameEnglish,nameFrench,nameBasque,nameCatalan,nameDutch,nameGalician,nameGerman,nameItalian,namePortuguese));
                     }
-                    if(regions.size()>1){
-                        regions.add(0,auxRegList.get(0));
-                        regionSpinner.setVisibility(View.VISIBLE);
-                        regionSpinnerAux.setVisibility(View.GONE);
-                        regionAdapter[0]=new RegionAdapter(RegisterOrganization.this,regions);
-                        regionAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-                        regionSpinner.setAdapter(regionAdapter[0]);
-                    }
-                    else{
-                        region[0]=regions.get(0);
-                        idRegion[0]=-1;
-                        regionSpinner.setVisibility(View.GONE);
-                        regionSpinnerAux.setVisibility(View.VISIBLE);
-                        provinceSpinnerControl();
-                    }
+                    runOnUiThread(() -> {
 
-                    tilProvince.setVisibility(View.GONE);
-                    tilRegion.setVisibility(View.GONE);
-                    tilCity.setVisibility(View.GONE);
-                });
+                        if (regions.size() > 1) {
+                            regions.add(0, auxRegList.get(0));
+                            pbRegion.setVisibility(View.GONE);
+                            regionSpinner.setVisibility(View.VISIBLE);
+                            regionSpinnerAux.setVisibility(View.GONE);
+                            regionAdapter[0] = new RegionAdapter(RegisterOrganization.this, regions);
+                            regionAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                            regionSpinner.setAdapter(regionAdapter[0]);
+                        } else {
+                            region[0] = regions.get(0);
+                            idRegion[0] = -1;
+                            pbRegion.setVisibility(View.GONE);
+                            regionSpinner.setVisibility(View.GONE);
+                            regionSpinnerAux.setVisibility(View.VISIBLE);
+                            provinceSpinnerControl();
+                        }
+
+                        tilProvince.setVisibility(View.GONE);
+                        tilRegion.setVisibility(View.GONE);
+                        tilCity.setVisibility(View.GONE);
+                    });
+                }).start();
             }
 
             @Override
@@ -1384,40 +1440,69 @@ public class RegisterOrganization extends AppCompatActivity {
     }
 
     public void getProvincesByRegion(int idRegion, String idCountry){
+        pbProvince.setVisibility(View.VISIBLE);
         ProvincesController.GetProvincesByRegion(idRegion, idCountry, new ListCallback() {
             @Override
             public void onSuccess(List<JsonObject> data) {
-                runOnUiThread(()->{
+
+                new Thread(()->{
                     provinces=new ArrayList<>();
                     for(JsonObject reg:data){
                         int idProvince=reg.getAsJsonPrimitive("idProvince").getAsInt();
-                        String nameSpanish=reg.getAsJsonPrimitive("nameSpanish").getAsString();
-                        String nameEnglish=reg.getAsJsonPrimitive("nameEnglish").getAsString();
-                        String nameFrench=reg.getAsJsonPrimitive("nameFrench").getAsString();
-                        String nameBasque=reg.getAsJsonPrimitive("nameBasque").getAsString();
-                        String nameCatalan=reg.getAsJsonPrimitive("nameCatalan").getAsString();
-                        String nameDutch=reg.getAsJsonPrimitive("nameDutch").getAsString();
-                        String nameGalician=reg.getAsJsonPrimitive("nameGalician").getAsString();
-                        String nameGerman=reg.getAsJsonPrimitive("nameGerman").getAsString();
-                        String nameItalian=reg.getAsJsonPrimitive("nameItalian").getAsString();
-                        String namePortuguese=reg.getAsJsonPrimitive("namePortuguese").getAsString();
+                        String name=reg.getAsJsonPrimitive("name").getAsString();
+                        String nameSpanish = "";
+                        String nameEnglish = "";
+                        String nameFrench = "";
+                        String nameBasque = "";
+                        String nameCatalan = "";
+                        String nameDutch = "";
+                        String nameGalician = "";
+                        String nameGerman = "";
+                        String nameItalian = "";
+                        String namePortuguese = "";
+                        if(Locale.getDefault().getLanguage().equals("es")){
+                            nameSpanish=name;
+                        }else if(Locale.getDefault().getLanguage().equals("fr")){
+                            nameFrench=name;
+                        }else if(Locale.getDefault().getLanguage().equals("eu")){
+                            nameBasque=name;
+                        }else if(Locale.getDefault().getLanguage().equals("ca")){
+                            nameCatalan=name;
+                        }else if(Locale.getDefault().getLanguage().equals("nl")){
+                            nameDutch=name;
+                        }else if(Locale.getDefault().getLanguage().equals("gl")){
+                            nameGalician=name;
+                        }else if(Locale.getDefault().getLanguage().equals("de")){
+                            nameGerman=name;
+                        }else if(Locale.getDefault().getLanguage().equals("it")){
+                            nameItalian=name;
+                        }else if(Locale.getDefault().getLanguage().equals("pt")){
+                            namePortuguese=name;
+                        }else{
+                            nameEnglish=name;
+                        }
                         provinces.add(new Province(idProvince,idRegion,idCountry,nameSpanish,nameEnglish,nameFrench,nameBasque,nameCatalan,nameDutch,nameGalician,nameGerman,nameItalian,namePortuguese));
                     }
-                    if(provinces.size()>1) {
-                        provinces.add(0,auxProList.get(0));
-                    }
-                    provinceAdapter[0] = new ProvinceAdapter(RegisterOrganization.this, provinces);
-                    provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-                    provinceSpinner.setAdapter(provinceAdapter[0]);
-                    provinceSpinnerAux.setVisibility(View.GONE);
-                    provinceSpinner.setVisibility(View.VISIBLE);
-                    if(provinces.size()==1){
-                        provinceSpinner.setSelection(0);
-                        province[0]=(Province) provinceSpinner.getSelectedItem();
-                        idProvince[0]=province[0].getIdProvince();
-                        citySpinnerControl();
-                    }
-                });
+
+                    runOnUiThread(()->{
+                        if(provinces.size()>1) {
+                            provinces.add(0,auxProList.get(0));
+                        }
+                        provinceAdapter[0] = new ProvinceAdapter(RegisterOrganization.this, provinces);
+                        provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                        provinceSpinner.setAdapter(provinceAdapter[0]);
+                        provinceSpinnerAux.setVisibility(View.GONE);
+                        pbProvince.setVisibility(View.GONE);
+                        provinceSpinner.setVisibility(View.VISIBLE);
+                        if(provinces.size()==1){
+                            provinceSpinner.setSelection(0);
+                            province[0]=(Province) provinceSpinner.getSelectedItem();
+                            idProvince[0]=province[0].getIdProvince();
+                            citySpinnerControl();
+                        }
+                    });
+                }).start();
+
             }
 
             @Override
@@ -1433,42 +1518,70 @@ public class RegisterOrganization extends AppCompatActivity {
 
 
     public void getCitiesByProvince(int idProvince, int idRegion, String idCountry) {
+        pbCity.setVisibility(View.VISIBLE);
         CitiesController.GetCitiesByProvince(idProvince, idRegion, idCountry, new ListCallback() {
             @Override
             public void onSuccess(List<JsonObject> data) {
-                runOnUiThread(() -> {
+                new Thread(()->{
                     cities = new ArrayList<>();
                     for (JsonObject reg : data) {
                         int idCity = reg.getAsJsonPrimitive("idCity").getAsInt();
-                        String nameSpanish = reg.getAsJsonPrimitive("nameSpanish").getAsString();
-                        String nameEnglish = reg.getAsJsonPrimitive("nameEnglish").getAsString();
-                        String nameFrench = reg.getAsJsonPrimitive("nameFrench").getAsString();
-                        String nameBasque = reg.getAsJsonPrimitive("nameBasque").getAsString();
-                        String nameCatalan = reg.getAsJsonPrimitive("nameCatalan").getAsString();
-                        String nameDutch = reg.getAsJsonPrimitive("nameDutch").getAsString();
-                        String nameGalician = reg.getAsJsonPrimitive("nameGalician").getAsString();
-                        String nameGerman = reg.getAsJsonPrimitive("nameGerman").getAsString();
-                        String nameItalian = reg.getAsJsonPrimitive("nameItalian").getAsString();
-                        String namePortuguese = reg.getAsJsonPrimitive("namePortuguese").getAsString();
+                        String name=reg.getAsJsonPrimitive("name").getAsString();
+                        String nameSpanish = "";
+                        String nameEnglish = "";
+                        String nameFrench = "";
+                        String nameBasque = "";
+                        String nameCatalan = "";
+                        String nameDutch = "";
+                        String nameGalician = "";
+                        String nameGerman = "";
+                        String nameItalian = "";
+                        String namePortuguese = "";
+                        if(Locale.getDefault().getLanguage().equals("es")){
+                            nameSpanish=name;
+                        }else if(Locale.getDefault().getLanguage().equals("fr")){
+                            nameFrench=name;
+                        }else if(Locale.getDefault().getLanguage().equals("eu")){
+                            nameBasque=name;
+                        }else if(Locale.getDefault().getLanguage().equals("ca")){
+                            nameCatalan=name;
+                        }else if(Locale.getDefault().getLanguage().equals("nl")){
+                            nameDutch=name;
+                        }else if(Locale.getDefault().getLanguage().equals("gl")){
+                            nameGalician=name;
+                        }else if(Locale.getDefault().getLanguage().equals("de")){
+                            nameGerman=name;
+                        }else if(Locale.getDefault().getLanguage().equals("it")){
+                            nameItalian=name;
+                        }else if(Locale.getDefault().getLanguage().equals("pt")){
+                            namePortuguese=name;
+                        }else{
+                            nameEnglish=name;
+                        }
                         cities.add(new City(idCity, idProvince, idRegion, idCountry, nameSpanish, nameEnglish, nameFrench, nameBasque, nameCatalan, nameDutch, nameGalician, nameGerman, nameItalian, namePortuguese));
                     }
-                    if(!cities.isEmpty()){
-                        if(cities.size()>1) {
-                            cities.add(0,auxCityList.get(0));
-                        }
-                        cityAdapter[0] = new CityAdapter(RegisterOrganization.this, cities);
+                    runOnUiThread(() -> {
 
-                        cityAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-                        citySpinner.setAdapter(cityAdapter[0]);
-                        citySpinnerAux.setVisibility(View.GONE);
-                        citySpinner.setVisibility(View.VISIBLE);
-                        if(cities.size()==1){
-                            citySpinner.setSelection(0);
-                            city[0]=(City) citySpinner.getSelectedItem();
-                            idCity[0]=city[0].getIdCity();
+                        if(!cities.isEmpty()){
+                            if(cities.size()>1) {
+                                cities.add(0,auxCityList.get(0));
+                            }
+                            cityAdapter[0] = new CityAdapter(RegisterOrganization.this, cities);
+
+                            cityAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+                            citySpinner.setAdapter(cityAdapter[0]);
+                            citySpinnerAux.setVisibility(View.GONE);
+                            pbCity.setVisibility(View.GONE);
+                            citySpinner.setVisibility(View.VISIBLE);
+                            if(cities.size()==1){
+                                citySpinner.setSelection(0);
+                                city[0]=(City) citySpinner.getSelectedItem();
+                                idCity[0]=city[0].getIdCity();
+                            }
                         }
-                    }
-                });
+                    });
+                }).start();
+
             }
 
             @Override
