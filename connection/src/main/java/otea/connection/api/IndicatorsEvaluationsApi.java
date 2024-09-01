@@ -43,7 +43,7 @@ public interface IndicatorsEvaluationsApi {
      * @param illness - Illness of the external organization that will recieve the indicators evaluation. In case of Fundación Miradas, it will be "AUTISM"
      * */
     @GET("IndicatorsEvaluations/evaluatorTeam")
-    Call<List<JsonObject>> GetAllByEvaluatorTeam(@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("idCenter") int idCenter, @Query("illness") String illness,@Header("Authorization") String Authorization);
+    Call<List<JsonObject>> GetAllByEvaluatorTeam(@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("idCenter") int idCenter, @Query("illness") String illness,@Query("language") String language,@Header("Authorization") String Authorization);
 
     /**
      * Get all non finished indicators evaluations by evaluator team
@@ -57,7 +57,7 @@ public interface IndicatorsEvaluationsApi {
      * @param idCenter - Center identifier
      * */
     @GET("IndicatorsEvaluations/nonFinished")
-    Call<List<JsonObject>> GetNonFinishedByEvaluatorTeam(@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter,@Header("Authorization") String Authorization);
+    Call<List<JsonObject>> GetNonFinishedByEvaluatorTeam(@Query("idEvaluatorTeam") int idEvaluatorTeam, @Query("idEvaluatorOrganization") int idEvaluatorOrganization, @Query("orgTypeEvaluator") String orgTypeEvaluator, @Query("idEvaluatedOrganization") int idEvaluatedOrganization, @Query("orgTypeEvaluated") String orgTypeEvaluated, @Query("illness") String illness, @Query("idCenter") int idCenter, @Query("language") String language, @Header("Authorization") String Authorization);
 
     /**
      * Gets an indicators evaluation

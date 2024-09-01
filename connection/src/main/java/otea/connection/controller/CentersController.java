@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -136,12 +137,101 @@ public class CentersController {
      * @param organization - Organization
      * @return All centers of an organization
      * */
-    public static void GetAllByOrganization(Organization organization, ListCallback callback){
+    public static List<Center> GetAllByOrganization(Organization organization){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
             public List<JsonObject> call() throws Exception {
-                Call<List<JsonObject>> call = api.GetAllByOrganization(organization.getIdOrganization(),organization.getOrgType(),organization.getIllness(),Session.getInstance().getToken());
+                Call<List<JsonObject>> call = api.GetAllByOrganization(organization.getIdOrganization(),organization.getOrgType(),organization.getIllness(), Locale.getDefault().getLanguage(),Session.getInstance().getToken());
+                Response<List<JsonObject>> response = call.execute();
+                if (response.isSuccessful()) {
+                    return response.body();
+                } else {
+                    throw new IOException("Error: " + response.code() + " " + response.message());
+                }
+            }
+        };
+        try {
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> list = future.get();
+            executor.shutdown();
+            numAttempts=0;
+            List<Center> centers=new ArrayList<>();
+            for(JsonObject center:list){
+                int idOrganization=center.getAsJsonPrimitive("idOrganization").getAsInt();
+                String orgType=center.getAsJsonPrimitive("orgType").getAsString();
+                String illness=center.getAsJsonPrimitive("illness").getAsString();
+                int idCenter=center.getAsJsonPrimitive("idCenter").getAsInt();
+                String description=center.getAsJsonPrimitive("description").getAsString();
+                String descriptionSpanish="";
+                String descriptionEnglish="";
+                String descriptionFrench="";
+                String descriptionBasque="";
+                String descriptionCatalan="";
+                String descriptionDutch="";
+                String descriptionGalician="";
+                String descriptionGerman="";
+                String descriptionItalian="";
+                String descriptionPortuguese="";
+                if(Locale.getDefault().getLanguage().equals("es")){
+                    descriptionSpanish=description;
+                }else if(Locale.getDefault().getLanguage().equals("fr")){
+                    descriptionFrench=description;
+                }else if(Locale.getDefault().getLanguage().equals("eu")){
+                    descriptionBasque=description;
+                }else if(Locale.getDefault().getLanguage().equals("ca")){
+                    descriptionCatalan=description;
+                }else if(Locale.getDefault().getLanguage().equals("nl")){
+                    descriptionDutch=description;
+                }else if(Locale.getDefault().getLanguage().equals("gl")){
+                    descriptionGalician=description;
+                }else if(Locale.getDefault().getLanguage().equals("de")){
+                    descriptionGerman=description;
+                }else if(Locale.getDefault().getLanguage().equals("it")){
+                    descriptionItalian=description;
+                }else if(Locale.getDefault().getLanguage().equals("pt")){
+                    descriptionPortuguese=description;
+                }else{
+                    descriptionEnglish=description;
+                }
+                int idAddress=center.getAsJsonPrimitive("idAddress").getAsInt();
+                String telephone=center.getAsJsonPrimitive("telephone").getAsString();
+                String email=center.getAsJsonPrimitive("email").getAsString();
+                String profilePhoto=center.getAsJsonPrimitive("profilePhoto").getAsString();
+                centers.add(new Center(idOrganization, orgType, illness, idCenter, descriptionEnglish, descriptionSpanish, descriptionFrench, descriptionBasque, descriptionCatalan, descriptionDutch, descriptionGalician, descriptionGerman, descriptionItalian, descriptionPortuguese, idAddress, telephone, email, profilePhoto));
+            }
+            return centers;
+        } catch (InterruptedException | ExecutionException e) {
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetAll();
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
+        }
+
+
+    }
+
+    /**
+     * Method that obtains all the centers of an organization
+     *
+     * @param organization - Organization
+     * @return All centers of an organization
+     * */
+    public static void GetAllByOrganizationASync(Organization organization, ListCallback callback){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
+            @Override
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call = api.GetAllByOrganization(organization.getIdOrganization(),organization.getOrgType(),organization.getIllness(), Locale.getDefault().getLanguage(),Session.getInstance().getToken());
                 Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -160,6 +250,95 @@ public class CentersController {
                 executor.shutdown();
             }
         });
+    }
+
+    /**
+     * Method that obtains all the aditional centers of an organization
+     *
+     * @param organization - Organization
+     * @return All centers of an organization
+     * */
+    public static List<Center> GetAditionalCentersByOrganization(Organization organization){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
+            @Override
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call = api.GetAditionalCentersByOrganization(organization.getIdOrganization(),organization.getOrgType(),organization.getIllness(), Locale.getDefault().getLanguage(),Session.getInstance().getToken());
+                Response<List<JsonObject>> response = call.execute();
+                if (response.isSuccessful()) {
+                    return response.body();
+                } else {
+                    throw new IOException("Error: " + response.code() + " " + response.message());
+                }
+            }
+        };
+        try {
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> list = future.get();
+            executor.shutdown();
+            numAttempts=0;
+            List<Center> centers=new ArrayList<>();
+            for(JsonObject center:list) {
+                int idOrganization = center.getAsJsonPrimitive("idOrganization").getAsInt();
+                String orgType = center.getAsJsonPrimitive("orgType").getAsString();
+                String illness = center.getAsJsonPrimitive("illness").getAsString();
+                int idCenter = center.getAsJsonPrimitive("idCenter").getAsInt();
+                String description=center.getAsJsonPrimitive("description").getAsString();
+                String descriptionSpanish="";
+                String descriptionEnglish="";
+                String descriptionFrench="";
+                String descriptionBasque="";
+                String descriptionCatalan="";
+                String descriptionDutch="";
+                String descriptionGalician="";
+                String descriptionGerman="";
+                String descriptionItalian="";
+                String descriptionPortuguese="";
+                if(Locale.getDefault().getLanguage().equals("es")){
+                    descriptionSpanish=description;
+                }else if(Locale.getDefault().getLanguage().equals("fr")){
+                    descriptionFrench=description;
+                }else if(Locale.getDefault().getLanguage().equals("eu")){
+                    descriptionBasque=description;
+                }else if(Locale.getDefault().getLanguage().equals("ca")){
+                    descriptionCatalan=description;
+                }else if(Locale.getDefault().getLanguage().equals("nl")){
+                    descriptionDutch=description;
+                }else if(Locale.getDefault().getLanguage().equals("gl")){
+                    descriptionGalician=description;
+                }else if(Locale.getDefault().getLanguage().equals("de")){
+                    descriptionGerman=description;
+                }else if(Locale.getDefault().getLanguage().equals("it")){
+                    descriptionItalian=description;
+                }else if(Locale.getDefault().getLanguage().equals("pt")){
+                    descriptionPortuguese=description;
+                }else{
+                    descriptionEnglish=description;
+                }
+                int idAddress = center.getAsJsonPrimitive("idAddress").getAsInt();
+                String telephone = center.getAsJsonPrimitive("telephone").getAsString();
+                String email = center.getAsJsonPrimitive("email").getAsString();
+                String profilePhoto = center.getAsJsonPrimitive("profilePhoto").getAsString();
+                centers.add(new Center(idOrganization, orgType, illness, idCenter, descriptionEnglish, descriptionSpanish, descriptionFrench, descriptionBasque, descriptionCatalan, descriptionDutch, descriptionGalician, descriptionGerman, descriptionItalian, descriptionPortuguese, idAddress, telephone, email, profilePhoto));
+            }
+            return centers;
+        } catch (InterruptedException | ExecutionException e) {
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetAditionalCentersByOrganization(organization);
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
+        }
+
+
     }
 
     /**

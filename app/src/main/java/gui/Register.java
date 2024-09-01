@@ -35,6 +35,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeProgressDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.fundacionmiradas.indicatorsevaluation.R;
 
 import java.io.ByteArrayInputStream;
@@ -284,10 +288,30 @@ public class Register extends AppCompatActivity {
         uploadPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(v.getContext())
-                        .setTitle(getString(R.string.select_source))
-                        .setPositiveButton(getString(R.string.camera), (dialog, which) -> mTakePicture.launch(null))
-                        .setNegativeButton(getString(R.string.gallery), (dialog, which) -> mGetContent.launch("image/*"))
+                new AwesomeInfoDialog(v.getContext())
+                        .setTitle(R.string.change_photo)
+                        .setMessage(R.string.select_source)
+                        .setColoredCircle(R.color.miradas_color)
+                        .setCancelable(true)
+                        .setDialogIconAndColor(android.R.drawable.ic_menu_camera,R.color.white)
+                        .setPositiveButtonText(getString(R.string.camera))
+                        .setPositiveButtonbackgroundColor(R.color.miradas_color)
+                        .setPositiveButtonTextColor(R.color.white)
+                        .setNegativeButtonText(getString(R.string.gallery))
+                        .setNegativeButtonbackgroundColor(R.color.miradas_color)
+                        .setNegativeButtonTextColor(R.color.white)
+                        .setPositiveButtonClick(new Closure() {
+                            @Override
+                            public void exec() {
+                                mTakePicture.launch(null);
+                            }
+                        })
+                        .setNegativeButtonClick(new Closure() {
+                            @Override
+                            public void exec() {
+                                mGetContent.launch("image/*");
+                            }
+                        })
                         .show();
             }
         });
@@ -444,9 +468,16 @@ public class Register extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finalBackground.setVisibility(View.VISIBLE);
+                //finalBackground.setVisibility(View.VISIBLE);
                 //gridLayout.setVisibility(View.GONE);
-                base.setVisibility(View.GONE);
+                //base.setVisibility(View.GONE);
+
+                AwesomeProgressDialog chargingScreenDialog=new AwesomeProgressDialog(Register.this)
+                        .setTitle(R.string.please_wait_register_user)
+                        .setMessage(R.string.please_wait)
+                        .setColoredCircle(R.color.miradas_color)
+                        .setCancelable(false);
+                chargingScreenDialog.show();
                 String password=passwordField.getText().toString();
                 if(!user.getFirst_name().isEmpty() && !user.getLast_name().isEmpty() && FieldChecker.passwordHasCorrectFormat(password) && FieldChecker.isACorrectPhone(telephone[0]+telephone[1]) && acceptLOPD.isChecked()){
                     new Thread(()->{
@@ -466,32 +497,15 @@ public class Register extends AppCompatActivity {
                         user.setIsActive(1);
                         UsersController.Update(user.getEmailUser(),user);
                         RegUserUtil.removeInstance();
+                        try {
+                            Thread.sleep(300);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
                         runOnUiThread(()->{
                             Intent intent=new Intent(getApplicationContext(),gui.MainActivity.class);
-                            String[] messageSuccess={""};
-                            if(Locale.getDefault().getLanguage().equals("es")){
-                                messageSuccess[0]="El usuario <b>"+user.getFirst_name()+" "+user.getLast_name()+"</b> ha sido registrado satisfactoriamente";
-                            }else if(Locale.getDefault().getLanguage().equals("fr")){
-                                messageSuccess[0]="L'utilisateur <b>"+user.getFirst_name()+" "+user.getLast_name()+"</b> a été enregistré avec succès";
-                            }else if(Locale.getDefault().getLanguage().equals("eu")){
-                                messageSuccess[0]="<b>"+user.getFirst_name()+" "+user.getLast_name()+"</b> erabiltzailea arrakastaz erregistratu da";
-                            }else if(Locale.getDefault().getLanguage().equals("ca")){
-                                messageSuccess[0]="L'usuari <b>"+user.getFirst_name()+" "+user.getLast_name()+"</b> ha estat registrat satisfactòriament";
-                            }else if(Locale.getDefault().getLanguage().equals("nl")){
-                                messageSuccess[0]="De gebruiker <b>"+user.getFirst_name()+" "+user.getLast_name()+"</b> is succesvol geregistreerd";
-                            }else if(Locale.getDefault().getLanguage().equals("gl")){
-                                messageSuccess[0]="O usuario <b>"+user.getFirst_name()+" "+user.getLast_name()+"</b> foi rexistrado satisfactoriamente";
-                            }else if(Locale.getDefault().getLanguage().equals("de")){
-                                messageSuccess[0]="Der Benutzer <b>"+user.getFirst_name()+" "+user.getLast_name()+"</b> wurde erfolgreich registriert";
-                            }else if(Locale.getDefault().getLanguage().equals("it")){
-                                messageSuccess[0]="L'utente <b>"+user.getFirst_name()+" "+user.getLast_name()+"</b> è stato registrato con successo";
-                            }else if(Locale.getDefault().getLanguage().equals("pt")){
-                                messageSuccess[0]="O usuário <b>"+user.getFirst_name()+" "+user.getLast_name()+"</b> foi registrado com sucesso";
-                            }else{
-                                messageSuccess[0]="The user <b>"+user.getFirst_name()+" "+user.getLast_name()+"</b> has been successfully registered";
-                            }
 
-                            StringPasser.createInstance(messageSuccess[0]);
+                            StringPasser.createInstance(R.string.user_registered,R.string.you_can_login);
                             setResult(RESULT_OK,intent);
                             finish();
 
@@ -505,8 +519,9 @@ public class Register extends AppCompatActivity {
                 }
                 else{
 
-                    finalBackground.setVisibility(View.GONE);
-                    base.setVisibility(View.VISIBLE);
+                    //finalBackground.setVisibility(View.GONE);
+                    //base.setVisibility(View.VISIBLE);
+                    chargingScreenDialog.hide();
                     String msg="<ul>";
                     int numErrors=0;
                     if(user.getFirst_name().isEmpty()){
@@ -540,17 +555,20 @@ public class Register extends AppCompatActivity {
                     }else{
                         idError=R.string.error;
                     }
-                    new AlertDialog.Builder(Register.this)
-                            .setIcon(android.R.drawable.stat_notify_error)
+                    new AwesomeErrorDialog(Register.this)
                             .setTitle(idError)
-                            .setPositiveButton(R.string.understood, new DialogInterface.OnClickListener() {
+                            .setMessage(Html.fromHtml(msg,0))
+                            .setColoredCircle(com.aminography.primedatepicker.R.color.redA700)
+                            .setCancelable(true).setButtonText(getString(R.string.understood))
+                            .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.redA700)
+                            .setButtonText(getString(R.string.understood))
+                            .setErrorButtonClick(new Closure() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
+                                public void exec() {
+                                    // click
                                 }
                             })
-                            .setMessage(Html.fromHtml(msg,0))
-                            .create().show();
+                            .show();
                 }
 
 

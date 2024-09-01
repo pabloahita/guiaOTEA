@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -18,7 +19,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -31,6 +31,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeProgressDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.fundacionmiradas.indicatorsevaluation.R;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
@@ -57,7 +61,6 @@ import cli.user.User;
 import gui.adapters.*;
 import misc.FieldChecker;
 import misc.ListCallback;
-import misc.PasswordFormatter;
 import otea.connection.controller.AddressesController;
 import otea.connection.controller.CentersController;
 import otea.connection.controller.CitiesController;
@@ -158,12 +161,16 @@ public class RegisterOrganization extends AppCompatActivity {
 
 
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_organization);
 
+
+        ConstraintLayout base=findViewById(R.id.base);
+        ConstraintLayout loading = findViewById(R.id.final_background);
 
         countries = new ArrayList<>();
         countries.add(new Country("-2", "País", "Country", "Pays", "Herrialdea", "País", "Land", "País", "Land", "Paese", "País", "-", ""));
@@ -177,9 +184,6 @@ public class RegisterOrganization extends AppCompatActivity {
         phoneCodeAdapter[0] = new PhoneCodeAdapter(RegisterOrganization.this, countries);
         phoneCodeAdapter[1] = new PhoneCodeAdapter(RegisterOrganization.this, countries);
 
-
-        ConstraintLayout base=findViewById(R.id.base);
-        ConstraintLayout loading = findViewById(R.id.final_background);
 
         base.setVisibility(View.VISIBLE);
         loading.setVisibility(View.GONE);
@@ -240,12 +244,7 @@ public class RegisterOrganization extends AppCompatActivity {
 
         helpButton=findViewById(R.id.helpButton);
 
-        List<Organization> orgs = OrganizationsController.getInstance().GetAllEvaluatedOrganizations();
-        int idOrganization = orgs.size() + 1;
-        String orgType = "EVALUATED";
-        String illness = "AUTISM";
 
-        int idAddress = AddressesController.getInstance().GetAll().size() + 1;
 
 
         fields = new HashMap<String, String>();
@@ -304,10 +303,30 @@ public class RegisterOrganization extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectedPhoto=0;
-                new AlertDialog.Builder(v.getContext())
-                        .setTitle(getString(R.string.select_source))
-                        .setPositiveButton(getString(R.string.camera), (dialog, which) -> mTakePicture.launch(null))
-                        .setNegativeButton(getString(R.string.gallery), (dialog, which) -> mGetContent.launch("image/*"))
+                new AwesomeInfoDialog(v.getContext())
+                        .setTitle(R.string.change_photo)
+                        .setMessage(R.string.select_source)
+                        .setColoredCircle(R.color.miradas_color)
+                        .setCancelable(true)
+                        .setDialogIconAndColor(android.R.drawable.ic_menu_camera,R.color.white)
+                        .setPositiveButtonText(getString(R.string.camera))
+                        .setPositiveButtonbackgroundColor(R.color.miradas_color)
+                        .setPositiveButtonTextColor(R.color.white)
+                        .setNegativeButtonText(getString(R.string.gallery))
+                        .setNegativeButtonbackgroundColor(R.color.miradas_color)
+                        .setNegativeButtonTextColor(R.color.white)
+                        .setPositiveButtonClick(new Closure() {
+                            @Override
+                            public void exec() {
+                                mTakePicture.launch(null);
+                            }
+                        })
+                        .setNegativeButtonClick(new Closure() {
+                            @Override
+                            public void exec() {
+                                mGetContent.launch("image/*");
+                            }
+                        })
                         .show();
             }
         });
@@ -840,8 +859,12 @@ public class RegisterOrganization extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                base.setVisibility(View.GONE);
-                loading.setVisibility(View.VISIBLE);
+                AwesomeProgressDialog chargingScreenDialog=new AwesomeProgressDialog(RegisterOrganization.this)
+                        .setTitle(R.string.please_wait_reg_orgs)
+                        .setMessage(R.string.please_wait)
+                        .setColoredCircle(R.color.miradas_color)
+                        .setCancelable(false);
+                chargingScreenDialog.show();
 
                 new Thread(()->{
                     if(!fields.get("nameOrg").isEmpty() && !fields.get("address").isEmpty() && (FieldChecker.isACorrectPhone(fields.get("telephoneCodeOrg")+fields.get("telephoneOrg")))
@@ -850,10 +873,29 @@ public class RegisterOrganization extends AppCompatActivity {
                             ((FieldChecker.isPrecharged(idCountry[0]) && idRegion[0]!=-2 && idProvince[0]!=-2 && idCity[0]!=-2) ||
                                     (!idCountry[0].equals("-2") && !fields.get("nameRegion").isEmpty() && !fields.get("nameProvince").isEmpty() && !fields.get("nameCity").isEmpty()))){
 
+                        List<Organization> orgs = OrganizationsController.getInstance().GetAllEvaluatedOrganizations();
+
+                        int[] idOrganization = {-1};
+                        if(orgs.isEmpty()){
+                            idOrganization[0]=1;
+                        }else{
+                            idOrganization[0]=orgs.get(orgs.size()-1).getIdOrganization()+1;
+                        }
+                        String orgType = "EVALUATED";
+                        String illness = "AUTISM";
+
+                        List<Address> addresses= AddressesController.getInstance().GetAll();
+                        int[] idAddress={-1};
+                        if(addresses.isEmpty()){
+                            idAddress[0]=1;
+                        }else{
+                            idAddress[0]=addresses.get(addresses.size()-1).getIdAddress()+1;
+                        }
+
 
                         runOnUiThread(()->{
                             if(profilePhotoOrg!=null){
-                                imgOrgName="ORG_"+idOrganization+"_"+orgType+"_"+illness+".webp";
+                                imgOrgName="ORG_"+idOrganization[0]+"_"+orgType+"_"+illness+".webp";
                                 new Thread(()->{
                                     FileManager.uploadFile(profilePhotoOrg, "profile-photos", imgOrgName);
                                     try{
@@ -996,92 +1038,30 @@ public class RegisterOrganization extends AppCompatActivity {
 
 
 
-                                Address address = new Address(idAddress, fields.get("address"), idCity[0],idProvince[0],idRegion[0],idCountry[0],fields.get("nameCity"),fields.get("nameProvince"),fields.get("nameRegion"));
 
-                                Organization organization=new Organization(idOrganization,orgType,illness,fields.get("nameOrg"),idAddress,fields.get("emailOrg"),fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),informationSpanish,informationEnglish,informationFrench,informationBasque,informationCatalan,informationDutch,informationGalician,informationGerman,informationItalian,informationPortuguese,imgOrgName);
-                                User director=new User(fields.get("emailDir"),"DIRECTOR","","","","",idOrganization,orgType,illness,"",0);
+                                Address address = new Address(idAddress[0], fields.get("address"), idCity[0],idProvince[0],idRegion[0],idCountry[0],fields.get("nameCity"),fields.get("nameProvince"),fields.get("nameRegion"));
+
+                                Organization organization=new Organization(idOrganization[0],orgType,illness,fields.get("nameOrg"),idAddress[0],fields.get("emailOrg"),fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),informationSpanish,informationEnglish,informationFrench,informationBasque,informationCatalan,informationDutch,informationGalician,informationGerman,informationItalian,informationPortuguese,imgOrgName);
+                                User director=new User(fields.get("emailDir"),"DIRECTOR","","","","",idOrganization[0],orgType,illness,"",0);
                                 AddressesController.getInstance().Create(address);
                                 OrganizationsController.getInstance().Create(organization);
                                 UsersController.getInstance().Create(director);
-                                CentersController.getInstance().Create(new Center(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),1,"Headquarters","Sede principal","Siège social","Egoitza","Seu principal","Hoofdkwartier","Sede principal","Hauptsitz","Sede principale","Sede principal",idAddress,fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),fields.get("emailOrg"),imgOrgName));
+                                CentersController.getInstance().Create(new Center(organization.getIdOrganization(),organization.getOrganizationType(),organization.getIllness(),1,"Headquarters","Sede principal","Siège social","Egoitza","Seu principal","Hoofdkwartier","Sede principal","Hauptsitz","Sede principale","Sede principal",idAddress[0],fields.get("telephoneCodeOrg")+" "+fields.get("telephoneOrg"),fields.get("emailOrg"),imgOrgName));
 
-                                String msg="";
-                                if(Locale.getDefault().getLanguage().equals("es")){
-                                    msg="La organización <b>"+organization.getNameOrg()+"</b> se ha registrado correctamente. Por favor, notifique al director de la organización que siga los siguientes pasos:" +
-                                            "<ul>" +
-                                            "<li><b>Descargar la aplicación</b></li>" +
-                                            "<li><b>Al abrir la aplicación, presionar sobre <i>Crear cuenta</i></b></li>" +
-                                            "<li><b>Introducir el email y seleccionar en <i>Comprobar solicitud</i>, para así acceder directamente sobre la pantalla de registro de usuario.</b></li>" +
-                                            "</ul>";
-                                }else if(Locale.getDefault().getLanguage().equals("fr")){
-                                    msg="L'organisation <b>"+organization.getNameOrg()+"</b> a été enregistrée avec succès. Veuillez aviser le directeur de l'organisme de prendre les mesures suivantes :" +
-                                            "<ul>" +
-                                            "<li><b>Téléchargez l'application</b></li>" +
-                                            "<li><b>Lors de l'ouverture de l'application, cliquez sur <i>Créer un compte</i></b></li>" +
-                                            "<li><b>Saisissez l'e-mail et sélectionnez <i>Demande de vérification</i> pour accéder directement à l'écran d'enregistrement de l'utilisateur.</b></li>" +
-                                            "</ul>";
-                                }else if(Locale.getDefault().getLanguage().equals("eu")){
-                                    msg="<b>"+organization.getNameOrg()+"</b> erakundea behar bezala erregistratu da. Mesedez, jakinarazi erakundeko zuzendariari urrats hauek egiteko:" +
-                                            "<ul>" +
-                                            "<li><b>Deskargatu aplikazioa</b></li>" +
-                                            "<li><b>Aplikazioa irekitzean, egin klik <i>Sortu kontua</i></b></li> aukeran." +
-                                            "<li><b>Sartu e-posta eta hautatu <i>Egiaztatu eskaera</i>, erabiltzailea erregistratzeko pantailara zuzenean sartzeko.</b></li>" +
-                                            "</ul>";
-                                }else if(Locale.getDefault().getLanguage().equals("ca")){
-                                    msg="L'organització <b>"+organization.getNameOrg()+"</b> s'ha registrat correctament. Si us plau, notifiqueu al director de l'organització que seguiu els passos següents:" +
-                                            "<ul>" +
-                                            "<li><b>Descarregar l'aplicació</b></li>" +
-                                            "<li><b>En obrir l'aplicació, pressionar sobre <i>Crear compte</i></b></li>" +
-                                            "<li><b>Introduir el correu electrònic i seleccionar a <i>Comprovar sol·licitud</i>, per així accedir directament sobre la pantalla de registre d'usuari.</b></li>" +
-                                            "</ul>";
-                                }else if(Locale.getDefault().getLanguage().equals("nl")){
-                                    msg="De organisatie <b>"+organization.getNameOrg()+"</b> is succesvol geregistreerd. Geef de directeur van de organisatie een seintje om de volgende stappen te ondernemen:" +
-                                            "<ul>" +
-                                            "<li><b>Download de applicatie</b></li>" +
-                                            "<li><b>Klik bij het openen van de applicatie op <i>Account aanmaken</i></b></li>" +
-                                            "<li><b>Voer de e-mail in en selecteer <i>Verzoek controleren</i> om rechtstreeks naar het gebruikersregistratiescherm te gaan.</b></li>" +
-                                            "</ul>";
-                                }else if(Locale.getDefault().getLanguage().equals("gl")){
-                                    msg="A organización <b>"+organization.getNameOrg()+"</b> rexistrouse correctamente. Informe ao director da organización para que tome as seguintes medidas:" +
-                                            "<ul>" +
-                                            "<li><b>Descarga a aplicación</b></li>" +
-                                            "<li><b>Cando abra a aplicación, faga clic en <i>Crear conta</i></b></li>" +
-                                            "<li><b>Introduce o correo electrónico e selecciona <i>Comprobar solicitude</i> para acceder directamente á pantalla de rexistro do usuario.</b></li>" +
-                                            "</ul>";
-                                }else if(Locale.getDefault().getLanguage().equals("de")){
-                                    msg="Die Organisation <b>"+organization.getNameOrg()+"</b> wurde erfolgreich registriert. Bitte benachrichtigen Sie den Direktor der Organisation, um die folgenden Schritte zu unternehmen:" +
-                                            "<ul>" +
-                                            "<li><b>Laden Sie die Anwendung herunter</b></li>" +
-                                            "<li><b>Klicken Sie beim Öffnen der Anwendung auf <i>Konto erstellen</i></b></li>" +
-                                            "<li><b>Geben Sie die E-Mail-Adresse ein und wählen Sie <i>Anfrage prüfen</i>, um direkt auf den Benutzerregistrierungsbildschirm zuzugreifen.</b></li>" +
-                                            "</ul>";
-                                }else if(Locale.getDefault().getLanguage().equals("it")){
-                                    msg="L'organizzazione <b>"+organization.getNameOrg()+"</b> è stata registrata con successo. Si prega di avvisare il direttore dell'organizzazione di adottare le seguenti misure:" +
-                                            "<ul>" +
-                                            "<li><b>Scarica l'applicazione</b></li>" +
-                                            "<li><b>Quando si apre l'applicazione, fare clic su <i>Crea account</i></b></li>" +
-                                            "<li><b>Inserisci l'e-mail e seleziona <i>Verifica richiesta</i>, per accedere direttamente alla schermata di registrazione dell'utente.</b></li>" +
-                                            "</ul>";
-                                }else if(Locale.getDefault().getLanguage().equals("pt")){
-                                    msg="A organização <b>"+organization.getNameOrg()+"</b> foi registada com sucesso. Por favor, notifique o diretor da organização para tomar as seguintes medidas:" +
-                                            "<ul>" +
-                                            "<li><b>Descarregue a aplicação</b></li>" +
-                                            "<li><b>Ao abrir a aplicação, clique em <i>Criar conta</i></b></li>" +
-                                            "<li><b>Introduza o e-mail e selecione <i>Verificar pedido</i> para aceder diretamente ao ecrã de registo do utilizador.</b></li>" +
-                                            "</ul>";
-                                }else{
-                                    msg="The <b>"+organization.getNameOrg()+"</b> organization has been successfully registered. Please notify the director of the organization to take the following steps:" +
-                                            "<ul>" +
-                                            "<li><b>Download the application</b></li>" +
-                                            "<li><b>When opening the application, click on <i>Create account</i></b></li>" +
-                                            "<li><b>Enter the email and select <i>Check request</i>, to directly access the user registration screen.</b></li>" +
-                                            "</ul>";
+                                try {
+                                    Thread.sleep(300);
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
                                 }
-                                StringPasser.createInstance(msg);
+
+                                int idTitle=R.string.organization_registered;
+                                int idMsg=R.string.notify_director;
+                                StringPasser.createInstance(idTitle,idMsg);
+                                StringPasser.getInstance().setFlag(1);
 
 
                                 runOnUiThread(()->{
-                                    Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+                                    Intent intent=new Intent(getApplicationContext(), MainMenu.class);
                                     setResult(RESULT_OK, intent);
                                     finish();
                                 });
@@ -1096,8 +1076,9 @@ public class RegisterOrganization extends AppCompatActivity {
                         runOnUiThread(()->{
                             String msg="<ul>";
                             int numErrors=0;
-                            base.setVisibility(View.VISIBLE);
-                            loading.setVisibility(View.GONE);
+                            //base.setVisibility(View.VISIBLE);
+                            //loading.setVisibility(View.GONE);
+                            chargingScreenDialog.hide();
                             if(fields.get("nameOrg").isEmpty()){
                                 nameOrgField.setError(getString(R.string.please_org_name));
                                 numErrors++;
@@ -1194,16 +1175,20 @@ public class RegisterOrganization extends AppCompatActivity {
                                 idTitle=R.string.errors;
                             }
                             msg+="</ul>";
-                            new android.app.AlertDialog.Builder(RegisterOrganization.this)
-                                    .setTitle(getString(idTitle))
-                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                            new AwesomeErrorDialog(RegisterOrganization.this)
+                                    .setTitle(idTitle)
                                     .setMessage(Html.fromHtml(msg,0))
-                                    .setPositiveButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
+                                    .setColoredCircle(com.aminography.primedatepicker.R.color.redA700)
+                                    .setCancelable(true).setButtonText(getString(R.string.understood))
+                                    .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.redA700)
+                                    .setButtonText(getString(R.string.understood))
+                                    .setErrorButtonClick(new Closure() {
                                         @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
+                                        public void exec() {
+                                            // click
                                         }
-                                    }).create().show();
+                                    })
+                                    .show();
                         });
 
                     }
@@ -1223,7 +1208,7 @@ public class RegisterOrganization extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if(keyCode==event.KEYCODE_BACK){
-            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+            Intent intent=new Intent(getApplicationContext(), MainMenu.class);
             setResult(RESULT_CANCELED,intent);
             finish();
         }
@@ -1430,7 +1415,7 @@ public class RegisterOrganization extends AppCompatActivity {
             @Override
             public void onError(String errorResponse) {
                 runOnUiThread(()->{
-                    Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+                    Intent intent=new Intent(getApplicationContext(), MainMenu.class);
                     setResult(RESULT_CANCELED,intent);
                     finish();
                 });
@@ -1508,7 +1493,7 @@ public class RegisterOrganization extends AppCompatActivity {
             @Override
             public void onError(String errorResponse) {
                 runOnUiThread(()->{
-                    Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+                    Intent intent=new Intent(getApplicationContext(), MainMenu.class);
                     setResult(RESULT_CANCELED,intent);
                     finish();
                 });
@@ -1587,7 +1572,7 @@ public class RegisterOrganization extends AppCompatActivity {
             @Override
             public void onError(String errorResponse) {
                 runOnUiThread(() -> {
-                    Intent intent = new Intent(getApplicationContext(), com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+                    Intent intent = new Intent(getApplicationContext(), MainMenu.class);
                     setResult(RESULT_CANCELED,intent);
                     finish();
                 });

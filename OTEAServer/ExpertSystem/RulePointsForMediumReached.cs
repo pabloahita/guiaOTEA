@@ -30,7 +30,7 @@ namespace OTEAServer.ExpertSystem
                     count++;
                 }
             }
-            indicatorsEvaluation.scorePriorityTwoColourGreen = count * 3;
+            indicatorsEvaluation.scorePriorityOneColourGreen = count * 3;
         }
     }
 }

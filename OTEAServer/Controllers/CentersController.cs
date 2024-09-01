@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using OTEAServer.Misc;
 using OTEAServer.Models;
 using System.Data.SqlClient;
+using System.Linq.Expressions;
 using System.Net;
 using System.Security.Policy;
 using System.Text.Json;
@@ -33,6 +34,24 @@ namespace OTEAServer.Controllers
         public CentersController(DatabaseContext context)
         {
             _context = context;
+        }
+
+        private class CenterDto
+        {
+            public int idOrganization {  get; set; }
+            public string orgType {  get; set; }
+            public string illness { get; set; }
+            public int idCenter { get; set; }
+
+            public string description { get; set; }
+
+            public string telephone { get; set; }
+
+            public int idAddress { get; set; }
+
+            public string email { get; set; }
+
+            public string profilePhoto { get; set; }
         }
 
         /// <summary>
@@ -86,11 +105,166 @@ namespace OTEAServer.Controllers
         /// <returns>All centers of an organization</returns>
         [HttpGet("org")]
         [Authorize]
-        public IActionResult GetAllByOrganization([FromQuery] int idOrganization,[FromQuery] string orgType,[FromQuery] string illness, [FromHeader] string Authorization) {
+        public IActionResult GetAllByOrganization([FromQuery] int idOrganization,[FromQuery] string orgType,[FromQuery] string illness, [FromQuery] string language, [FromHeader] string Authorization) {
             try
             {
 
-                var centers = _context.Centers.Where(c => c.idOrganization == idOrganization && c.orgType == orgType && c.illness == illness).ToList();
+                var aux = _context.Centers.Where(c => c.idOrganization == idOrganization && c.orgType == orgType && c.illness == illness);//.ToList();
+                Expression<Func<Center, CenterDto>> selector = c => new CenterDto {
+                    idOrganization=c.idOrganization,
+                    orgType=c.orgType,
+                    illness=c.illness,
+                    idCenter=c.idCenter,
+                    description=c.descriptionEnglish,
+                    telephone=c.telephone,
+                    idAddress=c.idAddress,
+                    email=c.email,
+                    profilePhoto=c.profilePhoto
+                };
+                switch (language)
+                {
+                    case "es":
+                        selector = c => new CenterDto
+                        {
+                            idOrganization = c.idOrganization,
+                            orgType = c.orgType,
+                            illness = c.illness,
+                            idCenter = c.idCenter,
+                            description = c.descriptionSpanish,
+                            telephone = c.telephone,
+                            idAddress = c.idAddress,
+                            email = c.email,
+                            profilePhoto = c.profilePhoto
+                        };
+                        break;
+                    case "fr":
+                        selector = c => new CenterDto
+                        {
+                            idOrganization = c.idOrganization,
+                            orgType = c.orgType,
+                            illness = c.illness,
+                            idCenter = c.idCenter,
+                            description = c.descriptionFrench,
+                            telephone = c.telephone,
+                            idAddress = c.idAddress,
+                            email = c.email,
+                            profilePhoto = c.profilePhoto
+                        };
+                        break;
+                    case "eu":
+                        selector = c => new CenterDto
+                        {
+                            idOrganization = c.idOrganization,
+                            orgType = c.orgType,
+                            illness = c.illness,
+                            idCenter = c.idCenter,
+                            description = c.descriptionBasque,
+                            telephone = c.telephone,
+                            idAddress = c.idAddress,
+                            email = c.email,
+                            profilePhoto = c.profilePhoto
+                        };
+                        break;
+                    case "ca":
+                        selector = c => new CenterDto
+                        {
+                            idOrganization = c.idOrganization,
+                            orgType = c.orgType,
+                            illness = c.illness,
+                            idCenter = c.idCenter,
+                            description = c.descriptionCatalan,
+                            telephone = c.telephone,
+                            idAddress = c.idAddress,
+                            email = c.email,
+                            profilePhoto = c.profilePhoto
+                        };
+                        break;
+                    case "gl":
+                        selector = c => new CenterDto
+                        {
+                            idOrganization = c.idOrganization,
+                            orgType = c.orgType,
+                            illness = c.illness,
+                            idCenter = c.idCenter,
+                            description = c.descriptionGalician,
+                            telephone = c.telephone,
+                            idAddress = c.idAddress,
+                            email = c.email,
+                            profilePhoto = c.profilePhoto
+                        };
+                        break;
+                    case "pt":
+                        selector = c => new CenterDto
+                        {
+                            idOrganization = c.idOrganization,
+                            orgType = c.orgType,
+                            illness = c.illness,
+                            idCenter = c.idCenter,
+                            description = c.descriptionPortuguese,
+                            telephone = c.telephone,
+                            idAddress = c.idAddress,
+                            email = c.email,
+                            profilePhoto = c.profilePhoto
+                        };
+                        break;
+                    case "de":
+                        selector = c => new CenterDto
+                        {
+                            idOrganization = c.idOrganization,
+                            orgType = c.orgType,
+                            illness = c.illness,
+                            idCenter = c.idCenter,
+                            description = c.descriptionGerman,
+                            telephone = c.telephone,
+                            idAddress = c.idAddress,
+                            email = c.email,
+                            profilePhoto = c.profilePhoto
+                        };
+                        break;
+                    case "it":
+                        selector = c => new CenterDto
+                        {
+                            idOrganization = c.idOrganization,
+                            orgType = c.orgType,
+                            illness = c.illness,
+                            idCenter = c.idCenter,
+                            description = c.descriptionItalian,
+                            telephone = c.telephone,
+                            idAddress = c.idAddress,
+                            email = c.email,
+                            profilePhoto = c.profilePhoto
+                        };
+                        break;
+                    case "nl":
+                        selector = c => new CenterDto
+                        {
+                            idOrganization = c.idOrganization,
+                            orgType = c.orgType,
+                            illness = c.illness,
+                            idCenter = c.idCenter,
+                            description = c.descriptionDutch,
+                            telephone = c.telephone,
+                            idAddress = c.idAddress,
+                            email = c.email,
+                            profilePhoto = c.profilePhoto
+                        };
+                        break;
+                    default:
+                        selector = c => new CenterDto
+                        {
+                            idOrganization = c.idOrganization,
+                            orgType = c.orgType,
+                            illness = c.illness,
+                            idCenter = c.idCenter,
+                            description = c.descriptionEnglish,
+                            telephone = c.telephone,
+                            idAddress = c.idAddress,
+                            email = c.email,
+                            profilePhoto = c.profilePhoto
+                        };
+                        break;
+                }
+                var centers = aux.Select(selector).ToList();
                 List<JsonDocument> result = new List<JsonDocument>();
                 foreach (var center in centers)
                 {
@@ -98,16 +272,200 @@ namespace OTEAServer.Controllers
                             "\"orgType\":\"" + center.orgType + "\"," +
                             "\"illness\":\"" + center.illness + "\"," +
                             "\"idCenter\":\"" + center.idCenter + "\"," +
-                            "\"descriptionSpanish\":\"" + center.descriptionSpanish + "\"," +
-                            "\"descriptionEnglish\":\"" + center.descriptionEnglish + "\"," +
-                            "\"descriptionFrench\":\"" + center.descriptionFrench + "\"," +
-                            "\"descriptionBasque\":\"" + center.descriptionBasque + "\"," +
-                            "\"descriptionCatalan\":\"" + center.descriptionCatalan + "\"," +
-                            "\"descriptionDutch\":\"" + center.descriptionDutch + "\"," +
-                            "\"descriptionGalician\":\"" + center.descriptionGalician + "\"," +
-                            "\"descriptionGerman\":\"" + center.descriptionGerman + "\"," +
-                            "\"descriptionItalian\":\"" + center.descriptionItalian + "\"," +
-                            "\"descriptionPortuguese\":\"" + center.descriptionPortuguese + "\"," +
+                            "\"description\":\"" + center.description + "\"," +
+                            "\"telephone\":\"" + center.telephone + "\"," +
+                            "\"idAddress\":\"" + center.idAddress + "\"," +
+                            "\"email\":\"" + center.email + "\"," +
+                            "\"profilePhoto\":\"" + center.profilePhoto + "\"}";
+                    result.Add(JsonDocument.Parse(rg));
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Method that obtains all the centers of an organization
+        /// </summary>
+        /// <param name="idOrganization">Organization identifier</param>
+        /// <param name="orgType">Organization type</param>
+        /// <param name="illness">Organization illness or syndrome</param>
+        /// <returns>All centers of an organization</returns>
+        [HttpGet("aditional")]
+        [Authorize]
+        public IActionResult GetAditionalCentersByOrganization([FromQuery] int idOrganization, [FromQuery] string orgType, [FromQuery] string illness, [FromQuery] string language, [FromHeader] string Authorization)
+        {
+            try
+            {
+
+                var aux = _context.Centers.Where(c => c.idOrganization == idOrganization && c.orgType == orgType && c.illness == illness && c.idCenter>1);//.ToList();
+                Expression<Func<Center, CenterDto>> selector = c => new CenterDto
+                {
+                    idOrganization = c.idOrganization,
+                    orgType = c.orgType,
+                    illness = c.illness,
+                    idCenter = c.idCenter,
+                    description = c.descriptionEnglish,
+                    telephone = c.telephone,
+                    idAddress = c.idAddress,
+                    email = c.email,
+                    profilePhoto = c.profilePhoto
+                };
+                switch (language)
+                {
+                    case "es":
+                        selector = c => new CenterDto
+                        {
+                            idOrganization = c.idOrganization,
+                            orgType = c.orgType,
+                            illness = c.illness,
+                            idCenter = c.idCenter,
+                            description = c.descriptionSpanish,
+                            telephone = c.telephone,
+                            idAddress = c.idAddress,
+                            email = c.email,
+                            profilePhoto = c.profilePhoto
+                        };
+                        break;
+                    case "fr":
+                        selector = c => new CenterDto
+                        {
+                            idOrganization = c.idOrganization,
+                            orgType = c.orgType,
+                            illness = c.illness,
+                            idCenter = c.idCenter,
+                            description = c.descriptionFrench,
+                            telephone = c.telephone,
+                            idAddress = c.idAddress,
+                            email = c.email,
+                            profilePhoto = c.profilePhoto
+                        };
+                        break;
+                    case "eu":
+                        selector = c => new CenterDto
+                        {
+                            idOrganization = c.idOrganization,
+                            orgType = c.orgType,
+                            illness = c.illness,
+                            idCenter = c.idCenter,
+                            description = c.descriptionBasque,
+                            telephone = c.telephone,
+                            idAddress = c.idAddress,
+                            email = c.email,
+                            profilePhoto = c.profilePhoto
+                        };
+                        break;
+                    case "ca":
+                        selector = c => new CenterDto
+                        {
+                            idOrganization = c.idOrganization,
+                            orgType = c.orgType,
+                            illness = c.illness,
+                            idCenter = c.idCenter,
+                            description = c.descriptionCatalan,
+                            telephone = c.telephone,
+                            idAddress = c.idAddress,
+                            email = c.email,
+                            profilePhoto = c.profilePhoto
+                        };
+                        break;
+                    case "gl":
+                        selector = c => new CenterDto
+                        {
+                            idOrganization = c.idOrganization,
+                            orgType = c.orgType,
+                            illness = c.illness,
+                            idCenter = c.idCenter,
+                            description = c.descriptionGalician,
+                            telephone = c.telephone,
+                            idAddress = c.idAddress,
+                            email = c.email,
+                            profilePhoto = c.profilePhoto
+                        };
+                        break;
+                    case "pt":
+                        selector = c => new CenterDto
+                        {
+                            idOrganization = c.idOrganization,
+                            orgType = c.orgType,
+                            illness = c.illness,
+                            idCenter = c.idCenter,
+                            description = c.descriptionPortuguese,
+                            telephone = c.telephone,
+                            idAddress = c.idAddress,
+                            email = c.email,
+                            profilePhoto = c.profilePhoto
+                        };
+                        break;
+                    case "de":
+                        selector = c => new CenterDto
+                        {
+                            idOrganization = c.idOrganization,
+                            orgType = c.orgType,
+                            illness = c.illness,
+                            idCenter = c.idCenter,
+                            description = c.descriptionGerman,
+                            telephone = c.telephone,
+                            idAddress = c.idAddress,
+                            email = c.email,
+                            profilePhoto = c.profilePhoto
+                        };
+                        break;
+                    case "it":
+                        selector = c => new CenterDto
+                        {
+                            idOrganization = c.idOrganization,
+                            orgType = c.orgType,
+                            illness = c.illness,
+                            idCenter = c.idCenter,
+                            description = c.descriptionItalian,
+                            telephone = c.telephone,
+                            idAddress = c.idAddress,
+                            email = c.email,
+                            profilePhoto = c.profilePhoto
+                        };
+                        break;
+                    case "nl":
+                        selector = c => new CenterDto
+                        {
+                            idOrganization = c.idOrganization,
+                            orgType = c.orgType,
+                            illness = c.illness,
+                            idCenter = c.idCenter,
+                            description = c.descriptionDutch,
+                            telephone = c.telephone,
+                            idAddress = c.idAddress,
+                            email = c.email,
+                            profilePhoto = c.profilePhoto
+                        };
+                        break;
+                    default:
+                        selector = c => new CenterDto
+                        {
+                            idOrganization = c.idOrganization,
+                            orgType = c.orgType,
+                            illness = c.illness,
+                            idCenter = c.idCenter,
+                            description = c.descriptionEnglish,
+                            telephone = c.telephone,
+                            idAddress = c.idAddress,
+                            email = c.email,
+                            profilePhoto = c.profilePhoto
+                        };
+                        break;
+                }
+                var centers = aux.Select(selector).ToList();
+                List<JsonDocument> result = new List<JsonDocument>();
+                foreach (var center in centers)
+                {
+                    String rg = "{\"idOrganization\":\"" + center.idOrganization + "\"," +
+                            "\"orgType\":\"" + center.orgType + "\"," +
+                            "\"illness\":\"" + center.illness + "\"," +
+                            "\"idCenter\":\"" + center.idCenter + "\"," +
+                            "\"description\":\"" + center.description + "\"," +
                             "\"telephone\":\"" + center.telephone + "\"," +
                             "\"idAddress\":\"" + center.idAddress + "\"," +
                             "\"email\":\"" + center.email + "\"," +
@@ -245,6 +603,16 @@ namespace OTEAServer.Controllers
                 if (center is null)
                     return NotFound();
 
+                var indicatorsEvaluationSimpleEvidenceRegs = _context.IndicatorsEvaluationsSimpleEvidencesRegs.Where(c => c.idEvaluatedOrganization == idOrganization && c.orgTypeEvaluated == orgType && c.illness == illness && c.idCenter == idCenter).ToList();
+                if (indicatorsEvaluationSimpleEvidenceRegs is not null)
+                {
+                    foreach (var reg in indicatorsEvaluationSimpleEvidenceRegs)
+                    {
+                        _context.IndicatorsEvaluationsSimpleEvidencesRegs.Remove(reg);
+                    }
+                }
+                _context.SaveChanges();
+
                 var indicatorsEvaluationEvidenceRegs = _context.IndicatorsEvaluationsEvidencesRegs.Where(c => c.idEvaluatedOrganization == idOrganization && c.orgTypeEvaluated == orgType && c.illness == illness && c.idCenter == idCenter).ToList();
                 if(indicatorsEvaluationEvidenceRegs is not null) {
                     foreach (var reg in indicatorsEvaluationEvidenceRegs)
@@ -252,6 +620,7 @@ namespace OTEAServer.Controllers
                         _context.IndicatorsEvaluationsEvidencesRegs.Remove(reg);
                     }
                 }
+                _context.SaveChanges();
 
                 var indicatorsEvaluationIndicatorRegs = _context.IndicatorsEvaluationsIndicatorsRegs.Where(c => c.idEvaluatedOrganization == idOrganization && c.orgTypeEvaluated == orgType && c.illness == illness && c.idCenter == idCenter).ToList();
                 if (indicatorsEvaluationIndicatorRegs is not null)
@@ -261,6 +630,7 @@ namespace OTEAServer.Controllers
                         _context.IndicatorsEvaluationsIndicatorsRegs.Remove(reg);
                     }
                 }
+                _context.SaveChanges();
 
                 var indicatorsEvaluations = _context.IndicatorsEvaluations.Where(c => c.idEvaluatedOrganization == idOrganization && c.orgTypeEvaluated == orgType && c.illness == illness && c.idCenter == idCenter).ToList();
                 if (indicatorsEvaluations is not null) {
@@ -268,6 +638,7 @@ namespace OTEAServer.Controllers
                         _context.IndicatorsEvaluations.Remove(indEval);
                     }
                 }
+                _context.SaveChanges();
 
                 var evaluatorTeams = _context.EvaluatorTeams.Where(c => c.idEvaluatedOrganization == idOrganization && c.orgTypeEvaluated == orgType && c.illness == illness && c.idCenter == idCenter);
                 if (evaluatorTeams is not null)
@@ -279,6 +650,7 @@ namespace OTEAServer.Controllers
                 }
 
                 _context.Centers.Remove(center);
+                _context.SaveChanges();
 
                 var address = _context.Addresses.FirstOrDefault(c => c.idAddress == center.idAddress);
                 if (address is not null)

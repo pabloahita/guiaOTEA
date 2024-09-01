@@ -3,16 +3,24 @@ package gui;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.FileProvider;
+import androidx.core.graphics.drawable.IconCompat;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.service.credentials.Action;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -28,16 +36,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeProgressDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.fundacionmiradas.indicatorsevaluation.R;
 import com.otaliastudios.zoom.ZoomLayout;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFParagraph;
-import org.apache.poi.xwpf.usermodel.XWPFRun;
-import org.apache.poi.xwpf.usermodel.XWPFTableCell;
-import org.apache.poi.xwpf.usermodel.XWPFTableRow;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTShd;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.STShd;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -45,7 +51,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -59,6 +64,8 @@ import cli.indicators.IndicatorsEvaluation;
 import cli.indicators.IndicatorsEvaluationEvidenceReg;
 import cli.indicators.IndicatorsEvaluationIndicatorReg;
 import cli.indicators.IndicatorsEvaluationSimpleEvidenceReg;
+import io.karn.notify.Notify;
+import io.karn.notify.NotifyCreator;
 import misc.DateFormatter;
 import misc.FieldChecker;
 import session.FileManager;
@@ -844,7 +851,7 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
         if(keyCode==event.KEYCODE_BACK){
             IndicatorsEvaluationUtil.removeInstance();
             IndicatorsUtil.removeInstance();
-            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+            Intent intent=new Intent(getApplicationContext(), MainMenu.class);
             startActivity(intent);
         }
         return super.onKeyDown(keyCode,event);
@@ -854,25 +861,149 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
 
         ExecutorService executor=Executors.newSingleThreadExecutor();
 
-        Toast.makeText(SeeRealizedIndicatorsEvaluations.this,"Descargando archivo",Toast.LENGTH_LONG).show();
+
+        String patientName= IndicatorsEvaluationUtil.getInstance().getEvaluatorTeam().getPatient_name().replace(" ","-");
+        String creationDate= DateFormatter.timeStampToStrDate(IndicatorsEvaluationUtil.getInstance().getEvaluatorTeam().getCreationDate()).replace("/","");
+        String fileName="ORG_"+IndicatorsEvaluationUtil.getInstance().getEvaluatedOrganization().getIdOrganization()+"_"+IndicatorsEvaluationUtil.getInstance().getEvaluatedOrganization().getOrganizationType()+"_"+IndicatorsEvaluationUtil.getInstance().getEvaluatedOrganization().getIllness()+"_CENTER_"+IndicatorsEvaluationUtil.getInstance().getCenter().getIdCenter()+"_EVALTEAM_"+patientName+"-"+creationDate+"_TYPE_"+ IndicatorsEvaluationUtil.getInstance().getIndicatorsEvaluation().getEvaluationType()+".docx";
+
+
+        String[] title={getString(R.string.downloading_report).replace("{Pepito}",patientName)};
+
+
+        Context context=SeeRealizedIndicatorsEvaluations.this;
+        NotifyCreator notification=Notify.Companion.with(context)
+                .header(builder->{
+                    builder.setIcon(android.R.drawable.stat_sys_download);
+                    builder.setColor(R.color.miradas_color);
+                    return null;
+                })
+                .asBigText(builder->{
+                    builder.setTitle(title[0]);
+                    builder.setExpandedText(getString(R.string.please_wait));
+                    builder.setBigText(fileName);
+                    return null;
+                })
+                .progress(builder->{
+                    builder.setShowProgress(true);
+                    return null;
+                });
+
+        int idNotification=notification.show();
+
+        /*AwesomeProgressDialog chargingScreenDialog=new AwesomeProgressDialog(this)
+                .setTitle(title[0])
+                .setMessage(R.string.please_wait)
+                .setColoredCircle(R.color.miradas_color)
+                .setCancelable(false);
+        chargingScreenDialog.show();*/
+
 
         executor.execute(()->{
 
             try {
-                String patientName= IndicatorsEvaluationUtil.getInstance().getEvaluatorTeam().getPatient_name().replace(" ","-");
-                String creationDate= DateFormatter.timeStampToStrDate(IndicatorsEvaluationUtil.getInstance().getEvaluatorTeam().getCreationDate()).replace("/","");
-                String fileName="ORG_"+IndicatorsEvaluationUtil.getInstance().getEvaluatedOrganization().getIdOrganization()+"_"+IndicatorsEvaluationUtil.getInstance().getEvaluatedOrganization().getOrganizationType()+"_"+IndicatorsEvaluationUtil.getInstance().getEvaluatedOrganization().getIllness()+"_CENTER_"+IndicatorsEvaluationUtil.getInstance().getCenter().getIdCenter()+"_EVALTEAM_"+patientName+"-"+creationDate+"_TYPE_"+ IndicatorsEvaluationUtil.getInstance().getIndicatorsEvaluation().getEvaluationType()+".docx";
+
                 ByteArrayOutputStream bos=FileManager.downloadReport(fileName).join();
                 byte[] data=bos.toByteArray();
                 bos.close();
                 InputStream is=new ByteArrayInputStream(data);
                 XWPFDocument document=new XWPFDocument(is);
-                FileOutputStream fos=new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)+ File.separator+fileName);
+                FileOutputStream fos=new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+ File.separator+fileName);
                 document.write(fos);
                 is.close();
                 fos.close();
                 runOnUiThread(()->{
-                    Toast.makeText(SeeRealizedIndicatorsEvaluations.this,"Descarga completada",Toast.LENGTH_LONG).show();
+                    NotificationManager notificationManager =
+                            (NotificationManager) SeeRealizedIndicatorsEvaluations.this.getSystemService(Context.NOTIFICATION_SERVICE);
+                    notificationManager.cancel(idNotification);
+                    //chargingScreenDialog.hide();
+                    // Crear un Intent para abrir el archivo descargado
+                    File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
+                    Uri fileUri;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        // Para Android 7.0 y superior, usar FileProvider
+                        fileUri = FileProvider.getUriForFile(SeeRealizedIndicatorsEvaluations.this, getApplicationContext().getPackageName() + ".provider", file);
+                    } else {
+                        fileUri = Uri.fromFile(file);
+                    }
+
+                    Intent openFileIntent = new Intent(Intent.ACTION_VIEW);
+                    openFileIntent.setDataAndType(fileUri, "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+                    openFileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                    @SuppressLint("WrongConstant") PendingIntent openFilePendingIntent = PendingIntent.getActivity(
+                            SeeRealizedIndicatorsEvaluations.this,
+                            0,
+                            openFileIntent,
+                            PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+                    );
+
+                    Notify.Companion.with(SeeRealizedIndicatorsEvaluations.this)
+                            .header(builder->{
+                                builder.setIcon(android.R.drawable.stat_sys_download_done);
+                                builder.setColor(R.color.miradas_color);
+                                return null;
+                            })
+                            .asBigText(builder->{
+                                builder.setTitle(getString(R.string.report_complete_download));
+                                builder.setExpandedText(getString(R.string.you_can_see_report));
+                                builder.setBigText("");
+                                return null;
+                            })
+                            .actions(actions -> {
+                                actions.add(new NotificationCompat.Action(android.R.drawable.edit_text,
+                                        getString(R.string.open_report),
+                                        openFilePendingIntent)
+                                );
+                                return null;
+                            })
+                            .progress(builder -> {
+                                builder.setShowProgress(false);
+                                return null;
+                            }).show();
+                    /*new AwesomeSuccessDialog(this)
+                            .setTitle(R.string.report_complete_download)
+                            .setMessage(R.string.you_can_see_report)
+                            .setColoredCircle(com.aminography.primedatepicker.R.color.greenA700)
+                            .setCancelable(true)
+                            .setPositiveButtonText(getString(R.string.))
+                            .setPositiveButtonbackgroundColor(com.aminography.primedatepicker.R.color.greenA700)
+                            .setPositiveButtonTextColor(R.color.white)
+                            .setNegativeButtonText(getString(R.string.))
+                            .setNegativeButtonbackgroundColor(com.aminography.primedatepicker.R.color.greenA700)
+                            .setNegativeButtonTextColor(R.color.white)
+                            .setPositiveButtonClick(new Closure() {
+                                @Override
+                                public void exec() {
+                                    File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
+                                    Uri fileUri;
+
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                        // Para Android 7.0 y superior, usar FileProvider
+                                        fileUri = FileProvider.getUriForFile(SeeRealizedIndicatorsEvaluations.this, getApplicationContext().getPackageName() + ".provider", file);
+                                    } else {
+                                        fileUri = Uri.fromFile(file);
+                                    }
+
+                                    Intent openFileIntent = new Intent(Intent.ACTION_VIEW);
+                                    openFileIntent.setDataAndType(fileUri, "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+                                    openFileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                                    // Verificar si hay una aplicación que pueda manejar este Intent
+                                    if (openFileIntent.resolveActivity(getPackageManager()) != null) {
+                                        startActivity(openFileIntent);
+                                    } else {
+
+                                    }
+                                }
+                            })
+                            .setNegativeButtonClick(new Closure() {
+                                @Override
+                                public void exec() {
+                                    //click
+                                }
+                            })
+                            .show();*/
+
                 });
             } catch (IOException e) {
                 throw new RuntimeException(e);

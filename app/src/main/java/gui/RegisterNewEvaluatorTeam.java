@@ -8,8 +8,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -18,10 +16,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -31,13 +27,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.aminography.primecalendar.PrimeCalendar;
 import com.aminography.primecalendar.civil.CivilCalendar;
 import com.aminography.primedatepicker.picker.PrimeDatePicker;
 import com.aminography.primedatepicker.picker.callback.MultipleDaysPickCallback;
 import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeProgressDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.fundacionmiradas.indicatorsevaluation.R;
 import com.google.gson.JsonObject;
 
@@ -48,20 +47,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-import cli.organization.Organization;
 import cli.organization.data.Center;
 import cli.organization.data.EvaluatorTeam;
 import cli.user.User;
 import gui.adapters.CenterAdapter;
-import gui.adapters.OrgsAdapter;
 import gui.adapters.UsersAdapter;
-import misc.DateFormatter;
 import misc.ListCallback;
 import otea.connection.controller.CentersController;
 import otea.connection.controller.EvaluatorTeamsController;
@@ -154,42 +149,12 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
 
             UsersAdapter[] usersAdapter=new UsersAdapter[2];
             CenterAdapter[] centerAdapters=new CenterAdapter[1];
-            CentersController.GetAllByOrganization(Session.getInstance().getOrganization(), new ListCallback() {
-                @Override
-                public void onSuccess(List<JsonObject> data) {
-                    centers=new ArrayList<>();
-                    for(JsonObject center:data){
-                        int idOrganization=center.getAsJsonPrimitive("idOrganization").getAsInt();
-                        String orgType=center.getAsJsonPrimitive("orgType").getAsString();
-                        String illness=center.getAsJsonPrimitive("illness").getAsString();
-                        int idCenter=center.getAsJsonPrimitive("idCenter").getAsInt();
-                        String descriptionEnglish=center.getAsJsonPrimitive("descriptionEnglish").getAsString();
-                        String descriptionSpanish=center.getAsJsonPrimitive("descriptionSpanish").getAsString();
-                        String descriptionFrench=center.getAsJsonPrimitive("descriptionFrench").getAsString();
-                        String descriptionBasque=center.getAsJsonPrimitive("descriptionBasque").getAsString();
-                        String descriptionCatalan=center.getAsJsonPrimitive("descriptionCatalan").getAsString();
-                        String descriptionDutch=center.getAsJsonPrimitive("descriptionDutch").getAsString();
-                        String descriptionGalician=center.getAsJsonPrimitive("descriptionGalician").getAsString();
-                        String descriptionGerman=center.getAsJsonPrimitive("descriptionGerman").getAsString();
-                        String descriptionItalian=center.getAsJsonPrimitive("descriptionItalian").getAsString();
-                        String descriptionPortuguese=center.getAsJsonPrimitive("descriptionPortuguese").getAsString();
-                        int idAddress=center.getAsJsonPrimitive("idAddress").getAsInt();
-                        String telephone=center.getAsJsonPrimitive("telephone").getAsString();
-                        String email=center.getAsJsonPrimitive("email").getAsString();
-                        String profilePhoto=center.getAsJsonPrimitive("profilePhoto").getAsString();
-                        centers.add(new Center(idOrganization, orgType, illness, idCenter, descriptionEnglish, descriptionSpanish, descriptionFrench, descriptionBasque, descriptionCatalan, descriptionDutch, descriptionGalician, descriptionGerman, descriptionItalian, descriptionPortuguese, idAddress, telephone, email, profilePhoto));
-                    }
-                    centers.add(0,new Center(-1,"-","-",-1,"Center of the organization or service","Centro de la organización o servicio","Centre de l'organisation ou du service","Erakundearen edo zerbitzuaren zentroa","Centre de l'organització o servei","Centrum van de organisatie of dienst","Centro da organización ou servizo","Center der Organisation oder des Dienstes","Centro dell'organizzazione o del servizio","Centro da organização ou serviço",-1,"-","-1","-"));
-                    centerAdapters[0]=new CenterAdapter(getApplicationContext(),centers);
-                    centerAdapters[0].setDropDownViewResource(R.layout.spinner_item_layout);
-                    centerSpinner.setAdapter(centerAdapters[0]);
-                }
 
-                @Override
-                public void onError(String errorResponse) {
-
-                }
-            });
+            centers=AddNewEvalTeamUtil.getInstance().getCenters();
+            centers.add(0,new Center(-1,"-","-",-1,"Center of the organization or service","Centro de la organización o servicio","Centre de l'organisation ou du service","Erakundearen edo zerbitzuaren zentroa","Centre de l'organització o servei","Centrum van de organisatie of dienst","Centro da organización ou servizo","Center der Organisation oder des Dienstes","Centro dell'organizzazione o del servizio","Centro da organização ou serviço",-1,"-","-1","-"));
+            centerAdapters[0]=new CenterAdapter(getApplicationContext(),centers);
+            centerAdapters[0].setDropDownViewResource(R.layout.spinner_item_layout);
+            centerSpinner.setAdapter(centerAdapters[0]);
 
 
 
@@ -226,6 +191,8 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                                 imageEvalTeam.setImageURI(uri);
                             } catch (FileNotFoundException e) {
                                 throw new RuntimeException(e);
+                            }catch(NullPointerException ignored){
+
                             }
                         }
                     });
@@ -246,6 +213,8 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                                 bs.close();
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
+                            }catch(NullPointerException ignored){
+
                             }
                         }
                     });
@@ -253,10 +222,30 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
             imageEvalTeamButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new androidx.appcompat.app.AlertDialog.Builder(v.getContext())
-                            .setTitle(getString(R.string.select_source))
-                            .setPositiveButton(getString(R.string.camera), (dialog, which) -> mTakePicture.launch(null))
-                            .setNegativeButton(getString(R.string.gallery), (dialog, which) -> mGetContent.launch("image/*"))
+                    new AwesomeInfoDialog(v.getContext())
+                            .setTitle(R.string.change_photo)
+                            .setMessage(R.string.select_source)
+                            .setColoredCircle(R.color.miradas_color)
+                            .setCancelable(true)
+                            .setDialogIconAndColor(android.R.drawable.ic_menu_camera,R.color.white)
+                            .setPositiveButtonText(getString(R.string.camera))
+                            .setPositiveButtonbackgroundColor(R.color.miradas_color)
+                            .setPositiveButtonTextColor(R.color.white)
+                            .setNegativeButtonText(getString(R.string.gallery))
+                            .setNegativeButtonbackgroundColor(R.color.miradas_color)
+                            .setNegativeButtonTextColor(R.color.white)
+                            .setPositiveButtonClick(new Closure() {
+                                @Override
+                                public void exec() {
+                                    mTakePicture.launch(null);
+                                }
+                            })
+                            .setNegativeButtonClick(new Closure() {
+                                @Override
+                                public void exec() {
+                                    mGetContent.launch("image/*");
+                                }
+                            })
                             .show();
                 }
             });
@@ -722,17 +711,29 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    base.setVisibility(View.GONE);
-                    finalBackground.setVisibility(View.VISIBLE);
+                    //base.setVisibility(View.GONE);
+                    //finalBackground.setVisibility(View.VISIBLE);
+                    AwesomeProgressDialog chargingScreenDialog=new AwesomeProgressDialog(RegisterNewEvaluatorTeam.this)
+                            .setTitle(R.string.please_wait_eval_team)
+                            .setMessage(R.string.please_wait)
+                            .setColoredCircle(R.color.miradas_color)
+                            .setCancelable(false);
+                    chargingScreenDialog.show();
                     if(!userAuxList.contains(professional) && !userAuxList.contains(responsible) && !patient.getText().toString().isEmpty() && !relative.getText().toString().isEmpty() && !creationDateEditText.getText().toString().isEmpty() && !consultant.toString().isEmpty() && checked){
                     v.postDelayed(new Runnable() {
                         @Override
                         public void run() {
 
-                            int idEvaluatorTeam= EvaluatorTeamsController.GetAllByOrganization(centerSelected.getIdOrganization(),centerSelected.getOrgType(),centerSelected.getIllness()).size()+1;
+                            List<EvaluatorTeam> evaluatorTeams=EvaluatorTeamsController.GetAllByOrganization(centerSelected.getIdOrganization(),centerSelected.getOrgType(),centerSelected.getIllness());
+                            int[] idEvaluatorTeam={-1};
+                            if(evaluatorTeams.isEmpty()){
+                                idEvaluatorTeam[0]=1;
+                            }else{
+                                idEvaluatorTeam[0]=evaluatorTeams.get(evaluatorTeams.size()-1).getIdEvaluatorTeam()+1;
+                            }
 
                             if(profilePhotoEvalTeam!=null){
-                                imgEvalTeamName="EVALTEAM_"+idEvaluatorTeam+"_"+ centerSelected.getIdCenter()+"_"+centerSelected.getIdOrganization()+"_"+centerSelected.getOrgType()+"_"+centerSelected.getIllness()+".webp";
+                                imgEvalTeamName="EVALTEAM_"+idEvaluatorTeam[0]+"_"+ centerSelected.getIdCenter()+"_"+centerSelected.getIdOrganization()+"_"+centerSelected.getOrgType()+"_"+centerSelected.getIllness()+".webp";
                                 new Thread(()->{
                                     FileManager.uploadFile(profilePhotoEvalTeam, "profile-photos", imgEvalTeamName);
                                     try{
@@ -882,14 +883,21 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                                     }
                                 }
 
-                                EvaluatorTeam evaluatorTeam=new EvaluatorTeam(idEvaluatorTeam,creation_date,professional.getEmailUser(),responsible.getEmailUser(),otherMembers.getText().toString(),1,"EVALUATOR",centerSelected.getIdOrganization(),centerSelected.getOrgType(),centerSelected.getIdCenter(),centerSelected.getIllness(),consultant.getText().toString(),patient.getText().toString(),relative.getText().toString(),observationsEnglish,observationsSpanish,observationsFrench,observationsBasque,observationsCatalan,observationsDutch,observationsGalician,observationsGerman,observationsItalian,observationsPortuguese,evaluationDatesStr.toString(),0,evaluationDates.size(),imgEvalTeamName);
+                                EvaluatorTeam evaluatorTeam=new EvaluatorTeam(idEvaluatorTeam[0],creation_date,professional.getEmailUser(),responsible.getEmailUser(),otherMembers.getText().toString(),1,"EVALUATOR",centerSelected.getIdOrganization(),centerSelected.getOrgType(),centerSelected.getIdCenter(),centerSelected.getIllness(),consultant.getText().toString(),patient.getText().toString(),relative.getText().toString(),observationsEnglish,observationsSpanish,observationsFrench,observationsBasque,observationsCatalan,observationsDutch,observationsGalician,observationsGerman,observationsItalian,observationsPortuguese,evaluationDatesStr.toString(),0,evaluationDates.size(),imgEvalTeamName);
 
 
                                 EvaluatorTeamsController.Create(evaluatorTeam);
-                                StringPasser.createInstance(getString(R.string.eval_team_added_sucessful));
+                                try {
+                                    Thread.sleep(300);
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                int idTitle=R.string.evaluation_team_registered;
+                                int idMsg=R.string.choose_other;
+                                StringPasser.createInstance(idTitle,idMsg);
 
                                 runOnUiThread(()->{
-                                    Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+                                    Intent intent=new Intent(getApplicationContext(), MainMenu.class);
                                     setResult(RESULT_OK,intent);
                                     finish();
                                 });
@@ -905,8 +913,9 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                         }
                     }, 100);
                 } else{
-                    base.setVisibility(View.VISIBLE);
-                    finalBackground.setVisibility(View.GONE);
+                    //base.setVisibility(View.VISIBLE);
+                    //finalBackground.setVisibility(View.GONE)
+                    chargingScreenDialog.hide();
                     String msg="<ul>";
                     int numErrors=0;
                     if(centerSelected==centers.get(0)){
@@ -952,53 +961,31 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                     }else{
                         idTitle=R.string.error;
                     }
-                    new AlertDialog.Builder(RegisterNewEvaluatorTeam.this)
-                            .setTitle(getString(idTitle))
+                    new AwesomeErrorDialog(RegisterNewEvaluatorTeam.this)
+                            .setTitle(idTitle)
                             .setMessage(Html.fromHtml(msg,0))
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .setPositiveButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
+                            .setColoredCircle(com.aminography.primedatepicker.R.color.redA700)
+                            .setCancelable(true).setButtonText(getString(R.string.understood))
+                            .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.redA700)
+                            .setButtonText(getString(R.string.understood))
+                            .setErrorButtonClick(new Closure() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
+                                public void exec() {
+                                    // click
                                 }
                             })
-                            .create().show();
+                            .show();
                 }}
             });
 
-        }
-        else{
-            String msg="<ul>";
-            int numErrors=0;
-            if(evaluatedUsers.isEmpty()){
-                msg+="<li><b>"+getString(R.string.please_select_center)+"</b></li>";
-                numErrors++;
-            }
-            msg+="</ul>";
-            int idTitle=-1;
-            if(numErrors>1){
-                idTitle=R.string.errors;
-            }else{
-                idTitle=R.string.error;
-            }
-            new AlertDialog.Builder(RegisterNewEvaluatorTeam.this)
-                    .setTitle(getString(idTitle))
-                    .setMessage(Html.fromHtml(msg,0))
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setPositiveButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .create().show();
         }
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if(keyCode==event.KEYCODE_BACK){
-            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+            AddNewEvalTeamUtil.removeInstance();
+            Intent intent=new Intent(getApplicationContext(), MainMenu.class);
             setResult(RESULT_CANCELED,intent);
             finish();
         }

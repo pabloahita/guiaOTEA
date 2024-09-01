@@ -26,7 +26,16 @@ public interface CentersApi {
      * @param idOrganization - Organization identifier
      * */
     @GET("Centers/org")
-    Call<List<JsonObject>> GetAllByOrganization(@Query("idOrganization") int idOrganization, @Query("orgType") String orgType, @Query("illness") String illness, @Header("Authorization") String Authorization);
+    Call<List<JsonObject>> GetAllByOrganization(@Query("idOrganization") int idOrganization, @Query("orgType") String orgType, @Query("illness") String illness, @Query("language") String language, @Header("Authorization") String Authorization);
+
+    /**
+     * Gets all aditional centers of an organization
+     *
+     * @param idOrganization - Organization identifier
+     * */
+    @GET("Centers/aditional")
+    Call<List<JsonObject>> GetAditionalCentersByOrganization(@Query("idOrganization") int idOrganization, @Query("orgType") String orgType, @Query("illness") String illness, @Query("language") String language, @Header("Authorization") String Authorization);
+
 
     /**
      * Get a center

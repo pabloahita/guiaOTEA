@@ -175,6 +175,18 @@
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1">
 
+                <ProgressBar
+                    android:id="@+id/progressBarRegion"
+                    style="@style/MiradasProgressBar"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:padding="35dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilRegion"
                     android:layout_width="0dp"
@@ -220,6 +232,18 @@
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1">
 
+                <ProgressBar
+                    android:id="@+id/progressBarProvince"
+                    style="@style/MiradasProgressBar"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:padding="35dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilProvince"
                     android:layout_width="0dp"
@@ -264,6 +288,18 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1">
+
+                <ProgressBar
+                    android:id="@+id/progressBarCity"
+                    style="@style/MiradasProgressBar"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:padding="35dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilCity"

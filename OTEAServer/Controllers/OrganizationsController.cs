@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OTEAServer.Misc;
 using OTEAServer.Models;
+using System.Linq.Expressions;
 using System.Net;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace OTEAServer.Controllers
 {
@@ -31,6 +33,18 @@ namespace OTEAServer.Controllers
             _context = context;
         }
 
+        private class OrganizationDto
+        {
+            public int idOrganization { get; set; }
+            public string orgType { get; set; }
+            public string illness { get; set; }
+            public string nameOrg { get; set; }
+            public int idAddress { get; set; }
+            public string email { get; set; }
+            public string telephone { get; set; }
+            public string information { get; set; }
+            public string? profilePhoto { get; set; }
+        }
 
         /// <summary>
         /// Gets all organizations
@@ -81,11 +95,167 @@ namespace OTEAServer.Controllers
         /// <returns>Evaluated organization list</returns>
         [HttpGet("allEvaluated")]
         [AllowAnonymous]
-        public IActionResult GetAllEvaluatedOrganizations()
+        public IActionResult GetAllEvaluatedOrganizations([FromQuery] string language)
         {
             try
             {
-                var organizations = _context.Organizations.Where(o => o.orgType == "EVALUATED").ToList();
+                var aux = _context.Organizations.Where(o => o.orgType == "EVALUATED");
+                //.ToList();
+                Expression<Func<Organization, OrganizationDto>> selector = o => new OrganizationDto {
+                    idOrganization=o.idOrganization,
+                    orgType=o.orgType,
+                    illness=o.illness,
+                    nameOrg=o.nameOrg,
+                    idAddress=o.idAddress,
+                    email=o.email,
+                    telephone=o.telephone,
+                    information=o.informationEnglish,
+                    profilePhoto=o.profilePhoto
+                };
+                switch (language)
+                {
+                    case "es":
+                        selector = o => new OrganizationDto
+                        {
+                            idOrganization = o.idOrganization,
+                            orgType = o.orgType,
+                            illness = o.illness,
+                            nameOrg = o.nameOrg,
+                            idAddress = o.idAddress,
+                            email = o.email,
+                            telephone = o.telephone,
+                            information = o.informationSpanish,
+                            profilePhoto = o.profilePhoto
+                        };
+                        break;
+                    case "fr":
+                        selector = o => new OrganizationDto
+                        {
+                            idOrganization = o.idOrganization,
+                            orgType = o.orgType,
+                            illness = o.illness,
+                            nameOrg = o.nameOrg,
+                            idAddress = o.idAddress,
+                            email = o.email,
+                            telephone = o.telephone,
+                            information = o.informationFrench,
+                            profilePhoto = o.profilePhoto
+                        };
+                        break;
+                    case "eu":
+                        selector = o => new OrganizationDto
+                        {
+                            idOrganization = o.idOrganization,
+                            orgType = o.orgType,
+                            illness = o.illness,
+                            nameOrg = o.nameOrg,
+                            idAddress = o.idAddress,
+                            email = o.email,
+                            telephone = o.telephone,
+                            information = o.informationBasque,
+                            profilePhoto = o.profilePhoto
+                        };
+                        break;
+                    case "ca":
+                        selector = o => new OrganizationDto
+                        {
+                            idOrganization = o.idOrganization,
+                            orgType = o.orgType,
+                            illness = o.illness,
+                            nameOrg = o.nameOrg,
+                            idAddress = o.idAddress,
+                            email = o.email,
+                            telephone = o.telephone,
+                            information = o.informationCatalan,
+                            profilePhoto = o.profilePhoto
+                        };
+                        break;
+                    case "gl":
+                        selector = o => new OrganizationDto
+                        {
+                            idOrganization = o.idOrganization,
+                            orgType = o.orgType,
+                            illness = o.illness,
+                            nameOrg = o.nameOrg,
+                            idAddress = o.idAddress,
+                            email = o.email,
+                            telephone = o.telephone,
+                            information = o.informationGalician,
+                            profilePhoto = o.profilePhoto
+                        };
+                        break;
+                    case "pt":
+                        selector = o => new OrganizationDto
+                        {
+                            idOrganization = o.idOrganization,
+                            orgType = o.orgType,
+                            illness = o.illness,
+                            nameOrg = o.nameOrg,
+                            idAddress = o.idAddress,
+                            email = o.email,
+                            telephone = o.telephone,
+                            information = o.informationPortuguese,
+                            profilePhoto = o.profilePhoto
+                        };
+                        break;
+                    case "de":
+                        selector = o => new OrganizationDto
+                        {
+                            idOrganization = o.idOrganization,
+                            orgType = o.orgType,
+                            illness = o.illness,
+                            nameOrg = o.nameOrg,
+                            idAddress = o.idAddress,
+                            email = o.email,
+                            telephone = o.telephone,
+                            information = o.informationGerman,
+                            profilePhoto = o.profilePhoto
+                        };
+                        break;
+                    case "it":
+                        selector = o => new OrganizationDto
+                        {
+                            idOrganization = o.idOrganization,
+                            orgType = o.orgType,
+                            illness = o.illness,
+                            nameOrg = o.nameOrg,
+                            idAddress = o.idAddress,
+                            email = o.email,
+                            telephone = o.telephone,
+                            information = o.informationItalian,
+                            profilePhoto = o.profilePhoto
+                        };
+                        break;
+                    case "nl":
+                        selector = o => new OrganizationDto
+                        {
+                            idOrganization = o.idOrganization,
+                            orgType = o.orgType,
+                            illness = o.illness,
+                            nameOrg = o.nameOrg,
+                            idAddress = o.idAddress,
+                            email = o.email,
+                            telephone = o.telephone,
+                            information = o.informationDutch,
+                            profilePhoto = o.profilePhoto
+                        };
+                        break;
+                    default:
+                        selector = o => new OrganizationDto
+                        {
+                            idOrganization = o.idOrganization,
+                            orgType = o.orgType,
+                            illness = o.illness,
+                            nameOrg = o.nameOrg,
+                            idAddress = o.idAddress,
+                            email = o.email,
+                            telephone = o.telephone,
+                            information = o.informationEnglish,
+                            profilePhoto = o.profilePhoto
+                        };
+                        break;
+                }
+                var organizations=aux.Select(selector).ToList();
                 List<JsonDocument> result = new List<JsonDocument>();
                 foreach (var organization in organizations)
                 {
@@ -96,16 +266,7 @@ namespace OTEAServer.Controllers
                                 "\"idAddress\":\"" + organization.idAddress + "\"," +
                                 "\"email\":\"" + organization.email + "\"," +
                                 "\"telephone\":\"" + organization.telephone + "\"," +
-                                "\"informationSpanish\":\"" + organization.informationSpanish + "\"," +
-                                "\"informationEnglish\":\"" + organization.informationEnglish + "\"," +
-                                "\"informationFrench\":\"" + organization.informationFrench + "\"," +
-                                "\"informationBasque\":\"" + organization.informationBasque + "\"," +
-                                "\"informationCatalan\":\"" + organization.informationCatalan + "\"," +
-                                "\"informationDutch\":\"" + organization.informationDutch + "\"," +
-                                "\"informationGalician\":\"" + organization.informationGalician + "\"," +
-                                "\"informationGerman\":\"" + organization.informationGerman + "\"," +
-                                "\"informationItalian\":\"" + organization.informationItalian + "\"," +
-                                "\"informationPortuguese\":\"" + organization.informationPortuguese + "\"," +
+                                "\"information\":\"" + organization.information + "\"," +
                                 "\"profilePhoto\":\"" + organization.profilePhoto + "\"}";
                     result.Add(JsonDocument.Parse(rg));
                 }

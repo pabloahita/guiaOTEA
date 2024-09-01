@@ -23,7 +23,7 @@ public interface OrganizationsApi {
 
     /**Gets all evaluated organizations*/
     @GET("Organizations/allEvaluated")
-    Call<List<JsonObject>> GetAllEvaluatedOrganizations();
+    Call<List<JsonObject>> GetAllEvaluatedOrganizations(@Query("language") String language);
 
     /**Gets all evaluator organizations*/
     @GET("Organizations/allEvaluator")

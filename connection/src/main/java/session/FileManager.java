@@ -181,7 +181,7 @@ public class FileManager {
                         return null;
                     }
                 }
-                else{
+                else if (!(e.getCause() instanceof IllegalArgumentException)){
                     throw new RuntimeException(e);
                 }
             }
@@ -214,10 +214,11 @@ public class FileManager {
                         numAttempts = 0;
                         return null;
                     }
-                } else {
+                } else if (!(e.getCause() instanceof IllegalArgumentException)){
                     throw new RuntimeException(e);
                 }
             }
+            return null;
         });
     }
 
@@ -234,7 +235,7 @@ public class FileManager {
                 blobClient.delete();
             } catch (BlobStorageException e) {
                 throw new RuntimeException("Error al eliminar el blob", e);
-            }
+            } catch (IllegalArgumentException ignored){}
         }).start();
     }
 
@@ -262,10 +263,10 @@ public class FileManager {
                                 deleteBlobsAsync(Collections.singletonList(fileName));
                             } else {
                                 numAttempts = 0;
-                                // Llamar al callback en caso de falla después de varios intentos
+                                throw new RuntimeException(e);
                             }
-                        } else {
-                            // Llamar al callback en caso de otro tipo de error
+                        } else if (!(e.getCause() instanceof IllegalArgumentException)){
+                            throw new RuntimeException(e);
                         }
                     } finally {
                         latch.countDown(); // Reducir el contador del latch cuando una descarga se completa

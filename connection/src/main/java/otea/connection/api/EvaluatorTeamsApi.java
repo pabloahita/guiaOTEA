@@ -35,7 +35,7 @@ public interface EvaluatorTeamsApi {
      * @param illness - Organization illness or syndrome
      * */
     @GET("EvaluatorTeams/allByCenter")
-    Call<List<JsonObject>> GetAllByCenter(@Query("id") int id, @Query("orgType") String orgType, @Query("idCenter") int idCenter, @Query("illness") String illness, @Header("Authorization") String Authorization);
+    Call<List<JsonObject>> GetAllByCenter(@Query("id") int id, @Query("orgType") String orgType, @Query("idCenter") int idCenter, @Query("illness") String illness, @Query("language") String language, @Header("Authorization") String Authorization);
 
     /**
      * Get all evaluator teams of an organization
@@ -45,7 +45,7 @@ public interface EvaluatorTeamsApi {
      * @param illness - Organization illness or syndrome
      */
     @GET("EvaluatorTeams/allByOrganization")
-    Call<List<JsonObject>> GetAllByOrganization(@Query("id") int id, @Query("orgType") String orgType, @Query("illness") String illness, @Header("Authorization") String Authorization);
+    Call<List<JsonObject>> GetAllByOrganization(@Query("id") int id, @Query("orgType") String orgType, @Query("illness") String illness, @Query("language") String language, @Header("Authorization") String Authorization);
 
     /**
      * Get an evaluator team

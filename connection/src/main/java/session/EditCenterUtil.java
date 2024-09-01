@@ -25,6 +25,8 @@ public class EditCenterUtil {
         return instance;
     }
 
+    public static synchronized void removeInstance(){instance=null;}
+
     public Center getCenter() {
         return center;
     }

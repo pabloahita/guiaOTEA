@@ -23,13 +23,16 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeProgressDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.fundacionmiradas.indicatorsevaluation.R;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
@@ -52,7 +55,6 @@ import cli.organization.data.geo.City;
 import cli.organization.data.geo.Country;
 import cli.organization.data.geo.Province;
 import cli.organization.data.geo.Region;
-import gui.adapters.CenterAdapter;
 import gui.adapters.CityAdapter;
 import gui.adapters.CountryAdapter;
 import gui.adapters.OrgsAdapter;
@@ -150,6 +152,12 @@ public class EditCenter extends AppCompatActivity {
 
     boolean photoHasChanged=false;
 
+    ProgressBar pbRegion;
+
+    ProgressBar pbProvince;
+
+    ProgressBar pbCity;
+
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,6 +176,10 @@ public class EditCenter extends AppCompatActivity {
         tilRegion=findViewById(R.id.tilRegion);
         tilProvince=findViewById(R.id.tilProvince);
         tilCity=findViewById(R.id.tilCity);
+
+        pbRegion=findViewById(R.id.progressBarRegion);
+        pbProvince=findViewById(R.id.progressBarProvince);
+        pbCity=findViewById(R.id.progressBarCity);
 
         helpButton=findViewById(R.id.helpButton);
 
@@ -320,11 +332,32 @@ public class EditCenter extends AppCompatActivity {
         imageCenterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(v.getContext())
-                        .setTitle(getString(R.string.select_source))
-                        .setPositiveButton(getString(R.string.camera), (dialog, which) -> mTakePicture.launch(null))
-                        .setNegativeButton(getString(R.string.gallery), (dialog, which) -> mGetContent.launch("image/*"))
+                new AwesomeInfoDialog(v.getContext())
+                        .setTitle(R.string.change_photo)
+                        .setMessage(R.string.select_source)
+                        .setColoredCircle(R.color.miradas_color)
+                        .setCancelable(true)
+                        .setDialogIconAndColor(android.R.drawable.ic_menu_camera,R.color.white)
+                        .setPositiveButtonText(getString(R.string.camera))
+                        .setPositiveButtonbackgroundColor(R.color.miradas_color)
+                        .setPositiveButtonTextColor(R.color.white)
+                        .setNegativeButtonText(getString(R.string.gallery))
+                        .setNegativeButtonbackgroundColor(R.color.miradas_color)
+                        .setNegativeButtonTextColor(R.color.white)
+                        .setPositiveButtonClick(new Closure() {
+                            @Override
+                            public void exec() {
+                                mTakePicture.launch(null);
+                            }
+                        })
+                        .setNegativeButtonClick(new Closure() {
+                            @Override
+                            public void exec() {
+                                mGetContent.launch("image/*");
+                            }
+                        })
                         .show();
+
             }
         });
 
@@ -769,10 +802,15 @@ public class EditCenter extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                base.setVisibility(View.GONE);
+                //base.setVisibility(View.GONE);
 
-                background.setVisibility(View.VISIBLE);
-
+                //background.setVisibility(View.VISIBLE);
+                AwesomeProgressDialog chargingScreenDialog=new AwesomeProgressDialog(EditCenter.this)
+                        .setTitle(R.string.please_wait_save_changes)
+                        .setMessage(R.string.please_wait)
+                        .setColoredCircle(R.color.miradas_color)
+                        .setCancelable(false);
+                chargingScreenDialog.show();
                 if(currCenter.getIdCenter() != -1 && !fields.get("centerDescription").isEmpty() && !fields.get("address").isEmpty() && !idCountry[0].equals("-2") && !fields.get("nameProvince").isEmpty() && !fields.get("nameRegion").isEmpty() && !fields.get("nameCity").isEmpty()
                         && FieldChecker.isACorrectPhone(fields.get("telephoneCode")+fields.get("telephone"))&&
                         ((FieldChecker.isPrecharged(idCountry[0]) && region[0] != null && idRegion[0] != -2 && province[0] != null && idProvince[0] != -2 && city[0] != null && idCity[0] != -2) ||
@@ -934,31 +972,17 @@ public class EditCenter extends AppCompatActivity {
                         AddressesController.Update(address.getIdAddress(),currAddress);
                         Center center=new Center(idOrganization,orgType,illness, idCenter,descriptionEnglish,descriptionSpanish,descriptionFrench,descriptionBasque,descriptionCatalan,descriptionDutch,descriptionGalician,descriptionGerman,descriptionItalian,descriptionPortuguese,address.getIdAddress(),fields.get("telephoneCode")+" "+fields.get("telephone"),fields.get("email"),currCenter.getProfilePhoto());
                         CentersController.Update(idOrganization,orgType,illness, idCenter,center);
-                        String msg="";
-                        if(Locale.getDefault().getLanguage().equals("es")){
-                            msg="La organización <b>"+descriptionSpanish+"</b> se ha modificado correctamente" ;
-                        }else if(Locale.getDefault().getLanguage().equals("fr")){
-                            msg="Le centre <b>"+descriptionFrench+"</b> a été modifiée avec succès" ;
-                        }else if(Locale.getDefault().getLanguage().equals("eu")){
-                            msg="<b>"+descriptionBasque+"</b> zentroa behar bezala aldatu da" ;
-                        }else if(Locale.getDefault().getLanguage().equals("ca")){
-                            msg="El centre <b>"+descriptionCatalan+"</b> s'ha modificat correctament" ;
-                        }else if(Locale.getDefault().getLanguage().equals("nl")){
-                            msg="Het<b>"+descriptionDutch+"</b>-centrum is correct aangepast" ;
-                        }else if(Locale.getDefault().getLanguage().equals("gl")){
-                            msg="O centro <b>"+descriptionGalician+"</b> modificouse correctamente" ;
-                        }else if(Locale.getDefault().getLanguage().equals("de")){
-                            msg="Das <b>"+descriptionGerman+"</b>-Zentrum wurde erfolgreich geändert";
-                        }else if(Locale.getDefault().getLanguage().equals("it")){
-                            msg="Il centro <b>"+descriptionItalian+"</b> è stato modificato correttamente" ;
-                        }else if(Locale.getDefault().getLanguage().equals("pt")) {
-                            msg = "O centro <b>"+descriptionPortuguese+"</b> foi modificado com sucesso";
-                        }else{
-                            msg="The <b>"+descriptionEnglish+"</b> center has been successfully modified" ;
+                        try {
+                            Thread.sleep(300);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
                         }
-                        StringPasser.createInstance(msg);
+
+                        StringPasser.createInstance(R.string.center_service_modified,R.string.choose_other);
+                        StringPasser.getInstance().setFlag(1);
                         runOnUiThread(()->{
-                            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+                            EditCenterUtil.removeInstance();
+                            Intent intent=new Intent(getApplicationContext(), MainMenu.class);
                             startActivity(intent);
                         });
 
@@ -968,9 +992,9 @@ public class EditCenter extends AppCompatActivity {
 
                     String msg="<ul>";
                     int numErrors=0;
-                    base.setVisibility(View.VISIBLE);
-                    background.setVisibility(View.GONE);
-
+                    //base.setVisibility(View.VISIBLE);
+                    //background.setVisibility(View.GONE);
+                    chargingScreenDialog.hide();
                     if(fields.get("centerDescription").isEmpty()){
                         descriptionCenterField.setError(getString(R.string.please_description_center));
                         msg+="<li><b>"+getString(R.string.please_description_center)+"</b></li>";
@@ -1046,16 +1070,20 @@ public class EditCenter extends AppCompatActivity {
                         idTitle=R.string.errors;
                     }
                     msg+="</ul>";
-                    new android.app.AlertDialog.Builder(EditCenter.this)
-                            .setTitle(getString(idTitle))
-                            .setIcon(android.R.drawable.ic_dialog_alert)
+                    new AwesomeErrorDialog(EditCenter.this)
+                            .setTitle(idTitle)
                             .setMessage(Html.fromHtml(msg,0))
-                            .setPositiveButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
+                            .setColoredCircle(com.aminography.primedatepicker.R.color.redA700)
+                            .setCancelable(true).setButtonText(getString(R.string.understood))
+                            .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.redA700)
+                            .setButtonText(getString(R.string.understood))
+                            .setErrorButtonClick(new Closure() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
+                                public void exec() {
+                                    // click
                                 }
-                            }).create().show();
+                            })
+                            .show();
                 }
             }
 
@@ -1068,14 +1096,26 @@ public class EditCenter extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if(keyCode==event.KEYCODE_BACK){
-            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-
+            Intent intent=new Intent(getApplicationContext(), MainMenu.class);
+            EditCenterUtil.removeInstance();
             startActivity(intent);
         }
         return super.onKeyDown(keyCode,event);
     }
 
     private void regionSpinnerControl(){
+        if(citySpinner.getVisibility()==View.VISIBLE){
+            citySpinner.setVisibility(View.GONE);
+            citySpinnerAux.setVisibility(View.VISIBLE);
+        }
+        if(provinceSpinner.getVisibility()==View.VISIBLE){
+            provinceSpinner.setVisibility(View.GONE);
+            provinceSpinnerAux.setVisibility(View.VISIBLE);
+        }
+        if(regionSpinner.getVisibility()==View.VISIBLE){
+            regionSpinner.setVisibility(View.GONE);
+            regionSpinnerAux.setVisibility(View.VISIBLE);
+        }
         if(!idCountry[0].equals("-2")){
             if (FieldChecker.isPrecharged(idCountry[0])) {
                 getRegionsByCountry(idCountry[0]);
@@ -1107,6 +1147,14 @@ public class EditCenter extends AppCompatActivity {
     }
 
     private void provinceSpinnerControl(){
+        if(citySpinner.getVisibility()==View.VISIBLE){
+            citySpinner.setVisibility(View.GONE);
+            citySpinnerAux.setVisibility(View.VISIBLE);
+        }
+        if(provinceSpinner.getVisibility()==View.VISIBLE){
+            provinceSpinner.setVisibility(View.GONE);
+            provinceSpinnerAux.setVisibility(View.VISIBLE);
+        }
         if(idRegion[0]!=-2){
             if(Locale.getDefault().getLanguage().equals("es")) {
                 fields.replace("nameRegion",region[0].getNameSpanish());
@@ -1142,8 +1190,11 @@ public class EditCenter extends AppCompatActivity {
         }
     }
 
-
     private void citySpinnerControl(){
+        if(citySpinner.getVisibility()==View.VISIBLE){
+            citySpinner.setVisibility(View.GONE);
+            citySpinnerAux.setVisibility(View.VISIBLE);
+        }
         if(idProvince[0]!=-2){
             if (Locale.getDefault().getLanguage().equals("es")) {
                 fields.replace("nameProvince", province[0].getNameSpanish());
@@ -1178,6 +1229,8 @@ public class EditCenter extends AppCompatActivity {
     }
 
     public void getRegionsByCountry(String idCountry){
+
+        pbRegion.setVisibility(View.VISIBLE);
         RegionsController.GetRegionsByCountry(idCountry, new ListCallback() {
             @Override
             public void onSuccess(List<JsonObject> data) {
@@ -1223,6 +1276,7 @@ public class EditCenter extends AppCompatActivity {
 
                         if (regions.size() > 1) {
                             regions.add(0, auxRegList.get(0));
+                            pbRegion.setVisibility(View.GONE);
                             regionSpinner.setVisibility(View.VISIBLE);
                             regionSpinnerAux.setVisibility(View.GONE);
                             regionAdapter[0] = new RegionAdapter(EditCenter.this, regions);
@@ -1231,6 +1285,7 @@ public class EditCenter extends AppCompatActivity {
                         } else {
                             region[0] = regions.get(0);
                             idRegion[0] = -1;
+                            pbRegion.setVisibility(View.GONE);
                             regionSpinner.setVisibility(View.GONE);
                             regionSpinnerAux.setVisibility(View.VISIBLE);
                             provinceSpinnerControl();
@@ -1246,8 +1301,9 @@ public class EditCenter extends AppCompatActivity {
             @Override
             public void onError(String errorResponse) {
                 runOnUiThread(()->{
-                    Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-                    startActivity(intent);
+                    Intent intent=new Intent(getApplicationContext(), MainMenu.class);
+                    setResult(RESULT_CANCELED,intent);
+                    finish();
                 });
             }
         });
@@ -1255,9 +1311,11 @@ public class EditCenter extends AppCompatActivity {
     }
 
     public void getProvincesByRegion(int idRegion, String idCountry){
+        pbProvince.setVisibility(View.VISIBLE);
         ProvincesController.GetProvincesByRegion(idRegion, idCountry, new ListCallback() {
             @Override
             public void onSuccess(List<JsonObject> data) {
+
                 new Thread(()->{
                     provinces=new ArrayList<>();
                     for(JsonObject reg:data){
@@ -1305,6 +1363,7 @@ public class EditCenter extends AppCompatActivity {
                         provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
                         provinceSpinner.setAdapter(provinceAdapter[0]);
                         provinceSpinnerAux.setVisibility(View.GONE);
+                        pbProvince.setVisibility(View.GONE);
                         provinceSpinner.setVisibility(View.VISIBLE);
                         if(provinces.size()==1){
                             provinceSpinner.setSelection(0);
@@ -1314,13 +1373,15 @@ public class EditCenter extends AppCompatActivity {
                         }
                     });
                 }).start();
+
             }
 
             @Override
             public void onError(String errorResponse) {
                 runOnUiThread(()->{
-                    Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-                    startActivity(intent);
+                    Intent intent=new Intent(getApplicationContext(), MainMenu.class);
+                    setResult(RESULT_CANCELED,intent);
+                    finish();
                 });
             }
         });
@@ -1328,6 +1389,7 @@ public class EditCenter extends AppCompatActivity {
 
 
     public void getCitiesByProvince(int idProvince, int idRegion, String idCountry) {
+        pbCity.setVisibility(View.VISIBLE);
         CitiesController.GetCitiesByProvince(idProvince, idRegion, idCountry, new ListCallback() {
             @Override
             public void onSuccess(List<JsonObject> data) {
@@ -1380,6 +1442,7 @@ public class EditCenter extends AppCompatActivity {
                             cityAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
                             citySpinner.setAdapter(cityAdapter[0]);
                             citySpinnerAux.setVisibility(View.GONE);
+                            pbCity.setVisibility(View.GONE);
                             citySpinner.setVisibility(View.VISIBLE);
                             if(cities.size()==1){
                                 citySpinner.setSelection(0);
@@ -1389,13 +1452,15 @@ public class EditCenter extends AppCompatActivity {
                         }
                     });
                 }).start();
+
             }
 
             @Override
             public void onError(String errorResponse) {
                 runOnUiThread(() -> {
-                    Intent intent = new Intent(getApplicationContext(), com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-                    startActivity(intent);
+                    Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+                    setResult(RESULT_CANCELED,intent);
+                    finish();
                 });
             }
         });

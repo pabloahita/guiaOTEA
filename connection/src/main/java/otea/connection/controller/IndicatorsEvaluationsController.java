@@ -214,7 +214,7 @@ public class IndicatorsEvaluationsController {
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
             public List<JsonObject> call() throws Exception {
-                Call<List<JsonObject>> call=api.GetAllByEvaluatorTeam(idEvaluatorTeam, idEvaluatorOrg, orgTypeEvaluator, idEvaluatedOrg, orgTypeEvaluated, idCenter,illness,Session.getInstance().getToken());
+                Call<List<JsonObject>> call=api.GetAllByEvaluatorTeam(idEvaluatorTeam, idEvaluatorOrg, orgTypeEvaluator, idEvaluatedOrg, orgTypeEvaluated, idCenter,illness,Locale.getDefault().getLanguage(),Session.getInstance().getToken());
                 Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -250,7 +250,7 @@ public class IndicatorsEvaluationsController {
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
             public List<JsonObject> call() throws Exception {
-                Call<List<JsonObject>> call=api.GetNonFinishedByEvaluatorTeam(idEvaluatorTeam,idEvaluatorOrganization, orgTypeEvaluator, idEvaluatedOrganization, orgTypeEvaluated, illness, idCenter,Session.getInstance().getToken());
+                Call<List<JsonObject>> call=api.GetNonFinishedByEvaluatorTeam(idEvaluatorTeam,idEvaluatorOrganization, orgTypeEvaluator, idEvaluatedOrganization, orgTypeEvaluated, illness, idCenter,Locale.getDefault().getLanguage(),Session.getInstance().getToken());
                 Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

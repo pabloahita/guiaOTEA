@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -191,7 +192,7 @@ public class EvaluatorTeamsController {
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
             public List<JsonObject> call() throws Exception {
-                Call<List<JsonObject>> call = api.GetAllByCenter(id,orgType,idCenter,illness,Session.getInstance().getToken());
+                Call<List<JsonObject>> call = api.GetAllByCenter(id,orgType,idCenter,illness,Locale.getDefault().getLanguage(),Session.getInstance().getToken());
                 Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -227,7 +228,7 @@ public class EvaluatorTeamsController {
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
             public List<JsonObject> call() throws Exception {
-                Call<List<JsonObject>> call = api.GetAllByOrganization(id,orgType,illness,Session.getInstance().getToken());
+                Call<List<JsonObject>> call = api.GetAllByOrganization(id,orgType,illness,Locale.getDefault().getLanguage(),Session.getInstance().getToken());
                 Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -256,16 +257,38 @@ public class EvaluatorTeamsController {
                 String externalConsultant=evalTeam.getAsJsonPrimitive("externalConsultant").getAsString();
                 String patientName=evalTeam.getAsJsonPrimitive("patientName").getAsString();
                 String relativeName=evalTeam.getAsJsonPrimitive("relativeName").getAsString();
-                String observationsEnglish=evalTeam.getAsJsonPrimitive("observationsEnglish").getAsString();
-                String observationsSpanish=evalTeam.getAsJsonPrimitive("observationsSpanish").getAsString();
-                String observationsFrench=evalTeam.getAsJsonPrimitive("observationsFrench").getAsString();
-                String observationsBasque=evalTeam.getAsJsonPrimitive("observationsBasque").getAsString();
-                String observationsCatalan=evalTeam.getAsJsonPrimitive("observationsCatalan").getAsString();
-                String observationsDutch=evalTeam.getAsJsonPrimitive("observationsDutch").getAsString();
-                String observationsGalician=evalTeam.getAsJsonPrimitive("observationsGalician").getAsString();
-                String observationsGerman=evalTeam.getAsJsonPrimitive("observationsGerman").getAsString();
-                String observationsItalian=evalTeam.getAsJsonPrimitive("observationsItalian").getAsString();
-                String observationsPortuguese=evalTeam.getAsJsonPrimitive("observationsPortuguese").getAsString();
+                String observations=evalTeam.getAsJsonPrimitive("observations").getAsString();
+                String observationsSpanish="";
+                String observationsEnglish="";
+                String observationsFrench="";
+                String observationsBasque="";
+                String observationsCatalan="";
+                String observationsDutch="";
+                String observationsGalician="";
+                String observationsGerman="";
+                String observationsItalian="";
+                String observationsPortuguese="";
+                if(Locale.getDefault().getLanguage().equals("es")){
+                    observationsSpanish=observations;
+                }else if(Locale.getDefault().getLanguage().equals("fr")){
+                    observationsFrench=observations;
+                }else if(Locale.getDefault().getLanguage().equals("eu")){
+                    observationsBasque=observations;
+                }else if(Locale.getDefault().getLanguage().equals("ca")){
+                    observationsCatalan=observations;
+                }else if(Locale.getDefault().getLanguage().equals("nl")){
+                    observationsDutch=observations;
+                }else if(Locale.getDefault().getLanguage().equals("gl")){
+                    observationsGalician=observations;
+                }else if(Locale.getDefault().getLanguage().equals("de")){
+                    observationsGerman=observations;
+                }else if(Locale.getDefault().getLanguage().equals("it")){
+                    observationsItalian=observations;
+                }else if(Locale.getDefault().getLanguage().equals("pt")){
+                    observationsPortuguese=observations;
+                }else{
+                    observationsEnglish=observations;
+                }
                 String evaluationDates=evalTeam.getAsJsonPrimitive("evaluationDates").getAsString();
                 int completedEvaluationDates=evalTeam.getAsJsonPrimitive("completedEvaluationDates").getAsInt();
                 int totalEvaluationDates=evalTeam.getAsJsonPrimitive("totalEvaluationDates").getAsInt();
@@ -302,7 +325,7 @@ public class EvaluatorTeamsController {
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
             public List<JsonObject> call() throws Exception {
-                Call<List<JsonObject>> call = api.GetAllByOrganization(id,orgType,illness,Session.getInstance().getToken());
+                Call<List<JsonObject>> call = api.GetAllByOrganization(id,orgType,illness, Locale.getDefault().getLanguage(),Session.getInstance().getToken());
                 Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();

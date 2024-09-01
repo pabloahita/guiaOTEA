@@ -3,28 +3,20 @@
   "WorkspaceRootPath": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{4A0B4A61-B9CE-427C-BC0C-BCF9D6CDE6B2}|OTEAServer.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\oteaserver\\controllers\\addressescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4A0B4A61-B9CE-427C-BC0C-BCF9D6CDE6B2}|OTEAServer.csproj|solutionrelative:controllers\\addressescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4A0B4A61-B9CE-427C-BC0C-BCF9D6CDE6B2}|OTEAServer.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\oteaserver\\controllers\\centerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4A0B4A61-B9CE-427C-BC0C-BCF9D6CDE6B2}|OTEAServer.csproj|solutionrelative:controllers\\centerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4A0B4A61-B9CE-427C-BC0C-BCF9D6CDE6B2}|OTEAServer.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\oteaserver\\models\\indicatorsevaluation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4A0B4A61-B9CE-427C-BC0C-BCF9D6CDE6B2}|OTEAServer.csproj|solutionrelative:models\\indicatorsevaluation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4A0B4A61-B9CE-427C-BC0C-BCF9D6CDE6B2}|OTEAServer.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\oteaserver\\controllers\\indicatorsevaluationscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4A0B4A61-B9CE-427C-BC0C-BCF9D6CDE6B2}|OTEAServer.csproj|solutionrelative:controllers\\indicatorsevaluationscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4A0B4A61-B9CE-427C-BC0C-BCF9D6CDE6B2}|OTEAServer.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\oteaserver\\models\\indicatorsevaluationevidencereg.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4A0B4A61-B9CE-427C-BC0C-BCF9D6CDE6B2}|OTEAServer.csproj|solutionrelative:models\\indicatorsevaluationevidencereg.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4A0B4A61-B9CE-427C-BC0C-BCF9D6CDE6B2}|OTEAServer.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\oteaserver\\controllers\\citiescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4A0B4A61-B9CE-427C-BC0C-BCF9D6CDE6B2}|OTEAServer.csproj|solutionrelative:controllers\\citiescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4A0B4A61-B9CE-427C-BC0C-BCF9D6CDE6B2}|OTEAServer.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\oteaserver\\models\\subsubambit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4A0B4A61-B9CE-427C-BC0C-BCF9D6CDE6B2}|OTEAServer.csproj|solutionrelative:models\\subsubambit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4A0B4A61-B9CE-427C-BC0C-BCF9D6CDE6B2}|OTEAServer.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\oteaserver\\models\\ambit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4A0B4A61-B9CE-427C-BC0C-BCF9D6CDE6B2}|OTEAServer.csproj|solutionrelative:models\\ambit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4A0B4A61-B9CE-427C-BC0C-BCF9D6CDE6B2}|OTEAServer.csproj|c:\\programas\\androidstudiootea\\studioprojects\\guiaotea\\oteaserver\\models\\indicator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4A0B4A61-B9CE-427C-BC0C-BCF9D6CDE6B2}|OTEAServer.csproj|solutionrelative:models\\indicator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,84 +26,59 @@
       "DocumentGroups": [
         {
           "DockedWidth": 611,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "IndicatorsEvaluationEvidenceReg.cs",
-              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\Models\\IndicatorsEvaluationEvidenceReg.cs",
-              "RelativeDocumentMoniker": "Models\\IndicatorsEvaluationEvidenceReg.cs",
-              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\Models\\IndicatorsEvaluationEvidenceReg.cs",
-              "RelativeToolTip": "Models\\IndicatorsEvaluationEvidenceReg.cs",
-              "ViewState": "AQIAACoAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-26T14:25:39.823Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "IndicatorsEvaluationsController.cs",
-              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\Controllers\\IndicatorsEvaluationsController.cs",
-              "RelativeDocumentMoniker": "Controllers\\IndicatorsEvaluationsController.cs",
-              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\Controllers\\IndicatorsEvaluationsController.cs",
-              "RelativeToolTip": "Controllers\\IndicatorsEvaluationsController.cs",
-              "ViewState": "AQIAABkDAAAAAAAAAAAAABYDAAArAAAA",
+              "Title": "AddressesController.cs",
+              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\Controllers\\AddressesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AddressesController.cs",
+              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\Controllers\\AddressesController.cs",
+              "RelativeToolTip": "Controllers\\AddressesController.cs",
+              "ViewState": "AQIAAGYAAAAAAAAAAAAgwG8AAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-25T18:01:10.213Z",
+              "WhenOpened": "2024-08-31T23:42:30.146Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Ambit.cs",
-              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\Models\\Ambit.cs",
-              "RelativeDocumentMoniker": "Models\\Ambit.cs",
-              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\Models\\Ambit.cs",
-              "RelativeToolTip": "Models\\Ambit.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "DocumentIndex": 1,
+              "Title": "CentersController.cs",
+              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\Controllers\\CentersController.cs",
+              "RelativeDocumentMoniker": "Controllers\\CentersController.cs",
+              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\Controllers\\CentersController.cs",
+              "RelativeToolTip": "Controllers\\CentersController.cs",
+              "ViewState": "AQIAAFMCAAAAAAAAAAAMwGUCAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-25T23:58:38.142Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "SubSubAmbit.cs",
-              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\Models\\SubSubAmbit.cs",
-              "RelativeDocumentMoniker": "Models\\SubSubAmbit.cs",
-              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\Models\\SubSubAmbit.cs",
-              "RelativeToolTip": "Models\\SubSubAmbit.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAAAwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-25T23:58:31.778Z",
+              "WhenOpened": "2024-08-31T15:43:24.527Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "CitiesController.cs",
-              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\Controllers\\CitiesController.cs",
-              "RelativeDocumentMoniker": "Controllers\\CitiesController.cs",
-              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\Controllers\\CitiesController.cs",
-              "RelativeToolTip": "Controllers\\CitiesController.cs",
-              "ViewState": "AQIAAHgAAAAAAAAAAAAowIkAAAARAAAA",
+              "Title": "IndicatorsEvaluation.cs",
+              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\Models\\IndicatorsEvaluation.cs",
+              "RelativeDocumentMoniker": "Models\\IndicatorsEvaluation.cs",
+              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\Models\\IndicatorsEvaluation.cs",
+              "RelativeToolTip": "Models\\IndicatorsEvaluation.cs",
+              "ViewState": "AQIAABoBAAAAAAAAAAAAACUBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-25T23:54:35.065Z",
+              "WhenOpened": "2024-08-27T15:27:38.193Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Indicator.cs",
-              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\Models\\Indicator.cs",
-              "RelativeDocumentMoniker": "Models\\Indicator.cs",
-              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\Models\\Indicator.cs",
-              "RelativeToolTip": "Models\\Indicator.cs",
-              "ViewState": "AQIAAJsAAAAAAAAAAAAAwKkAAAAyAAAA",
+              "DocumentIndex": 3,
+              "Title": "IndicatorsEvaluationsController.cs",
+              "DocumentMoniker": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\Controllers\\IndicatorsEvaluationsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\IndicatorsEvaluationsController.cs",
+              "ToolTip": "C:\\Programas\\AndroidStudioOTEA\\StudioProjects\\guiaOTEA\\OTEAServer\\Controllers\\IndicatorsEvaluationsController.cs",
+              "RelativeToolTip": "Controllers\\IndicatorsEvaluationsController.cs",
+              "ViewState": "AQIAACUEAAAAAAAAAAAAwEsEAAA8AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-25T23:52:22.939Z"
+              "WhenOpened": "2024-08-27T15:25:19.19Z",
+              "EditorCaption": ""
             }
           ]
         }

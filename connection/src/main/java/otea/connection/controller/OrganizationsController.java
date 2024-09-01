@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -170,7 +171,7 @@ public class OrganizationsController {
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
             public List<JsonObject> call() throws Exception {
-                Call<List<JsonObject>> call=api.GetAllEvaluatedOrganizations();
+                Call<List<JsonObject>> call=api.GetAllEvaluatedOrganizations(Locale.getDefault().getLanguage());
                 Response<List<JsonObject>> response = call.execute();
                 if (response.isSuccessful()) {
                     return response.body();
@@ -193,16 +194,38 @@ public class OrganizationsController {
                 int idAddress=org.getAsJsonPrimitive("idAddress").getAsInt();
                 String email=org.getAsJsonPrimitive("email").getAsString();
                 String telephone=org.getAsJsonPrimitive("telephone").getAsString();
-                String informationSpanish=org.getAsJsonPrimitive("informationSpanish").getAsString();
-                String informationEnglish=org.getAsJsonPrimitive("informationEnglish").getAsString();
-                String informationFrench=org.getAsJsonPrimitive("informationFrench").getAsString();
-                String informationBasque=org.getAsJsonPrimitive("informationBasque").getAsString();
-                String informationCatalan=org.getAsJsonPrimitive("informationCatalan").getAsString();
-                String informationDutch=org.getAsJsonPrimitive("informationDutch").getAsString();
-                String informationGalician=org.getAsJsonPrimitive("informationGalician").getAsString();
-                String informationGerman=org.getAsJsonPrimitive("informationGerman").getAsString();
-                String informationItalian=org.getAsJsonPrimitive("informationItalian").getAsString();
-                String informationPortuguese=org.getAsJsonPrimitive("informationPortuguese").getAsString();
+                String information=org.getAsJsonPrimitive("information").getAsString();
+                String informationSpanish="";
+                String informationEnglish="";
+                String informationFrench="";
+                String informationBasque="";
+                String informationCatalan="";
+                String informationDutch="";
+                String informationGalician="";
+                String informationGerman="";
+                String informationItalian="";
+                String informationPortuguese="";
+                if(Locale.getDefault().getLanguage().equals("es")){
+                    informationSpanish=information;
+                }else if(Locale.getDefault().getLanguage().equals("fr")){
+                    informationFrench=information;
+                }else if(Locale.getDefault().getLanguage().equals("eu")){
+                    informationBasque=information;
+                }else if(Locale.getDefault().getLanguage().equals("ca")){
+                    informationCatalan=information;
+                }else if(Locale.getDefault().getLanguage().equals("nl")){
+                    informationDutch=information;
+                }else if(Locale.getDefault().getLanguage().equals("gl")){
+                    informationGalician=information;
+                }else if(Locale.getDefault().getLanguage().equals("de")){
+                    informationGerman=information;
+                }else if(Locale.getDefault().getLanguage().equals("it")){
+                    informationItalian=information;
+                }else if(Locale.getDefault().getLanguage().equals("pt")){
+                    informationPortuguese=information;
+                }else{
+                    informationEnglish=information;
+                }
                 String profilePhoto=org.getAsJsonPrimitive("profilePhoto").getAsString();
                 organizations.add(new Organization(idOrganization, orgType, illness, nameOrg, idAddress, email, telephone, informationSpanish, informationEnglish,informationFrench, informationBasque, informationCatalan, informationDutch, informationGalician, informationGerman, informationItalian, informationPortuguese, profilePhoto));
             }

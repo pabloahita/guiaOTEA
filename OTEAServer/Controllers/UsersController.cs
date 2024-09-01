@@ -477,7 +477,9 @@ namespace OTEAServer.Controllers
                 existingUser.userType = user.userType;
                 existingUser.first_name = user.first_name;
                 existingUser.last_name = user.last_name;
-                existingUser.passwordUser = user.passwordUser;
+                if (!user.passwordUser.IsNullOrEmpty()) {
+                    existingUser.passwordUser = user.passwordUser;
+                }
                 existingUser.telephone = user.telephone;
                 existingUser.idOrganization = user.idOrganization;
                 existingUser.orgType = user.orgType;

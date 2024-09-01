@@ -10,7 +10,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -24,9 +23,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.fundacionmiradas.indicatorsevaluation.MainMenu;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeProgressDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.fundacionmiradas.indicatorsevaluation.R;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -49,20 +49,14 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.STShd;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -114,7 +108,9 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
     IndicatorsEvaluationSimpleEvidenceReg[][] simpleEvidenceRegs;
 
 
-    ConstraintLayout background;
+    //ConstraintLayout background;
+
+    AwesomeProgressDialog chargingDialog;
 
     ConstraintLayout base;
 
@@ -164,8 +160,8 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
 
         textView = findViewById(R.id.textProgress);
 
-        background = findViewById(R.id.background);
-        background.setVisibility(View.GONE);
+        //background = findViewById(R.id.background);
+        //background.setVisibility(View.GONE);
 
         indicatorCount=findViewById(R.id.count_ind);
 
@@ -398,15 +394,22 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                 if (current_indicator == 0) {
                     doYouWantToSaveChanges();
                 } else {
-                    base.setVisibility(View.GONE);
-                    background.setVisibility(View.VISIBLE);
+                    //base.setVisibility(View.GONE);
+                    //background.setVisibility(View.VISIBLE);
+                    chargingDialog=new AwesomeProgressDialog(DoIndicatorsEvaluation.this)
+                            .setTitle(R.string.loading_evidences)
+                            .setMessage(R.string.please_wait)
+                            .setColoredCircle(R.color.miradas_color)
+                            .setCancelable(false);
+                    chargingDialog.show();
                     view.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             current_indicator--;
                             changeIndicator();
-                            background.setVisibility(View.GONE);
-                            base.setVisibility(View.VISIBLE);
+                            chargingDialog.hide();
+                            //background.setVisibility(View.GONE);
+                            //base.setVisibility(View.VISIBLE);
                         }
                     }, 100);
                 }
@@ -435,16 +438,23 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                 }
                 indicatorRegs[current_indicator].setNumEvidencesMarked(numEvidencesMarked);
                 if (current_indicator < num_indicators - 1) {
-                    base.setVisibility(View.GONE);
-                    background.setVisibility(View.VISIBLE);
+                    //base.setVisibility(View.GONE);
+                    //background.setVisibility(View.VISIBLE);
+                    chargingDialog=new AwesomeProgressDialog(DoIndicatorsEvaluation.this)
+                            .setTitle(R.string.loading_evidences)
+                            .setMessage(R.string.please_wait)
+                            .setColoredCircle(R.color.miradas_color)
+                            .setCancelable(false);
+                    chargingDialog.show();
                     view.postDelayed(new Runnable() {
                         @Override
                         public void run() {
 
                             current_indicator++;
                             changeIndicator();
-                            background.setVisibility(View.GONE);
-                            base.setVisibility(View.VISIBLE);
+                            chargingDialog.hide();
+                            //background.setVisibility(View.GONE);
+                            //base.setVisibility(View.VISIBLE);
                         }
                     }, 100);
                 }
@@ -498,9 +508,14 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     youVeFinished=true;
                                     dialog.dismiss();
-                                    base.setVisibility(View.GONE);
-                                    background.setVisibility(View.VISIBLE);
-                                    textView.setText(getString(R.string.calculating_results));
+                                    //base.setVisibility(View.GONE);
+                                    //background.setVisibility(View.VISIBLE);
+                                    chargingDialog=new AwesomeProgressDialog(DoIndicatorsEvaluation.this)
+                                            .setTitle(R.string.calculating_results)
+                                            .setMessage(R.string.please_wait)
+                                            .setColoredCircle(R.color.miradas_color)
+                                            .setCancelable(false);
+                                    chargingDialog.show();
                                     view.postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
@@ -555,27 +570,7 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
 
                 EditText editText = view.findViewById(R.id.indObs);
 
-                if(Locale.getDefault().getLanguage().equals("es")){
-                    editText.setText(indicatorRegs[current_indicator].getObservationsSpanish());
-                }else if(Locale.getDefault().getLanguage().equals("fr")){
-                    editText.setText(indicatorRegs[current_indicator].getObservationsFrench());
-                }else if(Locale.getDefault().getLanguage().equals("eu")){
-                    editText.setText(indicatorRegs[current_indicator].getObservationsBasque());
-                }else if(Locale.getDefault().getLanguage().equals("ca")){
-                    editText.setText(indicatorRegs[current_indicator].getObservationsCatalan());
-                }else if(Locale.getDefault().getLanguage().equals("nl")){
-                    editText.setText(indicatorRegs[current_indicator].getObservationsDutch());
-                }else if(Locale.getDefault().getLanguage().equals("gl")){
-                    editText.setText(indicatorRegs[current_indicator].getObservationsGalician());
-                }else if(Locale.getDefault().getLanguage().equals("de")){
-                    editText.setText(indicatorRegs[current_indicator].getObservationsGerman());
-                }else if(Locale.getDefault().getLanguage().equals("it")){
-                    editText.setText(indicatorRegs[current_indicator].getObservationsItalian());
-                }else if(Locale.getDefault().getLanguage().equals("pt")){
-                    editText.setText(indicatorRegs[current_indicator].getObservationsPortuguese());
-                }else{
-                    editText.setText(indicatorRegs[current_indicator].getObservationsEnglish());
-                }
+                editText.setText(indicatorRegs[current_indicator].getObservationsSpanish());
 
                 editText.addTextChangedListener(new TextWatcher() {
                     @Override
@@ -586,27 +581,7 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         String text=s.toString();
-                        if(Locale.getDefault().getLanguage().equals("es")){
-                            indicatorRegs[current_indicator].setObservationsSpanish(text);
-                        }else if(Locale.getDefault().getLanguage().equals("fr")){
-                            indicatorRegs[current_indicator].setObservationsFrench(text);
-                        }else if(Locale.getDefault().getLanguage().equals("eu")){
-                            indicatorRegs[current_indicator].setObservationsBasque(text);
-                        }else if(Locale.getDefault().getLanguage().equals("ca")){
-                            indicatorRegs[current_indicator].setObservationsCatalan(text);
-                        }else if(Locale.getDefault().getLanguage().equals("nl")){
-                            indicatorRegs[current_indicator].setObservationsDutch(text);
-                        }else if(Locale.getDefault().getLanguage().equals("gl")){
-                            indicatorRegs[current_indicator].setObservationsGalician(text);
-                        }else if(Locale.getDefault().getLanguage().equals("de")){
-                            indicatorRegs[current_indicator].setObservationsGerman(text);
-                        }else if(Locale.getDefault().getLanguage().equals("it")){
-                            indicatorRegs[current_indicator].setObservationsItalian(text);
-                        }else if(Locale.getDefault().getLanguage().equals("pt")){
-                            indicatorRegs[current_indicator].setObservationsPortuguese(text);
-                        }else{
-                            indicatorRegs[current_indicator].setObservationsEnglish(text);
-                        }
+                        indicatorRegs[current_indicator].setObservationsSpanish(text);
                     }
 
                     @Override
@@ -618,77 +593,13 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
 
                 editText = view.findViewById(R.id.evObs1);
 
-                if(Locale.getDefault().getLanguage().equals("es")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][0].getObservationsSpanish());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][0].getObservationsSpanish());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("fr")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][0].getObservationsFrench());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][0].getObservationsFrench());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("eu")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][0].getObservationsBasque());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][0].getObservationsBasque());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("ca")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][0].getObservationsCatalan());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][0].getObservationsCatalan());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("nl")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][0].getObservationsDutch());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][0].getObservationsDutch());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("gl")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][0].getObservationsGalician());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][0].getObservationsGalician());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("de")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][0].getObservationsGerman());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][0].getObservationsGerman());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("it")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][0].getObservationsItalian());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][0].getObservationsItalian());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("pt")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][0].getObservationsPortuguese());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][0].getObservationsPortuguese());
-                    }
-                }else{
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][0].getObservationsEnglish());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][0].getObservationsEnglish());
-                    }
+                if(isComplete){
+                    editText.setText(evidenceRegs[current_indicator][0].getObservationsSpanish());
                 }
+                else{
+                    editText.setText(simpleEvidenceRegs[current_indicator][0].getObservationsSpanish());
+                }
+
 
 
                 editText.addTextChangedListener(new TextWatcher() {
@@ -700,66 +611,10 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         String text=s.toString();
-                        if(Locale.getDefault().getLanguage().equals("es")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][0].setObservationsSpanish(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][0].setObservationsSpanish(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("fr")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][0].setObservationsFrench(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][0].setObservationsFrench(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("eu")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][0].setObservationsBasque(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][0].setObservationsBasque(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("ca")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][0].setObservationsCatalan(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][0].setObservationsCatalan(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("nl")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][0].setObservationsDutch(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][0].setObservationsDutch(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("gl")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][0].setObservationsGalician(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][0].setObservationsGalician(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("de")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][0].setObservationsGerman(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][0].setObservationsGerman(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("it")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][0].setObservationsItalian(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][0].setObservationsItalian(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("pt")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][0].setObservationsPortuguese(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][0].setObservationsPortuguese(text);
-                            }
-                        }else{
-                            if(isComplete){
-                                evidenceRegs[current_indicator][0].setObservationsEnglish(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][0].setObservationsEnglish(text);
-                            }
+                        if(isComplete){
+                            evidenceRegs[current_indicator][0].setObservationsSpanish(text);                            }
+                        else {
+                            simpleEvidenceRegs[current_indicator][0].setObservationsSpanish(text);
                         }
                     }
 
@@ -771,76 +626,12 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
 
                 editText = view.findViewById(R.id.evObs2);
 
-                if(Locale.getDefault().getLanguage().equals("es")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][1].getObservationsSpanish());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][1].getObservationsSpanish());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("fr")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][1].getObservationsFrench());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][1].getObservationsFrench());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("eu")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][1].getObservationsBasque());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][1].getObservationsBasque());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("ca")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][1].getObservationsCatalan());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][1].getObservationsCatalan());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("nl")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][1].getObservationsDutch());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][1].getObservationsDutch());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("gl")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][1].getObservationsGalician());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][1].getObservationsGalician());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("de")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][1].getObservationsGerman());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][1].getObservationsGerman());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("it")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][1].getObservationsItalian());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][1].getObservationsItalian());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("pt")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][1].getObservationsPortuguese());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][1].getObservationsPortuguese());
-                    }
-                }else{
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][1].getObservationsEnglish());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][1].getObservationsEnglish());
-                    }
+
+                if(isComplete){
+                    editText.setText(evidenceRegs[current_indicator][1].getObservationsSpanish());
+                }
+                else{
+                    editText.setText(simpleEvidenceRegs[current_indicator][1].getObservationsSpanish());
                 }
 
 
@@ -853,66 +644,10 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         String text=s.toString();
-                        if(Locale.getDefault().getLanguage().equals("es")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][1].setObservationsSpanish(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][1].setObservationsSpanish(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("fr")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][1].setObservationsFrench(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][1].setObservationsFrench(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("eu")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][1].setObservationsBasque(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][1].setObservationsBasque(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("ca")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][1].setObservationsCatalan(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][1].setObservationsCatalan(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("nl")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][1].setObservationsDutch(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][1].setObservationsDutch(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("gl")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][1].setObservationsGalician(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][1].setObservationsGalician(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("de")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][1].setObservationsGerman(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][1].setObservationsGerman(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("it")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][1].setObservationsItalian(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][1].setObservationsItalian(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("pt")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][1].setObservationsPortuguese(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][1].setObservationsPortuguese(text);
-                            }
-                        }else{
-                            if(isComplete){
-                                evidenceRegs[current_indicator][1].setObservationsEnglish(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][1].setObservationsEnglish(text);
-                            }
+                        if(isComplete){
+                            evidenceRegs[current_indicator][1].setObservationsSpanish(text);                            }
+                        else {
+                            simpleEvidenceRegs[current_indicator][1].setObservationsSpanish(text);
                         }
                     }
 
@@ -923,76 +658,11 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                 });
                 editText = view.findViewById(R.id.evObs3);
 
-                if(Locale.getDefault().getLanguage().equals("es")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][2].getObservationsSpanish());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][2].getObservationsSpanish());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("fr")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][2].getObservationsFrench());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][2].getObservationsFrench());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("eu")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][2].getObservationsBasque());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][2].getObservationsBasque());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("ca")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][2].getObservationsCatalan());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][2].getObservationsCatalan());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("nl")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][2].getObservationsDutch());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][2].getObservationsDutch());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("gl")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][2].getObservationsGalician());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][2].getObservationsGalician());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("de")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][2].getObservationsGerman());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][2].getObservationsGerman());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("it")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][2].getObservationsItalian());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][2].getObservationsItalian());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("pt")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][2].getObservationsPortuguese());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][2].getObservationsPortuguese());
-                    }
-                }else{
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][2].getObservationsEnglish());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][2].getObservationsEnglish());
-                    }
+                if(isComplete){
+                    editText.setText(evidenceRegs[current_indicator][2].getObservationsSpanish());
+                }
+                else{
+                    editText.setText(simpleEvidenceRegs[current_indicator][2].getObservationsSpanish());
                 }
 
 
@@ -1005,66 +675,10 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         String text=s.toString();
-                        if(Locale.getDefault().getLanguage().equals("es")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][2].setObservationsSpanish(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][2].setObservationsSpanish(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("fr")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][2].setObservationsFrench(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][2].setObservationsFrench(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("eu")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][2].setObservationsBasque(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][2].setObservationsBasque(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("ca")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][2].setObservationsCatalan(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][2].setObservationsCatalan(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("nl")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][2].setObservationsDutch(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][2].setObservationsDutch(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("gl")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][2].setObservationsGalician(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][2].setObservationsGalician(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("de")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][2].setObservationsGerman(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][2].setObservationsGerman(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("it")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][2].setObservationsItalian(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][2].setObservationsItalian(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("pt")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][2].setObservationsPortuguese(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][2].setObservationsPortuguese(text);
-                            }
-                        }else{
-                            if(isComplete){
-                                evidenceRegs[current_indicator][2].setObservationsEnglish(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][2].setObservationsEnglish(text);
-                            }
+                        if(isComplete){
+                            evidenceRegs[current_indicator][2].setObservationsSpanish(text);                            }
+                        else {
+                            simpleEvidenceRegs[current_indicator][2].setObservationsSpanish(text);
                         }
                     }
 
@@ -1073,79 +687,13 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
 
                     }
                 });
-
                 editText = view.findViewById(R.id.evObs4);
 
-                if(Locale.getDefault().getLanguage().equals("es")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][3].getObservationsSpanish());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][3].getObservationsSpanish());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("fr")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][3].getObservationsFrench());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][3].getObservationsFrench());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("eu")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][3].getObservationsBasque());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][3].getObservationsBasque());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("ca")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][3].getObservationsCatalan());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][3].getObservationsCatalan());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("nl")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][3].getObservationsDutch());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][3].getObservationsDutch());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("gl")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][3].getObservationsGalician());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][3].getObservationsGalician());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("de")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][3].getObservationsGerman());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][3].getObservationsGerman());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("it")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][3].getObservationsItalian());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][3].getObservationsItalian());
-                    }
-                }else if(Locale.getDefault().getLanguage().equals("pt")){
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][3].getObservationsPortuguese());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][3].getObservationsPortuguese());
-                    }
-                }else{
-                    if(isComplete){
-                        editText.setText(evidenceRegs[current_indicator][3].getObservationsEnglish());
-                    }
-                    else{
-                        editText.setText(simpleEvidenceRegs[current_indicator][3].getObservationsEnglish());
-                    }
+                if(isComplete){
+                    editText.setText(evidenceRegs[current_indicator][3].getObservationsSpanish());
+                }
+                else{
+                    editText.setText(simpleEvidenceRegs[current_indicator][3].getObservationsSpanish());
                 }
 
 
@@ -1158,66 +706,10 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         String text=s.toString();
-                        if(Locale.getDefault().getLanguage().equals("es")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][3].setObservationsSpanish(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][3].setObservationsSpanish(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("fr")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][3].setObservationsFrench(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][3].setObservationsFrench(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("eu")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][3].setObservationsBasque(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][3].setObservationsBasque(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("ca")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][3].setObservationsCatalan(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][3].setObservationsCatalan(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("nl")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][3].setObservationsDutch(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][3].setObservationsDutch(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("gl")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][3].setObservationsGalician(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][3].setObservationsGalician(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("de")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][3].setObservationsGerman(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][3].setObservationsGerman(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("it")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][3].setObservationsItalian(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][3].setObservationsItalian(text);
-                            }
-                        }else if(Locale.getDefault().getLanguage().equals("pt")){
-                            if(isComplete){
-                                evidenceRegs[current_indicator][3].setObservationsPortuguese(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][3].setObservationsPortuguese(text);
-                            }
-                        }else{
-                            if(isComplete){
-                                evidenceRegs[current_indicator][3].setObservationsEnglish(text);                            }
-                            else {
-                                simpleEvidenceRegs[current_indicator][3].setObservationsEnglish(text);
-                            }
+                        if(isComplete){
+                            evidenceRegs[current_indicator][3].setObservationsSpanish(text);                            }
+                        else {
+                            simpleEvidenceRegs[current_indicator][3].setObservationsSpanish(text);
                         }
                     }
 
@@ -1452,9 +944,9 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
         } else if (Locale.getDefault().getLanguage().equals("fr")) {//Francés
             if (current_subAmbit != -1) {
                 if (current_subSubAmbit != -1) {
-                    indCaption+="<i><b>"+current_ambit + "." + current_subAmbit + "." + current_subSubAmbit + " " + IndicatorsUtil.getInstance().getSubSubAmbit(current_subSubAmbit,current_subAmbit,current_ambit).getDescriptionSpanish()+"</b></i><br>";
+                    indCaption+="<i><b>"+current_ambit + "." + current_subAmbit + "." + current_subSubAmbit + " " + IndicatorsUtil.getInstance().getSubSubAmbit(current_subSubAmbit,current_subAmbit,current_ambit).getDescriptionFrench()+"</b></i><br>";
                 }
-                indCaption+="<i><b>"+current_ambit + "." + current_subAmbit + " " + IndicatorsUtil.getInstance().getSubAmbit(current_subAmbit,current_ambit).getDescriptionSpanish()+"</b></i><br>";
+                indCaption+="<i><b>"+current_ambit + "." + current_subAmbit + " " + IndicatorsUtil.getInstance().getSubAmbit(current_subAmbit,current_ambit).getDescriptionFrench()+"</b></i><br>";
             }
             switch (current_ambit) {
                 case 1:
@@ -1772,39 +1264,42 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
 
 
     private void doYouWantToSaveChanges(){
-        new AlertDialog.Builder(DoIndicatorsEvaluation.this)
-                .setMessage(getString(R.string.do_you_want_save_changes))
-                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+
+        new AwesomeInfoDialog(this)
+                .setTitle(R.string.do_you_want_save_changes)
+                .setMessage(R.string.choose_an_option)
+                .setDialogIconAndColor(android.R.drawable.ic_menu_help,R.color.white)
+                .setColoredCircle(R.color.miradas_color)
+                .setCancelable(true)
+                .setPositiveButtonText(getString(R.string.yes))
+                .setPositiveButtonbackgroundColor(com.aminography.primedatepicker.R.color.greenA700)
+                .setPositiveButtonTextColor(R.color.white)
+                .setNegativeButtonText(getString(R.string.no))
+                .setNegativeButtonbackgroundColor(com.aminography.primedatepicker.R.color.redA700)
+                .setNegativeButtonTextColor(R.color.white)
+                .setPositiveButtonClick(new Closure() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        base.setVisibility(View.GONE);
-                        textView.setText(getString(R.string.saving_eval_ind_changes));
-                        background.setVisibility(View.VISIBLE);
-                        addToDatabase();
+                    public void exec() {
+                        chargingDialog=new AwesomeProgressDialog(DoIndicatorsEvaluation.this)
+                                .setTitle(R.string.saving_eval_ind_changes)
+                                .setMessage(R.string.please_wait)
+                                .setColoredCircle(R.color.miradas_color)
+                                .setCancelable(false);
+                        chargingDialog.show();
+                        new Thread(()->{
+                            addToDatabase();
+                        }).start();
                     }
                 })
-                .setNegativeButton(getString(R.string.no),new DialogInterface.OnClickListener() {
+                .setNegativeButtonClick(new Closure() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+                    public void exec() {
                         Intent intent=new Intent(DoIndicatorsEvaluation.this, MainMenu.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
-
                     }
                 })
-                .setOnKeyListener(new DialogInterface.OnKeyListener() {
-                    @Override
-                    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-                            dialog.dismiss();
-                            return true;
-                        }
-                        return false;
-                    }
-                })
-                .create().show();
+                .show();
     }
 
     private void generateReport(){
@@ -2396,15 +1891,18 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
         IndicatorsEvaluationRegsUtil.createInstance(current_evaluation);
         generateReport();
         runOnUiThread(()->{
+            int idTitle=-1;
             int idMsg=-1;
             if(current_evaluation.getIsFinished()==1){
-                idMsg=R.string.ind_eval_reg_suc_end;
+                idTitle=R.string.indicator_evaluation_completed;
+                idMsg=R.string.you_can_see_results;
             }else{
-                idMsg=R.string.ind_eval_reg_suc;
+                idTitle=R.string.indicator_evaluation_recorded;
+                idMsg=R.string.you_can_continue_ind_eval;
             }
-            StringPasser.createInstance(getString(idMsg));
+            StringPasser.createInstance(idTitle,idMsg);
             StringPasser.getInstance().setFlag(1);
-            Intent intent = new Intent(DoIndicatorsEvaluation.this, com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+            Intent intent = new Intent(DoIndicatorsEvaluation.this, MainMenu.class);
             startActivity(intent);
         });
 

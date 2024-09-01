@@ -89,7 +89,7 @@ public class IndicatorsEvaluationRegsUtil {
                 int indicatorVersion=reg.getAsJsonPrimitive("indicatorVersion").getAsInt();
                 int isMarked=reg.getAsJsonPrimitive("isMarked").getAsInt();
                 String observations=reg.getAsJsonPrimitive("observations").getAsString();
-                String observationsSpanish="";
+                String observationsSpanish=observations;
                 String observationsEnglish="";
                 String observationsFrench="";
                 String observationsBasque="";
@@ -99,27 +99,6 @@ public class IndicatorsEvaluationRegsUtil {
                 String observationsGerman="";
                 String observationsItalian="";
                 String observationsPortuguese="";
-                if(Locale.getDefault().getLanguage().equals("es")){
-                    observationsSpanish=observations;
-                }else if(Locale.getDefault().getLanguage().equals("fr")){
-                    observationsFrench=observations;
-                }else if(Locale.getDefault().getLanguage().equals("eu")){
-                    observationsBasque=observations;
-                }else if(Locale.getDefault().getLanguage().equals("ca")){
-                    observationsCatalan=observations;
-                }else if(Locale.getDefault().getLanguage().equals("nl")){
-                    observationsDutch=observations;
-                }else if(Locale.getDefault().getLanguage().equals("gl")){
-                    observationsGalician=observations;
-                }else if(Locale.getDefault().getLanguage().equals("de")){
-                    observationsGerman=observations;
-                }else if(Locale.getDefault().getLanguage().equals("it")){
-                    observationsItalian=observations;
-                }else if(Locale.getDefault().getLanguage().equals("pt")){
-                    observationsPortuguese=observations;
-                }else{
-                    observationsEnglish=observations;
-                }
                 
                 evidencesRegsList.add(new IndicatorsEvaluationEvidenceReg(indicatorsEvaluation.getEvaluationDate(), indicatorsEvaluation.getIdEvaluatedOrganization(), indicatorsEvaluation.getOrgTypeEvaluated(), indicatorsEvaluation.getIdEvaluatorTeam(), indicatorsEvaluation.getIdEvaluatorOrganization(), indicatorsEvaluation.getOrgTypeEvaluator(), indicatorsEvaluation.getIllness(), indicatorsEvaluation.getIdCenter(), idEvidence, idIndicator, indicatorType, idSubSubAmbit, idSubAmbit, idAmbit, indicatorVersion, isMarked, indicatorsEvaluation.getEvaluationType(),observationsSpanish, observationsEnglish, observationsFrench, observationsBasque, observationsCatalan,
                         observationsDutch, observationsGalician, observationsGerman, observationsItalian, observationsPortuguese));
@@ -135,7 +114,7 @@ public class IndicatorsEvaluationRegsUtil {
                 int idIndicator=reg.getAsJsonPrimitive("idIndicator").getAsInt();
                 int idEvidence=reg.getAsJsonPrimitive("idEvidence").getAsInt();
                 String description=reg.getAsJsonPrimitive("description").getAsString();
-                String descriptionSpanish="";
+                String descriptionSpanish=description;
                 String descriptionEnglish="";
                 String descriptionFrench="";
                 String descriptionBasque="";
@@ -147,7 +126,7 @@ public class IndicatorsEvaluationRegsUtil {
                 String descriptionPortuguese="";
                 int indicatorVersion=reg.getAsJsonPrimitive("indicatorVersion").getAsInt();
                 String observations=reg.getAsJsonPrimitive("observations").getAsString();
-                String observationsSpanish="";
+                String observationsSpanish=observations;
                 String observationsEnglish="";
                 String observationsFrench="";
                 String observationsBasque="";
@@ -157,37 +136,6 @@ public class IndicatorsEvaluationRegsUtil {
                 String observationsGerman="";
                 String observationsItalian="";
                 String observationsPortuguese="";
-                if(Locale.getDefault().getLanguage().equals("es")){
-                    descriptionSpanish=description;
-                    observationsSpanish=observations;
-                }else if(Locale.getDefault().getLanguage().equals("fr")){
-                    descriptionFrench=description;
-                    observationsFrench=observations;
-                }else if(Locale.getDefault().getLanguage().equals("eu")){
-                    descriptionBasque=description;
-                    observationsBasque=observations;
-                }else if(Locale.getDefault().getLanguage().equals("ca")){
-                    descriptionCatalan=description;
-                    observationsCatalan=observations;
-                }else if(Locale.getDefault().getLanguage().equals("nl")){
-                    descriptionDutch=description;
-                    observationsDutch=observations;
-                }else if(Locale.getDefault().getLanguage().equals("gl")){
-                    descriptionGalician=description;
-                    observationsGalician=observations;
-                }else if(Locale.getDefault().getLanguage().equals("de")){
-                    descriptionGerman=description;
-                    observationsGerman=observations;
-                }else if(Locale.getDefault().getLanguage().equals("it")){
-                    descriptionItalian=description;
-                    observationsItalian=observations;
-                }else if(Locale.getDefault().getLanguage().equals("pt")){
-                    descriptionPortuguese=description;
-                    observationsPortuguese=observations;
-                }else{
-                    descriptionEnglish=description;
-                    observationsEnglish=description;
-                }
                 evidenceSimpleRegsList.add(new IndicatorsEvaluationSimpleEvidenceReg(indicatorsEvaluation.getEvaluationDate(), indicatorsEvaluation.getIdEvaluatedOrganization(), indicatorsEvaluation.getOrgTypeEvaluated(), indicatorsEvaluation.getIdEvaluatorTeam(), indicatorsEvaluation.getIdEvaluatorOrganization(), indicatorsEvaluation.getOrgTypeEvaluator(), indicatorsEvaluation.getIllness(), indicatorsEvaluation.getIdCenter(), idIndicator, idEvidence,
                 descriptionSpanish, descriptionEnglish, descriptionFrench, descriptionBasque, descriptionCatalan,
                         descriptionDutch, descriptionGalician, descriptionGerman, descriptionItalian, descriptionPortuguese,
@@ -204,7 +152,7 @@ public class IndicatorsEvaluationRegsUtil {
             int idIndicator=reg.getAsJsonPrimitive("idIndicator").getAsInt();
             int indicatorVersion=reg.getAsJsonPrimitive("indicatorVersion").getAsInt();
             String observations=reg.getAsJsonPrimitive("observations").getAsString();
-            String observationsSpanish="";
+            String observationsSpanish=observations;
             String observationsEnglish="";
             String observationsFrench="";
             String observationsBasque="";
@@ -214,27 +162,6 @@ public class IndicatorsEvaluationRegsUtil {
             String observationsGerman="";
             String observationsItalian="";
             String observationsPortuguese="";
-            if(Locale.getDefault().getLanguage().equals("es")){
-                observationsSpanish=observations;
-            }else if(Locale.getDefault().getLanguage().equals("fr")){
-                observationsFrench=observations;
-            }else if(Locale.getDefault().getLanguage().equals("eu")){
-                observationsBasque=observations;
-            }else if(Locale.getDefault().getLanguage().equals("ca")){
-                observationsCatalan=observations;
-            }else if(Locale.getDefault().getLanguage().equals("nl")){
-                observationsDutch=observations;
-            }else if(Locale.getDefault().getLanguage().equals("gl")){
-                observationsGalician=observations;
-            }else if(Locale.getDefault().getLanguage().equals("de")){
-                observationsGerman=observations;
-            }else if(Locale.getDefault().getLanguage().equals("it")){
-                observationsItalian=observations;
-            }else if(Locale.getDefault().getLanguage().equals("pt")){
-                observationsPortuguese=observations;
-            }else{
-                observationsEnglish=observations;
-            }
             int numEvidencesMarked=reg.getAsJsonPrimitive("numEvidencesMarked").getAsInt();
             String status=reg.getAsJsonPrimitive("status").getAsString();
             int requiresImprovementPlan=reg.getAsJsonPrimitive("requiresImprovementPlan").getAsInt();

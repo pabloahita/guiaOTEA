@@ -9,8 +9,9 @@ using OTEAServer.ExpertSystem;
 using OTEAServer.Misc;
 using OTEAServer.Models;
 using System.Linq.Expressions;
-using System.Net.NetworkInformation;
+using System.Runtime.Intrinsics.X86;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace OTEAServer.Controllers
 {
@@ -35,6 +36,35 @@ namespace OTEAServer.Controllers
         public IndicatorsEvaluationsController(DatabaseContext context)
         {
             _context=context;
+        }
+
+        private class IndicatorsEvaluationDto {
+            public long evaluationDate { get; set; }
+            public int idEvaluatedOrganization { get; set; }
+            public string orgTypeEvaluated { get; set; }
+            public int idEvaluatorTeam { get; set; }
+            public int idEvaluatorOrganization { get; set; }
+            public string orgTypeEvaluator { get; set; }
+            public string illness { get; set; }
+            public int idCenter { get; set; }
+            public int scorePriorityZeroColourRed { get; set; }
+            public int scorePriorityZeroColourYellow { get; set; }
+            public int scorePriorityZeroColourGreen { get; set; }
+            public int scorePriorityOneColourRed { get; set; }
+            public int scorePriorityOneColourYellow { get; set; }
+            public int scorePriorityOneColourGreen { get; set; }
+            public int scorePriorityTwoColourRed { get; set; }
+            public int scorePriorityTwoColourYellow { get; set; }
+            public int scorePriorityTwoColourGreen { get; set; }
+            public int scorePriorityThreeColourRed { get; set; }
+            public int scorePriorityThreeColourYellow { get; set; }
+            public int scorePriorityThreeColourGreen { get; set; }
+            public int totalScore { get; set; }
+            public string conclusions { get; set; }
+            public int isFinished { get; set; }
+            public string evaluationType { get; set; }
+            public string level { get; set; }
+
         }
 
         private class IndicatorsEvaluationIndicatorRegDto
@@ -148,11 +178,376 @@ namespace OTEAServer.Controllers
         /// <returns>Indicators evaluations list</returns>
         [HttpGet("evaluatorTeam")]
         [Authorize]
-        public IActionResult GetAllByEvaluatorTeam([FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] int idCenter, [FromQuery] string illness, [FromHeader] string Authorization)
+        public IActionResult GetAllByEvaluatorTeam([FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] int idCenter, [FromQuery] string illness, [FromQuery] string language, [FromHeader] string Authorization)
         {
             try
             {
-                var indicatorsEvaluations = _context.IndicatorsEvaluations.Where(e => e.idEvaluatorTeam == idEvaluatorTeam && e.idEvaluatorOrganization == idEvaluatorOrganization && e.orgTypeEvaluator == orgTypeEvaluator && e.idEvaluatedOrganization == idEvaluatedOrganization && e.orgTypeEvaluated == orgTypeEvaluated && e.idCenter == idCenter && e.illness == illness).ToList();
+                var aux = _context.IndicatorsEvaluations.Where(e => e.idEvaluatorTeam == idEvaluatorTeam && e.idEvaluatorOrganization == idEvaluatorOrganization && e.orgTypeEvaluator == orgTypeEvaluator && e.idEvaluatedOrganization == idEvaluatedOrganization && e.orgTypeEvaluated == orgTypeEvaluated && e.idCenter == idCenter && e.illness == illness);//.ToList();
+                Expression<Func<IndicatorsEvaluation, IndicatorsEvaluationDto>> selector = ie => new IndicatorsEvaluationDto
+                {
+                    evaluationDate = ie.evaluationDate,
+                    idEvaluatedOrganization = ie.idEvaluatedOrganization,
+
+                    orgTypeEvaluated = ie.orgTypeEvaluated,
+                    idEvaluatorTeam = ie.idEvaluatorTeam,
+                    idEvaluatorOrganization = ie.idEvaluatorOrganization,
+
+                    orgTypeEvaluator = ie.orgTypeEvaluator,
+
+                    illness = ie.illness,
+                    idCenter = ie.idCenter,
+                    scorePriorityZeroColourRed = ie.scorePriorityZeroColourRed,
+                    scorePriorityZeroColourYellow = ie.scorePriorityZeroColourYellow,
+                    scorePriorityZeroColourGreen = ie.scorePriorityZeroColourGreen,
+                    scorePriorityOneColourRed = ie.scorePriorityOneColourRed,
+                    scorePriorityOneColourYellow = ie.scorePriorityOneColourYellow,
+                    scorePriorityOneColourGreen = ie.scorePriorityOneColourGreen,
+                    scorePriorityTwoColourRed = ie.scorePriorityTwoColourRed,
+                    scorePriorityTwoColourYellow = ie.scorePriorityTwoColourYellow,
+                    scorePriorityTwoColourGreen = ie.scorePriorityTwoColourGreen,
+                    scorePriorityThreeColourRed = ie.scorePriorityThreeColourRed,
+                    scorePriorityThreeColourYellow = ie.scorePriorityThreeColourYellow,
+                    scorePriorityThreeColourGreen = ie.scorePriorityThreeColourGreen,
+                    totalScore = ie.totalScore,
+                    conclusions = ie.conclusionsEnglish,
+                    isFinished = ie.isFinished,
+                    evaluationType = ie.evaluationType,
+                    level = ie.level
+                };
+                switch (language)
+                {
+                    case "es":
+                        selector = ie => new IndicatorsEvaluationDto
+                        {
+                            evaluationDate = ie.evaluationDate,
+                            idEvaluatedOrganization = ie.idEvaluatedOrganization,
+
+                            orgTypeEvaluated = ie.orgTypeEvaluated,
+                            idEvaluatorTeam = ie.idEvaluatorTeam,
+                            idEvaluatorOrganization = ie.idEvaluatorOrganization,
+
+                            orgTypeEvaluator = ie.orgTypeEvaluator,
+
+                            illness = ie.illness,
+                            idCenter = ie.idCenter,
+                            scorePriorityZeroColourRed = ie.scorePriorityZeroColourRed,
+                            scorePriorityZeroColourYellow = ie.scorePriorityZeroColourYellow,
+                            scorePriorityZeroColourGreen = ie.scorePriorityZeroColourGreen,
+                            scorePriorityOneColourRed = ie.scorePriorityOneColourRed,
+                            scorePriorityOneColourYellow = ie.scorePriorityOneColourYellow,
+                            scorePriorityOneColourGreen = ie.scorePriorityOneColourGreen,
+                            scorePriorityTwoColourRed = ie.scorePriorityTwoColourRed,
+                            scorePriorityTwoColourYellow = ie.scorePriorityTwoColourYellow,
+                            scorePriorityTwoColourGreen = ie.scorePriorityTwoColourGreen,
+                            scorePriorityThreeColourRed = ie.scorePriorityThreeColourRed,
+                            scorePriorityThreeColourYellow = ie.scorePriorityThreeColourYellow,
+                            scorePriorityThreeColourGreen = ie.scorePriorityThreeColourGreen,
+                            totalScore = ie.totalScore,
+                            conclusions = ie.conclusionsSpanish,
+                            isFinished = ie.isFinished,
+                            evaluationType = ie.evaluationType,
+                            level = ie.level
+                        };
+                        break;
+                    case "fr":
+                        selector = ie => new IndicatorsEvaluationDto
+                        {
+                            evaluationDate = ie.evaluationDate,
+                            idEvaluatedOrganization = ie.idEvaluatedOrganization,
+
+                            orgTypeEvaluated = ie.orgTypeEvaluated,
+                            idEvaluatorTeam = ie.idEvaluatorTeam,
+                            idEvaluatorOrganization = ie.idEvaluatorOrganization,
+
+                            orgTypeEvaluator = ie.orgTypeEvaluator,
+
+                            illness = ie.illness,
+                            idCenter = ie.idCenter,
+                            scorePriorityZeroColourRed = ie.scorePriorityZeroColourRed,
+                            scorePriorityZeroColourYellow = ie.scorePriorityZeroColourYellow,
+                            scorePriorityZeroColourGreen = ie.scorePriorityZeroColourGreen,
+                            scorePriorityOneColourRed = ie.scorePriorityOneColourRed,
+                            scorePriorityOneColourYellow = ie.scorePriorityOneColourYellow,
+                            scorePriorityOneColourGreen = ie.scorePriorityOneColourGreen,
+                            scorePriorityTwoColourRed = ie.scorePriorityTwoColourRed,
+                            scorePriorityTwoColourYellow = ie.scorePriorityTwoColourYellow,
+                            scorePriorityTwoColourGreen = ie.scorePriorityTwoColourGreen,
+                            scorePriorityThreeColourRed = ie.scorePriorityThreeColourRed,
+                            scorePriorityThreeColourYellow = ie.scorePriorityThreeColourYellow,
+                            scorePriorityThreeColourGreen = ie.scorePriorityThreeColourGreen,
+                            totalScore = ie.totalScore,
+                            conclusions = ie.conclusionsFrench,
+                            isFinished = ie.isFinished,
+                            evaluationType = ie.evaluationType,
+                            level = ie.level
+                        };
+                        break;
+                    case "eu":
+                        selector = ie => new IndicatorsEvaluationDto
+                        {
+                            evaluationDate = ie.evaluationDate,
+                            idEvaluatedOrganization = ie.idEvaluatedOrganization,
+
+                            orgTypeEvaluated = ie.orgTypeEvaluated,
+                            idEvaluatorTeam = ie.idEvaluatorTeam,
+                            idEvaluatorOrganization = ie.idEvaluatorOrganization,
+
+                            orgTypeEvaluator = ie.orgTypeEvaluator,
+
+                            illness = ie.illness,
+                            idCenter = ie.idCenter,
+                            scorePriorityZeroColourRed = ie.scorePriorityZeroColourRed,
+                            scorePriorityZeroColourYellow = ie.scorePriorityZeroColourYellow,
+                            scorePriorityZeroColourGreen = ie.scorePriorityZeroColourGreen,
+                            scorePriorityOneColourRed = ie.scorePriorityOneColourRed,
+                            scorePriorityOneColourYellow = ie.scorePriorityOneColourYellow,
+                            scorePriorityOneColourGreen = ie.scorePriorityOneColourGreen,
+                            scorePriorityTwoColourRed = ie.scorePriorityTwoColourRed,
+                            scorePriorityTwoColourYellow = ie.scorePriorityTwoColourYellow,
+                            scorePriorityTwoColourGreen = ie.scorePriorityTwoColourGreen,
+                            scorePriorityThreeColourRed = ie.scorePriorityThreeColourRed,
+                            scorePriorityThreeColourYellow = ie.scorePriorityThreeColourYellow,
+                            scorePriorityThreeColourGreen = ie.scorePriorityThreeColourGreen,
+                            totalScore = ie.totalScore,
+                            conclusions = ie.conclusionsBasque,
+                            isFinished = ie.isFinished,
+                            evaluationType = ie.evaluationType,
+                            level = ie.level
+                        };
+                        break;
+                    case "ca":
+                        selector = ie => new IndicatorsEvaluationDto
+                        {
+                            evaluationDate = ie.evaluationDate,
+                            idEvaluatedOrganization = ie.idEvaluatedOrganization,
+
+                            orgTypeEvaluated = ie.orgTypeEvaluated,
+                            idEvaluatorTeam = ie.idEvaluatorTeam,
+                            idEvaluatorOrganization = ie.idEvaluatorOrganization,
+
+                            orgTypeEvaluator = ie.orgTypeEvaluator,
+
+                            illness = ie.illness,
+                            idCenter = ie.idCenter,
+                            scorePriorityZeroColourRed = ie.scorePriorityZeroColourRed,
+                            scorePriorityZeroColourYellow = ie.scorePriorityZeroColourYellow,
+                            scorePriorityZeroColourGreen = ie.scorePriorityZeroColourGreen,
+                            scorePriorityOneColourRed = ie.scorePriorityOneColourRed,
+                            scorePriorityOneColourYellow = ie.scorePriorityOneColourYellow,
+                            scorePriorityOneColourGreen = ie.scorePriorityOneColourGreen,
+                            scorePriorityTwoColourRed = ie.scorePriorityTwoColourRed,
+                            scorePriorityTwoColourYellow = ie.scorePriorityTwoColourYellow,
+                            scorePriorityTwoColourGreen = ie.scorePriorityTwoColourGreen,
+                            scorePriorityThreeColourRed = ie.scorePriorityThreeColourRed,
+                            scorePriorityThreeColourYellow = ie.scorePriorityThreeColourYellow,
+                            scorePriorityThreeColourGreen = ie.scorePriorityThreeColourGreen,
+                            totalScore = ie.totalScore,
+                            conclusions = ie.conclusionsCatalan,
+                            isFinished = ie.isFinished,
+                            evaluationType = ie.evaluationType,
+                            level = ie.level
+                        };
+                        break;
+                    case "gl":
+                        selector = ie => new IndicatorsEvaluationDto
+                        {
+                            evaluationDate = ie.evaluationDate,
+                            idEvaluatedOrganization = ie.idEvaluatedOrganization,
+
+                            orgTypeEvaluated = ie.orgTypeEvaluated,
+                            idEvaluatorTeam = ie.idEvaluatorTeam,
+                            idEvaluatorOrganization = ie.idEvaluatorOrganization,
+
+                            orgTypeEvaluator = ie.orgTypeEvaluator,
+
+                            illness = ie.illness,
+                            idCenter = ie.idCenter,
+                            scorePriorityZeroColourRed = ie.scorePriorityZeroColourRed,
+                            scorePriorityZeroColourYellow = ie.scorePriorityZeroColourYellow,
+                            scorePriorityZeroColourGreen = ie.scorePriorityZeroColourGreen,
+                            scorePriorityOneColourRed = ie.scorePriorityOneColourRed,
+                            scorePriorityOneColourYellow = ie.scorePriorityOneColourYellow,
+                            scorePriorityOneColourGreen = ie.scorePriorityOneColourGreen,
+                            scorePriorityTwoColourRed = ie.scorePriorityTwoColourRed,
+                            scorePriorityTwoColourYellow = ie.scorePriorityTwoColourYellow,
+                            scorePriorityTwoColourGreen = ie.scorePriorityTwoColourGreen,
+                            scorePriorityThreeColourRed = ie.scorePriorityThreeColourRed,
+                            scorePriorityThreeColourYellow = ie.scorePriorityThreeColourYellow,
+                            scorePriorityThreeColourGreen = ie.scorePriorityThreeColourGreen,
+                            totalScore = ie.totalScore,
+                            conclusions = ie.conclusionsGalician,
+                            isFinished = ie.isFinished,
+                            evaluationType = ie.evaluationType,
+                            level = ie.level
+                        };
+                        break;
+                    case "pt":
+                        selector = ie => new IndicatorsEvaluationDto
+                        {
+                            evaluationDate = ie.evaluationDate,
+                            idEvaluatedOrganization = ie.idEvaluatedOrganization,
+
+                            orgTypeEvaluated = ie.orgTypeEvaluated,
+                            idEvaluatorTeam = ie.idEvaluatorTeam,
+                            idEvaluatorOrganization = ie.idEvaluatorOrganization,
+
+                            orgTypeEvaluator = ie.orgTypeEvaluator,
+
+                            illness = ie.illness,
+                            idCenter = ie.idCenter,
+                            scorePriorityZeroColourRed = ie.scorePriorityZeroColourRed,
+                            scorePriorityZeroColourYellow = ie.scorePriorityZeroColourYellow,
+                            scorePriorityZeroColourGreen = ie.scorePriorityZeroColourGreen,
+                            scorePriorityOneColourRed = ie.scorePriorityOneColourRed,
+                            scorePriorityOneColourYellow = ie.scorePriorityOneColourYellow,
+                            scorePriorityOneColourGreen = ie.scorePriorityOneColourGreen,
+                            scorePriorityTwoColourRed = ie.scorePriorityTwoColourRed,
+                            scorePriorityTwoColourYellow = ie.scorePriorityTwoColourYellow,
+                            scorePriorityTwoColourGreen = ie.scorePriorityTwoColourGreen,
+                            scorePriorityThreeColourRed = ie.scorePriorityThreeColourRed,
+                            scorePriorityThreeColourYellow = ie.scorePriorityThreeColourYellow,
+                            scorePriorityThreeColourGreen = ie.scorePriorityThreeColourGreen,
+                            totalScore = ie.totalScore,
+                            conclusions = ie.conclusionsPortuguese,
+                            isFinished = ie.isFinished,
+                            evaluationType = ie.evaluationType,
+                            level = ie.level
+                        };
+                        break;
+                    case "de":
+                        selector = ie => new IndicatorsEvaluationDto
+                        {
+                            evaluationDate = ie.evaluationDate,
+                            idEvaluatedOrganization = ie.idEvaluatedOrganization,
+
+                            orgTypeEvaluated = ie.orgTypeEvaluated,
+                            idEvaluatorTeam = ie.idEvaluatorTeam,
+                            idEvaluatorOrganization = ie.idEvaluatorOrganization,
+
+                            orgTypeEvaluator = ie.orgTypeEvaluator,
+
+                            illness = ie.illness,
+                            idCenter = ie.idCenter,
+                            scorePriorityZeroColourRed = ie.scorePriorityZeroColourRed,
+                            scorePriorityZeroColourYellow = ie.scorePriorityZeroColourYellow,
+                            scorePriorityZeroColourGreen = ie.scorePriorityZeroColourGreen,
+                            scorePriorityOneColourRed = ie.scorePriorityOneColourRed,
+                            scorePriorityOneColourYellow = ie.scorePriorityOneColourYellow,
+                            scorePriorityOneColourGreen = ie.scorePriorityOneColourGreen,
+                            scorePriorityTwoColourRed = ie.scorePriorityTwoColourRed,
+                            scorePriorityTwoColourYellow = ie.scorePriorityTwoColourYellow,
+                            scorePriorityTwoColourGreen = ie.scorePriorityTwoColourGreen,
+                            scorePriorityThreeColourRed = ie.scorePriorityThreeColourRed,
+                            scorePriorityThreeColourYellow = ie.scorePriorityThreeColourYellow,
+                            scorePriorityThreeColourGreen = ie.scorePriorityThreeColourGreen,
+                            totalScore = ie.totalScore,
+                            conclusions = ie.conclusionsGerman,
+                            isFinished = ie.isFinished,
+                            evaluationType = ie.evaluationType,
+                            level = ie.level
+                        };
+                        break;
+                    case "it":
+                        selector = ie => new IndicatorsEvaluationDto
+                        {
+                            evaluationDate = ie.evaluationDate,
+                            idEvaluatedOrganization = ie.idEvaluatedOrganization,
+
+                            orgTypeEvaluated = ie.orgTypeEvaluated,
+                            idEvaluatorTeam = ie.idEvaluatorTeam,
+                            idEvaluatorOrganization = ie.idEvaluatorOrganization,
+
+                            orgTypeEvaluator = ie.orgTypeEvaluator,
+
+                            illness = ie.illness,
+                            idCenter = ie.idCenter,
+                            scorePriorityZeroColourRed = ie.scorePriorityZeroColourRed,
+                            scorePriorityZeroColourYellow = ie.scorePriorityZeroColourYellow,
+                            scorePriorityZeroColourGreen = ie.scorePriorityZeroColourGreen,
+                            scorePriorityOneColourRed = ie.scorePriorityOneColourRed,
+                            scorePriorityOneColourYellow = ie.scorePriorityOneColourYellow,
+                            scorePriorityOneColourGreen = ie.scorePriorityOneColourGreen,
+                            scorePriorityTwoColourRed = ie.scorePriorityTwoColourRed,
+                            scorePriorityTwoColourYellow = ie.scorePriorityTwoColourYellow,
+                            scorePriorityTwoColourGreen = ie.scorePriorityTwoColourGreen,
+                            scorePriorityThreeColourRed = ie.scorePriorityThreeColourRed,
+                            scorePriorityThreeColourYellow = ie.scorePriorityThreeColourYellow,
+                            scorePriorityThreeColourGreen = ie.scorePriorityThreeColourGreen,
+                            totalScore = ie.totalScore,
+                            conclusions = ie.conclusionsItalian,
+                            isFinished = ie.isFinished,
+                            evaluationType = ie.evaluationType,
+                            level = ie.level
+                        };
+                        break;
+                    case "nl":
+                        selector = ie => new IndicatorsEvaluationDto
+                        {
+                            evaluationDate = ie.evaluationDate,
+                            idEvaluatedOrganization = ie.idEvaluatedOrganization,
+
+                            orgTypeEvaluated = ie.orgTypeEvaluated,
+                            idEvaluatorTeam = ie.idEvaluatorTeam,
+                            idEvaluatorOrganization = ie.idEvaluatorOrganization,
+
+                            orgTypeEvaluator = ie.orgTypeEvaluator,
+
+                            illness = ie.illness,
+                            idCenter = ie.idCenter,
+                            scorePriorityZeroColourRed = ie.scorePriorityZeroColourRed,
+                            scorePriorityZeroColourYellow = ie.scorePriorityZeroColourYellow,
+                            scorePriorityZeroColourGreen = ie.scorePriorityZeroColourGreen,
+                            scorePriorityOneColourRed = ie.scorePriorityOneColourRed,
+                            scorePriorityOneColourYellow = ie.scorePriorityOneColourYellow,
+                            scorePriorityOneColourGreen = ie.scorePriorityOneColourGreen,
+                            scorePriorityTwoColourRed = ie.scorePriorityTwoColourRed,
+                            scorePriorityTwoColourYellow = ie.scorePriorityTwoColourYellow,
+                            scorePriorityTwoColourGreen = ie.scorePriorityTwoColourGreen,
+                            scorePriorityThreeColourRed = ie.scorePriorityThreeColourRed,
+                            scorePriorityThreeColourYellow = ie.scorePriorityThreeColourYellow,
+                            scorePriorityThreeColourGreen = ie.scorePriorityThreeColourGreen,
+                            totalScore = ie.totalScore,
+                            conclusions = ie.conclusionsDutch,
+                            isFinished = ie.isFinished,
+                            evaluationType = ie.evaluationType,
+                            level = ie.level
+                        };
+                        break;
+                    default:
+                        selector = ie => new IndicatorsEvaluationDto
+                        {
+                            evaluationDate = ie.evaluationDate,
+                            idEvaluatedOrganization = ie.idEvaluatedOrganization,
+
+                            orgTypeEvaluated = ie.orgTypeEvaluated,
+                            idEvaluatorTeam = ie.idEvaluatorTeam,
+                            idEvaluatorOrganization = ie.idEvaluatorOrganization,
+
+                            orgTypeEvaluator = ie.orgTypeEvaluator,
+
+                            illness = ie.illness,
+                            idCenter = ie.idCenter,
+                            scorePriorityZeroColourRed = ie.scorePriorityZeroColourRed,
+                            scorePriorityZeroColourYellow = ie.scorePriorityZeroColourYellow,
+                            scorePriorityZeroColourGreen = ie.scorePriorityZeroColourGreen,
+                            scorePriorityOneColourRed = ie.scorePriorityOneColourRed,
+                            scorePriorityOneColourYellow = ie.scorePriorityOneColourYellow,
+                            scorePriorityOneColourGreen = ie.scorePriorityOneColourGreen,
+                            scorePriorityTwoColourRed = ie.scorePriorityTwoColourRed,
+                            scorePriorityTwoColourYellow = ie.scorePriorityTwoColourYellow,
+                            scorePriorityTwoColourGreen = ie.scorePriorityTwoColourGreen,
+                            scorePriorityThreeColourRed = ie.scorePriorityThreeColourRed,
+                            scorePriorityThreeColourYellow = ie.scorePriorityThreeColourYellow,
+                            scorePriorityThreeColourGreen = ie.scorePriorityThreeColourGreen,
+                            totalScore = ie.totalScore,
+                            conclusions = ie.conclusionsEnglish,
+                            isFinished = ie.isFinished,
+                            evaluationType = ie.evaluationType,
+                            level = ie.level
+                        };
+                        break;
+                }
+                var indicatorsEvaluations=aux.Select(selector).ToList();
                 List<JsonDocument> result = new List<JsonDocument>();
                 foreach (var indicatorsEvaluation in indicatorsEvaluations)
                 {
@@ -164,16 +559,7 @@ namespace OTEAServer.Controllers
                                 "\"orgTypeEvaluator\":\"" + orgTypeEvaluator + "\"," +
                                 "\"illness\":\"" + illness + "\"," +
                                 "\"idCenter\":\"" + idCenter + "\"," +
-                                "\"conclusionsSpanish\":\"" + indicatorsEvaluation.conclusionsSpanish + "\"," +
-                                "\"conclusionsEnglish\":\"" + indicatorsEvaluation.conclusionsEnglish + "\"," +
-                                "\"conclusionsFrench\":\"" + indicatorsEvaluation.conclusionsFrench + "\"," +
-                                "\"conclusionsBasque\":\"" + indicatorsEvaluation.conclusionsBasque + "\"," +
-                                "\"conclusionsCatalan\":\"" + indicatorsEvaluation.conclusionsCatalan + "\"," +
-                                "\"conclusionsDutch\":\"" + indicatorsEvaluation.conclusionsDutch + "\"," +
-                                "\"conclusionsGalician\":\"" + indicatorsEvaluation.conclusionsGalician + "\"," +
-                                "\"conclusionsGerman\":\"" + indicatorsEvaluation.conclusionsGerman + "\"," +
-                                "\"conclusionsItalian\":\"" + indicatorsEvaluation.conclusionsItalian + "\"," +
-                                "\"conclusionsPortuguese\":\"" + indicatorsEvaluation.conclusionsPortuguese + "\"," +
+                                "\"conclusions\":\"" + indicatorsEvaluation.conclusions + "\"," +
                                 "\"scorePriorityZeroColourRed\":\"" + indicatorsEvaluation.scorePriorityZeroColourRed + "\"," +
                                 "\"scorePriorityZeroColourYellow\":\"" + indicatorsEvaluation.scorePriorityZeroColourYellow + "\"," +
                                 "\"scorePriorityZeroColourGreen\":\"" + indicatorsEvaluation.scorePriorityZeroColourGreen + "\"," +
@@ -215,11 +601,377 @@ namespace OTEAServer.Controllers
         /// <returns>Indicators evaluations list</returns>
         [HttpGet("nonFinished")]
         [Authorize]
-        public IActionResult GetNonFinishedByEvaluatorTeam([FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromHeader] string Authorization)
+        public IActionResult GetNonFinishedByEvaluatorTeam([FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] string language, [FromHeader] string Authorization)
         {
             try
             {
-                var indicatorsEvaluations = _context.IndicatorsEvaluations.Where(e => e.idEvaluatorTeam==idEvaluatorTeam && e.idEvaluatorOrganization == idEvaluatorOrganization && e.orgTypeEvaluator == orgTypeEvaluator && e.idEvaluatedOrganization == idEvaluatedOrganization && e.orgTypeEvaluated == orgTypeEvaluated && e.illness == illness && e.idCenter == idCenter && e.isFinished == 0).ToList();
+                var aux = _context.IndicatorsEvaluations.Where(e => e.idEvaluatorTeam == idEvaluatorTeam && e.idEvaluatorOrganization == idEvaluatorOrganization && e.orgTypeEvaluator == orgTypeEvaluator && e.idEvaluatedOrganization == idEvaluatedOrganization && e.orgTypeEvaluated == orgTypeEvaluated && e.illness == illness && e.idCenter == idCenter && e.isFinished == 0);//.ToList();
+                Expression<Func<IndicatorsEvaluation, IndicatorsEvaluationDto>> selector = ie => new IndicatorsEvaluationDto
+                {
+                    evaluationDate = ie.evaluationDate,
+                    idEvaluatedOrganization = ie.idEvaluatedOrganization,
+
+                    orgTypeEvaluated = ie.orgTypeEvaluated,
+                    idEvaluatorTeam = ie.idEvaluatorTeam,
+                    idEvaluatorOrganization = ie.idEvaluatorOrganization,
+
+                    orgTypeEvaluator = ie.orgTypeEvaluator,
+
+                    illness = ie.illness,
+                    idCenter = ie.idCenter,
+                    scorePriorityZeroColourRed = ie.scorePriorityZeroColourRed,
+                    scorePriorityZeroColourYellow = ie.scorePriorityZeroColourYellow,
+                    scorePriorityZeroColourGreen = ie.scorePriorityZeroColourGreen,
+                    scorePriorityOneColourRed = ie.scorePriorityOneColourRed,
+                    scorePriorityOneColourYellow = ie.scorePriorityOneColourYellow,
+                    scorePriorityOneColourGreen = ie.scorePriorityOneColourGreen,
+                    scorePriorityTwoColourRed = ie.scorePriorityTwoColourRed,
+                    scorePriorityTwoColourYellow = ie.scorePriorityTwoColourYellow,
+                    scorePriorityTwoColourGreen = ie.scorePriorityTwoColourGreen,
+                    scorePriorityThreeColourRed = ie.scorePriorityThreeColourRed,
+                    scorePriorityThreeColourYellow = ie.scorePriorityThreeColourYellow,
+                    scorePriorityThreeColourGreen = ie.scorePriorityThreeColourGreen,
+                    totalScore = ie.totalScore,
+                    conclusions = ie.conclusionsEnglish,
+                    isFinished = ie.isFinished,
+                    evaluationType = ie.evaluationType,
+                    level = ie.level
+                };
+
+                switch (language)
+                {
+                    case "es":
+                        selector = ie => new IndicatorsEvaluationDto
+                        {
+                            evaluationDate = ie.evaluationDate,
+                            idEvaluatedOrganization = ie.idEvaluatedOrganization,
+
+                            orgTypeEvaluated = ie.orgTypeEvaluated,
+                            idEvaluatorTeam = ie.idEvaluatorTeam,
+                            idEvaluatorOrganization = ie.idEvaluatorOrganization,
+
+                            orgTypeEvaluator = ie.orgTypeEvaluator,
+
+                            illness = ie.illness,
+                            idCenter = ie.idCenter,
+                            scorePriorityZeroColourRed = ie.scorePriorityZeroColourRed,
+                            scorePriorityZeroColourYellow = ie.scorePriorityZeroColourYellow,
+                            scorePriorityZeroColourGreen = ie.scorePriorityZeroColourGreen,
+                            scorePriorityOneColourRed = ie.scorePriorityOneColourRed,
+                            scorePriorityOneColourYellow = ie.scorePriorityOneColourYellow,
+                            scorePriorityOneColourGreen = ie.scorePriorityOneColourGreen,
+                            scorePriorityTwoColourRed = ie.scorePriorityTwoColourRed,
+                            scorePriorityTwoColourYellow = ie.scorePriorityTwoColourYellow,
+                            scorePriorityTwoColourGreen = ie.scorePriorityTwoColourGreen,
+                            scorePriorityThreeColourRed = ie.scorePriorityThreeColourRed,
+                            scorePriorityThreeColourYellow = ie.scorePriorityThreeColourYellow,
+                            scorePriorityThreeColourGreen = ie.scorePriorityThreeColourGreen,
+                            totalScore = ie.totalScore,
+                            conclusions = ie.conclusionsSpanish,
+                            isFinished = ie.isFinished,
+                            evaluationType = ie.evaluationType,
+                            level = ie.level
+                        };
+                        break;
+                    case "fr":
+                        selector = ie => new IndicatorsEvaluationDto
+                        {
+                            evaluationDate = ie.evaluationDate,
+                            idEvaluatedOrganization = ie.idEvaluatedOrganization,
+
+                            orgTypeEvaluated = ie.orgTypeEvaluated,
+                            idEvaluatorTeam = ie.idEvaluatorTeam,
+                            idEvaluatorOrganization = ie.idEvaluatorOrganization,
+
+                            orgTypeEvaluator = ie.orgTypeEvaluator,
+
+                            illness = ie.illness,
+                            idCenter = ie.idCenter,
+                            scorePriorityZeroColourRed = ie.scorePriorityZeroColourRed,
+                            scorePriorityZeroColourYellow = ie.scorePriorityZeroColourYellow,
+                            scorePriorityZeroColourGreen = ie.scorePriorityZeroColourGreen,
+                            scorePriorityOneColourRed = ie.scorePriorityOneColourRed,
+                            scorePriorityOneColourYellow = ie.scorePriorityOneColourYellow,
+                            scorePriorityOneColourGreen = ie.scorePriorityOneColourGreen,
+                            scorePriorityTwoColourRed = ie.scorePriorityTwoColourRed,
+                            scorePriorityTwoColourYellow = ie.scorePriorityTwoColourYellow,
+                            scorePriorityTwoColourGreen = ie.scorePriorityTwoColourGreen,
+                            scorePriorityThreeColourRed = ie.scorePriorityThreeColourRed,
+                            scorePriorityThreeColourYellow = ie.scorePriorityThreeColourYellow,
+                            scorePriorityThreeColourGreen = ie.scorePriorityThreeColourGreen,
+                            totalScore = ie.totalScore,
+                            conclusions = ie.conclusionsFrench,
+                            isFinished = ie.isFinished,
+                            evaluationType = ie.evaluationType,
+                            level = ie.level
+                        };
+                        break;
+                    case "eu":
+                        selector = ie => new IndicatorsEvaluationDto
+                        {
+                            evaluationDate = ie.evaluationDate,
+                            idEvaluatedOrganization = ie.idEvaluatedOrganization,
+
+                            orgTypeEvaluated = ie.orgTypeEvaluated,
+                            idEvaluatorTeam = ie.idEvaluatorTeam,
+                            idEvaluatorOrganization = ie.idEvaluatorOrganization,
+
+                            orgTypeEvaluator = ie.orgTypeEvaluator,
+
+                            illness = ie.illness,
+                            idCenter = ie.idCenter,
+                            scorePriorityZeroColourRed = ie.scorePriorityZeroColourRed,
+                            scorePriorityZeroColourYellow = ie.scorePriorityZeroColourYellow,
+                            scorePriorityZeroColourGreen = ie.scorePriorityZeroColourGreen,
+                            scorePriorityOneColourRed = ie.scorePriorityOneColourRed,
+                            scorePriorityOneColourYellow = ie.scorePriorityOneColourYellow,
+                            scorePriorityOneColourGreen = ie.scorePriorityOneColourGreen,
+                            scorePriorityTwoColourRed = ie.scorePriorityTwoColourRed,
+                            scorePriorityTwoColourYellow = ie.scorePriorityTwoColourYellow,
+                            scorePriorityTwoColourGreen = ie.scorePriorityTwoColourGreen,
+                            scorePriorityThreeColourRed = ie.scorePriorityThreeColourRed,
+                            scorePriorityThreeColourYellow = ie.scorePriorityThreeColourYellow,
+                            scorePriorityThreeColourGreen = ie.scorePriorityThreeColourGreen,
+                            totalScore = ie.totalScore,
+                            conclusions = ie.conclusionsBasque,
+                            isFinished = ie.isFinished,
+                            evaluationType = ie.evaluationType,
+                            level = ie.level
+                        };
+                        break;
+                    case "ca":
+                        selector = ie => new IndicatorsEvaluationDto
+                        {
+                            evaluationDate = ie.evaluationDate,
+                            idEvaluatedOrganization = ie.idEvaluatedOrganization,
+
+                            orgTypeEvaluated = ie.orgTypeEvaluated,
+                            idEvaluatorTeam = ie.idEvaluatorTeam,
+                            idEvaluatorOrganization = ie.idEvaluatorOrganization,
+
+                            orgTypeEvaluator = ie.orgTypeEvaluator,
+
+                            illness = ie.illness,
+                            idCenter = ie.idCenter,
+                            scorePriorityZeroColourRed = ie.scorePriorityZeroColourRed,
+                            scorePriorityZeroColourYellow = ie.scorePriorityZeroColourYellow,
+                            scorePriorityZeroColourGreen = ie.scorePriorityZeroColourGreen,
+                            scorePriorityOneColourRed = ie.scorePriorityOneColourRed,
+                            scorePriorityOneColourYellow = ie.scorePriorityOneColourYellow,
+                            scorePriorityOneColourGreen = ie.scorePriorityOneColourGreen,
+                            scorePriorityTwoColourRed = ie.scorePriorityTwoColourRed,
+                            scorePriorityTwoColourYellow = ie.scorePriorityTwoColourYellow,
+                            scorePriorityTwoColourGreen = ie.scorePriorityTwoColourGreen,
+                            scorePriorityThreeColourRed = ie.scorePriorityThreeColourRed,
+                            scorePriorityThreeColourYellow = ie.scorePriorityThreeColourYellow,
+                            scorePriorityThreeColourGreen = ie.scorePriorityThreeColourGreen,
+                            totalScore = ie.totalScore,
+                            conclusions = ie.conclusionsCatalan,
+                            isFinished = ie.isFinished,
+                            evaluationType = ie.evaluationType,
+                            level = ie.level
+                        };
+                        break;
+                    case "gl":
+                        selector = ie => new IndicatorsEvaluationDto
+                        {
+                            evaluationDate = ie.evaluationDate,
+                            idEvaluatedOrganization = ie.idEvaluatedOrganization,
+
+                            orgTypeEvaluated = ie.orgTypeEvaluated,
+                            idEvaluatorTeam = ie.idEvaluatorTeam,
+                            idEvaluatorOrganization = ie.idEvaluatorOrganization,
+
+                            orgTypeEvaluator = ie.orgTypeEvaluator,
+
+                            illness = ie.illness,
+                            idCenter = ie.idCenter,
+                            scorePriorityZeroColourRed = ie.scorePriorityZeroColourRed,
+                            scorePriorityZeroColourYellow = ie.scorePriorityZeroColourYellow,
+                            scorePriorityZeroColourGreen = ie.scorePriorityZeroColourGreen,
+                            scorePriorityOneColourRed = ie.scorePriorityOneColourRed,
+                            scorePriorityOneColourYellow = ie.scorePriorityOneColourYellow,
+                            scorePriorityOneColourGreen = ie.scorePriorityOneColourGreen,
+                            scorePriorityTwoColourRed = ie.scorePriorityTwoColourRed,
+                            scorePriorityTwoColourYellow = ie.scorePriorityTwoColourYellow,
+                            scorePriorityTwoColourGreen = ie.scorePriorityTwoColourGreen,
+                            scorePriorityThreeColourRed = ie.scorePriorityThreeColourRed,
+                            scorePriorityThreeColourYellow = ie.scorePriorityThreeColourYellow,
+                            scorePriorityThreeColourGreen = ie.scorePriorityThreeColourGreen,
+                            totalScore = ie.totalScore,
+                            conclusions = ie.conclusionsGalician,
+                            isFinished = ie.isFinished,
+                            evaluationType = ie.evaluationType,
+                            level = ie.level
+                        };
+                        break;
+                    case "pt":
+                        selector = ie => new IndicatorsEvaluationDto
+                        {
+                            evaluationDate = ie.evaluationDate,
+                            idEvaluatedOrganization = ie.idEvaluatedOrganization,
+
+                            orgTypeEvaluated = ie.orgTypeEvaluated,
+                            idEvaluatorTeam = ie.idEvaluatorTeam,
+                            idEvaluatorOrganization = ie.idEvaluatorOrganization,
+
+                            orgTypeEvaluator = ie.orgTypeEvaluator,
+
+                            illness = ie.illness,
+                            idCenter = ie.idCenter,
+                            scorePriorityZeroColourRed = ie.scorePriorityZeroColourRed,
+                            scorePriorityZeroColourYellow = ie.scorePriorityZeroColourYellow,
+                            scorePriorityZeroColourGreen = ie.scorePriorityZeroColourGreen,
+                            scorePriorityOneColourRed = ie.scorePriorityOneColourRed,
+                            scorePriorityOneColourYellow = ie.scorePriorityOneColourYellow,
+                            scorePriorityOneColourGreen = ie.scorePriorityOneColourGreen,
+                            scorePriorityTwoColourRed = ie.scorePriorityTwoColourRed,
+                            scorePriorityTwoColourYellow = ie.scorePriorityTwoColourYellow,
+                            scorePriorityTwoColourGreen = ie.scorePriorityTwoColourGreen,
+                            scorePriorityThreeColourRed = ie.scorePriorityThreeColourRed,
+                            scorePriorityThreeColourYellow = ie.scorePriorityThreeColourYellow,
+                            scorePriorityThreeColourGreen = ie.scorePriorityThreeColourGreen,
+                            totalScore = ie.totalScore,
+                            conclusions = ie.conclusionsPortuguese,
+                            isFinished = ie.isFinished,
+                            evaluationType = ie.evaluationType,
+                            level = ie.level
+                        };
+                        break;
+                    case "de":
+                        selector = ie => new IndicatorsEvaluationDto
+                        {
+                            evaluationDate = ie.evaluationDate,
+                            idEvaluatedOrganization = ie.idEvaluatedOrganization,
+
+                            orgTypeEvaluated = ie.orgTypeEvaluated,
+                            idEvaluatorTeam = ie.idEvaluatorTeam,
+                            idEvaluatorOrganization = ie.idEvaluatorOrganization,
+
+                            orgTypeEvaluator = ie.orgTypeEvaluator,
+
+                            illness = ie.illness,
+                            idCenter = ie.idCenter,
+                            scorePriorityZeroColourRed = ie.scorePriorityZeroColourRed,
+                            scorePriorityZeroColourYellow = ie.scorePriorityZeroColourYellow,
+                            scorePriorityZeroColourGreen = ie.scorePriorityZeroColourGreen,
+                            scorePriorityOneColourRed = ie.scorePriorityOneColourRed,
+                            scorePriorityOneColourYellow = ie.scorePriorityOneColourYellow,
+                            scorePriorityOneColourGreen = ie.scorePriorityOneColourGreen,
+                            scorePriorityTwoColourRed = ie.scorePriorityTwoColourRed,
+                            scorePriorityTwoColourYellow = ie.scorePriorityTwoColourYellow,
+                            scorePriorityTwoColourGreen = ie.scorePriorityTwoColourGreen,
+                            scorePriorityThreeColourRed = ie.scorePriorityThreeColourRed,
+                            scorePriorityThreeColourYellow = ie.scorePriorityThreeColourYellow,
+                            scorePriorityThreeColourGreen = ie.scorePriorityThreeColourGreen,
+                            totalScore = ie.totalScore,
+                            conclusions = ie.conclusionsGerman,
+                            isFinished = ie.isFinished,
+                            evaluationType = ie.evaluationType,
+                            level = ie.level
+                        };
+                        break;
+                    case "it":
+                        selector = ie => new IndicatorsEvaluationDto
+                        {
+                            evaluationDate = ie.evaluationDate,
+                            idEvaluatedOrganization = ie.idEvaluatedOrganization,
+
+                            orgTypeEvaluated = ie.orgTypeEvaluated,
+                            idEvaluatorTeam = ie.idEvaluatorTeam,
+                            idEvaluatorOrganization = ie.idEvaluatorOrganization,
+
+                            orgTypeEvaluator = ie.orgTypeEvaluator,
+
+                            illness = ie.illness,
+                            idCenter = ie.idCenter,
+                            scorePriorityZeroColourRed = ie.scorePriorityZeroColourRed,
+                            scorePriorityZeroColourYellow = ie.scorePriorityZeroColourYellow,
+                            scorePriorityZeroColourGreen = ie.scorePriorityZeroColourGreen,
+                            scorePriorityOneColourRed = ie.scorePriorityOneColourRed,
+                            scorePriorityOneColourYellow = ie.scorePriorityOneColourYellow,
+                            scorePriorityOneColourGreen = ie.scorePriorityOneColourGreen,
+                            scorePriorityTwoColourRed = ie.scorePriorityTwoColourRed,
+                            scorePriorityTwoColourYellow = ie.scorePriorityTwoColourYellow,
+                            scorePriorityTwoColourGreen = ie.scorePriorityTwoColourGreen,
+                            scorePriorityThreeColourRed = ie.scorePriorityThreeColourRed,
+                            scorePriorityThreeColourYellow = ie.scorePriorityThreeColourYellow,
+                            scorePriorityThreeColourGreen = ie.scorePriorityThreeColourGreen,
+                            totalScore = ie.totalScore,
+                            conclusions = ie.conclusionsItalian,
+                            isFinished = ie.isFinished,
+                            evaluationType = ie.evaluationType,
+                            level = ie.level
+                        };
+                        break;
+                    case "nl":
+                        selector = ie => new IndicatorsEvaluationDto
+                        {
+                            evaluationDate = ie.evaluationDate,
+                            idEvaluatedOrganization = ie.idEvaluatedOrganization,
+
+                            orgTypeEvaluated = ie.orgTypeEvaluated,
+                            idEvaluatorTeam = ie.idEvaluatorTeam,
+                            idEvaluatorOrganization = ie.idEvaluatorOrganization,
+
+                            orgTypeEvaluator = ie.orgTypeEvaluator,
+
+                            illness = ie.illness,
+                            idCenter = ie.idCenter,
+                            scorePriorityZeroColourRed = ie.scorePriorityZeroColourRed,
+                            scorePriorityZeroColourYellow = ie.scorePriorityZeroColourYellow,
+                            scorePriorityZeroColourGreen = ie.scorePriorityZeroColourGreen,
+                            scorePriorityOneColourRed = ie.scorePriorityOneColourRed,
+                            scorePriorityOneColourYellow = ie.scorePriorityOneColourYellow,
+                            scorePriorityOneColourGreen = ie.scorePriorityOneColourGreen,
+                            scorePriorityTwoColourRed = ie.scorePriorityTwoColourRed,
+                            scorePriorityTwoColourYellow = ie.scorePriorityTwoColourYellow,
+                            scorePriorityTwoColourGreen = ie.scorePriorityTwoColourGreen,
+                            scorePriorityThreeColourRed = ie.scorePriorityThreeColourRed,
+                            scorePriorityThreeColourYellow = ie.scorePriorityThreeColourYellow,
+                            scorePriorityThreeColourGreen = ie.scorePriorityThreeColourGreen,
+                            totalScore = ie.totalScore,
+                            conclusions = ie.conclusionsDutch,
+                            isFinished = ie.isFinished,
+                            evaluationType = ie.evaluationType,
+                            level = ie.level
+                        };
+                        break;
+                    default:
+                        selector = ie => new IndicatorsEvaluationDto
+                        {
+                            evaluationDate = ie.evaluationDate,
+                            idEvaluatedOrganization = ie.idEvaluatedOrganization,
+
+                            orgTypeEvaluated = ie.orgTypeEvaluated,
+                            idEvaluatorTeam = ie.idEvaluatorTeam,
+                            idEvaluatorOrganization = ie.idEvaluatorOrganization,
+
+                            orgTypeEvaluator = ie.orgTypeEvaluator,
+
+                            illness = ie.illness,
+                            idCenter = ie.idCenter,
+                            scorePriorityZeroColourRed = ie.scorePriorityZeroColourRed,
+                            scorePriorityZeroColourYellow = ie.scorePriorityZeroColourYellow,
+                            scorePriorityZeroColourGreen = ie.scorePriorityZeroColourGreen,
+                            scorePriorityOneColourRed = ie.scorePriorityOneColourRed,
+                            scorePriorityOneColourYellow = ie.scorePriorityOneColourYellow,
+                            scorePriorityOneColourGreen = ie.scorePriorityOneColourGreen,
+                            scorePriorityTwoColourRed = ie.scorePriorityTwoColourRed,
+                            scorePriorityTwoColourYellow = ie.scorePriorityTwoColourYellow,
+                            scorePriorityTwoColourGreen = ie.scorePriorityTwoColourGreen,
+                            scorePriorityThreeColourRed = ie.scorePriorityThreeColourRed,
+                            scorePriorityThreeColourYellow = ie.scorePriorityThreeColourYellow,
+                            scorePriorityThreeColourGreen = ie.scorePriorityThreeColourGreen,
+                            totalScore = ie.totalScore,
+                            conclusions = ie.conclusionsEnglish,
+                            isFinished = ie.isFinished,
+                            evaluationType = ie.evaluationType,
+                            level = ie.level
+                        };
+                        break;
+                }
+                var indicatorsEvaluations = aux.Select(selector).ToList();
                 List<JsonDocument> result = new List<JsonDocument>();
                 foreach (var indicatorsEvaluation in indicatorsEvaluations)
                 {
@@ -231,16 +983,7 @@ namespace OTEAServer.Controllers
                                 "\"orgTypeEvaluator\":\"" + orgTypeEvaluator + "\"," +
                                 "\"illness\":\"" + illness + "\"," +
                                 "\"idCenter\":\"" + idCenter + "\"," +
-                                "\"conclusionsSpanish\":\"" + indicatorsEvaluation.conclusionsSpanish + "\"," +
-                                "\"conclusionsEnglish\":\"" + indicatorsEvaluation.conclusionsEnglish + "\"," +
-                                "\"conclusionsFrench\":\"" + indicatorsEvaluation.conclusionsFrench + "\"," +
-                                "\"conclusionsBasque\":\"" + indicatorsEvaluation.conclusionsBasque + "\"," +
-                                "\"conclusionsCatalan\":\"" + indicatorsEvaluation.conclusionsCatalan + "\"," +
-                                "\"conclusionsDutch\":\"" + indicatorsEvaluation.conclusionsDutch + "\"," +
-                                "\"conclusionsGalician\":\"" + indicatorsEvaluation.conclusionsGalician + "\"," +
-                                "\"conclusionsGerman\":\"" + indicatorsEvaluation.conclusionsGerman + "\"," +
-                                "\"conclusionsItalian\":\"" + indicatorsEvaluation.conclusionsItalian + "\"," +
-                                "\"conclusionsPortuguese\":\"" + indicatorsEvaluation.conclusionsPortuguese + "\"," +
+                                "\"conclusions\":\"" + indicatorsEvaluation.conclusions + "\"," +
                                 "\"scorePriorityZeroColourRed\":\"" + indicatorsEvaluation.scorePriorityZeroColourRed + "\"," +
                                 "\"scorePriorityZeroColourYellow\":\"" + indicatorsEvaluation.scorePriorityZeroColourYellow + "\"," +
                                 "\"scorePriorityZeroColourGreen\":\"" + indicatorsEvaluation.scorePriorityZeroColourGreen + "\"," +
@@ -284,154 +1027,12 @@ namespace OTEAServer.Controllers
                     idAmbit = ir.idAmbit,
                     idIndicator = ir.idIndicator,
                     indicatorVersion=ir.indicatorVersion,
-                    observations=ir.observationsEnglish,
+                    observations=ir.observationsSpanish,
                     numEvidencesMarked = ir.numEvidencesMarked,
                     status=ir.status,
                     requiresImprovementPlan=ir.requiresImprovementPlan
                 };
-                switch (language)
-                {
-                    case "es":
-                        selectorIndReg = ir => new IndicatorsEvaluationIndicatorRegDto
-                        {
-                            idSubSubAmbit = ir.idSubSubAmbit,
-                            idSubAmbit = ir.idSubAmbit,
-                            idAmbit = ir.idAmbit,
-                            idIndicator = ir.idIndicator,
-                            indicatorVersion = ir.indicatorVersion,
-                            observations = ir.observationsSpanish,
-                            numEvidencesMarked = ir.numEvidencesMarked,
-                            status = ir.status,
-                            requiresImprovementPlan = ir.requiresImprovementPlan
-                        };
-                        break;
-                    case "fr":
-                        selectorIndReg = ir => new IndicatorsEvaluationIndicatorRegDto
-                        {
-                            idSubSubAmbit = ir.idSubSubAmbit,
-                            idSubAmbit = ir.idSubAmbit,
-                            idAmbit = ir.idAmbit,
-                            idIndicator = ir.idIndicator,
-                            indicatorVersion = ir.indicatorVersion,
-                            observations = ir.observationsFrench,
-                            numEvidencesMarked = ir.numEvidencesMarked,
-                            status = ir.status,
-                            requiresImprovementPlan = ir.requiresImprovementPlan
-                        };
-                        break;
-                    case "eu":
-                        selectorIndReg = ir => new IndicatorsEvaluationIndicatorRegDto
-                        {
-                            idSubSubAmbit = ir.idSubSubAmbit,
-                            idSubAmbit = ir.idSubAmbit,
-                            idAmbit = ir.idAmbit,
-                            idIndicator = ir.idIndicator,
-                            indicatorVersion = ir.indicatorVersion,
-                            observations = ir.observationsBasque,
-                            numEvidencesMarked = ir.numEvidencesMarked,
-                            status = ir.status,
-                            requiresImprovementPlan = ir.requiresImprovementPlan
-                        };
-                        break;
-                    case "ca":
-                        selectorIndReg = ir => new IndicatorsEvaluationIndicatorRegDto
-                        {
-                            idSubSubAmbit = ir.idSubSubAmbit,
-                            idSubAmbit = ir.idSubAmbit,
-                            idAmbit = ir.idAmbit,
-                            idIndicator = ir.idIndicator,
-                            indicatorVersion = ir.indicatorVersion,
-                            observations = ir.observationsCatalan,
-                            numEvidencesMarked = ir.numEvidencesMarked,
-                            status = ir.status,
-                            requiresImprovementPlan = ir.requiresImprovementPlan
-                        };
-                        break;
-                    case "gl":
-                        selectorIndReg = ir => new IndicatorsEvaluationIndicatorRegDto
-                        {
-                            idSubSubAmbit = ir.idSubSubAmbit,
-                            idSubAmbit = ir.idSubAmbit,
-                            idAmbit = ir.idAmbit,
-                            idIndicator = ir.idIndicator,
-                            indicatorVersion = ir.indicatorVersion,
-                            observations = ir.observationsGalician,
-                            numEvidencesMarked = ir.numEvidencesMarked,
-                            status = ir.status,
-                            requiresImprovementPlan = ir.requiresImprovementPlan
-                        };
-                        break;
-                    case "pt":
-                        selectorIndReg = ir => new IndicatorsEvaluationIndicatorRegDto
-                        {
-                            idSubSubAmbit = ir.idSubSubAmbit,
-                            idSubAmbit = ir.idSubAmbit,
-                            idAmbit = ir.idAmbit,
-                            idIndicator = ir.idIndicator,
-                            indicatorVersion = ir.indicatorVersion,
-                            observations = ir.observationsPortuguese,
-                            numEvidencesMarked = ir.numEvidencesMarked,
-                            status = ir.status,
-                            requiresImprovementPlan = ir.requiresImprovementPlan
-                        };
-                        break;
-                    case "de":
-                        selectorIndReg = ir => new IndicatorsEvaluationIndicatorRegDto
-                        {
-                            idSubSubAmbit = ir.idSubSubAmbit,
-                            idSubAmbit = ir.idSubAmbit,
-                            idAmbit = ir.idAmbit,
-                            idIndicator = ir.idIndicator,
-                            indicatorVersion = ir.indicatorVersion,
-                            observations = ir.observationsGerman,
-                            numEvidencesMarked = ir.numEvidencesMarked,
-                            status = ir.status,
-                            requiresImprovementPlan = ir.requiresImprovementPlan
-                        };
-                        break;
-                    case "it":
-                        selectorIndReg = ir => new IndicatorsEvaluationIndicatorRegDto
-                        {
-                            idSubSubAmbit = ir.idSubSubAmbit,
-                            idSubAmbit = ir.idSubAmbit,
-                            idAmbit = ir.idAmbit,
-                            idIndicator = ir.idIndicator,
-                            indicatorVersion = ir.indicatorVersion,
-                            observations = ir.observationsItalian,
-                            numEvidencesMarked = ir.numEvidencesMarked,
-                            status = ir.status,
-                            requiresImprovementPlan = ir.requiresImprovementPlan
-                        };
-                        break;
-                    case "nl":
-                        selectorIndReg = ir => new IndicatorsEvaluationIndicatorRegDto
-                        {
-                            idSubSubAmbit = ir.idSubSubAmbit,
-                            idSubAmbit = ir.idSubAmbit,
-                            idAmbit = ir.idAmbit,
-                            idIndicator = ir.idIndicator,
-                            indicatorVersion = ir.indicatorVersion,
-                            observations = ir.observationsDutch,
-                            numEvidencesMarked = ir.numEvidencesMarked,
-                            status = ir.status,
-                            requiresImprovementPlan = ir.requiresImprovementPlan
-                        };
-                        break;
-                    default:
-                        selectorIndReg = ir => new IndicatorsEvaluationIndicatorRegDto
-                        {
-                            idSubSubAmbit = ir.idSubSubAmbit,
-                            idSubAmbit = ir.idSubAmbit,
-                            idAmbit = ir.idAmbit,
-                            idIndicator = ir.idIndicator,
-                            indicatorVersion = ir.indicatorVersion,
-                            observations = ir.observationsEnglish,
-                            numEvidencesMarked = ir.numEvidencesMarked,
-                            status = ir.status,
-                            requiresImprovementPlan = ir.requiresImprovementPlan
-                        };
-                        break;
-                }
+                
                 var IndicatorsEvaluationsIndicatorsRegs=auxIr.Select(selectorIndReg).ToList();
                 foreach (IndicatorsEvaluationIndicatorRegDto reg in IndicatorsEvaluationsIndicatorsRegs) {
                     String rg= "{\"idSubSubAmbit\":\"" + reg.idSubSubAmbit + "\"," +
@@ -461,152 +1062,10 @@ namespace OTEAServer.Controllers
                         idEvidence = er.idEvidence,
                         indicatorVersion = er.indicatorVersion,
                         isMarked = er.isMarked,
-                        observations = er.observationsEnglish
+                        observations = er.observationsSpanish
                     };
 
-                    switch (language)
-                    {
-                        case "es":
-                            selectorEvReg = er => new IndicatorsEvaluationEvidenceRegDto
-                            {
-                                idSubSubAmbit = er.idSubSubAmbit,
-                                idSubAmbit = er.idSubAmbit,
-                                idAmbit = er.idAmbit,
-                                idIndicator = er.idIndicator,
-                                indicatorType = er.indicatorType,
-                                idEvidence = er.idEvidence,
-                                indicatorVersion = er.indicatorVersion,
-                                isMarked = er.isMarked,
-                                observations = er.observationsSpanish
-                            };
-                            break;
-                        case "fr":
-                            selectorEvReg = er => new IndicatorsEvaluationEvidenceRegDto
-                            {
-                                idSubSubAmbit = er.idSubSubAmbit,
-                                idSubAmbit = er.idSubAmbit,
-                                idAmbit = er.idAmbit,
-                                idIndicator = er.idIndicator,
-                                indicatorType = er.indicatorType,
-                                idEvidence = er.idEvidence,
-                                indicatorVersion = er.indicatorVersion,
-                                isMarked = er.isMarked,
-                                observations = er.observationsFrench
-                            };
-                            break;
-                        case "eu":
-                            selectorEvReg = er => new IndicatorsEvaluationEvidenceRegDto
-                            {
-                                idSubSubAmbit = er.idSubSubAmbit,
-                                idSubAmbit = er.idSubAmbit,
-                                idAmbit = er.idAmbit,
-                                idIndicator = er.idIndicator,
-                                indicatorType = er.indicatorType,
-                                idEvidence = er.idEvidence,
-                                indicatorVersion = er.indicatorVersion,
-                                isMarked = er.isMarked,
-                                observations = er.observationsBasque
-                            };
-                            break;
-                        case "ca":
-                            selectorEvReg = er => new IndicatorsEvaluationEvidenceRegDto
-                            {
-                                idSubSubAmbit = er.idSubSubAmbit,
-                                idSubAmbit = er.idSubAmbit,
-                                idAmbit = er.idAmbit,
-                                idIndicator = er.idIndicator,
-                                indicatorType = er.indicatorType,
-                                idEvidence = er.idEvidence,
-                                indicatorVersion = er.indicatorVersion,
-                                isMarked = er.isMarked,
-                                observations = er.observationsCatalan
-                            };
-                            break;
-                        case "gl":
-                            selectorEvReg = er => new IndicatorsEvaluationEvidenceRegDto
-                            {
-                                idSubSubAmbit = er.idSubSubAmbit,
-                                idSubAmbit = er.idSubAmbit,
-                                idAmbit = er.idAmbit,
-                                idIndicator = er.idIndicator,
-                                indicatorType = er.indicatorType,
-                                idEvidence = er.idEvidence,
-                                indicatorVersion = er.indicatorVersion,
-                                isMarked = er.isMarked,
-                                observations = er.observationsGalician
-                            };
-                            break;
-                        case "pt":
-                            selectorEvReg = er => new IndicatorsEvaluationEvidenceRegDto
-                            {
-                                idSubSubAmbit = er.idSubSubAmbit,
-                                idSubAmbit = er.idSubAmbit,
-                                idAmbit = er.idAmbit,
-                                idIndicator = er.idIndicator,
-                                indicatorType = er.indicatorType,
-                                idEvidence = er.idEvidence,
-                                indicatorVersion = er.indicatorVersion,
-                                isMarked = er.isMarked,
-                                observations = er.observationsPortuguese
-                            };
-                            break;
-                        case "de":
-                            selectorEvReg = er => new IndicatorsEvaluationEvidenceRegDto
-                            {
-                                idSubSubAmbit = er.idSubSubAmbit,
-                                idSubAmbit = er.idSubAmbit,
-                                idAmbit = er.idAmbit,
-                                idIndicator = er.idIndicator,
-                                indicatorType = er.indicatorType,
-                                idEvidence = er.idEvidence,
-                                indicatorVersion = er.indicatorVersion,
-                                isMarked = er.isMarked,
-                                observations = er.observationsGerman
-                            };
-                            break;
-                        case "it":
-                            selectorEvReg = er => new IndicatorsEvaluationEvidenceRegDto
-                            {
-                                idSubSubAmbit = er.idSubSubAmbit,
-                                idSubAmbit = er.idSubAmbit,
-                                idAmbit = er.idAmbit,
-                                idIndicator = er.idIndicator,
-                                indicatorType = er.indicatorType,
-                                idEvidence = er.idEvidence,
-                                indicatorVersion = er.indicatorVersion,
-                                isMarked = er.isMarked,
-                                observations = er.observationsItalian
-                            };
-                            break;
-                        case "nl":
-                            selectorEvReg = er => new IndicatorsEvaluationEvidenceRegDto
-                            {
-                                idSubSubAmbit = er.idSubSubAmbit,
-                                idSubAmbit = er.idSubAmbit,
-                                idAmbit = er.idAmbit,
-                                idIndicator = er.idIndicator,
-                                indicatorType = er.indicatorType,
-                                idEvidence = er.idEvidence,
-                                indicatorVersion = er.indicatorVersion,
-                                isMarked = er.isMarked,
-                                observations = er.observationsDutch
-                            };
-                            break;
-                        default:
-                            selectorEvReg = er => new IndicatorsEvaluationEvidenceRegDto
-                            {
-                                idSubSubAmbit = er.idSubSubAmbit,
-                                idSubAmbit = er.idSubAmbit,
-                                idAmbit = er.idAmbit,
-                                idIndicator = er.idIndicator,
-                                indicatorType = er.indicatorType,
-                                idEvidence = er.idEvidence,
-                                indicatorVersion = er.indicatorVersion,
-                                isMarked = er.isMarked,
-                                observations = er.observationsEnglish
-                            };
-                            break;
-                    }
+                    
                     var IndicatorsEvaluationsEvidencesRegs=auxEvReg.Select(selectorEvReg).ToList();
 
                     foreach (IndicatorsEvaluationEvidenceRegDto reg in IndicatorsEvaluationsEvidencesRegs)
@@ -638,144 +1097,12 @@ namespace OTEAServer.Controllers
                         idAmbit = ser.idAmbit,
                         idIndicator = ser.idIndicator,
                         idEvidence = ser.idEvidence,
-                        description = ser.descriptionEnglish,
+                        description = ser.descriptionSpanish,
                         indicatorVersion = ser.indicatorVersion,
-                        observations = ser.observationsEnglish
+                        observations = ser.observationsSpanish
                     };
 
-                    switch (language)
-                    {
-                        case "es":
-                            selectorSimpleEvReg = ser => new IndicatorsEvaluationSimpleEvidenceRegDto
-                            {
-                                idSubSubAmbit = ser.idSubSubAmbit,
-                                idSubAmbit = ser.idSubAmbit,
-                                idAmbit = ser.idAmbit,
-                                idIndicator = ser.idIndicator,
-                                idEvidence = ser.idEvidence,
-                                description = ser.descriptionSpanish,
-                                indicatorVersion = ser.indicatorVersion,
-                                observations = ser.observationsSpanish
-                            };
-                            break;
-                        case "fr":
-                            selectorSimpleEvReg = ser => new IndicatorsEvaluationSimpleEvidenceRegDto
-                            {
-                                idSubSubAmbit = ser.idSubSubAmbit,
-                                idSubAmbit = ser.idSubAmbit,
-                                idAmbit = ser.idAmbit,
-                                idIndicator = ser.idIndicator,
-                                idEvidence = ser.idEvidence,
-                                description = ser.descriptionFrench,
-                                indicatorVersion = ser.indicatorVersion,
-                                observations = ser.observationsFrench
-                            };
-                            break;
-                        case "eu":
-                            selectorSimpleEvReg = ser => new IndicatorsEvaluationSimpleEvidenceRegDto
-                            {
-                                idSubSubAmbit = ser.idSubSubAmbit,
-                                idSubAmbit = ser.idSubAmbit,
-                                idAmbit = ser.idAmbit,
-                                idIndicator = ser.idIndicator,
-                                idEvidence = ser.idEvidence,
-                                description = ser.descriptionBasque,
-                                indicatorVersion = ser.indicatorVersion,
-                                observations = ser.observationsBasque
-                            };
-                            break;
-                        case "ca":
-                            selectorSimpleEvReg = ser => new IndicatorsEvaluationSimpleEvidenceRegDto
-                            {
-                                idSubSubAmbit = ser.idSubSubAmbit,
-                                idSubAmbit = ser.idSubAmbit,
-                                idAmbit = ser.idAmbit,
-                                idIndicator = ser.idIndicator,
-                                idEvidence = ser.idEvidence,
-                                description = ser.descriptionCatalan,
-                                indicatorVersion = ser.indicatorVersion,
-                                observations = ser.observationsCatalan
-                            };
-                            break;
-                        case "gl":
-                            selectorSimpleEvReg = ser => new IndicatorsEvaluationSimpleEvidenceRegDto
-                            {
-                                idSubSubAmbit = ser.idSubSubAmbit,
-                                idSubAmbit = ser.idSubAmbit,
-                                idAmbit = ser.idAmbit,
-                                idIndicator = ser.idIndicator,
-                                idEvidence = ser.idEvidence,
-                                description = ser.descriptionGalician,
-                                indicatorVersion = ser.indicatorVersion,
-                                observations = ser.observationsGalician
-                            };
-                            break;
-                        case "pt":
-                            selectorSimpleEvReg = ser => new IndicatorsEvaluationSimpleEvidenceRegDto
-                            {
-                                idSubSubAmbit = ser.idSubSubAmbit,
-                                idSubAmbit = ser.idSubAmbit,
-                                idAmbit = ser.idAmbit,
-                                idIndicator = ser.idIndicator,
-                                idEvidence = ser.idEvidence,
-                                description = ser.descriptionPortuguese,
-                                indicatorVersion = ser.indicatorVersion,
-                                observations = ser.observationsPortuguese
-                            };
-                            break;
-                        case "de":
-                            selectorSimpleEvReg = ser => new IndicatorsEvaluationSimpleEvidenceRegDto
-                            {
-                                idSubSubAmbit = ser.idSubSubAmbit,
-                                idSubAmbit = ser.idSubAmbit,
-                                idAmbit = ser.idAmbit,
-                                idIndicator = ser.idIndicator,
-                                idEvidence = ser.idEvidence,
-                                description = ser.descriptionGerman,
-                                indicatorVersion = ser.indicatorVersion,
-                                observations = ser.observationsGerman
-                            };
-                            break;
-                        case "it":
-                            selectorSimpleEvReg = ser => new IndicatorsEvaluationSimpleEvidenceRegDto
-                            {
-                                idSubSubAmbit = ser.idSubSubAmbit,
-                                idSubAmbit = ser.idSubAmbit,
-                                idAmbit = ser.idAmbit,
-                                idIndicator = ser.idIndicator,
-                                idEvidence = ser.idEvidence,
-                                description = ser.descriptionItalian,
-                                indicatorVersion = ser.indicatorVersion,
-                                observations = ser.observationsItalian
-                            };
-                            break;
-                        case "nl":
-                            selectorSimpleEvReg = ser => new IndicatorsEvaluationSimpleEvidenceRegDto
-                            {
-                                idSubSubAmbit = ser.idSubSubAmbit,
-                                idSubAmbit = ser.idSubAmbit,
-                                idAmbit = ser.idAmbit,
-                                idIndicator = ser.idIndicator,
-                                idEvidence = ser.idEvidence,
-                                description = ser.descriptionDutch,
-                                indicatorVersion = ser.indicatorVersion,
-                                observations = ser.observationsDutch
-                            };
-                            break;
-                        default:
-                            selectorSimpleEvReg = ser => new IndicatorsEvaluationSimpleEvidenceRegDto
-                            {
-                                idSubSubAmbit = ser.idSubSubAmbit,
-                                idSubAmbit = ser.idSubAmbit,
-                                idAmbit = ser.idAmbit,
-                                idIndicator = ser.idIndicator,
-                                idEvidence = ser.idEvidence,
-                                description = ser.descriptionEnglish,
-                                indicatorVersion = ser.indicatorVersion,
-                                observations = ser.observationsEnglish
-                            };
-                            break;
-                    }
+                    
 
                     var IndicatorsEvaluationsEvidencesRegs=auxSer.Select(selectorSimpleEvReg).ToList();
 

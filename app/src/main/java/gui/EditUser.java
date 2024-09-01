@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,7 +28,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
-import com.fundacionmiradas.indicatorsevaluation.MainMenu;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeProgressDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.fundacionmiradas.indicatorsevaluation.R;
 
 import java.io.ByteArrayInputStream;
@@ -163,10 +165,30 @@ public class EditUser extends AppCompatActivity {
         uploadPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(v.getContext())
-                        .setTitle(getString(R.string.select_source))
-                        .setPositiveButton(getString(R.string.camera), (dialog, which) -> mTakePicture.launch(null))
-                        .setNegativeButton(getString(R.string.gallery), (dialog, which) -> mGetContent.launch("image/*"))
+                new AwesomeInfoDialog(v.getContext())
+                        .setTitle(R.string.change_photo)
+                        .setMessage(R.string.select_source)
+                        .setColoredCircle(R.color.miradas_color)
+                        .setCancelable(true)
+                        .setDialogIconAndColor(android.R.drawable.ic_menu_camera,R.color.white)
+                        .setPositiveButtonText(getString(R.string.camera))
+                        .setPositiveButtonbackgroundColor(R.color.miradas_color)
+                        .setPositiveButtonTextColor(R.color.white)
+                        .setNegativeButtonText(getString(R.string.gallery))
+                        .setNegativeButtonbackgroundColor(R.color.miradas_color)
+                        .setNegativeButtonTextColor(R.color.white)
+                        .setPositiveButtonClick(new Closure() {
+                            @Override
+                            public void exec() {
+                                mTakePicture.launch(null);
+                            }
+                        })
+                        .setNegativeButtonClick(new Closure() {
+                            @Override
+                            public void exec() {
+                                mGetContent.launch("image/*");
+                            }
+                        })
                         .show();
             }
         });
@@ -423,8 +445,14 @@ public class EditUser extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finalBackground.setVisibility(View.VISIBLE);
-                gridLayout.setVisibility(View.GONE);
+                //finalBackground.setVisibility(View.VISIBLE);
+                //gridLayout.setVisibility(View.GONE);
+                AwesomeProgressDialog chargingScreenDialog=new AwesomeProgressDialog(EditUser.this)
+                        .setTitle(R.string.please_wait_save_changes)
+                        .setMessage(R.string.please_wait)
+                        .setColoredCircle(R.color.miradas_color)
+                        .setCancelable(false);
+                chargingScreenDialog.show();
                 String first_name=firstNameField.getText().toString();
                 String last_name=lastNameField.getText().toString();
                 String password= passwordField.getText().toString();
@@ -462,31 +490,67 @@ public class EditUser extends AppCompatActivity {
 
                         Session.getInstance().setUser(usr);
 
+                        try {
+                            Thread.sleep(300);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        StringPasser.createInstance(R.string.user_modified,R.string.choose_other);
+                        StringPasser.getInstance().setFlag(1);
                         runOnUiThread(()->{
-                            StringPasser.createInstance(getString(R.string.user_edited));
                             Intent intent=new Intent(getApplicationContext(), MainMenu.class);
-                            setResult(RESULT_OK,intent);
-                            finish();
+                            startActivity(intent);
                         });
                     }).start();
 
                 }
                 else{
-
-                    finalBackground.setVisibility(View.VISIBLE);
-                    gridLayout.setVisibility(View.GONE);
+                    chargingScreenDialog.hide();
+                    //finalBackground.setVisibility(View.VISIBLE);
+                    //gridLayout.setVisibility(View.GONE);
+                    int idTitle=-1;
+                    int numErrors=0;
+                    String msg="<ul>";
                     if(first_name.equals("")){
                         firstNameField.setError(getString(R.string.mandatory_first_name));
+                        msg+="<li><b>"+getString(R.string.mandatory_first_name)+"<b></li>";
+                        numErrors++;
                     }
                     if(last_name.equals("")){
                         lastNameField.setError(getString(R.string.mandatory_last_name));
+                        msg+="<li><b>"+getString(R.string.mandatory_last_name)+"<b></li>";
+                        numErrors++;
                     }
                     if(!FieldChecker.passwordHasCorrectFormat(password)){
                         passwordField.setError(getString(R.string.wrong_password));
+                        msg+="<li><b>"+getString(R.string.wrong_password)+"<b></li>";
+                        numErrors++;
                     }
                     if(!FieldChecker.isACorrectPhone(telephone[0]+telephone[1])){
                         telephoneField.setError(getString(R.string.wrong_phone));
+                        msg+="<li><b>"+getString(R.string.wrong_phone)+"<b></li>";
+                        numErrors++;
                     }
+                    msg+="</ul>";
+                    if(numErrors>1){
+                        idTitle=R.string.errors;
+                    }else{
+                        idTitle=R.string.error;
+                    }
+                    new AwesomeErrorDialog(EditUser.this)
+                            .setTitle(idTitle)
+                            .setMessage(Html.fromHtml(msg,0))
+                            .setColoredCircle(com.aminography.primedatepicker.R.color.redA700)
+                            .setCancelable(true).setButtonText(getString(R.string.understood))
+                            .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.redA700)
+                            .setButtonText(getString(R.string.understood))
+                            .setErrorButtonClick(new Closure() {
+                                @Override
+                                public void exec() {
+                                    // click
+                                }
+                            })
+                            .show();
                 }
 
 
@@ -512,7 +576,7 @@ public class EditUser extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if(keyCode==event.KEYCODE_BACK){
-            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+            Intent intent=new Intent(getApplicationContext(), MainMenu.class);
             setResult(RESULT_CANCELED,intent);
             finish();
         }

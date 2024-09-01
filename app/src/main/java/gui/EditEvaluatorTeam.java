@@ -15,31 +15,27 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
-import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.aminography.primecalendar.PrimeCalendar;
 import com.aminography.primecalendar.civil.CivilCalendar;
 import com.aminography.primedatepicker.picker.PrimeDatePicker;
 import com.aminography.primedatepicker.picker.callback.MultipleDaysPickCallback;
 import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeProgressDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.fundacionmiradas.indicatorsevaluation.R;
-import com.google.common.io.ByteStreams;
-import com.google.gson.JsonObject;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -55,16 +51,11 @@ import java.util.Locale;
 import cli.organization.data.Center;
 import cli.organization.data.EvaluatorTeam;
 import cli.user.User;
-import gui.adapters.CenterAdapter;
 import gui.adapters.UsersAdapter;
-import misc.ListCallback;
-import otea.connection.controller.CentersController;
 import otea.connection.controller.EvaluatorTeamsController;
 import otea.connection.controller.TranslatorController;
-import session.AddNewEvalTeamUtil;
 import session.EditEvaluatorTeamUtil;
 import session.FileManager;
-import session.Session;
 import session.StringPasser;
 
 public class EditEvaluatorTeam extends AppCompatActivity {
@@ -280,10 +271,30 @@ public class EditEvaluatorTeam extends AppCompatActivity {
             imageEvalTeamButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new androidx.appcompat.app.AlertDialog.Builder(v.getContext())
-                            .setTitle(getString(R.string.select_source))
-                            .setPositiveButton(getString(R.string.camera), (dialog, which) -> mTakePicture.launch(null))
-                            .setNegativeButton(getString(R.string.gallery), (dialog, which) -> mGetContent.launch("image/*"))
+                    new AwesomeInfoDialog(v.getContext())
+                            .setTitle(R.string.change_photo)
+                            .setMessage(R.string.select_source)
+                            .setColoredCircle(R.color.miradas_color)
+                            .setCancelable(true)
+                            .setDialogIconAndColor(android.R.drawable.ic_menu_camera,R.color.white)
+                            .setPositiveButtonText(getString(R.string.camera))
+                            .setPositiveButtonbackgroundColor(R.color.miradas_color)
+                            .setPositiveButtonTextColor(R.color.white)
+                            .setNegativeButtonText(getString(R.string.gallery))
+                            .setNegativeButtonbackgroundColor(R.color.miradas_color)
+                            .setNegativeButtonTextColor(R.color.white)
+                            .setPositiveButtonClick(new Closure() {
+                                @Override
+                                public void exec() {
+                                    mTakePicture.launch(null);
+                                }
+                            })
+                            .setNegativeButtonClick(new Closure() {
+                                @Override
+                                public void exec() {
+                                    mGetContent.launch("image/*");
+                                }
+                            })
                             .show();
                 }
             });
@@ -713,8 +724,14 @@ public class EditEvaluatorTeam extends AppCompatActivity {
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    base.setVisibility(View.GONE);
-                    finalBackground.setVisibility(View.VISIBLE);
+                    //base.setVisibility(View.GONE);
+                    //finalBackground.setVisibility(View.VISIBLE);
+                    AwesomeProgressDialog chargingScreenDialog=new AwesomeProgressDialog(EditEvaluatorTeam.this)
+                            .setTitle(R.string.please_wait_save_changes)
+                            .setMessage(R.string.please_wait)
+                            .setColoredCircle(R.color.miradas_color)
+                            .setCancelable(false);
+                    chargingScreenDialog.show();
                     if(!patient.getText().toString().isEmpty() && !relative.getText().toString().isEmpty() && !creationDateEditText.getText().toString().isEmpty() && !consultant.toString().isEmpty() && professional!=null && responsible!=null){
                         imgEvalTeamName=evaluatorTeam.getProfilePhoto();
                         if(photoHasChanged){
@@ -881,17 +898,24 @@ public class EditEvaluatorTeam extends AppCompatActivity {
 
 
                             EvaluatorTeamsController.Update(idEvaluatorTeam,evaluatorTeam.getIdEvaluatorOrganization(),evaluatorTeam.getOrgTypeEvaluator(),evaluatorTeam.getIdEvaluatedOrganization(),evaluatorTeam.getOrgTypeEvaluated(),evaluatorTeam.getIdCenter(),evaluatorTeam.getIllness(),evalTeam);
+                            try {
+                                Thread.sleep(300);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
 
-
+                            StringPasser.createInstance(R.string.evaluation_team_modified,R.string.choose_other);
+                            StringPasser.getInstance().setFlag(1);
                             runOnUiThread(()->{
-                                StringPasser.createInstance(getString(R.string.eval_team_edited_sucessful));
-                                Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+                                EditEvaluatorTeamUtil.removeInstance();
+                                Intent intent=new Intent(getApplicationContext(), MainMenu.class);
                                 startActivity(intent);
                             });
                         }).start();
                     } else{
-                        base.setVisibility(View.VISIBLE);
-                        finalBackground.setVisibility(View.GONE);
+                        //base.setVisibility(View.VISIBLE);
+                        //finalBackground.setVisibility(View.GONE);
+                        chargingScreenDialog.hide();
                         String msg="<ul>";
                         int numErrors=0;
                         if(responsible.getEmailUser().equals("-")){
@@ -933,17 +957,20 @@ public class EditEvaluatorTeam extends AppCompatActivity {
                         }else{
                             idTitle=R.string.error;
                         }
-                        new AlertDialog.Builder(EditEvaluatorTeam.this)
-                                .setTitle(getString(idTitle))
+                        new AwesomeErrorDialog(EditEvaluatorTeam.this)
+                                .setTitle(idTitle)
                                 .setMessage(Html.fromHtml(msg,0))
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .setPositiveButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
+                                .setColoredCircle(com.aminography.primedatepicker.R.color.redA700)
+                                .setCancelable(true).setButtonText(getString(R.string.understood))
+                                .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.redA700)
+                                .setButtonText(getString(R.string.understood))
+                                .setErrorButtonClick(new Closure() {
                                     @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
+                                    public void exec() {
+                                        // click
                                     }
                                 })
-                                .create().show();
+                                .show();
                     }}
             });
 
@@ -977,8 +1004,8 @@ public class EditEvaluatorTeam extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if(keyCode==event.KEYCODE_BACK){
-            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-
+            Intent intent=new Intent(getApplicationContext(), MainMenu.class);
+            EditEvaluatorTeamUtil.removeInstance();
             setResult(RESULT_CANCELED,intent);
             finish();
         }

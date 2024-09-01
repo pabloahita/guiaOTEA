@@ -118,6 +118,18 @@
                 android:layout_columnWeight="1"
                 >
 
+                <ProgressBar
+                    android:id="@+id/progressBarCenter"
+                    style="@style/MiradasProgressBar"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:padding="75dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <Spinner
                     android:id="@+id/spinner_select_center"
                     android:layout_width="0dp"
@@ -145,6 +157,18 @@
                 android:layout_columnWeight="1"
                 >
 
+                <ProgressBar
+                    android:id="@+id/progressBarEvalTeam"
+                    style="@style/MiradasProgressBar"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:padding="75dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <Spinner
                     android:id="@+id/spinner_select_eval_team"
                     android:layout_width="0dp"
@@ -171,6 +195,18 @@
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 >
+
+                <ProgressBar
+                    android:id="@+id/progressBarIndEval"
+                    style="@style/MiradasProgressBar"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:padding="75dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Spinner
                     android:id="@+id/spinner_select_ind_eval"

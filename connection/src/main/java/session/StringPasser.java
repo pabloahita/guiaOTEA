@@ -2,18 +2,32 @@ package session;
 
 public class StringPasser {
 
-    private String string;
 
     private int flag;
 
     private static StringPasser instance;
 
-    private StringPasser(String string){
-        setString(string);
+    private int idTitle;
+
+    private int idMsg;
+
+    private String message;
+
+    private StringPasser(int idTitle,int idMsg){
+        setIdTitle(idTitle);
+        setIdMsg(idMsg);
     }
 
-    public static synchronized void createInstance(String string){
-        instance=new StringPasser(string);
+    private StringPasser(String message){
+        setMessage(message);
+    }
+
+    public static synchronized void createInstance(int idTitle,int idMsg){
+        instance=new StringPasser(idTitle,idMsg);
+    }
+
+    public static synchronized void createInstance(String message){
+        instance=new StringPasser(message);
     }
 
     public static synchronized StringPasser getInstance(){
@@ -24,12 +38,20 @@ public class StringPasser {
         instance=null;
     }
 
-    public String getString() {
-        return string;
+    public int getIdTitle() {
+        return idTitle;
     }
 
-    public void setString(String string) {
-        this.string = string;
+    public void setIdTitle(int idTitle) {
+        this.idTitle = idTitle;
+    }
+
+    public int getIdMsg() {
+        return idMsg;
+    }
+
+    public void setIdMsg(int idMsg) {
+        this.idMsg = idMsg;
     }
 
     public int getFlag() {
@@ -38,5 +60,13 @@ public class StringPasser {
 
     public void setFlag(int flag) {
         this.flag = flag;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

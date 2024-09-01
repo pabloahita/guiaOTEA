@@ -26,8 +26,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeProgressDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.fundacionmiradas.indicatorsevaluation.R;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.JsonObject;
@@ -155,6 +160,12 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
 
     boolean photoChanged=false;
 
+    ProgressBar pbRegion;
+
+    ProgressBar pbProvince;
+
+    ProgressBar pbCity;
+
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -255,6 +266,10 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
         tilProvince=findViewById(R.id.tilProvince);
         tilCity=findViewById(R.id.tilCity);
 
+        pbRegion=findViewById(R.id.progressBarRegion);
+        pbProvince=findViewById(R.id.progressBarProvince);
+        pbCity=findViewById(R.id.progressBarCity);
+
         auxRegList.add(new Region(-2, "-2", "Región", "Region", "Région", "Eskualdea", "Regió", "Region", "Rexión", "Region", "Regione", "Região"));
         RegionAdapter adapterRegAux = new RegionAdapter(EditEvaluatedOrganization.this, auxRegList);
 
@@ -349,10 +364,30 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 selectedPhoto=0;
-                new AlertDialog.Builder(v.getContext())
-                        .setTitle(getString(R.string.select_source))
-                        .setPositiveButton(getString(R.string.camera), (dialog, which) -> mTakePicture.launch(null))
-                        .setNegativeButton(getString(R.string.gallery), (dialog, which) -> mGetContent.launch("image/*"))
+                new AwesomeInfoDialog(v.getContext())
+                        .setTitle(R.string.change_photo)
+                        .setMessage(R.string.select_source)
+                        .setColoredCircle(R.color.miradas_color)
+                        .setCancelable(true)
+                        .setDialogIconAndColor(android.R.drawable.ic_menu_camera,R.color.white)
+                        .setPositiveButtonText(getString(R.string.camera))
+                        .setPositiveButtonbackgroundColor(R.color.miradas_color)
+                        .setPositiveButtonTextColor(R.color.white)
+                        .setNegativeButtonText(getString(R.string.gallery))
+                        .setNegativeButtonbackgroundColor(R.color.miradas_color)
+                        .setNegativeButtonTextColor(R.color.white)
+                        .setPositiveButtonClick(new Closure() {
+                            @Override
+                            public void exec() {
+                                mTakePicture.launch(null);
+                            }
+                        })
+                        .setNegativeButtonClick(new Closure() {
+                            @Override
+                            public void exec() {
+                                mGetContent.launch("image/*");
+                            }
+                        })
                         .show();
             }
         });
@@ -831,8 +866,14 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                base.setVisibility(View.GONE);
-                loading.setVisibility(View.VISIBLE);
+                //base.setVisibility(View.GONE);
+                //loading.setVisibility(View.VISIBLE);
+                AwesomeProgressDialog chargingScreenDialog=new AwesomeProgressDialog(EditEvaluatedOrganization.this)
+                        .setTitle(R.string.please_wait_save_changes)
+                        .setMessage(R.string.please_wait)
+                        .setColoredCircle(R.color.miradas_color)
+                        .setCancelable(false);
+                chargingScreenDialog.show();
                 if(!fields.get("nameOrg").isEmpty() && !fields.get("address").isEmpty() && (FieldChecker.isACorrectPhone(fields.get("telephoneCodeOrg")+fields.get("telephoneOrg")))
                         && FieldChecker.emailHasCorrectFormat(fields.get("emailOrg")) && FieldChecker.emailHasCorrectFormat(fields.get("emailDir")) &&
                         ((FieldChecker.isPrecharged(idCountry[0]) && region[0] != null && idRegion[0] != -2 && province[0] != null && idProvince[0] != -2 && city[0] != null && idCity[0] != -2) ||
@@ -1015,34 +1056,17 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
                             UsersController.Update(user.getEmailUser(),user);
                             Session.getInstance().setUser(user);
                         }
-
-                        String msg="";
-                        if(Locale.getDefault().getLanguage().equals("es")){
-                            msg="La organización <b>"+organization.getNameOrg()+"</b> se ha modificado correctamente" ;
-                        }else if(Locale.getDefault().getLanguage().equals("fr")){
-                            msg="L'organisation <b>"+organization.getNameOrg()+"</b> a été modifiée avec succès" ;
-                        }else if(Locale.getDefault().getLanguage().equals("eu")){
-                            msg="<b>"+organization.getNameOrg()+"</b> erakundea behar bezala aldatu da" ;
-                        }else if(Locale.getDefault().getLanguage().equals("ca")){
-                            msg="L'organització <b>"+organization.getNameOrg()+"</b> s'ha modificat correctament" ;
-                        }else if(Locale.getDefault().getLanguage().equals("nl")){
-                            msg="De organisatie <b>"+organization.getNameOrg()+"</b> is met succes aangepast" ;
-                        }else if(Locale.getDefault().getLanguage().equals("gl")){
-                            msg="A organización <b>"+organization.getNameOrg()+"</b> modificouse correctamente" ;
-                        }else if(Locale.getDefault().getLanguage().equals("de")){
-                            msg="Die <b>"+organization.getNameOrg()+"</b>-Organisation wurde erfolgreich geändert";
-                        }else if(Locale.getDefault().getLanguage().equals("it")){
-                            msg="L'organizzazione <b>"+organization.getNameOrg()+"</b> è stata modificata con successo" ;
-                        }else if(Locale.getDefault().getLanguage().equals("pt")) {
-                            msg = "A organização <b>"+organization.getNameOrg()+"</b> foi modificada com sucesso";
-                        }else{
-                            msg="The <b>"+organization.getNameOrg()+"</b> organization has been successfully modified" ;
+                        try {
+                            Thread.sleep(300);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
                         }
-                        StringPasser.createInstance(msg);
+
+                        StringPasser.createInstance(R.string.organization_modified,R.string.choose_other);
+                        StringPasser.getInstance().setFlag(1);
                         runOnUiThread(()->{
-                            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
-                            setResult(RESULT_OK,intent);
-                            finish();
+                            Intent intent=new Intent(getApplicationContext(), MainMenu.class);
+                            startActivity(intent);
                         });
                     }).start();
 
@@ -1051,8 +1075,9 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
                 }else{
                     String msg="<ul>";
                     int numErrors=0;
-                    base.setVisibility(View.VISIBLE);
-                    loading.setVisibility(View.GONE);
+                    //base.setVisibility(View.VISIBLE);
+                    //loading.setVisibility(View.GONE);
+                    chargingScreenDialog.hide();
                     if(fields.get("nameOrg").isEmpty()){
                         nameOrgField.setError(getString(R.string.please_org_name));
                         numErrors++;
@@ -1139,16 +1164,20 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
                         idTitle=R.string.errors;
                     }
                     msg+="</ul>";
-                    new android.app.AlertDialog.Builder(EditEvaluatedOrganization.this)
-                            .setTitle(getString(idTitle))
-                            .setIcon(android.R.drawable.ic_dialog_alert)
+                    new AwesomeErrorDialog(EditEvaluatedOrganization.this)
+                            .setTitle(idTitle)
                             .setMessage(Html.fromHtml(msg,0))
-                            .setPositiveButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
+                            .setColoredCircle(com.aminography.primedatepicker.R.color.redA700)
+                            .setCancelable(true).setButtonText(getString(R.string.understood))
+                            .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.redA700)
+                            .setButtonText(getString(R.string.understood))
+                            .setErrorButtonClick(new Closure() {
                                 @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
+                                public void exec() {
+                                    // click
                                 }
-                            }).create().show();
+                            })
+                            .show();
                 }
 
             }
@@ -1157,7 +1186,7 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
 
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if(keyCode==event.KEYCODE_BACK){
-            Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+            Intent intent=new Intent(getApplicationContext(), MainMenu.class);
             setResult(RESULT_CANCELED,intent);
             finish();
         }
@@ -1167,6 +1196,18 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
 
 
     private void regionSpinnerControl(){
+        if(citySpinner.getVisibility()==View.VISIBLE){
+            citySpinner.setVisibility(View.GONE);
+            citySpinnerAux.setVisibility(View.VISIBLE);
+        }
+        if(provinceSpinner.getVisibility()==View.VISIBLE){
+            provinceSpinner.setVisibility(View.GONE);
+            provinceSpinnerAux.setVisibility(View.VISIBLE);
+        }
+        if(regionSpinner.getVisibility()==View.VISIBLE){
+            regionSpinner.setVisibility(View.GONE);
+            regionSpinnerAux.setVisibility(View.VISIBLE);
+        }
         if(!idCountry[0].equals("-2")){
             if (FieldChecker.isPrecharged(idCountry[0])) {
                 getRegionsByCountry(idCountry[0]);
@@ -1198,6 +1239,14 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
     }
 
     private void provinceSpinnerControl(){
+        if(citySpinner.getVisibility()==View.VISIBLE){
+            citySpinner.setVisibility(View.GONE);
+            citySpinnerAux.setVisibility(View.VISIBLE);
+        }
+        if(provinceSpinner.getVisibility()==View.VISIBLE){
+            provinceSpinner.setVisibility(View.GONE);
+            provinceSpinnerAux.setVisibility(View.VISIBLE);
+        }
         if(idRegion[0]!=-2){
             if(Locale.getDefault().getLanguage().equals("es")) {
                 fields.replace("nameRegion",region[0].getNameSpanish());
@@ -1234,6 +1283,10 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
     }
 
     private void citySpinnerControl(){
+        if(citySpinner.getVisibility()==View.VISIBLE){
+            citySpinner.setVisibility(View.GONE);
+            citySpinnerAux.setVisibility(View.VISIBLE);
+        }
         if(idProvince[0]!=-2){
             if (Locale.getDefault().getLanguage().equals("es")) {
                 fields.replace("nameProvince", province[0].getNameSpanish());
@@ -1268,6 +1321,8 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
     }
 
     public void getRegionsByCountry(String idCountry){
+
+        pbRegion.setVisibility(View.VISIBLE);
         RegionsController.GetRegionsByCountry(idCountry, new ListCallback() {
             @Override
             public void onSuccess(List<JsonObject> data) {
@@ -1313,6 +1368,7 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
 
                         if (regions.size() > 1) {
                             regions.add(0, auxRegList.get(0));
+                            pbRegion.setVisibility(View.GONE);
                             regionSpinner.setVisibility(View.VISIBLE);
                             regionSpinnerAux.setVisibility(View.GONE);
                             regionAdapter[0] = new RegionAdapter(EditEvaluatedOrganization.this, regions);
@@ -1321,6 +1377,7 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
                         } else {
                             region[0] = regions.get(0);
                             idRegion[0] = -1;
+                            pbRegion.setVisibility(View.GONE);
                             regionSpinner.setVisibility(View.GONE);
                             regionSpinnerAux.setVisibility(View.VISIBLE);
                             provinceSpinnerControl();
@@ -1336,7 +1393,7 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
             @Override
             public void onError(String errorResponse) {
                 runOnUiThread(()->{
-                    Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+                    Intent intent=new Intent(getApplicationContext(), MainMenu.class);
                     setResult(RESULT_CANCELED,intent);
                     finish();
                 });
@@ -1346,9 +1403,11 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
     }
 
     public void getProvincesByRegion(int idRegion, String idCountry){
+        pbProvince.setVisibility(View.VISIBLE);
         ProvincesController.GetProvincesByRegion(idRegion, idCountry, new ListCallback() {
             @Override
             public void onSuccess(List<JsonObject> data) {
+
                 new Thread(()->{
                     provinces=new ArrayList<>();
                     for(JsonObject reg:data){
@@ -1396,6 +1455,7 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
                         provinceAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
                         provinceSpinner.setAdapter(provinceAdapter[0]);
                         provinceSpinnerAux.setVisibility(View.GONE);
+                        pbProvince.setVisibility(View.GONE);
                         provinceSpinner.setVisibility(View.VISIBLE);
                         if(provinces.size()==1){
                             provinceSpinner.setSelection(0);
@@ -1405,12 +1465,13 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
                         }
                     });
                 }).start();
+
             }
 
             @Override
             public void onError(String errorResponse) {
                 runOnUiThread(()->{
-                    Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+                    Intent intent=new Intent(getApplicationContext(), MainMenu.class);
                     setResult(RESULT_CANCELED,intent);
                     finish();
                 });
@@ -1420,6 +1481,7 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
 
 
     public void getCitiesByProvince(int idProvince, int idRegion, String idCountry) {
+        pbCity.setVisibility(View.VISIBLE);
         CitiesController.GetCitiesByProvince(idProvince, idRegion, idCountry, new ListCallback() {
             @Override
             public void onSuccess(List<JsonObject> data) {
@@ -1472,6 +1534,7 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
                             cityAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
                             citySpinner.setAdapter(cityAdapter[0]);
                             citySpinnerAux.setVisibility(View.GONE);
+                            pbCity.setVisibility(View.GONE);
                             citySpinner.setVisibility(View.VISIBLE);
                             if(cities.size()==1){
                                 citySpinner.setSelection(0);
@@ -1481,16 +1544,19 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
                         }
                     });
                 }).start();
+
             }
 
             @Override
             public void onError(String errorResponse) {
-                runOnUiThread(()->{
-                    Intent intent=new Intent(getApplicationContext(),com.fundacionmiradas.indicatorsevaluation.MainMenu.class);
+                runOnUiThread(() -> {
+                    Intent intent = new Intent(getApplicationContext(), MainMenu.class);
                     setResult(RESULT_CANCELED,intent);
                     finish();
                 });
             }
         });
+
     }
+
 }
