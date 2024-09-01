@@ -31,7 +31,7 @@
     <string name="menu_home" translatable="false">Startseite</string>
     <string name="menu_gallery" translatable="false">Galerie</string>
     <string name="menu_slideshow" translatable="false">Diashow</string>
-    <string name="add_new_evaluated_org">Neue bewertete Organisation hinzufügen</string>
+    <string name="add_new_evaluated_org">Neue externe Organisation hinzufügen</string>
     <string name="add_new_complete_evaluation">Neue vollständige Bewertung hinzufügen</string>
     <string name="add_new_simple_evaluation">Neue einfache Bewertung hinzufügen</string>
     <string name="navigation_drawer_close" translatable="false">Navigationsleiste schließen</string>
@@ -101,7 +101,7 @@
     <string name="wrong_password">Falsches Passwort</string>
     <string name="hey_user">Hallo Benutzer!</string>
     <string name="add_new_evaluator_team">Neues Evaluatoren-Team hinzufügen</string>
-    <string name="add_new_center">Neues Zentrum der bewerteten Organisation hinzufügen</string>
+    <string name="add_new_center">Neues Zentrum oder Dienstleistungen</string>
     <string name="add_new_indicators_evaluation">Neue Indikatoren-Bewertung hinzufügen</string>
     <string name="add_new_evaluated_organization">Organisation oder Dienst hinzufügen</string>
     <string name="org_name">Name der Organisation</string>
@@ -149,7 +149,7 @@
     <string name="relative_name">Name des Angehörigen der ASD-Person</string>
     <string name="select_evaluated_organization">Bewertete Organisation auswählen:</string>
     <string name="select_external_consultant">Externer Berater</string>
-    <string name="non_existing_evaluated_organization">Es gibt keine bewertete Organisation. Bitte fügen Sie eine hinzu, um fortzufahren</string>
+    <string name="non_existing_evaluated_organization_old">Es gibt keine bewertete Organisation. Bitte fügen Sie eine hinzu, um fortzufahren</string>
     <string name="non_existing_evaluator_team">Es gibt kein vorhandenes Bewertungsteam. Bitte fügen Sie ein neues hinzu, um fortzufahren</string>
     <string name="please_patient_name">Bitte geben Sie den Namen der ASD-Person ein</string>
     <string name="please_relative_name">Bitte geben Sie den Namen des Angehörigen der ASD-Person ein</string>
@@ -429,4 +429,6 @@
     <string name="please_select_other_center_new">Bitte wählen Sie ein anderes Zentrum aus</string>
     <string name="eval_team_without_ind_evals">Dieses Bewertungsteam hat keine Indikatorbewertungen</string>
     <string name="please_select_other_eval_team">Bitte wählen Sie ein anderes Bewertungsteam aus</string>
+    <string name="no_orgs">Es gibt keine externen Organisationen</string>
+    <string name="please_add_external_org">Bitte fügen Sie eine externe Organisation hinzu, um zu beginnen</string>
 </resources>

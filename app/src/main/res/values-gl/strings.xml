@@ -32,7 +32,7 @@
     <string name="menu_home" translatable="false">Inicio</string>
     <string name="menu_gallery" translatable="false">Galería</string>
     <string name="menu_slideshow" translatable="false">Presentación</string>
-    <string name="add_new_evaluated_org">Engadir nova organización avaliada</string>
+    <string name="add_new_evaluated_org">Engadir nova organización externa</string>
     <string name="add_new_complete_evaluation">Engadir nova avaliación completa</string>
     <string name="add_new_simple_evaluation">Engadir nova avaliación simple</string>
     <string name="navigation_drawer_close" translatable="false">Pechar panel de navegación</string>
@@ -102,7 +102,7 @@
     <string name="wrong_password">Contrasinal incorrecto</string>
     <string name="hey_user">Ola usuario!</string>
     <string name="add_new_evaluator_team">Engadir novo equipo de avaliadores</string>
-    <string name="add_new_center">Engadir novo centro de organización avaliada</string>
+    <string name="add_new_center">Engadir novo centro o servizo</string>
     <string name="add_new_indicators_evaluation">Engadir nova avaliación de indicadores</string>
     <string name="add_new_evaluated_organization">Engadir organización ou servizo</string>
     <string name="org_name">Nome da organización</string>
@@ -148,7 +148,7 @@
     <string name="relative_name">Nome do familiar da persoa con TEA</string>
     <string name="select_evaluated_organization">Organización avaliada:</string>
     <string name="select_external_consultant">Consultor externo</string>
-    <string name="non_existing_evaluated_organization">Non hai organización avaliadora, por favor, engade unha para continuar</string>
+    <string name="non_existing_evaluated_organization_old">Non hai organización avaliadora, por favor, engade unha para continuar</string>
     <string name="non_existing_evaluator_team">Non existe equipo de avaliadores, por favor, engade un novo para continuar</string>
     <string name="please_patient_name">Por favor, introduce o nome da persoa con TEA</string>
     <string name="please_relative_name">Por favor, introduce o nome do familiar da persoa con TEA</string>
@@ -191,7 +191,7 @@
     <string name="center">Centro da organización</string>
     <string name="edit_indicators">Editar indicadores</string>
     <string name="edit_org">Editar organización</string>
-    <string name="edit_org_center">Editar centros</string>
+    <string name="edit_org_center">Editar centros ou servizos</string>
     <string name="center_info">Información do centro</string>
     <string name="center_reg_ins">Para rexistrar un centro de organización externa, ten que cubrir todos os campos situados na parte inferior desta pantalla</string>
     <string name="ambit_caption">Descrición do ámbito</string>
@@ -428,4 +428,6 @@
     <string name="please_select_other_center_new">Por favor, seleccione outro centro</string>
     <string name="eval_team_without_ind_evals">Este equipo avaliador non ten avaliacións de indicadores</string>
     <string name="please_select_other_eval_team">Por favor, seleccione outro equipo avaliador</string>
+    <string name="no_orgs">Non hai organizacións externas</string>
+    <string name="please_add_external_org">Por favor, engada unha organización externa para comezar</string>
 </resources>

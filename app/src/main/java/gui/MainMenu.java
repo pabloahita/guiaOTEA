@@ -316,14 +316,14 @@ public class MainMenu extends AppCompatActivity{
                         addNewOrg.setEnabled(true);
                         seeRealizedIndicatorTest.setEnabled(true);
                         aboutMe.setEnabled(true);
-                        new AwesomeErrorDialog(MainMenu.this)
-                                .setTitle(R.string.error)
-                                .setMessage(R.string.non_existing_evaluated_organization)
-                                .setColoredCircle(com.aminography.primedatepicker.R.color.redA700)
+                        new AwesomeWarningDialog(MainMenu.this)
+                                .setTitle(R.string.no_orgs)
+                                .setMessage(R.string.please_add_external_org)
+                                .setColoredCircle(com.aminography.primedatepicker.R.color.yellowA700)
                                 .setCancelable(true).setButtonText(getString(R.string.understood))
-                                .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.redA700)
+                                .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.yellowA700)
                                 .setButtonText(getString(R.string.understood))
-                                .setErrorButtonClick(new Closure() {
+                                .setWarningButtonClick(new Closure() {
                                     @Override
                                     public void exec() {
                                         // click
@@ -364,14 +364,14 @@ public class MainMenu extends AppCompatActivity{
                         addNewOrg.setEnabled(true);
                         seeRealizedIndicatorTest.setEnabled(true);
                         aboutMe.setEnabled(true);
-                        new AwesomeErrorDialog(MainMenu.this)
-                                .setTitle(R.string.error)
-                                .setMessage(R.string.non_existing_evaluated_organization)
-                                .setColoredCircle(com.aminography.primedatepicker.R.color.redA700)
+                        new AwesomeWarningDialog(MainMenu.this)
+                                .setTitle(R.string.no_orgs)
+                                .setMessage(R.string.please_add_external_org)
+                                .setColoredCircle(com.aminography.primedatepicker.R.color.yellowA700)
                                 .setCancelable(true).setButtonText(getString(R.string.understood))
-                                .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.redA700)
+                                .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.yellowA700)
                                 .setButtonText(getString(R.string.understood))
-                                .setErrorButtonClick(new Closure() {
+                                .setWarningButtonClick(new Closure() {
                                     @Override
                                     public void exec() {
                                         // click
@@ -599,14 +599,14 @@ public class MainMenu extends AppCompatActivity{
                             editOrgCenters.setEnabled(true);
                             editEvaluatorTeam.setEnabled(true);
                         }
-                        new AwesomeErrorDialog(MainMenu.this)
-                                .setTitle(R.string.error)
-                                .setMessage(R.string.non_existing_evaluated_organization)
-                                .setColoredCircle(com.aminography.primedatepicker.R.color.redA700)
+                        new AwesomeWarningDialog(MainMenu.this)
+                                .setTitle(R.string.no_orgs)
+                                .setMessage(R.string.please_add_external_org)
+                                .setColoredCircle(com.aminography.primedatepicker.R.color.yellowA700)
                                 .setCancelable(true).setButtonText(getString(R.string.understood))
-                                .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.redA700)
+                                .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.yellowA700)
                                 .setButtonText(getString(R.string.understood))
-                                .setErrorButtonClick(new Closure() {
+                                .setWarningButtonClick(new Closure() {
                                     @Override
                                     public void exec() {
                                         // click

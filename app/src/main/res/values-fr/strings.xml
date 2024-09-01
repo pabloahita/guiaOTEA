@@ -19,7 +19,7 @@
     <string name="invalid_username">Mauvaise adresse mail</string>
     <string name="invalid_password">Le mot de passe doit comporter plus de 5 caractères</string>
     <string name="action_settings">Paramètres</string>
-    <string name="add_new_evaluated_org">Ajouter une nouvelle organisation évaluée</string>
+    <string name="add_new_evaluated_org">Ajouter une nouvelle organisation externe</string>
     <string name="add_new_complete_evaluation">Ajouter une nouvelle évaluation complète</string>
     <string name="add_new_simple_evaluation">Ajouter une nouvelle évaluation simple</string>
     <string name="title_activity_main_menu">Menu principal</string>
@@ -69,7 +69,7 @@
     <string name="wrong_password">Mauvais mot de passe</string>
     <string name="hey_user">Salut utilisateur!</string>
     <string name="add_new_evaluator_team">Ajouter une nouvelle équipe d\'évaluateurs</string>
-    <string name="add_new_center">Ajouter un nouveau centre d\'organisation évaluée</string>
+    <string name="add_new_center">Ajouter un nouveau centre ou service</string>
     <string name="add_new_indicators_evaluation">Ajouter un nouveau test d\'indicateurs</string>
     <string name="add_new_evaluated_organization">Ajouter une organisation ou un service</string>
     <string name="org_name">Nom de l\'organisation</string>
@@ -108,7 +108,7 @@
     <string name="relative_name">Nom du proche de la personne avec TSA</string>
     <string name="select_evaluated_organization">Organisation évaluée:</string>
     <string name="select_external_consultant">Consultant externe</string>
-    <string name="non_existing_evaluated_organization">Il n\'y a pas d\'organisation d\'évaluateurs existante, veuillez en ajouter une pour continuer</string>
+    <string name="non_existing_evaluated_organization_old">Il n\'y a pas d\'organisation d\'évaluateurs existante, veuillez en ajouter une pour continuer</string>
     <string name="non_existing_evaluator_team">Il n\'y a pas d\'équipe d\'évaluateurs existante, veuillez en ajouter une nouvelle pour continuer</string>
     <string name="please_patient_name">Veuillez entrez le nom de la personne avec TSA</string>
     <string name="please_relative_name">Veuillez entrez du proche de la personne avec TSA</string>
@@ -151,7 +151,7 @@
     <string name="center">Centre de l\'organisation</string>
     <string name="edit_indicators">Modifier les indicateurs</string>
     <string name="edit_org">Modifier l\'organisation</string>
-    <string name="edit_org_center">Modifier les centres</string>
+    <string name="edit_org_center">Modifier les centres ou services</string>
     <string name="center_info">Informations sur le centre</string>
     <string name="center_reg_ins">Afin d\'enregistrer un centre d\'organisation externe, vous devez remplir tous les champs situés en bas de cet écran</string>
     <string name="ambit_caption">Description de la portée</string>
@@ -387,4 +387,6 @@
     <string name="please_select_other_center_new">Veuillez sélectionner un autre centre</string>
     <string name="eval_team_without_ind_evals">Cette équipe d\'évaluation n\'a pas d\'évaluations d\'indicateurs</string>
     <string name="please_select_other_eval_team">Veuillez sélectionner une autre équipe d\'évaluation</string>
+    <string name="no_orgs">Il n\'y a pas d\'organisations externes</string>
+    <string name="please_add_external_org">Veuillez ajouter une organisation externe pour commencer</string>
 </resources>

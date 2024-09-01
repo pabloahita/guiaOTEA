@@ -32,7 +32,7 @@
     <string name="menu_home" translatable="false">Hasiera</string>
     <string name="menu_gallery" translatable="false">Galeria</string>
     <string name="menu_slideshow" translatable="false">Irudi-bilketa</string>
-    <string name="add_new_evaluated_org">Gehitu ebaluatzeko erakunde berri bat</string>
+    <string name="add_new_evaluated_org">Erakunde berri bat gehitu</string>
     <string name="add_new_complete_evaluation">Gehitu azterketa osorako berri bat</string>
     <string name="add_new_simple_evaluation">Gehitu azterketa sinple berri bat</string>
     <string name="navigation_drawer_close" translatable="false">Itxi nabigazioa</string>
@@ -105,7 +105,7 @@
     <string name="wrong_password">Pasahitz okerra</string>
     <string name="hey_user">Kaixo erabiltzaile!</string>
     <string name="add_new_evaluator_team">Gehitu ebaluazio talde berri bat</string>
-    <string name="add_new_center">Gehitu ebaluatzeko erakundeko erdi berri bat</string>
+    <string name="add_new_center">Gehitu zentro edo zerbitzu berria</string>
     <string name="add_new_indicators_evaluation">Gehitu adierazle ebaluazio berri bat</string>
     <string name="add_new_evaluated_organization">Erakunde edo zerbitzu bat gehitu</string>
     <string name="org_name">Erakundearen izena</string>
@@ -151,7 +151,7 @@
     <string name="relative_name">AEN pertsonaren senidearen izena</string>
     <string name="select_evaluated_organization">Ebaluatu den erakundea:</string>
     <string name="select_external_consultant">Kanpoko aholkularia</string>
-    <string name="non_existing_evaluated_organization">Ebaluatzeko erakundeik ez dago, mesedez, gehitu bat jarraitzeko</string>
+    <string name="non_existing_evaluated_organization_old">Ebaluatzeko erakundeik ez dago, mesedez, gehitu bat jarraitzeko</string>
     <string name="non_existing_evaluator_team">Ebaluazio talderik ez dago, mesedez, bat gehitu berri bat jarraitzeko</string>
     <string name="please_patient_name">Mesedez, sartu AEN pertsonaren izena</string>
     <string name="please_relative_name">Mesedez, sartu AEN pertsonaren senidearen izena</string>
@@ -194,7 +194,7 @@
     <string name="center">Erakundearen Zentroa</string>
     <string name="edit_indicators">Editatu adierazleak</string>
     <string name="edit_org">Erakunde edukia editatu</string>
-    <string name="edit_org_center">Zentroak editatu</string>
+    <string name="edit_org_center">Zentroak edo zerbitzuak editatu</string>
     <string name="center_info">Zentroari buruzko informazioa</string>
     <string name="center_reg_ins">Kanpoko antolakuntza zentro bat erregistratzeko, pantaila honen behealdean kokatutako eremu guztiak bete behar dituzu</string>
     <string name="ambit_caption">Esparruaren deskribapena</string>
@@ -430,4 +430,6 @@
     <string name="please_select_other_center_new">Mesedez, hautatu beste zentro bat</string>
     <string name="eval_team_without_ind_evals">Ebaluazio talde honek ez du adierazleen ebaluaziorik</string>
     <string name="please_select_other_eval_team">Mesedez, hautatu beste ebaluazio talde bat</string>
+    <string name="no_orgs">Kanpoko erakunderik ez dago</string>
+    <string name="please_add_external_org">Mesedez, gehitu kanpoko erakunde bat hasteko</string>
 </resources>

@@ -106,7 +106,7 @@
                 android:layout_height="0dp"
                 android:layout_rowWeight="0.5"
                 android:layout_columnWeight="1"
-                android:text="@string/add_new_evaluated_organization"
+                android:text="@string/add_new_evaluated_org"
                 android:textSize="20sp"
                 android:gravity="center"
                 android:textStyle="italic"

@@ -234,6 +234,7 @@
                     android:layout_rowWeight="0.15"
                     android:layout_columnWeight="1"
                     android:autoSizeTextType="uniform"
+                    android:textColor="@color/black"
                     android:gravity="center"
                     android:text="@string/welcome"
                     app:layout_constraintBottom_toTopOf="@+id/guideline18"

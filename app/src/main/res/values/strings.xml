@@ -99,7 +99,7 @@
     <string name="wrong_password">Incorrect password</string>
     <string name="hey_user">Hi user!</string>
     <string name="add_new_evaluator_team">Add new evaluator team</string>
-    <string name="add_new_center">Add new center of evaluated organization</string>
+    <string name="add_new_center">Add new center or service</string>
     <string name="add_new_indicators_evaluation">Add new indicators evaluation</string>
     <string name="add_new_evaluated_organization">Add organization or service</string>
     <string name="org_name">Name of the organization</string>
@@ -145,7 +145,7 @@
     <string name="relative_name">ASD person\'s relative name</string>
     <string name="select_evaluated_organization">Evaluated organization:</string>
     <string name="select_external_consultant">External consultant</string>
-    <string name="non_existing_evaluated_organization">There is none evaluator organization, please add one to continue</string>
+    <string name="non_existing_evaluated_organization_old">There is none evaluator organization, please add one to continue</string>
     <string name="non_existing_evaluator_team">There is non existing evaluator team, please add a new one to continue</string>
     <string name="please_patient_name">Please enter ASD person name</string>
     <string name="please_relative_name">Please enter ASD person\'s relative name</string>
@@ -188,7 +188,7 @@
     <string name="center">Center of the organization</string>
     <string name="edit_indicators">Edit indicators</string>
     <string name="edit_org">Edit organization</string>
-    <string name="edit_org_center">Edit centers</string>
+    <string name="edit_org_center">Edit centers or services</string>
     <string name="center_info">Center information</string>
     <string name="center_reg_ins">In order to register an external organization center, you must fill in all the fields located at the bottom of this screen</string>
     <string name="ambit_caption">Description of the scope</string>
@@ -427,4 +427,6 @@
     <string name="please_select_other_center_new">Please select another center</string>
     <string name="eval_team_without_ind_evals">This evaluation team has no indicator assessments</string>
     <string name="please_select_other_eval_team">Please select another evaluation team</string>
+    <string name="no_orgs">There are no external organizations</string>
+    <string name="please_add_external_org">Please add an external organization to start</string>
 </resources>

@@ -70,7 +70,7 @@ public class SelectToEditCenters extends AppCompatActivity {
 
         centers= SelectToEditCenterUtil.getInstance().getCenters();
 
-        centers.add(0,new Center(-1,"-","-",-1,"Center of the organization or service","Centro de la organización o servicio","Centre de l'organisation ou du service","Erakundearen edo zerbitzuaren zentroa","Centre de l'organització o servei","Centrum van de organisatie of dienst","Centro da organización ou servizo","Center der Organisation oder des Dienstes","Centro dell'organizzazione o del servizio","Centro da organização ou serviço",-1,"-","-1","-"));
+        centers.add(0,new Center(-1,"-","-",-1,"Center or service of the organization","Centro o servicio de la organización","Centre ou service de l'organisation","Erakundearen edo zerbitzuaren zentroa","Centre o servei de l'organització","Centrum of dienst van de organisatie","Centro ou servizo da organización","Center oder Dienstes der Organisation","Centro o servizio dell'organizzazione","Centro ou serviço da organização",-1,"-","-1","-"));
 
         if(centers.size()>1){
 

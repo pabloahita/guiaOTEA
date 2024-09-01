@@ -31,7 +31,7 @@
     <string name="menu_home" translatable="false">Inici</string>
     <string name="menu_gallery" translatable="false">Galeria</string>
     <string name="menu_slideshow" translatable="false">Presentació de diapositives</string>
-    <string name="add_new_evaluated_org">Afegir nova organització avaluada</string>
+    <string name="add_new_evaluated_org">Afegir nova organització externa</string>
     <string name="add_new_complete_evaluation">Afegir nova avaluació completa</string>
     <string name="add_new_simple_evaluation">Afegir nova avaluació simple</string>
     <string name="navigation_drawer_close" translatable="false">Tanca el calaix de navegació</string>
@@ -104,7 +104,7 @@
     <string name="wrong_password">Contrasenya incorrecta</string>
     <string name="hey_user">Hola usuari!</string>
     <string name="add_new_evaluator_team">Afegir nou equip d\'avaluació</string>
-    <string name="add_new_center">Afegir nou centre de l\'organització avaluada</string>
+    <string name="add_new_center">Afegir nou centre o servei</string>
     <string name="add_new_indicators_evaluation">Afegir nova avaluació d\'indicadors</string>
     <string name="add_new_evaluated_organization">Afegir organització o servei</string>
     <string name="org_name">Nom de l\'organització</string>
@@ -152,7 +152,7 @@
     <string name="relative_name">Nom del familiar de la persona amb TEA</string>
     <string name="select_evaluated_organization">Organització avaluada:</string>
     <string name="select_external_consultant">Consultor extern</string>
-    <string name="non_existing_evaluated_organization">No hi ha cap organització avaluadora, si us plau afegiu-ne una per continuar</string>
+    <string name="non_existing_evaluated_organization_old">No hi ha cap organització avaluadora, si us plau afegiu-ne una per continuar</string>
     <string name="non_existing_evaluator_team">No hi ha cap equip d\'avaluadors existent, si us plau afegiu-ne un de nou per continuar</string>
     <string name="please_patient_name">Si us plau, introduïu el nom de la persona amb TDAH</string>
     <string name="please_relative_name">Si us plau, introduïu el nom del familiar de la persona amb TDAH</string>
@@ -195,7 +195,7 @@
     <string name="center">Centre de l’organització</string>
     <string name="edit_indicators">Edita els indicadors</string>
     <string name="edit_org">Editar organització</string>
-    <string name="edit_org_center">Editar centres</string>
+    <string name="edit_org_center">Editar centres o serveis</string>
     <string name="center_info">Informació del centre</string>
     <string name="center_reg_ins">Per registrar un centre d’organització externa, heu d’omplir tots els camps situats a la part inferior d’aquesta pantalla</string>
     <string name="ambit_caption">Descripció de l’àmbit</string>
@@ -431,4 +431,6 @@
     <string name="please_select_other_center_new">Si us plau, seleccioneu un altre centre</string>
     <string name="eval_team_without_ind_evals">Aquest equip avaluador no té avaluacions d\'indicadors</string>
     <string name="please_select_other_eval_team">Si us plau, seleccioneu un altre equip avaluador</string>
+    <string name="no_orgs">No hi ha organitzacions externes</string>
+    <string name="please_add_external_org">Si us plau, afegiu una organització externa per començar</string>
 </resources>
