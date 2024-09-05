@@ -104,7 +104,7 @@ public class ProvincesController {
      * @param idCountry - Country identifier
      * @return Provinces list
      * */
-    public static void GetProvincesByRegion(int idRegion, String idCountry, ListCallback callback){
+    public static void GetProvincesByRegionASync(int idRegion, String idCountry, ListCallback callback){
 
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
@@ -165,6 +165,82 @@ public class ProvincesController {
                 throw new RuntimeException(e);
             }
         }*/
+
+    }
+
+    public static List<Province> GetProvincesByRegion(int idRegion, String idCountry){
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
+            @Override
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call = api.GetProvincesByRegion(idRegion,idCountry, Locale.getDefault().getLanguage());
+                Response<List<JsonObject>> response = call.execute();
+                if (response.isSuccessful()) {
+                    return response.body();
+                } else {
+                    throw new IOException("Error: " + response.code() + " " + response.message());
+                }
+            }
+        };
+
+        try {
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> result = future.get();
+            executor.shutdown();
+            List<Province> provinces=new ArrayList<>();
+            for(JsonObject reg:result){
+                int idProvince=reg.getAsJsonPrimitive("idProvince").getAsInt();
+                String name=reg.getAsJsonPrimitive("name").getAsString();
+                String nameSpanish = "";
+                String nameEnglish = "";
+                String nameFrench = "";
+                String nameBasque = "";
+                String nameCatalan = "";
+                String nameDutch = "";
+                String nameGalician = "";
+                String nameGerman = "";
+                String nameItalian = "";
+                String namePortuguese = "";
+                if(Locale.getDefault().getLanguage().equals("es")){
+                    nameSpanish=name;
+                }else if(Locale.getDefault().getLanguage().equals("fr")){
+                    nameFrench=name;
+                }else if(Locale.getDefault().getLanguage().equals("eu")){
+                    nameBasque=name;
+                }else if(Locale.getDefault().getLanguage().equals("ca")){
+                    nameCatalan=name;
+                }else if(Locale.getDefault().getLanguage().equals("nl")){
+                    nameDutch=name;
+                }else if(Locale.getDefault().getLanguage().equals("gl")){
+                    nameGalician=name;
+                }else if(Locale.getDefault().getLanguage().equals("de")){
+                    nameGerman=name;
+                }else if(Locale.getDefault().getLanguage().equals("it")){
+                    nameItalian=name;
+                }else if(Locale.getDefault().getLanguage().equals("pt")){
+                    namePortuguese=name;
+                }else{
+                    nameEnglish=name;
+                }
+                provinces.add(new Province(idProvince,idRegion,idCountry,nameSpanish,nameEnglish,nameFrench,nameBasque,nameCatalan,nameDutch,nameGalician,nameGerman,nameItalian,namePortuguese));
+            }
+            return provinces;
+        } catch (InterruptedException | ExecutionException e) {
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetProvincesByRegion(idRegion,idCountry);
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
+        }
 
     }
 }

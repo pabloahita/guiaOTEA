@@ -106,7 +106,7 @@ public class SelectToEditCenters extends AppCompatActivity {
                     //base.setVisibility(View.GONE);
                     showChargingDialog(R.string.loading_form_to_edit_the_center_or_service);
 
-                    if(center.getIdCenter()!=1) {
+                    if(center.getIdCenter()!=-1) {
                         new Thread(()->{
                             try {
                                 Thread.sleep(300);
@@ -186,7 +186,7 @@ public class SelectToEditCenters extends AppCompatActivity {
                                                         Center aux=centers.get(0);
                                                         centers.remove(0);
                                                         SelectToEditCenterUtil.getInstance().setCenters(centers);
-                                                        centers.add(aux);
+                                                        centers.add(0,aux);
                                                         runOnUiThread(()->{
                                                             adapter=new CenterAdapter(SelectToEditCenters.this,centers);
                                                             centerSpinner.setAdapter(adapter);
@@ -273,7 +273,7 @@ public class SelectToEditCenters extends AppCompatActivity {
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
-        if(keyCode==event.KEYCODE_BACK){
+        if(keyCode==KeyEvent.KEYCODE_BACK){
             Intent intent=new Intent(getApplicationContext(), MainMenu.class);
             SelectToEditCenterUtil.removeInstance();
             startActivity(intent);

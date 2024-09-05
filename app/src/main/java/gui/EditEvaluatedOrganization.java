@@ -199,6 +199,10 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
         int idAddress = Session.getInstance().getOrganization().getIdAddress();
 
         Address address=AddressesController.Get(idAddress);
+        idCountry[0]=address.getIdCountry();
+        idRegion[0]=address.getIdRegion();
+        idProvince[0]=address.getIdProvince();
+        idCity[0]=address.getIdCity();
 
         String[] telephone=Session.getInstance().getOrganization().getTelephone().split(" ");
 
@@ -235,11 +239,14 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
         }
         fields.put("information", org);
         fields.put("emailDir", Session.getInstance().getUser().getEmailUser());
+        Drawable correct = ContextCompat.getDrawable(getApplicationContext(), R.drawable.baseline_check_circle_24);
 
 
         EditText nameOrgField = findViewById(R.id.org_name_reg);
         nameOrgField.setText(fields.get("nameOrg"));
+        nameOrgField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
         EditText addressNameField = findViewById(R.id.name_address_reg);
+        addressNameField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
         addressNameField.setText(fields.get("address"));
         nameProvinceField = findViewById(R.id.foreign_province_reg);
         nameProvinceField.setText(fields.get("nameProvince"));
@@ -247,12 +254,23 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
         nameRegionField.setText(fields.get("nameRegion"));
         nameCityField = findViewById(R.id.foreign_city_reg);
         nameCityField.setText(fields.get("nameCity"));
+        if(!FieldChecker.isPrecharged(address.getIdCountry())){
+            nameCityField.setText(address.getNameCity());
+            nameCityField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+            nameProvinceField.setText(address.getNameProvince());
+            nameProvinceField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+            nameRegionField.setText(address.getNameRegion());
+            nameRegionField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+        }
         EditText emailField = findViewById(R.id.email_reg);
         emailField.setText(fields.get("emailOrg"));
+        emailField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
         EditText orgPhoneField = findViewById(R.id.phone_reg);
         orgPhoneField.setText(fields.get("telephoneOrg"));
+        orgPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
         EditText moreInfoField = findViewById(R.id.more_info_org_reg);
         moreInfoField.setText(fields.get("information"));
+        moreInfoField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
         countrySpinner = findViewById(R.id.spinner_countries_reg);
         regionSpinner = findViewById(R.id.spinner_regions_reg);
         regionSpinnerAux = findViewById(R.id.spinner_regions_reg_aux);
@@ -306,7 +324,13 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
 
         directorSpinner.setAdapter(userAdapter[0]);
 
-        Drawable correct = ContextCompat.getDrawable(getApplicationContext(), R.drawable.baseline_check_circle_24);
+        for(int i=1;i<evaluatedUsers.size();i++){
+            if(director.getEmailUser().equals(evaluatedUsers.get(i).getEmailUser())){
+                directorSpinner.setSelection(i);
+                break;
+            }
+        }
+
 
         imageOrgButton=findViewById(R.id.uploadPhoto);
         imageOrg=findViewById(R.id.profilePhoto);
@@ -317,7 +341,14 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
         helpButton=findViewById(R.id.helpButton);
 
 
-
+        for(int i=1;i<countries.size();i++){
+            if(fields.get("telephoneCodeOrg").equals(countries.get(i).getPhone_code())){
+                phoneCode1.setSelection(i);
+            }
+            if(address.getIdCountry().equals(countries.get(i).getIdCountry())){
+                countrySpinner.setSelection(i);
+            }
+        }
 
 
         ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
@@ -411,6 +442,35 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
         });
 
 
+        phoneCode1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                fields.replace("telephoneCodeOrg",phoneCodeAdapter[0].getItem(position).getPhone_code());
+                orgPhoneField.setError(null);
+                if (FieldChecker.isACorrectPhone(fields.get("telephoneCodeOrg")+fields.get("telephoneOrg"))) {
+                    orgPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+                } else{
+                    orgPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Acciones a realizar cuando no se selecciona ningún elemento
+            }
+        });
+
+
+        for(int i=1;i<countries.size();i++){
+            if(countries.get(i).getIdCountry().equals(address.getIdCountry())){
+                //countrySpinner.setSelection(i);
+                phoneCode1.setSelection(i);
+                //regionSpinnerControl(true);
+                break;
+            }
+        }
+
+
         regionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -427,6 +487,7 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
         });
 
 
+
         provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -441,11 +502,12 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
             }
         });
 
+
         citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 city[0] = cityAdapter[0].getItem(position);
-                idCity[0] = city[0].getIdProvince();
+                idCity[0] = city[0].getIdCity();
                 if(idCity[0]!=-2){
                     if(Locale.getDefault().getLanguage().equals("es")) {
                         fields.replace("nameCity",city[0].getNameSpanish());
@@ -478,6 +540,7 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
 
             }
         });
+
 
         nameOrgField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -616,23 +679,7 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
 
 
 
-        phoneCode1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                fields.replace("telephoneCodeOrg",phoneCodeAdapter[0].getItem(position).getPhone_code());
-                orgPhoneField.setError(null);
-                if (FieldChecker.isACorrectPhone(fields.get("telephoneCodeOrg")+fields.get("telephoneOrg"))) {
-                    orgPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
-                } else{
-                    orgPhoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
-                }
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Acciones a realizar cuando no se selecciona ningún elemento
-            }
-        });
 
 
         orgPhoneField.addTextChangedListener(new TextWatcher() {
@@ -1185,7 +1232,7 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event){
-        if(keyCode==event.KEYCODE_BACK){
+        if(keyCode==KeyEvent.KEYCODE_BACK){
             Intent intent=new Intent(getApplicationContext(), MainMenu.class);
             setResult(RESULT_CANCELED,intent);
             finish();
@@ -1212,6 +1259,10 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
             if (FieldChecker.isPrecharged(idCountry[0])) {
                 getRegionsByCountry(idCountry[0]);
             } else {
+
+                idRegion[0]=-1;
+                idProvince[0]=-1;
+                idCity[0]=-1;
                 regionSpinner.setVisibility(View.GONE);
                 provinceSpinner.setVisibility(View.GONE);
                 citySpinner.setVisibility(View.GONE);
@@ -1319,11 +1370,12 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
             citySpinnerAux.setVisibility(View.VISIBLE);
         }
     }
+    
 
     public void getRegionsByCountry(String idCountry){
 
         pbRegion.setVisibility(View.VISIBLE);
-        RegionsController.GetRegionsByCountry(idCountry, new ListCallback() {
+        RegionsController.GetRegionsByCountryASync(idCountry, new ListCallback() {
             @Override
             public void onSuccess(List<JsonObject> data) {
                 new Thread(()-> {
@@ -1404,7 +1456,7 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
 
     public void getProvincesByRegion(int idRegion, String idCountry){
         pbProvince.setVisibility(View.VISIBLE);
-        ProvincesController.GetProvincesByRegion(idRegion, idCountry, new ListCallback() {
+        ProvincesController.GetProvincesByRegionASync(idRegion, idCountry, new ListCallback() {
             @Override
             public void onSuccess(List<JsonObject> data) {
 
@@ -1480,9 +1532,10 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
     }
 
 
+
     public void getCitiesByProvince(int idProvince, int idRegion, String idCountry) {
         pbCity.setVisibility(View.VISIBLE);
-        CitiesController.GetCitiesByProvince(idProvince, idRegion, idCountry, new ListCallback() {
+        CitiesController.GetCitiesByProvinceASync(idProvince, idRegion, idCountry, new ListCallback() {
             @Override
             public void onSuccess(List<JsonObject> data) {
                 new Thread(()->{
@@ -1558,5 +1611,6 @@ public class EditEvaluatedOrganization extends AppCompatActivity {
         });
 
     }
+
 
 }

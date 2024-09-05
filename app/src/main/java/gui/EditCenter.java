@@ -16,6 +16,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -158,6 +159,8 @@ public class EditCenter extends AppCompatActivity {
 
     ProgressBar pbCity;
 
+    boolean isInStart=true;
+
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,6 +172,8 @@ public class EditCenter extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_center);
+
+        Drawable correct = ContextCompat.getDrawable(getApplicationContext(), R.drawable.baseline_check_circle_24);
 
         base=findViewById(R.id.base);
         base.setVisibility(View.VISIBLE);
@@ -227,19 +232,31 @@ public class EditCenter extends AppCompatActivity {
             descr=currCenter.getDescriptionEnglish();
         }
         descriptionCenterField.setText(descr);
+        descriptionCenterField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
         fields.put("centerDescription",descr);
         EditText addressNameField=findViewById(R.id.name_address_reg);
         addressNameField.setText(address.getName());
+        addressNameField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
         fields.put("address",address.getName());
         nameProvinceField = findViewById(R.id.foreign_province_reg);
         nameRegionField = findViewById(R.id.foreign_region_reg);
         nameCityField = findViewById(R.id.foreign_city_reg);
+        if(!FieldChecker.isPrecharged(address.getIdCountry())){
+            nameCityField.setText(address.getNameCity());
+            nameCityField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+            nameProvinceField.setText(address.getNameProvince());
+            nameProvinceField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+            nameRegionField.setText(address.getNameRegion());
+            nameRegionField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+        }
         EditText phoneField=findViewById(R.id.phone_reg);
         phoneField.setText(currCenter.getTelephone().split(" ")[1]);
+        phoneField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
         fields.put("telephoneCode",currCenter.getTelephone().split(" ")[0]);
         fields.put("telephone",currCenter.getTelephone().split(" ")[1]);
         EditText emailField = findViewById(R.id.email_reg);
         emailField.setText(currCenter.getEmail());
+        emailField.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
         fields.put("email",currCenter.getEmail());
         countrySpinner = findViewById(R.id.spinner_countries_reg);
         regionSpinner = findViewById(R.id.spinner_regions_reg);
@@ -254,6 +271,19 @@ public class EditCenter extends AppCompatActivity {
         phoneCode1.setAdapter(phoneCodeAdapter[0]);
         phoneCode1.setEnabled(true);
 
+
+
+        for(int i=1;i<countries.size();i++){
+            if(fields.get("telephoneCode").equals(countries.get(i).getPhone_code())){
+                phoneCode1.setSelection(i);
+            }
+            if(address.getIdCountry().equals(countries.get(i).getIdCountry())){
+                countrySpinner.setSelection(i);
+            }
+        }
+
+
+
         auxRegList.add(new Region(-2,"-2","Región","Region","Région","Eskualdea","Regió","Region","Rexión","Region","Regione","Região"));
         RegionAdapter adapterRegAux=new RegionAdapter(EditCenter.this,auxRegList);
 
@@ -264,6 +294,15 @@ public class EditCenter extends AppCompatActivity {
         CityAdapter adapterCitAux=new CityAdapter(EditCenter.this,auxCityList);
 
 
+
+        ConstraintLayout background=findViewById(R.id.final_background);
+
+
+
+        background.setVisibility(View.GONE);
+
+        imageCenterButton=findViewById(R.id.uploadPhoto);
+        imageCenter=findViewById(R.id.profilePhoto);
 
         regionSpinnerAux.setAdapter(adapterRegAux);
         regionSpinnerAux.setEnabled(false);
@@ -277,15 +316,6 @@ public class EditCenter extends AppCompatActivity {
 
 
 
-        ConstraintLayout background=findViewById(R.id.final_background);
-
-
-        Drawable correct= ContextCompat.getDrawable(getApplicationContext(),R.drawable.baseline_check_circle_24);
-
-        background.setVisibility(View.GONE);
-
-        imageCenterButton=findViewById(R.id.uploadPhoto);
-        imageCenter=findViewById(R.id.profilePhoto);
 
 
 
@@ -360,98 +390,6 @@ public class EditCenter extends AppCompatActivity {
 
             }
         });
-
-        countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                country[0] = countryAdapter[0].getItem(position);
-                fields.replace("telephoneCode",phoneCodeAdapter[0].getItem(position).getPhone_code());
-                phoneCode1.setSelection(position);
-                idCountry[0] = country[0].getIdCountry();
-                regionSpinnerControl();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Acciones a realizar cuando no se selecciona ningún elemento
-            }
-        });
-
-
-        regionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                region[0] = regionAdapter[0].getItem(position);
-                idRegion[0] = region[0].getIdRegion();
-                provinceSpinnerControl();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                province[0] = provinceAdapter[0].getItem(position);
-                idProvince[0] = province[0].getIdProvince();
-                citySpinnerControl();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                city[0] = cityAdapter[0].getItem(position);
-                idCity[0] = city[0].getIdProvince();
-                if(idCity[0]!=-2){
-                    if(Locale.getDefault().getLanguage().equals("es")) {
-                        fields.replace("nameCity",city[0].getNameSpanish());
-                    }else if(Locale.getDefault().getLanguage().equals("fr")){
-                        fields.replace("nameCity",city[0].getNameFrench());
-                    }else if(Locale.getDefault().getLanguage().equals("eu")) {
-                        fields.replace("nameCity",city[0].getNameBasque());
-                    }else if(Locale.getDefault().getLanguage().equals("ca")){
-                        fields.replace("nameCity",city[0].getNameCatalan());
-                    }else if(Locale.getDefault().getLanguage().equals("nl")) {
-                        fields.replace("nameCity",city[0].getNameDutch());
-                    }else if(Locale.getDefault().getLanguage().equals("gl")){
-                        fields.replace("nameCity",city[0].getNameGalician());
-                    }else if(Locale.getDefault().getLanguage().equals("de")) {
-                        fields.replace("nameCity",city[0].getNameGerman());
-                    }else if(Locale.getDefault().getLanguage().equals("it")){
-                        fields.replace("nameCity",city[0].getNameItalian());
-                    }else if(Locale.getDefault().getLanguage().equals("pt")) {
-                        fields.replace("nameCity",city[0].getNamePortuguese());
-                    }else{
-                        fields.replace("nameCity",city[0].getNameEnglish());
-                    }
-                }else{
-                    fields.replace("nameCity","");
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-
-
-
-
-
 
         descriptionCenterField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -1090,12 +1028,98 @@ public class EditCenter extends AppCompatActivity {
         });
 
 
+        countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                country[0] = countryAdapter[0].getItem(position);
+                fields.replace("telephoneCode", phoneCodeAdapter[0].getItem(position).getPhone_code());
+                phoneCode1.setSelection(position);
+                idCountry[0] = country[0].getIdCountry();
+                regionSpinnerControl();
 
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Acciones a realizar cuando no se selecciona ningún elemento
+            }
+        });
+
+
+
+        regionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                region[0] = regionAdapter[0].getItem(position);
+                idRegion[0] = region[0].getIdRegion();
+                provinceSpinnerControl();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        provinceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                province[0] = provinceAdapter[0].getItem(position);
+                idProvince[0] = province[0].getIdProvince();
+                citySpinnerControl();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                city[0] = cityAdapter[0].getItem(position);
+                idCity[0] = city[0].getIdCity();
+                if (idCity[0] != -2) {
+                    if (Locale.getDefault().getLanguage().equals("es")) {
+                        fields.replace("nameCity", city[0].getNameSpanish());
+                    } else if (Locale.getDefault().getLanguage().equals("fr")) {
+                        fields.replace("nameCity", city[0].getNameFrench());
+                    } else if (Locale.getDefault().getLanguage().equals("eu")) {
+                        fields.replace("nameCity", city[0].getNameBasque());
+                    } else if (Locale.getDefault().getLanguage().equals("ca")) {
+                        fields.replace("nameCity", city[0].getNameCatalan());
+                    } else if (Locale.getDefault().getLanguage().equals("nl")) {
+                        fields.replace("nameCity", city[0].getNameDutch());
+                    } else if (Locale.getDefault().getLanguage().equals("gl")) {
+                        fields.replace("nameCity", city[0].getNameGalician());
+                    } else if (Locale.getDefault().getLanguage().equals("de")) {
+                        fields.replace("nameCity", city[0].getNameGerman());
+                    } else if (Locale.getDefault().getLanguage().equals("it")) {
+                        fields.replace("nameCity", city[0].getNameItalian());
+                    } else if (Locale.getDefault().getLanguage().equals("pt")) {
+                        fields.replace("nameCity", city[0].getNamePortuguese());
+                    } else {
+                        fields.replace("nameCity", city[0].getNameEnglish());
+                    }
+                } else {
+                    fields.replace("nameCity", "");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        isInStart=false;
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
-        if(keyCode==event.KEYCODE_BACK){
+        if(keyCode==KeyEvent.KEYCODE_BACK){
             Intent intent=new Intent(getApplicationContext(), MainMenu.class);
             EditCenterUtil.removeInstance();
             startActivity(intent);
@@ -1117,9 +1141,13 @@ public class EditCenter extends AppCompatActivity {
             regionSpinnerAux.setVisibility(View.VISIBLE);
         }
         if(!idCountry[0].equals("-2")){
-            if (FieldChecker.isPrecharged(idCountry[0])) {
+            if (FieldChecker.isPrecharged(idCountry[0]) ) {
                 getRegionsByCountry(idCountry[0]);
             } else {
+
+                idRegion[0]=-1;
+                idProvince[0]=-1;
+                idCity[0]=-1;
                 regionSpinner.setVisibility(View.GONE);
                 provinceSpinner.setVisibility(View.GONE);
                 citySpinner.setVisibility(View.GONE);
@@ -1231,14 +1259,15 @@ public class EditCenter extends AppCompatActivity {
     public void getRegionsByCountry(String idCountry){
 
         pbRegion.setVisibility(View.VISIBLE);
-        RegionsController.GetRegionsByCountry(idCountry, new ListCallback() {
+
+        RegionsController.GetRegionsByCountryASync(idCountry, new ListCallback() {
             @Override
             public void onSuccess(List<JsonObject> data) {
-                new Thread(()-> {
-                    regions=new ArrayList<>();
-                    for(JsonObject reg: data){
-                        int idRegion=reg.getAsJsonPrimitive("idRegion").getAsInt();
-                        String name=reg.getAsJsonPrimitive("name").getAsString();
+                new Thread(() -> {
+                    regions = new ArrayList<>();
+                    for (JsonObject reg : data) {
+                        int idRegion = reg.getAsJsonPrimitive("idRegion").getAsInt();
+                        String name = reg.getAsJsonPrimitive("name").getAsString();
                         String nameSpanish = "";
                         String nameEnglish = "";
                         String nameFrench = "";
@@ -1249,28 +1278,28 @@ public class EditCenter extends AppCompatActivity {
                         String nameGerman = "";
                         String nameItalian = "";
                         String namePortuguese = "";
-                        if(Locale.getDefault().getLanguage().equals("es")){
-                            nameSpanish=name;
-                        }else if(Locale.getDefault().getLanguage().equals("fr")){
-                            nameFrench=name;
-                        }else if(Locale.getDefault().getLanguage().equals("eu")){
-                            nameBasque=name;
-                        }else if(Locale.getDefault().getLanguage().equals("ca")){
-                            nameCatalan=name;
-                        }else if(Locale.getDefault().getLanguage().equals("nl")){
-                            nameDutch=name;
-                        }else if(Locale.getDefault().getLanguage().equals("gl")){
-                            nameGalician=name;
-                        }else if(Locale.getDefault().getLanguage().equals("de")){
-                            nameGerman=name;
-                        }else if(Locale.getDefault().getLanguage().equals("it")){
-                            nameItalian=name;
-                        }else if(Locale.getDefault().getLanguage().equals("pt")){
-                            namePortuguese=name;
-                        }else{
-                            nameEnglish=name;
+                        if (Locale.getDefault().getLanguage().equals("es")) {
+                            nameSpanish = name;
+                        } else if (Locale.getDefault().getLanguage().equals("fr")) {
+                            nameFrench = name;
+                        } else if (Locale.getDefault().getLanguage().equals("eu")) {
+                            nameBasque = name;
+                        } else if (Locale.getDefault().getLanguage().equals("ca")) {
+                            nameCatalan = name;
+                        } else if (Locale.getDefault().getLanguage().equals("nl")) {
+                            nameDutch = name;
+                        } else if (Locale.getDefault().getLanguage().equals("gl")) {
+                            nameGalician = name;
+                        } else if (Locale.getDefault().getLanguage().equals("de")) {
+                            nameGerman = name;
+                        } else if (Locale.getDefault().getLanguage().equals("it")) {
+                            nameItalian = name;
+                        } else if (Locale.getDefault().getLanguage().equals("pt")) {
+                            namePortuguese = name;
+                        } else {
+                            nameEnglish = name;
                         }
-                        regions.add(new Region(idRegion,idCountry,nameSpanish,nameEnglish,nameFrench,nameBasque,nameCatalan,nameDutch,nameGalician,nameGerman,nameItalian,namePortuguese));
+                        regions.add(new Region(idRegion, idCountry, nameSpanish, nameEnglish, nameFrench, nameBasque, nameCatalan, nameDutch, nameGalician, nameGerman, nameItalian, namePortuguese));
                     }
                     runOnUiThread(() -> {
 
@@ -1300,9 +1329,9 @@ public class EditCenter extends AppCompatActivity {
 
             @Override
             public void onError(String errorResponse) {
-                runOnUiThread(()->{
-                    Intent intent=new Intent(getApplicationContext(), MainMenu.class);
-                    setResult(RESULT_CANCELED,intent);
+                runOnUiThread(() -> {
+                    Intent intent = new Intent(getApplicationContext(), MainMenu.class);
+                    setResult(RESULT_CANCELED, intent);
                     finish();
                 });
             }
@@ -1312,7 +1341,7 @@ public class EditCenter extends AppCompatActivity {
 
     public void getProvincesByRegion(int idRegion, String idCountry){
         pbProvince.setVisibility(View.VISIBLE);
-        ProvincesController.GetProvincesByRegion(idRegion, idCountry, new ListCallback() {
+        ProvincesController.GetProvincesByRegionASync(idRegion, idCountry, new ListCallback() {
             @Override
             public void onSuccess(List<JsonObject> data) {
 
@@ -1390,7 +1419,7 @@ public class EditCenter extends AppCompatActivity {
 
     public void getCitiesByProvince(int idProvince, int idRegion, String idCountry) {
         pbCity.setVisibility(View.VISIBLE);
-        CitiesController.GetCitiesByProvince(idProvince, idRegion, idCountry, new ListCallback() {
+        CitiesController.GetCitiesByProvinceASync(idProvince, idRegion, idCountry, new ListCallback() {
             @Override
             public void onSuccess(List<JsonObject> data) {
                 new Thread(()->{

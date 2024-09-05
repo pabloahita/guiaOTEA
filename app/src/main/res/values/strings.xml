@@ -429,4 +429,7 @@
     <string name="please_select_other_eval_team">Please select another evaluation team</string>
     <string name="no_orgs">There are no external organizations</string>
     <string name="please_add_external_org">Please add an external organization to start</string>
+    <string name="evaluation_dates_misselected">Poorly selected evaluation dates</string>
+    <string name="please_enter_creation_date">Please enter the creation date of the evaluation team</string>
+
 </resources>

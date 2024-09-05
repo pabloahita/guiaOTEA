@@ -104,7 +104,7 @@ public class CitiesController {
      * @param idCountry - Country identifier
      * @return Cities of the province
      * */
-    public static void GetCitiesByProvince(int idProvince, int idRegion, String idCountry, ListCallback callback){
+    public static void GetCitiesByProvinceASync(int idProvince, int idRegion, String idCountry, ListCallback callback){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
@@ -166,6 +166,82 @@ public class CitiesController {
                 throw new RuntimeException(e);
             }
         }*/
+    }
+
+    public static List<City> GetCitiesByProvince(int idProvince, int idRegion, String idCountry){
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
+            @Override
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call = api.GetCitiesByProvince(idProvince,idRegion,idCountry, Locale.getDefault().getLanguage());
+                Response<List<JsonObject>> response = call.execute();
+                if (response.isSuccessful()) {
+                    return response.body();
+                } else {
+                    throw new IOException("Error: " + response.code() + " " + response.message());
+                }
+            }
+        };
+        try {
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> list = future.get();
+            executor.shutdown();
+            numAttempts=0;
+            List<City> cities=new ArrayList<>();
+            for (JsonObject reg : list) {
+                int idCity = reg.getAsJsonPrimitive("idCity").getAsInt();
+                String name=reg.getAsJsonPrimitive("name").getAsString();
+                String nameSpanish = "";
+                String nameEnglish = "";
+                String nameFrench = "";
+                String nameBasque = "";
+                String nameCatalan = "";
+                String nameDutch = "";
+                String nameGalician = "";
+                String nameGerman = "";
+                String nameItalian = "";
+                String namePortuguese = "";
+                if(Locale.getDefault().getLanguage().equals("es")){
+                    nameSpanish=name;
+                }else if(Locale.getDefault().getLanguage().equals("fr")){
+                    nameFrench=name;
+                }else if(Locale.getDefault().getLanguage().equals("eu")){
+                    nameBasque=name;
+                }else if(Locale.getDefault().getLanguage().equals("ca")){
+                    nameCatalan=name;
+                }else if(Locale.getDefault().getLanguage().equals("nl")){
+                    nameDutch=name;
+                }else if(Locale.getDefault().getLanguage().equals("gl")){
+                    nameGalician=name;
+                }else if(Locale.getDefault().getLanguage().equals("de")){
+                    nameGerman=name;
+                }else if(Locale.getDefault().getLanguage().equals("it")){
+                    nameItalian=name;
+                }else if(Locale.getDefault().getLanguage().equals("pt")){
+                    namePortuguese=name;
+                }else{
+                    nameEnglish=name;
+                }
+                cities.add(new City(idCity, idProvince, idRegion, idCountry, nameSpanish, nameEnglish, nameFrench, nameBasque, nameCatalan, nameDutch, nameGalician, nameGerman, nameItalian, namePortuguese));
+            }
+            return cities;
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch(ExecutionException e){
+           if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetCitiesByProvince(idProvince, idRegion, idCountry);
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
+        }
     }
 
 

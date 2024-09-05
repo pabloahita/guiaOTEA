@@ -391,4 +391,6 @@
     <string name="please_select_other_eval_team">Por favor, seleccione otro equipo evaluador</string>
     <string name="no_orgs">No hay organizaciones externas</string>
     <string name="please_add_external_org">Por favor, añada una organización externa para comenzar</string>
+    <string name="evaluation_dates_misselected">Fechas de evaluación mal seleccionadas</string>
+    <string name="please_enter_creation_date">Por favor, introduzca la fecha de creación del equipo evaluador</string>
 </resources>

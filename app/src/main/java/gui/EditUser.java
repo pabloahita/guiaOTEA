@@ -575,10 +575,9 @@ public class EditUser extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
-        if(keyCode==event.KEYCODE_BACK){
+        if(keyCode== KeyEvent.KEYCODE_BACK){
             Intent intent=new Intent(getApplicationContext(), MainMenu.class);
-            setResult(RESULT_CANCELED,intent);
-            finish();
+            startActivity(intent);
         }
         return super.onKeyDown(keyCode,event);
     }

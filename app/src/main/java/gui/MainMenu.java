@@ -146,6 +146,14 @@ public class MainMenu extends AppCompatActivity{
                 result -> {
                     if (result.getResultCode() == RESULT_FIRST_USER) {
                         chargingScreenDialog.hide();
+                        aboutMe.setEnabled(true);
+                        editUser.setEnabled(true);
+                        seeRealizedIndicatorTest.setEnabled(true);
+                        addNewOrgCenter.setEnabled(true);
+                        addNewEvalTeam.setEnabled(true);
+                        editOrg.setEnabled(true);
+                        editOrgCenters.setEnabled(true);
+                        editEvaluatorTeam.setEnabled(true);
                         new AwesomeWarningDialog(MainMenu.this)
                                 .setTitle(R.string.no_centers)
                                 .setMessage(R.string.choose_other)
@@ -168,6 +176,14 @@ public class MainMenu extends AppCompatActivity{
                 result -> {
                     if (result.getResultCode() == RESULT_FIRST_USER) {
                         chargingScreenDialog.hide();
+                        aboutMe.setEnabled(true);
+                        editUser.setEnabled(true);
+                        seeRealizedIndicatorTest.setEnabled(true);
+                        addNewOrgCenter.setEnabled(true);
+                        addNewEvalTeam.setEnabled(true);
+                        editOrg.setEnabled(true);
+                        editOrgCenters.setEnabled(true);
+                        editEvaluatorTeam.setEnabled(true);
                         new AwesomeWarningDialog(MainMenu.this)
                                 .setTitle(R.string.no_eval_teams)
                                 .setMessage(R.string.choose_other)
@@ -790,7 +806,7 @@ public class MainMenu extends AppCompatActivity{
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == event.KEYCODE_BACK) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             new AwesomeInfoDialog(this)
                     .setTitle(R.string.do_you_want_to_exit_otea)
                     .setMessage(R.string.choose_an_option)

@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -12,6 +13,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -36,6 +38,7 @@ import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeProgressDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeWarningDialog;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.fundacionmiradas.indicatorsevaluation.R;
 import com.google.gson.JsonObject;
@@ -132,6 +135,9 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
             List<User> professionals=new ArrayList<>();
             professionals.add(0,userAuxList.get(1));
             professionals.addAll(evaluatedUsers);
+
+            Drawable correct = ContextCompat.getDrawable(getApplicationContext(), R.drawable.baseline_check_circle_24);
+
 
             otherMembers=new ArrayList<>();
 
@@ -300,10 +306,10 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     String input=s.toString();
                     if(input.isEmpty()){
-                        patient.setError(getString(R.string.please_patient_name));
+                        patient.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
                     }
                     else{
-                        patient.setError(null);
+                        patient.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     }
                 }
 
@@ -323,10 +329,10 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     String input=s.toString();
                     if(input.isEmpty()){
-                        relative.setError(getString(R.string.please_relative_name));
+                        relative.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
                     }
                     else{
-                        relative.setError(null);
+                        relative.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     }
                 }
 
@@ -346,10 +352,10 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     String input=s.toString();
                     if(input.isEmpty()){
-                        consultant.setError(getString(R.string.please_consultant));
+                        consultant.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
                     }
                     else{
-                        consultant.setError(null);
+                        consultant.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
                     }
                 }
 
@@ -369,7 +375,13 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                    String input=s.toString();
+                    if(input.isEmpty()){
+                        otherMembers.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                    }
+                    else{
+                        otherMembers.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+                    }
                 }
 
                 @Override
@@ -394,6 +406,29 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                             .build();
 
                     datePicker.show(getSupportFragmentManager(), "CREATION_DATE");
+                }
+            });
+            
+            creationDateEditText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    creationDateEditText.setError(null);
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    String input=s.toString();
+                    if(input.isEmpty()){
+                        creationDateEditText.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                    }
+                    else{
+                        creationDateEditText.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
                 }
             });
 
@@ -438,24 +473,21 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                                         if(!evaluationDates.isEmpty()) {
                                             evaluationDates.clear();
                                         }
-                                        String msg="";
-                                        if(evaluationDates.size()<MIN_NUM_EVAL_DATES){
-                                            msg="<b>"+getString(R.string.must_select_three_eval_dates)+"</b>";
-                                        }
-                                        else if(evaluationDates.get(evaluationDates.size()-1).getTimeInMillis()-evaluationDates.get(0).getTimeInMillis()>=2629800000L){
-                                            msg="<b>"+getString(R.string.difference_between_dates_is_equal_or_greater_than_a_month)+"</b>";
-                                        }
-                                        new AlertDialog.Builder(RegisterNewEvaluatorTeam.this)
-                                                .setTitle(getString(R.string.error))
-                                                .setMessage(Html.fromHtml(msg,0))
-                                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                                .setPositiveButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
+
+                                        new AwesomeWarningDialog(RegisterNewEvaluatorTeam.this)
+                                                .setTitle(R.string.evaluation_dates_misselected)
+                                                .setMessage(R.string.must_select_three_eval_dates)
+                                                .setColoredCircle(com.aminography.primedatepicker.R.color.yellowA700)
+                                                .setCancelable(true).setButtonText(getString(R.string.understood))
+                                                .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.yellowA700)
+                                                .setButtonText(getString(R.string.understood))
+                                                .setWarningButtonClick(new Closure() {
                                                     @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
+                                                    public void exec() {
+                                                        // click
                                                     }
                                                 })
-                                                .create().show();
+                                                .show();
 
                                     }
                                     evaluationDatesEditText.setText(text);
@@ -469,6 +501,29 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                 }
             });
 
+            evaluationDatesEditText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    evaluationDatesEditText.setError(null);
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    String input=s.toString();
+                    if(input.isEmpty()){
+                        evaluationDatesEditText.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                    }
+                    else{
+                        evaluationDatesEditText.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+
             observations.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -478,6 +533,12 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     String input=charSequence.toString();
+                    if(input.isEmpty()){
+                        observations.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                    }
+                    else{
+                        observations.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+                    }
                 }
 
                 @Override
@@ -719,11 +780,10 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                             .setColoredCircle(R.color.miradas_color)
                             .setCancelable(false);
                     chargingScreenDialog.show();
-                    if(!userAuxList.contains(professional) && !userAuxList.contains(responsible) && !patient.getText().toString().isEmpty() && !relative.getText().toString().isEmpty() && !creationDateEditText.getText().toString().isEmpty() && !consultant.toString().isEmpty() && checked){
-                    v.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-
+                    new Thread(()->{
+                        if(professional!=null && !professional.getEmailUser().equals("-1") && responsible!=null && !responsible.getEmailUser().equals("-1")
+                                && !patient.getText().toString().isEmpty() && !relative.getText().toString().isEmpty() &&
+                                creationDate!=null && evaluationDates!=null && !evaluationDates.isEmpty() && checked){
                             List<EvaluatorTeam> evaluatorTeams=EvaluatorTeamsController.GetAllByOrganization(centerSelected.getIdOrganization(),centerSelected.getOrgType(),centerSelected.getIllness());
                             int[] idEvaluatorTeam={-1};
                             if(evaluatorTeams.isEmpty()){
@@ -732,250 +792,257 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                                 idEvaluatorTeam[0]=evaluatorTeams.get(evaluatorTeams.size()-1).getIdEvaluatorTeam()+1;
                             }
 
-                            if(profilePhotoEvalTeam!=null){
-                                imgEvalTeamName="EVALTEAM_"+idEvaluatorTeam[0]+"_"+ centerSelected.getIdCenter()+"_"+centerSelected.getIdOrganization()+"_"+centerSelected.getOrgType()+"_"+centerSelected.getIllness()+".webp";
+                            runOnUiThread(()->{
+                                if(profilePhotoEvalTeam!=null){
+                                    imgEvalTeamName="EVALTEAM_"+idEvaluatorTeam[0]+"_"+ centerSelected.getIdCenter()+"_"+centerSelected.getIdOrganization()+"_"+centerSelected.getOrgType()+"_"+centerSelected.getIllness()+".webp";
+                                    new Thread(()->{
+                                        FileManager.uploadFile(profilePhotoEvalTeam, "profile-photos", imgEvalTeamName);
+                                        try{
+                                            profilePhotoEvalTeam.close();
+                                        }catch(IOException e){
+                                            e.printStackTrace();
+                                        }
+                                    }).start();
+                                }
                                 new Thread(()->{
-                                    FileManager.uploadFile(profilePhotoEvalTeam, "profile-photos", imgEvalTeamName);
-                                    try{
-                                        profilePhotoEvalTeam.close();
-                                    }catch(IOException e){
-                                        e.printStackTrace();
+                                    String observationsEnglish="";
+                                    String observationsSpanish="";
+                                    String observationsFrench="";
+                                    String observationsBasque="";
+                                    String observationsCatalan="";
+                                    String observationsDutch="";
+                                    String observationsGalician="";
+                                    String observationsGerman="";
+                                    String observationsItalian="";
+                                    String observationsPortuguese="";
+
+                                    String observationsText=observations.getText().toString();
+                                    if(!observationsText.isEmpty()){
+                                        List<String> translations=TranslatorController.getInstance().translate(observationsText,Locale.getDefault().getLanguage());
+                                        if(Locale.getDefault().getLanguage().equals("es")){
+                                            observationsEnglish= translations.get(0);
+                                            observationsSpanish=observationsText;
+                                            observationsFrench=translations.get(1);
+                                            observationsBasque=translations.get(2);
+                                            observationsCatalan=translations.get(3);
+                                            observationsDutch=translations.get(4);
+                                            observationsGalician=translations.get(5);
+                                            observationsGerman=translations.get(6);
+                                            observationsItalian=translations.get(7);
+                                            observationsPortuguese=translations.get(8);
+                                        }else if(Locale.getDefault().getLanguage().equals("fr")){
+                                            observationsEnglish= translations.get(0);
+                                            observationsSpanish=translations.get(1);
+                                            observationsFrench=observationsText;
+                                            observationsBasque=translations.get(2);
+                                            observationsCatalan=translations.get(3);
+                                            observationsDutch=translations.get(4);
+                                            observationsGalician=translations.get(5);
+                                            observationsGerman=translations.get(6);
+                                            observationsItalian=translations.get(7);
+                                            observationsPortuguese=translations.get(8);
+                                        }else if(Locale.getDefault().getLanguage().equals("eu")){
+                                            observationsEnglish= translations.get(0);
+                                            observationsSpanish=translations.get(1);
+                                            observationsFrench=translations.get(2);
+                                            observationsBasque=observationsText;
+                                            observationsCatalan=translations.get(3);
+                                            observationsDutch=translations.get(4);
+                                            observationsGalician=translations.get(5);
+                                            observationsGerman=translations.get(6);
+                                            observationsItalian=translations.get(7);
+                                            observationsPortuguese=translations.get(8);
+                                        }else if(Locale.getDefault().getLanguage().equals("ca")){
+                                            observationsEnglish= translations.get(0);
+                                            observationsSpanish=translations.get(1);
+                                            observationsFrench=translations.get(2);
+                                            observationsBasque=translations.get(3);
+                                            observationsCatalan=observationsText;
+                                            observationsDutch=translations.get(4);
+                                            observationsGalician=translations.get(5);
+                                            observationsGerman=translations.get(6);
+                                            observationsItalian=translations.get(7);
+                                            observationsPortuguese=translations.get(8);
+                                        }else if(Locale.getDefault().getLanguage().equals("nl")){
+                                            observationsEnglish= translations.get(0);
+                                            observationsSpanish=translations.get(1);
+                                            observationsFrench=translations.get(2);
+                                            observationsBasque=translations.get(3);
+                                            observationsCatalan=translations.get(4);
+                                            observationsDutch=observationsText;
+                                            observationsGalician=translations.get(5);
+                                            observationsGerman=translations.get(6);
+                                            observationsItalian=translations.get(7);
+                                            observationsPortuguese=translations.get(8);
+                                        }else if(Locale.getDefault().getLanguage().equals("gl")){
+                                            observationsEnglish= translations.get(0);
+                                            observationsSpanish=translations.get(1);
+                                            observationsFrench=translations.get(2);
+                                            observationsBasque=translations.get(3);
+                                            observationsCatalan=translations.get(4);
+                                            observationsDutch=translations.get(5);
+                                            observationsGalician=observationsText;
+                                            observationsGerman=translations.get(6);
+                                            observationsItalian=translations.get(7);
+                                            observationsPortuguese=translations.get(8);
+                                        }else if(Locale.getDefault().getLanguage().equals("de")){
+                                            observationsEnglish= translations.get(0);
+                                            observationsSpanish=translations.get(1);
+                                            observationsFrench=translations.get(2);
+                                            observationsBasque=translations.get(3);
+                                            observationsCatalan=translations.get(4);
+                                            observationsDutch=translations.get(5);
+                                            observationsGalician=translations.get(6);
+                                            observationsGerman=observationsText;
+                                            observationsItalian=translations.get(7);
+                                            observationsPortuguese=translations.get(8);
+                                        }else if(Locale.getDefault().getLanguage().equals("it")){
+                                            observationsEnglish= translations.get(0);
+                                            observationsSpanish=translations.get(1);
+                                            observationsFrench=translations.get(2);
+                                            observationsBasque=translations.get(3);
+                                            observationsCatalan=translations.get(4);
+                                            observationsDutch=translations.get(5);
+                                            observationsGalician=translations.get(6);
+                                            observationsGerman=translations.get(7);
+                                            observationsItalian=observationsText;
+                                            observationsPortuguese=translations.get(8);
+                                        }else if(Locale.getDefault().getLanguage().equals("pt")){
+                                            observationsEnglish= translations.get(0);
+                                            observationsSpanish=translations.get(1);
+                                            observationsFrench=translations.get(2);
+                                            observationsBasque=translations.get(3);
+                                            observationsCatalan=translations.get(4);
+                                            observationsDutch=translations.get(5);
+                                            observationsGalician=translations.get(6);
+                                            observationsGerman=translations.get(7);
+                                            observationsItalian=translations.get(8);
+                                            observationsPortuguese=observationsText;
+                                        }else{
+                                            observationsEnglish= observationsText;
+                                            observationsSpanish=translations.get(0);
+                                            observationsFrench=translations.get(1);
+                                            observationsBasque=translations.get(2);
+                                            observationsCatalan=translations.get(3);
+                                            observationsDutch=translations.get(4);
+                                            observationsGalician=translations.get(5);
+                                            observationsGerman=translations.get(6);
+                                            observationsItalian=translations.get(7);
+                                            observationsPortuguese=translations.get(8);
+                                        }
                                     }
+
+                                    long creation_date= creationDate.getTimeInMillis();
+                                    StringBuilder evaluationDatesStr=new StringBuilder();
+
+                                    for(int i=0;i<evaluationDates.size();i++){
+                                        evaluationDatesStr.append(evaluationDates.get(i).getTimeInMillis());
+                                        if(i<evaluationDates.size()-1){
+                                            evaluationDatesStr.append(",");
+                                        }
+                                    }
+
+                                    EvaluatorTeam evaluatorTeam=new EvaluatorTeam(idEvaluatorTeam[0],creation_date,professional.getEmailUser(),responsible.getEmailUser(),otherMembers.getText().toString(),1,"EVALUATOR",centerSelected.getIdOrganization(),centerSelected.getOrgType(),centerSelected.getIdCenter(),centerSelected.getIllness(),consultant.getText().toString(),patient.getText().toString(),relative.getText().toString(),observationsEnglish,observationsSpanish,observationsFrench,observationsBasque,observationsCatalan,observationsDutch,observationsGalician,observationsGerman,observationsItalian,observationsPortuguese,evaluationDatesStr.toString(),0,evaluationDates.size(),imgEvalTeamName);
+
+
+                                    EvaluatorTeamsController.Create(evaluatorTeam);
+                                    try {
+                                        Thread.sleep(300);
+                                    } catch (InterruptedException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                    int idTitle=R.string.evaluation_team_registered;
+                                    int idMsg=R.string.choose_other;
+                                    StringPasser.createInstance(idTitle,idMsg);
+                                    AddNewEvalTeamUtil.removeInstance();
+                                    runOnUiThread(()->{
+                                        Intent intent=new Intent(getApplicationContext(), MainMenu.class);
+                                        setResult(RESULT_OK,intent);
+                                        finish();
+                                    });
                                 }).start();
-                            }
+                            });
 
 
-                            new Thread(()->{
-                                String observationsEnglish="";
-                                String observationsSpanish="";
-                                String observationsFrench="";
-                                String observationsBasque="";
-                                String observationsCatalan="";
-                                String observationsDutch="";
-                                String observationsGalician="";
-                                String observationsGerman="";
-                                String observationsItalian="";
-                                String observationsPortuguese="";
 
-                                String observationsText=observations.getText().toString();
-                                if(!observationsText.isEmpty()){
-                                    List<String> translations=TranslatorController.getInstance().translate(observationsText,Locale.getDefault().getLanguage());
-                                    if(Locale.getDefault().getLanguage().equals("es")){
-                                        observationsEnglish= translations.get(0);
-                                        observationsSpanish=observationsText;
-                                        observationsFrench=translations.get(1);
-                                        observationsBasque=translations.get(2);
-                                        observationsCatalan=translations.get(3);
-                                        observationsDutch=translations.get(4);
-                                        observationsGalician=translations.get(5);
-                                        observationsGerman=translations.get(6);
-                                        observationsItalian=translations.get(7);
-                                        observationsPortuguese=translations.get(8);
-                                    }else if(Locale.getDefault().getLanguage().equals("fr")){
-                                        observationsEnglish= translations.get(0);
-                                        observationsSpanish=translations.get(1);
-                                        observationsFrench=observationsText;
-                                        observationsBasque=translations.get(2);
-                                        observationsCatalan=translations.get(3);
-                                        observationsDutch=translations.get(4);
-                                        observationsGalician=translations.get(5);
-                                        observationsGerman=translations.get(6);
-                                        observationsItalian=translations.get(7);
-                                        observationsPortuguese=translations.get(8);
-                                    }else if(Locale.getDefault().getLanguage().equals("eu")){
-                                        observationsEnglish= translations.get(0);
-                                        observationsSpanish=translations.get(1);
-                                        observationsFrench=translations.get(2);
-                                        observationsBasque=observationsText;
-                                        observationsCatalan=translations.get(3);
-                                        observationsDutch=translations.get(4);
-                                        observationsGalician=translations.get(5);
-                                        observationsGerman=translations.get(6);
-                                        observationsItalian=translations.get(7);
-                                        observationsPortuguese=translations.get(8);
-                                    }else if(Locale.getDefault().getLanguage().equals("ca")){
-                                        observationsEnglish= translations.get(0);
-                                        observationsSpanish=translations.get(1);
-                                        observationsFrench=translations.get(2);
-                                        observationsBasque=translations.get(3);
-                                        observationsCatalan=observationsText;
-                                        observationsDutch=translations.get(4);
-                                        observationsGalician=translations.get(5);
-                                        observationsGerman=translations.get(6);
-                                        observationsItalian=translations.get(7);
-                                        observationsPortuguese=translations.get(8);
-                                    }else if(Locale.getDefault().getLanguage().equals("nl")){
-                                        observationsEnglish= translations.get(0);
-                                        observationsSpanish=translations.get(1);
-                                        observationsFrench=translations.get(2);
-                                        observationsBasque=translations.get(3);
-                                        observationsCatalan=translations.get(4);
-                                        observationsDutch=observationsText;
-                                        observationsGalician=translations.get(5);
-                                        observationsGerman=translations.get(6);
-                                        observationsItalian=translations.get(7);
-                                        observationsPortuguese=translations.get(8);
-                                    }else if(Locale.getDefault().getLanguage().equals("gl")){
-                                        observationsEnglish= translations.get(0);
-                                        observationsSpanish=translations.get(1);
-                                        observationsFrench=translations.get(2);
-                                        observationsBasque=translations.get(3);
-                                        observationsCatalan=translations.get(4);
-                                        observationsDutch=translations.get(5);
-                                        observationsGalician=observationsText;
-                                        observationsGerman=translations.get(6);
-                                        observationsItalian=translations.get(7);
-                                        observationsPortuguese=translations.get(8);
-                                    }else if(Locale.getDefault().getLanguage().equals("de")){
-                                        observationsEnglish= translations.get(0);
-                                        observationsSpanish=translations.get(1);
-                                        observationsFrench=translations.get(2);
-                                        observationsBasque=translations.get(3);
-                                        observationsCatalan=translations.get(4);
-                                        observationsDutch=translations.get(5);
-                                        observationsGalician=translations.get(6);
-                                        observationsGerman=observationsText;
-                                        observationsItalian=translations.get(7);
-                                        observationsPortuguese=translations.get(8);
-                                    }else if(Locale.getDefault().getLanguage().equals("it")){
-                                        observationsEnglish= translations.get(0);
-                                        observationsSpanish=translations.get(1);
-                                        observationsFrench=translations.get(2);
-                                        observationsBasque=translations.get(3);
-                                        observationsCatalan=translations.get(4);
-                                        observationsDutch=translations.get(5);
-                                        observationsGalician=translations.get(6);
-                                        observationsGerman=translations.get(7);
-                                        observationsItalian=observationsText;
-                                        observationsPortuguese=translations.get(8);
-                                    }else if(Locale.getDefault().getLanguage().equals("pt")){
-                                        observationsEnglish= translations.get(0);
-                                        observationsSpanish=translations.get(1);
-                                        observationsFrench=translations.get(2);
-                                        observationsBasque=translations.get(3);
-                                        observationsCatalan=translations.get(4);
-                                        observationsDutch=translations.get(5);
-                                        observationsGalician=translations.get(6);
-                                        observationsGerman=translations.get(7);
-                                        observationsItalian=translations.get(8);
-                                        observationsPortuguese=observationsText;
-                                    }else{
-                                        observationsEnglish= observationsText;
-                                        observationsSpanish=translations.get(0);
-                                        observationsFrench=translations.get(1);
-                                        observationsBasque=translations.get(2);
-                                        observationsCatalan=translations.get(3);
-                                        observationsDutch=translations.get(4);
-                                        observationsGalician=translations.get(5);
-                                        observationsGerman=translations.get(6);
-                                        observationsItalian=translations.get(7);
-                                        observationsPortuguese=translations.get(8);
-                                    }
+
+
+                        } else{
+                            //base.setVisibility(View.VISIBLE);
+                            //finalBackground.setVisibility(View.GONE)
+
+                            runOnUiThread(()->{
+                                String msg="<ul>";
+                                chargingScreenDialog.hide();
+                                int numErrors=0;
+                                if(centerSelected==centers.get(0)){
+                                    msg+="<li><b>"+getString(R.string.please_select_center)+"</b></li>";
+                                    numErrors++;
                                 }
-
-                                long creation_date= creationDate.getTimeInMillis();
-                                StringBuilder evaluationDatesStr=new StringBuilder();
-
-                                for(int i=0;i<evaluationDates.size();i++){
-                                    evaluationDatesStr.append(evaluationDates.get(i).getTimeInMillis());
-                                    if(i<evaluationDates.size()-1){
-                                        evaluationDatesStr.append(",");
-                                    }
+                                if(responsible==null || responsible.getEmailUser().equals("-1")){
+                                    msg+="<li><b>"+getString(R.string.please_responsible)+"</b></li>";
+                                    numErrors++;
                                 }
-
-                                EvaluatorTeam evaluatorTeam=new EvaluatorTeam(idEvaluatorTeam[0],creation_date,professional.getEmailUser(),responsible.getEmailUser(),otherMembers.getText().toString(),1,"EVALUATOR",centerSelected.getIdOrganization(),centerSelected.getOrgType(),centerSelected.getIdCenter(),centerSelected.getIllness(),consultant.getText().toString(),patient.getText().toString(),relative.getText().toString(),observationsEnglish,observationsSpanish,observationsFrench,observationsBasque,observationsCatalan,observationsDutch,observationsGalician,observationsGerman,observationsItalian,observationsPortuguese,evaluationDatesStr.toString(),0,evaluationDates.size(),imgEvalTeamName);
-
-
-                                EvaluatorTeamsController.Create(evaluatorTeam);
-                                try {
-                                    Thread.sleep(300);
-                                } catch (InterruptedException e) {
-                                    throw new RuntimeException(e);
+                                if(professional==null || professional.getEmailUser().equals("-1")){
+                                    msg+="<li><b>"+getString(R.string.please_professional)+"</b></li>";
+                                    numErrors++;
                                 }
-                                int idTitle=R.string.evaluation_team_registered;
-                                int idMsg=R.string.choose_other;
-                                StringPasser.createInstance(idTitle,idMsg);
-
-                                runOnUiThread(()->{
-                                    Intent intent=new Intent(getApplicationContext(), MainMenu.class);
-                                    setResult(RESULT_OK,intent);
-                                    finish();
-                                });
-
-
-
-                            }).start();
-
-
-
-
+                                if(patient.getText().toString().isEmpty()){
+                                    msg+="<li><b>"+getString(R.string.please_patient_name)+"</b></li>";
+                                    patient.setError(getString(R.string.please_patient_name));
+                                    numErrors++;
+                                }
+                                if(relative.getText().toString().isEmpty()){
+                                    msg+="<li><b>"+getString(R.string.please_relative_name)+"</b></li>";
+                                    relative.setError(getString(R.string.please_relative_name));
+                                    numErrors++;
+                                }
+                                if(creationDate==null){
+                                    msg+="<li><b>"+getString(R.string.please_enter_creation_date)+"</b></li>";
+                                    creationDateEditText.setError(getString(R.string.please_enter_creation_date));
+                                    numErrors++;
+                                }
+                                if(evaluationDates==null || evaluationDates.isEmpty()){
+                                    msg+="<li><b>"+getString(R.string.must_select_three_eval_dates)+"</b></li>";
+                                    evaluationDatesEditText.setError(getString(R.string.must_select_three_eval_dates));
+                                    numErrors++;
+                                }
+                                if(consultant.getText().toString().isEmpty()){
+                                    msg+="<li><b>"+getString(R.string.please_consultant)+"</b></li>";
+                                    consultant.setError(getString(R.string.please_consultant));
+                                    numErrors++;
+                                }
+                                if(!checked){
+                                    msg+="<li><b>"+getString(R.string.you_must_LOPD)+"</b></li>";
+                                    numErrors++;
+                                }
+                                msg+="</ul>";
+                                int idTitle=-1;
+                                if(numErrors>1){
+                                    idTitle=R.string.errors;
+                                }else{
+                                    idTitle=R.string.error;
+                                }
+                                new AwesomeErrorDialog(RegisterNewEvaluatorTeam.this)
+                                        .setTitle(idTitle)
+                                        .setMessage(Html.fromHtml(msg,0))
+                                        .setColoredCircle(com.aminography.primedatepicker.R.color.redA700)
+                                        .setCancelable(true).setButtonText(getString(R.string.understood))
+                                        .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.redA700)
+                                        .setButtonText(getString(R.string.understood))
+                                        .setErrorButtonClick(new Closure() {
+                                            @Override
+                                            public void exec() {
+                                                // click
+                                            }
+                                        })
+                                        .show();
+                            });
 
                         }
-                    }, 100);
-                } else{
-                    //base.setVisibility(View.VISIBLE);
-                    //finalBackground.setVisibility(View.GONE)
-                    chargingScreenDialog.hide();
-                    String msg="<ul>";
-                    int numErrors=0;
-                    if(centerSelected==centers.get(0)){
-                        msg+="<li><b>"+getString(R.string.please_select_center)+"</b></li>";
-                        numErrors++;
-                    }
-                    if(responsible.getEmailUser().equals("-")){
-                        msg+="<li><b>"+getString(R.string.please_responsible)+"</b></li>";
-                        numErrors++;
-                    }
-                    if(!professional.getEmailUser().equals("-")){
-                        msg+="<li><b>"+getString(R.string.please_professional)+"</b></li>";
-                        numErrors++;
-                    }
-                    if(patient.getText().toString().isEmpty()){
-                        msg+="<li><b>"+getString(R.string.please_relative_name)+"</b></li>";
-                        numErrors++;
-                    }
-                    if(relative.getText().toString().isEmpty()){
-                        msg+="<li><b>"+getString(R.string.please_relative_name)+"</b></li>";
-                        numErrors++;
-                    }
-                    if(creationDateEditText.getText().toString().isEmpty()){
-                        msg+="<li><b>"+getString(R.string.please_date)+"</b></li>";
-                        numErrors++;
-                    }
-                    if(evaluationDatesEditText.getText().toString().isEmpty()){
-                        msg+="<li><b>"+getString(R.string.must_select_three_eval_dates)+"</b></li>";
-                        numErrors++;
-                    }
-                    if(consultant.getText().toString().isEmpty()){
-                        msg+="<li><b>"+getString(R.string.please_consultant)+"</b></li>";
-                        numErrors++;
-                    }
-                    if(!checked){
-                        msg+="<li><b>"+getString(R.string.you_must_LOPD)+"</b></li>";
-                        numErrors++;
-                    }
-                    msg+="</ul>";
-                    int idTitle=-1;
-                    if(numErrors>1){
-                        idTitle=R.string.errors;
-                    }else{
-                        idTitle=R.string.error;
-                    }
-                    new AwesomeErrorDialog(RegisterNewEvaluatorTeam.this)
-                            .setTitle(idTitle)
-                            .setMessage(Html.fromHtml(msg,0))
-                            .setColoredCircle(com.aminography.primedatepicker.R.color.redA700)
-                            .setCancelable(true).setButtonText(getString(R.string.understood))
-                            .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.redA700)
-                            .setButtonText(getString(R.string.understood))
-                            .setErrorButtonClick(new Closure() {
-                                @Override
-                                public void exec() {
-                                    // click
-                                }
-                            })
-                            .show();
-                }}
+                    }).start();
+
+                }
             });
 
         }
@@ -983,7 +1050,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
-        if(keyCode==event.KEYCODE_BACK){
+        if(keyCode==KeyEvent.KEYCODE_BACK){
             AddNewEvalTeamUtil.removeInstance();
             Intent intent=new Intent(getApplicationContext(), MainMenu.class);
             setResult(RESULT_CANCELED,intent);

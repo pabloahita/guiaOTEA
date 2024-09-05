@@ -593,7 +593,7 @@ public class Register extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
-        if(keyCode==event.KEYCODE_BACK){
+        if(keyCode==KeyEvent.KEYCODE_BACK){
             Intent intent=new Intent(Register.this,MainActivity.class);
             setResult(RESULT_CANCELED,intent);
             finish();

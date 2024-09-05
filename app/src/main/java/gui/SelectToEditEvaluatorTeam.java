@@ -176,7 +176,7 @@ public class SelectToEditEvaluatorTeam extends AppCompatActivity {
                                             EvaluatorTeam aux = evaluatorTeams.get(0);
                                             evaluatorTeams.remove(0);
                                             SelectToEditEvaluatorTeamUtil.getInstance().setEvaluatorTeams(evaluatorTeams);
-                                            evaluatorTeams.add(aux);
+                                            evaluatorTeams.add(0,aux);
                                             runOnUiThread(()->{
                                                 evaluatorTeamsAdapter = new EvaluatorTeamsAdapter(SelectToEditEvaluatorTeam.this, evaluatorTeams);
                                                 evaluatorTeamSpinner.setAdapter(evaluatorTeamsAdapter);
@@ -254,7 +254,7 @@ public class SelectToEditEvaluatorTeam extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
-        if(keyCode==event.KEYCODE_BACK){
+        if(keyCode==KeyEvent.KEYCODE_BACK){
             Intent intent=new Intent(getApplicationContext(), MainMenu.class);
             SelectToEditEvaluatorTeamUtil.removeInstance();
             startActivity(intent);

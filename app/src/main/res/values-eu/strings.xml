@@ -432,4 +432,6 @@
     <string name="please_select_other_eval_team">Mesedez, hautatu beste ebaluazio talde bat</string>
     <string name="no_orgs">Kanpoko erakunderik ez dago</string>
     <string name="please_add_external_org">Mesedez, gehitu kanpoko erakunde bat hasteko</string>
+    <string name="evaluation_dates_misselected">Ebaluazio-dataren aukeraketa okerra</string>
+    <string name="please_enter_creation_date">Mesedez, sartu ebaluazio-taldearen sorrera-data</string>
 </resources>

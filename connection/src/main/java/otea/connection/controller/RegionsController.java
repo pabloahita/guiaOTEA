@@ -98,7 +98,7 @@ public class RegionsController {
      * @param idCountry - Country identifier
      * @return Regions list
      * */
-    public static void GetRegionsByCountry(String idCountry, ListCallback callback){
+    public static void GetRegionsByCountryASync(String idCountry, ListCallback callback){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
             @Override
@@ -160,10 +160,85 @@ public class RegionsController {
         });
     }
 
-    /**
-     * Method that obtains from the database all the regions
-     * @return Region list
-     * */
+    public static List<Region> GetRegionsByCountry(String idCountry) {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Callable<List<JsonObject>> callable = new Callable<List<JsonObject>>() {
+            @Override
+            public List<JsonObject> call() throws Exception {
+                Call<List<JsonObject>> call = api.GetRegionsByCountry(idCountry, Locale.getDefault().getLanguage());
+                Response<List<JsonObject>> response = call.execute();
+                if (response.isSuccessful()) {
+                    return response.body();
+                } else {
+                    throw new IOException("Error: " + response.code() + " " + response.message());
+                }
+            }
+        };
+        try {
+            Future<List<JsonObject>> future = executor.submit(callable);
+            List<JsonObject> list = future.get();
+            executor.shutdown();
+            List<Region> regions=new ArrayList<>();
+            for(JsonObject reg: list){
+                int idRegion=reg.getAsJsonPrimitive("idRegion").getAsInt();
+                String name=reg.getAsJsonPrimitive("name").getAsString();
+                String nameSpanish = "";
+                String nameEnglish = "";
+                String nameFrench = "";
+                String nameBasque = "";
+                String nameCatalan = "";
+                String nameDutch = "";
+                String nameGalician = "";
+                String nameGerman = "";
+                String nameItalian = "";
+                String namePortuguese = "";
+                if(Locale.getDefault().getLanguage().equals("es")){
+                    nameSpanish=name;
+                }else if(Locale.getDefault().getLanguage().equals("fr")){
+                    nameFrench=name;
+                }else if(Locale.getDefault().getLanguage().equals("eu")){
+                    nameBasque=name;
+                }else if(Locale.getDefault().getLanguage().equals("ca")){
+                    nameCatalan=name;
+                }else if(Locale.getDefault().getLanguage().equals("nl")){
+                    nameDutch=name;
+                }else if(Locale.getDefault().getLanguage().equals("gl")){
+                    nameGalician=name;
+                }else if(Locale.getDefault().getLanguage().equals("de")){
+                    nameGerman=name;
+                }else if(Locale.getDefault().getLanguage().equals("it")){
+                    nameItalian=name;
+                }else if(Locale.getDefault().getLanguage().equals("pt")){
+                    namePortuguese=name;
+                }else{
+                    nameEnglish=name;
+                }
+                regions.add(new Region(idRegion,idCountry,nameSpanish,nameEnglish,nameFrench,nameBasque,nameCatalan,nameDutch,nameGalician,nameGerman,nameItalian,namePortuguese));
+            }
+            return regions;
+        } catch (InterruptedException | ExecutionException e) {
+            if(e.getCause() instanceof SocketTimeoutException){
+                numAttempts++;
+                if(numAttempts<3) {
+                    return GetRegionsByCountry(idCountry);
+                }
+                else{
+                    numAttempts=0;
+                    return null;
+                }
+            }
+            else{
+                throw new RuntimeException(e);
+            }
+        }
+
+
+    }
+
+        /**
+         * Method that obtains from the database all the regions
+         * @return Region list
+         * */
     public static List<Region> GetAll(){
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Callable<List<Region>> callable = new Callable<List<Region>>() {

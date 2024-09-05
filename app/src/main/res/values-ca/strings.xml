@@ -433,4 +433,6 @@
     <string name="please_select_other_eval_team">Si us plau, seleccioneu un altre equip avaluador</string>
     <string name="no_orgs">No hi ha organitzacions externes</string>
     <string name="please_add_external_org">Si us plau, afegiu una organització externa per començar</string>
+    <string name="evaluation_dates_misselected">Dates d\'avaluació mal seleccionades</string>
+    <string name="please_enter_creation_date">Si us plau, introdueixi la data de creació de l\'equip avaluador</string>
 </resources>

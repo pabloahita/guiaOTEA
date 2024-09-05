@@ -793,7 +793,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
-        if(keyCode==event.KEYCODE_BACK){
+        if(keyCode==KeyEvent.KEYCODE_BACK){
             if (startSessionLayout.getVisibility() == View.VISIBLE) {
                 welcome.setVisibility(View.VISIBLE);
                 startSessionLayout.setVisibility(View.GONE);

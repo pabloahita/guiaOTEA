@@ -105,6 +105,12 @@ namespace OTEAServer.Controllers
         {
             try
             {
+                if (address.idCity == -1 && address.idProvince == -1 && address.idRegion==-1)
+                {
+                    address.idCity=null;
+                    address.idProvince=null;
+                    address.idRegion = null;
+                }
                 _context.Addresses.Add(address);
                 _context.SaveChanges();
                 return CreatedAtAction(nameof(Get), new { idAddress = address.idAddress }, address);
@@ -139,9 +145,18 @@ namespace OTEAServer.Controllers
 
 
                 existingAddress.addressName = address.addressName;
-                existingAddress.idCity = address.idCity;
-                existingAddress.idProvince = address.idProvince;
-                existingAddress.idRegion = address.idRegion;
+                if (address.idCity == -1 && address.idProvince == -1 && address.idRegion == -1)
+                {
+                    existingAddress.idCity = null;
+                    existingAddress.idProvince = null;
+                    existingAddress.idRegion = null;
+                }
+                else
+                {
+                    existingAddress.idCity = address.idCity;
+                    existingAddress.idProvince = address.idProvince;
+                    existingAddress.idRegion = address.idRegion;
+                }
                 existingAddress.idCountry = address.idCountry;
                 existingAddress.nameCity = address.nameCity;
                 existingAddress.nameProvince = address.nameProvince;

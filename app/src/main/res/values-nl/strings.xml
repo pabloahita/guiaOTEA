@@ -430,4 +430,6 @@
     <string name="please_select_other_eval_team">Selecteer alstublieft een ander evaluatieteam</string>
     <string name="no_orgs">Er zijn geen externe organisaties</string>
     <string name="please_add_external_org">Voeg alstublieft een externe organisatie toe om te beginnen</string>
+    <string name="evaluation_dates_misselected">Onjuist geselecteerde evaluatiedata</string>
+    <string name="please_enter_creation_date">Voer alstublieft de oprichtingsdatum van het evaluatieteam in</string>
 </resources>

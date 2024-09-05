@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import cli.organization.data.Address;
+import misc.FieldChecker;
 import otea.connection.ConnectionClient;
 import otea.connection.api.AddressesApi;
 import retrofit2.Call;
@@ -91,10 +92,15 @@ public class AddressesController {
             for(JsonObject address:list){
                 int idAddress=address.getAsJsonPrimitive("idAddress").getAsInt();
                 String addressName=address.getAsJsonPrimitive("addressName").getAsString();
-                int idCity=address.getAsJsonPrimitive("idCity").getAsInt();
-                int idProvince=address.getAsJsonPrimitive("idProvince").getAsInt();
-                int idRegion=address.getAsJsonPrimitive("idRegion").getAsInt();
                 String idCountry=address.getAsJsonPrimitive("idCountry").getAsString();
+                int idCity=-1;
+                int idProvince=-1;
+                int idRegion=-1;
+                if(FieldChecker.isPrecharged(idCountry)) {
+                    idCity = address.getAsJsonPrimitive("idCity").getAsInt();
+                    idProvince = address.getAsJsonPrimitive("idProvince").getAsInt();
+                    idRegion = address.getAsJsonPrimitive("idRegion").getAsInt();
+                }
                 String nameCity=address.getAsJsonPrimitive("nameCity").getAsString();
                 String nameProvince=address.getAsJsonPrimitive("nameProvince").getAsString();
                 String nameRegion=address.getAsJsonPrimitive("nameRegion").getAsString();

@@ -377,7 +377,7 @@ public class RegisterNewCenter extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 city[0] = cityAdapter[0].getItem(position);
-                idCity[0] = city[0].getIdProvince();
+                idCity[0] = city[0].getIdCity();
                 if(idCity[0]!=-2){
                     if(Locale.getDefault().getLanguage().equals("es")) {
                         fields.replace("nameCity",city[0].getNameSpanish());
@@ -1111,7 +1111,7 @@ public class RegisterNewCenter extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
-        if(keyCode==event.KEYCODE_BACK){
+        if(keyCode==KeyEvent.KEYCODE_BACK){
             Intent intent=new Intent(getApplicationContext(), MainMenu.class);
             setResult(RESULT_CANCELED,intent);
             finish();
@@ -1136,6 +1136,9 @@ public class RegisterNewCenter extends AppCompatActivity {
             if (FieldChecker.isPrecharged(idCountry[0])) {
                 getRegionsByCountry(idCountry[0]);
             } else {
+                idRegion[0]=-1;
+                idProvince[0]=-1;
+                idCity[0]=-1;
                 regionSpinner.setVisibility(View.GONE);
                 provinceSpinner.setVisibility(View.GONE);
                 citySpinner.setVisibility(View.GONE);
@@ -1247,7 +1250,7 @@ public class RegisterNewCenter extends AppCompatActivity {
     public void getRegionsByCountry(String idCountry){
 
         pbRegion.setVisibility(View.VISIBLE);
-        RegionsController.GetRegionsByCountry(idCountry, new ListCallback() {
+        RegionsController.GetRegionsByCountryASync(idCountry, new ListCallback() {
             @Override
             public void onSuccess(List<JsonObject> data) {
                 new Thread(()-> {
@@ -1328,7 +1331,7 @@ public class RegisterNewCenter extends AppCompatActivity {
 
     public void getProvincesByRegion(int idRegion, String idCountry){
         pbProvince.setVisibility(View.VISIBLE);
-        ProvincesController.GetProvincesByRegion(idRegion, idCountry, new ListCallback() {
+        ProvincesController.GetProvincesByRegionASync(idRegion, idCountry, new ListCallback() {
             @Override
             public void onSuccess(List<JsonObject> data) {
 
@@ -1406,7 +1409,7 @@ public class RegisterNewCenter extends AppCompatActivity {
 
     public void getCitiesByProvince(int idProvince, int idRegion, String idCountry) {
         pbCity.setVisibility(View.VISIBLE);
-        CitiesController.GetCitiesByProvince(idProvince, idRegion, idCountry, new ListCallback() {
+        CitiesController.GetCitiesByProvinceASync(idProvince, idRegion, idCountry, new ListCallback() {
             @Override
             public void onSuccess(List<JsonObject> data) {
                 new Thread(()->{
