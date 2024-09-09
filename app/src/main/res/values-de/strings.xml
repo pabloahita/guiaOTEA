@@ -438,4 +438,10 @@
     <string name="simple_evaluation">Es wird eine einfache Bewertung der Indikatoren durchgeführt</string>
     <string name="no_center_selected">Sie haben kein Zentrum ausgewählt</string>
     <string name="no_evaluation_team_selected">Sie haben kein Bewertungsteam ausgewählt</string>
+    <string name="create_team_for_simple">Das Bewertungsteam wird für eine einfache Bewertung erstellt, geben Sie den Namen des externen Beraters ein, damit das Bewertungsteam eine vollständige Bewertung durchführen kann</string>
+    <string name="create_team_for_full">Das Bewertungsteam wird für eine vollständige Bewertung erstellt, entfernen Sie den Namen des externen Beraters, damit das Bewertungsteam eine einfache Bewertung durchführen kann</string>
+    <string name="modify_team_for_simple">Das Bewertungsteam wird für eine einfache Bewertung geändert, geben Sie den Namen des externen Beraters ein, damit das Bewertungsteam eine vollständige Bewertung durchführen kann</string>
+    <string name="modify_team_for_full">Das Bewertungsteam wird für eine vollständige Bewertung geändert, entfernen Sie den Namen des externen Beraters, damit das Bewertungsteam eine einfache Bewertung durchführen kann</string>
+    <string name="server_connection_error">Serververbindungsfehler</string>
+    <string name="retry_request">Bitte senden Sie diese Anfrage erneut</string>
 </resources>

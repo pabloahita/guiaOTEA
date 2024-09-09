@@ -440,4 +440,10 @@
     <string name="simple_evaluation">Es farà una avaluació simple d\'indicadors</string>
     <string name="no_center_selected">No ha seleccionat un centre</string>
     <string name="no_evaluation_team_selected">No ha seleccionat un equip avaluador</string>
+    <string name="create_team_for_simple">Es crearà l\'equip avaluador per a una avaluació simple, introdueixi el nom del consultor extern perquè l\'equip avaluador faci una avaluació completa</string>
+    <string name="create_team_for_full">Es crearà l\'equip avaluador per a una avaluació completa, elimini el nom del consultor extern perquè l\'equip avaluador faci una avaluació simple</string>
+    <string name="modify_team_for_simple">Es modificarà l\'equip avaluador per a una avaluació simple, introdueixi el nom del consultor extern perquè l\'equip avaluador faci una avaluació completa</string>
+    <string name="modify_team_for_full">Es modificarà l\'equip avaluador per a una avaluació completa, elimini el nom del consultor extern perquè l\'equip avaluador faci una avaluació simple</string>
+    <string name="server_connection_error">Error de connexió al servidor</string>
+    <string name="retry_request">Torneu a fer aquesta sol·licitud de nou</string>
 </resources>

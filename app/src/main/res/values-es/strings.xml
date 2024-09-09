@@ -398,4 +398,10 @@
     <string name="simple_evaluation">Se realizará una evaluación simple de indicadores</string>
     <string name="no_center_selected">No ha seleccionado un centro</string>
     <string name="no_evaluation_team_selected">No ha seleccionado un equipo evaluador</string>
+    <string name="create_team_for_simple">Se creará el equipo evaluador para una evaluación simple, introduzca el nombre del consultor externo para que el equipo evaluador sea para una evaluación completa</string>
+    <string name="create_team_for_full">Se creará el equipo evaluador para una evaluación completa, elimine el nombre del consultor externo para que el equipo evaluador sea para una evaluación simple</string>
+    <string name="modify_team_for_simple">Se modificará el equipo evaluador para una evaluación simple, introduzca el nombre del consultor externo para que el equipo evaluador sea para una evaluación completa</string>
+    <string name="modify_team_for_full">Se modificará el equipo evaluador para una evaluación completa, elimine el nombre del consultor externo para que el equipo evaluador sea para una evaluación simple</string>
+    <string name="server_connection_error">Error de conexión al servidor</string>
+    <string name="retry_request">Vuelva a realizar esa solicitud nuevamente</string>
 </resources>

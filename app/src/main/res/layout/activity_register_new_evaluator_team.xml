@@ -85,7 +85,6 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-
         <GridLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -96,6 +95,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" >
+
+
 
             <TextView
                 android:id="@+id/textView"
@@ -204,6 +205,19 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/eval_type"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_rowWeight="0.6"
+                android:textStyle="italic|bold"
+                android:layout_columnWeight="1"
+                android:textSize="10sp"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:text="@string/create_team_for_simple" />
+
             <Spinner
                 android:id="@+id/spinner_select_center"
                 android:layout_width="0dp"
@@ -338,14 +352,16 @@
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
+
+
+
             <CheckBox
                 android:id="@+id/accept_LOPD"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
-                android:autoSizeMaxTextSize="15sp"
-                android:autoSizeMinTextSize="5sp"
+                android:textSize="11sp"
                 android:autoSizeTextType="uniform"
                 android:text="@string/LOPD_user_reg" />
 

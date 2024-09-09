@@ -396,4 +396,10 @@
     <string name="simple_evaluation">Une évaluation simple des indicateurs sera réalisée</string>
     <string name="no_center_selected">Vous n\'avez pas sélectionné de centre</string>
     <string name="no_evaluation_team_selected">Vous n\'avez pas sélectionné d\'équipe d\'évaluation</string>
+    <string name="create_team_for_simple">L\'équipe d\'évaluation sera créée pour une évaluation simple, entrez le nom du consultant externe pour que l\'équipe d\'évaluation effectue une évaluation complète</string>
+    <string name="create_team_for_full">L\'équipe d\'évaluation sera créée pour une évaluation complète, supprimez le nom du consultant externe pour que l\'équipe d\'évaluation effectue une évaluation simple</string>
+    <string name="modify_team_for_simple">L\'équipe d\'évaluation sera modifiée pour une évaluation simple, entrez le nom du consultant externe pour que l\'équipe d\'évaluation effectue une évaluation complète</string>
+    <string name="modify_team_for_full">L\'équipe d\'évaluation sera modifiée pour une évaluation complète, supprimez le nom du consultant externe pour que l\'équipe d\'évaluation effectue une évaluation simple</string>
+    <string name="server_connection_error">Erreur de connexion au serveur</string>
+    <string name="retry_request">Veuillez soumettre à nouveau cette demande</string>
 </resources>

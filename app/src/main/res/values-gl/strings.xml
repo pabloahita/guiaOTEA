@@ -437,4 +437,10 @@
     <string name="simple_evaluation">Realizarase unha avaliación sinxela de indicadores</string>
     <string name="no_center_selected">Non seleccionou un centro</string>
     <string name="no_evaluation_team_selected">Non seleccionou un equipo avaliador</string>
+    <string name="create_team_for_simple">Crearase o equipo avaliador para unha avaliación sinxela, introduza o nome do consultor externo para que o equipo avaliador realice unha avaliación completa</string>
+    <string name="create_team_for_full">Crearase o equipo avaliador para unha avaliación completa, elimine o nome do consultor externo para que o equipo avaliador realice unha avaliación sinxela</string>
+    <string name="modify_team_for_simple">Modificarase o equipo avaliador para unha avaliación sinxela, introduza o nome do consultor externo para que o equipo avaliador realice unha avaliación completa</string>
+    <string name="modify_team_for_full">Modificarase o equipo avaliador para unha avaliación completa, elimine o nome do consultor externo para que o equipo avaliador realice unha avaliación sinxela</string>
+    <string name="server_connection_error">Erro de conexión ao servidor</string>
+    <string name="retry_request">Volva facer esa solicitude novamente</string>
 </resources>

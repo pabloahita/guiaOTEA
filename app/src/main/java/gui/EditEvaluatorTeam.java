@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -143,11 +144,39 @@ public class EditEvaluatorTeam extends AppCompatActivity {
             }
             
             EditText consultant = findViewById(R.id.consultant);
+            TextView eval_type=findViewById(R.id.eval_type);
+            TextView centerDescr=findViewById(R.id.center);
+            Center center=EditEvaluatorTeamUtil.getInstance().getCenter();
+            String description="";
+            if(Locale.getDefault().getLanguage().equals("es")){
+                description="<b>Centro o servicio de la organización: </b><i>"+center.getDescriptionSpanish()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("fr")){
+                description="<b>Centre ou service de l'organisation: </b><i>"+center.getDescriptionFrench()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("eu")){
+                description="<b>Erakundearen edo zerbitzuaren zentroa: </b><i>"+center.getDescriptionBasque()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("ca")){
+                description="<b>Centre o servei de l'organització: </b><i>"+center.getDescriptionCatalan()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("nl")){
+                description="<b>Centrum of dienst van de organisatie: </b><i>"+center.getDescriptionDutch()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("gl")){
+                description="<b>Centro ou servizo da organización: </b><i>"+center.getDescriptionGalician()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("de")){
+                description="<b>Center oder Dienstes der Organisation: </b><i>"+center.getDescriptionGerman()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("it")){
+                description="<b>Centro o servizio dell'organizzazione: </b><i>"+center.getDescriptionItalian()+"</i>";
+            }else if(Locale.getDefault().getLanguage().equals("pt")){
+                description="<b>Centro ou serviço da organização: </b><i>"+center.getDescriptionPortuguese()+"</i>";
+            }else{ //Valor por defecto
+                description="<b>Center or service of the organization: </b><i>"+center.getDescriptionEnglish()+"</i>";
+            }
+
+            centerDescr.setText(Html.fromHtml(description,0));
 
             String externalConsultant=evaluatorTeam.getExternalConsultant();
             if(!externalConsultant.equals("-")) {
                 consultant.setText(externalConsultant);
                 consultant.setCompoundDrawablesWithIntrinsicBounds(null, null, correct, null);
+                eval_type.setText(R.string.modify_team_for_full);
             }
 
             EditText patient = findViewById(R.id.patientName);
@@ -414,9 +443,11 @@ public class EditEvaluatorTeam extends AppCompatActivity {
                     String input=s.toString();
                     if(input.isEmpty()){
                         consultant.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                        eval_type.setText(R.string.modify_team_for_simple);
                     }
                     else{
                         consultant.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+                        eval_type.setText(R.string.modify_team_for_full);
                     }
                 }
 

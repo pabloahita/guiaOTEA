@@ -436,4 +436,10 @@
     <string name="simple_evaluation">A simple evaluation of indicators will be conducted</string>
     <string name="no_center_selected">You have not selected a center</string>
     <string name="no_evaluation_team_selected">You have not selected an evaluation team</string>
+    <string name="create_team_for_simple">The evaluation team will be created for a simple evaluation, enter the name of the external consultant for the evaluation team to conduct a full evaluation</string>
+    <string name="create_team_for_full">The evaluation team will be created for a full evaluation, remove the name of the external consultant for the evaluation team to conduct a simple evaluation</string>
+    <string name="modify_team_for_simple">The evaluation team will be modified for a simple evaluation, enter the name of the external consultant for the evaluation team to conduct a full evaluation</string>
+    <string name="modify_team_for_full">The evaluation team will be modified for a full evaluation, remove the name of the external consultant for the evaluation team to conduct a simple evaluation</string>
+    <string name="server_connection_error">Server connection error</string>
+    <string name="retry_request">Please retry that request again</string>
 </resources>

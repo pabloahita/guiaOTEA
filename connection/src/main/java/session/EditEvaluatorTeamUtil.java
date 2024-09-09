@@ -6,12 +6,15 @@ import cli.organization.Organization;
 import cli.organization.data.Center;
 import cli.organization.data.EvaluatorTeam;
 import cli.user.User;
+import otea.connection.controller.CentersController;
 import otea.connection.controller.UsersController;
 
 public class EditEvaluatorTeamUtil {
 
 
     EvaluatorTeam evaluatorTeam;
+
+    Center center;
 
     List<User> evaluatedUsers;
 
@@ -21,6 +24,7 @@ public class EditEvaluatorTeamUtil {
 
         setEvaluatorTeam(evaluatorTeam);
         Organization org=Session.getInstance().getOrganization();
+        this.center= CentersController.Get(org,evaluatorTeam.getIdCenter());
         this.evaluatedUsers= UsersController.GetAllOrgUsersByOrganization(org.getIdOrganization(),org.getOrgType(),org.getIllness());
     }
 
@@ -50,5 +54,13 @@ public class EditEvaluatorTeamUtil {
 
     public void setEvaluatedUsers(List<User> evaluatedUsers) {
         this.evaluatedUsers = evaluatedUsers;
+    }
+
+    public Center getCenter() {
+        return center;
+    }
+
+    public void setCenter(Center center) {
+        this.center = center;
     }
 }

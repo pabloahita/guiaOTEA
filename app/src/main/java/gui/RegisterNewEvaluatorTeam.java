@@ -29,6 +29,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.aminography.primecalendar.PrimeCalendar;
 import com.aminography.primecalendar.civil.CivilCalendar;
@@ -185,6 +186,8 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
             imageEvalTeam=findViewById(R.id.profilePhoto);
 
             helpButton=findViewById(R.id.helpButton);
+
+            TextView eval_type=findViewById(R.id.eval_type);
 
 
             ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
@@ -353,9 +356,11 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                     String input=s.toString();
                     if(input.isEmpty()){
                         consultant.setCompoundDrawablesWithIntrinsicBounds(null,null,null,null);
+                        eval_type.setText(R.string.create_team_for_simple);
                     }
                     else{
                         consultant.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+                        eval_type.setText(R.string.create_team_for_full);
                     }
                 }
 

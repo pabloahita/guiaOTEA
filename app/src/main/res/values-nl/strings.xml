@@ -437,4 +437,10 @@
     <string name="simple_evaluation">Er zal een eenvoudige evaluatie van indicatoren worden uitgevoerd</string>
     <string name="no_center_selected">U heeft geen centrum geselecteerd</string>
     <string name="no_evaluation_team_selected">U heeft geen evaluatieteam geselecteerd</string>
+    <string name="create_team_for_simple">Het evaluatieteam wordt aangemaakt voor een eenvoudige evaluatie, voer de naam van de externe consultant in zodat het evaluatieteam een volledige evaluatie kan uitvoeren</string>
+    <string name="create_team_for_full">Het evaluatieteam wordt aangemaakt voor een volledige evaluatie, verwijder de naam van de externe consultant zodat het evaluatieteam een eenvoudige evaluatie kan uitvoeren</string>
+    <string name="modify_team_for_simple">Het evaluatieteam wordt aangepast voor een eenvoudige evaluatie, voer de naam van de externe consultant in zodat het evaluatieteam een volledige evaluatie kan uitvoeren</string>
+    <string name="modify_team_for_full">Het evaluatieteam wordt aangepast voor een volledige evaluatie, verwijder de naam van de externe consultant zodat het evaluatieteam een eenvoudige evaluatie kan uitvoeren</string>
+    <string name="server_connection_error">Server verbindingsfout</string>
+    <string name="retry_request">Dien dat verzoek opnieuw in</string>
 </resources>

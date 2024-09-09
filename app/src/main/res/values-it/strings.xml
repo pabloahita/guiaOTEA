@@ -434,4 +434,10 @@
     <string name="simple_evaluation">Verrà effettuata una valutazione semplice degli indicatori</string>
     <string name="no_center_selected">Non ha selezionato un centro</string>
     <string name="no_evaluation_team_selected">Non ha selezionato un team di valutazione</string>
+    <string name="create_team_for_simple">Il team di valutazione sarà creato per una valutazione semplice, inserisci il nome del consulente esterno affinché il team di valutazione possa effettuare una valutazione completa</string>
+    <string name="create_team_for_full">Il team di valutazione sarà creato per una valutazione completa, rimuovi il nome del consulente esterno affinché il team di valutazione possa effettuare una valutazione semplice</string>
+    <string name="modify_team_for_simple">Il team di valutazione sarà modificato per una valutazione semplice, inserisci il nome del consulente esterno affinché il team di valutazione possa effettuare una valutazione completa</string>
+    <string name="modify_team_for_full">Il team di valutazione sarà modificato per una valutazione completa, rimuovi il nome del consulente esterno affinché il team di valutazione possa effettuare una valutazione semplice</string>
+    <string name="server_connection_error">Errore di connessione al server</string>
+    <string name="retry_request">Si prega di inviare nuovamente la richiesta</string>
 </resources>

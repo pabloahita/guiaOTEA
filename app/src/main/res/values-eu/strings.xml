@@ -439,4 +439,10 @@
     <string name="simple_evaluation">Adierazleen ebaluazio sinplea egingo da</string>
     <string name="no_center_selected">Ez du zentro bat aukeratu</string>
     <string name="no_evaluation_team_selected">Ez du ebaluazio-talde bat aukeratu</string>
+    <string name="create_team_for_simple">Ebaluazio-taldea ebaluazio sinple baterako sortuko da, sartu kanpo-aholkulariaren izena ebaluazio-taldeak ebaluazio osoa egiteko</string>
+    <string name="create_team_for_full">Ebaluazio-taldea ebaluazio oso baterako sortuko da, kendu kanpo-aholkulariaren izena ebaluazio-taldeak ebaluazio sinplea egiteko</string>
+    <string name="modify_team_for_simple">Ebaluazio-taldea ebaluazio sinple baterako aldatuko da, sartu kanpo-aholkulariaren izena ebaluazio-taldeak ebaluazio osoa egiteko</string>
+    <string name="modify_team_for_full">Ebaluazio-taldea ebaluazio oso baterako aldatuko da, kendu kanpo-aholkulariaren izena ebaluazio-taldeak ebaluazio sinplea egiteko</string>
+    <string name="server_connection_error">Zerbitzariarekin konexio errorea</string>
+    <string name="retry_request">Saiatu eskaera hori berriro egiten</string>
 </resources>

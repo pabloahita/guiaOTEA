@@ -249,6 +249,22 @@ public class MainMenu extends AppCompatActivity{
                                 })
                                 .show();
                     }
+                    else{
+                        new AwesomeErrorDialog(MainMenu.this)
+                                .setTitle(R.string.server_connection_error)
+                                .setMessage(R.string.retry_request)
+                                .setColoredCircle(com.aminography.primedatepicker.R.color.redA700)
+                                .setCancelable(true).setButtonText(getString(R.string.understood))
+                                .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.redA700)
+                                .setButtonText(getString(R.string.understood))
+                                .setErrorButtonClick(new Closure() {
+                                    @Override
+                                    public void exec() {
+                                        // click
+                                    }
+                                })
+                                .show();
+                    }
                 });
 
 
