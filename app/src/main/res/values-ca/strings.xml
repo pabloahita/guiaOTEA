@@ -435,4 +435,9 @@
     <string name="please_add_external_org">Si us plau, afegiu una organització externa per començar</string>
     <string name="evaluation_dates_misselected">Dates d\'avaluació mal seleccionades</string>
     <string name="please_enter_creation_date">Si us plau, introdueixi la data de creació de l\'equip avaluador</string>
+    <string name="not_applicable">No precisa</string>
+    <string name="full_evaluation">Es farà una avaluació completa d\'indicadors</string>
+    <string name="simple_evaluation">Es farà una avaluació simple d\'indicadors</string>
+    <string name="no_center_selected">No ha seleccionat un centre</string>
+    <string name="no_evaluation_team_selected">No ha seleccionat un equip avaluador</string>
 </resources>

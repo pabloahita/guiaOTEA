@@ -20,6 +20,7 @@ import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeProgressDialog;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeWarningDialog;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.fundacionmiradas.indicatorsevaluation.R;
 import com.google.gson.JsonObject;
@@ -128,14 +129,14 @@ public class SelectToEditEvaluatorTeam extends AppCompatActivity {
                         //base.setVisibility(View.VISIBLE);
                         //final_background.setVisibility(View.GONE);
                         chargingDialog.hide();
-                        new AwesomeErrorDialog(SelectToEditEvaluatorTeam.this)
-                                .setTitle(R.string.error)
+                        new AwesomeWarningDialog(SelectToEditEvaluatorTeam.this)
+                                .setTitle(R.string.no_evaluation_team_selected)
                                 .setMessage(R.string.please_select_eval_team)
-                                .setColoredCircle(com.aminography.primedatepicker.R.color.redA700)
+                                .setColoredCircle(com.aminography.primedatepicker.R.color.yellowA700)
                                 .setCancelable(true).setButtonText(getString(R.string.understood))
-                                .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.redA700)
+                                .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.yellowA700)
                                 .setButtonText(getString(R.string.understood))
-                                .setErrorButtonClick(new Closure() {
+                                .setWarningButtonClick(new Closure() {
                                     @Override
                                     public void exec() {
                                         // click
@@ -216,14 +217,14 @@ public class SelectToEditEvaluatorTeam extends AppCompatActivity {
                                 .show();
                     } else {
 
-                        new AwesomeErrorDialog(SelectToEditEvaluatorTeam.this)
-                                .setTitle(R.string.error)
+                        new AwesomeWarningDialog(SelectToEditEvaluatorTeam.this)
+                                .setTitle(R.string.no_evaluation_team_selected)
                                 .setMessage(R.string.please_select_eval_team)
-                                .setColoredCircle(com.aminography.primedatepicker.R.color.redA700)
+                                .setColoredCircle(com.aminography.primedatepicker.R.color.yellowA700)
                                 .setCancelable(true).setButtonText(getString(R.string.understood))
-                                .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.redA700)
+                                .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.yellowA700)
                                 .setButtonText(getString(R.string.understood))
-                                .setErrorButtonClick(new Closure() {
+                                .setWarningButtonClick(new Closure() {
                                     @Override
                                     public void exec() {
                                         // click

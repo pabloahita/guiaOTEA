@@ -432,4 +432,9 @@
     <string name="please_add_external_org">Voeg alstublieft een externe organisatie toe om te beginnen</string>
     <string name="evaluation_dates_misselected">Onjuist geselecteerde evaluatiedata</string>
     <string name="please_enter_creation_date">Voer alstublieft de oprichtingsdatum van het evaluatieteam in</string>
+    <string name="not_applicable">Niet van toepassing</string>
+    <string name="full_evaluation">Er zal een volledige evaluatie van indicatoren worden uitgevoerd</string>
+    <string name="simple_evaluation">Er zal een eenvoudige evaluatie van indicatoren worden uitgevoerd</string>
+    <string name="no_center_selected">U heeft geen centrum geselecteerd</string>
+    <string name="no_evaluation_team_selected">U heeft geen evaluatieteam geselecteerd</string>
 </resources>

@@ -146,6 +146,8 @@ public class MainMenu extends AppCompatActivity{
                 result -> {
                     if (result.getResultCode() == RESULT_FIRST_USER) {
                         chargingScreenDialog.hide();
+                        addNewIndicatorsTest.setEnabled(true);
+                        continueIndicatorsTest.setEnabled(true);
                         aboutMe.setEnabled(true);
                         editUser.setEnabled(true);
                         seeRealizedIndicatorTest.setEnabled(true);
@@ -176,6 +178,8 @@ public class MainMenu extends AppCompatActivity{
                 result -> {
                     if (result.getResultCode() == RESULT_FIRST_USER) {
                         chargingScreenDialog.hide();
+                        addNewIndicatorsTest.setEnabled(true);
+                        continueIndicatorsTest.setEnabled(true);
                         aboutMe.setEnabled(true);
                         editUser.setEnabled(true);
                         seeRealizedIndicatorTest.setEnabled(true);
@@ -215,6 +219,8 @@ public class MainMenu extends AppCompatActivity{
                         addNewOrg.setEnabled(true);
                     }
                     else if(user.getUserType().equals("DIRECTOR")){
+                        addNewIndicatorsTest.setEnabled(true);
+                        continueIndicatorsTest.setEnabled(true);
                         addNewOrgCenter.setEnabled(true);
                         addNewEvalTeam.setEnabled(true);
                         editOrg.setEnabled(true);
@@ -274,6 +280,8 @@ public class MainMenu extends AppCompatActivity{
                 dirEvaluated.setVisibility(View.VISIBLE);
                 superuser.setVisibility(View.GONE);
                 organization.setVisibility(View.GONE);
+                addNewIndicatorsTest=findViewById(R.id.addNewIndicatorsTestDirEvalButton);
+                continueIndicatorsTest=findViewById(R.id.continueIndicatorsTestDirEvalButton);
                 addNewOrgCenter=findViewById(R.id.addNewOrgCenterDirEvalButton);
                 addNewEvalTeam=findViewById(R.id.addNewEvalTeamDirEvalButton);
                 seeRealizedIndicatorTest=findViewById(R.id.seeRealizedIndicatorTestDirEvalButton);
@@ -305,14 +313,26 @@ public class MainMenu extends AppCompatActivity{
 
             if(addNewIndicatorsTest!=null) {
                 addNewIndicatorsTest.setOnClickListener(v -> {
+                    int idTitle=-1;
                     addNewIndicatorsTest.setEnabled(false);
                     continueIndicatorsTest.setEnabled(false);
                     editUser.setEnabled(false);
-                    addNewOrg.setEnabled(false);
+                    if(Session.getInstance().getUser().getUserType().equals("ADMIN")) {
+                        addNewOrg.setEnabled(false);
+                        idTitle=R.string.loading_list_of_organizations;
+                    }else{
+                        addNewOrgCenter.setEnabled(false);
+                        addNewEvalTeam.setEnabled(false);
+                        editOrg.setEnabled(false);
+                        editOrgCenters.setEnabled(false);
+                        editEvaluatorTeam.setEnabled(false);
+                        idTitle=R.string.loading_list_of_centers_or_services;
+                    }
                     seeRealizedIndicatorTest.setEnabled(false);
                     aboutMe.setEnabled(false);
-                    showChargingMessage(R.string.loading_list_of_organizations,R.string.please_wait);
-                    if(!SelectToIndicatorsEvaluationUtil.getInstance().getOrganizations().isEmpty()) {
+                    showChargingMessage(idTitle,R.string.please_wait);
+                    if((Session.getInstance().getUser().getUserType().equals("ADMIN") && !SelectToIndicatorsEvaluationUtil.getInstance().getOrganizations().isEmpty())
+                     || (Session.getInstance().getUser().getUserType().equals("DIRECTOR") && !SelectToIndicatorsEvaluationUtil.getInstance().getCenters().isEmpty())){
                         new Thread(() -> {
                             try {
                                 Thread.sleep(300);
@@ -329,7 +349,15 @@ public class MainMenu extends AppCompatActivity{
                         addNewIndicatorsTest.setEnabled(true);
                         continueIndicatorsTest.setEnabled(true);
                         editUser.setEnabled(true);
-                        addNewOrg.setEnabled(true);
+                        if(Session.getInstance().getUser().getUserType().equals("ADMIN")) {
+                            addNewOrg.setEnabled(true);
+                        }else{
+                            addNewOrgCenter.setEnabled(true);
+                            addNewEvalTeam.setEnabled(true);
+                            editOrg.setEnabled(true);
+                            editOrgCenters.setEnabled(true);
+                            editEvaluatorTeam.setEnabled(true);
+                        }
                         seeRealizedIndicatorTest.setEnabled(true);
                         aboutMe.setEnabled(true);
                         new AwesomeWarningDialog(MainMenu.this)
@@ -353,14 +381,26 @@ public class MainMenu extends AppCompatActivity{
 
             if(continueIndicatorsTest!=null) {
                 continueIndicatorsTest.setOnClickListener(v -> {
+                    int idTitle=-1;
                     addNewIndicatorsTest.setEnabled(false);
                     continueIndicatorsTest.setEnabled(false);
                     editUser.setEnabled(false);
-                    addNewOrg.setEnabled(false);
+                    if(Session.getInstance().getUser().getUserType().equals("ADMIN")) {
+                        idTitle=R.string.loading_list_of_organizations;
+                        addNewOrg.setEnabled(false);
+                    }else{
+                        idTitle=R.string.loading_list_of_centers_or_services;
+                        addNewOrgCenter.setEnabled(false);
+                        addNewEvalTeam.setEnabled(false);
+                        editOrg.setEnabled(false);
+                        editOrgCenters.setEnabled(false);
+                        editEvaluatorTeam.setEnabled(false);
+                    }
                     seeRealizedIndicatorTest.setEnabled(false);
                     aboutMe.setEnabled(false);
-                    showChargingMessage(R.string.loading_list_of_organizations,R.string.please_wait);
-                    if(!SelectToIndicatorsEvaluationUtil.getInstance().getOrganizations().isEmpty()) {
+                    showChargingMessage(idTitle,R.string.please_wait);
+                    if((Session.getInstance().getUser().getUserType().equals("ADMIN") && !SelectToIndicatorsEvaluationUtil.getInstance().getOrganizations().isEmpty())
+                            || (Session.getInstance().getUser().getUserType().equals("DIRECTOR") && !SelectToIndicatorsEvaluationUtil.getInstance().getCenters().isEmpty())){
                         new Thread(() -> {
                             try {
                                 Thread.sleep(300);
@@ -377,7 +417,15 @@ public class MainMenu extends AppCompatActivity{
                         addNewIndicatorsTest.setEnabled(true);
                         continueIndicatorsTest.setEnabled(true);
                         editUser.setEnabled(true);
-                        addNewOrg.setEnabled(true);
+                        if(Session.getInstance().getUser().getUserType().equals("ADMIN")) {
+                            addNewOrg.setEnabled(true);
+                        }else{
+                            addNewOrgCenter.setEnabled(true);
+                            addNewEvalTeam.setEnabled(true);
+                            editOrg.setEnabled(true);
+                            editOrgCenters.setEnabled(true);
+                            editEvaluatorTeam.setEnabled(true);
+                        }
                         seeRealizedIndicatorTest.setEnabled(true);
                         aboutMe.setEnabled(true);
                         new AwesomeWarningDialog(MainMenu.this)
@@ -409,6 +457,8 @@ public class MainMenu extends AppCompatActivity{
                         addNewOrg.setEnabled(false);
                     }
                     else if(user.getUserType().equals("DIRECTOR")){
+                        addNewIndicatorsTest.setEnabled(false);
+                        continueIndicatorsTest.setEnabled(false);
                         addNewOrgCenter.setEnabled(false);
                         addNewEvalTeam.setEnabled(false);
                         editOrg.setEnabled(false);
@@ -586,7 +636,8 @@ public class MainMenu extends AppCompatActivity{
                         editEvaluatorTeam.setEnabled(false);
                     }
                     showChargingMessage(title,R.string.please_wait);
-                    if(!SelectToIndicatorsEvaluationUtil.getInstance().getOrganizations().isEmpty()) {
+                    if((Session.getInstance().getUser().getUserType().equals("ADMIN") && !SelectToIndicatorsEvaluationUtil.getInstance().getOrganizations().isEmpty())
+                            || (Session.getInstance().getUser().getUserType().equals("DIRECTOR") && !SelectToIndicatorsEvaluationUtil.getInstance().getCenters().isEmpty())){
                         new Thread(() -> {
                             try {
                                 Thread.sleep(300);

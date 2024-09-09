@@ -1171,7 +1171,7 @@ namespace OTEAServer.Controllers
         /// <param name="indicatorsEvaluation">Indicators evaluation</param>
         /// <returns>Indicators evaluation if success, null if not</returns>
         [HttpPost]
-        [Authorize(Policy = "Administrator")]
+        [Authorize(Roles = "ADMIN,DIRECTOR")]
         public IActionResult Create([FromBody] IndicatorsEvaluation indicatorsEvaluation, [FromHeader] string Authorization)
         {
             try
@@ -1201,7 +1201,7 @@ namespace OTEAServer.Controllers
         /// <param name="indicatorsEvaluation">Indicators evaluation</param>
         /// <returns>Indicators evaluation if success, null if not</returns>
         [HttpPut]
-        [Authorize(Policy = "Administrator")]
+        [Authorize(Roles = "ADMIN,DIRECTOR")]
         public IActionResult Update([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] string evaluationType, [FromBody] IndicatorsEvaluation indicatorsEvaluation, [FromHeader] string Authorization)
         {
             try
@@ -1270,7 +1270,7 @@ namespace OTEAServer.Controllers
         /// <param name="evaluationType">Evaluation type</param>
         /// <returns>Indicators evaluation if success, null if not</returns>
         [HttpDelete]
-        [Authorize(Policy = "Administrator")]
+        [Authorize]
         public IActionResult Delete([FromQuery] long evaluationDate, [FromQuery] int idEvaluatorTeam, [FromQuery] int idEvaluatorOrganization, [FromQuery] string orgTypeEvaluator, [FromQuery] int idEvaluatedOrganization, [FromQuery] string orgTypeEvaluated, [FromQuery] string illness, [FromQuery] int idCenter, [FromQuery] string evaluationType, [FromHeader] string Authorization)
         {
             try
@@ -1297,7 +1297,7 @@ namespace OTEAServer.Controllers
         /// <param name="indicatorsEvaluation">Indicator evaluation with no results</param>
         /// <returns>Indicators evaluation if success, null if not</returns>
         [HttpPut("result")]
-        [Authorize(Policy = "Administrator")]
+        [Authorize(Roles = "ADMIN,DIRECTOR")]
         public IActionResult calculateResults([FromBody] IndicatorsEvaluation indicatorsEvaluation, [FromHeader] string Authorization) {
             try
             {

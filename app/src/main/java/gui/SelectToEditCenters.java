@@ -19,6 +19,7 @@ import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeErrorDialog;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeInfoDialog;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeProgressDialog;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeWarningDialog;
 import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.fundacionmiradas.indicatorsevaluation.R;
 import com.google.gson.JsonObject;
@@ -124,14 +125,14 @@ public class SelectToEditCenters extends AppCompatActivity {
                         //final_background.setVisibility(View.GONE);
                         //base.setVisibility(View.VISIBLE);
                         chargingDialog.hide();
-                        new AwesomeErrorDialog(SelectToEditCenters.this)
-                                .setTitle(R.string.error)
+                        new AwesomeWarningDialog(SelectToEditCenters.this)
+                                .setTitle(R.string.no_center_selected)
                                 .setMessage(R.string.please_select_center)
-                                .setColoredCircle(com.aminography.primedatepicker.R.color.redA700)
+                                .setColoredCircle(com.aminography.primedatepicker.R.color.yellowA700)
                                 .setCancelable(true).setButtonText(getString(R.string.understood))
-                                .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.redA700)
+                                .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.yellowA700)
                                 .setButtonText(getString(R.string.understood))
-                                .setErrorButtonClick(new Closure() {
+                                .setWarningButtonClick(new Closure() {
                                     @Override
                                     public void exec() {
                                         // click
@@ -235,14 +236,14 @@ public class SelectToEditCenters extends AppCompatActivity {
                                 })
                                 .show();
                     }else{
-                        new AwesomeErrorDialog(SelectToEditCenters.this)
-                                .setTitle(R.string.error)
+                        new AwesomeWarningDialog(SelectToEditCenters.this)
+                                .setTitle(R.string.no_center_selected)
                                 .setMessage(R.string.please_select_center)
-                                .setColoredCircle(com.aminography.primedatepicker.R.color.redA700)
+                                .setColoredCircle(com.aminography.primedatepicker.R.color.yellowA700)
                                 .setCancelable(true).setButtonText(getString(R.string.understood))
-                                .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.redA700)
+                                .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.yellowA700)
                                 .setButtonText(getString(R.string.understood))
-                                .setErrorButtonClick(new Closure() {
+                                .setWarningButtonClick(new Closure() {
                                     @Override
                                     public void exec() {
                                         // click

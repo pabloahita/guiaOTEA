@@ -1325,7 +1325,11 @@ public class DoIndicatorsEvaluation extends AppCompatActivity {
                 rows.get(2).getTableCells().get(1).setText(IndicatorsEvaluationUtil.getInstance().getDirector().getFirst_name()+" "+ IndicatorsEvaluationUtil.getInstance().getDirector().getLast_name());
                 rows.get(3).getTableCells().get(1).setText(IndicatorsEvaluationUtil.getInstance().getEvaluatedOrganization().getTelephone()+" "+ IndicatorsEvaluationUtil.getInstance().getEvaluatedOrganization().getEmail());
 
-                rows.get(5).getTableCells().get(1).setText(IndicatorsEvaluationUtil.getInstance().getEvaluatorTeam().getExternalConsultant());
+                String externalConsultant=IndicatorsEvaluationUtil.getInstance().getEvaluatorTeam().getExternalConsultant();
+                if(externalConsultant.equals("-")){
+                    externalConsultant="No precisa";
+                }
+                rows.get(5).getTableCells().get(1).setText(externalConsultant);
                 rows.get(6).getTableCells().get(1).setText(IndicatorsEvaluationUtil.getInstance().getResponsible().getFirst_name()+" "+ IndicatorsEvaluationUtil.getInstance().getResponsible().getLast_name());
                 rows.get(7).getTableCells().get(1).setText(IndicatorsEvaluationUtil.getInstance().getProfessional().getFirst_name()+" "+ IndicatorsEvaluationUtil.getInstance().getProfessional().getLast_name());
                 rows.get(8).getTableCells().get(1).setText(IndicatorsEvaluationUtil.getInstance().getEvaluatorTeam().getRelative_name());

@@ -433,5 +433,9 @@
     <string name="please_add_external_org">Bitte fügen Sie eine externe Organisation hinzu, um zu beginnen</string>
     <string name="evaluation_dates_misselected">Schlecht ausgewählte Bewertungsdaten</string>
     <string name="please_enter_creation_date">Bitte geben Sie das Erstellungsdatum des Bewertungsteams ein</string>
-
+    <string name="not_applicable">Nicht erforderlich</string>
+    <string name="full_evaluation">Es wird eine vollständige Bewertung der Indikatoren durchgeführt</string>
+    <string name="simple_evaluation">Es wird eine einfache Bewertung der Indikatoren durchgeführt</string>
+    <string name="no_center_selected">Sie haben kein Zentrum ausgewählt</string>
+    <string name="no_evaluation_team_selected">Sie haben kein Bewertungsteam ausgewählt</string>
 </resources>

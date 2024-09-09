@@ -434,4 +434,9 @@
     <string name="please_add_external_org">Mesedez, gehitu kanpoko erakunde bat hasteko</string>
     <string name="evaluation_dates_misselected">Ebaluazio-dataren aukeraketa okerra</string>
     <string name="please_enter_creation_date">Mesedez, sartu ebaluazio-taldearen sorrera-data</string>
+    <string name="not_applicable">Ez du behar</string>
+    <string name="full_evaluation">Adierazleen ebaluazio osoa egingo da</string>
+    <string name="simple_evaluation">Adierazleen ebaluazio sinplea egingo da</string>
+    <string name="no_center_selected">Ez du zentro bat aukeratu</string>
+    <string name="no_evaluation_team_selected">Ez du ebaluazio-talde bat aukeratu</string>
 </resources>

@@ -45,6 +45,7 @@ import session.IndicatorsEvaluationRegsUtil;
 import session.IndicatorsEvaluationUtil;
 import session.IndicatorsUtil;
 import session.SelectToIndicatorsEvaluationUtil;
+import session.Session;
 
 public class SelectToContinueIndicatorsEvaluations extends AppCompatActivity {
 
@@ -88,67 +89,86 @@ public class SelectToContinueIndicatorsEvaluations extends AppCompatActivity {
 
         final_background.setVisibility(View.GONE);
 
-        organizations.addAll(SelectToIndicatorsEvaluationUtil.getInstance().getOrganizations());
 
-        if(!organizations.isEmpty()){
-            Organization aux=new Organization(-1,"-","-",getString(R.string.evaluated_org),-1,"-","-","-","-","-","-","-","-","-","-","-","-","-");
-            if(organizations.get(0).getIdOrganization()!=-1) {
-                organizations.add(0,aux);
-            }
-            Spinner spinnerEvaluatedOrganization=findViewById(R.id.spinner_select_organization);
-            Spinner spinnerCenter=findViewById(R.id.spinner_select_center);
-            Spinner spinnerCenterAux=findViewById(R.id.spinner_select_center_aux);
-            Spinner spinnerEvaluatorTeam=findViewById(R.id.spinner_select_eval_team);
-            Spinner spinnerEvaluatorTeamAux=findViewById(R.id.spinner_select_eval_team_aux);
-            Spinner spinnerIndicatorsEvaluation=findViewById(R.id.spinner_select_ind_eval);
-            Spinner spinnerIndicatorsEvaluationAux=findViewById(R.id.spinner_select_ind_eval_aux);
+        Spinner spinnerEvaluatedOrganization=findViewById(R.id.spinner_select_organization);
+        Spinner spinnerCenter=findViewById(R.id.spinner_select_center);
+        Spinner spinnerCenterAux=findViewById(R.id.spinner_select_center_aux);
+        Spinner spinnerEvaluatorTeam=findViewById(R.id.spinner_select_eval_team);
+        Spinner spinnerEvaluatorTeamAux=findViewById(R.id.spinner_select_eval_team_aux);
+        Spinner spinnerIndicatorsEvaluation=findViewById(R.id.spinner_select_ind_eval);
+        Spinner spinnerIndicatorsEvaluationAux=findViewById(R.id.spinner_select_ind_eval_aux);
 
-            List<Center> centerAuxList=new ArrayList<>();
+        List<Center> centerAuxList=new ArrayList<>();
 
-            centerAuxList.add(0,new Center(-1,"-","-",-1,"Center or service of the organization","Centro o servicio de la organización","Centre ou service de l'organisation","Erakundearen edo zerbitzuaren zentroa","Centre o servei de l'organització","Centrum of dienst van de organisatie","Centro ou servizo da organización","Center oder Dienstes der Organisation","Centro o servizio dell'organizzazione","Centro ou serviço da organização",-1,"-","-1","-"));
+        centerAuxList.add(0,new Center(-1,"-","-",-1,"Center or service of the organization","Centro o servicio de la organización","Centre ou service de l'organisation","Erakundearen edo zerbitzuaren zentroa","Centre o servei de l'organització","Centrum of dienst van de organisatie","Centro ou servizo da organización","Center oder Dienstes der Organisation","Centro o servizio dell'organizzazione","Centro ou serviço da organização",-1,"-","-1","-"));
 
 
-            List<EvaluatorTeam> evaluatorTeamAuxList=new ArrayList<>();
-            evaluatorTeamAuxList.add(new EvaluatorTeam(-1, -1, getString(R.string.evaluator_team), "-", "-", -1, "-", -1, "-", -1, "-", "-", "-", "-",  "-","-","-","-","-","-","-","-","-","-","-",-1,-1,"-"));
+        Organization aux=new Organization(-1,"-","-",getString(R.string.evaluated_org),-1,"-","-","-","-","-","-","-","-","-","-","-","-","-");
+        organizations.add(0,aux);
 
-            List<IndicatorsEvaluation> indicatorsEvaluationsAuxList=new ArrayList<>();
-            indicatorsEvaluationsAuxList.add(new IndicatorsEvaluation(-1,-1,"",-1, -1, "", "", -1,
-            -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, -1,
-            "", "", "", "", "", "", "", "", "", "", -1, getString(R.string.indicators_evaluation),""));
+        CenterAdapter[] centerAdapter=new CenterAdapter[2];
 
-            OrgsAdapter[] orgsAdapter= new OrgsAdapter[1];
-            orgsAdapter[0]=new OrgsAdapter(SelectToContinueIndicatorsEvaluations.this, organizations);
-            orgsAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
-
-            spinnerEvaluatedOrganization.setAdapter(orgsAdapter[0]);
-
-            CenterAdapter[] centerAdapter=new CenterAdapter[2];
-
-            centerAdapter[1]=new CenterAdapter(SelectToContinueIndicatorsEvaluations.this, centerAuxList);
-            centerAdapter[1].setDropDownViewResource(R.layout.spinner_item_layout);
-            spinnerCenterAux.setAdapter(centerAdapter[1]);
-
-            EvaluatorTeamsAdapter[] evaluatorTeamsAdapter= new EvaluatorTeamsAdapter[2];
-
-            evaluatorTeamsAdapter[1]=new EvaluatorTeamsAdapter(SelectToContinueIndicatorsEvaluations.this,evaluatorTeamAuxList);
-            evaluatorTeamsAdapter[1].setDropDownViewResource(R.layout.spinner_item_layout);
-            spinnerEvaluatorTeamAux.setAdapter(evaluatorTeamsAdapter[1]);
-
-            IndicatorsEvaluationAdapter[] indicatorsEvaluationAdapter=new IndicatorsEvaluationAdapter[2];
-
-            indicatorsEvaluationAdapter[1]=new IndicatorsEvaluationAdapter(SelectToContinueIndicatorsEvaluations.this,indicatorsEvaluationsAuxList);
-            indicatorsEvaluationAdapter[1].setDropDownViewResource(R.layout.spinner_item_layout);
-            spinnerIndicatorsEvaluationAux.setAdapter(indicatorsEvaluationAdapter[1]);
-
-            Organization[] evaluatedOrganization = new Organization[1];
-
-            Center[] center=new Center[1];
-
-            EvaluatorTeam[] evaluatorTeam=new EvaluatorTeam[1];
-
-            IndicatorsEvaluation[] indicatorsEvaluation = new IndicatorsEvaluation[1];
+        Organization[] evaluatedOrganization = new Organization[1];
 
 
+        centerAdapter[1]=new CenterAdapter(SelectToContinueIndicatorsEvaluations.this, centerAuxList);
+        centerAdapter[1].setDropDownViewResource(R.layout.spinner_item_layout);
+        spinnerCenterAux.setAdapter(centerAdapter[1]);
+        if(Session.getInstance().getUser().getUserType().equals("ADMIN")){
+            organizations.addAll(SelectToIndicatorsEvaluationUtil.getInstance().getOrganizations());
+        }else if(Session.getInstance().getUser().getUserType().equals("DIRECTOR")){
+            spinnerEvaluatedOrganization.setEnabled(false);
+            spinnerEvaluatedOrganization.setAlpha(0.5f);
+            evaluatedOrganization[0]=Session.getInstance().getOrganization();
+            organizations.add(evaluatedOrganization[0]);
+            centers=SelectToIndicatorsEvaluationUtil.getInstance().getCenters();
+            centers.add(0,centerAuxList.get(0));
+            centerAdapter[0] = new CenterAdapter(SelectToContinueIndicatorsEvaluations.this, centers);
+            centerAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+            spinnerCenter.setAdapter(centerAdapter[0]);
+            spinnerCenter.setVisibility(View.VISIBLE);
+            spinnerCenterAux.setVisibility(View.GONE);
+        }
+
+
+
+        List<EvaluatorTeam> evaluatorTeamAuxList=new ArrayList<>();
+        evaluatorTeamAuxList.add(new EvaluatorTeam(-1, -1, getString(R.string.evaluator_team), "-", "-", -1, "-", -1, "-", -1, "-", "-", "-", "-",  "-","-","-","-","-","-","-","-","-","-","-",-1,-1,"-"));
+
+        List<IndicatorsEvaluation> indicatorsEvaluationsAuxList=new ArrayList<>();
+        indicatorsEvaluationsAuxList.add(new IndicatorsEvaluation(-1,-1,"",-1, -1, "", "", -1,
+                -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, -1,
+                "", "", "", "", "", "", "", "", "", "", -1, getString(R.string.indicators_evaluation),""));
+
+        OrgsAdapter[] orgsAdapter= new OrgsAdapter[1];
+        orgsAdapter[0]=new OrgsAdapter(SelectToContinueIndicatorsEvaluations.this, organizations);
+        orgsAdapter[0].setDropDownViewResource(R.layout.spinner_item_layout);
+
+        spinnerEvaluatedOrganization.setAdapter(orgsAdapter[0]);
+
+
+
+        EvaluatorTeamsAdapter[] evaluatorTeamsAdapter= new EvaluatorTeamsAdapter[2];
+
+        evaluatorTeamsAdapter[1]=new EvaluatorTeamsAdapter(SelectToContinueIndicatorsEvaluations.this,evaluatorTeamAuxList);
+        evaluatorTeamsAdapter[1].setDropDownViewResource(R.layout.spinner_item_layout);
+        spinnerEvaluatorTeamAux.setAdapter(evaluatorTeamsAdapter[1]);
+
+        IndicatorsEvaluationAdapter[] indicatorsEvaluationAdapter=new IndicatorsEvaluationAdapter[2];
+
+        indicatorsEvaluationAdapter[1]=new IndicatorsEvaluationAdapter(SelectToContinueIndicatorsEvaluations.this,indicatorsEvaluationsAuxList);
+        indicatorsEvaluationAdapter[1].setDropDownViewResource(R.layout.spinner_item_layout);
+        spinnerIndicatorsEvaluationAux.setAdapter(indicatorsEvaluationAdapter[1]);
+
+
+        Center[] center=new Center[1];
+
+        EvaluatorTeam[] evaluatorTeam=new EvaluatorTeam[1];
+
+        IndicatorsEvaluation[] indicatorsEvaluation = new IndicatorsEvaluation[1];
+
+
+        if(Session.getInstance().getUser().getUserType().equals("ADMIN")){
             spinnerEvaluatedOrganization.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -259,9 +279,13 @@ public class SelectToContinueIndicatorsEvaluations extends AppCompatActivity {
 
                 }
             });
+        }
+        else{
+            spinnerEvaluatedOrganization.setSelection(1);
+        }
 
 
-       
+
 
         spinnerCenter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -515,113 +539,98 @@ public class SelectToContinueIndicatorsEvaluations extends AppCompatActivity {
 
             }
         });
-            spinnerIndicatorsEvaluation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    indicatorsEvaluation[0] = indicatorsEvaluationAdapter[0].getItem(position);
+        spinnerIndicatorsEvaluation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                indicatorsEvaluation[0] = indicatorsEvaluationAdapter[0].getItem(position);
 
-                }
+            }
 
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-                }
-            });
-
-
+            }
+        });
 
 
 
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //base.setVisibility(View.GONE);
-                    //final_background.setVisibility(View.VISIBLE);
-                    AwesomeProgressDialog dialog=new AwesomeProgressDialog(SelectToContinueIndicatorsEvaluations.this)
-                            .setTitle(R.string.loading_indicators)
-                            .setMessage(R.string.please_wait)
-                            .setColoredCircle(R.color.miradas_color)
-                            .setCancelable(false);
-                    dialog.show();
-                    if(evaluatedOrganization[0].getIdOrganization()==-1 || center[0]==null || center[0].getIdCenter()==-1 || evaluatorTeam[0]==null || evaluatorTeam[0].getIdEvaluatorTeam()==-1 || indicatorsEvaluation[0]==null || indicatorsEvaluation[0].getIdCenter()==-1){
-                        //final_background.setVisibility(View.GONE);
-                        //base.setVisibility(View.VISIBLE);
-                        dialog.hide();
-                        String msg="<ul>";
-                        int numErrors=0;
-                        if(evaluatedOrganization[0].getIdOrganization()==-1){
-                            msg+="<li><b>"+getString(R.string.please_select_org)+"</b></li>";
-                            numErrors++;
-                        }
-                        if(center[0]==null || center[0].getIdCenter()==-1){
-                            msg+="<li><b>"+getString(R.string.please_select_center)+"</b></li>";
-                            numErrors++;
-                        }
-                        if(evaluatorTeam[0]==null || evaluatorTeam[0].getIdEvaluatorTeam()==-1){
-                            msg+="<li><b>"+getString(R.string.please_select_eval_team)+"</b></li>";
-                            numErrors++;
-                        }
-                        if(indicatorsEvaluation[0]==null || indicatorsEvaluation[0].getIdCenter()==-1){
-                            msg+="<li><b>"+getString(R.string.please_select_ind_eval)+"</b></li>";
-                            numErrors++;
-                        }
-                        msg+="</ul>";
-                        int idTitle=-1;
-                        if(numErrors>1){
-                            idTitle=R.string.errors;
-                        }
-                        else{
-                            idTitle=R.string.error;
-                        }
-                        new AwesomeErrorDialog(SelectToContinueIndicatorsEvaluations.this)
-                                .setTitle(idTitle)
-                                .setMessage(Html.fromHtml(msg,0))
-                                .setColoredCircle(com.aminography.primedatepicker.R.color.redA700)
-                                .setCancelable(true).setButtonText(getString(R.string.understood))
-                                .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.redA700)
-                                .setButtonText(getString(R.string.understood))
-                                .setErrorButtonClick(new Closure() {
-                                    @Override
-                                    public void exec() {
-                                        // click
-                                    }
-                                })
-                                .show();
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //base.setVisibility(View.GONE);
+                //final_background.setVisibility(View.VISIBLE);
+                AwesomeProgressDialog dialog=new AwesomeProgressDialog(SelectToContinueIndicatorsEvaluations.this)
+                        .setTitle(R.string.loading_indicators)
+                        .setMessage(R.string.please_wait)
+                        .setColoredCircle(R.color.miradas_color)
+                        .setCancelable(false);
+                dialog.show();
+                if(evaluatedOrganization[0].getIdOrganization()==-1 || center[0]==null || center[0].getIdCenter()==-1 || evaluatorTeam[0]==null || evaluatorTeam[0].getIdEvaluatorTeam()==-1 || indicatorsEvaluation[0]==null || indicatorsEvaluation[0].getIdCenter()==-1){
+                    //final_background.setVisibility(View.GONE);
+                    //base.setVisibility(View.VISIBLE);
+                    dialog.hide();
+                    String msg="<ul>";
+                    int numErrors=0;
+                    if(evaluatedOrganization[0].getIdOrganization()==-1){
+                        msg+="<li><b>"+getString(R.string.please_select_org)+"</b></li>";
+                        numErrors++;
                     }
-                    else {
-                        v.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                Intent intent = new Intent(getApplicationContext(), gui.DoIndicatorsEvaluation.class);
-
-                                IndicatorsEvaluationUtil.createInstance(evaluatedOrganization[0],center[0],evaluatorTeam[0],indicatorsEvaluation[0]);
-                                IndicatorsEvaluationRegsUtil.createInstance(indicatorsEvaluation[0]);
-                                IndicatorsUtil.createInstance(indicatorsEvaluation[0].getEvaluationType());
-                                SelectToIndicatorsEvaluationUtil.removeInstance();
-                                startActivity(intent);
-                            }
-
-                        }, 100);
+                    if(center[0]==null || center[0].getIdCenter()==-1){
+                        msg+="<li><b>"+getString(R.string.please_select_center)+"</b></li>";
+                        numErrors++;
                     }
-
+                    if(evaluatorTeam[0]==null || evaluatorTeam[0].getIdEvaluatorTeam()==-1){
+                        msg+="<li><b>"+getString(R.string.please_select_eval_team)+"</b></li>";
+                        numErrors++;
+                    }
+                    if(indicatorsEvaluation[0]==null || indicatorsEvaluation[0].getIdCenter()==-1){
+                        msg+="<li><b>"+getString(R.string.please_select_ind_eval)+"</b></li>";
+                        numErrors++;
+                    }
+                    msg+="</ul>";
+                    int idTitle=-1;
+                    if(numErrors>1){
+                        idTitle=R.string.errors;
+                    }
+                    else{
+                        idTitle=R.string.error;
+                    }
+                    new AwesomeErrorDialog(SelectToContinueIndicatorsEvaluations.this)
+                            .setTitle(idTitle)
+                            .setMessage(Html.fromHtml(msg,0))
+                            .setColoredCircle(com.aminography.primedatepicker.R.color.redA700)
+                            .setCancelable(true).setButtonText(getString(R.string.understood))
+                            .setButtonBackgroundColor(com.aminography.primedatepicker.R.color.redA700)
+                            .setButtonText(getString(R.string.understood))
+                            .setErrorButtonClick(new Closure() {
+                                @Override
+                                public void exec() {
+                                    // click
+                                }
+                            })
+                            .show();
                 }
-            });
-        }else{
-            Intent intent=new Intent(getApplicationContext(), MainMenu.class);
-            startActivity(intent);
-            new AlertDialog.Builder(SelectToContinueIndicatorsEvaluations.this)
-                    .setTitle(getString(R.string.error))
-                    .setMessage(Html.fromHtml("<b>"+getString(R.string.non_existing_evaluated_organization_old)+"</b>",0))
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setPositiveButton(getString(R.string.understood), new DialogInterface.OnClickListener() {
+                else {
+                    v.postDelayed(new Runnable() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
+                        public void run() {
+
+                            Intent intent = new Intent(getApplicationContext(), gui.DoIndicatorsEvaluation.class);
+
+                            IndicatorsEvaluationUtil.createInstance(evaluatedOrganization[0],center[0],evaluatorTeam[0],indicatorsEvaluation[0]);
+                            IndicatorsEvaluationRegsUtil.createInstance(indicatorsEvaluation[0]);
+                            IndicatorsUtil.createInstance(indicatorsEvaluation[0].getEvaluationType());
+                            SelectToIndicatorsEvaluationUtil.removeInstance();
+                            startActivity(intent);
                         }
-                    })
-                    .create().show();
-        }
+
+                    }, 100);
+                }
+
+            }
+        });
 
     }
 

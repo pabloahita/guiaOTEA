@@ -727,7 +727,139 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guidelineSep1"
-        app:rowCount="4">
+        app:rowCount="5">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="2dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <ImageButton
+                android:id="@+id/addNewIndicatorsTestDirEvalButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/round_button_background"
+                android:contentDescription="@string/add_new_indicators_evaluation"
+                android:scaleType="fitCenter"
+                android:padding="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/add_new_indicators_test" />
+
+            <TextView
+                android:id="@+id/addNewIndicatorsTestDirEvalText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@string/add_new_indicators_evaluation"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guidelineAddNewIndicatorsTestDirEval2"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineAddNewIndicatorsTestDirEval4"
+                app:layout_constraintStart_toStartOf="@+id/guidelineAddNewIndicatorsTestDirEval3"
+                app:layout_constraintTop_toTopOf="@+id/guidelineAddNewIndicatorsTestDirEval1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewIndicatorsTestDirEval1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.75" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewIndicatorsTestDirEval2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.99" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewIndicatorsTestDirEval3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineAddNewIndicatorsTestDirEval4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="2dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1">
+
+            <ImageButton
+                android:id="@+id/continueIndicatorsTestDirEvalButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/round_button_background"
+                android:contentDescription="@string/continue_indicators"
+                android:scaleType="fitCenter"
+                android:padding="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/continue_indicators_test" />
+
+            <TextView
+                android:id="@+id/continueIndicatorsTestDirEvalText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="@string/continue_indicators"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guidelineContinueIndicatorsTestDirEval2"
+                app:layout_constraintEnd_toStartOf="@+id/guidelineContinueIndicatorsTestDirEval4"
+                app:layout_constraintStart_toStartOf="@+id/guidelineContinueIndicatorsTestDirEval3"
+                app:layout_constraintTop_toTopOf="@+id/guidelineContinueIndicatorsTestDirEval1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineContinueIndicatorsTestDirEval1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.75" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineContinueIndicatorsTestDirEval2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.99" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineContinueIndicatorsTestDirEval3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.05" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guidelineContinueIndicatorsTestDirEval4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.95" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
@@ -741,6 +873,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@drawable/round_button_background"
+                android:padding="5dp"
                 android:contentDescription="@string/add_new_evaluator_team"
                 android:scaleType="fitCenter"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -757,7 +890,7 @@
                 android:text="@string/add_new_evaluator_team"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/guidelineAddNewEvalTeamDirEval2"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineAddNewEvalTeamDirEval4"
@@ -769,7 +902,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.79" />
+                app:layout_constraintGuide_percent="0.75" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineAddNewEvalTeamDirEval2"
@@ -809,6 +942,7 @@
                 android:background="@drawable/round_button_background"
                 android:contentDescription="@string/add_new_center"
                 android:scaleType="fitCenter"
+                android:padding="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -825,7 +959,7 @@
                 android:text="@string/add_new_center"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/guidelineAddNewOrgCenterDirEval2"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineAddNewOrgCenterDirEval4"
@@ -837,7 +971,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.79" />
+                app:layout_constraintGuide_percent="0.75" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineAddNewOrgCenterDirEval2"
@@ -873,6 +1007,7 @@
                 android:id="@+id/editOrgDirEvalButton"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:padding="5dp"
                 android:background="@drawable/round_button_background"
                 android:contentDescription="@string/edit_org"
                 android:scaleType="fitCenter"
@@ -890,7 +1025,7 @@
                 android:text="@string/edit_org"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/guidelineEditOrgDirEval2"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineEditOrgDirEval4"
@@ -902,7 +1037,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.79" />
+                app:layout_constraintGuide_percent="0.75" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineEditOrgDirEval2"
@@ -941,6 +1076,7 @@
                 android:background="@drawable/round_button_background"
                 android:contentDescription="@string/edit_org_center"
                 android:scaleType="fitCenter"
+                android:padding="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -955,7 +1091,7 @@
                 android:text="@string/edit_org_center"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/guidelineEditOrgCenterDirEval2"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineEditOrgCenterDirEval4"
@@ -967,7 +1103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.79" />
+                app:layout_constraintGuide_percent="0.75" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineEditOrgCenterDirEval2"
@@ -1006,6 +1142,7 @@
                 android:background="@drawable/round_button_background"
                 android:contentDescription="@string/see_results"
                 android:scaleType="fitCenter"
+                android:padding="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -1020,7 +1157,7 @@
                 android:text="@string/edit_eval_team"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/guidelineeditEvaluatorTeamDirEval2"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineeditEvaluatorTeamDirEval4"
@@ -1032,7 +1169,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.79" />
+                app:layout_constraintGuide_percent="0.75" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineeditEvaluatorTeamDirEval2"
@@ -1071,6 +1208,7 @@
                 android:background="@drawable/round_button_background"
                 android:contentDescription="@string/see_results"
                 android:scaleType="fitCenter"
+                android:padding="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -1085,7 +1223,7 @@
                 android:text="@string/edit_user"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/guidelineeditUserDirEval2"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineeditUserDirEval4"
@@ -1097,7 +1235,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.79" />
+                app:layout_constraintGuide_percent="0.75" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineeditUserDirEval2"
@@ -1136,6 +1274,7 @@
                 android:background="@drawable/round_button_background"
                 android:contentDescription="@string/see_results"
                 android:scaleType="fitCenter"
+                android:padding="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -1150,7 +1289,7 @@
                 android:text="@string/see_results"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/guidelineSeeRealizedIndicatorTestDirEval2"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineSeeRealizedIndicatorTestDirEval4"
@@ -1162,7 +1301,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.79" />
+                app:layout_constraintGuide_percent="0.75" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineSeeRealizedIndicatorTestDirEval2"
@@ -1201,6 +1340,7 @@
                 android:background="@drawable/round_button_background"
                 android:contentDescription="@string/see_results"
                 android:scaleType="fitCenter"
+                android:padding="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -1215,7 +1355,7 @@
                 android:text="@string/about_me"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
-                android:textSize="11sp"
+                android:textSize="10sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/guidelineaboutMeDirEval2"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineaboutMeDirEval4"
@@ -1227,7 +1367,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.79" />
+                app:layout_constraintGuide_percent="0.75" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guidelineaboutMeDirEval2"

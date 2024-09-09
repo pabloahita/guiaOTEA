@@ -431,5 +431,9 @@
     <string name="please_add_external_org">Please add an external organization to start</string>
     <string name="evaluation_dates_misselected">Poorly selected evaluation dates</string>
     <string name="please_enter_creation_date">Please enter the creation date of the evaluation team</string>
-
+    <string name="not_applicable">Not applicable</string>
+    <string name="full_evaluation">A full evaluation of indicators will be conducted</string>
+    <string name="simple_evaluation">A simple evaluation of indicators will be conducted</string>
+    <string name="no_center_selected">You have not selected a center</string>
+    <string name="no_evaluation_team_selected">You have not selected an evaluation team</string>
 </resources>

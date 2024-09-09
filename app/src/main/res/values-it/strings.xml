@@ -429,5 +429,9 @@
     <string name="please_add_external_org">Si prega di aggiungere un\'organizzazione esterna per iniziare</string>
     <string name="evaluation_dates_misselected">Date di valutazione mal selezionate</string>
     <string name="please_enter_creation_date">Si prega di inserire la data di creazione del team di valutazione</string>
-
+    <string name="not_applicable">Non necessario</string>
+    <string name="full_evaluation">Verrà effettuata una valutazione completa degli indicatori</string>
+    <string name="simple_evaluation">Verrà effettuata una valutazione semplice degli indicatori</string>
+    <string name="no_center_selected">Non ha selezionato un centro</string>
+    <string name="no_evaluation_team_selected">Non ha selezionato un team di valutazione</string>
 </resources>

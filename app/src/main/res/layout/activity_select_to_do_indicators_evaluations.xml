@@ -91,6 +91,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.61" />
+
         <GridLayout
             android:id="@+id/layout"
             android:layout_width="0dp"
@@ -98,17 +105,10 @@
             android:columnCount="1"
             android:padding="2dp"
             android:rowCount="21"
-            app:layout_constraintBottom_toTopOf="@+id/guideline10"
+            app:layout_constraintBottom_toTopOf="@+id/guideline20"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline11">
-            <Spinner
-                android:id="@+id/spinner_select_eval_type"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                 />
 
             <Spinner
                 android:id="@+id/spinner_select_organization"
@@ -117,12 +117,12 @@
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1" />
 
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                >
+                android:layout_columnWeight="1">
 
                 <ProgressBar
                     android:id="@+id/progressBarCenter"
@@ -160,8 +160,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                >
+                android:layout_columnWeight="1">
 
                 <ProgressBar
                     android:id="@+id/progressBarEvalTeam"
@@ -174,6 +173,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
                 <Spinner
                     android:id="@+id/spinner_select_eval_team"
                     android:layout_width="0dp"
@@ -197,9 +197,24 @@
 
         </GridLayout>
 
+        <TextView
+            android:id="@+id/eval_type"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="italic|bold"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/guideline10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline20" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout4"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -227,11 +242,11 @@
                 android:id="@+id/startText"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:textSize="13sp"
                 android:gravity="center"
                 android:text="@string/start_evaluation"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
+                android:textSize="13sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/guidelineAddNewIndicatorsTestAdmin2"
                 app:layout_constraintEnd_toStartOf="@+id/guidelineAddNewIndicatorsTestAdmin4"

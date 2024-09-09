@@ -61,6 +61,9 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Organization", policy => 
         policy.RequireRole("ORGANIZATION"));
 
+    options.AddPolicy("Organization", policy =>
+        policy.RequireRole("ORGANIZATION"));
+
 
 }
 );

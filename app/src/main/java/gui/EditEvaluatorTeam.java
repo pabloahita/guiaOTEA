@@ -143,9 +143,12 @@ public class EditEvaluatorTeam extends AppCompatActivity {
             }
             
             EditText consultant = findViewById(R.id.consultant);
-            
-            consultant.setText(evaluatorTeam.getExternalConsultant());
-            consultant.setCompoundDrawablesWithIntrinsicBounds(null,null,correct,null);
+
+            String externalConsultant=evaluatorTeam.getExternalConsultant();
+            if(!externalConsultant.equals("-")) {
+                consultant.setText(externalConsultant);
+                consultant.setCompoundDrawablesWithIntrinsicBounds(null, null, correct, null);
+            }
 
             EditText patient = findViewById(R.id.patientName);
             patient.setText(evaluatorTeam.getPatient_name());
@@ -783,8 +786,12 @@ public class EditEvaluatorTeam extends AppCompatActivity {
                                 }
                             }
 
+                            String externalConsultant=consultant.getText().toString();
+                            if(externalConsultant.isEmpty()){
+                                externalConsultant="-";
+                            }
 
-                            EvaluatorTeam evalTeam=new EvaluatorTeam(idEvaluatorTeam,creation_date,professional.getEmailUser(),responsible.getEmailUser(),otherMembers.getText().toString(),evaluatorTeam.getIdEvaluatorOrganization(),evaluatorTeam.getOrgTypeEvaluator(),evaluatorTeam.getIdEvaluatedOrganization(),evaluatorTeam.getOrgTypeEvaluated(),evaluatorTeam.getIdCenter(),evaluatorTeam.getIllness(),consultant.getText().toString(),patient.getText().toString(),relative.getText().toString(),observationsEnglish,observationsSpanish,observationsFrench,observationsBasque,observationsCatalan,observationsDutch,observationsGalician,observationsGerman,observationsItalian,observationsPortuguese,evaluationDatesStr.toString(),0,evaluationDates.size(),evaluatorTeam.getProfilePhoto());
+                            EvaluatorTeam evalTeam=new EvaluatorTeam(idEvaluatorTeam,creation_date,professional.getEmailUser(),responsible.getEmailUser(),otherMembers.getText().toString(),evaluatorTeam.getIdEvaluatorOrganization(),evaluatorTeam.getOrgTypeEvaluator(),evaluatorTeam.getIdEvaluatedOrganization(),evaluatorTeam.getOrgTypeEvaluated(),evaluatorTeam.getIdCenter(),evaluatorTeam.getIllness(),externalConsultant,patient.getText().toString(),relative.getText().toString(),observationsEnglish,observationsSpanish,observationsFrench,observationsBasque,observationsCatalan,observationsDutch,observationsGalician,observationsGerman,observationsItalian,observationsPortuguese,evaluationDatesStr.toString(),0,evaluationDates.size(),evaluatorTeam.getProfilePhoto());
 
 
                             EvaluatorTeamsController.Update(idEvaluatorTeam,evaluatorTeam.getIdEvaluatorOrganization(),evaluatorTeam.getOrgTypeEvaluator(),evaluatorTeam.getIdEvaluatedOrganization(),evaluatorTeam.getOrgTypeEvaluated(),evaluatorTeam.getIdCenter(),evaluatorTeam.getIllness(),evalTeam);

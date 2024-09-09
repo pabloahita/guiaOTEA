@@ -680,8 +680,12 @@ public class SeeRealizedIndicatorsEvaluations extends AppCompatActivity {
         idData.setText(Html.fromHtml(info,0));
 
         TextView evalTeam=findViewById(R.id.evalTeam);
+        String externalConsultant=IndicatorsEvaluationUtil.getInstance().getEvaluatorTeam().getExternalConsultant();
+        if(externalConsultant.equals("-")){
+            externalConsultant=getString(R.string.not_applicable);
+        }
         String evalTeamInfo="<ul>"+
-                "<li><b>"+getString(R.string.consultant)+": </b>"+IndicatorsEvaluationUtil.getInstance().getEvaluatedOrganization().getNameOrg()+"</li>" +
+                "<li><b>"+getString(R.string.consultant)+": </b>"+externalConsultant+"</li>" +
                 "<li><b>"+getString(R.string.responsible)+": </b>"+IndicatorsEvaluationUtil.getInstance().getResponsible().getFirst_name()+" "+IndicatorsEvaluationUtil.getInstance().getResponsible().getLast_name()+"</li>" +
                 "<li><b>"+getString(R.string.professional)+": </b>"+IndicatorsEvaluationUtil.getInstance().getProfessional().getFirst_name()+" "+IndicatorsEvaluationUtil.getInstance().getProfessional().getLast_name()+"</li>"+
                 "<li><b>"+getString(R.string.relative_name)+": </b>"+IndicatorsEvaluationUtil.getInstance().getEvaluatorTeam().getRelative_name()+"</li>"+

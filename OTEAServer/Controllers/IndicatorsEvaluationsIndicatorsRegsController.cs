@@ -161,7 +161,7 @@ namespace OTEAServer.Controllers
         /// <param name="regs">Indicators evaluation registers</param>
         /// <returns>Register if success, null if not</returns>
         [HttpPost("fromList")]
-        [Authorize(Policy = "Administrator")]
+        [Authorize(Roles = "ADMIN,DIRECTOR")]
         public IActionResult CreateRegs([FromBody] List<IndicatorsEvaluationIndicatorReg> regs, [FromHeader] string Authorization)
         {
             if (regs == null)

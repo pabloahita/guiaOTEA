@@ -555,7 +555,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                         msg="Para poder añadir correctamente un equipo evaluador, deberá rellenar los siguientes campos:" +
                                 "<ul>" +
                                 "<li><b>Centro de la organización: </b>En este campo deberá seleccionar el centro o servicio de su organización al que se asignará el equipo evaluador</li>" +
-                                "<li><b>Consultor externo: </b>En este campo deberá introducir el nombre del consultor externo, quien es el profesional externo a la organización donde se va a realizar la evaluación, con formación y experiencia en la aplicación de instrumentos relacionados con sistemas de gestión de calidad. Éste, será el encargado de dirigir el proceso de aplicación de los indicadores y contrastar cada uno de ellos definiendo también el papel que para esta tarea pueden desempeñar los demás componentes del Equipo Evaluador.</li>" +
+                                "<li><b>Consultor externo: </b>En este campo deberá introducir el nombre del consultor externo, quien es el profesional externo a la organización donde se va a realizar la evaluación, con formación y experiencia en la aplicación de instrumentos relacionados con sistemas de gestión de calidad. Éste, será el encargado de dirigir el proceso de aplicación de los indicadores y contrastar cada uno de ellos definiendo también el papel que para esta tarea pueden desempeñar los demás componentes del Equipo Evaluador, exclusivo para evaluaciones completas. Si la evaluación es simple no debe añadirse.</li>" +
                                 "<li><b>Profesional de atención directa: </b>En este campo deberá seleccionar un usuario de su organización como profesional de atención directa, cuya función consistirá en aportar y facilitar el acceso a la información, guiando la búsqueda de evidencias que ayuden a evaluar cada uno de los indicadores. Además del conocimiento de la organización o servicio, sería oportuno que este profesional tuviera conocimientos o experiencia en el ámbito de los sistemas de gestión de calidad.</li>" +
                                 "<li><b>Responsable: </b>En este campo deberá seleccionar un usuario de su organización como responsable, cuya función principal será servir de guía e intermediario entre el Evaluador Principal y la organización o el servicio, facilitando a éste el acceso a la información y a toda persona que pueda brindar evidencias que permitan contrastar los indicadores. Esto resulta especialmente necesario en el caso de grandes organizaciones, donde la persona responsable no conozca en profundidad todos los servicios. " +
                                 "La persona responsable del servicio o la organización, además de aportar la información propia del cargo, ejercerá las funciones de “secretario”, tomando nota de la información recogida y de los acuerdos tomados. " +
@@ -781,7 +781,7 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                             .setCancelable(false);
                     chargingScreenDialog.show();
                     new Thread(()->{
-                        if(professional!=null && !professional.getEmailUser().equals("-1") && responsible!=null && !responsible.getEmailUser().equals("-1")
+                        if(centerSelected.getIdCenter()!=-1 && professional!=null && !professional.getEmailUser().equals("-1") && responsible!=null && !responsible.getEmailUser().equals("-1")
                                 && !patient.getText().toString().isEmpty() && !relative.getText().toString().isEmpty() &&
                                 creationDate!=null && evaluationDates!=null && !evaluationDates.isEmpty() && checked){
                             List<EvaluatorTeam> evaluatorTeams=EvaluatorTeamsController.GetAllByOrganization(centerSelected.getIdOrganization(),centerSelected.getOrgType(),centerSelected.getIllness());
@@ -942,7 +942,12 @@ public class RegisterNewEvaluatorTeam extends AppCompatActivity {
                                         }
                                     }
 
-                                    EvaluatorTeam evaluatorTeam=new EvaluatorTeam(idEvaluatorTeam[0],creation_date,professional.getEmailUser(),responsible.getEmailUser(),otherMembers.getText().toString(),1,"EVALUATOR",centerSelected.getIdOrganization(),centerSelected.getOrgType(),centerSelected.getIdCenter(),centerSelected.getIllness(),consultant.getText().toString(),patient.getText().toString(),relative.getText().toString(),observationsEnglish,observationsSpanish,observationsFrench,observationsBasque,observationsCatalan,observationsDutch,observationsGalician,observationsGerman,observationsItalian,observationsPortuguese,evaluationDatesStr.toString(),0,evaluationDates.size(),imgEvalTeamName);
+                                    String externalConsultant=consultant.getText().toString();
+                                    if(externalConsultant.isEmpty()){
+                                        externalConsultant="-";
+                                    }
+
+                                    EvaluatorTeam evaluatorTeam=new EvaluatorTeam(idEvaluatorTeam[0],creation_date,professional.getEmailUser(),responsible.getEmailUser(),otherMembers.getText().toString(),1,"EVALUATOR",centerSelected.getIdOrganization(),centerSelected.getOrgType(),centerSelected.getIdCenter(),centerSelected.getIllness(),externalConsultant,patient.getText().toString(),relative.getText().toString(),observationsEnglish,observationsSpanish,observationsFrench,observationsBasque,observationsCatalan,observationsDutch,observationsGalician,observationsGerman,observationsItalian,observationsPortuguese,evaluationDatesStr.toString(),0,evaluationDates.size(),imgEvalTeamName);
 
 
                                     EvaluatorTeamsController.Create(evaluatorTeam);
