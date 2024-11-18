@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 
 namespace WebApplication1.Pages
@@ -43,36 +44,63 @@ namespace WebApplication1.Pages
                 return Page();
             }
 
-            var loginInfo = new
+            Regex regexEmail = new Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+            Regex regexPassword = new Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$&%#.!\"^¨_:;/+><()=¿?¡!-]).{6,}$");
+
+
+
+            if (regexEmail.Match(Username).Success && regexPassword.Match(Password).Success)
             {
-                email = Username,
-                password = GetSHA256Hash(Password)
-            };
+                var loginInfo = new
+                {
+                    email = Username,
+                    password = GetSHA256Hash(Password)
+                };
 
-            var json = JsonSerializer.Serialize(loginInfo);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var json = JsonSerializer.Serialize(loginInfo);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var client = new HttpClient();
-            var response = await client.PostAsync("https://guiaotea.azurewebsites.net/Users/login", content);
+                var client = new HttpClient();
+                var response = await client.PostAsync("https://guiaotea.azurewebsites.net/Users/login", content);
 
-            if (response.IsSuccessStatusCode)
-            {
-                string responseBody = await response.Content.ReadAsStringAsync();
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseBody = await response.Content.ReadAsStringAsync();
 
-                var responseObject = JsonSerializer.Deserialize<JsonDocument>(responseBody);
+                    var responseObject = JsonSerializer.Deserialize<JsonDocument>(responseBody);
 
-                Session.createInstance(responseObject);
-                
-                
-                // Handle successful login
-                SuccessMessage = "Se ha completado el inicio de sesión.";
-                return RedirectToPage("/BlobMenu");
+                    Session.createInstance(responseObject);
+
+
+                    // Handle successful login
+                    SuccessMessage = "Se ha completado el inicio de sesión.";
+                    return RedirectToPage("/BlobMenu");
+                }
+                else
+                {
+                    ErrorMessage = "Credenciales o cuenta incorrectos.";
+                    return Page();
+                }
             }
-            else
-            {
-                ErrorMessage = "Credenciales o cuenta incorrectos.";
+            else {
+                if (!regexEmail.Match(Username).Success)
+                {
+                    if (!regexPassword.Match(Password).Success)
+                    {
+                        ErrorMessage = "Email y contraseña con formato incorrecto";
+                    }
+                    else
+                    {
+                        ErrorMessage = "Email con formato incorrecto";
+                    }
+                }
+                else {
+                    ErrorMessage = "Contraseña con formato incorrecto";
+                }
                 return Page();
             }
+
+            
         }
 
         public static string GetSHA256Hash(string input)
